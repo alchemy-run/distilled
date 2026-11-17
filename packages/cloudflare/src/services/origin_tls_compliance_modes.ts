@@ -46,7 +46,7 @@ export interface DeleteOriginTlsComplianceModeResponse {
   /** Whether the setting is editable. */
   editable: boolean;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export interface GetOriginTlsComplianceModeRequest {
   /** Identifier. */
@@ -63,7 +63,7 @@ export interface GetOriginTlsComplianceModeResponse {
   /** List of TLS compliance modes that constrain the key-exchange algorithms Cloudflare may use when establishing the TLS connection to the zone's origin. Currently supported values are `fips` (FIPS-approved curves) and `pqh` (post-quantum hybrid). Future modes (e.g. `cnsa2`) may be added; clients should treat unknown values as opaque strings. Multiple modes are combined as the intersection of their permitted algorithm lists; selections whose intersection is empty are rejected. An empty list clears the constraint. */
   value: GetResponseValueList;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type EditRequestValueList = Array<string>;
 export interface PatchOriginTlsComplianceModeRequest {
@@ -83,7 +83,7 @@ export interface PatchOriginTlsComplianceModeResponse {
   /** List of TLS compliance modes that constrain the key-exchange algorithms Cloudflare may use when establishing the TLS connection to the zone's origin. Currently supported values are `fips` (FIPS-approved curves) and `pqh` (post-quantum hybrid). Future modes (e.g. `cnsa2`) may be added; clients should treat unknown values as opaque strings. Multiple modes are combined as the intersection of their permitted algorithm lists; selections whose intersection is empty are rejected. An empty list clears the constraint. */
   value: EditResponseValueList;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type UpdateRequestValueList = Array<string>;
 export interface PutOriginTlsComplianceModeRequest {
@@ -103,7 +103,7 @@ export interface PutOriginTlsComplianceModeResponse {
   /** List of TLS compliance modes that constrain the key-exchange algorithms Cloudflare may use when establishing the TLS connection to the zone's origin. Currently supported values are `fips` (FIPS-approved curves) and `pqh` (post-quantum hybrid). Future modes (e.g. `cnsa2`) may be added; clients should treat unknown values as opaque strings. Multiple modes are combined as the intersection of their permitted algorithm lists; selections whose intersection is empty are rejected. An empty list clears the constraint. */
   value: UpdateResponseValueList;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type DeleteOriginTlsComplianceModeError = CloudflareOpError;
 /** Delete the Origin TLS Compliance Modes setting for the zone, removing any configured compliance constraint. After deletion, Cloudflare's default behavior applies (no compliance filtering of the key-exchange algorithm list sent to the origin). */

@@ -29,6 +29,8 @@ export class EnvironmentNotFound
     /*@__PURE__*/ S.TaggedError<EnvironmentNotFound>()("EnvironmentNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5, message: { includes: "Environment" } }],
   ) {}
@@ -39,6 +41,8 @@ export class QueueAlreadyExists
     /*@__PURE__*/ S.TaggedError<QueueAlreadyExists>()("QueueAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 6 }],
   ) {}
@@ -49,58 +53,60 @@ export class QueueNotFound
     /*@__PURE__*/ S.TaggedError<QueueNotFound>()("QueueNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}
 
 export interface ClearQueueRequest {
-  queueId?: string;
-  partitionKey?: string;
-  allPartitions?: boolean;
+  queueId?: string | undefined;
+  partitionKey?: string | undefined;
+  allPartitions?: boolean | undefined;
 }
 export interface ClearQueueResponse {}
 export interface DeleteQueueRequest {
-  queueId?: string;
+  queueId?: string | undefined;
 }
 export interface DeleteQueueResponse {}
 export interface GetQueueRequest {
-  queueId?: string;
-  timeout?: number;
-  nValues?: number;
-  partitionKey?: string;
+  queueId?: string | undefined;
+  timeout?: number | undefined;
+  nValues?: number | undefined;
+  partitionKey?: string | undefined;
 }
 export type BlobList = Array<string>;
 export interface GetQueueResponse {
   values: BlobList;
 }
 export interface ListPagination {
-  maxObjects?: number;
-  createdBefore?: number;
+  maxObjects?: number | undefined;
+  createdBefore?: number | undefined;
 }
 export interface ListQueueRequest {
-  environmentName?: string;
-  totalSizeLimit?: number;
+  environmentName?: string | undefined;
   /** Limit on "number of partitions" reported, since checking them is costly */
-  pagination?: ListPagination;
+  totalSizeLimit?: number | undefined;
+  pagination?: ListPagination | undefined;
 }
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
   createdAt: number;
-  /** Timestamp of resource creation */
+  /** User name or service name */
   createdBy: string;
 }
 export interface QueueMetadata {
   name: string;
-  creationInfo?: CreationInfo;
+  creationInfo?: CreationInfo | undefined;
 }
 export interface ListQueueResponseQueueInfo {
   name: string;
-  createdAt: number;
   /** Superseded by metadata, used by clients up to 1.1.2 */
+  createdAt: number;
   numPartitions: number;
   totalSize: number;
   queueId: string;
-  metadata?: QueueMetadata;
+  metadata?: QueueMetadata | undefined;
 }
 export type ListQueueResponseQueueInfoList = Array<ListQueueResponseQueueInfo>;
 export interface ListQueueResponse {
@@ -108,18 +114,18 @@ export interface ListQueueResponse {
   environmentName: string;
 }
 export interface PutQueueRequest {
-  queueId?: string;
-  values?: BlobList;
-  partitionKey?: string;
-  partitionTtlSeconds?: number;
+  queueId?: string | undefined;
+  values?: BlobList | undefined;
+  partitionKey?: string | undefined;
+  partitionTtlSeconds?: number | undefined;
 }
 export interface PutQueueResponse {}
 export interface QueueGetByIdRequest {
-  queueId?: string;
+  queueId?: string | undefined;
 }
 export interface QueueGetByIdResponse {
   queueId: string;
-  metadata?: QueueMetadata;
+  metadata?: QueueMetadata | undefined;
 }
 export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_UNSPECIFIED"
@@ -129,32 +135,32 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
 export interface QueueGetOrCreateRequest {
-  deploymentName?: string;
-  /** removed namespace */
-  environmentName?: string;
-  objectCreationType?: ObjectCreationType | (string & {});
+  deploymentName?: string | undefined;
+  environmentName?: string | undefined;
+  objectCreationType?: ObjectCreationType | (string & {}) | undefined;
 }
 export interface QueueGetOrCreateResponse {
   queueId: string;
-  metadata?: QueueMetadata;
+  metadata?: QueueMetadata | undefined;
 }
 export interface QueueHeartbeatRequest {
-  queueId?: string;
+  queueId?: string | undefined;
 }
 export interface QueueHeartbeatResponse {}
 export interface QueueLenRequest {
-  queueId?: string;
-  partitionKey?: string;
-  total?: boolean;
+  queueId?: string | undefined;
+  partitionKey?: string | undefined;
+  total?: boolean | undefined;
 }
 export interface QueueLenResponse {
   len: number;
 }
 export interface QueueNextItemsRequest {
-  queueId?: string;
-  partitionKey?: string;
-  lastEntryId?: string;
-  itemPollTimeout?: number;
+  queueId?: string | undefined;
+  partitionKey?: string | undefined;
+  lastEntryId?: string | undefined;
+  /** seconds */
+  itemPollTimeout?: number | undefined;
 }
 export interface QueueItem {
   value: string;

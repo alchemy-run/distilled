@@ -30,54 +30,82 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export interface CreateCashbackRuleRequest {
   /** Optional description of the rule. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Exclusive end, strictly later than starts_at. Omit or set null for no expiration. */
-  expires_at?: string | null;
+  expires_at?: string | null | undefined;
   /** Four-digit MCC, including leading zeros. Null matches any MCC. When both merchant filters are absent, scoped_account_id is required. */
-  merchant_category_code?: string | null;
+  merchant_category_code?: string | null | undefined;
   /** Raw merchant name reported by the card provider, not the enriched display name. Omit or set null to match any merchant name. Supplied names must contain a non-whitespace character and match together with any MCC filter. */
-  merchant_name?: string | null;
+  merchant_name?: string | null | undefined;
   /** Cashback rate in basis points: 500 means 5%. */
   rate_bps: number;
   /** Account ID prefixed biz_ belonging to a direct connected account. Required when both merchant filters are omitted or null. Otherwise, omit or set null to designate all direct connected accounts. */
-  scoped_account_id?: string | null;
+  scoped_account_id?: string | null | undefined;
   /** Inclusive start, strictly later than the current time, as an ISO 8601 timestamp. */
   starts_at: string;
   /** Client-generated key for replaying the same request safely for 24 hours. */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface CashbackRule {
   /** When the rule was created, as an ISO 8601 timestamp. */
@@ -109,17 +137,17 @@ export type ListCashbackRulesRequestOrder = "created_at";
 export type ListCashbackRulesRequestDirection = "asc" | "desc";
 export interface ListCashbackRulesRequest {
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
   /** Field to sort by. Defaults to created_at. */
-  order?: ListCashbackRulesRequestOrder | (string & {});
+  order?: ListCashbackRulesRequestOrder | (string & {}) | undefined;
   /** Sort direction. Defaults to desc. */
-  direction?: ListCashbackRulesRequestDirection | (string & {});
+  direction?: ListCashbackRulesRequestDirection | (string & {}) | undefined;
 }
 export type ListCashbackRulesResponseDataList = Array<CashbackRule>;
 export interface ListCashbackRulesResponsePageInfo {
@@ -134,37 +162,48 @@ export interface ListCashbackRulesResponse {
 }
 export interface PayoutCashbackRulesRequest {
   /** Pay only this direct connected account. */
-  account_id?: string | null;
+  account_id?: string | null | undefined;
   /** Pay only transactions whose winning cashback rule has this ID and is funded by the authenticated platform. */
-  cashback_rule_id?: string | null;
+  cashback_rule_id?: string | null | undefined;
   /** Pay only this card transaction belonging to a direct connected account. */
-  transaction_id?: string | null;
+  transaction_id?: string | null | undefined;
   /** Client-generated key for replaying the same request safely for 24 hours. */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Request status. `processing` means background processing was queued, not that payment completed. `failed` means the queue rejected the request. Subsequent transaction failures retry automatically. */
 export type CashbackPayoutStatus = "processing" | "failed";
 export interface CashbackPayout {
   /** Connected account filter from the request, prefixed `biz_`. Omitted when not supplied. */
-  account_id?: string | null;
+  account_id?: string | null | undefined;
   /** Cashback rule filter from the request, prefixed `cicbr_`. Omitted when not supplied. */
-  cashback_rule_id?: string | null;
+  cashback_rule_id?: string | null | undefined;
   /** Request status. `processing` means background processing was queued, not that payment completed. `failed` means the queue rejected the request. Subsequent transaction failures retry automatically. */
   status: CashbackPayoutStatus;
   /** Card transaction filter from the request, prefixed `citx_`. Omitted when not supplied. */
-  transaction_id?: string | null;
+  transaction_id?: string | null | undefined;
 }
 export interface UpdateCashbackRuleRequest {
   /** ID of the cashback rule, prefixed cicbr_. */
   id: string;
   /** Description of the rule. Set null to clear it. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Exclusive end as an ISO 8601 timestamp, strictly later than the original starts_at. May be in the past to end an active rule. Set null to remove the expiration. */
-  expires_at?: string | null;
+  expires_at?: string | null | undefined;
   /** Four-digit MCC, including leading zeros. Null matches any MCC. When both merchant filters are absent, scoped_account_id is required. */
-  merchant_category_code?: string | null;
+  merchant_category_code?: string | null | undefined;
   /** Raw merchant name reported by the card provider. Set null to match any merchant name. Supplied names must contain a non-whitespace character and match together with any MCC filter. Clearing both filters requires an existing scoped_account_id. */
-  merchant_name?: string | null;
+  merchant_name?: string | null | undefined;
+}
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
 }
 export type CreateCashbackRuleError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
 /** Create Cashback Rule Creates a future-dated card cashback rule funded by the authenticated platform account. Requires payout:transfer_funds. Merchant name and MCC are optional. Every supplied merchant filter must match. When both are omitted or null, scoped_account_id is required and all eligible transactions for that account match. Optionally limit the rule to one direct connected account. The funding account is derived from the credential and cannot be supplied. Creation does not transfer funds. Supports Idempotency-Key for safe retries. */
@@ -174,8 +213,8 @@ export const createCashbackRule: API.OperationMethod<
   CreateCashbackRuleError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateCashbackRuleRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<CashbackRule>,
+  input: __S(4, __c1, 0) as any as S.Schema<CreateCashbackRuleRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<CashbackRule>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -193,8 +232,8 @@ export const listCashbackRules: API.PaginatedOperationMethod<
   CashbackRule
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8, __c2, 0) as any as S.Schema<ListCashbackRulesRequest>,
-    output: __S(11, __c2, 3) as any as S.Schema<ListCashbackRulesResponse>,
+    input: __S(12, __c3, 0) as any as S.Schema<ListCashbackRulesRequest>,
+    output: __S(15, __c3, 3) as any as S.Schema<ListCashbackRulesResponse>,
     errors: [BadRequest, Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -220,8 +259,8 @@ export const payoutCashbackRules: API.OperationMethod<
   PayoutCashbackRulesError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<PayoutCashbackRulesRequest>,
-  output: __S(13, __c3, 1) as any as S.Schema<CashbackPayout>,
+  input: __S(16, __c4, 0) as any as S.Schema<PayoutCashbackRulesRequest>,
+  output: __S(17, __c4, 1) as any as S.Schema<CashbackPayout>,
   errors: [BadRequest, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -237,8 +276,8 @@ export const updateCashbackRule: API.OperationMethod<
   UpdateCashbackRuleError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<UpdateCashbackRuleRequest>,
-  output: __S(4, __c1, 0) as any as S.Schema<CashbackRule>,
+  input: __S(20, __c5, 0) as any as S.Schema<UpdateCashbackRuleRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<CashbackRule>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -248,6 +287,24 @@ export const updateCashbackRule: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -264,7 +321,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateCashbackRuleRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -285,7 +342,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CashbackRule" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -299,7 +356,7 @@ function __c2(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/cashback_rules", code: 200 })),
       ).annotate({ identifier: "ListCashbackRulesRequest" });
     case 1:
-      return S.Array(__S(4, __c1, 0));
+      return S.Array(__S(8, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -312,13 +369,13 @@ function __c2(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(9, __c2, 1),
-          page_info: __S(10, __c2, 2),
+          data: __S(13, __c3, 1),
+          page_info: __S(14, __c3, 2),
         }),
       ).annotate({ identifier: "ListCashbackRulesResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -340,7 +397,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CashbackPayout" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

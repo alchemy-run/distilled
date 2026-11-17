@@ -71,9 +71,9 @@ export interface ListTemplateTagAssignmentsRequest {
   templateID: string;
   tag: string;
   /** Cursor returned by the previous list response in `assigned_at|assignment_id` format. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Maximum number of assignment rows to return per page. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface TemplateTagAssignment {
   /** Identifier of the tag assignment event. */
@@ -103,15 +103,15 @@ export type ListTemplateTagGroupsRequestSort =
 export interface ListTemplateTagGroupsRequest {
   templateID: string;
   /** Maximum number of ready assignment rows to return per tag. */
-  assignmentLimit?: number;
+  assignmentLimit?: number | undefined;
   /** Maximum number of distinct tags to return per page. */
-  tagsLimit?: number;
+  tagsLimit?: number | undefined;
   /** Cursor returned by the previous list response in `{sort}|{latest_assigned_at}|{tag}` format (sort-tagged, RFC3339Nano). */
-  tagsCursor?: string;
+  tagsCursor?: string | undefined;
   /** Substring filter on tag name. Allowed characters are `a-z`, `0-9`, `.`, `_`, `-`. */
-  search?: string;
+  search?: string | undefined;
   /** Sort order for the returned tag groups. */
-  sort?: ListTemplateTagGroupsRequestSort | (string & {});
+  sort?: ListTemplateTagGroupsRequestSort | (string & {}) | undefined;
 }
 /** Ready assignment events for this tag, sorted latest first. */
 export type TemplateTagGroupAssignmentsList = Array<TemplateTagAssignment>;

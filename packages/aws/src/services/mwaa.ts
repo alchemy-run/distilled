@@ -100,7 +100,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class MwaaExecutionRoleNotAssumable
   extends /*@__PURE__*/ S.TaggedError<MwaaExecutionRoleNotAssumable>()(
     "MwaaExecutionRoleNotAssumable",
@@ -141,7 +141,7 @@ export class ServiceUnavailableException
     "ServiceUnavailableException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -155,8 +155,8 @@ export interface CreateCliTokenRequest {
 export type Token = string | redacted.Redacted<string>;
 export type Hostname = string;
 export interface CreateCliTokenResponse {
-  CliToken?: string | redacted.Redacted<string>;
-  WebServerHostname?: string;
+  CliToken?: string | redacted.Redacted<string> | undefined;
+  WebServerHostname?: string | undefined;
 }
 export type IamRoleArn = string;
 export type S3BucketArn = string;
@@ -166,8 +166,8 @@ export type SubnetList = string[];
 export type SecurityGroupId = string;
 export type SecurityGroupList = string[];
 export interface NetworkConfiguration {
-  SubnetIds?: string[];
-  SecurityGroupIds?: string[];
+  SubnetIds?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
 }
 export type S3ObjectVersion = string;
 export type ConfigKey = string;
@@ -186,11 +186,11 @@ export interface ModuleLoggingConfigurationInput {
   LogLevel: string;
 }
 export interface LoggingConfigurationInput {
-  DagProcessingLogs?: ModuleLoggingConfigurationInput;
-  SchedulerLogs?: ModuleLoggingConfigurationInput;
-  WebserverLogs?: ModuleLoggingConfigurationInput;
-  WorkerLogs?: ModuleLoggingConfigurationInput;
-  TaskLogs?: ModuleLoggingConfigurationInput;
+  DagProcessingLogs?: ModuleLoggingConfigurationInput | undefined;
+  SchedulerLogs?: ModuleLoggingConfigurationInput | undefined;
+  WebserverLogs?: ModuleLoggingConfigurationInput | undefined;
+  WorkerLogs?: ModuleLoggingConfigurationInput | undefined;
+  TaskLogs?: ModuleLoggingConfigurationInput | undefined;
 }
 export type WeeklyMaintenanceWindowStart = string;
 export type TagKey = string;
@@ -202,36 +202,52 @@ export type Schedulers = number;
 export type EndpointManagement = string;
 export type MinWebservers = number;
 export type MaxWebservers = number;
+export type IdentityCenterStartUrl = string;
+export type IdentityCenterIdentityStoreId = string;
+export interface IdentityCenterConfiguration {
+  StartUrl?: string | undefined;
+  IdentityStoreId?: string | undefined;
+}
+export type TeamNameString = string;
+export interface TeamConfig {
+  SourceBucketArn: string;
+  DagS3Path: string;
+}
+export type TeamMap = { [key: string]: TeamConfig | undefined };
 export interface CreateEnvironmentInput {
   Name: string;
   ExecutionRoleArn: string;
   SourceBucketArn: string;
   DagS3Path: string;
   NetworkConfiguration: NetworkConfiguration;
-  PluginsS3Path?: string;
-  PluginsS3ObjectVersion?: string;
-  RequirementsS3Path?: string;
-  RequirementsS3ObjectVersion?: string;
-  StartupScriptS3Path?: string;
-  StartupScriptS3ObjectVersion?: string;
-  AirflowConfigurationOptions?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  EnvironmentClass?: string;
-  MaxWorkers?: number;
-  KmsKey?: string;
-  AirflowVersion?: string;
-  LoggingConfiguration?: LoggingConfigurationInput;
-  WeeklyMaintenanceWindowStart?: string;
-  Tags?: { [key: string]: string | undefined };
-  WebserverAccessMode?: string;
-  MinWorkers?: number;
-  Schedulers?: number;
-  EndpointManagement?: string;
-  MinWebservers?: number;
-  MaxWebservers?: number;
+  PluginsS3Path?: string | undefined;
+  PluginsS3ObjectVersion?: string | undefined;
+  RequirementsS3Path?: string | undefined;
+  RequirementsS3ObjectVersion?: string | undefined;
+  StartupScriptS3Path?: string | undefined;
+  StartupScriptS3ObjectVersion?: string | undefined;
+  AirflowConfigurationOptions?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
+  EnvironmentClass?: string | undefined;
+  MaxWorkers?: number | undefined;
+  KmsKey?: string | undefined;
+  AirflowVersion?: string | undefined;
+  LoggingConfiguration?: LoggingConfigurationInput | undefined;
+  WeeklyMaintenanceWindowStart?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  WebserverAccessMode?: string | undefined;
+  MinWorkers?: number | undefined;
+  Schedulers?: number | undefined;
+  EndpointManagement?: string | undefined;
+  MinWebservers?: number | undefined;
+  MaxWebservers?: number | undefined;
+  IdentityCenterConfiguration?: IdentityCenterConfiguration | undefined;
+  Teams?: { [key: string]: TeamConfig | undefined } | undefined;
 }
 export type EnvironmentArn = string;
 export interface CreateEnvironmentOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface CreateWebLoginTokenRequest {
   Name: string;
@@ -239,10 +255,10 @@ export interface CreateWebLoginTokenRequest {
 export type IamIdentity = string;
 export type AirflowIdentity = string;
 export interface CreateWebLoginTokenResponse {
-  WebToken?: string | redacted.Redacted<string>;
-  WebServerHostname?: string;
-  IamIdentity?: string;
-  AirflowIdentity?: string;
+  WebToken?: string | redacted.Redacted<string> | undefined;
+  WebServerHostname?: string | undefined;
+  IamIdentity?: string | undefined;
+  AirflowIdentity?: string | undefined;
 }
 export interface DeleteEnvironmentInput {
   Name: string;
@@ -256,74 +272,78 @@ export type CreatedAt = Date;
 export type WebserverUrl = string;
 export type CloudWatchLogGroupArn = string;
 export interface ModuleLoggingConfiguration {
-  Enabled?: boolean;
-  LogLevel?: string;
-  CloudWatchLogGroupArn?: string;
+  Enabled?: boolean | undefined;
+  LogLevel?: string | undefined;
+  CloudWatchLogGroupArn?: string | undefined;
 }
 export interface LoggingConfiguration {
-  DagProcessingLogs?: ModuleLoggingConfiguration;
-  SchedulerLogs?: ModuleLoggingConfiguration;
-  WebserverLogs?: ModuleLoggingConfiguration;
-  WorkerLogs?: ModuleLoggingConfiguration;
-  TaskLogs?: ModuleLoggingConfiguration;
+  DagProcessingLogs?: ModuleLoggingConfiguration | undefined;
+  SchedulerLogs?: ModuleLoggingConfiguration | undefined;
+  WebserverLogs?: ModuleLoggingConfiguration | undefined;
+  WorkerLogs?: ModuleLoggingConfiguration | undefined;
+  TaskLogs?: ModuleLoggingConfiguration | undefined;
 }
 export type UpdateStatus = string;
 export type UpdateCreatedAt = Date;
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface UpdateError {
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type UpdateSource = string;
 export type WorkerReplacementStrategy = string;
 export interface LastUpdate {
-  Status?: string;
-  CreatedAt?: Date;
-  Error?: UpdateError;
-  Source?: string;
-  WorkerReplacementStrategy?: string;
+  Status?: string | undefined;
+  CreatedAt?: Date | undefined;
+  Error?: UpdateError | undefined;
+  Source?: string | undefined;
+  WorkerReplacementStrategy?: string | undefined;
 }
 export type VpcEndpointServiceName = string;
 export type CeleryExecutorQueue = string;
 export interface Environment {
-  Name?: string;
-  Status?: string;
-  Arn?: string;
-  CreatedAt?: Date;
-  WebserverUrl?: string;
-  ExecutionRoleArn?: string;
-  ServiceRoleArn?: string;
-  KmsKey?: string;
-  AirflowVersion?: string;
-  SourceBucketArn?: string;
-  DagS3Path?: string;
-  PluginsS3Path?: string;
-  PluginsS3ObjectVersion?: string;
-  RequirementsS3Path?: string;
-  RequirementsS3ObjectVersion?: string;
-  StartupScriptS3Path?: string;
-  StartupScriptS3ObjectVersion?: string;
-  AirflowConfigurationOptions?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  EnvironmentClass?: string;
-  MaxWorkers?: number;
-  NetworkConfiguration?: NetworkConfiguration;
-  LoggingConfiguration?: LoggingConfiguration;
-  LastUpdate?: LastUpdate;
-  WeeklyMaintenanceWindowStart?: string;
-  Tags?: { [key: string]: string | undefined };
-  WebserverAccessMode?: string;
-  MinWorkers?: number;
-  Schedulers?: number;
-  WebserverVpcEndpointService?: string;
-  DatabaseVpcEndpointService?: string;
-  CeleryExecutorQueue?: string;
-  EndpointManagement?: string;
-  MinWebservers?: number;
-  MaxWebservers?: number;
+  Name?: string | undefined;
+  Status?: string | undefined;
+  Arn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  WebserverUrl?: string | undefined;
+  ExecutionRoleArn?: string | undefined;
+  ServiceRoleArn?: string | undefined;
+  KmsKey?: string | undefined;
+  AirflowVersion?: string | undefined;
+  SourceBucketArn?: string | undefined;
+  DagS3Path?: string | undefined;
+  PluginsS3Path?: string | undefined;
+  PluginsS3ObjectVersion?: string | undefined;
+  RequirementsS3Path?: string | undefined;
+  RequirementsS3ObjectVersion?: string | undefined;
+  StartupScriptS3Path?: string | undefined;
+  StartupScriptS3ObjectVersion?: string | undefined;
+  AirflowConfigurationOptions?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
+  EnvironmentClass?: string | undefined;
+  MaxWorkers?: number | undefined;
+  NetworkConfiguration?: NetworkConfiguration | undefined;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
+  LastUpdate?: LastUpdate | undefined;
+  WeeklyMaintenanceWindowStart?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  WebserverAccessMode?: string | undefined;
+  MinWorkers?: number | undefined;
+  Schedulers?: number | undefined;
+  WebserverVpcEndpointService?: string | undefined;
+  DatabaseVpcEndpointService?: string | undefined;
+  CeleryExecutorQueue?: string | undefined;
+  EndpointManagement?: string | undefined;
+  MinWebservers?: number | undefined;
+  MaxWebservers?: number | undefined;
+  IdentityCenterConfiguration?: IdentityCenterConfiguration | undefined;
+  Teams?: { [key: string]: TeamConfig | undefined } | undefined;
 }
 export interface GetEnvironmentOutput {
-  Environment?: Environment;
+  Environment?: Environment | undefined;
 }
 export type RestApiPath = string;
 export type RestApiMethod = string;
@@ -332,29 +352,29 @@ export interface InvokeRestApiRequest {
   Name: string;
   Path: string;
   Method: string;
-  QueryParameters?: any;
-  Body?: any;
+  QueryParameters?: any | undefined;
+  Body?: any | undefined;
 }
 export type RestApiResponse = unknown;
 export interface InvokeRestApiResponse {
-  RestApiStatusCode?: number;
-  RestApiResponse?: any;
+  RestApiStatusCode?: number | undefined;
+  RestApiResponse?: any | undefined;
 }
 export type NextToken = string;
 export interface ListEnvironmentsInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type EnvironmentList = string[];
 export interface ListEnvironmentsOutput {
   Environments: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   ResourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface Dimension {
   Name: string;
@@ -363,18 +383,18 @@ export interface Dimension {
 export type Dimensions = Dimension[];
 export type Unit = string;
 export interface StatisticSet {
-  SampleCount?: number;
-  Sum?: number;
-  Minimum?: number;
-  Maximum?: number;
+  SampleCount?: number | undefined;
+  Sum?: number | undefined;
+  Minimum?: number | undefined;
+  Maximum?: number | undefined;
 }
 export interface MetricDatum {
   MetricName: string;
   Timestamp: Date;
-  Dimensions?: Dimension[];
-  Value?: number;
-  Unit?: string;
-  StatisticValues?: StatisticSet;
+  Dimensions?: Dimension[] | undefined;
+  Value?: number | undefined;
+  Unit?: string | undefined;
+  StatisticValues?: StatisticSet | undefined;
 }
 export type MetricData = MetricDatum[];
 export interface PublishMetricsInput {
@@ -396,33 +416,42 @@ export interface UntagResourceOutput {}
 export interface UpdateNetworkConfigurationInput {
   SecurityGroupIds: string[];
 }
+export type TeamNameList = string[];
+export interface UpdateTeamsInput {
+  AddOrUpdate?: { [key: string]: TeamConfig | undefined } | undefined;
+  Remove?: string[] | undefined;
+}
 export interface UpdateEnvironmentInput {
   Name: string;
-  ExecutionRoleArn?: string;
-  AirflowConfigurationOptions?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  AirflowVersion?: string;
-  DagS3Path?: string;
-  EnvironmentClass?: string;
-  LoggingConfiguration?: LoggingConfigurationInput;
-  MaxWorkers?: number;
-  MinWorkers?: number;
-  MaxWebservers?: number;
-  MinWebservers?: number;
-  WorkerReplacementStrategy?: string;
-  NetworkConfiguration?: UpdateNetworkConfigurationInput;
-  PluginsS3Path?: string;
-  PluginsS3ObjectVersion?: string;
-  RequirementsS3Path?: string;
-  RequirementsS3ObjectVersion?: string;
-  Schedulers?: number;
-  SourceBucketArn?: string;
-  StartupScriptS3Path?: string;
-  StartupScriptS3ObjectVersion?: string;
-  WebserverAccessMode?: string;
-  WeeklyMaintenanceWindowStart?: string;
+  ExecutionRoleArn?: string | undefined;
+  AirflowConfigurationOptions?:
+    | { [key: string]: string | redacted.Redacted<string> | undefined }
+    | undefined;
+  AirflowVersion?: string | undefined;
+  DagS3Path?: string | undefined;
+  EnvironmentClass?: string | undefined;
+  LoggingConfiguration?: LoggingConfigurationInput | undefined;
+  MaxWorkers?: number | undefined;
+  MinWorkers?: number | undefined;
+  MaxWebservers?: number | undefined;
+  MinWebservers?: number | undefined;
+  WorkerReplacementStrategy?: string | undefined;
+  NetworkConfiguration?: UpdateNetworkConfigurationInput | undefined;
+  PluginsS3Path?: string | undefined;
+  PluginsS3ObjectVersion?: string | undefined;
+  RequirementsS3Path?: string | undefined;
+  RequirementsS3ObjectVersion?: string | undefined;
+  Schedulers?: number | undefined;
+  SourceBucketArn?: string | undefined;
+  StartupScriptS3Path?: string | undefined;
+  StartupScriptS3ObjectVersion?: string | undefined;
+  WebserverAccessMode?: string | undefined;
+  WeeklyMaintenanceWindowStart?: string | undefined;
+  IdentityCenterConfiguration?: IdentityCenterConfiguration | undefined;
+  Teams?: UpdateTeamsInput | undefined;
 }
 export interface UpdateEnvironmentOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type CreateCliTokenError = ResourceNotFoundException | CommonErrors;
 /**
@@ -737,7 +766,7 @@ export const updateEnvironment: API.OperationMethod<
   UpdateEnvironmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(81, __c10, 1) as any as S.Schema<UpdateEnvironmentInput>,
+  input: __S(82, __c10, 2) as any as S.Schema<UpdateEnvironmentInput>,
   output: __S(138, __c17, 2) as any as S.Schema<UpdateEnvironmentOutput>,
   errors: [
     InternalServerException,
@@ -880,6 +909,8 @@ function __c3(j: number): any {
           EndpointManagement: S.optional(S.String),
           MinWebservers: S.optional(S.Number),
           MaxWebservers: S.optional(S.Number),
+          IdentityCenterConfiguration: S.optional(__S(129, __c16, 1)),
+          Teams: S.optional(__S(131, __c16, 3)),
         }),
       ).annotate({ identifier: "Environment" });
     case 6:
@@ -1043,6 +1074,13 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          AddOrUpdate: S.optional(__S(131, __c16, 3)),
+          Remove: S.optional(__S(112, __c14, 0)),
+        }),
+      ).annotate({ identifier: "UpdateTeamsInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           Name: S.String.pipe(T.HttpLabel("Name")),
           ExecutionRoleArn: S.optional(S.String),
           AirflowConfigurationOptions: S.optional(__S(128, __c16, 0)),
@@ -1066,6 +1104,8 @@ function __c10(j: number): any {
           StartupScriptS3ObjectVersion: S.optional(S.String),
           WebserverAccessMode: S.optional(S.String),
           WeeklyMaintenanceWindowStart: S.optional(S.String),
+          IdentityCenterConfiguration: S.optional(__S(129, __c16, 1)),
+          Teams: S.optional(__S(81, __c10, 1)),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/environments/{Name}" }),
@@ -1126,6 +1166,8 @@ function __c12(j: number): any {
           EndpointManagement: S.optional(S.String),
           MinWebservers: S.optional(S.Number),
           MaxWebservers: S.optional(S.Number),
+          IdentityCenterConfiguration: S.optional(__S(129, __c16, 1)),
+          Teams: S.optional(__S(131, __c16, 3)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/environments/{Name}" }),
@@ -1166,6 +1208,16 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ SensitiveString.pipe(S.optional));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ StartUrl: S.optional(S.String), IdentityStoreId: S.optional(S.String) }),
+      ).annotate({ identifier: "IdentityCenterConfiguration" });
+    case 2:
+      return S.suspend(() => S.Struct({ SourceBucketArn: S.String, DagS3Path: S.String })).annotate(
+        { identifier: "TeamConfig" },
+      );
+    case 3:
+      return S.Record(S.String, /*@__PURE__*/ __S(130, __c16, 2).pipe(S.optional));
   }
 }
 function __c17(j: number): any {

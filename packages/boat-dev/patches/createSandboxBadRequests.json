@@ -1,0 +1,261 @@
+{
+  "description": "Type the 400s the spec documents for invalid POST /sandboxes requests, each by its `code`: `count_requires_from` and `count_with_fail_fast` (CreateSandboxRequest.count), `invalid_hosted_ports`, `count_with_hosted_ports` and `fail_fast_with_hosted_ports` (.hostedPorts), `invalid_files` (.files), `invalid_setup_script` (.setupScript) and `not_org_sandbox` (.visibility). They generated as one shared error. Source: spec-mirror-boat-dev 71ab00f.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#CountRequiresFrom",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "`count` was passed without `from`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "body": {
+                "/code": "count_requires_from"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#CountWithFailFast",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "`count` cannot be combined with `failFast`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "body": {
+                "/code": "count_with_fail_fast"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#InvalidHostedPorts",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "A `hostedPorts` entry is invalid or repeats a port.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "body": {
+                "/code": "invalid_hosted_ports"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#CountWithHostedPorts",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "`hostedPorts` cannot be combined with `count`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "body": {
+                "/code": "count_with_hosted_ports"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#FailFastWithHostedPorts",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "`hostedPorts` cannot be combined with `failFast`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "body": {
+                "/code": "fail_fast_with_hosted_ports"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#InvalidFiles",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "A `files` entry has a bad or duplicate path, or an invalid body.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "body": {
+                "/code": "invalid_files"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#InvalidSetupScript",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "`setupScript` is not a string or exceeds 64KB.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "body": {
+                "/code": "invalid_setup_script"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#NotOrgSandbox",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "A personal sandbox is always private; `visibility: shared` needs an organization sandbox.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "body": {
+                "/code": "not_org_sandbox"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Create/errors/-",
+      "value": {
+        "target": "com.boat.api#CountRequiresFrom"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Create/errors/-",
+      "value": {
+        "target": "com.boat.api#CountWithFailFast"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Create/errors/-",
+      "value": {
+        "target": "com.boat.api#InvalidHostedPorts"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Create/errors/-",
+      "value": {
+        "target": "com.boat.api#CountWithHostedPorts"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Create/errors/-",
+      "value": {
+        "target": "com.boat.api#FailFastWithHostedPorts"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Create/errors/-",
+      "value": {
+        "target": "com.boat.api#InvalidFiles"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Create/errors/-",
+      "value": {
+        "target": "com.boat.api#InvalidSetupScript"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Create/errors/-",
+      "value": {
+        "target": "com.boat.api#NotOrgSandbox"
+      }
+    }
+  ]
+}

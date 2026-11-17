@@ -1,0 +1,38 @@
+{
+  "description": "Page listUdfs, listUdfAttachments and listUdfVersions by cursor. Each operation takes `cursor` and `limit` query parameters and answers { status, requestId, result: [...], limit, nextCursor } (the spec describes nextCursor as 'Cursor for the next page, to be sent as the `cursor` query parameter. Null on the last page.'). The converter's cursor detection does not recognise `nextCursor`, so the list was a single-page call. Observed live 2026-11-12: GET /v1/organizations/{organizationId}/udfs with limit=1 answered 200 with an empty result (request id 03efc1de-97a4-4ba2-b5e6-491e826f1204); the attachments and versions lists were not called (they need an existing function). The multi-page traversal was captured on listApiKeys, which answers the same envelope.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.udf#UdfList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "result",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.udf#UdfAttachmentList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "result",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.udf#UdfVersionList/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "cursor",
+        "outputToken": "nextCursor",
+        "items": "result",
+        "pageSize": "limit"
+      }
+    }
+  ]
+}

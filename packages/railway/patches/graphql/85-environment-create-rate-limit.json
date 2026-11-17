@@ -1,0 +1,13 @@
+{
+  "description": "Live environmentCreate probe on 2026-11-13: a second create in the same project within 30s returned HTTP 200 with errors:[{message:'You are creating environments too quickly. This workspace allows 1 environment per 30 seconds. Try again shortly.',path:['environmentCreate'],extensions:{code:'BAD_USER_INPUT'},traceId:'8214199911063030682'}]. RailwayRateLimited only matched this message under INTERNAL_SERVER_ERROR, so the bare BAD_USER_INPUT matcher classified the throttle as RailwayValidationError. Match the observed code with the message so it outranks the bare code.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/errors/RailwayRateLimited/matchers/-",
+      "value": {
+        "code": "BAD_USER_INPUT",
+        "messageIncludes": "creating environments too quickly"
+      }
+    }
+  ]
+}

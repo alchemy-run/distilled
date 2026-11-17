@@ -1,4 +1,9 @@
-import { getItems, getPath, type PaginationStrategy } from "@distilled.cloud/core/pagination";
+import {
+  getItems,
+  getPath,
+  missingPaginationConfig,
+  type PaginationStrategy,
+} from "@distilled.cloud/core/pagination";
 /**
  * S2 (s2.dev) pagination -- hand-written.
  *
@@ -28,10 +33,8 @@ export const paginateStartAfter: PaginationStrategy = (operation, input, paginat
   const cursorField = pagination.outputToken;
   const hasMorePath = pagination.hasNextPage ?? "has_more";
   if (!inputToken || !itemsPath || !cursorField) {
-    return Stream.die(
-      new Error(
-        "Start-after pagination requires inputToken, items and outputToken (the item's cursor field)",
-      ),
+    return missingPaginationConfig(
+      "Start-after pagination requires inputToken, items and outputToken (the item's cursor field)",
     );
   }
 

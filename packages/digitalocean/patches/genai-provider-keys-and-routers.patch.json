@@ -1,0 +1,94 @@
+{
+  "description": "GenAI provider keys and model routers: creates always return the key info and the router with their uuid, and POST /v2/gen-ai/openai/keys and /v2/gen-ai/anthropic/keys answer 400 `invalid openai api key` / `invalid anthropic key` when the provider rejects the key (live responses); type that as InvalidProviderKey.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ApiCreateOpenAIAPIKeyOutput/members/api_key_info/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ApiOpenAIAPIKeyInfo/members/uuid/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ApiAnthropicAPIKeyInfo/members/uuid/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ApiCreateModelRouterOutput/members/model_router/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ApiModelRouter/members/uuid/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ApiModelRouter/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ApiCreateAnthropicAPIKeyOutput/members/api_key_info/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ApiGetModelRouterOutput/members/model_router/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#InvalidProviderKey",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The OpenAI or Anthropic API key was rejected by the provider.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "invalid openai api key"
+              }
+            },
+            {
+              "status": 400,
+              "message": {
+                "includes": "invalid anthropic key"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiCreateOpenaiApiKey/errors/-",
+      "value": {
+        "target": "com.digitalocean.api#InvalidProviderKey"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GenaiCreateAnthropicApiKey/errors/-",
+      "value": {
+        "target": "com.digitalocean.api#InvalidProviderKey"
+      }
+    }
+  ]
+}

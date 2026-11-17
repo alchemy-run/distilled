@@ -47,45 +47,45 @@ export type AppliedReservationListValueList = Array<string>;
 /** Paginated list of applied reservations */
 export interface AppliedReservationList {
   /** Array of reservation resource ids */
-  value?: AppliedReservationListValueList;
+  value?: AppliedReservationListValueList | undefined;
   /** Url to get the next page of reservations */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Properties for applied reservations returned */
 export interface AppliedReservationsProperties {
   /** Paginated list of applied reservations */
-  reservationOrderIds?: AppliedReservationList;
+  reservationOrderIds?: AppliedReservationList | undefined;
 }
 /** The response for applied reservations api */
 export interface AppliedReservations {
   /** Identifier of the applied reservations */
-  id?: string;
+  id?: string | undefined;
   /** Name of resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of resource. "Microsoft.Capacity/AppliedReservations" */
-  type?: string;
+  type?: string | undefined;
   /** Properties for applied reservations returned */
-  properties?: AppliedReservationsProperties;
+  properties?: AppliedReservationsProperties | undefined;
 }
 export interface GetCatalogRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The type of the resource for which the skus should be provided. */
-  reservedResourceType?: string;
+  reservedResourceType?: string | undefined;
   /** Filters the skus based on the location specified in this parameter. This can be an azure region or global */
-  location?: string;
+  location?: string | undefined;
   /** Publisher id used to get the third party products */
-  publisherId?: string;
+  publisherId?: string | undefined;
   /** Offer id used to get the third party products */
-  offerId?: string;
+  offerId?: string | undefined;
   /** Plan id used to get the third party products */
-  planId?: string;
+  planId?: string | undefined;
   /** May be used to filter by Catalog properties. The filter supports 'eq', 'or', and 'and'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of reservations to skip from the list before returning results */
-  _skip?: number;
+  _skip?: number | undefined;
   /** To number of reservations to return */
-  _take?: number;
+  _take?: number | undefined;
 }
 /** Represent the billing plans. */
 export type ReservationBillingPlan = "Upfront" | "Monthly";
@@ -100,36 +100,36 @@ export type CatalogLocationsList = Array<string>;
 /** Property of a sku. */
 export interface SkuProperty {
   /** An invariant to describe the feature. */
-  name?: string;
+  name?: string | undefined;
   /** An invariant if the feature is measured by quantity. */
-  value?: string;
+  value?: string | undefined;
 }
 export type CatalogSkuPropertiesList = Array<SkuProperty>;
 /** Pricing information containing the amount and the currency code */
 export interface Price {
   /** The ISO 4217 3-letter currency code for the currency used by this purchase record. */
-  currencyCode?: string;
-  amount?: number;
+  currencyCode?: string | undefined;
+  amount?: number | undefined;
 }
 /** Pricing information about the sku */
 export interface CatalogMsrp {
   /** Amount in pricing currency. Tax not included. */
-  p1Y?: Price;
+  p1Y?: Price | undefined;
   /** Amount in pricing currency. Tax not included. */
-  p3Y?: Price;
+  p3Y?: Price | undefined;
   /** Amount in pricing currency. Tax not included. */
-  p5Y?: Price;
+  p5Y?: Price | undefined;
 }
 /** The value of restrictions. If the restriction type is set to location. This would be different locations where the sku is restricted. */
 export type SkuRestrictionValuesList = Array<string>;
 /** Restriction of a sku. */
 export interface SkuRestriction {
   /** The type of restrictions. */
-  type?: string;
+  type?: string | undefined;
   /** The value of restrictions. If the restriction type is set to location. This would be different locations where the sku is restricted. */
-  values?: SkuRestrictionValuesList;
+  values?: SkuRestrictionValuesList | undefined;
   /** The reason for restriction. */
-  reasonCode?: string;
+  reasonCode?: string | undefined;
 }
 export type CatalogRestrictionsList = Array<SkuRestriction>;
 /** Capability of a sku. */
@@ -138,23 +138,23 @@ export type CatalogCapabilitiesList = Array<SkuProperty>;
 /** Product details of a type of resource. */
 export interface Catalog {
   /** The type of resource the sku applies to. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The name of sku */
-  name?: string;
+  name?: string | undefined;
   /** The billing plan options available for this sku. */
-  billingPlans?: CatalogBillingPlansMap;
+  billingPlans?: CatalogBillingPlansMap | undefined;
   /** Available reservation terms for this resource */
-  terms?: CatalogTermsList;
-  locations?: CatalogLocationsList;
-  skuProperties?: CatalogSkuPropertiesList;
+  terms?: CatalogTermsList | undefined;
+  locations?: CatalogLocationsList | undefined;
+  skuProperties?: CatalogSkuPropertiesList | undefined;
   /** Pricing information about the sku */
-  msrp?: CatalogMsrp;
-  restrictions?: CatalogRestrictionsList;
+  msrp?: CatalogMsrp | undefined;
+  restrictions?: CatalogRestrictionsList | undefined;
   /** The tier of this sku */
-  tier?: string;
+  tier?: string | undefined;
   /** The size of this sku */
-  size?: string;
-  capabilities?: CatalogCapabilitiesList;
+  size?: string | undefined;
+  capabilities?: CatalogCapabilitiesList | undefined;
 }
 /** The Catalog items on this page */
 export type CatalogsResultValueList = Array<Catalog>;
@@ -163,9 +163,9 @@ export interface CatalogsResult {
   /** The Catalog items on this page */
   value: CatalogsResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The total amount of catalog items. */
-  totalItems?: number;
+  totalItems?: number | undefined;
 }
 export interface GetReservationRequest {
   /** Order Id of the reservation */
@@ -173,7 +173,7 @@ export interface GetReservationRequest {
   /** Id of the reservation item */
   reservationId: string;
   /** Supported value of this query is renewProperties */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -182,17 +182,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The type of the resource that is being reserved. In addition to below types we have also added the following: OpenAIPTU, MDC, Sentinel. */
 export type ReservedResourceType =
@@ -255,94 +255,94 @@ export type ReservationStatusCode =
   | "Expired"
   | "Succeeded";
 export interface ExtendedStatusInfo {
-  statusCode?: ReservationStatusCode;
+  statusCode?: ReservationStatusCode | undefined;
   /** The message giving detailed information about the status code. */
-  message?: string;
+  message?: string | undefined;
 }
 /** List of destination resource id that are created due to split. Format of the resource id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
 export type ReservationSplitPropertiesSplitDestinationsList = Array<string>;
 /** Properties of reservation split */
 export interface ReservationSplitProperties {
   /** List of destination resource id that are created due to split. Format of the resource id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
-  splitDestinations?: ReservationSplitPropertiesSplitDestinationsList;
+  splitDestinations?: ReservationSplitPropertiesSplitDestinationsList | undefined;
   /** Resource id of the reservation from which this is split. Format of the resource id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
-  splitSource?: string;
+  splitSource?: string | undefined;
 }
 /** Resource ids of the source reservation's merged to form this reservation. Format of the resource id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
 export type ReservationMergePropertiesMergeSourcesList = Array<string>;
 /** Properties of reservation merge */
 export interface ReservationMergeProperties {
   /** Reservation resource id Created due to the merge. Format of the resource id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
-  mergeDestination?: string;
+  mergeDestination?: string | undefined;
   /** Resource ids of the source reservation's merged to form this reservation. Format of the resource id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
-  mergeSources?: ReservationMergePropertiesMergeSourcesList;
+  mergeSources?: ReservationMergePropertiesMergeSourcesList | undefined;
 }
 /** Properties of reservation swap */
 export interface ReservationSwapProperties {
   /** Resource id of the source reservation that gets swapped. Format of the resource id is /providers/microsoft.capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
-  swapSource?: string;
+  swapSource?: string | undefined;
   /** Reservation resource id that the original resource gets swapped to. Format of the resource id is /providers/microsoft.capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
-  swapDestination?: string;
+  swapDestination?: string | undefined;
 }
 /** Properties specific to applied scope type. Not required if not applicable. Required and need to provide tenantId and managementGroupId if AppliedScopeType is ManagementGroup */
 export interface AppliedScopeProperties {
   /** Tenant ID where the savings plan should apply benefit. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Fully-qualified identifier of the management group where the benefit must be applied. */
-  managementGroupId?: string;
+  managementGroupId?: string | undefined;
   /** Fully-qualified identifier of the subscription. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Fully-qualified identifier of the resource group. */
-  resourceGroupId?: string;
+  resourceGroupId?: string | undefined;
   /** Display name */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** The name of sku */
 export interface SkuName {
-  name?: string;
+  name?: string | undefined;
 }
 /** List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared. This property will be deprecated and replaced by appliedScopeProperties instead for Single AppliedScopeType. */
 export type PurchaseRequestPropertiesAppliedScopesList = Array<string>;
 /** Properties specific to each reserved resource type. Not required if not applicable. */
 export interface PurchaseRequestPropertiesReservedResourceProperties {
   /** Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type. */
-  instanceFlexibility?: InstanceFlexibility | (string & {});
+  instanceFlexibility?: InstanceFlexibility | (string & {}) | undefined;
 }
 /** Properties of reservation purchase request */
 export interface PurchaseRequestProperties {
   /** The type of the resource that is being reserved. In addition to below types we have also added the following: OpenAIPTU, MDC, Sentinel. */
-  reservedResourceType?: ReservedResourceType | (string & {});
+  reservedResourceType?: ReservedResourceType | (string & {}) | undefined;
   /** Subscription that will be charged for purchasing reservation or savings plan */
-  billingScopeId?: string;
+  billingScopeId?: string | undefined;
   /** Represent the term of reservation. */
-  term?: ReservationTerm | (string & {});
+  term?: ReservationTerm | (string & {}) | undefined;
   /** Represent the billing plans. */
-  billingPlan?: ReservationBillingPlan | (string & {});
+  billingPlan?: ReservationBillingPlan | (string & {}) | undefined;
   /** Quantity of the skus that are part of the reservation. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Friendly name of the reservation */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Type of the Applied Scope. */
-  appliedScopeType?: AppliedScopeType | (string & {});
+  appliedScopeType?: AppliedScopeType | (string & {}) | undefined;
   /** List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared. This property will be deprecated and replaced by appliedScopeProperties instead for Single AppliedScopeType. */
-  appliedScopes?: PurchaseRequestPropertiesAppliedScopesList;
+  appliedScopes?: PurchaseRequestPropertiesAppliedScopesList | undefined;
   /** Properties specific to applied scope type. Not required if not applicable. Required and need to provide tenantId and managementGroupId if AppliedScopeType is ManagementGroup */
-  appliedScopeProperties?: AppliedScopeProperties;
+  appliedScopeProperties?: AppliedScopeProperties | undefined;
   /** Setting this to true will automatically purchase a new reservation on the expiration date time. */
-  renew?: boolean;
+  renew?: boolean | undefined;
   /** Properties specific to each reserved resource type. Not required if not applicable. */
-  reservedResourceProperties?: PurchaseRequestPropertiesReservedResourceProperties;
+  reservedResourceProperties?: PurchaseRequestPropertiesReservedResourceProperties | undefined;
   /** This is the date-time when the Azure hybrid benefit needs to be reviewed. */
-  reviewDateTime?: string;
+  reviewDateTime?: string | undefined;
 }
 /** The request for reservation purchase */
 export interface PurchaseRequest {
   /** The name of sku */
-  sku?: SkuName;
+  sku?: SkuName | undefined;
   /** The Azure region where the reserved resource lives. */
-  location?: string;
+  location?: string | undefined;
   /** Properties of reservation purchase request */
-  properties?: PurchaseRequestProperties;
+  properties?: PurchaseRequestProperties | undefined;
 }
 /** Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is not included. This is locked price 30 days before expiry. */
 export type RenewPropertiesResponsePricingCurrencyTotal = Price;
@@ -351,22 +351,22 @@ export type RenewPropertiesResponseBillingCurrencyTotal = Price;
 /** The renew properties for a reservation. */
 export interface RenewPropertiesResponse {
   /** The request for reservation purchase */
-  purchaseProperties?: PurchaseRequest;
+  purchaseProperties?: PurchaseRequest | undefined;
   /** Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is not included. This is locked price 30 days before expiry. */
-  pricingCurrencyTotal?: Price;
+  pricingCurrencyTotal?: Price | undefined;
   /** Currency and amount that customer will be charged in customer's local currency for renewal purchase. Tax is not included. */
-  billingCurrencyTotal?: Price;
+  billingCurrencyTotal?: Price | undefined;
 }
 /** The aggregate values of reservation utilization */
 export interface ReservationUtilizationAggregates {
   /** The grain of the aggregate */
-  grain?: number;
+  grain?: number | undefined;
   /** The grain unit of the aggregate */
-  grainUnit?: string;
+  grainUnit?: string | undefined;
   /** The aggregate value */
-  value?: number;
+  value?: number | undefined;
   /** The aggregate value unit */
-  valueUnit?: string;
+  valueUnit?: string | undefined;
 }
 /** The array of aggregates of a reservation's utilization */
 export type ReservationsPropertiesUtilizationAggregatesList =
@@ -374,229 +374,229 @@ export type ReservationsPropertiesUtilizationAggregatesList =
 /** Reservation utilization */
 export interface ReservationsPropertiesUtilization {
   /** last 7 day utilization trend for a reservation */
-  trend?: string;
+  trend?: string | undefined;
   /** The array of aggregates of a reservation's utilization */
-  aggregates?: ReservationsPropertiesUtilizationAggregatesList;
+  aggregates?: ReservationsPropertiesUtilizationAggregatesList | undefined;
 }
 /** The properties of the reservations */
 export interface ReservationsProperties {
   /** The type of the resource that is being reserved. */
-  reservedResourceType?: ReservedResourceType;
+  reservedResourceType?: ReservedResourceType | undefined;
   /** Allows reservation discount to be applied across skus within the same auto fit group. Not all skus support instance size flexibility. */
-  instanceFlexibility?: InstanceFlexibility;
+  instanceFlexibility?: InstanceFlexibility | undefined;
   /** Friendly name for user to easily identify the reservation */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The list of applied scopes */
-  appliedScopes?: ReservationsPropertiesAppliedScopesList;
+  appliedScopes?: ReservationsPropertiesAppliedScopesList | undefined;
   /** The applied scope type */
-  appliedScopeType?: AppliedScopeType;
+  appliedScopeType?: AppliedScopeType | undefined;
   /** Indicates if the reservation is archived */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Capabilities of the reservation */
-  capabilities?: string;
+  capabilities?: string | undefined;
   /** Quantity of the skus that are part of the reservation. Must be greater than zero. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Current state of the reservation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** DateTime of the reservation starting when this version is effective from. */
-  effectiveDateTime?: string;
+  effectiveDateTime?: string | undefined;
   /** This is the DateTime when the reservation benefit started. */
-  benefitStartTime?: string;
+  benefitStartTime?: string | undefined;
   /** DateTime of the last time the reservation was updated. */
-  lastUpdatedDateTime?: string;
+  lastUpdatedDateTime?: string | undefined;
   /** This is the date when the reservation will expire. */
-  expiryDate?: string;
+  expiryDate?: string | undefined;
   /** This is the date-time when the reservation will expire. */
-  expiryDateTime?: string;
+  expiryDateTime?: string | undefined;
   /** This is the date-time when the Azure Hybrid Benefit needs to be reviewed. */
-  reviewDateTime?: string;
+  reviewDateTime?: string | undefined;
   /** Description of the sku in english. */
-  skuDescription?: string;
+  skuDescription?: string | undefined;
   /** The message giving detailed information about the status code. */
-  extendedStatusInfo?: ExtendedStatusInfo;
+  extendedStatusInfo?: ExtendedStatusInfo | undefined;
   /** The billing plan options available for this sku. */
-  billingPlan?: ReservationBillingPlan;
+  billingPlan?: ReservationBillingPlan | undefined;
   /** The provisioning state of the reservation for display, e.g. Succeeded */
-  displayProvisioningState?: string;
+  displayProvisioningState?: string | undefined;
   /** The provisioning sub-state of the reservation, e.g. Succeeded */
-  provisioningSubState?: string;
+  provisioningSubState?: string | undefined;
   /** This is the date when the reservation was purchased. */
-  purchaseDate?: string;
+  purchaseDate?: string | undefined;
   /** This is the date-time when the reservation was purchased. */
-  purchaseDateTime?: string;
+  purchaseDateTime?: string | undefined;
   /** Properties of reservation split */
-  splitProperties?: ReservationSplitProperties;
+  splitProperties?: ReservationSplitProperties | undefined;
   /** Properties of reservation merge */
-  mergeProperties?: ReservationMergeProperties;
+  mergeProperties?: ReservationMergeProperties | undefined;
   /** Properties of reservation swap */
-  swapProperties?: ReservationSwapProperties;
+  swapProperties?: ReservationSwapProperties | undefined;
   /** Properties specific to applied scope type. Not required if not applicable. Required and need to provide tenantId and managementGroupId if AppliedScopeType is ManagementGroup */
-  appliedScopeProperties?: AppliedScopeProperties;
+  appliedScopeProperties?: AppliedScopeProperties | undefined;
   /** Subscription that will be charged for purchasing reservation or savings plan */
-  billingScopeId?: string;
+  billingScopeId?: string | undefined;
   /** Setting this to true will automatically purchase a new reservation on the expiration date time. */
-  renew?: boolean;
+  renew?: boolean | undefined;
   /** Reservation Id of the reservation from which this reservation is renewed. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}. */
-  renewSource?: string;
+  renewSource?: string | undefined;
   /** Reservation Id of the reservation which is purchased because of renew. Format of the resource Id is /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}. */
-  renewDestination?: string;
+  renewDestination?: string | undefined;
   /** The renew properties for a reservation. */
-  renewProperties?: RenewPropertiesResponse;
+  renewProperties?: RenewPropertiesResponse | undefined;
   /** Represent the term of reservation. */
-  term?: ReservationTerm;
+  term?: ReservationTerm | undefined;
   /** The applied scope type of the reservation for display, e.g. Shared */
-  userFriendlyAppliedScopeType?: string;
+  userFriendlyAppliedScopeType?: string | undefined;
   /** The renew state of the reservation for display, e.g. On */
-  userFriendlyRenewState?: string;
+  userFriendlyRenewState?: string | undefined;
   /** Reservation utilization */
-  utilization?: ReservationsPropertiesUtilization;
+  utilization?: ReservationsPropertiesUtilization | undefined;
 }
 /** Resource Provider type to be reserved. */
 export type GetReservationResponseKind = "Microsoft.Compute";
 export interface GetReservationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated to this reservation */
-  properties?: ReservationsProperties;
+  properties?: ReservationsProperties | undefined;
   /** The Azure region where the reserved resource lives. */
-  location?: string;
-  etag?: number;
+  location?: string | undefined;
+  etag?: number | undefined;
   /** The sku information associated to this reservation */
-  sku?: SkuName;
+  sku?: SkuName | undefined;
   /** Resource Provider type to be reserved. */
-  kind?: GetReservationResponseKind;
+  kind?: GetReservationResponseKind | undefined;
 }
 export interface GetReservationOrderRequest {
   /** Order Id of the reservation */
   reservationOrderId: string;
   /** May be used to expand the planInformation. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Describes whether the payment is completed, failed, cancelled or scheduled in the future. */
 export type PaymentStatus = "Succeeded" | "Failed" | "Scheduled" | "Cancelled";
 /** Information about payment related to a reservation order. */
 export interface PaymentDetail {
   /** Date when the payment needs to be done. */
-  dueDate?: string;
+  dueDate?: string | undefined;
   /** Date when the transaction is completed. Is null when it is scheduled. */
-  paymentDate?: string;
+  paymentDate?: string | undefined;
   /** Amount in pricing currency. Tax not included. */
-  pricingCurrencyTotal?: Price;
+  pricingCurrencyTotal?: Price | undefined;
   /** Amount charged in Billing currency. Tax not included. Is null for future payments */
-  billingCurrencyTotal?: Price;
+  billingCurrencyTotal?: Price | undefined;
   /** Shows the Account that is charged for this payment. */
-  billingAccount?: string;
+  billingAccount?: string | undefined;
   /** Describes whether the payment is completed, failed, cancelled or scheduled in the future. */
-  status?: PaymentStatus;
-  extendedStatusInfo?: ExtendedStatusInfo;
+  status?: PaymentStatus | undefined;
+  extendedStatusInfo?: ExtendedStatusInfo | undefined;
 }
 export type ReservationOrderBillingPlanInformationTransactionsList = Array<PaymentDetail>;
 /** Information describing the type of billing plan for this reservation. */
 export interface ReservationOrderBillingPlanInformation {
   /** Amount of money to be paid for the Order. Tax is not included. */
-  pricingCurrencyTotal?: Price;
+  pricingCurrencyTotal?: Price | undefined;
   /** Date when the billing plan has started. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** For recurring billing plans, indicates the date when next payment will be processed. Null when total is paid off. */
-  nextPaymentDueDate?: string;
-  transactions?: ReservationOrderBillingPlanInformationTransactionsList;
+  nextPaymentDueDate?: string | undefined;
+  transactions?: ReservationOrderBillingPlanInformationTransactionsList | undefined;
 }
 /** Resource Provider type to be reserved. */
 export type ReservationResponseKind = "Microsoft.Compute";
 /** The definition of the reservation. */
 export interface ReservationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated to this reservation */
-  properties?: ReservationsProperties;
+  properties?: ReservationsProperties | undefined;
   /** The Azure region where the reserved resource lives. */
-  location?: string;
-  etag?: number;
+  location?: string | undefined;
+  etag?: number | undefined;
   /** The sku information associated to this reservation */
-  sku?: SkuName;
+  sku?: SkuName | undefined;
   /** Resource Provider type to be reserved. */
-  kind?: ReservationResponseKind;
+  kind?: ReservationResponseKind | undefined;
 }
 export type ReservationOrderPropertiesReservationsList = Array<ReservationResponse>;
 /** Properties of a reservation order. */
 export interface ReservationOrderProperties {
   /** Friendly name for user to easily identified the reservation. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** This is the DateTime when the reservation was initially requested for purchase. */
-  requestDateTime?: string;
+  requestDateTime?: string | undefined;
   /** This is the DateTime when the reservation was created. */
-  createdDateTime?: string;
+  createdDateTime?: string | undefined;
   /** This is the date when the reservation will expire. */
-  expiryDate?: string;
+  expiryDate?: string | undefined;
   /** This is the date-time when the reservation will expire. */
-  expiryDateTime?: string;
+  expiryDateTime?: string | undefined;
   /** This is the DateTime when the reservation benefit started. */
-  benefitStartTime?: string;
+  benefitStartTime?: string | undefined;
   /** Total Quantity of the skus purchased in the reservation. */
-  originalQuantity?: number;
+  originalQuantity?: number | undefined;
   /** Represent the term of reservation. */
-  term?: ReservationTerm;
+  term?: ReservationTerm | undefined;
   /** Current state of the reservation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Represent the billing plans. */
-  billingPlan?: ReservationBillingPlan;
+  billingPlan?: ReservationBillingPlan | undefined;
   /** Information describing the type of billing plan for this reservation. */
-  planInformation?: ReservationOrderBillingPlanInformation;
-  reservations?: ReservationOrderPropertiesReservationsList;
+  planInformation?: ReservationOrderBillingPlanInformation | undefined;
+  reservations?: ReservationOrderPropertiesReservationsList | undefined;
   /** This is the date-time when the Azure Hybrid Benefit needs to be reviewed. */
-  reviewDateTime?: string;
+  reviewDateTime?: string | undefined;
 }
 export interface GetReservationOrderResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a reservation order. */
-  properties?: ReservationOrderProperties;
-  etag?: number;
+  properties?: ReservationOrderProperties | undefined;
+  etag?: number | undefined;
 }
 export interface ListOperationRequest {}
 /** Information about an operation */
 export interface OperationDisplay {
-  provider?: string;
-  resource?: string;
-  operation?: string;
-  description?: string;
+  provider?: string | undefined;
+  resource?: string | undefined;
+  operation?: string | undefined;
+  description?: string | undefined;
 }
 /** The response containing operation information */
 export interface OperationResponse {
   /** Name of the operation */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Display of the operation */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Origin of the operation */
-  origin?: string;
+  origin?: string | undefined;
   /** Properties of the operation */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export type OperationListValueList = Array<OperationResponse>;
 export interface OperationList {
-  value?: OperationListValueList;
+  value?: OperationListValueList | undefined;
   /** Url to get the next page of items. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReservationRequest {
   /** Order Id of the reservation */
@@ -609,68 +609,68 @@ export interface ReservationList {
   /** The ReservationResponse items on this page */
   value: ReservationListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReservationAllRequest {
   /** May be used to filter by reservation properties. The filter supports 'eq', 'or', and 'and'. It does not currently support 'ne', 'gt', 'le', 'ge', or 'not'. Reservation properties include sku/name, properties/{appliedScopeType, archived, displayName, displayProvisioningState, effectiveDateTime, expiryDate, expiryDateTime, provisioningState, quantity, renew, reservedResourceType, term, userFriendlyAppliedScopeType, userFriendlyRenewState} */
-  _filter?: string;
+  _filter?: string | undefined;
   /** May be used to sort order by reservation properties. */
-  _orderby?: string;
+  _orderby?: string | undefined;
   /** To indicate whether to refresh the roll up counts of the reservations group by provisioning states */
-  refreshSummary?: string;
+  refreshSummary?: string | undefined;
   /** The number of reservations to skip from the list before returning results */
-  _skiptoken?: number;
+  _skiptoken?: number | undefined;
   /** The selected provisioning state */
-  selectedState?: string;
+  selectedState?: string | undefined;
   /** To number of reservations to return */
-  take?: number;
+  take?: number | undefined;
 }
 /** The list of reservations. */
 export type ReservationsListResultValueList = Array<ReservationResponse>;
 /** The roll up count summary of reservations in each state */
 export interface ReservationSummary {
   /** The number of reservation in Succeeded state */
-  succeededCount?: number;
+  succeededCount?: number | undefined;
   /** The number of reservation in Failed state */
-  failedCount?: number;
+  failedCount?: number | undefined;
   /** The number of reservation in Expiring state */
-  expiringCount?: number;
+  expiringCount?: number | undefined;
   /** The number of reservation in Expired state */
-  expiredCount?: number;
+  expiredCount?: number | undefined;
   /** The number of reservation in Pending state */
-  pendingCount?: number;
+  pendingCount?: number | undefined;
   /** The number of reservation in Cancelled state */
-  cancelledCount?: number;
+  cancelledCount?: number | undefined;
   /** The number of reservation in Processing state */
-  processingCount?: number;
+  processingCount?: number | undefined;
   /** The number of reservation in Warning state */
-  warningCount?: number;
+  warningCount?: number | undefined;
   /** The number of reservation in NoBenefit state */
-  noBenefitCount?: number;
+  noBenefitCount?: number | undefined;
 }
 /** The list of reservations and summary of roll out count of reservations in each state. */
 export interface ReservationsListResult {
   /** The list of reservations. */
-  value?: ReservationsListResultValueList;
+  value?: ReservationsListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The roll out count summary of the reservations */
-  summary?: ReservationSummary;
+  summary?: ReservationSummary | undefined;
 }
 export interface ListReservationOrderRequest {}
 /** Details of a reservation order being returned. */
 export interface ReservationOrderResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a reservation order. */
-  properties?: ReservationOrderProperties;
-  etag?: number;
+  properties?: ReservationOrderProperties | undefined;
+  etag?: number | undefined;
 }
 /** The ReservationOrderResponse items on this page */
 export type ReservationOrderListValueList = Array<ReservationOrderResponse>;
@@ -679,7 +679,7 @@ export interface ReservationOrderList {
   /** The ReservationOrderResponse items on this page */
   value: ReservationOrderListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReservationRevisionsRequest {
   /** Order Id of the reservation */
@@ -692,13 +692,13 @@ export type MergePropertiesSourcesList = Array<string>;
 /** Properties for reservation merge */
 export interface MergeProperties {
   /** Format of the resource id should be /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
-  sources?: MergePropertiesSourcesList;
+  sources?: MergePropertiesSourcesList | undefined;
 }
 export interface MergeReservationRequest {
   /** Order Id of the reservation */
   reservationOrderId: string;
   /** Properties for reservation merge */
-  properties?: MergeProperties;
+  properties?: MergeProperties | undefined;
 }
 export type MergeReservationResponseBodyList = Array<ReservationResponse>;
 export type MergeReservationResponse = MergeReservationResponseBodyList;
@@ -713,34 +713,34 @@ export type CommitmentGrain = "Hourly";
 /** Commitment towards the benefit. */
 export interface Commitment {
   /** The ISO 4217 3-letter currency code for the currency used by this purchase record. */
-  currencyCode?: string;
-  amount?: number;
+  currencyCode?: string | undefined;
+  amount?: number | undefined;
   /** Commitment grain. */
-  grain?: CommitmentGrain | (string & {});
+  grain?: CommitmentGrain | (string & {}) | undefined;
 }
 /** Properties of a savings plan purchase */
 export interface SavingsPlanPurchaseRequestProperties {
   /** Friendly name of the savings plan */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Subscription that will be charged for purchasing reservation or savings plan */
-  billingScopeId?: string;
+  billingScopeId?: string | undefined;
   /** Represent savings plan term in ISO 8601 format. */
-  term?: SavingsPlanTerm | (string & {});
+  term?: SavingsPlanTerm | (string & {}) | undefined;
   /** Represents the billing plan in ISO 8601 format. Required only for monthly billing plans. */
-  billingPlan?: BillingPlan | (string & {});
+  billingPlan?: BillingPlan | (string & {}) | undefined;
   /** Type of the Applied Scope. */
-  appliedScopeType?: AppliedScopeType | (string & {});
+  appliedScopeType?: AppliedScopeType | (string & {}) | undefined;
   /** Properties specific to applied scope type. Not required if not applicable. Required and need to provide tenantId and managementGroupId if AppliedScopeType is ManagementGroup */
-  appliedScopeProperties?: AppliedScopeProperties;
+  appliedScopeProperties?: AppliedScopeProperties | undefined;
   /** Commitment towards the benefit. */
-  commitment?: Commitment;
+  commitment?: Commitment | undefined;
 }
 /** Request body for savings plan purchase */
 export interface SavingsPlanPurchaseRequest {
   /** The name of sku */
-  sku?: SkuName;
+  sku?: SkuName | undefined;
   /** Properties of a savings plan purchase */
-  properties?: SavingsPlanPurchaseRequestProperties;
+  properties?: SavingsPlanPurchaseRequestProperties | undefined;
 }
 /** List of savings plans that are being purchased in this exchange. */
 export type CalculateExchangeRequestPropertiesSavingsPlansToPurchaseList =
@@ -748,9 +748,9 @@ export type CalculateExchangeRequestPropertiesSavingsPlansToPurchaseList =
 /** Reservation to return */
 export interface ReservationToReturn {
   /** Fully qualified identifier of the reservation being returned */
-  reservationId?: string;
+  reservationId?: string | undefined;
   /** Quantity to be returned. Must be greater than zero. */
-  quantity?: number;
+  quantity?: number | undefined;
 }
 /** List of reservations that are being returned in this exchange. */
 export type CalculateExchangeRequestPropertiesReservationsToExchangeList =
@@ -758,15 +758,15 @@ export type CalculateExchangeRequestPropertiesReservationsToExchangeList =
 /** Calculate exchange request properties */
 export interface CalculateExchangeRequestProperties {
   /** List of reservations that are being purchased in this exchange. */
-  reservationsToPurchase?: CalculateExchangeRequestPropertiesReservationsToPurchaseList;
+  reservationsToPurchase?: CalculateExchangeRequestPropertiesReservationsToPurchaseList | undefined;
   /** List of savings plans that are being purchased in this exchange. */
-  savingsPlansToPurchase?: CalculateExchangeRequestPropertiesSavingsPlansToPurchaseList;
+  savingsPlansToPurchase?: CalculateExchangeRequestPropertiesSavingsPlansToPurchaseList | undefined;
   /** List of reservations that are being returned in this exchange. */
-  reservationsToExchange?: CalculateExchangeRequestPropertiesReservationsToExchangeList;
+  reservationsToExchange?: CalculateExchangeRequestPropertiesReservationsToExchangeList | undefined;
 }
 export interface PostCalculateExchangeRequest {
   /** Calculate exchange request properties */
-  properties?: CalculateExchangeRequestProperties;
+  properties?: CalculateExchangeRequestProperties | undefined;
 }
 /** Status of the operation. */
 export type CalculateExchangeOperationResultStatus =
@@ -777,9 +777,9 @@ export type CalculateExchangeOperationResultStatus =
 /** Reservation purchase details */
 export interface ReservationToPurchaseCalculateExchange {
   /** The request for reservation purchase */
-  properties?: PurchaseRequest;
+  properties?: PurchaseRequest | undefined;
   /** Pricing information containing the amount and the currency code */
-  billingCurrencyTotal?: Price;
+  billingCurrencyTotal?: Price | undefined;
 }
 /** Details of the reservations being purchased */
 export type CalculateExchangeResponsePropertiesReservationsToPurchaseList =
@@ -787,9 +787,9 @@ export type CalculateExchangeResponsePropertiesReservationsToPurchaseList =
 /** Savings plan purchase details */
 export interface SavingsPlanToPurchaseCalculateExchange {
   /** Request body for savings plan purchase */
-  properties?: SavingsPlanPurchaseRequest;
+  properties?: SavingsPlanPurchaseRequest | undefined;
   /** Pricing information containing the amount and the currency code */
-  billingCurrencyTotal?: Price;
+  billingCurrencyTotal?: Price | undefined;
 }
 /** Details of the savings plans being purchased */
 export type CalculateExchangeResponsePropertiesSavingsPlansToPurchaseList =
@@ -797,97 +797,103 @@ export type CalculateExchangeResponsePropertiesSavingsPlansToPurchaseList =
 /** billing information */
 export interface BillingInformation {
   /** Pricing information containing the amount and the currency code */
-  billingCurrencyTotalPaidAmount?: Price;
+  billingCurrencyTotalPaidAmount?: Price | undefined;
   /** Pricing information containing the amount and the currency code */
-  billingCurrencyProratedAmount?: Price;
+  billingCurrencyProratedAmount?: Price | undefined;
   /** Pricing information containing the amount and the currency code */
-  billingCurrencyRemainingCommitmentAmount?: Price;
+  billingCurrencyRemainingCommitmentAmount?: Price | undefined;
 }
 /** Reservation refund details */
 export interface ReservationToExchange {
   /** Fully qualified id of the reservation being returned. */
-  reservationId?: string;
+  reservationId?: string | undefined;
   /** Quantity to be returned */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Pricing information containing the amount and the currency code */
-  billingRefundAmount?: Price;
+  billingRefundAmount?: Price | undefined;
   /** billing information */
-  billingInformation?: BillingInformation;
+  billingInformation?: BillingInformation | undefined;
 }
 /** Details of the reservations being returned */
 export type CalculateExchangeResponsePropertiesReservationsToExchangeList =
   Array<ReservationToExchange>;
 /** error details */
 export interface ExchangePolicyError {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 /** Exchange Policy errors */
 export type ExchangePolicyErrorsPolicyErrorsList = Array<ExchangePolicyError>;
 /** Exchange policy errors */
 export interface ExchangePolicyErrors {
   /** Exchange Policy errors */
-  policyErrors?: ExchangePolicyErrorsPolicyErrorsList;
+  policyErrors?: ExchangePolicyErrorsPolicyErrorsList | undefined;
 }
 /** CalculateExchange response properties */
 export interface CalculateExchangeResponseProperties {
   /** Exchange session identifier */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** Pricing information containing the amount and the currency code */
-  netPayable?: Price;
+  netPayable?: Price | undefined;
   /** Pricing information containing the amount and the currency code */
-  refundsTotal?: Price;
+  refundsTotal?: Price | undefined;
   /** Pricing information containing the amount and the currency code */
-  purchasesTotal?: Price;
+  purchasesTotal?: Price | undefined;
   /** Details of the reservations being purchased */
-  reservationsToPurchase?: CalculateExchangeResponsePropertiesReservationsToPurchaseList;
+  reservationsToPurchase?:
+    | CalculateExchangeResponsePropertiesReservationsToPurchaseList
+    | undefined;
   /** Details of the savings plans being purchased */
-  savingsPlansToPurchase?: CalculateExchangeResponsePropertiesSavingsPlansToPurchaseList;
+  savingsPlansToPurchase?:
+    | CalculateExchangeResponsePropertiesSavingsPlansToPurchaseList
+    | undefined;
   /** Details of the reservations being returned */
-  reservationsToExchange?: CalculateExchangeResponsePropertiesReservationsToExchangeList;
+  reservationsToExchange?:
+    | CalculateExchangeResponsePropertiesReservationsToExchangeList
+    | undefined;
   /** Exchange policy errors */
-  policyResult?: ExchangePolicyErrors;
+  policyResult?: ExchangePolicyErrors | undefined;
 }
 /** Required if status == failed or status == canceled. */
 export interface OperationResultError {
   /** Required if status == failed or status == cancelled. If status == failed, provide an invariant error code used for error troubleshooting, aggregation, and analysis. */
-  code?: string;
+  code?: string | undefined;
   /** Required if status == failed. Localized. If status == failed, provide an actionable error message indicating what error occurred, and what the user can do to address the issue. */
-  message?: string;
+  message?: string | undefined;
 }
 /** CalculateExchange operation result */
 export interface CalculateExchangeOperationResultResponse {
   /** It should match what is used to GET the operation result. */
-  id?: string;
+  id?: string | undefined;
   /** It must match the last segment of the id field, and will typically be a GUID / system generated value. */
-  name?: string;
+  name?: string | undefined;
   /** Status of the operation. */
-  status?: CalculateExchangeOperationResultStatus;
+  status?: CalculateExchangeOperationResultStatus | undefined;
   /** CalculateExchange response properties */
-  properties?: CalculateExchangeResponseProperties;
+  properties?: CalculateExchangeResponseProperties | undefined;
   /** Required if status == failed or status == canceled. */
-  error?: OperationResultError;
+  error?: OperationResultError | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Properties needed for calculate refund including the scope and the reservation to be returned. */
 export interface CalculateRefundRequestProperties {
   /** The scope of the refund, e.g. Reservation */
-  scope?: string;
+  scope?: string | undefined;
   /** Reservation to return */
-  reservationToReturn?: ReservationToReturn;
+  reservationToReturn?: ReservationToReturn | undefined;
 }
 export interface PostCalculateRefundRequest {
   /** Order Id of the reservation */
   reservationOrderId: string;
   /** Fully qualified identifier of the reservation order being returned */
-  id?: string;
+  id?: string | undefined;
   /** Properties needed for calculate refund including the scope and the reservation to be returned. */
-  properties?: CalculateRefundRequestProperties;
+  properties?: CalculateRefundRequestProperties | undefined;
 }
 /** Error code describing the reason that service is not able to process the incoming request */
 export type ErrorResponseCode =
@@ -952,70 +958,70 @@ export type ErrorResponseCode =
 /** error details */
 export interface RefundPolicyError {
   /** Error code describing the reason that service is not able to process the incoming request */
-  code?: ErrorResponseCode;
-  message?: string;
+  code?: ErrorResponseCode | undefined;
+  message?: string | undefined;
 }
 /** Refund Policy errors */
 export type RefundPolicyResultPropertyPolicyErrorsList = Array<RefundPolicyError>;
 /** Refund policy result property */
 export interface RefundPolicyResultProperty {
   /** Pricing information containing the amount and the currency code */
-  consumedRefundsTotal?: Price;
+  consumedRefundsTotal?: Price | undefined;
   /** Pricing information containing the amount and the currency code */
-  maxRefundLimit?: Price;
+  maxRefundLimit?: Price | undefined;
   /** Refund Policy errors */
-  policyErrors?: RefundPolicyResultPropertyPolicyErrorsList;
+  policyErrors?: RefundPolicyResultPropertyPolicyErrorsList | undefined;
 }
 /** Refund policy result */
 export interface RefundPolicyResult {
   /** Refund policy result property */
-  properties?: RefundPolicyResultProperty;
+  properties?: RefundPolicyResultProperty | undefined;
 }
 /** billing information */
 export interface RefundBillingInformation {
   /** Represent the billing plans. */
-  billingPlan?: ReservationBillingPlan;
+  billingPlan?: ReservationBillingPlan | undefined;
   /** The number of completed transactions in this reservation's payment */
-  completedTransactions?: number;
+  completedTransactions?: number | undefined;
   /** The number of total transactions in this reservation's payment */
-  totalTransactions?: number;
+  totalTransactions?: number | undefined;
   /** Pricing information containing the amount and the currency code */
-  billingCurrencyTotalPaidAmount?: Price;
+  billingCurrencyTotalPaidAmount?: Price | undefined;
   /** Pricing information containing the amount and the currency code */
-  billingCurrencyProratedAmount?: Price;
+  billingCurrencyProratedAmount?: Price | undefined;
   /** Pricing information containing the amount and the currency code */
-  billingCurrencyRemainingCommitmentAmount?: Price;
+  billingCurrencyRemainingCommitmentAmount?: Price | undefined;
 }
 /** The refund properties of reservation */
 export interface RefundResponseProperties {
   /** Refund session identifier */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** Quantity to be returned */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Pricing information containing the amount and the currency code */
-  billingRefundAmount?: Price;
+  billingRefundAmount?: Price | undefined;
   /** Pricing information containing the amount and the currency code */
-  pricingRefundAmount?: Price;
+  pricingRefundAmount?: Price | undefined;
   /** Refund policy result */
-  policyResult?: RefundPolicyResult;
+  policyResult?: RefundPolicyResult | undefined;
   /** billing information */
-  billingInformation?: RefundBillingInformation;
+  billingInformation?: RefundBillingInformation | undefined;
 }
 /** The response of calculate refund containing refund information of reservation */
 export interface CalculateRefundResponse {
   /** Fully qualified identifier of the reservation being returned */
-  id?: string;
+  id?: string | undefined;
   /** The refund properties of reservation */
-  properties?: RefundResponseProperties;
+  properties?: RefundResponseProperties | undefined;
 }
 /** Exchange request properties */
 export interface ExchangeRequestProperties {
   /** SessionId that was returned by CalculateExchange API. */
-  sessionId?: string;
+  sessionId?: string | undefined;
 }
 export interface PostExchangeRequest {
   /** Exchange request properties */
-  properties?: ExchangeRequestProperties;
+  properties?: ExchangeRequestProperties | undefined;
 }
 /** Status of the operation. */
 export type ExchangeOperationResultStatus =
@@ -1029,15 +1035,15 @@ export type OperationStatus = "Succeeded" | "Failed" | "Cancelled" | "Pending";
 /** Reservation purchase details */
 export interface ReservationToPurchaseExchange {
   /** Fully qualified id of the reservationOrder being purchased */
-  reservationOrderId?: string;
+  reservationOrderId?: string | undefined;
   /** Fully qualified id of the reservation being purchased. This value is only guaranteed to be non-null if the purchase is successful. */
-  reservationId?: string;
+  reservationId?: string | undefined;
   /** The request for reservation purchase */
-  properties?: PurchaseRequest;
+  properties?: PurchaseRequest | undefined;
   /** Pricing information containing the amount and the currency code */
-  billingCurrencyTotal?: Price;
+  billingCurrencyTotal?: Price | undefined;
   /** Status of the individual operation. */
-  status?: OperationStatus;
+  status?: OperationStatus | undefined;
 }
 /** Details of the reservations being purchased */
 export type ExchangeResponsePropertiesReservationsToPurchaseList =
@@ -1045,15 +1051,15 @@ export type ExchangeResponsePropertiesReservationsToPurchaseList =
 /** Savings plan purchase details */
 export interface SavingsPlanToPurchaseExchange {
   /** Fully qualified id of the savings plan order being purchased */
-  savingsPlanOrderId?: string;
+  savingsPlanOrderId?: string | undefined;
   /** Fully qualified id of the savings plan being purchased. This value is only guaranteed to be non-null if the purchase is successful. */
-  savingsPlanId?: string;
+  savingsPlanId?: string | undefined;
   /** Request body for savings plan purchase */
-  properties?: SavingsPlanPurchaseRequest;
+  properties?: SavingsPlanPurchaseRequest | undefined;
   /** Pricing information containing the amount and the currency code */
-  billingCurrencyTotal?: Price;
+  billingCurrencyTotal?: Price | undefined;
   /** Status of the individual operation. */
-  status?: OperationStatus;
+  status?: OperationStatus | undefined;
 }
 /** Details of the savings plans being purchased */
 export type ExchangeResponsePropertiesSavingsPlansToPurchaseList =
@@ -1061,15 +1067,15 @@ export type ExchangeResponsePropertiesSavingsPlansToPurchaseList =
 /** Reservation refund details */
 export interface ReservationToReturnForExchange {
   /** Fully qualified id of the reservation being returned. */
-  reservationId?: string;
+  reservationId?: string | undefined;
   /** Quantity to be returned */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Pricing information containing the amount and the currency code */
-  billingRefundAmount?: Price;
+  billingRefundAmount?: Price | undefined;
   /** billing information */
-  billingInformation?: BillingInformation;
+  billingInformation?: BillingInformation | undefined;
   /** Status of the individual operation. */
-  status?: OperationStatus;
+  status?: OperationStatus | undefined;
 }
 /** Details of the reservations being returned */
 export type ExchangeResponsePropertiesReservationsToExchangeList =
@@ -1077,79 +1083,79 @@ export type ExchangeResponsePropertiesReservationsToExchangeList =
 /** Exchange response properties */
 export interface ExchangeResponseProperties {
   /** Exchange session identifier */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** Pricing information containing the amount and the currency code */
-  netPayable?: Price;
+  netPayable?: Price | undefined;
   /** Pricing information containing the amount and the currency code */
-  refundsTotal?: Price;
+  refundsTotal?: Price | undefined;
   /** Pricing information containing the amount and the currency code */
-  purchasesTotal?: Price;
+  purchasesTotal?: Price | undefined;
   /** Details of the reservations being purchased */
-  reservationsToPurchase?: ExchangeResponsePropertiesReservationsToPurchaseList;
+  reservationsToPurchase?: ExchangeResponsePropertiesReservationsToPurchaseList | undefined;
   /** Details of the savings plans being purchased */
-  savingsPlansToPurchase?: ExchangeResponsePropertiesSavingsPlansToPurchaseList;
+  savingsPlansToPurchase?: ExchangeResponsePropertiesSavingsPlansToPurchaseList | undefined;
   /** Details of the reservations being returned */
-  reservationsToExchange?: ExchangeResponsePropertiesReservationsToExchangeList;
+  reservationsToExchange?: ExchangeResponsePropertiesReservationsToExchangeList | undefined;
   /** Exchange policy errors */
-  policyResult?: ExchangePolicyErrors;
+  policyResult?: ExchangePolicyErrors | undefined;
 }
 /** Exchange operation result */
 export interface ExchangeOperationResultResponse {
   /** It should match what is used to GET the operation result. */
-  id?: string;
+  id?: string | undefined;
   /** It must match the last segment of the id field, and will typically be a GUID / system generated value. */
-  name?: string;
+  name?: string | undefined;
   /** Status of the operation. */
-  status?: ExchangeOperationResultStatus;
+  status?: ExchangeOperationResultStatus | undefined;
   /** Exchange response properties */
-  properties?: ExchangeResponseProperties;
+  properties?: ExchangeResponseProperties | undefined;
   /** Required if status == failed or status == canceled. */
-  error?: OperationResultError;
+  error?: OperationResultError | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Properties needed for refund request including the session id from calculate refund, the scope, the reservation to be returned and the return reason. */
 export interface RefundRequestProperties {
   /** SessionId that was returned by CalculateRefund API. */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** The scope of the refund, e.g. Reservation */
-  scope?: string;
+  scope?: string | undefined;
   /** Reservation to return */
-  reservationToReturn?: ReservationToReturn;
+  reservationToReturn?: ReservationToReturn | undefined;
   /** The reason of returning the reservation */
-  returnReason?: string;
+  returnReason?: string | undefined;
 }
 export interface PostReturnRequest {
   /** Order Id of the reservation */
   reservationOrderId: string;
   /** Properties needed for refund request including the session id from calculate refund, the scope, the reservation to be returned and the return reason. */
-  properties?: RefundRequestProperties;
+  properties?: RefundRequestProperties | undefined;
 }
 export interface PostReturnResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a reservation order. */
-  properties?: ReservationOrderProperties;
-  etag?: number;
+  properties?: ReservationOrderProperties | undefined;
+  etag?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type AvailableScopeRequestPropertiesScopesList = Array<string>;
 /** Available scope request properties */
 export interface AvailableScopeRequestProperties {
-  scopes?: AvailableScopeRequestPropertiesScopesList;
+  scopes?: AvailableScopeRequestPropertiesScopesList | undefined;
 }
 export interface ReservationAvailableScopesRequest {
   /** Order Id of the reservation */
@@ -1157,41 +1163,41 @@ export interface ReservationAvailableScopesRequest {
   /** Id of the reservation item */
   reservationId: string;
   /** Available scope request properties */
-  properties?: AvailableScopeRequestProperties;
+  properties?: AvailableScopeRequestProperties | undefined;
 }
 /** The scope and whether it is valid. */
 export interface ScopeProperties {
-  scope?: string;
-  valid?: boolean;
+  scope?: string | undefined;
+  valid?: boolean | undefined;
 }
 export type SubscriptionScopePropertiesScopesList = Array<ScopeProperties>;
 /** The scopes checked by the available scope api. */
 export interface SubscriptionScopeProperties {
-  scopes?: SubscriptionScopePropertiesScopesList;
+  scopes?: SubscriptionScopePropertiesScopesList | undefined;
 }
 /** The response of available scope api containing scopes and their eligibilities. */
 export interface AvailableScopeProperties {
   /** The scopes checked by the available scope api. */
-  properties?: SubscriptionScopeProperties;
+  properties?: SubscriptionScopeProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ReservationOrderCalculateRequest {
   /** The name of sku */
-  sku?: SkuName;
+  sku?: SkuName | undefined;
   /** The Azure region where the reserved resource lives. */
-  location?: string;
+  location?: string | undefined;
   /** Properties of reservation purchase request */
-  properties?: PurchaseRequestProperties;
+  properties?: PurchaseRequestProperties | undefined;
 }
 /** Currency and amount that customer will be charged in customer's local currency. Tax is not included. */
 export interface CalculatePriceResponsePropertiesBillingCurrencyTotal {
   /** The ISO 4217 3-letter currency code for the currency used by this purchase record. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** Amount in pricing currency. Tax is not included. */
-  amount?: number;
+  amount?: number | undefined;
 }
 /** Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is not included. */
 export type CalculatePriceResponsePropertiesPricingCurrencyTotal = Price;
@@ -1199,97 +1205,97 @@ export type CalculatePriceResponsePropertiesPaymentScheduleList = Array<PaymentD
 /** Properties for calculate price response */
 export interface CalculatePriceResponseProperties {
   /** Currency and amount that customer will be charged in customer's local currency. Tax is not included. */
-  billingCurrencyTotal?: CalculatePriceResponsePropertiesBillingCurrencyTotal;
+  billingCurrencyTotal?: CalculatePriceResponsePropertiesBillingCurrencyTotal | undefined;
   /** Net total amount in pricing currency. */
-  netTotal?: number;
+  netTotal?: number | undefined;
   /** Tax amount in pricing currency. */
-  taxTotal?: number;
+  taxTotal?: number | undefined;
   /** Total amount in pricing currency. */
-  grandTotal?: number;
+  grandTotal?: number | undefined;
   /** Whether or not tax is included in grand total */
-  isTaxIncluded?: boolean;
+  isTaxIncluded?: boolean | undefined;
   /** True if billing is managed by Microsoft Partner. Used only for CSP accounts. */
-  isBillingPartnerManaged?: boolean;
+  isBillingPartnerManaged?: boolean | undefined;
   /** GUID that represents reservation order that can be placed after calculating price. */
-  reservationOrderId?: string;
+  reservationOrderId?: string | undefined;
   /** Title of sku that is being purchased. */
-  skuTitle?: string;
+  skuTitle?: string | undefined;
   /** Description of sku that is being purchased. */
-  skuDescription?: string;
+  skuDescription?: string | undefined;
   /** Amount that Microsoft uses for record. Used during refund for calculating refund limit. Tax is not included. */
-  pricingCurrencyTotal?: Price;
-  paymentSchedule?: CalculatePriceResponsePropertiesPaymentScheduleList;
+  pricingCurrencyTotal?: Price | undefined;
+  paymentSchedule?: CalculatePriceResponsePropertiesPaymentScheduleList | undefined;
 }
 /** The response of calculate price for reservation. */
 export interface CalculatePriceResponse {
   /** Properties for calculate price response */
-  properties?: CalculatePriceResponseProperties;
+  properties?: CalculatePriceResponseProperties | undefined;
 }
 export interface ReservationOrderChangeDirectoryRequest {
   /** Order Id of the reservation */
   reservationOrderId: string;
   /** Tenant id GUID that reservation order is to be transferred to */
-  destinationTenantId?: string;
+  destinationTenantId?: string | undefined;
 }
 /** Change directory result for reservation order or reservation */
 export interface ChangeDirectoryResult {
   /** Identifier of the reservation order or reservation */
-  id?: string;
+  id?: string | undefined;
   /** Name of the reservation order or reservation */
-  name?: string;
+  name?: string | undefined;
   /** True if change directory operation succeeded on this reservation order or reservation */
-  isSucceeded?: boolean;
+  isSucceeded?: boolean | undefined;
   /** Error reason if operation failed. Null otherwise */
-  error?: string;
+  error?: string | undefined;
 }
 export type ChangeDirectoryResponseReservationsList = Array<ChangeDirectoryResult>;
 /** Change directory response */
 export interface ChangeDirectoryResponse {
   /** Change directory result for reservation order or reservation */
-  reservationOrder?: ChangeDirectoryResult;
-  reservations?: ChangeDirectoryResponseReservationsList;
+  reservationOrder?: ChangeDirectoryResult | undefined;
+  reservations?: ChangeDirectoryResponseReservationsList | undefined;
 }
 export interface ReservationOrderPurchaseRequest {
   /** Order Id of the reservation */
   reservationOrderId: string;
   /** The name of sku */
-  sku?: SkuName;
+  sku?: SkuName | undefined;
   /** The Azure region where the reserved resource lives. */
-  location?: string;
+  location?: string | undefined;
   /** Properties of reservation purchase request */
-  properties?: PurchaseRequestProperties;
+  properties?: PurchaseRequestProperties | undefined;
 }
 export interface ReservationOrderPurchaseResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a reservation order. */
-  properties?: ReservationOrderProperties;
-  etag?: number;
+  properties?: ReservationOrderProperties | undefined;
+  etag?: number | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** List of the quantities in the new reservations to create. */
 export type SplitPropertiesQuantitiesList = Array<number>;
 /** Properties for reservation split */
 export interface SplitProperties {
   /** List of the quantities in the new reservations to create. */
-  quantities?: SplitPropertiesQuantitiesList;
+  quantities?: SplitPropertiesQuantitiesList | undefined;
   /** Resource id of the reservation to be split. Format of the resource id should be /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
-  reservationId?: string;
+  reservationId?: string | undefined;
 }
 export interface ReservationSplitRequest {
   /** Order Id of the reservation */
   reservationOrderId: string;
   /** Properties for reservation split */
-  properties?: SplitProperties;
+  properties?: SplitProperties | undefined;
 }
 export type ReservationSplitResponseBodyList = Array<ReservationResponse>;
 export type ReservationSplitResponse = ReservationSplitResponseBodyList;
@@ -1304,25 +1310,25 @@ export interface UnarchiveReservationResponse {}
 export type PatchPropertiesAppliedScopesList = Array<string>;
 export interface PatchPropertiesRenewProperties {
   /** The request for reservation purchase */
-  purchaseProperties?: PurchaseRequest;
+  purchaseProperties?: PurchaseRequest | undefined;
 }
 /** Properties for reservation patch */
 export interface PatchProperties {
   /** Type of the Applied Scope. */
-  appliedScopeType?: AppliedScopeType | (string & {});
+  appliedScopeType?: AppliedScopeType | (string & {}) | undefined;
   /** List of the subscriptions that the benefit will be applied. Do not specify if AppliedScopeType is Shared. This property will be deprecated and replaced by appliedScopeProperties instead for Single AppliedScopeType. */
-  appliedScopes?: PatchPropertiesAppliedScopesList;
+  appliedScopes?: PatchPropertiesAppliedScopesList | undefined;
   /** Properties specific to applied scope type. Not required if not applicable. Required and need to provide tenantId and managementGroupId if AppliedScopeType is ManagementGroup */
-  appliedScopeProperties?: AppliedScopeProperties;
+  appliedScopeProperties?: AppliedScopeProperties | undefined;
   /** Turning this on will apply the reservation discount to other VMs in the same VM size group. Only specify for VirtualMachines reserved resource type. */
-  instanceFlexibility?: InstanceFlexibility | (string & {});
+  instanceFlexibility?: InstanceFlexibility | (string & {}) | undefined;
   /** Display name of the reservation */
-  name?: string;
+  name?: string | undefined;
   /** Setting this to true will automatically purchase a new reservation on the expiration date time. */
-  renew?: boolean;
-  renewProperties?: PatchPropertiesRenewProperties;
+  renew?: boolean | undefined;
+  renewProperties?: PatchPropertiesRenewProperties | undefined;
   /** This is the date-time when the Azure hybrid benefit needs to be reviewed. */
-  reviewDateTime?: string;
+  reviewDateTime?: string | undefined;
 }
 export interface UpdateReservationRequest {
   /** Order Id of the reservation */
@@ -1330,34 +1336,34 @@ export interface UpdateReservationRequest {
   /** Id of the reservation item */
   reservationId: string;
   /** Properties for reservation patch */
-  properties?: PatchProperties;
+  properties?: PatchProperties | undefined;
 }
 /** Resource Provider type to be reserved. */
 export type UpdateReservationResponseKind = "Microsoft.Compute";
 export interface UpdateReservationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties associated to this reservation */
-  properties?: ReservationsProperties;
+  properties?: ReservationsProperties | undefined;
   /** The Azure region where the reserved resource lives. */
-  location?: string;
-  etag?: number;
+  location?: string | undefined;
+  etag?: number | undefined;
   /** The sku information associated to this reservation */
-  sku?: SkuName;
+  sku?: SkuName | undefined;
   /** Resource Provider type to be reserved. */
-  kind?: UpdateReservationResponseKind;
+  kind?: UpdateReservationResponseKind | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type ArchiveReservationError = AzureOpError;
 /** Archive a `Reservation`. Archiving a `Reservation` moves it to `Archived` state. */

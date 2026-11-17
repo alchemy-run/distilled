@@ -134,13 +134,13 @@ export type StringFilterInList = Array<string>;
 export type StringFilterNotInList = Array<string>;
 export interface StringFilter {
   /** Match values equal to this value. */
-  eq?: string;
+  eq?: string | undefined;
   /** Match values not equal to this value. */
-  not?: string;
+  not?: string | undefined;
   /** Match values present in this list. Accepts comma-separated values or repeated query parameters. Maximum 100 entries. */
-  in?: StringFilterInList;
+  in?: StringFilterInList | undefined;
   /** Match values not present in this list. Accepts comma-separated values or repeated query parameters. Maximum 100 entries. */
-  notIn?: StringFilterNotInList;
+  notIn?: StringFilterNotInList | undefined;
 }
 /** Match values present in this list. Accepts comma-separated values or repeated query parameters. Maximum 100 entries. */
 export type IntFilterInList = Array<number>;
@@ -148,83 +148,83 @@ export type IntFilterInList = Array<number>;
 export type IntFilterNotInList = Array<number>;
 export interface IntFilter {
   /** Match values equal to this value. */
-  eq?: number;
+  eq?: number | undefined;
   /** Match values not equal to this value. */
-  not?: number;
+  not?: number | undefined;
   /** Match values present in this list. Accepts comma-separated values or repeated query parameters. Maximum 100 entries. */
-  in?: IntFilterInList;
+  in?: IntFilterInList | undefined;
   /** Match values not present in this list. Accepts comma-separated values or repeated query parameters. Maximum 100 entries. */
-  notIn?: IntFilterNotInList;
+  notIn?: IntFilterNotInList | undefined;
   /** Match values greater than or equal to this value. */
-  gte?: number;
+  gte?: number | undefined;
   /** Match values less than or equal to this value. */
-  lte?: number;
+  lte?: number | undefined;
   /** Match values strictly greater than this value. */
-  gt?: number;
+  gt?: number | undefined;
   /** Match values strictly less than this value. */
-  lt?: number;
+  lt?: number | undefined;
 }
 export interface DateFilter {
   /** Match values greater than or equal to this timestamp (ISO 8601). */
-  gte?: string;
+  gte?: string | undefined;
   /** Match values less than or equal to this timestamp (ISO 8601). */
-  lte?: string;
+  lte?: string | undefined;
   /** Match values strictly greater than this timestamp (ISO 8601). */
-  gt?: string;
+  gt?: string | undefined;
   /** Match values strictly less than this timestamp (ISO 8601). */
-  lt?: string;
+  lt?: string | undefined;
 }
 export interface GetOrganizationAuditLogsRequest {
   /** Organization ID */
   organizationId: string;
   /** Page number of the results */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page */
-  limit?: number;
+  limit?: number | undefined;
   /** Deprecated alias for `createdAt[gte]`. From date (ISO 8601 format). */
-  from?: string;
+  from?: string | undefined;
   /** Deprecated alias for `createdAt[lte]`. To date (ISO 8601 format). */
-  to?: string;
+  to?: string | undefined;
   /** Token for cursor-based pagination. When provided, takes precedence over page parameter. */
-  nextToken?: string;
+  nextToken?: string | undefined;
   /** Filter by audit log ID. */
-  id?: StringFilter;
+  id?: StringFilter | undefined;
   /** Filter by actor user ID. */
-  actorId?: StringFilter;
+  actorId?: StringFilter | undefined;
   /** Filter by actor email. */
-  actorEmail?: StringFilter;
+  actorEmail?: StringFilter | undefined;
   /** Filter by actor API key prefix. */
-  actorApiKeyPrefix?: StringFilter;
+  actorApiKeyPrefix?: StringFilter | undefined;
   /** Filter by actor API key suffix. */
-  actorApiKeySuffix?: StringFilter;
+  actorApiKeySuffix?: StringFilter | undefined;
   /** Filter by action. */
-  action?: StringFilter;
+  action?: StringFilter | undefined;
   /** Filter by target type. */
-  targetType?: StringFilter;
+  targetType?: StringFilter | undefined;
   /** Filter by target ID. */
-  targetId?: StringFilter;
+  targetId?: StringFilter | undefined;
   /** Filter by HTTP status code. */
-  statusCode?: IntFilter;
+  statusCode?: IntFilter | undefined;
   /** Filter by creation timestamp. */
-  createdAt?: DateFilter;
+  createdAt?: DateFilter | undefined;
 }
 export type AuditLogMetadataMap = { [key: string]: unknown | undefined };
 export interface AuditLog {
   id: string;
   actorId: string;
   actorEmail: string;
-  actorApiKeyPrefix?: string;
-  actorApiKeySuffix?: string;
-  organizationId?: string;
+  actorApiKeyPrefix?: string | undefined;
+  actorApiKeySuffix?: string | undefined;
+  organizationId?: string | undefined;
   action: string;
-  targetType?: string;
-  targetId?: string;
-  statusCode?: number;
-  errorMessage?: string;
-  ipAddress?: string;
-  userAgent?: string;
-  source?: string;
-  metadata?: AuditLogMetadataMap;
+  targetType?: string | undefined;
+  targetId?: string | undefined;
+  statusCode?: number | undefined;
+  errorMessage?: string | undefined;
+  ipAddress?: string | undefined;
+  userAgent?: string | undefined;
+  source?: string | undefined;
+  metadata?: AuditLogMetadataMap | undefined;
   createdAt: string;
 }
 export type PaginatedAuditLogsItemsList = Array<AuditLog>;
@@ -234,7 +234,7 @@ export interface PaginatedAuditLogs {
   page: number;
   totalPages: number;
   /** Token for next page in cursor-based pagination */
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type GetAuditScenariosError = DaytonaOpError;
 /** Get supported audit log scenarios Returns the supported audit log actions grouped by target type. The list is derived at runtime from the audited routes and system events, so it always reflects what can actually appear in the audit log. */

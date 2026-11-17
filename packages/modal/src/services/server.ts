@@ -29,29 +29,32 @@ export class ServerNotFound
     /*@__PURE__*/ S.TaggedError<ServerNotFound>()("ServerNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}
 
 export interface FetchServerRequestRequestTail {
   /** Number of most recent requests to return. Must be between 1 and 1000. */
-  count?: number;
+  count?: number | undefined;
 }
 export interface FetchServerRequestRequestRange {
-  since?: string;
   /** Inclusive, based on request timestamp. */
-  until?: string;
-  /** Exclusive, based on request timestamp. Maximum number of requests to return. Must be between 1 and 20000. */
-  limit?: number;
+  since?: string | undefined;
+  /** Exclusive, based on request timestamp. */
+  until?: string | undefined;
+  /** Maximum number of requests to return. Must be between 1 and 20000. */
+  limit?: number | undefined;
 }
 export interface FetchServerRequestRequest {
-  functionId?: string;
-  tail?: FetchServerRequestRequestTail;
-  range?: FetchServerRequestRequestRange;
+  functionId?: string | undefined;
+  tail?: FetchServerRequestRequestTail | undefined;
+  range?: FetchServerRequestRequestRange | undefined;
 }
 export interface ServerRequestInfo {
   route: string;
-  timestamp?: string;
+  timestamp?: string | undefined;
   containerId: string;
   durationSeconds: number;
   status: number;
@@ -62,15 +65,15 @@ export interface FetchServerRequestResponse {
   requests: ServerRequestInfoList;
 }
 export interface ServerCountRequestsRequest {
-  functionId?: string;
-  since?: string;
+  functionId?: string | undefined;
   /** Inclusive, based on request timestamp. */
-  until?: string;
+  since?: string | undefined;
   /** Exclusive, based on request timestamp. */
-  bucketSecs?: number;
+  until?: string | undefined;
+  bucketSecs?: number | undefined;
 }
 export interface ServerCountRequestsResponseRequestBucket {
-  bucketStartAt?: string;
+  bucketStartAt?: string | undefined;
   /** Number of request records, matching ServerRequestFetch. */
   count: string;
 }
@@ -82,19 +85,20 @@ export interface ServerCountRequestsResponse {
 }
 export type StringList = Array<string>;
 export interface ServerGetMetricsRequest {
-  functionId?: string;
-  since?: string;
+  functionId?: string | undefined;
   /** Required; rounded down to a UTC bucket boundary. */
-  until?: string;
-  /** Required; rounded down; at most 31 days after since. If omitted, choose a supported width targeting approximately 100 buckets. At most 500 points per series in the rounded interval. */
-  bucketSecs?: number;
+  since?: string | undefined;
+  /** Required; rounded down; at most 31 days after since. */
+  until?: string | undefined;
+  /** If omitted, choose a supported width targeting approximately 100 buckets. At most 500 points per series in the rounded interval. */
+  bucketSecs?: number | undefined;
   /** Metric groups: containers, requests, etc. */
-  groups?: StringList;
+  groups?: StringList | undefined;
 }
 export interface FunctionMetricPoint {
   /** UTC-aligned bucket start within the response's effective [since, until). */
-  timestamp?: string;
-  value?: number;
+  timestamp?: string | undefined;
+  value?: number | undefined;
 }
 export type FunctionMetricPointList = Array<FunctionMetricPoint>;
 export interface FunctionMetricSeries {
@@ -102,26 +106,27 @@ export interface FunctionMetricSeries {
   name: string;
   /** Public semantic unit, such as seconds, calls, containers, or requests. */
   unit: string;
-  points: FunctionMetricPointList;
   /** Ascending timestamps; absent points are gaps. */
+  points: FunctionMetricPointList;
   description: string;
 }
 export type FunctionMetricSeriesList = Array<FunctionMetricSeries>;
 export interface ServerGetMetricsResponse {
-  since?: string;
   /** Inclusive effective bound, rounded down. */
-  until?: string;
+  since?: string | undefined;
   /** Exclusive effective bound, rounded down. */
+  until?: string | undefined;
   bucketSecs: number;
   series: FunctionMetricSeriesList;
 }
 export interface ServerGetTimeRangeStatsRequest {
-  functionId?: string;
-  since?: string;
+  functionId?: string | undefined;
   /** Inclusive. */
-  until?: string;
-  /** Exclusive. Filter stats for a specific container */
-  containerId?: string;
+  since?: string | undefined;
+  /** Exclusive. */
+  until?: string | undefined;
+  /** Filter stats for a specific container */
+  containerId?: string | undefined;
 }
 export interface ServerGetTimeRangeStatsResponseServerStatusCodeCount {
   statusCode: number;
@@ -159,10 +164,10 @@ export interface ServerGetTimeRangeStatsResponseServerInferenceStats {
   scalarStats: DoubleMap;
 }
 export interface ServerGetTimeRangeStatsResponse {
-  since?: string;
   /** Inclusive. */
-  until?: string;
+  since?: string | undefined;
   /** Exclusive. */
+  until?: string | undefined;
   requestCount: string;
   requestCountByStatusCode: ServerGetTimeRangeStatsResponseServerStatusCodeCountList;
   requestRatePerSecond: number;
@@ -171,7 +176,7 @@ export interface ServerGetTimeRangeStatsResponse {
   /** Metrics include startup_time, cpu_usage, memory_usage, and gpu_utilization, subject to change as requirements evolve. */
   containerPercentileStats: StatsPercentileDistributionMap;
   /** Absent when the image does not contain a supported inference engine. */
-  inference?: ServerGetTimeRangeStatsResponseServerInferenceStats;
+  inference?: ServerGetTimeRangeStatsResponseServerInferenceStats | undefined;
   /** Container lifecycle counts. Started and errored containers are counted when the corresponding event occurs in the requested time range. Creating containers were enqueued but had not started or finished at the exclusive end of the range. */
   containerStartedCount: string;
   containerErrorCount: string;

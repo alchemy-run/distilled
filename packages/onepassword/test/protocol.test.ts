@@ -126,7 +126,7 @@ describe("EventsProtocol", () => {
     }));
     const result = await run(
       getAuditEventsV2({ body: { limit: 10, start_time: "2026-10-01T00:00:00Z" } }),
-      Layer.merge(layer, creds),
+      Layer.provideMerge(creds, layer),
     );
     expect(result).toMatchObject({ cursor: "next", has_more: false, items: [] });
     expect(seen).toHaveLength(1);
@@ -146,7 +146,7 @@ describe("EventsProtocol", () => {
     }));
     const error = await run(
       Effect.flip(getAuditEventsV2({ body: { cursor: "c" } })),
-      Layer.merge(layer, creds),
+      Layer.provideMerge(creds, layer),
     );
     expect(error).toBeInstanceOf(UnknownOnepasswordError);
     expect(error).toMatchObject({ message: "token has no auditevents feature" });
@@ -181,7 +181,7 @@ describe("UsersProtocol", () => {
       status: 200,
       body: { name: "accounts/A/users/U", state: "SUSPENDED" },
     }));
-    const live = Layer.merge(layer, creds);
+    const live = Layer.provideMerge(creds, layer);
     await run(suspendUser({ account: "A", user: "U" }), live);
     await run(suspendUser({ account: "A", user: "U" }), live);
 
@@ -204,7 +204,7 @@ describe("UsersProtocol", () => {
     );
     const items = await run(
       Stream.runCollect(listUsers.items({ account: "A" })),
-      Layer.merge(layer, creds),
+      Layer.provideMerge(creds, layer),
     );
     expect(Array.from(items).map((u: any) => u.name)).toEqual(["u1", "u2"]);
     expect(seen.map((s) => s.url)).toEqual([

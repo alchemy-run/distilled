@@ -1,0 +1,87 @@
+{
+  "description": "The spec closes these as enums, but Convex extends them in place: `RegionName` gained `aws-ca-central-1` and `aws-ap-southeast-2` in convex/convex-backend@785e6f4d46 (2026-09-24), and `info.version` stayed 1.0.0. Deployment types and classes have not changed in the spec yet and are opened as a precaution, since they are the same kind of list. A closed union would tell callers the list is complete.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.convex.api#ListDeploymentsRequest/members/deploymentType/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.convex.api#PlatformDeploymentResponseCase0/members/deploymentType/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.convex.api#PlatformDeploymentResponseCase1/members/deploymentType/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.convex.api#UpdateDeploymentRequest/members/deploymentType/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.convex.api#ListDefaultEnvironmentVariablesRequest/members/deploymentType/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.convex.api#DefaultEnvironmentVariableResponseDeploymentTypesList/member/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.convex.api#DefaultEnvironmentVariableChangeArgs/members/deploymentType/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.convex.api#DeploymentType"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.convex.api#DeploymentClassMetadata/members/type/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.convex.api#DeploymentClass"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.convex.api#CreateProjectRequest/members/deploymentRegion/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.convex.api#PlatformDeploymentResponseCase0/members/region/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.convex.api#CreateDeploymentRequest/members/region/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.convex.api#DeploymentRegionMetadata/members/name/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.convex.api#CreateTeamRequest/members/defaultRegion/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.convex.api#TeamResponse/members/defaultRegion/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.convex.api#RegionName"
+    }
+  ]
+}

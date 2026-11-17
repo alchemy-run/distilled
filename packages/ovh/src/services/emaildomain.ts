@@ -46,9 +46,9 @@ export interface ConfirmEmailDomainTerminationRequest {
   /** Name of your domain name */
   domain: string;
   /** Commentary about your termination request */
-  commentary?: string;
+  commentary?: string | undefined;
   /** Reason of your termination request */
-  reason?: ServiceTerminationReasonEnum | (string & {});
+  reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by mail to the admin contact */
   token: string;
 }
@@ -59,11 +59,11 @@ export interface CreateEmailDomainAccountRequest {
   /** Account name */
   accountName: string;
   /** Description Account */
-  description?: string;
+  description?: string | undefined;
   /** Account password */
   password: string | Redacted.Redacted<string>;
   /** Account size in bytes (default : 5000000000) (possible values : /email/domain/{domain}/allowedAccountSize ) */
-  size?: number;
+  size?: number | undefined;
 }
 /** Possible values for pop action task */
 export type DomainDomainPopActionEnum =
@@ -78,15 +78,15 @@ export type DomainDomainPopActionEnum =
 /** Task Pop List */
 export interface EmailDomainTaskPop {
   /** Action of task */
-  action?: DomainDomainPopActionEnum;
+  action?: DomainDomainPopActionEnum | undefined;
   /** Creation date of task */
-  date?: string;
+  date?: string | undefined;
   /** Domain name of task */
-  domain?: string;
+  domain?: string | undefined;
   /** Id of task */
-  id?: number;
+  id?: number | undefined;
   /** Account name of task */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateEmailDomainAccountChangePasswordRequest {
   /** Name of your domain name */
@@ -117,7 +117,7 @@ export interface CreateEmailDomainAccountFilterRequest {
   /** Action of filter */
   action: DomainDomainFilterActionEnum | (string & {});
   /** Action parameter of filter */
-  actionParam?: string;
+  actionParam?: string | undefined;
   /** If true filter is active */
   active: boolean;
   /** Header to be filtered */
@@ -134,15 +134,15 @@ export interface CreateEmailDomainAccountFilterRequest {
 /** Task filter List */
 export interface EmailDomainTaskFilter {
   /** Account name of task */
-  account?: string;
+  account?: string | undefined;
   /** Action of task */
-  action?: string;
+  action?: string | undefined;
   /** Domain name of task */
-  domain?: string;
+  domain?: string | undefined;
   /** Id of task */
-  id?: number;
+  id?: number | undefined;
   /** Creation date of task */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 export interface CreateEmailDomainAccountFilterChangeActivityRequest {
   /** Name of your domain name */
@@ -187,17 +187,17 @@ export interface CreateEmailDomainAclRequest {
 /** Email ACL */
 export interface EmailDomainAcl {
   /** OVH customer unique identifier */
-  accountId?: string;
+  accountId?: string | undefined;
 }
 export interface CreateEmailDomainChangeContactRequest {
   /** Name of your domain name */
   domain: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateEmailDomainChangeContactResponseBodyList = Array<number>;
 export type CreateEmailDomainChangeContactResponse = CreateEmailDomainChangeContactResponseBodyList;
@@ -212,11 +212,11 @@ export interface CreateEmailDomainChangeDnsMXFilterRequest {
   /** Name of your domain name */
   domain: string;
   /** Target server for custom MX */
-  customTarget?: string;
+  customTarget?: string | undefined;
   /** New MX filter */
   mxFilter: DomainDomainMXFilterEnum | (string & {});
   /** Sub domain */
-  subDomain?: string;
+  subDomain?: string | undefined;
 }
 export interface CreateEmailDomainChangeDnsMXFilterResponse {}
 export interface CreateEmailDomainDelegatedAccountChangePasswordRequest {
@@ -231,7 +231,7 @@ export interface CreateEmailDomainDelegatedAccountFilterRequest {
   /** Action of filter */
   action: DomainDomainFilterActionEnum | (string & {});
   /** Action parameter of filter */
-  actionParam?: string;
+  actionParam?: string | undefined;
   /** If true filter is active */
   active: boolean;
   /** Header to be filtered */
@@ -281,11 +281,11 @@ export interface CreateEmailDomainDelegatedAccountResponderRequest {
   /** If true, emails will be copy to emailToCopy address */
   copy: boolean;
   /** Account where copy emails */
-  copyTo?: string;
+  copyTo?: string | undefined;
   /** Date of start responder */
-  from?: string;
+  from?: string | undefined;
   /** Date of end responder */
-  to?: string;
+  to?: string | undefined;
 }
 /** Possible values for pop action task */
 export type DomainDomainSpecialAccountActionEnum = "add" | "change" | "delete";
@@ -300,17 +300,17 @@ export type DomainDomainSpecialAccountTypeEnum =
 /** Task special account List */
 export interface EmailDomainTaskSpecialAccount {
   /** Account name of task */
-  account?: string;
+  account?: string | undefined;
   /** Action of task */
-  action?: DomainDomainSpecialAccountActionEnum;
+  action?: DomainDomainSpecialAccountActionEnum | undefined;
   /** Creation date of task */
-  date?: string;
+  date?: string | undefined;
   /** Domain name of task */
-  domain?: string;
+  domain?: string | undefined;
   /** Id of task */
-  id?: string;
+  id?: string | undefined;
   /** Type of action filter */
-  type?: DomainDomainSpecialAccountTypeEnum;
+  type?: DomainDomainSpecialAccountTypeEnum | undefined;
 }
 export interface CreateEmailDomainDelegatedAccountUsageRequest {
   /** Email */
@@ -319,22 +319,22 @@ export interface CreateEmailDomainDelegatedAccountUsageRequest {
 /** Structure of usage account */
 export interface DomainDomainUsageAccountStruct {
   /** Timestamp */
-  date?: string | null;
+  date?: string | null | undefined;
   /** Number of message in mailbox */
-  emailCount?: number | null;
+  emailCount?: number | null | undefined;
   /** Size of mailbox (bytes) */
-  quota?: number | null;
+  quota?: number | null | undefined;
 }
 /** Possible values for mailing list language */
 export type DomainDomainMlLanguageEnum = "de" | "en" | "es" | "fr" | "it" | "nl" | "pl" | "pt";
 /** Structure of imapCopy */
 export interface DomainDomainMlOptionsStruct {
   /** If true, messages are moderate */
-  moderatorMessage?: boolean;
+  moderatorMessage?: boolean | undefined;
   /** If true, enabled moderation for subscribe */
-  subscribeByModerator?: boolean;
+  subscribeByModerator?: boolean | undefined;
   /** If true, just user can post */
-  usersPostOnly?: boolean;
+  usersPostOnly?: boolean | undefined;
 }
 export interface CreateEmailDomainMailingListRequest {
   /** Name of your domain name */
@@ -348,16 +348,16 @@ export interface CreateEmailDomainMailingListRequest {
   /** Owner Email */
   ownerEmail: string;
   /** Email to reply of mailing list */
-  replyTo?: string;
+  replyTo?: string | undefined;
 }
 /** Task Mailing List */
 export interface EmailDomainTaskMl {
-  account?: string;
-  action?: string;
-  date?: string;
-  domain?: string;
-  id?: number;
-  language?: DomainDomainMlLanguageEnum;
+  account?: string | undefined;
+  action?: string | undefined;
+  date?: string | undefined;
+  domain?: string | undefined;
+  id?: number | undefined;
+  language?: DomainDomainMlLanguageEnum | undefined;
 }
 export interface CreateEmailDomainMailingListChangeOptionRequest {
   /** Name of your domain name */
@@ -411,11 +411,11 @@ export interface CreateEmailDomainResponderRequest {
   /** If false, emails will be dropped. If true and copyTo field is empty, emails will be delivered to your mailbox. If true and copyTo is set with an address, emails will be delivered to this address */
   copy: boolean;
   /** Account where copy emails */
-  copyTo?: string;
+  copyTo?: string | undefined;
   /** Date of start responder */
-  from?: string;
+  from?: string | undefined;
   /** Date of end responder */
-  to?: string;
+  to?: string | undefined;
 }
 export interface DeleteEmailDomainAccountRequest {
   /** Name of your domain name */
@@ -530,15 +530,15 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource state */
-  state?: IamResourceMetadataStateEnum | null;
+  state?: IamResourceMetadataStateEnum | null | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Result value for diagnose */
 export type EmailDomainDiagnoseEnum = "checkFail" | "invalid" | "none" | "unknown" | "valid";
@@ -547,27 +547,27 @@ export type DomainDomainStatusEnum = "close" | "ok" | "readOnly" | "unknown";
 /** Domain service */
 export interface EmailDomainDomainServiceWithIAM {
   /** List of allowed sizes for this domain in bytes */
-  allowedAccountSize?: EmailDomainDomainServiceWithIAMAllowedAccountSizeList | null;
+  allowedAccountSize?: EmailDomainDomainServiceWithIAMAllowedAccountSizeList | null | undefined;
   /** Creation date of domain */
-  creationDate?: string | null;
+  creationDate?: string | null | undefined;
   /** Name of domain */
-  domain?: string;
+  domain?: string | undefined;
   /** Filerz of domain */
-  filerz?: number | null;
+  filerz?: number | null | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Result of MX check if current MX fit to OVH recommendations */
-  isMXValid?: EmailDomainDiagnoseEnum;
+  isMXValid?: EmailDomainDiagnoseEnum | undefined;
   /** Result of SPF check if current SPF fit to OVH recommendations */
-  isSPFValid?: EmailDomainDiagnoseEnum;
+  isSPFValid?: EmailDomainDiagnoseEnum | undefined;
   /** Name of servicelinked with this domain */
-  linkTo?: string | null;
+  linkTo?: string | null | undefined;
   /** Name of new MXPlan service */
-  migratedMXPlanServiceName?: string | null;
+  migratedMXPlanServiceName?: string | null | undefined;
   /** Offer of email service */
-  offer?: string | null;
+  offer?: string | null | undefined;
   /** Domain Status */
-  status?: DomainDomainStatusEnum;
+  status?: DomainDomainStatusEnum | undefined;
 }
 export interface GetEmailDomainAccountRequest {
   /** Name of your domain name */
@@ -578,17 +578,17 @@ export interface GetEmailDomainAccountRequest {
 /** Account List */
 export interface EmailDomainAccount {
   /** Name of account */
-  accountName?: string;
+  accountName?: string | undefined;
   /** Account description */
-  description?: string;
+  description?: string | undefined;
   /** Name of domain */
-  domain?: string;
+  domain?: string | undefined;
   /** Email */
-  email?: string;
+  email?: string | undefined;
   /** If true your account is blocked */
-  isBlocked?: boolean;
+  isBlocked?: boolean | undefined;
   /** Size of your account in bytes */
-  size?: number;
+  size?: number | undefined;
 }
 export interface GetEmailDomainAccountDelegationRequest {
   /** Name of your domain name */
@@ -601,7 +601,7 @@ export interface GetEmailDomainAccountDelegationRequest {
 /** Delegation List */
 export interface EmailDomainDelegation {
   /** OVH customer unique identifier */
-  accountId?: string;
+  accountId?: string | undefined;
 }
 export interface GetEmailDomainAccountFilterRequest {
   /** Name of your domain name */
@@ -614,19 +614,19 @@ export interface GetEmailDomainAccountFilterRequest {
 /** Filter List */
 export interface EmailDomainFilter {
   /** Action of filter */
-  action?: DomainDomainFilterActionEnum | null;
+  action?: DomainDomainFilterActionEnum | null | undefined;
   /** Action parameter of filter */
-  actionParam?: string | null;
+  actionParam?: string | null | undefined;
   /** If true filter is active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Domain name of filter */
-  domain?: string;
+  domain?: string | undefined;
   /** Filter name */
-  name?: string;
+  name?: string | undefined;
   /** Account name of filter */
-  pop?: string;
+  pop?: string | undefined;
   /** Priority of filter */
-  priority?: number;
+  priority?: number | undefined;
 }
 export interface GetEmailDomainAccountFilterRuleRequest {
   /** Name of your domain name */
@@ -640,12 +640,12 @@ export interface GetEmailDomainAccountFilterRuleRequest {
 /** Rule List */
 export interface EmailDomainRule {
   /** Header to be filtered */
-  header?: string;
-  id?: number;
+  header?: string | undefined;
+  id?: number | undefined;
   /** Rule of filter */
-  operand?: DomainDomainFilterOperandEnum;
+  operand?: DomainDomainFilterOperandEnum | undefined;
   /** Rule parameter of filter */
-  value?: string;
+  value?: string | undefined;
 }
 export interface GetEmailDomainAccountMigrateRequest {
   /** Name of your domain name */
@@ -664,19 +664,19 @@ export type EmailDomainMigrationServiceType =
 /** Migration service */
 export interface EmailDomainMigrationService {
   /** Admin contact of service */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** Billing contact of service */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** Tech contact of service */
-  contactTech?: string;
+  contactTech?: string | undefined;
   /** Creation date of service */
-  creation?: string;
+  creation?: string | undefined;
   /** Service name allowed as migration destination */
-  destinationServiceName?: string;
+  destinationServiceName?: string | undefined;
   /** Expiration date of service */
-  expiration?: string;
+  expiration?: string | undefined;
   /** Offer type of service */
-  type?: EmailDomainMigrationServiceType;
+  type?: EmailDomainMigrationServiceType | undefined;
 }
 export interface GetEmailDomainAccountMigrateDestinationEmailAddressRequest {
   /** Name of your domain name */
@@ -691,9 +691,9 @@ export interface GetEmailDomainAccountMigrateDestinationEmailAddressRequest {
 /** Migration account */
 export interface EmailDomainMigrationAccount {
   /** Destination account name */
-  destinationEmailAddress?: string;
+  destinationEmailAddress?: string | undefined;
   /** Account maximum size */
-  quota?: number;
+  quota?: number | undefined;
 }
 export interface GetEmailDomainAccountUsageRequest {
   /** Name of your domain name */
@@ -716,19 +716,19 @@ export type EmailDomainAccountDelegatedAllowedAccountSizeList = Array<number>;
 /** Account List */
 export interface EmailDomainAccountDelegated {
   /** Name of account */
-  accountName?: string;
+  accountName?: string | undefined;
   /** List of allowed sizes for this account in bytes */
-  allowedAccountSize?: EmailDomainAccountDelegatedAllowedAccountSizeList | null;
+  allowedAccountSize?: EmailDomainAccountDelegatedAllowedAccountSizeList | null | undefined;
   /** Account description */
-  description?: string;
+  description?: string | undefined;
   /** Name of domain */
-  domain?: string;
+  domain?: string | undefined;
   /** Email */
-  email?: string;
+  email?: string | undefined;
   /** If true your account is blocked */
-  isBlocked?: boolean;
+  isBlocked?: boolean | undefined;
   /** Size of your account in bytes */
-  size?: number;
+  size?: number | undefined;
 }
 export interface GetEmailDomainDelegatedAccountFilterRequest {
   /** Email */
@@ -750,23 +750,23 @@ export interface GetEmailDomainDelegatedAccountResponderRequest {
 /** Responder of account */
 export interface EmailDomainResponderAccount {
   /** Name of account */
-  account?: string;
+  account?: string | undefined;
   /** Content of responder */
-  content?: string;
+  content?: string | undefined;
   /** If true, emails will be copy to emailToCopy address */
-  copy?: boolean;
+  copy?: boolean | undefined;
   /** Account where copy emails */
-  copyTo?: string | null;
+  copyTo?: string | null | undefined;
   /** Date of start responder */
-  from?: string | null;
+  from?: string | null | undefined;
   /** Date of end responder */
-  to?: string | null;
+  to?: string | null | undefined;
 }
 export interface GetEmailDomainDnsMXFilterRequest {
   /** Name of your domain name */
   domain: string;
   /** Sub domain */
-  subDomain?: string;
+  subDomain?: string | undefined;
 }
 export type GetEmailDomainDnsMXFilterResponse = DomainDomainMXFilterEnum;
 export interface GetEmailDomainMailingListRequest {
@@ -778,21 +778,21 @@ export interface GetEmailDomainMailingListRequest {
 /** Mailing List */
 export interface EmailDomainMailingList {
   /** Id of mailing list */
-  id?: number;
+  id?: number | undefined;
   /** Language of mailing list */
-  language?: DomainDomainMlLanguageEnum | null;
+  language?: DomainDomainMlLanguageEnum | null | undefined;
   /** Name of mailing list */
-  name?: string;
+  name?: string | undefined;
   /** Subscribers number of mailing list */
-  nbSubscribers?: number | null;
+  nbSubscribers?: number | null | undefined;
   /** Last update subscribers */
-  nbSubscribersUpdateDate?: string | null;
+  nbSubscribersUpdateDate?: string | null | undefined;
   /** Options of mailing list */
-  options?: DomainDomainMlOptionsStruct;
+  options?: DomainDomainMlOptionsStruct | undefined;
   /** Owner email of mailing list */
-  ownerEmail?: string;
+  ownerEmail?: string | undefined;
   /** Email to reply of mailing list */
-  replyTo?: string;
+  replyTo?: string | undefined;
 }
 export interface GetEmailDomainMailingListLimitsRequest {
   /** If true, messages are moderate */
@@ -801,7 +801,7 @@ export interface GetEmailDomainMailingListLimitsRequest {
 /** Structure of mailinglist limits */
 export interface DomainDomainMlLimits {
   /** Maximum number of subscribers */
-  subscribers?: number;
+  subscribers?: number | undefined;
 }
 export interface GetEmailDomainMailingListModeratorRequest {
   /** Name of your domain name */
@@ -812,9 +812,9 @@ export interface GetEmailDomainMailingListModeratorRequest {
 }
 /** Moderators List */
 export interface EmailDomainModerator {
-  domain?: string;
-  email?: string;
-  mailinglist?: string;
+  domain?: string | undefined;
+  email?: string | undefined;
+  mailinglist?: string | undefined;
 }
 export interface GetEmailDomainMailingListSubscriberRequest {
   /** Name of your domain name */
@@ -825,9 +825,9 @@ export interface GetEmailDomainMailingListSubscriberRequest {
 }
 /** Subscribers List */
 export interface EmailDomainSubscriber {
-  domain?: string;
-  email?: string;
-  mailinglist?: string;
+  domain?: string | undefined;
+  email?: string | undefined;
+  mailinglist?: string | undefined;
 }
 export interface GetEmailDomainQuotaRequest {
   /** Name of your domain name */
@@ -836,15 +836,15 @@ export interface GetEmailDomainQuotaRequest {
 /** Values of quota account (pop, mailing list, redirection, responder and big pop) */
 export interface DomainDomainQuota {
   /** Maximum number of mailboxes */
-  account?: number;
+  account?: number | undefined;
   /** Maximum number of aliases */
-  alias?: number;
+  alias?: number | undefined;
   /** Maximum number of mailing lists */
-  mailingList?: number;
+  mailingList?: number | undefined;
   /** Maximum number of redirections */
-  redirection?: number;
+  redirection?: number | undefined;
   /** Maximum number of responders */
-  responder?: number;
+  responder?: number | undefined;
 }
 export interface GetEmailDomainRedirectionRequest {
   /** Name of your domain name */
@@ -855,11 +855,11 @@ export interface GetEmailDomainRedirectionRequest {
 /** Global Redirection */
 export interface EmailDomainRedirectionGlobal {
   /** Name of redirection */
-  from?: string;
+  from?: string | undefined;
   /** Id of redirection */
-  id?: string;
+  id?: string | undefined;
   /** Target of redirection */
-  to?: string;
+  to?: string | undefined;
 }
 export interface GetEmailDomainResponderRequest {
   /** Name of your domain name */
@@ -870,17 +870,17 @@ export interface GetEmailDomainResponderRequest {
 /** Responder */
 export interface EmailDomainResponder {
   /** Name of account */
-  account?: string;
+  account?: string | undefined;
   /** Content of responder */
-  content?: string;
+  content?: string | undefined;
   /** If false, emails will be dropped. If true and copyTo field is empty, emails will be delivered to your mailbox. If true and copyTo is set with an address, emails will be delivered to this address */
-  copy?: boolean;
+  copy?: boolean | undefined;
   /** Account where copy emails */
-  copyTo?: string | null;
+  copyTo?: string | null | undefined;
   /** Date of start responder */
-  from?: string | null;
+  from?: string | null | undefined;
   /** Date of end responder */
-  to?: string | null;
+  to?: string | null | undefined;
 }
 export interface GetEmailDomainServiceInfosRequest {
   /** Name of your domain name */
@@ -891,15 +891,15 @@ export type ServicesServicePossibleRenewPeriodList = Array<number>;
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -921,21 +921,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetEmailDomainSummaryRequest {
   /** Name of your domain name */
@@ -944,13 +944,13 @@ export interface GetEmailDomainSummaryRequest {
 /** Values of number account (account, mailing list, redirection and responder) */
 export interface DomainDomainSummary {
   /** Number of mailboxes */
-  account?: number;
+  account?: number | undefined;
   /** Number of mailing lists */
-  mailingList?: number;
+  mailingList?: number | undefined;
   /** Number of redirections */
-  redirection?: number;
+  redirection?: number | undefined;
   /** Number of responders */
-  responder?: number;
+  responder?: number | undefined;
 }
 export interface GetEmailDomainTaskAccountRequest {
   /** Name of your domain name */
@@ -976,13 +976,13 @@ export type EmailDomainTaskStatusEnum =
 /** Tasks */
 export interface EmailDomainTask {
   /** Domain name of the task */
-  domain?: string;
+  domain?: string | undefined;
   /** Function of the task */
-  function?: string;
+  function?: string | undefined;
   /** Id of the task */
-  id?: number;
+  id?: number | undefined;
   /** Status of the task */
-  status?: EmailDomainTaskStatusEnum;
+  status?: EmailDomainTaskStatusEnum | undefined;
 }
 export interface GetEmailDomainTaskFilterRequest {
   /** Name of your domain name */
@@ -1015,7 +1015,7 @@ export type ListEmailDomainRequestIamTagsMap = {
 };
 export interface ListEmailDomainRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListEmailDomainRequestIamTagsMap;
+  iamTags?: ListEmailDomainRequestIamTagsMap | undefined;
 }
 export type ListEmailDomainResponseBodyList = Array<string>;
 export type ListEmailDomainResponse = ListEmailDomainResponseBodyList;
@@ -1023,9 +1023,9 @@ export interface ListEmailDomainAccountRequest {
   /** Name of your domain name */
   domain: string;
   /** Account name */
-  accountName?: string;
+  accountName?: string | undefined;
   /** Account description */
-  description?: string;
+  description?: string | undefined;
 }
 export type ListEmailDomainAccountResponseBodyList = Array<string>;
 export type ListEmailDomainAccountResponse = ListEmailDomainAccountResponseBodyList;
@@ -1063,7 +1063,7 @@ export interface ListEmailDomainAccountMigrateRequest {
   /** Name of account */
   accountName: string;
   /** Type of migration service */
-  type?: EmailDomainMigrationServiceType | (string & {});
+  type?: EmailDomainMigrationServiceType | (string & {}) | undefined;
 }
 export type ListEmailDomainAccountMigrateResponseBodyList = Array<string>;
 export type ListEmailDomainAccountMigrateResponse = ListEmailDomainAccountMigrateResponseBodyList;
@@ -1075,7 +1075,7 @@ export interface ListEmailDomainAccountMigrateDestinationEmailAddressRequest {
   /** Service name allowed as migration destination */
   destinationServiceName: string;
   /** Account maximum size */
-  quota?: number;
+  quota?: number | undefined;
 }
 export type ListEmailDomainAccountMigrateDestinationEmailAddressResponseBodyList = Array<string>;
 export type ListEmailDomainAccountMigrateDestinationEmailAddressResponse =
@@ -1114,9 +1114,9 @@ export type EmailDomainMigrationCheckCodeEnum =
 /** Check Migration result */
 export interface EmailDomainMigrationCheckResultStruct {
   /** Result code of check migration */
-  code?: EmailDomainMigrationCheckCodeEnum;
+  code?: EmailDomainMigrationCheckCodeEnum | undefined;
   /** Details of result code */
-  details?: string | null;
+  details?: string | null | undefined;
 }
 /** List of errors */
 export type EmailDomainMigrationCheckStructErrorList = Array<EmailDomainMigrationCheckResultStruct>;
@@ -1130,15 +1130,15 @@ export type EmailDomainMigrationCheckStructWarningList =
 /** Check Migration result */
 export interface EmailDomainMigrationCheckStruct {
   /** List of aliases */
-  alias?: EmailDomainMigrationCheckStructAliasList | null;
+  alias?: EmailDomainMigrationCheckStructAliasList | null | undefined;
   /** List of errors */
-  error?: EmailDomainMigrationCheckStructErrorList | null;
+  error?: EmailDomainMigrationCheckStructErrorList | null | undefined;
   /** List of filters */
-  filter?: EmailDomainMigrationCheckStructFilterList | null;
+  filter?: EmailDomainMigrationCheckStructFilterList | null | undefined;
   /** List of forwards */
-  forward?: EmailDomainMigrationCheckStructForwardList | null;
+  forward?: EmailDomainMigrationCheckStructForwardList | null | undefined;
   /** List of warnings */
-  warning?: EmailDomainMigrationCheckStructWarningList | null;
+  warning?: EmailDomainMigrationCheckStructWarningList | null | undefined;
 }
 export interface ListEmailDomainAclRequest {
   /** Name of your domain name */
@@ -1148,9 +1148,9 @@ export type ListEmailDomainAclResponseBodyList = Array<string>;
 export type ListEmailDomainAclResponse = ListEmailDomainAclResponseBodyList;
 export interface ListEmailDomainDelegatedAccountRequest {
   /** Name of email address */
-  accountName?: string;
+  accountName?: string | undefined;
   /** Domain of email address */
-  domain?: string;
+  domain?: string | undefined;
 }
 export type ListEmailDomainDelegatedAccountResponseBodyList = Array<string>;
 export type ListEmailDomainDelegatedAccountResponse =
@@ -1180,11 +1180,11 @@ export type EmailDomainDKIMSelectorStatusEnum = "set" | "toFix" | "toSet";
 /** DKIM selector data for a domain */
 export interface EmailDomainDKIMSelector {
   /** CNAME record */
-  cname?: string;
+  cname?: string | undefined;
   /** Internal name of selector */
-  selectorName?: string;
+  selectorName?: string | undefined;
   /** Status of selector */
-  status?: EmailDomainDKIMSelectorStatusEnum;
+  status?: EmailDomainDKIMSelectorStatusEnum | undefined;
 }
 /** DKIM status */
 export type EmailDomainDkimSimplifiedSelectorsList = Array<EmailDomainDKIMSelector>;
@@ -1198,19 +1198,19 @@ export type EmailDomainDKIMStatusEnum =
 /** DKIM for a domain */
 export interface EmailDomainDkimSimplified {
   /** activeSelector */
-  activeSelector?: string | null;
+  activeSelector?: string | null | undefined;
   /** If true your DNS CNAME configuration is valid */
-  autoconfig?: boolean | null;
+  autoconfig?: boolean | null | undefined;
   /** DKIM status */
-  selectors?: EmailDomainDkimSimplifiedSelectorsList | null;
+  selectors?: EmailDomainDkimSimplifiedSelectorsList | null | undefined;
   /** DKIM status */
-  status?: EmailDomainDKIMStatusEnum;
+  status?: EmailDomainDKIMStatusEnum | undefined;
 }
 export interface ListEmailDomainDnsMXRecordsRequest {
   /** Name of your domain name */
   domain: string;
   /** Sub domain */
-  subDomain?: string;
+  subDomain?: string | undefined;
 }
 export type ListEmailDomainDnsMXRecordsResponseBodyList = Array<string>;
 export type ListEmailDomainDnsMXRecordsResponse = ListEmailDomainDnsMXRecordsResponseBodyList;
@@ -1218,7 +1218,7 @@ export interface ListEmailDomainMailingListRequest {
   /** Name of your domain name */
   domain: string;
   /** Mailing list name */
-  name?: string;
+  name?: string | undefined;
 }
 export type ListEmailDomainMailingListResponseBodyList = Array<string>;
 export type ListEmailDomainMailingListResponse = ListEmailDomainMailingListResponseBodyList;
@@ -1228,7 +1228,7 @@ export interface ListEmailDomainMailingListModeratorRequest {
   /** Name of mailing list */
   name: string;
   /** Moderator email */
-  email?: string;
+  email?: string | undefined;
 }
 export type ListEmailDomainMailingListModeratorResponseBodyList = Array<string>;
 export type ListEmailDomainMailingListModeratorResponse =
@@ -1239,7 +1239,7 @@ export interface ListEmailDomainMailingListSubscriberRequest {
   /** Name of mailing list */
   name: string;
   /** Subscriber email */
-  email?: string;
+  email?: string | undefined;
 }
 export type ListEmailDomainMailingListSubscriberResponseBodyList = Array<string>;
 export type ListEmailDomainMailingListSubscriberResponse =
@@ -1270,17 +1270,17 @@ export type EmailDomainDnsRecordTypeEnum =
 /** DNS record for email services */
 export interface EmailDomainRecord {
   /** Type of DNS record */
-  fieldType?: EmailDomainDnsRecordTypeEnum;
+  fieldType?: EmailDomainDnsRecordTypeEnum | undefined;
   /** Id of record */
-  id?: number;
+  id?: number | undefined;
   /** subdomain of record */
-  subDomain?: string | null;
+  subDomain?: string | null | undefined;
   /** Target of DNS record */
-  target?: string;
+  target?: string | undefined;
   /** TTL of record */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
   /** Name of DNS zone */
-  zone?: string;
+  zone?: string | undefined;
 }
 export type ListEmailDomainRecommendedDNSRecordsResponseBodyList = Array<EmailDomainRecord>;
 export type ListEmailDomainRecommendedDNSRecordsResponse =
@@ -1289,9 +1289,9 @@ export interface ListEmailDomainRedirectionRequest {
   /** Name of your domain name */
   domain: string;
   /** Name of redirection */
-  from?: string;
+  from?: string | undefined;
   /** Email of redirection target */
-  to?: string;
+  to?: string | undefined;
 }
 export type ListEmailDomainRedirectionResponseBodyList = Array<string>;
 export type ListEmailDomainRedirectionResponse = ListEmailDomainRedirectionResponseBodyList;
@@ -1299,7 +1299,7 @@ export interface ListEmailDomainResponderRequest {
   /** Name of your domain name */
   domain: string;
   /** Responder name */
-  account?: string;
+  account?: string | undefined;
 }
 export type ListEmailDomainResponderResponseBodyList = Array<string>;
 export type ListEmailDomainResponderResponse = ListEmailDomainResponderResponseBodyList;
@@ -1307,7 +1307,7 @@ export interface ListEmailDomainTaskAccountRequest {
   /** Name of your domain name */
   domain: string;
   /** Account name */
-  name?: string;
+  name?: string | undefined;
 }
 export type ListEmailDomainTaskAccountResponseBodyList = Array<number>;
 export type ListEmailDomainTaskAccountResponse = ListEmailDomainTaskAccountResponseBodyList;
@@ -1321,7 +1321,7 @@ export interface ListEmailDomainTaskFilterRequest {
   /** Name of your domain name */
   domain: string;
   /** Account name */
-  account?: string;
+  account?: string | undefined;
 }
 export type ListEmailDomainTaskFilterResponseBodyList = Array<number>;
 export type ListEmailDomainTaskFilterResponse = ListEmailDomainTaskFilterResponseBodyList;
@@ -1329,7 +1329,7 @@ export interface ListEmailDomainTaskMailinglistRequest {
   /** Name of your domain name */
   domain: string;
   /** Account name */
-  account?: string;
+  account?: string | undefined;
 }
 export type ListEmailDomainTaskMailinglistResponseBodyList = Array<number>;
 export type ListEmailDomainTaskMailinglistResponse = ListEmailDomainTaskMailinglistResponseBodyList;
@@ -1337,7 +1337,7 @@ export interface ListEmailDomainTaskRedirectionRequest {
   /** Name of your domain name */
   domain: string;
   /** Account name */
-  account?: string;
+  account?: string | undefined;
 }
 export type ListEmailDomainTaskRedirectionResponseBodyList = Array<string>;
 export type ListEmailDomainTaskRedirectionResponse = ListEmailDomainTaskRedirectionResponseBodyList;
@@ -1345,7 +1345,7 @@ export interface ListEmailDomainTaskResponderRequest {
   /** Name of your domain name */
   domain: string;
   /** Name of responder */
-  account?: string;
+  account?: string | undefined;
 }
 export type ListEmailDomainTaskResponderResponseBodyList = Array<number>;
 export type ListEmailDomainTaskResponderResponse = ListEmailDomainTaskResponderResponseBodyList;
@@ -1372,29 +1372,29 @@ export interface PutEmailDomainAccountRequest {
   /** Name of account */
   accountName: string;
   /** Account description */
-  description?: string;
+  description?: string | undefined;
   /** Size of your account in bytes */
-  size?: number;
+  size?: number | undefined;
 }
 export interface PutEmailDomainAccountResponse {}
 export interface PutEmailDomainDelegatedAccountRequest {
   /** Email */
   email: string;
   /** Account description */
-  description?: string;
+  description?: string | undefined;
   /** Size of your account in bytes */
-  size?: number;
+  size?: number | undefined;
 }
 export interface PutEmailDomainDelegatedAccountResponse {}
 export interface PutEmailDomainDelegatedAccountResponderRequest {
   /** Email */
   email: string;
   /** Content of responder */
-  content?: string;
+  content?: string | undefined;
   /** Date of start responder */
-  from?: string | null;
+  from?: string | null | undefined;
   /** Date of end responder */
-  to?: string | null;
+  to?: string | null | undefined;
 }
 export interface PutEmailDomainDelegatedAccountResponderResponse {}
 export interface PutEmailDomainDkimDisableRequest {
@@ -1411,11 +1411,11 @@ export interface PutEmailDomainMailingListRequest {
   /** Name of mailing list */
   name: string;
   /** Language of mailing list */
-  language?: DomainDomainMlLanguageEnum | (string & {}) | null;
+  language?: DomainDomainMlLanguageEnum | (string & {}) | null | undefined;
   /** Owner email of mailing list */
-  ownerEmail?: string;
+  ownerEmail?: string | undefined;
   /** Email to reply of mailing list */
-  replyTo?: string;
+  replyTo?: string | undefined;
 }
 export interface PutEmailDomainMailingListResponse {}
 export interface PutEmailDomainResponderRequest {
@@ -1424,18 +1424,18 @@ export interface PutEmailDomainResponderRequest {
   /** Name of account */
   account: string;
   /** Content of responder */
-  content?: string;
+  content?: string | undefined;
   /** Date of start responder */
-  from?: string | null;
+  from?: string | null | undefined;
   /** Date of end responder */
-  to?: string | null;
+  to?: string | null | undefined;
 }
 export interface PutEmailDomainResponderResponse {}
 export interface PutEmailDomainServiceInfosRequest {
   /** Name of your domain name */
   domain: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutEmailDomainServiceInfosResponse {}
 export interface SendEmailDomainMailingListListByEmailRequest {

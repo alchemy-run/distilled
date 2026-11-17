@@ -53,6 +53,8 @@ export interface TeamLimits {
   apiTeamRpsList: number;
   /** Requests per second the team may make to delete endpoints */
   apiTeamRpsDelete: number;
+  /** Maximum number of secrets the team may store */
+  maxSecrets: number;
 }
 export interface TeamLimitsResponse {
   limits: TeamLimits;
@@ -62,8 +64,8 @@ export interface GetTeamMetricsMaxRequest {
   /** Identifier of the team, as its UUID or its public project ID (prj_) */
   teamID: string;
   /** Unix timestamp for the start of the interval, in seconds, for which the metrics */
-  start?: number;
-  end?: number;
+  start?: number | undefined;
+  end?: number | undefined;
   /** Metric to retrieve the maximum value for */
   metric: GetTeamMetricsMaxRequestMetric | (string & {});
 }
@@ -92,8 +94,8 @@ export interface ListTeamMetricsRequest {
   /** Identifier of the team, as its UUID or its public project ID (prj_) */
   teamID: string;
   /** Unix timestamp for the start of the interval, in seconds, for which the metrics */
-  start?: number;
-  end?: number;
+  start?: number | undefined;
+  end?: number | undefined;
 }
 /** Team metric with timestamp */
 export interface TeamMetric {
@@ -229,6 +231,7 @@ function __c0(j: number): any {
           maxFreeDiskSizeMb: S.Number,
           apiTeamRpsList: S.Number,
           apiTeamRpsDelete: S.Number,
+          maxSecrets: S.Number,
         }),
       ).annotate({ identifier: "TeamLimits" });
     case 2:

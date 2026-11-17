@@ -109,7 +109,7 @@ export class LimitExceededException
     "LimitExceededException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class PayloadTooLargeException
   extends /*@__PURE__*/ S.TaggedError<PayloadTooLargeException>()(
     "PayloadTooLargeException",
@@ -125,16 +125,16 @@ export interface GetConnectionRequest {
 }
 export type __timestampIso8601 = Date;
 export interface Identity {
-  SourceIp?: string;
-  UserAgent?: string;
+  SourceIp?: string | undefined;
+  UserAgent?: string | undefined;
 }
 export interface GetConnectionResponse {
-  ConnectedAt?: Date;
-  Identity?: Identity & { SourceIp: string; UserAgent: string };
-  LastActiveAt?: Date;
+  ConnectedAt?: Date | undefined;
+  Identity?: (Identity & { SourceIp: string; UserAgent: string }) | undefined;
+  LastActiveAt?: Date | undefined;
 }
 export interface PostToConnectionRequest {
-  Data?: T.StreamingInputBody;
+  Data?: T.StreamingInputBody | undefined;
   ConnectionId: string;
 }
 export interface PostToConnectionResponse {}

@@ -32,7 +32,8 @@ export type AddUsersRequestUsersItemCase0Role =
   | "write"
   | "contributor"
   | "read"
-  | "no_access";
+  | "no_access"
+  | "inherit";
 export interface AddUsersRequestUsersItemCase0 {
   name: string;
   role: AddUsersRequestUsersItemCase0Role | (string & {});
@@ -42,7 +43,8 @@ export type AddUsersRequestUsersItemCase1Role =
   | "write"
   | "contributor"
   | "read"
-  | "no_access";
+  | "no_access"
+  | "inherit";
 export interface AddUsersRequestUsersItemCase1 {
   user: string;
   role: AddUsersRequestUsersItemCase1Role | (string & {});
@@ -61,12 +63,13 @@ export type AddUsersResponseAutoJoinCase0Role =
   | "write"
   | "contributor"
   | "read"
-  | "no_access";
+  | "no_access"
+  | "inherit";
 export type AddUsersResponseAutoJoinCase0Scope = "all" | "read_plus";
 export interface AddUsersResponseAutoJoinCase0 {
   enabled: boolean;
   role: AddUsersResponseAutoJoinCase0Role;
-  scope?: AddUsersResponseAutoJoinCase0Scope;
+  scope?: AddUsersResponseAutoJoinCase0Scope | undefined;
 }
 export interface AddUsersResponseAutoJoinCase1 {
   enabled: boolean;
@@ -75,11 +78,11 @@ export type AddUsersResponseAutoJoin =
   | AddUsersResponseAutoJoinCase0
   | AddUsersResponseAutoJoinCase1;
 export interface AddUsersResponseSpendLimits {
-  total?: number;
-  inferenceProviders?: number;
-  spaces?: number;
-  jobs?: number;
-  endpoints?: number;
+  total?: number | undefined;
+  inferenceProviders?: number | undefined;
+  spaces?: number | undefined;
+  jobs?: number | undefined;
+  endpoints?: number | undefined;
 }
 export type AddUsersResponseUsersItemRole =
   | "admin"
@@ -87,6 +90,13 @@ export type AddUsersResponseUsersItemRole =
   | "contributor"
   | "read"
   | "no_access";
+export type AddUsersResponseUsersItemAssignedRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access"
+  | "inherit";
 export type AddUsersResponseUsersItemOrgRole =
   | "admin"
   | "write"
@@ -101,8 +111,12 @@ export interface AddUsersResponseUsersItem {
   name: string;
   avatarUrl: string;
   role: AddUsersResponseUsersItemRole;
+  assignedRole: AddUsersResponseUsersItemAssignedRole;
   orgRole: AddUsersResponseUsersItemOrgRole;
-  addedBy?: string;
+  addedBy?: string | undefined;
+  roleSetBy?: string | null | undefined;
+  /** Whether the user is an external collaborator of the organization */
+  isExternalCollaborator?: boolean | undefined;
 }
 export type AddUsersResponseUsersList = Array<AddUsersResponseUsersItem>;
 export type AddUsersResponseResourcesItemCase0Type =
@@ -115,7 +129,7 @@ export type AddUsersResponseResourcesItemCase0Type =
 export interface AddUsersResponseResourcesItemCase0 {
   type: AddUsersResponseResourcesItemCase0Type;
   name: string;
-  addedBy?: string;
+  addedBy?: string | undefined;
   private: boolean;
 }
 export interface AddUsersResponseResourcesItemCase1 {
@@ -124,15 +138,15 @@ export interface AddUsersResponseResourcesItemCase1 {
   id: string;
   slug: string;
   title: string;
-  addedBy?: string;
+  addedBy?: string | undefined;
   private: boolean;
 }
 export type AddUsersResponseResourcesItemCase2 = AddUsersResponseResourcesItemCase1;
 export interface AddUsersResponseResourcesItemCase3 {
   type: string;
   id: string;
-  name?: string;
-  addedBy?: string;
+  name?: string | undefined;
+  addedBy?: string | undefined;
 }
 export type AddUsersResponseResourcesItemCase4 = AddUsersResponseResourcesItemCase3;
 export type AddUsersResponseResourcesItem =
@@ -146,30 +160,47 @@ export interface AddUsersResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  description?: string | null;
-  autoJoin?: AddUsersResponseAutoJoin;
-  spendLimits?: AddUsersResponseSpendLimits;
+  description?: string | null | undefined;
+  autoJoin?: AddUsersResponseAutoJoin | undefined;
+  spendLimits?: AddUsersResponseSpendLimits | undefined;
   users: AddUsersResponseUsersList;
   resources: AddUsersResponseResourcesList;
 }
-export type ChangeUserRoleRequestRole = "admin" | "write" | "contributor" | "read" | "no_access";
+export type ChangeUserRoleRequestBodyCase0Role =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access"
+  | "inherit";
+export interface ChangeUserRoleRequestBodyCase0 {
+  role: ChangeUserRoleRequestBodyCase0Role | (string & {});
+}
+/** Reset the role to the one mapped from SCIM groups */
+export interface ChangeUserRoleRequestBodyCase1 {
+  resetToScimRole: boolean;
+}
+export type ChangeUserRoleRequestBody =
+  | ChangeUserRoleRequestBodyCase0
+  | ChangeUserRoleRequestBodyCase1;
 export interface ChangeUserRoleRequest {
   name: string;
   resourceGroupId: string;
   username: string;
-  role: ChangeUserRoleRequestRole | (string & {});
+  body?: ChangeUserRoleRequestBody | undefined;
 }
 export type ChangeUserRoleResponseAutoJoinCase0Role =
   | "admin"
   | "write"
   | "contributor"
   | "read"
-  | "no_access";
+  | "no_access"
+  | "inherit";
 export type ChangeUserRoleResponseAutoJoinCase0Scope = "all" | "read_plus";
 export interface ChangeUserRoleResponseAutoJoinCase0 {
   enabled: boolean;
   role: ChangeUserRoleResponseAutoJoinCase0Role;
-  scope?: ChangeUserRoleResponseAutoJoinCase0Scope;
+  scope?: ChangeUserRoleResponseAutoJoinCase0Scope | undefined;
 }
 export type ChangeUserRoleResponseAutoJoinCase1 = AddUsersResponseAutoJoinCase1;
 export type ChangeUserRoleResponseAutoJoin =
@@ -182,6 +213,13 @@ export type ChangeUserRoleResponseUsersItemRole =
   | "contributor"
   | "read"
   | "no_access";
+export type ChangeUserRoleResponseUsersItemAssignedRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access"
+  | "inherit";
 export type ChangeUserRoleResponseUsersItemOrgRole =
   | "admin"
   | "write"
@@ -196,8 +234,12 @@ export interface ChangeUserRoleResponseUsersItem {
   name: string;
   avatarUrl: string;
   role: ChangeUserRoleResponseUsersItemRole;
+  assignedRole: ChangeUserRoleResponseUsersItemAssignedRole;
   orgRole: ChangeUserRoleResponseUsersItemOrgRole;
-  addedBy?: string;
+  addedBy?: string | undefined;
+  roleSetBy?: string | null | undefined;
+  /** Whether the user is an external collaborator of the organization */
+  isExternalCollaborator?: boolean | undefined;
 }
 export type ChangeUserRoleResponseUsersList = Array<ChangeUserRoleResponseUsersItem>;
 export type ChangeUserRoleResponseResourcesItemCase0Type =
@@ -210,7 +252,7 @@ export type ChangeUserRoleResponseResourcesItemCase0Type =
 export interface ChangeUserRoleResponseResourcesItemCase0 {
   type: ChangeUserRoleResponseResourcesItemCase0Type;
   name: string;
-  addedBy?: string;
+  addedBy?: string | undefined;
   private: boolean;
 }
 export type ChangeUserRoleResponseResourcesItemCase1 = AddUsersResponseResourcesItemCase1;
@@ -228,9 +270,9 @@ export interface ChangeUserRoleResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  description?: string | null;
-  autoJoin?: ChangeUserRoleResponseAutoJoin;
-  spendLimits?: AddUsersResponseSpendLimits;
+  description?: string | null | undefined;
+  autoJoin?: ChangeUserRoleResponseAutoJoin | undefined;
+  spendLimits?: AddUsersResponseSpendLimits | undefined;
   users: ChangeUserRoleResponseUsersList;
   resources: ChangeUserRoleResponseResourcesList;
 }
@@ -239,7 +281,8 @@ export type CreateResourceGroupRequestUsersItemRole =
   | "write"
   | "contributor"
   | "read"
-  | "no_access";
+  | "no_access"
+  | "inherit";
 export interface CreateResourceGroupRequestUsersItem {
   user: string;
   role: CreateResourceGroupRequestUsersItemRole | (string & {});
@@ -256,12 +299,13 @@ export type CreateResourceGroupRequestAutoJoinCase0Role =
   | "write"
   | "contributor"
   | "read"
-  | "no_access";
+  | "no_access"
+  | "inherit";
 export type CreateResourceGroupRequestAutoJoinCase0Scope = "all" | "read_plus";
 export interface CreateResourceGroupRequestAutoJoinCase0 {
   enabled: boolean;
   role: CreateResourceGroupRequestAutoJoinCase0Role | (string & {});
-  scope?: CreateResourceGroupRequestAutoJoinCase0Scope | (string & {});
+  scope?: CreateResourceGroupRequestAutoJoinCase0Scope | (string & {}) | undefined;
 }
 export type CreateResourceGroupRequestAutoJoinCase1 = AddUsersResponseAutoJoinCase1;
 export type CreateResourceGroupRequestAutoJoin =
@@ -269,22 +313,23 @@ export type CreateResourceGroupRequestAutoJoin =
   | AddUsersResponseAutoJoinCase1;
 export interface CreateResourceGroupRequest {
   name: string;
-  description?: string;
-  users?: CreateResourceGroupRequestUsersList;
-  repos?: CreateResourceGroupRequestReposList;
-  autoJoin?: CreateResourceGroupRequestAutoJoin;
+  description?: string | undefined;
+  users?: CreateResourceGroupRequestUsersList | undefined;
+  repos?: CreateResourceGroupRequestReposList | undefined;
+  autoJoin?: CreateResourceGroupRequestAutoJoin | undefined;
 }
 export type CreateResourceGroupResponseAutoJoinCase0Role =
   | "admin"
   | "write"
   | "contributor"
   | "read"
-  | "no_access";
+  | "no_access"
+  | "inherit";
 export type CreateResourceGroupResponseAutoJoinCase0Scope = "all" | "read_plus";
 export interface CreateResourceGroupResponseAutoJoinCase0 {
   enabled: boolean;
   role: CreateResourceGroupResponseAutoJoinCase0Role;
-  scope?: CreateResourceGroupResponseAutoJoinCase0Scope;
+  scope?: CreateResourceGroupResponseAutoJoinCase0Scope | undefined;
 }
 export type CreateResourceGroupResponseAutoJoinCase1 = AddUsersResponseAutoJoinCase1;
 export type CreateResourceGroupResponseAutoJoin =
@@ -297,6 +342,13 @@ export type CreateResourceGroupResponseUsersItemRole =
   | "contributor"
   | "read"
   | "no_access";
+export type CreateResourceGroupResponseUsersItemAssignedRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access"
+  | "inherit";
 export type CreateResourceGroupResponseUsersItemOrgRole =
   | "admin"
   | "write"
@@ -311,8 +363,12 @@ export interface CreateResourceGroupResponseUsersItem {
   name: string;
   avatarUrl: string;
   role: CreateResourceGroupResponseUsersItemRole;
+  assignedRole: CreateResourceGroupResponseUsersItemAssignedRole;
   orgRole: CreateResourceGroupResponseUsersItemOrgRole;
-  addedBy?: string;
+  addedBy?: string | undefined;
+  roleSetBy?: string | null | undefined;
+  /** Whether the user is an external collaborator of the organization */
+  isExternalCollaborator?: boolean | undefined;
 }
 export type CreateResourceGroupResponseUsersList = Array<CreateResourceGroupResponseUsersItem>;
 export type CreateResourceGroupResponseResourcesItemCase0Type =
@@ -325,7 +381,7 @@ export type CreateResourceGroupResponseResourcesItemCase0Type =
 export interface CreateResourceGroupResponseResourcesItemCase0 {
   type: CreateResourceGroupResponseResourcesItemCase0Type;
   name: string;
-  addedBy?: string;
+  addedBy?: string | undefined;
   private: boolean;
 }
 export type CreateResourceGroupResponseResourcesItemCase1 = AddUsersResponseResourcesItemCase1;
@@ -344,9 +400,9 @@ export interface CreateResourceGroupResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  description?: string | null;
-  autoJoin?: CreateResourceGroupResponseAutoJoin;
-  spendLimits?: AddUsersResponseSpendLimits;
+  description?: string | null | undefined;
+  autoJoin?: CreateResourceGroupResponseAutoJoin | undefined;
+  spendLimits?: AddUsersResponseSpendLimits | undefined;
   users: CreateResourceGroupResponseUsersList;
   resources: CreateResourceGroupResponseResourcesList;
 }
@@ -366,12 +422,13 @@ export type GetResourceGroupResponseAutoJoinCase0Role =
   | "write"
   | "contributor"
   | "read"
-  | "no_access";
+  | "no_access"
+  | "inherit";
 export type GetResourceGroupResponseAutoJoinCase0Scope = "all" | "read_plus";
 export interface GetResourceGroupResponseAutoJoinCase0 {
   enabled: boolean;
   role: GetResourceGroupResponseAutoJoinCase0Role;
-  scope?: GetResourceGroupResponseAutoJoinCase0Scope;
+  scope?: GetResourceGroupResponseAutoJoinCase0Scope | undefined;
 }
 export type GetResourceGroupResponseAutoJoinCase1 = AddUsersResponseAutoJoinCase1;
 export type GetResourceGroupResponseAutoJoin =
@@ -384,6 +441,13 @@ export type GetResourceGroupResponseUsersItemRole =
   | "contributor"
   | "read"
   | "no_access";
+export type GetResourceGroupResponseUsersItemAssignedRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access"
+  | "inherit";
 export type GetResourceGroupResponseUsersItemOrgRole =
   | "admin"
   | "write"
@@ -398,8 +462,12 @@ export interface GetResourceGroupResponseUsersItem {
   name: string;
   avatarUrl: string;
   role: GetResourceGroupResponseUsersItemRole;
+  assignedRole: GetResourceGroupResponseUsersItemAssignedRole;
   orgRole: GetResourceGroupResponseUsersItemOrgRole;
-  addedBy?: string;
+  addedBy?: string | undefined;
+  roleSetBy?: string | null | undefined;
+  /** Whether the user is an external collaborator of the organization */
+  isExternalCollaborator?: boolean | undefined;
 }
 export type GetResourceGroupResponseUsersList = Array<GetResourceGroupResponseUsersItem>;
 export type GetResourceGroupResponseResourcesItemCase0Type =
@@ -412,7 +480,7 @@ export type GetResourceGroupResponseResourcesItemCase0Type =
 export interface GetResourceGroupResponseResourcesItemCase0 {
   type: GetResourceGroupResponseResourcesItemCase0Type;
   name: string;
-  addedBy?: string;
+  addedBy?: string | undefined;
   private: boolean;
 }
 export type GetResourceGroupResponseResourcesItemCase1 = AddUsersResponseResourcesItemCase1;
@@ -430,9 +498,9 @@ export interface GetResourceGroupResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  description?: string | null;
-  autoJoin?: GetResourceGroupResponseAutoJoin;
-  spendLimits?: AddUsersResponseSpendLimits;
+  description?: string | null | undefined;
+  autoJoin?: GetResourceGroupResponseAutoJoin | undefined;
+  spendLimits?: AddUsersResponseSpendLimits | undefined;
   users: GetResourceGroupResponseUsersList;
   resources: GetResourceGroupResponseResourcesList;
 }
@@ -444,12 +512,13 @@ export type GetResourceGroupsResponseBodyItemAutoJoinCase0Role =
   | "write"
   | "contributor"
   | "read"
-  | "no_access";
+  | "no_access"
+  | "inherit";
 export type GetResourceGroupsResponseBodyItemAutoJoinCase0Scope = "all" | "read_plus";
 export interface GetResourceGroupsResponseBodyItemAutoJoinCase0 {
   enabled: boolean;
   role: GetResourceGroupsResponseBodyItemAutoJoinCase0Role;
-  scope?: GetResourceGroupsResponseBodyItemAutoJoinCase0Scope;
+  scope?: GetResourceGroupsResponseBodyItemAutoJoinCase0Scope | undefined;
 }
 export type GetResourceGroupsResponseBodyItemAutoJoinCase1 = AddUsersResponseAutoJoinCase1;
 export type GetResourceGroupsResponseBodyItemAutoJoin =
@@ -462,6 +531,13 @@ export type GetResourceGroupsResponseBodyItemUsersItemRole =
   | "contributor"
   | "read"
   | "no_access";
+export type GetResourceGroupsResponseBodyItemUsersItemAssignedRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access"
+  | "inherit";
 export type GetResourceGroupsResponseBodyItemUsersItemOrgRole =
   | "admin"
   | "write"
@@ -476,8 +552,12 @@ export interface GetResourceGroupsResponseBodyItemUsersItem {
   name: string;
   avatarUrl: string;
   role: GetResourceGroupsResponseBodyItemUsersItemRole;
+  assignedRole: GetResourceGroupsResponseBodyItemUsersItemAssignedRole;
   orgRole: GetResourceGroupsResponseBodyItemUsersItemOrgRole;
-  addedBy?: string;
+  addedBy?: string | undefined;
+  roleSetBy?: string | null | undefined;
+  /** Whether the user is an external collaborator of the organization */
+  isExternalCollaborator?: boolean | undefined;
 }
 export type GetResourceGroupsResponseBodyItemUsersList =
   Array<GetResourceGroupsResponseBodyItemUsersItem>;
@@ -491,7 +571,7 @@ export type GetResourceGroupsResponseBodyItemResourcesItemCase0Type =
 export interface GetResourceGroupsResponseBodyItemResourcesItemCase0 {
   type: GetResourceGroupsResponseBodyItemResourcesItemCase0Type;
   name: string;
-  addedBy?: string;
+  addedBy?: string | undefined;
   private: boolean;
 }
 export type GetResourceGroupsResponseBodyItemResourcesItemCase1 =
@@ -514,26 +594,156 @@ export interface GetResourceGroupsResponseBodyItem {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  description?: string | null;
-  autoJoin?: GetResourceGroupsResponseBodyItemAutoJoin;
-  spendLimits?: AddUsersResponseSpendLimits;
+  description?: string | null | undefined;
+  autoJoin?: GetResourceGroupsResponseBodyItemAutoJoin | undefined;
+  spendLimits?: AddUsersResponseSpendLimits | undefined;
   users: GetResourceGroupsResponseBodyItemUsersList;
   resources: GetResourceGroupsResponseBodyItemResourcesList;
 }
 export type GetResourceGroupsResponseBodyList = Array<GetResourceGroupsResponseBodyItem>;
 export type GetResourceGroupsResponse = GetResourceGroupsResponseBodyList;
+export interface GetResourceGroupSettingsRequest {
+  name: string;
+}
+export type GetResourceGroupSettingsResponseMinRoleToCreate =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read";
+export interface GetResourceGroupSettingsResponse {
+  minRoleToCreate: GetResourceGroupSettingsResponseMinRoleToCreate;
+  allowExternalInvites: boolean;
+}
+/** Role the invitee gets inside the resource group */
+export type InviteExternalUserRequestRole = "read" | "write";
+export interface InviteExternalUserRequest {
+  name: string;
+  resourceGroupId: string;
+  /** Username of an existing Hugging Face user */
+  username: string;
+  /** Role the invitee gets inside the resource group */
+  role: InviteExternalUserRequestRole | (string & {});
+}
+/** Organization role the invitee joins with */
+export type InviteExternalUserResponseRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export interface InviteExternalUserResponseAuthorOrgsItem {
+  id: string;
+  name: string;
+  fullname: string;
+  avatarUrl: string;
+}
+export type InviteExternalUserResponseAuthorOrgsList =
+  Array<InviteExternalUserResponseAuthorOrgsItem>;
+/** Set when the user is a service account */
+export interface InviteExternalUserResponseAuthorServiceAccount {
+  /** A hex string of 24 characters representing an ObjectId. */
+  id: string;
+  org: string;
+  orgAvatarUrl: string;
+  description?: string | undefined;
+}
+/** The user who issued the invitation */
+export interface InviteExternalUserResponseAuthor {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  orgs?: InviteExternalUserResponseAuthorOrgsList | undefined;
+  avatarUrl: string;
+  fullname: string;
+  isPro: boolean;
+  user: string;
+  numModels?: number | undefined;
+  numDatasets?: number | undefined;
+  numSpaces?: number | undefined;
+  numBuckets?: number | undefined;
+  numKernels?: number | undefined;
+  numDiscussions?: number | undefined;
+  numPapers?: number | undefined;
+  numUpvotes?: number | undefined;
+  numLikes?: number | undefined;
+  numFollowers?: number | undefined;
+  numFollowing?: number | undefined;
+  numFollowingOrgs?: number | undefined;
+  details?: string | undefined;
+  isFollowing?: boolean | undefined;
+  reasonToFollow?: string | undefined;
+  primaryOrgAvatarUrl?: string | undefined;
+  /** Set when the user is a service account */
+  serviceAccount?: InviteExternalUserResponseAuthorServiceAccount | undefined;
+  type: string;
+}
+export type InviteExternalUserResponseInviteeOrgsItem = InviteExternalUserResponseAuthorOrgsItem;
+export type InviteExternalUserResponseInviteeOrgsList =
+  Array<InviteExternalUserResponseAuthorOrgsItem>;
+/** Set when the user is a service account */
+export type InviteExternalUserResponseInviteeServiceAccount =
+  InviteExternalUserResponseAuthorServiceAccount;
+export interface InviteExternalUserResponseInvitee {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  orgs?: InviteExternalUserResponseInviteeOrgsList | undefined;
+  avatarUrl: string;
+  fullname: string;
+  isPro: boolean;
+  user: string;
+  numModels?: number | undefined;
+  numDatasets?: number | undefined;
+  numSpaces?: number | undefined;
+  numBuckets?: number | undefined;
+  numKernels?: number | undefined;
+  numDiscussions?: number | undefined;
+  numPapers?: number | undefined;
+  numUpvotes?: number | undefined;
+  numLikes?: number | undefined;
+  numFollowers?: number | undefined;
+  numFollowing?: number | undefined;
+  numFollowingOrgs?: number | undefined;
+  details?: string | undefined;
+  isFollowing?: boolean | undefined;
+  reasonToFollow?: string | undefined;
+  primaryOrgAvatarUrl?: string | undefined;
+  /** Set when the user is a service account */
+  serviceAccount?: InviteExternalUserResponseAuthorServiceAccount | undefined;
+  type: string;
+}
+export type InviteExternalUserResponseResourceGroupRole = "read" | "write";
+/** Set when the invitation only grants access to one resource group */
+export interface InviteExternalUserResponseResourceGroup {
+  /** A hex string of 24 characters representing an ObjectId. */
+  id: string;
+  role: InviteExternalUserResponseResourceGroupRole;
+}
+export interface InviteExternalUserResponse {
+  /** A hex string of 24 characters representing an ObjectId. */
+  id: string;
+  /** Organization role the invitee joins with */
+  role: InviteExternalUserResponseRole;
+  /** Whether the invitee is exempted from SSO enforcement */
+  externalCollaborator?: boolean | undefined;
+  expiresAt: string;
+  /** The user who issued the invitation */
+  author?: InviteExternalUserResponseAuthor | undefined;
+  invitee: InviteExternalUserResponseInvitee;
+  /** Set when the invitation only grants access to one resource group */
+  resourceGroup?: InviteExternalUserResponseResourceGroup | undefined;
+}
 export type JoinConfigureAutoRequestAutoJoinCase0Enabled = boolean | string;
 export type JoinConfigureAutoRequestAutoJoinCase0Role =
   | "admin"
   | "write"
   | "contributor"
   | "read"
-  | "no_access";
+  | "no_access"
+  | "inherit";
 export type JoinConfigureAutoRequestAutoJoinCase0Scope = "all" | "read_plus";
 export interface JoinConfigureAutoRequestAutoJoinCase0 {
   enabled: JoinConfigureAutoRequestAutoJoinCase0Enabled;
   role: JoinConfigureAutoRequestAutoJoinCase0Role | (string & {});
-  scope?: JoinConfigureAutoRequestAutoJoinCase0Scope | (string & {});
+  scope?: JoinConfigureAutoRequestAutoJoinCase0Scope | (string & {}) | undefined;
 }
 export type JoinConfigureAutoRequestAutoJoinCase1Enabled = boolean | string;
 export interface JoinConfigureAutoRequestAutoJoinCase1 {
@@ -545,19 +755,20 @@ export type JoinConfigureAutoRequestAutoJoin =
 export interface JoinConfigureAutoRequest {
   name: string;
   resourceGroupId: string;
-  autoJoin?: JoinConfigureAutoRequestAutoJoin;
+  autoJoin?: JoinConfigureAutoRequestAutoJoin | undefined;
 }
 export type JoinConfigureAutoResponseAutoJoinCase0Role =
   | "admin"
   | "write"
   | "contributor"
   | "read"
-  | "no_access";
+  | "no_access"
+  | "inherit";
 export type JoinConfigureAutoResponseAutoJoinCase0Scope = "all" | "read_plus";
 export interface JoinConfigureAutoResponseAutoJoinCase0 {
   enabled: boolean;
   role: JoinConfigureAutoResponseAutoJoinCase0Role;
-  scope?: JoinConfigureAutoResponseAutoJoinCase0Scope;
+  scope?: JoinConfigureAutoResponseAutoJoinCase0Scope | undefined;
 }
 export type JoinConfigureAutoResponseAutoJoinCase1 = AddUsersResponseAutoJoinCase1;
 export type JoinConfigureAutoResponseAutoJoin =
@@ -570,6 +781,13 @@ export type JoinConfigureAutoResponseUsersItemRole =
   | "contributor"
   | "read"
   | "no_access";
+export type JoinConfigureAutoResponseUsersItemAssignedRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access"
+  | "inherit";
 export type JoinConfigureAutoResponseUsersItemOrgRole =
   | "admin"
   | "write"
@@ -584,8 +802,12 @@ export interface JoinConfigureAutoResponseUsersItem {
   name: string;
   avatarUrl: string;
   role: JoinConfigureAutoResponseUsersItemRole;
+  assignedRole: JoinConfigureAutoResponseUsersItemAssignedRole;
   orgRole: JoinConfigureAutoResponseUsersItemOrgRole;
-  addedBy?: string;
+  addedBy?: string | undefined;
+  roleSetBy?: string | null | undefined;
+  /** Whether the user is an external collaborator of the organization */
+  isExternalCollaborator?: boolean | undefined;
 }
 export type JoinConfigureAutoResponseUsersList = Array<JoinConfigureAutoResponseUsersItem>;
 export type JoinConfigureAutoResponseResourcesItemCase0Type =
@@ -598,7 +820,7 @@ export type JoinConfigureAutoResponseResourcesItemCase0Type =
 export interface JoinConfigureAutoResponseResourcesItemCase0 {
   type: JoinConfigureAutoResponseResourcesItemCase0Type;
   name: string;
-  addedBy?: string;
+  addedBy?: string | undefined;
   private: boolean;
 }
 export type JoinConfigureAutoResponseResourcesItemCase1 = AddUsersResponseResourcesItemCase1;
@@ -616,12 +838,118 @@ export interface JoinConfigureAutoResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  description?: string | null;
-  autoJoin?: JoinConfigureAutoResponseAutoJoin;
-  spendLimits?: AddUsersResponseSpendLimits;
+  description?: string | null | undefined;
+  autoJoin?: JoinConfigureAutoResponseAutoJoin | undefined;
+  spendLimits?: AddUsersResponseSpendLimits | undefined;
   users: JoinConfigureAutoResponseUsersList;
   resources: JoinConfigureAutoResponseResourcesList;
 }
+export interface ListPendingInvitationsRequest {
+  name: string;
+  resourceGroupId: string;
+}
+/** Organization role the invitee joins with */
+export type ListPendingInvitationsResponseBodyItemRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access";
+export type ListPendingInvitationsResponseBodyItemAuthorOrgsItem =
+  InviteExternalUserResponseAuthorOrgsItem;
+export type ListPendingInvitationsResponseBodyItemAuthorOrgsList =
+  Array<InviteExternalUserResponseAuthorOrgsItem>;
+/** Set when the user is a service account */
+export type ListPendingInvitationsResponseBodyItemAuthorServiceAccount =
+  InviteExternalUserResponseAuthorServiceAccount;
+/** The user who issued the invitation */
+export interface ListPendingInvitationsResponseBodyItemAuthor {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  orgs?: ListPendingInvitationsResponseBodyItemAuthorOrgsList | undefined;
+  avatarUrl: string;
+  fullname: string;
+  isPro: boolean;
+  user: string;
+  numModels?: number | undefined;
+  numDatasets?: number | undefined;
+  numSpaces?: number | undefined;
+  numBuckets?: number | undefined;
+  numKernels?: number | undefined;
+  numDiscussions?: number | undefined;
+  numPapers?: number | undefined;
+  numUpvotes?: number | undefined;
+  numLikes?: number | undefined;
+  numFollowers?: number | undefined;
+  numFollowing?: number | undefined;
+  numFollowingOrgs?: number | undefined;
+  details?: string | undefined;
+  isFollowing?: boolean | undefined;
+  reasonToFollow?: string | undefined;
+  primaryOrgAvatarUrl?: string | undefined;
+  /** Set when the user is a service account */
+  serviceAccount?: InviteExternalUserResponseAuthorServiceAccount | undefined;
+  type: string;
+}
+export type ListPendingInvitationsResponseBodyItemInviteeOrgsItem =
+  InviteExternalUserResponseAuthorOrgsItem;
+export type ListPendingInvitationsResponseBodyItemInviteeOrgsList =
+  Array<InviteExternalUserResponseAuthorOrgsItem>;
+/** Set when the user is a service account */
+export type ListPendingInvitationsResponseBodyItemInviteeServiceAccount =
+  InviteExternalUserResponseAuthorServiceAccount;
+export interface ListPendingInvitationsResponseBodyItemInvitee {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  orgs?: ListPendingInvitationsResponseBodyItemInviteeOrgsList | undefined;
+  avatarUrl: string;
+  fullname: string;
+  isPro: boolean;
+  user: string;
+  numModels?: number | undefined;
+  numDatasets?: number | undefined;
+  numSpaces?: number | undefined;
+  numBuckets?: number | undefined;
+  numKernels?: number | undefined;
+  numDiscussions?: number | undefined;
+  numPapers?: number | undefined;
+  numUpvotes?: number | undefined;
+  numLikes?: number | undefined;
+  numFollowers?: number | undefined;
+  numFollowing?: number | undefined;
+  numFollowingOrgs?: number | undefined;
+  details?: string | undefined;
+  isFollowing?: boolean | undefined;
+  reasonToFollow?: string | undefined;
+  primaryOrgAvatarUrl?: string | undefined;
+  /** Set when the user is a service account */
+  serviceAccount?: InviteExternalUserResponseAuthorServiceAccount | undefined;
+  type: string;
+}
+export type ListPendingInvitationsResponseBodyItemResourceGroupRole = "read" | "write";
+/** Set when the invitation only grants access to one resource group */
+export interface ListPendingInvitationsResponseBodyItemResourceGroup {
+  /** A hex string of 24 characters representing an ObjectId. */
+  id: string;
+  role: ListPendingInvitationsResponseBodyItemResourceGroupRole;
+}
+/** A pending organization invitation */
+export interface ListPendingInvitationsResponseBodyItem {
+  /** A hex string of 24 characters representing an ObjectId. */
+  id: string;
+  /** Organization role the invitee joins with */
+  role: ListPendingInvitationsResponseBodyItemRole;
+  /** Whether the invitee is exempted from SSO enforcement */
+  externalCollaborator?: boolean | undefined;
+  expiresAt: string;
+  /** The user who issued the invitation */
+  author?: ListPendingInvitationsResponseBodyItemAuthor | undefined;
+  invitee: ListPendingInvitationsResponseBodyItemInvitee;
+  /** Set when the invitation only grants access to one resource group */
+  resourceGroup?: ListPendingInvitationsResponseBodyItemResourceGroup | undefined;
+}
+export type ListPendingInvitationsResponseBodyList = Array<ListPendingInvitationsResponseBodyItem>;
+export type ListPendingInvitationsResponse = ListPendingInvitationsResponseBodyList;
 export interface RemoveUserRequest {
   name: string;
   resourceGroupId: string;
@@ -632,12 +960,13 @@ export type RemoveUserResponseAutoJoinCase0Role =
   | "write"
   | "contributor"
   | "read"
-  | "no_access";
+  | "no_access"
+  | "inherit";
 export type RemoveUserResponseAutoJoinCase0Scope = "all" | "read_plus";
 export interface RemoveUserResponseAutoJoinCase0 {
   enabled: boolean;
   role: RemoveUserResponseAutoJoinCase0Role;
-  scope?: RemoveUserResponseAutoJoinCase0Scope;
+  scope?: RemoveUserResponseAutoJoinCase0Scope | undefined;
 }
 export type RemoveUserResponseAutoJoinCase1 = AddUsersResponseAutoJoinCase1;
 export type RemoveUserResponseAutoJoin =
@@ -650,6 +979,13 @@ export type RemoveUserResponseUsersItemRole =
   | "contributor"
   | "read"
   | "no_access";
+export type RemoveUserResponseUsersItemAssignedRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access"
+  | "inherit";
 export type RemoveUserResponseUsersItemOrgRole =
   | "admin"
   | "write"
@@ -664,8 +1000,12 @@ export interface RemoveUserResponseUsersItem {
   name: string;
   avatarUrl: string;
   role: RemoveUserResponseUsersItemRole;
+  assignedRole: RemoveUserResponseUsersItemAssignedRole;
   orgRole: RemoveUserResponseUsersItemOrgRole;
-  addedBy?: string;
+  addedBy?: string | undefined;
+  roleSetBy?: string | null | undefined;
+  /** Whether the user is an external collaborator of the organization */
+  isExternalCollaborator?: boolean | undefined;
 }
 export type RemoveUserResponseUsersList = Array<RemoveUserResponseUsersItem>;
 export type RemoveUserResponseResourcesItemCase0Type =
@@ -678,7 +1018,7 @@ export type RemoveUserResponseResourcesItemCase0Type =
 export interface RemoveUserResponseResourcesItemCase0 {
   type: RemoveUserResponseResourcesItemCase0Type;
   name: string;
-  addedBy?: string;
+  addedBy?: string | undefined;
   private: boolean;
 }
 export type RemoveUserResponseResourcesItemCase1 = AddUsersResponseResourcesItemCase1;
@@ -696,36 +1036,140 @@ export interface RemoveUserResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  description?: string | null;
-  autoJoin?: RemoveUserResponseAutoJoin;
-  spendLimits?: AddUsersResponseSpendLimits;
+  description?: string | null | undefined;
+  autoJoin?: RemoveUserResponseAutoJoin | undefined;
+  spendLimits?: AddUsersResponseSpendLimits | undefined;
   users: RemoveUserResponseUsersList;
   resources: RemoveUserResponseResourcesList;
 }
+export interface ResendInvitationRequest {
+  name: string;
+  resourceGroupId: string;
+  id: string;
+}
+/** Organization role the invitee joins with */
+export type ResendInvitationResponseRole = "admin" | "write" | "contributor" | "read" | "no_access";
+export type ResendInvitationResponseAuthorOrgsItem = InviteExternalUserResponseAuthorOrgsItem;
+export type ResendInvitationResponseAuthorOrgsList =
+  Array<InviteExternalUserResponseAuthorOrgsItem>;
+/** Set when the user is a service account */
+export type ResendInvitationResponseAuthorServiceAccount =
+  InviteExternalUserResponseAuthorServiceAccount;
+/** The user who issued the invitation */
+export interface ResendInvitationResponseAuthor {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  orgs?: ResendInvitationResponseAuthorOrgsList | undefined;
+  avatarUrl: string;
+  fullname: string;
+  isPro: boolean;
+  user: string;
+  numModels?: number | undefined;
+  numDatasets?: number | undefined;
+  numSpaces?: number | undefined;
+  numBuckets?: number | undefined;
+  numKernels?: number | undefined;
+  numDiscussions?: number | undefined;
+  numPapers?: number | undefined;
+  numUpvotes?: number | undefined;
+  numLikes?: number | undefined;
+  numFollowers?: number | undefined;
+  numFollowing?: number | undefined;
+  numFollowingOrgs?: number | undefined;
+  details?: string | undefined;
+  isFollowing?: boolean | undefined;
+  reasonToFollow?: string | undefined;
+  primaryOrgAvatarUrl?: string | undefined;
+  /** Set when the user is a service account */
+  serviceAccount?: InviteExternalUserResponseAuthorServiceAccount | undefined;
+  type: string;
+}
+export type ResendInvitationResponseInviteeOrgsItem = InviteExternalUserResponseAuthorOrgsItem;
+export type ResendInvitationResponseInviteeOrgsList =
+  Array<InviteExternalUserResponseAuthorOrgsItem>;
+/** Set when the user is a service account */
+export type ResendInvitationResponseInviteeServiceAccount =
+  InviteExternalUserResponseAuthorServiceAccount;
+export interface ResendInvitationResponseInvitee {
+  /** A hex string of 24 characters representing an ObjectId. */
+  _id: string;
+  orgs?: ResendInvitationResponseInviteeOrgsList | undefined;
+  avatarUrl: string;
+  fullname: string;
+  isPro: boolean;
+  user: string;
+  numModels?: number | undefined;
+  numDatasets?: number | undefined;
+  numSpaces?: number | undefined;
+  numBuckets?: number | undefined;
+  numKernels?: number | undefined;
+  numDiscussions?: number | undefined;
+  numPapers?: number | undefined;
+  numUpvotes?: number | undefined;
+  numLikes?: number | undefined;
+  numFollowers?: number | undefined;
+  numFollowing?: number | undefined;
+  numFollowingOrgs?: number | undefined;
+  details?: string | undefined;
+  isFollowing?: boolean | undefined;
+  reasonToFollow?: string | undefined;
+  primaryOrgAvatarUrl?: string | undefined;
+  /** Set when the user is a service account */
+  serviceAccount?: InviteExternalUserResponseAuthorServiceAccount | undefined;
+  type: string;
+}
+export type ResendInvitationResponseResourceGroupRole = "read" | "write";
+/** Set when the invitation only grants access to one resource group */
+export interface ResendInvitationResponseResourceGroup {
+  /** A hex string of 24 characters representing an ObjectId. */
+  id: string;
+  role: ResendInvitationResponseResourceGroupRole;
+}
+export interface ResendInvitationResponse {
+  /** A hex string of 24 characters representing an ObjectId. */
+  id: string;
+  /** Organization role the invitee joins with */
+  role: ResendInvitationResponseRole;
+  /** Whether the invitee is exempted from SSO enforcement */
+  externalCollaborator?: boolean | undefined;
+  expiresAt: string;
+  /** The user who issued the invitation */
+  author?: ResendInvitationResponseAuthor | undefined;
+  invitee: ResendInvitationResponseInvitee;
+  /** Set when the invitation only grants access to one resource group */
+  resourceGroup?: ResendInvitationResponseResourceGroup | undefined;
+}
+export interface RevokeInvitationRequest {
+  name: string;
+  resourceGroupId: string;
+  id: string;
+}
+export interface RevokeInvitationResponse {}
 export interface UpdateResourceGroupRequestSpendLimits {
-  total?: number | null;
-  inferenceProviders?: number | null;
-  spaces?: number | null;
-  jobs?: number | null;
-  endpoints?: number | null;
+  total?: number | null | undefined;
+  inferenceProviders?: number | null | undefined;
+  spaces?: number | null | undefined;
+  jobs?: number | null | undefined;
+  endpoints?: number | null | undefined;
 }
 export interface UpdateResourceGroupRequest {
   name: string;
   resourceGroupId: string;
-  description?: string;
-  spendLimits?: UpdateResourceGroupRequestSpendLimits;
+  description?: string | undefined;
+  spendLimits?: UpdateResourceGroupRequestSpendLimits | undefined;
 }
 export type UpdateResourceGroupResponseAutoJoinCase0Role =
   | "admin"
   | "write"
   | "contributor"
   | "read"
-  | "no_access";
+  | "no_access"
+  | "inherit";
 export type UpdateResourceGroupResponseAutoJoinCase0Scope = "all" | "read_plus";
 export interface UpdateResourceGroupResponseAutoJoinCase0 {
   enabled: boolean;
   role: UpdateResourceGroupResponseAutoJoinCase0Role;
-  scope?: UpdateResourceGroupResponseAutoJoinCase0Scope;
+  scope?: UpdateResourceGroupResponseAutoJoinCase0Scope | undefined;
 }
 export type UpdateResourceGroupResponseAutoJoinCase1 = AddUsersResponseAutoJoinCase1;
 export type UpdateResourceGroupResponseAutoJoin =
@@ -738,6 +1182,13 @@ export type UpdateResourceGroupResponseUsersItemRole =
   | "contributor"
   | "read"
   | "no_access";
+export type UpdateResourceGroupResponseUsersItemAssignedRole =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read"
+  | "no_access"
+  | "inherit";
 export type UpdateResourceGroupResponseUsersItemOrgRole =
   | "admin"
   | "write"
@@ -752,8 +1203,12 @@ export interface UpdateResourceGroupResponseUsersItem {
   name: string;
   avatarUrl: string;
   role: UpdateResourceGroupResponseUsersItemRole;
+  assignedRole: UpdateResourceGroupResponseUsersItemAssignedRole;
   orgRole: UpdateResourceGroupResponseUsersItemOrgRole;
-  addedBy?: string;
+  addedBy?: string | undefined;
+  roleSetBy?: string | null | undefined;
+  /** Whether the user is an external collaborator of the organization */
+  isExternalCollaborator?: boolean | undefined;
 }
 export type UpdateResourceGroupResponseUsersList = Array<UpdateResourceGroupResponseUsersItem>;
 export type UpdateResourceGroupResponseResourcesItemCase0Type =
@@ -766,7 +1221,7 @@ export type UpdateResourceGroupResponseResourcesItemCase0Type =
 export interface UpdateResourceGroupResponseResourcesItemCase0 {
   type: UpdateResourceGroupResponseResourcesItemCase0Type;
   name: string;
-  addedBy?: string;
+  addedBy?: string | undefined;
   private: boolean;
 }
 export type UpdateResourceGroupResponseResourcesItemCase1 = AddUsersResponseResourcesItemCase1;
@@ -785,14 +1240,37 @@ export interface UpdateResourceGroupResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  description?: string | null;
-  autoJoin?: UpdateResourceGroupResponseAutoJoin;
-  spendLimits?: AddUsersResponseSpendLimits;
+  description?: string | null | undefined;
+  autoJoin?: UpdateResourceGroupResponseAutoJoin | undefined;
+  spendLimits?: AddUsersResponseSpendLimits | undefined;
   users: UpdateResourceGroupResponseUsersList;
   resources: UpdateResourceGroupResponseResourcesList;
 }
+/** Minimum organization role required to create a resource group */
+export type UpdateResourceGroupSettingsRequestMinRoleToCreate =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read";
+export interface UpdateResourceGroupSettingsRequest {
+  name: string;
+  /** Minimum organization role required to create a resource group */
+  minRoleToCreate?: UpdateResourceGroupSettingsRequestMinRoleToCreate | (string & {}) | undefined;
+  /** Whether resource group admins may invite users from outside the organization */
+  allowExternalInvites?: unknown | undefined;
+}
+export type UpdateResourceGroupSettingsResponseMinRoleToCreate =
+  | "admin"
+  | "write"
+  | "contributor"
+  | "read";
+export interface UpdateResourceGroupSettingsResponse {
+  minRoleToCreate: UpdateResourceGroupSettingsResponseMinRoleToCreate;
+  /** Whether resource group admins may invite users from outside the organization */
+  allowExternalInvites: boolean;
+}
 export type AddUsersError = HuggingFaceOpError;
-/** Add users Add one or more organization members to a resource group. Requires the org to have a Team plan or higher. */
+/** Add users Add one or more organization members to a resource group. Use the `inherit` role to give a member the same role they have in the organization, following it when it changes. Requires the org to have a Team plan or higher. */
 export const addUsers: API.OperationMethod<
   AddUsersRequest,
   AddUsersResponse,
@@ -809,7 +1287,7 @@ export const addUsers: API.OperationMethod<
 }));
 
 export type ChangeUserRoleError = HuggingFaceOpError;
-/** Change user role Change the role of a user in a resource group. Requires the org to have a Team plan or higher. */
+/** Change user role Change the role of a user in a resource group. In a SCIM-managed resource group, pass `resetToScimRole` to undo a manual role change and restore the role mapped from the user's SCIM groups. Use the `inherit` role to give the member the same role they have in the organization, following it when it changes. Requires the org to have a Team plan or higher. */
 export const changeUserRole: API.OperationMethod<
   ChangeUserRoleRequest,
   ChangeUserRoleResponse,
@@ -833,8 +1311,8 @@ export const createResourceGroup: API.OperationMethod<
   CreateResourceGroupError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c3, 4) as any as S.Schema<CreateResourceGroupRequest>,
-  output: __S(30, __c3, 6) as any as S.Schema<CreateResourceGroupResponse>,
+  input: __S(68, __c8, 4) as any as S.Schema<CreateResourceGroupRequest>,
+  output: __S(70, __c8, 6) as any as S.Schema<CreateResourceGroupResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -850,8 +1328,8 @@ export const deleteResourceGroup: API.OperationMethod<
   DeleteResourceGroupError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<DeleteResourceGroupRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<DeleteResourceGroupResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<DeleteResourceGroupRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<DeleteResourceGroupResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -867,8 +1345,8 @@ export const getResourceGroup: API.OperationMethod<
   GetResourceGroupError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<GetResourceGroupRequest>,
-  output: __S(42, __c5, 2) as any as S.Schema<GetResourceGroupResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<GetResourceGroupRequest>,
+  output: __S(82, __c10, 2) as any as S.Schema<GetResourceGroupResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -884,13 +1362,47 @@ export const getResourceGroups: API.OperationMethod<
   GetResourceGroupsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<GetResourceGroupsRequest>,
-  output: __S(52, __c6, 4) as any as S.Schema<GetResourceGroupsResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetResourceGroupsRequest>,
+  output: __S(92, __c11, 4) as any as S.Schema<GetResourceGroupsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetResourceGroups",
+}));
+
+export type GetResourceGroupSettingsError = HuggingFaceOpError;
+/** Get resource group settings Retrieve the org-wide resource group settings: who may create resource groups, and whether resource group admins may invite users from outside the org. Requires the org to have a Team plan or higher. */
+export const getResourceGroupSettings: API.OperationMethod<
+  GetResourceGroupSettingsRequest,
+  GetResourceGroupSettingsResponse,
+  GetResourceGroupSettingsError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c12, 0) as any as S.Schema<GetResourceGroupSettingsRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<GetResourceGroupSettingsResponse>,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetResourceGroupSettings",
+}));
+
+export type InviteExternalUserError = HuggingFaceOpError;
+/** Invite external user Invite a user who is not yet an organization member into a resource group. On accepting, they only get access to that resource group, with the requested read or write role. Requires external invites to be enabled in the organization's resource group settings, unless the caller is an organization admin. */
+export const inviteExternalUser: API.OperationMethod<
+  InviteExternalUserRequest,
+  InviteExternalUserResponse,
+  InviteExternalUserError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(112, __c14, 0) as any as S.Schema<InviteExternalUserRequest>,
+  output: __S(125, __c15, 5) as any as S.Schema<InviteExternalUserResponse>,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "InviteExternalUser",
 }));
 
 export type JoinConfigureAutoError = HuggingFaceOpError;
@@ -901,13 +1413,30 @@ export const joinConfigureAuto: API.OperationMethod<
   JoinConfigureAutoError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<JoinConfigureAutoRequest>,
-  output: __S(58, __c7, 2) as any as S.Schema<JoinConfigureAutoResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<JoinConfigureAutoRequest>,
+  output: __S(130, __c16, 2) as any as S.Schema<JoinConfigureAutoResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "JoinConfigureAuto",
+}));
+
+export type ListPendingInvitationsError = HuggingFaceOpError;
+/** List pending invitations */
+export const listPendingInvitations: API.OperationMethod<
+  ListPendingInvitationsRequest,
+  ListPendingInvitationsResponse,
+  ListPendingInvitationsError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(136, __c17, 0) as any as S.Schema<ListPendingInvitationsRequest>,
+  output: __S(138, __c17, 2) as any as S.Schema<ListPendingInvitationsResponse>,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListPendingInvitations",
 }));
 
 export type RemoveUserError = HuggingFaceOpError;
@@ -918,13 +1447,47 @@ export const removeUser: API.OperationMethod<
   RemoveUserError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<RemoveUserRequest>,
-  output: __S(66, __c8, 2) as any as S.Schema<RemoveUserResponse>,
+  input: __S(24, __c3, 0) as any as S.Schema<RemoveUserRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<RemoveUserResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveUser",
+}));
+
+export type ResendInvitationError = HuggingFaceOpError;
+/** Resend invitation */
+export const resendInvitation: API.OperationMethod<
+  ResendInvitationRequest,
+  ResendInvitationResponse,
+  ResendInvitationError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(32, __c4, 0) as any as S.Schema<ResendInvitationRequest>,
+  output: __S(125, __c15, 5) as any as S.Schema<ResendInvitationResponse>,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResendInvitation",
+}));
+
+export type RevokeInvitationError = HuggingFaceOpError;
+/** Revoke invitation */
+export const revokeInvitation: API.OperationMethod<
+  RevokeInvitationRequest,
+  RevokeInvitationResponse,
+  RevokeInvitationError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(40, __c5, 0) as any as S.Schema<RevokeInvitationRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<RevokeInvitationResponse>,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeInvitation",
 }));
 
 export type UpdateResourceGroupError = HuggingFaceOpError;
@@ -935,13 +1498,30 @@ export const updateResourceGroup: API.OperationMethod<
   UpdateResourceGroupError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(73, __c9, 1) as any as S.Schema<UpdateResourceGroupRequest>,
-  output: __S(75, __c9, 3) as any as S.Schema<UpdateResourceGroupResponse>,
+  input: __S(49, __c6, 1) as any as S.Schema<UpdateResourceGroupRequest>,
+  output: __S(51, __c6, 3) as any as S.Schema<UpdateResourceGroupResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateResourceGroup",
+}));
+
+export type UpdateResourceGroupSettingsError = HuggingFaceOpError;
+/** Update resource group settings Update the org-wide resource group settings. Omitted fields are left unchanged. Enabling `allowExternalInvites` lets resource group admins add members to the org, consuming billable seats. Requires the org to have a Team plan or higher. */
+export const updateResourceGroupSettings: API.OperationMethod<
+  UpdateResourceGroupSettingsRequest,
+  UpdateResourceGroupSettingsResponse,
+  UpdateResourceGroupSettingsError,
+  HuggingFaceOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(56, __c7, 0) as any as S.Schema<UpdateResourceGroupSettingsRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<UpdateResourceGroupSettingsResponse>,
+  errors: [],
+  protocol: HuggingFaceProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateResourceGroupSettings",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -1000,8 +1580,11 @@ function __c1(j: number): any {
           name: S.String,
           avatarUrl: S.String,
           role: S.String,
+          assignedRole: S.String,
           orgRole: S.String,
           addedBy: S.optional(S.String),
+          roleSetBy: S.optional(S.NullOr(S.String)),
+          isExternalCollaborator: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AddUsersResponseUsersItem" });
     case 2:
@@ -1016,7 +1599,7 @@ function __c2(j: number): any {
           name: S.String.pipe(T.Label()),
           resourceGroupId: S.String.pipe(T.Label()),
           username: S.String.pipe(T.Label()),
-          role: S.String,
+          body: S.optional(S.Unknown.pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1046,12 +1629,143 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
+          resourceGroupId: S.String.pipe(T.Label()),
+          username: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/organizations/{name}/resource-groups/{resourceGroupId}/users/{username}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RemoveUserRequest" });
+    case 1:
+      return S.Array(S.Unknown);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          description: S.optional(S.NullOr(S.String)),
+          autoJoin: S.optional(S.Unknown),
+          spendLimits: S.optional(__S(8, __c1, 0)),
+          users: __S(10, __c1, 2),
+          resources: __S(25, __c3, 1),
+        }),
+      ).annotate({ identifier: "RemoveUserResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          resourceGroupId: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/organizations/{name}/resource-groups/{resourceGroupId}/invitation/{id}/resend",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ResendInvitationRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          resourceGroupId: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/api/organizations/{name}/resource-groups/{resourceGroupId}/invitation/{id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RevokeInvitationRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "RevokeInvitationResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          total: S.optional(S.NullOr(S.Number)),
+          inferenceProviders: S.optional(S.NullOr(S.Number)),
+          spaces: S.optional(S.NullOr(S.Number)),
+          jobs: S.optional(S.NullOr(S.Number)),
+          endpoints: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "UpdateResourceGroupRequestSpendLimits" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          resourceGroupId: S.String.pipe(T.Label()),
+          description: S.optional(S.String),
+          spendLimits: S.optional(__S(48, __c6, 0)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/organizations/{name}/resource-groups/{resourceGroupId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateResourceGroupRequest" });
+    case 2:
+      return S.Array(S.Unknown);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          description: S.optional(S.NullOr(S.String)),
+          autoJoin: S.optional(S.Unknown),
+          spendLimits: S.optional(__S(8, __c1, 0)),
+          users: __S(10, __c1, 2),
+          resources: __S(50, __c6, 2),
+        }),
+      ).annotate({ identifier: "UpdateResourceGroupResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          minRoleToCreate: S.optional(S.String),
+          allowExternalInvites: S.optional(S.Unknown),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/organizations/{name}/resource-groups/settings",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateResourceGroupSettingsRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           user: S.String,
           role: S.String,
         }),
       ).annotate({ identifier: "AddUsersRequestUsersItemCase1" });
     case 1:
-      return S.Array(__S(24, __c3, 0));
+      return S.Array(__S(64, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1060,14 +1774,14 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "RepoId" });
     case 3:
-      return S.Array(__S(26, __c3, 2));
+      return S.Array(__S(66, __c8, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           description: S.optional(S.String),
-          users: S.optional(__S(25, __c3, 1)),
-          repos: S.optional(__S(27, __c3, 3)),
+          users: S.optional(__S(65, __c8, 1)),
+          repos: S.optional(__S(67, __c8, 3)),
           autoJoin: S.optional(S.Unknown),
         }).pipe(
           T.Http({ method: "POST", uri: "/api/organizations/{name}/resource-groups", code: 200 }),
@@ -1084,12 +1798,12 @@ function __c3(j: number): any {
           autoJoin: S.optional(S.Unknown),
           spendLimits: S.optional(__S(8, __c1, 0)),
           users: __S(10, __c1, 2),
-          resources: __S(29, __c3, 5),
+          resources: __S(69, __c8, 5),
         }),
       ).annotate({ identifier: "CreateResourceGroupResponse" });
   }
 }
-function __c4(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1112,7 +1826,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DeleteResourceGroupResponse" });
   }
 }
-function __c5(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1138,12 +1852,12 @@ function __c5(j: number): any {
           autoJoin: S.optional(S.Unknown),
           spendLimits: S.optional(__S(8, __c1, 0)),
           users: __S(10, __c1, 2),
-          resources: __S(41, __c5, 1),
+          resources: __S(81, __c10, 1),
         }),
       ).annotate({ identifier: "GetResourceGroupResponse" });
   }
 }
-function __c6(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1164,18 +1878,136 @@ function __c6(j: number): any {
           autoJoin: S.optional(S.Unknown),
           spendLimits: S.optional(__S(8, __c1, 0)),
           users: __S(10, __c1, 2),
-          resources: __S(49, __c6, 1),
+          resources: __S(89, __c11, 1),
         }),
       ).annotate({ identifier: "GetResourceGroupsResponseBodyItem" });
     case 3:
-      return S.Array(__S(50, __c6, 2));
+      return S.Array(__S(90, __c11, 2));
     case 4:
-      return S.suspend(() => __S(51, __c6, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(91, __c11, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetResourceGroupsResponse",
       });
   }
 }
-function __c7(j: number): any {
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/organizations/{name}/resource-groups/settings",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetResourceGroupSettingsRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          minRoleToCreate: S.String,
+          allowExternalInvites: S.Boolean,
+        }),
+      ).annotate({ identifier: "GetResourceGroupSettingsResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          resourceGroupId: S.String.pipe(T.Label()),
+          username: S.String,
+          role: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/organizations/{name}/resource-groups/{resourceGroupId}/invite",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "InviteExternalUserRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          fullname: S.String,
+          avatarUrl: S.String,
+        }),
+      ).annotate({ identifier: "InviteExternalUserResponseAuthorOrgsItem" });
+    case 1:
+      return S.Array(__S(120, __c15, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          org: S.String,
+          orgAvatarUrl: S.String,
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InviteExternalUserResponseAuthorServiceAccount" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          _id: S.String,
+          orgs: S.optional(__S(121, __c15, 1)),
+          avatarUrl: S.String,
+          fullname: S.String,
+          isPro: S.Boolean,
+          user: S.String,
+          numModels: S.optional(S.Number),
+          numDatasets: S.optional(S.Number),
+          numSpaces: S.optional(S.Number),
+          numBuckets: S.optional(S.Number),
+          numKernels: S.optional(S.Number),
+          numDiscussions: S.optional(S.Number),
+          numPapers: S.optional(S.Number),
+          numUpvotes: S.optional(S.Number),
+          numLikes: S.optional(S.Number),
+          numFollowers: S.optional(S.Number),
+          numFollowing: S.optional(S.Number),
+          numFollowingOrgs: S.optional(S.Number),
+          details: S.optional(S.String),
+          isFollowing: S.optional(S.Boolean),
+          reasonToFollow: S.optional(S.String),
+          primaryOrgAvatarUrl: S.optional(S.String),
+          serviceAccount: S.optional(__S(122, __c15, 2)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "InviteExternalUserResponseAuthor" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          role: S.String,
+        }),
+      ).annotate({ identifier: "InviteExternalUserResponseResourceGroup" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          role: S.String,
+          externalCollaborator: S.optional(S.Boolean),
+          expiresAt: S.String,
+          author: S.optional(__S(123, __c15, 3)),
+          invitee: __S(123, __c15, 3),
+          resourceGroup: S.optional(__S(124, __c15, 4)),
+        }),
+      ).annotate({ identifier: "InviteExternalUserResponse" });
+  }
+}
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1202,84 +2034,32 @@ function __c7(j: number): any {
           autoJoin: S.optional(S.Unknown),
           spendLimits: S.optional(__S(8, __c1, 0)),
           users: __S(10, __c1, 2),
-          resources: __S(57, __c7, 1),
+          resources: __S(129, __c16, 1),
         }),
       ).annotate({ identifier: "JoinConfigureAutoResponse" });
   }
 }
-function __c8(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
           resourceGroupId: S.String.pipe(T.Label()),
-          username: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
-            method: "DELETE",
-            uri: "/api/organizations/{name}/resource-groups/{resourceGroupId}/users/{username}",
+            method: "GET",
+            uri: "/api/organizations/{name}/resource-groups/{resourceGroupId}/invitations",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "RemoveUserRequest" });
+      ).annotate({ identifier: "ListPendingInvitationsRequest" });
     case 1:
-      return S.Array(S.Unknown);
+      return S.Array(__S(125, __c15, 5));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          description: S.optional(S.NullOr(S.String)),
-          autoJoin: S.optional(S.Unknown),
-          spendLimits: S.optional(__S(8, __c1, 0)),
-          users: __S(10, __c1, 2),
-          resources: __S(65, __c8, 1),
-        }),
-      ).annotate({ identifier: "RemoveUserResponse" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          total: S.optional(S.NullOr(S.Number)),
-          inferenceProviders: S.optional(S.NullOr(S.Number)),
-          spaces: S.optional(S.NullOr(S.Number)),
-          jobs: S.optional(S.NullOr(S.Number)),
-          endpoints: S.optional(S.NullOr(S.Number)),
-        }),
-      ).annotate({ identifier: "UpdateResourceGroupRequestSpendLimits" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          resourceGroupId: S.String.pipe(T.Label()),
-          description: S.optional(S.String),
-          spendLimits: S.optional(__S(72, __c9, 0)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/organizations/{name}/resource-groups/{resourceGroupId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateResourceGroupRequest" });
-    case 2:
-      return S.Array(S.Unknown);
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          description: S.optional(S.NullOr(S.String)),
-          autoJoin: S.optional(S.Unknown),
-          spendLimits: S.optional(__S(8, __c1, 0)),
-          users: __S(10, __c1, 2),
-          resources: __S(74, __c9, 2),
-        }),
-      ).annotate({ identifier: "UpdateResourceGroupResponse" });
+      return S.suspend(() => __S(137, __c17, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListPendingInvitationsResponse",
+      });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

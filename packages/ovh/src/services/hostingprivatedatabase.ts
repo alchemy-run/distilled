@@ -53,11 +53,11 @@ export interface ConfirmHostingPrivateDatabaseTerminationRequest {
   /** Service name */
   serviceName: string;
   /** Commentary about your termination request */
-  commentary?: string;
+  commentary?: string | undefined;
   /** All future uses you can provide for a service termination */
-  futureUse?: ServiceTerminationFutureUseEnum | (string & {});
+  futureUse?: ServiceTerminationFutureUseEnum | (string & {}) | undefined;
   /** All reasons you can provide for a service termination */
-  reason?: ServiceTerminationReasonEnum | (string & {});
+  reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
   token: string;
 }
@@ -73,15 +73,15 @@ export type HostingPrivateDatabaseDatabaseCopyStatusEnum = "doing" | "done" | "e
 /** Database copy */
 export interface HostingPrivateDatabaseDatabaseCopy {
   /** Creation date of the database copy */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Expiration date of the database copy */
-  expirationDate?: string | null;
+  expirationDate?: string | null | undefined;
   /** Database copy ID */
-  id?: string;
+  id?: string | undefined;
   /** Last update of the database copy */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Database copy status */
-  status?: HostingPrivateDatabaseDatabaseCopyStatusEnum;
+  status?: HostingPrivateDatabaseDatabaseCopyStatusEnum | undefined;
 }
 export interface CopyHostingPrivateDatabaseDatabaseRestoreRequest {
   /** Service name */
@@ -91,7 +91,7 @@ export interface CopyHostingPrivateDatabaseDatabaseRestoreRequest {
   /** Copy ID */
   copyId: string;
   /** Whether to flush the database before restoring the copy (default to false) */
-  flushDatabase?: boolean;
+  flushDatabase?: boolean | undefined;
 }
 /** Task's dunction */
 export type HostingPrivateDatabaseTaskFunctionEnum =
@@ -144,33 +144,33 @@ export type HostingPrivateDatabaseTaskStatusEnum =
 /** Web Cloud Database task */
 export interface HostingPrivateDatabaseTask {
   /** Database name on which the task is working */
-  databaseName?: string | null;
+  databaseName?: string | null | undefined;
   /** Completion date */
-  doneDate?: string | null;
+  doneDate?: string | null | undefined;
   /** DumpId on which the task is working */
-  dumpId?: number | null;
+  dumpId?: number | null | undefined;
   /** Function name */
-  function?: HostingPrivateDatabaseTaskFunctionEnum;
+  function?: HostingPrivateDatabaseTaskFunctionEnum | undefined;
   /** The id of the task */
-  id?: number;
+  id?: number | undefined;
   /** Last update */
-  lastUpdate?: string | null;
+  lastUpdate?: string | null | undefined;
   /** Task creation date */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Task status */
-  status?: HostingPrivateDatabaseTaskStatusEnum;
+  status?: HostingPrivateDatabaseTaskStatusEnum | undefined;
   /** User name on which the task is working */
-  userName?: string | null;
+  userName?: string | null | undefined;
 }
 export interface CreateHostingPrivateDatabaseChangeContactRequest {
   /** Service name */
   serviceName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateHostingPrivateDatabaseChangeContactResponseBodyList = Array<number>;
 export type CreateHostingPrivateDatabaseChangeContactResponse =
@@ -214,7 +214,7 @@ export interface CreateHostingPrivateDatabaseDatabaseDumpRequest {
   /** Database name */
   databaseName: string;
   /** Whether to receive an email when the import is complete (default to false) */
-  sendEmail?: boolean;
+  sendEmail?: boolean | undefined;
 }
 /** Grant on a database for a specific user */
 export type HostingPrivateDatabaseGrantGrantEnum = "admin" | "none" | "ro" | "rw";
@@ -241,9 +241,9 @@ export interface CreateHostingPrivateDatabaseLogSubscriptionRequest {
 /** Asynchronous operation after subscribing or unsubscribing to a resource logs */
 export interface DbaasLogsLogSubscriptionResponse {
   /** Identifier of the operation */
-  operationId?: string;
+  operationId?: string | undefined;
   /** Operation owner's service name */
-  serviceName?: string;
+  serviceName?: string | undefined;
 }
 export interface CreateHostingPrivateDatabaseLogUrlRequest {
   /** Service name */
@@ -254,9 +254,9 @@ export interface CreateHostingPrivateDatabaseLogUrlRequest {
 /** Temporary url information */
 export interface DbaasLogsTemporaryLogsLink {
   /** Temporary url expiration date */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Temporary url */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CreateHostingPrivateDatabaseQuotaRefreshRequest {
   /** Service name */
@@ -298,11 +298,11 @@ export interface CreateHostingPrivateDatabaseWhitelistRequest {
   /** The whitelisted IP in your Web Cloud Database */
   ip: string;
   /** Custom name for your Whitelisted IP */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Authorize this IP to access service port */
-  service?: boolean;
+  service?: boolean | undefined;
   /** Authorize this IP to access sftp port */
-  sftp?: boolean;
+  sftp?: boolean | undefined;
 }
 export interface DeleteHostingPrivateDatabaseDatabaseRequest {
   /** Service name */
@@ -386,9 +386,9 @@ export interface GenerateHostingPrivateDatabaseTemporaryLogsLinkRequest {
 /** Temporary url information */
 export interface HostingPrivateDatabaseTemporaryUrlInformations {
   /** Temporary url expiration date */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Temporary url */
-  url?: string;
+  url?: string | undefined;
 }
 export interface GetHostingPrivateDatabaseRequest {
   /** Service name */
@@ -397,13 +397,13 @@ export interface GetHostingPrivateDatabaseRequest {
 /** Private database capability */
 export interface HostingPrivateDatabaseCapability {
   /** Can the object be created */
-  create?: boolean;
+  create?: boolean | undefined;
   /** Can the object be deleted */
-  delete?: boolean;
+  delete?: boolean | undefined;
   /** Object name */
-  object?: string;
+  object?: string | undefined;
   /** Can the object be updated */
-  update?: boolean;
+  update?: boolean | undefined;
 }
 /** Private database capabilities */
 export type HostingPrivateDatabaseServiceWithIAMCapabilitiesList =
@@ -413,24 +413,24 @@ export type HostingPrivateDatabaseDatacenterEnum = "bhs1" | "gra1" | "gra2" | "g
 /** Parameters required to query metrics from OpenTSDB */
 export interface HostingPrivateDatabaseGraphEndpoint {
   /** The OpenTSDB host */
-  host?: string | null;
+  host?: string | null | undefined;
   /** A read-only token */
-  readToken?: string | null;
+  readToken?: string | null | undefined;
   /** A read-only token ID */
-  readTokenId?: string | null;
+  readTokenId?: string | null | undefined;
 }
 /** Resource tags. Tags that were internally computed are prefixed with ovh: */
 export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Private database infrastructure */
 export type HostingPrivateDatabaseInfrastructureEnum = "docker";
@@ -439,8 +439,8 @@ export type HostingPrivateDatabaseOfferEnum = "classic" | "public";
 /** A numeric value tagged with its unit */
 export interface ComplexTypeUnitAndValueLong {
   /** Unit of the value */
-  unit?: string;
-  value?: number;
+  unit?: string | undefined;
+  value?: number | undefined;
 }
 /** Private database state */
 export type HostingPrivateDatabaseStateEnum =
@@ -470,57 +470,57 @@ export type HostingPrivateDatabaseVersionEnum =
 /** Web Cloud Database */
 export interface HostingPrivateDatabaseServiceWithIAM {
   /** Private database capabilities */
-  capabilities?: HostingPrivateDatabaseServiceWithIAMCapabilitiesList;
+  capabilities?: HostingPrivateDatabaseServiceWithIAMCapabilitiesList | undefined;
   /** Number of cpu on your private database */
-  cpu?: number;
+  cpu?: number | undefined;
   /** Datacenter where this private database is located */
-  datacenter?: HostingPrivateDatabaseDatacenterEnum;
+  datacenter?: HostingPrivateDatabaseDatacenterEnum | undefined;
   /** Set the name displayed in customer panel for your private database (max 50 chars) */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Parameters required to query metrics from OpenTSDB */
-  graphEndpoint?: HostingPrivateDatabaseGraphEndpoint | null;
+  graphEndpoint?: HostingPrivateDatabaseGraphEndpoint | null | undefined;
   /** URL for the graphical user interface */
-  guiURL?: string | null;
+  guiURL?: string | null | undefined;
   /** Private database hostname */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Private database ftp hostname */
-  hostnameFtp?: string | null;
+  hostnameFtp?: string | null | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Infrastructure where service was stored */
-  infrastructure?: HostingPrivateDatabaseInfrastructureEnum;
+  infrastructure?: HostingPrivateDatabaseInfrastructureEnum | undefined;
   /** Private database ip */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** Date of the last data synchronization */
-  lastCheck?: string;
+  lastCheck?: string | undefined;
   /** Type of the private database offer */
-  offer?: HostingPrivateDatabaseOfferEnum;
+  offer?: HostingPrivateDatabaseOfferEnum | undefined;
   /** Private database service port */
-  port?: number;
+  port?: number | undefined;
   /** Private database ftp port */
-  portFtp?: number | null;
+  portFtp?: number | null | undefined;
   /** Space allowed on your private database */
-  quotaSize?: ComplexTypeUnitAndValueLong;
+  quotaSize?: ComplexTypeUnitAndValueLong | undefined;
   /** Total space used on your private database */
-  quotaUsed?: ComplexTypeUnitAndValueLong;
+  quotaUsed?: ComplexTypeUnitAndValueLong | undefined;
   /** Amount of ram on your private database */
-  ram?: ComplexTypeUnitAndValueLong;
+  ram?: ComplexTypeUnitAndValueLong | undefined;
   /** Private database server name */
-  server?: string;
+  server?: string | undefined;
   /** Service name */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Private database state */
-  state?: HostingPrivateDatabaseStateEnum;
+  state?: HostingPrivateDatabaseStateEnum | undefined;
   /** Return the TLS certificate authority used by the private database */
-  tlsCa?: string | null;
+  tlsCa?: string | null | undefined;
   /** Private database type */
-  type?: HostingPrivateDatabaseTypeEnum;
+  type?: HostingPrivateDatabaseTypeEnum | undefined;
   /** Private database version */
-  version?: HostingPrivateDatabaseVersionEnum;
+  version?: HostingPrivateDatabaseVersionEnum | undefined;
   /** Private database version label */
-  versionLabel?: string;
+  versionLabel?: string | undefined;
   /** Private database version number */
-  versionNumber?: number;
+  versionNumber?: number | undefined;
 }
 export interface GetHostingPrivateDatabaseDatabaseRequest {
   /** Service name */
@@ -531,26 +531,26 @@ export interface GetHostingPrivateDatabaseDatabaseRequest {
 /** Users */
 export interface HostingPrivateDatabaseDatabaseUser {
   /** The grantId associated for this databaseName and this userName */
-  grantId?: number;
+  grantId?: number | undefined;
   /** User's rights on this database */
-  grantType?: HostingPrivateDatabaseGrantGrantEnum;
+  grantType?: HostingPrivateDatabaseGrantGrantEnum | undefined;
   /** User's name granted on this database */
-  userName?: string;
+  userName?: string | undefined;
 }
 /** Users granted to this database */
 export type HostingPrivateDatabaseDatabaseUsersList = Array<HostingPrivateDatabaseDatabaseUser>;
 /** Databases */
 export interface HostingPrivateDatabaseDatabase {
   /** Time of the next backup (every day) */
-  backupTime?: string | null;
+  backupTime?: string | null | undefined;
   /** Creation date of the database */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Database name */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** Space used by the database */
-  quotaUsed?: ComplexTypeUnitAndValueLong;
+  quotaUsed?: ComplexTypeUnitAndValueLong | undefined;
   /** Users granted to this database */
-  users?: HostingPrivateDatabaseDatabaseUsersList;
+  users?: HostingPrivateDatabaseDatabaseUsersList | undefined;
 }
 export interface GetHostingPrivateDatabaseDatabaseCopyRequest {
   /** Service name */
@@ -571,15 +571,15 @@ export interface GetHostingPrivateDatabaseDatabaseDumpRequest {
 /** Dumps */
 export interface HostingPrivateDatabaseDatabaseDump {
   /** Creation date of the dump */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Dump of this database name */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** Automatic deletion date of the dump */
-  deletionDate?: string;
+  deletionDate?: string | undefined;
   /** Dump id */
-  id?: number;
+  id?: number | undefined;
   /** Dump URL access */
-  url?: string;
+  url?: string | undefined;
 }
 export interface GetHostingPrivateDatabaseDatabaseExtensionRequest {
   /** Service name */
@@ -600,13 +600,13 @@ export type HostingPrivateDatabaseExtensionStatusEnum =
 /** Webcloud Database extension */
 export interface HostingPrivateDatabaseExtension {
   /** Extension details */
-  description?: string;
+  description?: string | undefined;
   /** Extension name */
-  extensionName?: string;
+  extensionName?: string | undefined;
   /** Required extensions */
-  requiredExtensions?: HostingPrivateDatabaseExtensionRequiredExtensionsList;
+  requiredExtensions?: HostingPrivateDatabaseExtensionRequiredExtensionsList | undefined;
   /** Extension status */
-  status?: HostingPrivateDatabaseExtensionStatusEnum;
+  status?: HostingPrivateDatabaseExtensionStatusEnum | undefined;
 }
 export interface GetHostingPrivateDatabaseDumpRequest {
   /** Service name */
@@ -617,17 +617,17 @@ export interface GetHostingPrivateDatabaseDumpRequest {
 /** Dumps */
 export interface HostingPrivateDatabaseDump {
   /** Creation date of the dump */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Dump of this database name */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** Automatic deletion date of the dump */
-  deletionDate?: string;
+  deletionDate?: string | undefined;
   /** Dump id */
-  dumpId?: number;
+  dumpId?: number | undefined;
   /** Dump orphan flag (true if database does not exists) */
-  orphan?: boolean;
+  orphan?: boolean | undefined;
   /** Dump URL access */
-  url?: string;
+  url?: string | undefined;
 }
 export interface GetHostingPrivateDatabaseLogKindRequest {
   /** Service name */
@@ -640,17 +640,17 @@ export type DbaasLogsLogKindAdditionalReturnedFieldsList = Array<string>;
 /** Log kind */
 export interface DbaasLogsLogKind {
   /** List of additional log fields managed in this log kind */
-  additionalReturnedFields?: DbaasLogsLogKindAdditionalReturnedFieldsList;
+  additionalReturnedFields?: DbaasLogsLogKindAdditionalReturnedFieldsList | undefined;
   /** Creation date of the log kind */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Log kind display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Log kind ID */
-  kindId?: string;
+  kindId?: string | undefined;
   /** Log kind name */
-  name?: string;
+  name?: string | undefined;
   /** Last update date of the log kind */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetHostingPrivateDatabaseLogSubscriptionRequest {
   /** Service name */
@@ -661,26 +661,26 @@ export interface GetHostingPrivateDatabaseLogSubscriptionRequest {
 /** Log subscription resource */
 export interface DbaasLogsLogSubscriptionResource {
   /** Name of subscribed resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of subscribed resource */
-  type?: string;
+  type?: string | undefined;
 }
 /** Log subscription */
 export interface DbaasLogsLogSubscription {
   /** Creation date of the subscription */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Log kind name of this subscription */
-  kind?: string;
+  kind?: string | undefined;
   /** Subscribed resource, where the logs come from */
-  resource?: DbaasLogsLogSubscriptionResource;
+  resource?: DbaasLogsLogSubscriptionResource | undefined;
   /** Name of the destination log service */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Id of the destination log stream */
-  streamId?: string;
+  streamId?: string | undefined;
   /** Subscription ID */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Last update date of the subscription */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetHostingPrivateDatabaseMetricsTokenRequest {
   /** Service name */
@@ -689,9 +689,9 @@ export interface GetHostingPrivateDatabaseMetricsTokenRequest {
 /** Metrics token */
 export interface HostingPrivateDatabaseMetricsToken {
   /** Backend url */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Generated token */
-  token?: string;
+  token?: string | undefined;
 }
 export interface GetHostingPrivateDatabaseServiceInfosRequest {
   /** Service name */
@@ -702,15 +702,15 @@ export type ServicesServicePossibleRenewPeriodList = Array<number>;
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -732,21 +732,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetHostingPrivateDatabaseTaskRequest {
   /** Service name */
@@ -763,22 +763,22 @@ export interface GetHostingPrivateDatabaseUserRequest {
 /** Users */
 export interface HostingPrivateDatabaseUserDatabase {
   /** Database granted for this user */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** The grantId associated for this databaseName and this userName */
-  grantId?: number;
+  grantId?: number | undefined;
   /** User's rights on this database */
-  grantType?: HostingPrivateDatabaseGrantGrantEnum;
+  grantType?: HostingPrivateDatabaseGrantGrantEnum | undefined;
 }
 /** Databases granted for this user */
 export type HostingPrivateDatabaseUserDatabasesList = Array<HostingPrivateDatabaseUserDatabase>;
 /** Users */
 export interface HostingPrivateDatabaseUser {
   /** Creation date of the user */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Databases granted for this user */
-  databases?: HostingPrivateDatabaseUserDatabasesList;
+  databases?: HostingPrivateDatabaseUserDatabasesList | undefined;
   /** User name used to connect to your databases */
-  userName?: string;
+  userName?: string | undefined;
 }
 export interface GetHostingPrivateDatabaseUserGrantRequest {
   /** Service name */
@@ -791,11 +791,11 @@ export interface GetHostingPrivateDatabaseUserGrantRequest {
 /** Grant */
 export interface HostingPrivateDatabaseUserGrant {
   /** Automatic deletion date of the dump */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Dump of this database name */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** Grant set */
-  grant?: HostingPrivateDatabaseGrantGrantEnum;
+  grant?: HostingPrivateDatabaseGrantGrantEnum | undefined;
 }
 export interface GetHostingPrivateDatabaseWebhostingNetworkRequest {
   /** Service name */
@@ -810,7 +810,7 @@ export type HostingPrivateDatabaseWebhostingNetworkStatusEnum =
 /** webhosting Network */
 export interface HostingPrivateDatabaseWebhostingNetwork {
   /** Webhosting network status */
-  status?: HostingPrivateDatabaseWebhostingNetworkStatusEnum;
+  status?: HostingPrivateDatabaseWebhostingNetworkStatusEnum | undefined;
 }
 export interface GetHostingPrivateDatabaseWhitelistRequest {
   /** Service name */
@@ -827,21 +827,21 @@ export type HostingPrivateDatabaseWhitelistStatusEnum =
 /** Whitelist */
 export interface HostingPrivateDatabaseWhitelist {
   /** Creation date of this whitelist */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** The whitelisted IP in your Web Cloud Database */
-  ip?: string;
+  ip?: string | undefined;
   /** The last update date of this whitelist */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Custom name for your Whitelisted IP */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Authorize this IP to access service port */
-  service?: boolean;
+  service?: boolean | undefined;
   /** Authorize this IP to access sftp port */
-  sftp?: boolean;
+  sftp?: boolean | undefined;
   /** Whitelist status */
-  status?: HostingPrivateDatabaseWhitelistStatusEnum;
+  status?: HostingPrivateDatabaseWhitelistStatusEnum | undefined;
   /** The id of the task working on this object */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
 }
 export interface ImportHostingPrivateDatabaseDatabaseRequest {
   /** Service name */
@@ -851,9 +851,9 @@ export interface ImportHostingPrivateDatabaseDatabaseRequest {
   /** Documents ID of the dump from /me/documents */
   documentId: string;
   /** Whether to flush the database before importing the dump (default to false) */
-  flushDatabase?: boolean;
+  flushDatabase?: boolean | undefined;
   /** Whether to receive an email when the import is complete (default to false) */
-  sendEmail?: boolean;
+  sendEmail?: boolean | undefined;
 }
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -863,7 +863,7 @@ export type ListHostingPrivateDatabaseRequestIamTagsMap = {
 };
 export interface ListHostingPrivateDatabaseRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListHostingPrivateDatabaseRequestIamTagsMap;
+  iamTags?: ListHostingPrivateDatabaseRequestIamTagsMap | undefined;
 }
 export type ListHostingPrivateDatabaseResponseBodyList = Array<string>;
 export type ListHostingPrivateDatabaseResponse = ListHostingPrivateDatabaseResponseBodyList;
@@ -884,13 +884,13 @@ export type HostingPrivateDatabaseAvailableOrderCapacitiesVersionList =
 /** Description for available order capacities following an offer */
 export interface HostingPrivateDatabaseAvailableOrderCapacities {
   /** A list of datacenter available for this offer */
-  datacenter?: HostingPrivateDatabaseAvailableOrderCapacitiesDatacenterList;
+  datacenter?: HostingPrivateDatabaseAvailableOrderCapacitiesDatacenterList | undefined;
   /** Offer */
-  offer?: HostingPrivateDatabaseOfferEnum;
+  offer?: HostingPrivateDatabaseOfferEnum | undefined;
   /** A list of ram size available for this offer */
-  ram?: HostingPrivateDatabaseAvailableOrderCapacitiesRamList;
+  ram?: HostingPrivateDatabaseAvailableOrderCapacitiesRamList | undefined;
   /** A list of version available for this offer */
-  version?: HostingPrivateDatabaseAvailableOrderCapacitiesVersionList;
+  version?: HostingPrivateDatabaseAvailableOrderCapacitiesVersionList | undefined;
 }
 export interface ListHostingPrivateDatabaseAvailableVersionsRequest {
   /** Service name */
@@ -911,21 +911,21 @@ export type HostingPrivateDatabaseConfigTypeEnum = "boolean" | "number" | "strin
 /** Config detail */
 export interface HostingPrivateDatabaseConfigDetail {
   /** Configuration available values */
-  availableValues?: HostingPrivateDatabaseConfigDetailAvailableValuesList;
+  availableValues?: HostingPrivateDatabaseConfigDetailAvailableValuesList | undefined;
   /** Configuration default value */
-  defaultValue?: string;
+  defaultValue?: string | undefined;
   /** Configuration description */
-  description?: string;
+  description?: string | undefined;
   /** Configuration key name */
-  key?: string;
+  key?: string | undefined;
   /** Configuration last update */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Configuration value type */
-  type?: HostingPrivateDatabaseConfigTypeEnum;
+  type?: HostingPrivateDatabaseConfigTypeEnum | undefined;
   /** Configuration unit type */
-  unit?: string | null;
+  unit?: string | null | undefined;
   /** Configuration current value */
-  value?: string;
+  value?: string | undefined;
 }
 /** Configuration details */
 export type HostingPrivateDatabaseConfigsDetailsList = Array<HostingPrivateDatabaseConfigDetail>;
@@ -934,13 +934,13 @@ export type HostingPrivateDatabaseConfigStatusEnum = "applied" | "updating";
 /** Configs */
 export interface HostingPrivateDatabaseConfigs {
   /** Configuration details */
-  details?: HostingPrivateDatabaseConfigsDetailsList;
+  details?: HostingPrivateDatabaseConfigsDetailsList | undefined;
   /** Configuration last update */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Configuration status */
-  status?: HostingPrivateDatabaseConfigStatusEnum;
+  status?: HostingPrivateDatabaseConfigStatusEnum | undefined;
   /** Configuration linked task id */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
 }
 export interface ListHostingPrivateDatabaseCpuThrottleRequest {
   /** Service name */
@@ -949,9 +949,9 @@ export interface ListHostingPrivateDatabaseCpuThrottleRequest {
 /** CPU throttle informations */
 export interface HostingPrivateDatabaseCpuThrottle {
   /** End date of the CPU throttle */
-  endDate?: string | null;
+  endDate?: string | null | undefined;
   /** Start date of the CPU throttle */
-  startDate?: string;
+  startDate?: string | undefined;
 }
 export type ListHostingPrivateDatabaseCpuThrottleResponseBodyList =
   Array<HostingPrivateDatabaseCpuThrottle>;
@@ -988,9 +988,9 @@ export interface ListHostingPrivateDatabaseDatabaseExtensionRequest {
   /** Database name */
   databaseName: string;
   /** Filter results on extension name (like) */
-  extensionName?: string;
+  extensionName?: string | undefined;
   /** Filter results on status (=) */
-  status?: HostingPrivateDatabaseExtensionStatusEnum | (string & {});
+  status?: HostingPrivateDatabaseExtensionStatusEnum | (string & {}) | undefined;
 }
 export type ListHostingPrivateDatabaseDatabaseExtensionResponseBodyList = Array<string>;
 export type ListHostingPrivateDatabaseDatabaseExtensionResponse =
@@ -999,9 +999,9 @@ export interface ListHostingPrivateDatabaseDumpRequest {
   /** Service name */
   serviceName: string;
   /** Filter the value of databaseName property (like) */
-  databaseName?: string;
+  databaseName?: string | undefined;
   /** Filter the value of orphan property (=) */
-  orphan?: boolean;
+  orphan?: boolean | undefined;
 }
 export type ListHostingPrivateDatabaseDumpResponseBodyList = Array<number>;
 export type ListHostingPrivateDatabaseDumpResponse = ListHostingPrivateDatabaseDumpResponseBodyList;
@@ -1016,7 +1016,7 @@ export interface ListHostingPrivateDatabaseLogSubscriptionRequest {
   /** Service name */
   serviceName: string;
   /** Filter on a specific kind */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListHostingPrivateDatabaseLogSubscriptionResponseBodyList = Array<string>;
 export type ListHostingPrivateDatabaseLogSubscriptionResponse =
@@ -1028,9 +1028,9 @@ export interface ListHostingPrivateDatabaseOomRequest {
 /** List of privatesql OOM kill */
 export interface HostingPrivateDatabaseOom {
   /** Date of the OOM kill */
-  date?: string;
+  date?: string | undefined;
   /** Memory size reached */
-  sizeReached?: number;
+  sizeReached?: number | undefined;
 }
 export type ListHostingPrivateDatabaseOomResponseBodyList = Array<HostingPrivateDatabaseOom>;
 export type ListHostingPrivateDatabaseOomResponse = ListHostingPrivateDatabaseOomResponseBodyList;
@@ -1038,9 +1038,9 @@ export interface ListHostingPrivateDatabaseTasksRequest {
   /** Service name */
   serviceName: string;
   /** Filter the value of function property */
-  function?: HostingPrivateDatabaseTaskFunctionEnum | (string & {});
+  function?: HostingPrivateDatabaseTaskFunctionEnum | (string & {}) | undefined;
   /** Filter the value of status property */
-  status?: HostingPrivateDatabaseTaskStatusEnum | (string & {});
+  status?: HostingPrivateDatabaseTaskStatusEnum | (string & {}) | undefined;
 }
 export type ListHostingPrivateDatabaseTasksResponseBodyList = Array<number>;
 export type ListHostingPrivateDatabaseTasksResponse =
@@ -1070,11 +1070,11 @@ export interface ListHostingPrivateDatabaseWhitelistRequest {
   /** Service name */
   serviceName: string;
   /** Filter the value of ip property (contains or equals) */
-  ip?: string;
+  ip?: string | undefined;
   /** Filter the value of service property */
-  service?: boolean;
+  service?: boolean | undefined;
   /** Filter the value of sftp property */
-  sftp?: boolean;
+  sftp?: boolean | undefined;
 }
 export type ListHostingPrivateDatabaseWhitelistResponseBodyList = Array<string>;
 export type ListHostingPrivateDatabaseWhitelistResponse =
@@ -1083,14 +1083,14 @@ export interface PutHostingPrivateDatabaseRequest {
   /** Service name */
   serviceName: string;
   /** Set the name displayed in customer panel for your private database (max 50 chars) */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
 }
 export interface PutHostingPrivateDatabaseResponse {}
 export interface PutHostingPrivateDatabaseServiceInfosRequest {
   /** Service name */
   serviceName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutHostingPrivateDatabaseServiceInfosResponse {}
 export interface PutHostingPrivateDatabaseWhitelistRequest {
@@ -1099,11 +1099,11 @@ export interface PutHostingPrivateDatabaseWhitelistRequest {
   /** Ip */
   ip: string;
   /** Custom name for your Whitelisted IP */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Authorize this IP to access service port */
-  service?: boolean;
+  service?: boolean | undefined;
   /** Authorize this IP to access sftp port */
-  sftp?: boolean;
+  sftp?: boolean | undefined;
 }
 export interface PutHostingPrivateDatabaseWhitelistResponse {}
 export interface RestartHostingPrivateDatabaseRequest {
@@ -1124,7 +1124,7 @@ export interface RestoreHostingPrivateDatabaseDumpRequest {
   /** Dump ID */
   dumpId: number;
   /** Database name */
-  databaseName?: string;
+  databaseName?: string | undefined;
 }
 export interface TerminateHostingPrivateDatabaseRequest {
   /** Service name */

@@ -34,7 +34,75 @@ const TELEMETRY = {
 } as const;
 
 /** Addon type. */
-export type AddonType = "IotEdge" | "ArcForKubernetes";
+export type ArcAddonInputKind = "ArcForKubernetes";
+/** Arc addon properties. */
+export interface ArcAddonPropertiesInput {
+  /** Arc resource subscription Id */
+  subscriptionId: string;
+  /** Arc resource group name */
+  resourceGroupName: string;
+  /** Arc resource Name */
+  resourceName: string;
+  /** Arc resource location */
+  resourceLocation: string;
+}
+/** Arc Addon. */
+export interface ArcAddonInput {
+  /** Addon type. */
+  kind: ArcAddonInputKind;
+  /** Properties specific to Arc addon. */
+  properties: ArcAddonPropertiesInput;
+}
+/** Addon type. */
+export type IoTAddonInputKind = "IotEdge";
+/** The algorithm used to encrypt "Value". */
+export type EncryptionAlgorithm = "None" | "AES256" | "RSAES_PKCS1_v_1_5";
+/** Represent the secrets intended for encryption with asymmetric key pair. */
+export interface AsymmetricEncryptedSecret {
+  /** The value of the secret. */
+  value: string;
+  /** Thumbprint certificate used to encrypt \"Value\". If the value is unencrypted, it will be null. */
+  encryptionCertThumbprint?: string | undefined;
+  /** The algorithm used to encrypt "Value". */
+  encryptionAlgorithm: EncryptionAlgorithm | (string & {});
+}
+/** Symmetric key for authentication. */
+export interface SymmetricKey {
+  /** Connection string based on the symmetric key. */
+  connectionString?: AsymmetricEncryptedSecret | undefined;
+}
+/** Authentication mechanism for IoT devices. */
+export interface Authentication {
+  /** Symmetric key for authentication. */
+  symmetricKey?: SymmetricKey | undefined;
+}
+/** Metadata of IoT device/IoT Edge device to be configured. */
+export interface IoTDeviceInfo {
+  /** ID of the IoT device/edge device. */
+  deviceId: string;
+  /** Host name for the IoT hub associated to the device. */
+  ioTHostHub: string;
+  /** Id for the IoT hub associated to the device. */
+  ioTHostHubId?: string | undefined;
+  /** Encrypted IoT device/IoT edge device connection string. */
+  authentication?: Authentication | undefined;
+}
+/** IoT addon properties. */
+export interface IoTAddonPropertiesInput {
+  /** IoT device metadata to which appliance needs to be connected. */
+  ioTDeviceDetails: IoTDeviceInfo;
+  /** IoT edge device to which the IoT Addon needs to be configured. */
+  ioTEdgeDeviceDetails: IoTDeviceInfo;
+}
+/** IoT Addon. */
+export interface IoTAddonInput {
+  /** Addon type. */
+  kind: IoTAddonInputKind;
+  /** Properties specific to IOT addon. */
+  properties: IoTAddonPropertiesInput;
+}
+/** Role Addon */
+export type AddonInput = ArcAddonInput | IoTAddonInput;
 export interface AddonsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -46,8 +114,7 @@ export interface AddonsCreateOrUpdateRequest {
   roleName: string;
   /** The name of the addon. */
   addonName: string;
-  /** Addon type. */
-  kind: AddonType | (string & {});
+  body: AddonInput;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -56,34 +123,102 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
-export interface AddonsCreateOrUpdateResponse {
+/** Addon type. */
+export type ArcAddonKind = "ArcForKubernetes";
+/** Host OS supported by the Arc addon. */
+export type PlatformType = "Windows" | "Linux";
+/** Platform where the runtime is hosted. */
+export type HostPlatformType = "KubernetesCluster" | "LinuxVM";
+/** Addon Provisioning State */
+export type AddonState =
+  | "Invalid"
+  | "Creating"
+  | "Created"
+  | "Updating"
+  | "Reconfiguring"
+  | "Failed"
+  | "Deleting";
+/** Arc addon properties. */
+export interface ArcAddonProperties {
+  /** Arc resource subscription Id */
+  subscriptionId: string;
+  /** Arc resource group name */
+  resourceGroupName: string;
+  /** Arc resource Name */
+  resourceName: string;
+  /** Arc resource location */
+  resourceLocation: string;
+  /** Arc resource version */
+  version?: string | undefined;
+  /** Host OS supported by the Arc addon. */
+  hostPlatform?: PlatformType | undefined;
+  /** Platform where the runtime is hosted. */
+  hostPlatformType?: HostPlatformType | undefined;
+  /** Addon Provisioning State */
+  provisioningState?: AddonState | undefined;
+}
+/** Arc Addon. */
+export interface ArcAddon {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Addon type. */
-  kind: AddonType;
-  /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  kind: ArcAddonKind;
+  /** Properties specific to Arc addon. */
+  properties: ArcAddonProperties;
 }
+/** Addon type. */
+export type IoTAddonKind = "IotEdge";
+/** IoT addon properties. */
+export interface IoTAddonProperties {
+  /** IoT device metadata to which appliance needs to be connected. */
+  ioTDeviceDetails: IoTDeviceInfo;
+  /** IoT edge device to which the IoT Addon needs to be configured. */
+  ioTEdgeDeviceDetails: IoTDeviceInfo;
+  /** Version of IoT running on the appliance. */
+  version?: string | undefined;
+  /** Host OS supported by the IoT addon. */
+  hostPlatform?: PlatformType | undefined;
+  /** Platform where the runtime is hosted. */
+  hostPlatformType?: HostPlatformType | undefined;
+  /** Addon Provisioning State */
+  provisioningState?: AddonState | undefined;
+}
+/** IoT Addon. */
+export interface IoTAddon {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Addon type. */
+  kind: IoTAddonKind;
+  /** Properties specific to IOT addon. */
+  properties: IoTAddonProperties;
+}
+/** Role Addon */
+export type Addon = ArcAddon | IoTAddon;
+export type AddonsCreateOrUpdateResponse = Addon;
 export type DayOfWeek =
   | "Sunday"
   | "Monday"
@@ -119,19 +254,19 @@ export interface BandwidthSchedulesCreateOrUpdateRequest {
 }
 export interface BandwidthSchedulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the bandwidth schedule. */
   properties: BandwidthScheduleProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type DeviceCapacityRequestInfoPropertiesVmPlacementQueryItemList = Array<string>;
 /** Array containing the sizes of the VMs for checking if its feasible to create them on the appliance. */
@@ -142,13 +277,13 @@ export type VmPlacementRequestResultVmSizeList = Array<string>;
 /** List of VM sizes being checked for creation on appliance along with corresponding result. */
 export interface VmPlacementRequestResult {
   /** List of VM sizes being checked. */
-  vmSize?: VmPlacementRequestResultVmSizeList;
+  vmSize?: VmPlacementRequestResultVmSizeList | undefined;
   /** Boolean value indicating if the VM(s) in VmSize can be created. */
-  isFeasible?: boolean;
+  isFeasible?: boolean | undefined;
   /** MessageCode indicating reason for success or failure. */
-  messageCode?: string;
+  messageCode?: string | undefined;
   /** Localized message to be displayed to the user to explain the check result. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Array of the VMs of the sizes in VmSizes can be provisioned on the appliance. */
 export type DeviceCapacityRequestInfoPropertiesVmPlacementResultsList =
@@ -158,7 +293,7 @@ export interface DeviceCapacityRequestInfoProperties {
   /** Array containing the sizes of the VMs for checking if its feasible to create them on the appliance. */
   vmPlacementQuery: DeviceCapacityRequestInfoPropertiesVmPlacementQueryList;
   /** Array of the VMs of the sizes in VmSizes can be provisioned on the appliance. */
-  vmPlacementResults?: DeviceCapacityRequestInfoPropertiesVmPlacementResultsList;
+  vmPlacementResults?: DeviceCapacityRequestInfoPropertiesVmPlacementResultsList | undefined;
 }
 export interface CheckDeviceCapacityCheckResourceCreationFeasibilityRequest {
   /** The ID of the target subscription. */
@@ -168,15 +303,15 @@ export interface CheckDeviceCapacityCheckResourceCreationFeasibilityRequest {
   /** The device name. */
   deviceName: string;
   /** The capacity name. */
-  capacityName?: string;
+  capacityName?: string | undefined;
   /** The properties of the Device Capacity Request. */
   properties: DeviceCapacityRequestInfoProperties;
 }
 export interface CheckDeviceCapacityCheckResourceCreationFeasibilityResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Storage format used for the file represented by the share. */
 export type AzureContainerDataFormat = "BlockBlob" | "PageBlob" | "AzureFile";
@@ -204,40 +339,40 @@ export type ContainerStatus = "OK" | "Offline" | "Unknown" | "Updating" | "Needs
 /** Fields for tracking refresh job on the share or container. */
 export interface RefreshDetails {
   /** If a refresh job is currently in progress on this share or container, this field indicates the ARM resource ID of that job. The field is empty if no job is in progress. */
-  inProgressRefreshJobId?: string;
+  inProgressRefreshJobId?: string | undefined;
   /** Indicates the completed time for the last refresh job on this particular share or container, if any.This could be a failed job or a successful job. */
-  lastCompletedRefreshJobTimeInUTC?: string;
+  lastCompletedRefreshJobTimeInUTC?: string | undefined;
   /** Indicates the relative path of the error xml for the last refresh job on this particular share or container, if any. This could be a failed job or a successful job. */
-  errorManifestFile?: string;
+  errorManifestFile?: string | undefined;
   /** Indicates the id of the last refresh job on this particular share or container,if any. This could be a failed job or a successful job. */
-  lastJob?: string;
+  lastJob?: string | undefined;
 }
 /** The container properties. */
 export interface ContainerProperties {
   /** Current status of the container. */
-  containerStatus?: ContainerStatus;
+  containerStatus?: ContainerStatus | undefined;
   /** DataFormat for Container */
   dataFormat: AzureContainerDataFormat;
   /** Details of the refresh job on this container. */
-  refreshDetails?: RefreshDetails;
+  refreshDetails?: RefreshDetails | undefined;
   /** The UTC time when container got created. */
-  createdDateTime?: string;
+  createdDateTime?: string | undefined;
 }
 export interface ContainersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The container properties. */
   properties: ContainerProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAddonRequest {
   /** The ID of the target subscription. */
@@ -253,9 +388,9 @@ export interface DeleteAddonRequest {
 }
 export interface DeleteAddonResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteBandwidthScheduleRequest {
   /** The ID of the target subscription. */
@@ -269,9 +404,9 @@ export interface DeleteBandwidthScheduleRequest {
 }
 export interface DeleteBandwidthScheduleResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteContainerRequest {
   /** The ID of the target subscription. */
@@ -287,9 +422,9 @@ export interface DeleteContainerRequest {
 }
 export interface DeleteContainerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDeviceRequest {
   /** The ID of the target subscription. */
@@ -301,9 +436,9 @@ export interface DeleteDeviceRequest {
 }
 export interface DeleteDeviceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteMonitoringConfigRequest {
   /** The ID of the target subscription. */
@@ -317,9 +452,9 @@ export interface DeleteMonitoringConfigRequest {
 }
 export interface DeleteMonitoringConfigResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteOrderRequest {
   /** The ID of the target subscription. */
@@ -331,9 +466,9 @@ export interface DeleteOrderRequest {
 }
 export interface DeleteOrderResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRoleRequest {
   /** The ID of the target subscription. */
@@ -347,9 +482,9 @@ export interface DeleteRoleRequest {
 }
 export interface DeleteRoleResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteShareRequest {
   /** The ID of the target subscription. */
@@ -363,9 +498,9 @@ export interface DeleteShareRequest {
 }
 export interface DeleteShareResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteStorageAccountRequest {
   /** The ID of the target subscription. */
@@ -379,9 +514,9 @@ export interface DeleteStorageAccountRequest {
 }
 export interface DeleteStorageAccountResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteStorageAccountCredentialsRequest {
   /** The ID of the target subscription. */
@@ -395,9 +530,9 @@ export interface DeleteStorageAccountCredentialsRequest {
 }
 export interface DeleteStorageAccountCredentialsResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteTriggerRequest {
   /** The ID of the target subscription. */
@@ -411,9 +546,9 @@ export interface DeleteTriggerRequest {
 }
 export interface DeleteTriggerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteUserRequest {
   /** The ID of the target subscription. */
@@ -427,9 +562,9 @@ export interface DeleteUserRequest {
 }
 export interface DeleteUserResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type DevicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -438,12 +573,12 @@ export type DataResidencyType = "GeoZoneReplication" | "ZoneReplication";
 /** Wraps data-residency related information for edge-resource and this should be used with ARM layer. */
 export interface DataResidency {
   /** DataResidencyType enum */
-  type?: DataResidencyType | (string & {});
+  type?: DataResidencyType | (string & {}) | undefined;
 }
 /** The properties of the Data Box Edge/Gateway device. */
 export interface DataBoxEdgeDevicePropertiesInput {
   /** The details of data-residency related properties for this resource */
-  dataResidency?: DataResidency;
+  dataResidency?: DataResidency | undefined;
 }
 /** The Sku name. */
 export type SkuName =
@@ -481,16 +616,16 @@ export type SkuTier = "Standard";
 /** The SKU type. */
 export interface Sku {
   /** SKU name. */
-  name?: SkuName | (string & {});
+  name?: SkuName | (string & {}) | undefined;
   /** The SKU tier. This is based on the SKU name. */
-  tier?: SkuTier | (string & {});
+  tier?: SkuTier | (string & {}) | undefined;
 }
 /** Identity type */
 export type MsiIdentityType = "None" | "SystemAssigned" | "UserAssigned";
 /** Msi identity details of the resource */
 export interface ResourceIdentityInput {
   /** Identity type */
-  type?: MsiIdentityType | (string & {});
+  type?: MsiIdentityType | (string & {}) | undefined;
 }
 export interface DevicesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -500,17 +635,17 @@ export interface DevicesCreateOrUpdateRequest {
   /** The device name. */
   deviceName: string;
   /** Resource tags. */
-  tags?: DevicesCreateOrUpdateRequestTagsMap;
+  tags?: DevicesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the Data Box Edge/Gateway device. */
-  properties?: DataBoxEdgeDevicePropertiesInput;
+  properties?: DataBoxEdgeDevicePropertiesInput | undefined;
   /** The SKU type. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The etag for the devices. */
-  etag?: string;
+  etag?: string | undefined;
   /** Msi identity of the resource */
-  identity?: ResourceIdentityInput;
+  identity?: ResourceIdentityInput | undefined;
 }
 /** Resource tags. */
 export type DevicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -529,17 +664,17 @@ export type DataBoxEdgeDevicePropertiesSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface DataBoxEdgeDevicePropertiesSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: DataBoxEdgeDevicePropertiesSystemDataCreatedByType;
+  createdByType?: DataBoxEdgeDevicePropertiesSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DataBoxEdgeDevicePropertiesSystemDataLastModifiedByType;
+  lastModifiedByType?: DataBoxEdgeDevicePropertiesSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The status of the Data Box Edge/Gateway device. */
 export type DataBoxEdgeDeviceStatus =
@@ -567,88 +702,88 @@ export type ResourceMoveStatus = "None" | "ResourceMoveInProgress" | "ResourceMo
 /** Fields for tracking resource move */
 export interface ResourceMoveDetails {
   /** Denotes whether move operation is in progress */
-  operationInProgress?: ResourceMoveStatus;
+  operationInProgress?: ResourceMoveStatus | undefined;
   /** Denotes the timeout of the operation to finish */
-  operationInProgressLockTimeoutInUTC?: string;
+  operationInProgressLockTimeoutInUTC?: string | undefined;
 }
 export type SubscriptionState = "Registered" | "Warned" | "Suspended" | "Deleted" | "Unregistered";
 export interface SubscriptionRegisteredFeatures {
-  name?: string;
-  state?: string;
+  name?: string | undefined;
+  state?: string | undefined;
 }
 export type SubscriptionPropertiesRegisteredFeaturesList = Array<SubscriptionRegisteredFeatures>;
 export interface SubscriptionProperties {
-  tenantId?: string;
-  locationPlacementId?: string;
-  quotaId?: string;
-  serializedDetails?: string;
-  registeredFeatures?: SubscriptionPropertiesRegisteredFeaturesList;
+  tenantId?: string | undefined;
+  locationPlacementId?: string | undefined;
+  quotaId?: string | undefined;
+  serializedDetails?: string | undefined;
+  registeredFeatures?: SubscriptionPropertiesRegisteredFeaturesList | undefined;
 }
 /** Subscription details for the Edge Profile */
 export interface EdgeProfileSubscription {
   /** Edge Subscription Registration ID */
-  registrationId?: string;
+  registrationId?: string | undefined;
   /** ARM ID of the subscription */
-  id?: string;
-  state?: SubscriptionState;
-  registrationDate?: string;
-  subscriptionId?: string;
-  properties?: SubscriptionProperties;
+  id?: string | undefined;
+  state?: SubscriptionState | (string & {}) | undefined;
+  registrationDate?: string | undefined;
+  subscriptionId?: string | undefined;
+  properties?: SubscriptionProperties | undefined;
 }
 /** Details about Edge Profile for the resource */
 export interface EdgeProfile {
   /** Edge Profile Subscription */
-  subscription?: EdgeProfileSubscription;
+  subscription?: EdgeProfileSubscription | undefined;
 }
 /** The properties of the Data Box Edge/Gateway device. */
 export interface DataBoxEdgeDeviceProperties {
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DataBoxEdgeDevicePropertiesSystemData;
+  systemData?: DataBoxEdgeDevicePropertiesSystemData | undefined;
   /** The status of the Data Box Edge/Gateway device. */
-  dataBoxEdgeDeviceStatus?: DataBoxEdgeDeviceStatus;
+  dataBoxEdgeDeviceStatus?: DataBoxEdgeDeviceStatus | undefined;
   /** The Serial Number of Data Box Edge/Gateway device. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** The Description of the Data Box Edge/Gateway device. */
-  description?: string;
+  description?: string | undefined;
   /** The description of the Data Box Edge/Gateway device model. */
-  modelDescription?: string;
+  modelDescription?: string | undefined;
   /** The type of the Data Box Edge/Gateway device. */
-  deviceType?: DeviceType;
+  deviceType?: DeviceType | undefined;
   /** The Data Box Edge/Gateway device name. */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** The Data Box Edge/Gateway device culture. */
-  culture?: string;
+  culture?: string | undefined;
   /** The Data Box Edge/Gateway device model. */
-  deviceModel?: string;
+  deviceModel?: string | undefined;
   /** The Data Box Edge/Gateway device software version. */
-  deviceSoftwareVersion?: string;
+  deviceSoftwareVersion?: string | undefined;
   /** The Data Box Edge/Gateway device local capacity in MB. */
-  deviceLocalCapacity?: number;
+  deviceLocalCapacity?: number | undefined;
   /** The Data Box Edge/Gateway device timezone. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** The device software version number of the device (eg: 1.2.18105.6). */
-  deviceHcsVersion?: string;
+  deviceHcsVersion?: string | undefined;
   /** Type of compute roles configured. */
-  configuredRoleTypes?: DataBoxEdgeDevicePropertiesConfiguredRoleTypesList;
+  configuredRoleTypes?: DataBoxEdgeDevicePropertiesConfiguredRoleTypesList | undefined;
   /** The number of nodes in the cluster. */
-  nodeCount?: number;
+  nodeCount?: number | undefined;
   /** The details of the move operation on this resource. */
-  resourceMoveDetails?: ResourceMoveDetails;
+  resourceMoveDetails?: ResourceMoveDetails | undefined;
   /** The details of Edge Profile for this resource */
-  edgeProfile?: EdgeProfile;
+  edgeProfile?: EdgeProfile | undefined;
   /** The details of data-residency related properties for this resource */
-  dataResidency?: DataResidency;
+  dataResidency?: DataResidency | undefined;
   /** Kubernetes Workload Profile */
-  kubernetesWorkloadProfile?: string;
+  kubernetesWorkloadProfile?: string | undefined;
 }
 /** Msi identity details of the resource */
 export interface ResourceIdentity {
   /** Identity type */
-  type?: MsiIdentityType;
+  type?: MsiIdentityType | undefined;
   /** Service Principal Id backing the Msi */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Home Tenant Id */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** The kind of the device. */
 export type DataBoxEdgeDeviceKind =
@@ -658,38 +793,27 @@ export type DataBoxEdgeDeviceKind =
   | "AzureModularDataCentre";
 export interface DevicesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DevicesCreateOrUpdateResponseTagsMap;
+  tags?: DevicesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the Data Box Edge/Gateway device. */
-  properties?: DataBoxEdgeDeviceProperties;
+  properties?: DataBoxEdgeDeviceProperties | undefined;
   /** The SKU type. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The etag for the devices. */
-  etag?: string;
+  etag?: string | undefined;
   /** Msi identity of the resource */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
   /** The kind of the device. */
-  kind?: DataBoxEdgeDeviceKind;
-}
-/** The algorithm used to encrypt "Value". */
-export type EncryptionAlgorithm = "None" | "AES256" | "RSAES_PKCS1_v_1_5";
-/** Represent the secrets intended for encryption with asymmetric key pair. */
-export interface AsymmetricEncryptedSecret {
-  /** The value of the secret. */
-  value: string;
-  /** Thumbprint certificate used to encrypt \"Value\". If the value is unencrypted, it will be null. */
-  encryptionCertThumbprint?: string;
-  /** The algorithm used to encrypt "Value". */
-  encryptionAlgorithm: EncryptionAlgorithm | (string & {});
+  kind?: DataBoxEdgeDeviceKind | undefined;
 }
 /** The properties of security settings. */
 export interface SecuritySettingsProperties {
@@ -708,9 +832,9 @@ export interface DevicesCreateOrUpdateSecuritySettingsRequest {
 }
 export interface DevicesCreateOrUpdateSecuritySettingsResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DevicesGetUpdateSummaryRequest {
   /** The ID of the target subscription. */
@@ -749,90 +873,90 @@ export type UpdateStatus =
 /** Update Specific attributes */
 export interface UpdateDetails {
   /** Title of the Update */
-  updateTitle?: string;
+  updateTitle?: string | undefined;
   /** Size of the update(In Bytes) */
-  updateSize?: number;
+  updateSize?: number | undefined;
   /** Type of the Update */
-  updateType?: UpdateType;
+  updateType?: UpdateType | undefined;
   /** Target Version number */
-  targetVersion?: string;
+  targetVersion?: string | undefined;
   /** Friendly Version Number */
-  friendlyVersionNumber?: string;
+  friendlyVersionNumber?: string | undefined;
   /** Estimated Install Time for the update */
-  estimatedInstallTimeInMins?: number;
+  estimatedInstallTimeInMins?: number | undefined;
   /** Indicates if updates are available and at least one of the updates needs a reboot. */
-  rebootBehavior?: InstallRebootBehavior;
+  rebootBehavior?: InstallRebootBehavior | undefined;
   /** Impact of Installing an updateType */
-  installationImpact?: InstallationImpact;
+  installationImpact?: InstallationImpact | undefined;
   /** Status of the update. */
-  status?: UpdateStatus;
+  status?: UpdateStatus | undefined;
 }
 /** The list of updates available for install. */
 export type UpdateSummaryPropertiesUpdatesList = Array<UpdateDetails>;
 /** The device update information summary. */
 export interface UpdateSummaryProperties {
   /** The current version of the device in format: 1.2.17312.13.", */
-  deviceVersionNumber?: string;
+  deviceVersionNumber?: string | undefined;
   /** The current version of the device in text format. */
-  friendlyDeviceVersionName?: string;
+  friendlyDeviceVersionName?: string | undefined;
   /** The last time when a scan was done on the device. */
-  deviceLastScannedDateTime?: string;
+  deviceLastScannedDateTime?: string | undefined;
   /** The time when the last scan job was completed (success/cancelled/failed) on the appliance. */
-  lastCompletedScanJobDateTime?: string;
+  lastCompletedScanJobDateTime?: string | undefined;
   /** Time when the last scan job is successfully completed. */
-  lastSuccessfulScanJobTime?: string;
+  lastSuccessfulScanJobTime?: string | undefined;
   /** The time when the last Download job was completed (success/cancelled/failed) on the appliance. */
-  lastCompletedDownloadJobDateTime?: string;
+  lastCompletedDownloadJobDateTime?: string | undefined;
   /** JobId of the last ran download job.(Can be success/cancelled/failed) */
-  lastCompletedDownloadJobId?: string;
+  lastCompletedDownloadJobId?: string | undefined;
   /** JobStatus of the last ran download job. */
-  lastDownloadJobStatus?: JobStatus;
+  lastDownloadJobStatus?: JobStatus | undefined;
   /** The time when the Last Install job was completed successfully on the appliance */
-  lastSuccessfulInstallJobDateTime?: string;
+  lastSuccessfulInstallJobDateTime?: string | undefined;
   /** The time when the last Install job was completed (success/cancelled/failed) on the appliance. */
-  lastCompletedInstallJobDateTime?: string;
+  lastCompletedInstallJobDateTime?: string | undefined;
   /** JobId of the last ran install job.(Can be success/cancelled/failed) */
-  lastCompletedInstallJobId?: string;
+  lastCompletedInstallJobId?: string | undefined;
   /** JobStatus of the last ran install job. */
-  lastInstallJobStatus?: JobStatus;
+  lastInstallJobStatus?: JobStatus | undefined;
   /** The number of updates available for the current device version as per the last device scan. */
-  totalNumberOfUpdatesAvailable?: number;
+  totalNumberOfUpdatesAvailable?: number | undefined;
   /** The total number of items pending download. */
-  totalNumberOfUpdatesPendingDownload?: number;
+  totalNumberOfUpdatesPendingDownload?: number | undefined;
   /** The total number of items pending install. */
-  totalNumberOfUpdatesPendingInstall?: number;
+  totalNumberOfUpdatesPendingInstall?: number | undefined;
   /** Indicates if updates are available and at least one of the updates needs a reboot. */
-  rebootBehavior?: InstallRebootBehavior;
+  rebootBehavior?: InstallRebootBehavior | undefined;
   /** The current update operation. */
-  ongoingUpdateOperation?: UpdateOperation;
+  ongoingUpdateOperation?: UpdateOperation | undefined;
   /** The job ID of the download job in progress. */
-  inProgressDownloadJobId?: string;
+  inProgressDownloadJobId?: string | undefined;
   /** The job ID of the install job in progress. */
-  inProgressInstallJobId?: string;
+  inProgressInstallJobId?: string | undefined;
   /** The time when the currently running download (if any) started. */
-  inProgressDownloadJobStartedDateTime?: string;
+  inProgressDownloadJobStartedDateTime?: string | undefined;
   /** The time when the currently running install (if any) started. */
-  inProgressInstallJobStartedDateTime?: string;
+  inProgressInstallJobStartedDateTime?: string | undefined;
   /** The list of updates available for install. */
-  updateTitles?: UpdateSummaryPropertiesUpdateTitlesList;
+  updateTitles?: UpdateSummaryPropertiesUpdateTitlesList | undefined;
   /** The list of updates available for install. */
-  updates?: UpdateSummaryPropertiesUpdatesList;
+  updates?: UpdateSummaryPropertiesUpdatesList | undefined;
   /** The total size of updates available for download in bytes. */
-  totalUpdateSizeInBytes?: number;
+  totalUpdateSizeInBytes?: number | undefined;
   /** The total time in Minutes */
-  totalTimeInMinutes?: number;
+  totalTimeInMinutes?: number | undefined;
 }
 export interface DevicesGetUpdateSummaryResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The device update information summary. */
-  properties?: UpdateSummaryProperties;
+  properties?: UpdateSummaryProperties | undefined;
 }
 export interface DevicesScanForUpdatesRequest {
   /** The ID of the target subscription. */
@@ -844,9 +968,9 @@ export interface DevicesScanForUpdatesRequest {
 }
 export interface DevicesScanForUpdatesResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DownloadDeviceUpdatesRequest {
   /** The ID of the target subscription. */
@@ -858,9 +982,9 @@ export interface DownloadDeviceUpdatesRequest {
 }
 export interface DownloadDeviceUpdatesResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GenerateDeviceCertificateRequest {
   /** The ID of the target subscription. */
@@ -873,11 +997,11 @@ export interface GenerateDeviceCertificateRequest {
 /** Used in activation key generation flow. */
 export interface GenerateCertResponse {
   /** Gets or sets base64 encoded certificate raw data, this is the public part needed to be uploaded to cert vault */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** Gets or sets base64 encoded private part of the certificate, needed to form the activation key */
-  privateKey?: string | Redacted.Redacted<string>;
+  privateKey?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets expiry time in UTC */
-  expiryTimeInUTC?: string;
+  expiryTimeInUTC?: string | undefined;
 }
 export interface GetAddonRequest {
   /** The ID of the target subscription. */
@@ -891,18 +1015,7 @@ export interface GetAddonRequest {
   /** The name of the addon. */
   addonName: string;
 }
-export interface GetAddonResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Addon type. */
-  kind: AddonType;
-}
+export type GetAddonResponse = Addon;
 export interface GetAlertRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -918,42 +1031,42 @@ export type AlertSeverity = "Informational" | "Warning" | "Critical";
 /** Error details for the alert. */
 export interface AlertErrorDetails {
   /** Error code. */
-  errorCode?: string;
+  errorCode?: string | undefined;
   /** Error Message. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** Number of occurrences. */
-  occurrences?: number;
+  occurrences?: number | undefined;
 }
 /** Alert details. */
 export type AlertPropertiesDetailedInformationMap = { [key: string]: string | undefined };
 /** Properties of alert. */
 export interface AlertProperties {
   /** Alert title. */
-  title?: string;
+  title?: string | undefined;
   /** Alert type. */
-  alertType?: string;
+  alertType?: string | undefined;
   /** UTC time when the alert appeared. */
-  appearedAtDateTime?: string;
+  appearedAtDateTime?: string | undefined;
   /** Alert recommendation. */
-  recommendation?: string;
+  recommendation?: string | undefined;
   /** Severity of the alert. */
-  severity?: AlertSeverity;
+  severity?: AlertSeverity | undefined;
   /** Error details of the alert. */
-  errorDetails?: AlertErrorDetails;
+  errorDetails?: AlertErrorDetails | undefined;
   /** Alert details. */
-  detailedInformation?: AlertPropertiesDetailedInformationMap;
+  detailedInformation?: AlertPropertiesDetailedInformationMap | undefined;
 }
 export interface GetAlertResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of alert. */
-  properties?: AlertProperties;
+  properties?: AlertProperties | undefined;
 }
 export interface GetBandwidthScheduleRequest {
   /** The ID of the target subscription. */
@@ -967,13 +1080,13 @@ export interface GetBandwidthScheduleRequest {
 }
 export interface GetBandwidthScheduleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the bandwidth schedule. */
   properties: BandwidthScheduleProperties;
 }
@@ -991,13 +1104,13 @@ export interface GetContainerRequest {
 }
 export interface GetContainerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The container properties. */
   properties: ContainerProperties;
 }
@@ -1013,27 +1126,27 @@ export interface GetDeviceRequest {
 export type GetDeviceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDeviceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDeviceResponseTagsMap;
+  tags?: GetDeviceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the Data Box Edge/Gateway device. */
-  properties?: DataBoxEdgeDeviceProperties;
+  properties?: DataBoxEdgeDeviceProperties | undefined;
   /** The SKU type. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The etag for the devices. */
-  etag?: string;
+  etag?: string | undefined;
   /** Msi identity of the resource */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
   /** The kind of the device. */
-  kind?: DataBoxEdgeDeviceKind;
+  kind?: DataBoxEdgeDeviceKind | undefined;
 }
 export interface GetDeviceCapacityInfoDeviceCapacityInfoRequest {
   /** The ID of the target subscription. */
@@ -1046,63 +1159,63 @@ export interface GetDeviceCapacityInfoDeviceCapacityInfoRequest {
 /** Cluster Storage Data. */
 export interface ClusterStorageViewData {
   /** Total storage on the cluster in MB. */
-  clusterTotalStorageMb?: number;
+  clusterTotalStorageMb?: number | undefined;
   /** The available or free storage on the cluster in MB. */
-  clusterFreeStorageMb?: number;
+  clusterFreeStorageMb?: number | undefined;
 }
 /** Cluster GPU Data. */
 export interface ClusterGpuCapacity {
   /** The cluster GPU Type. */
-  gpuType?: string;
+  gpuType?: string | undefined;
   /** The used GPU units count in the cluster. */
-  gpuUsedUnitsCount?: number;
+  gpuUsedUnitsCount?: number | undefined;
   /** The free GPU units count in the cluster. */
-  gpuFreeUnitsCount?: number;
+  gpuFreeUnitsCount?: number | undefined;
   /** The GPU units count reserved for failover in the cluster. */
-  gpuReservedForFailoverUnitsCount?: number;
+  gpuReservedForFailoverUnitsCount?: number | undefined;
   /** The total GPU units count in the cluster. */
-  gpuTotalUnitsCount?: number;
+  gpuTotalUnitsCount?: number | undefined;
 }
 /** NodeCapacityInfo defines the required information to determine the placement of a VM. */
 export interface ClusterMemoryCapacity {
   /** The free memory in the cluster in MB. */
-  clusterFreeMemoryMb?: number;
+  clusterFreeMemoryMb?: number | undefined;
   /** The used memory in the cluster in MB. */
-  clusterUsedMemoryMb?: number;
+  clusterUsedMemoryMb?: number | undefined;
   /** The failover memory in the cluster in MB. */
-  clusterFailoverMemoryMb?: number;
+  clusterFailoverMemoryMb?: number | undefined;
   /** The fragmentation memory in the cluster in MB. */
-  clusterFragmentationMemoryMb?: number;
+  clusterFragmentationMemoryMb?: number | undefined;
   /** The memory reserved for Hyper-V in the cluster in MB. */
-  clusterHypervReserveMemoryMb?: number;
+  clusterHypervReserveMemoryMb?: number | undefined;
   /** The memory of the Infra VM in the cluster in MB. */
-  clusterInfraVmMemoryMb?: number;
+  clusterInfraVmMemoryMb?: number | undefined;
   /** The total memory in the cluster in MB. */
-  clusterTotalMemoryMb?: number;
+  clusterTotalMemoryMb?: number | undefined;
   /** The non-failover memory in the cluster in MB. */
-  clusterNonFailoverVmMb?: number;
+  clusterNonFailoverVmMb?: number | undefined;
   /** The memory used by VMs in the cluster in MB. */
-  clusterMemoryUsedByVmsMb?: number;
+  clusterMemoryUsedByVmsMb?: number | undefined;
 }
 /** Cluster Compute Data. */
 export interface ClusterCapacityViewData {
   /** The FQDN of the cluster. */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** The cluster's GPU capacity. */
-  gpuCapacity?: ClusterGpuCapacity;
+  gpuCapacity?: ClusterGpuCapacity | undefined;
   /** The cluster's memory capacity. */
-  memoryCapacity?: ClusterMemoryCapacity;
+  memoryCapacity?: ClusterMemoryCapacity | undefined;
   /** The last time at which the ClusterCapacityViewData was set. */
-  lastRefreshedTime?: string;
+  lastRefreshedTime?: string | undefined;
   /** The total # of vCPUs provisioned by non-HPN VM per appliance. */
-  totalProvisionedNonHpnCores?: number;
+  totalProvisionedNonHpnCores?: number | undefined;
 }
 /** VmMemory Data. */
 export interface VmMemory {
   /** The total amount of RAM in the virtual machine, as seen by the guest operating system. For a virtual machine with dynamic memory enabled, this represents the initial memory available at startup. */
-  startupMemoryMB?: number;
+  startupMemoryMB?: number | undefined;
   /** The current memory used by the virtual machine. */
-  currentMemoryUsageMB?: number;
+  currentMemoryUsageMB?: number | undefined;
 }
 /** The VM used memory per VmId. */
 export type HostCapacityVmUsedMemoryMap = { [key: string]: VmMemory | undefined };
@@ -1115,36 +1228,36 @@ export type NumaNodeDataVCpuIndexesForRootList = Array<number>;
 /** NUMA node data. */
 export interface NumaNodeData {
   /** The NUMA node index. */
-  numaNodeIndex?: number;
+  numaNodeIndex?: number | undefined;
   /** The total memory on the NUMA node. */
-  totalMemoryInMb?: number;
+  totalMemoryInMb?: number | undefined;
   /** The logical cores per core count. */
-  logicalCoreCountPerCore?: number;
+  logicalCoreCountPerCore?: number | undefined;
   /** The effective available memory on the NUMA node in MB. */
-  effectiveAvailableMemoryInMb?: number;
+  effectiveAvailableMemoryInMb?: number | undefined;
   /** The free VCPU indices for the Hpn VMs. */
-  freeVCpuIndexesForHpn?: NumaNodeDataFreeVCpuIndexesForHpnList;
+  freeVCpuIndexesForHpn?: NumaNodeDataFreeVCpuIndexesForHpnList | undefined;
   /** The VCPU indices for Hpn VMs */
-  vCpuIndexesForHpn?: NumaNodeDataVCpuIndexesForHpnList;
+  vCpuIndexesForHpn?: NumaNodeDataVCpuIndexesForHpnList | undefined;
   /** The VCPU indices for the root. */
-  vCpuIndexesForRoot?: NumaNodeDataVCpuIndexesForRootList;
+  vCpuIndexesForRoot?: NumaNodeDataVCpuIndexesForRootList | undefined;
 }
 /** The numa nodes information for Hpn VMs. */
 export type HostCapacityNumaNodesDataList = Array<NumaNodeData>;
 /** Host Capacity Data. */
 export interface HostCapacity {
   /** The name of the host. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** The available memory on the host accounting for VM placement size and any host VM reservations. */
-  effectiveAvailableMemoryMbOnHost?: number;
+  effectiveAvailableMemoryMbOnHost?: number | undefined;
   /** The available amount of GPUs on the host to use after accounting for GPUS used by reservations on the host. */
-  availableGpuCount?: number;
+  availableGpuCount?: number | undefined;
   /** The VM used memory per VmId. */
-  vmUsedMemory?: HostCapacityVmUsedMemoryMap;
+  vmUsedMemory?: HostCapacityVmUsedMemoryMap | undefined;
   /** The GPU type of the VM. */
-  gpuType?: string;
+  gpuType?: string | undefined;
   /** The numa nodes information for Hpn VMs. */
-  numaNodesData?: HostCapacityNumaNodesDataList;
+  numaNodesData?: HostCapacityNumaNodesDataList | undefined;
 }
 /** The dictionary of individual node names and node capacities in the cluster. */
 export type DeviceCapacityInfoPropertiesNodeCapacityInfosMap = {
@@ -1153,25 +1266,25 @@ export type DeviceCapacityInfoPropertiesNodeCapacityInfosMap = {
 /** The properties of Device Capacity Info */
 export interface DeviceCapacityInfoProperties {
   /** Timestamp of request in UTC */
-  timeStamp?: string;
+  timeStamp?: string | undefined;
   /** Cluster capacity data for storage resources (CSV). */
-  clusterStorageCapacityInfo?: ClusterStorageViewData;
+  clusterStorageCapacityInfo?: ClusterStorageViewData | undefined;
   /** Cluster capacity data for compute resources (Memory and GPU). */
-  clusterComputeCapacityInfo?: ClusterCapacityViewData;
+  clusterComputeCapacityInfo?: ClusterCapacityViewData | undefined;
   /** The dictionary of individual node names and node capacities in the cluster. */
-  nodeCapacityInfos?: DeviceCapacityInfoPropertiesNodeCapacityInfosMap;
+  nodeCapacityInfos?: DeviceCapacityInfoPropertiesNodeCapacityInfosMap | undefined;
 }
 export interface GetDeviceCapacityInfoDeviceCapacityInfoResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The device capacity properties. */
-  properties?: DeviceCapacityInfoProperties;
+  properties?: DeviceCapacityInfoProperties | undefined;
 }
 export interface GetDeviceExtendedInformationRequest {
   /** The ID of the target subscription. */
@@ -1192,9 +1305,9 @@ export type KeyVaultSyncStatus =
 /** Holds device secret either as a KeyVault reference or as an encrypted value. */
 export interface Secret {
   /** Encrypted (using device public key) secret value. */
-  encryptedSecret?: AsymmetricEncryptedSecret;
+  encryptedSecret?: AsymmetricEncryptedSecret | undefined;
   /** Id of the Key-Vault where secret is stored (ex: secrets/AuthClientSecret/82ef4346187a4033a10d629cde07d740). */
-  keyVaultId?: string;
+  keyVaultId?: string | undefined;
 }
 /** Device secrets, will be returned only with ODataFilter $expand=deviceSecrets */
 export type DataBoxEdgeDeviceExtendedInfoPropertiesDeviceSecretsMap = {
@@ -1205,35 +1318,35 @@ export type ClusterWitnessType = "None" | "Cloud" | "FileShare";
 /** The properties of the Data Box Edge/Gateway device extended info. */
 export interface DataBoxEdgeDeviceExtendedInfoProperties {
   /** The digital signature of encrypted certificate. */
-  encryptionKeyThumbprint?: string;
+  encryptionKeyThumbprint?: string | undefined;
   /** The public part of the encryption certificate. Client uses this to encrypt any secret. */
-  encryptionKey?: string;
+  encryptionKey?: string | undefined;
   /** The Resource ID of the Resource. */
-  resourceKey?: string;
+  resourceKey?: string | undefined;
   /** The Key Vault ARM Id for client secrets */
-  clientSecretStoreId?: string;
+  clientSecretStoreId?: string | undefined;
   /** The url to access the Client Key Vault */
-  clientSecretStoreUrl?: string;
+  clientSecretStoreUrl?: string | undefined;
   /** The name of Channel Integrity Key stored in the Client Key Vault */
-  channelIntegrityKeyName?: string;
+  channelIntegrityKeyName?: string | undefined;
   /** The version of Channel Integrity Key stored in the Client Key Vault */
-  channelIntegrityKeyVersion?: string;
+  channelIntegrityKeyVersion?: string | undefined;
   /** Key vault sync status */
-  keyVaultSyncStatus?: KeyVaultSyncStatus;
+  keyVaultSyncStatus?: KeyVaultSyncStatus | undefined;
   /** Device secrets, will be returned only with ODataFilter $expand=deviceSecrets */
-  deviceSecrets?: DataBoxEdgeDeviceExtendedInfoPropertiesDeviceSecretsMap;
+  deviceSecrets?: DataBoxEdgeDeviceExtendedInfoPropertiesDeviceSecretsMap | undefined;
   /** Cluster Witness Type */
-  clusterWitnessType?: ClusterWitnessType;
+  clusterWitnessType?: ClusterWitnessType | undefined;
   /** The witness location of file share. */
-  fileShareWitnessLocation?: string;
+  fileShareWitnessLocation?: string | undefined;
   /** The username of file share. */
-  fileShareWitnessUsername?: string;
+  fileShareWitnessUsername?: string | undefined;
   /** The Cloud Witness Storage account name. */
-  cloudWitnessStorageAccountName?: string;
+  cloudWitnessStorageAccountName?: string | undefined;
   /** The Container for cloud witness in the storage account. */
-  cloudWitnessContainerName?: string;
+  cloudWitnessContainerName?: string | undefined;
   /** The Azure service endpoint of the cloud witness storage account. */
-  cloudWitnessStorageEndpoint?: string;
+  cloudWitnessStorageEndpoint?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetDeviceExtendedInformationResponseSystemDataCreatedByType =
@@ -1250,29 +1363,29 @@ export type GetDeviceExtendedInformationResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetDeviceExtendedInformationResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetDeviceExtendedInformationResponseSystemDataCreatedByType;
+  createdByType?: GetDeviceExtendedInformationResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetDeviceExtendedInformationResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetDeviceExtendedInformationResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetDeviceExtendedInformationResponse {
   /** The path ID that uniquely identifies the object. */
-  id?: string;
+  id?: string | undefined;
   /** The object name. */
-  name?: string;
+  name?: string | undefined;
   /** The hierarchical type of the object. */
-  type?: string;
+  type?: string | undefined;
   /** The extended info properties. */
-  properties?: DataBoxEdgeDeviceExtendedInfoProperties;
+  properties?: DataBoxEdgeDeviceExtendedInfoProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetDeviceExtendedInformationResponseSystemData;
+  systemData?: GetDeviceExtendedInformationResponseSystemData | undefined;
 }
 export interface GetDeviceNetworkSettingsRequest {
   /** The ID of the target subscription. */
@@ -1287,9 +1400,9 @@ export type NetworkGroup = "None" | "NonRDMA" | "RDMA";
 /** The network adapter position. */
 export interface NetworkAdapterPosition {
   /** The network group. */
-  networkGroup?: NetworkGroup;
+  networkGroup?: NetworkGroup | undefined;
   /** The port. */
-  port?: number;
+  port?: number | undefined;
 }
 /** Value indicating whether this adapter is valid. */
 export type NetworkAdapterStatus = "Inactive" | "Active";
@@ -1300,74 +1413,74 @@ export type NetworkAdapterDHCPStatus = "Disabled" | "Enabled";
 /** Details related to the IPv4 address configuration. */
 export interface Ipv4Config {
   /** The IPv4 address of the network adapter. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** The IPv4 subnet of the network adapter. */
-  subnet?: string;
+  subnet?: string | undefined;
   /** The IPv4 gateway of the network adapter. */
-  gateway?: string;
+  gateway?: string | undefined;
 }
 /** Details related to the IPv6 address configuration. */
 export interface Ipv6Config {
   /** The IPv6 address of the network adapter. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** The IPv6 prefix of the network adapter. */
-  prefixLength?: number;
+  prefixLength?: number | undefined;
   /** The IPv6 gateway of the network adapter. */
-  gateway?: string;
+  gateway?: string | undefined;
 }
 /** The list of DNS Servers of the device. */
 export type NetworkAdapterDnsServersList = Array<string>;
 /** Represents the networkAdapter on a device. */
 export interface NetworkAdapter {
   /** Instance ID of network adapter. */
-  adapterId?: string;
+  adapterId?: string | undefined;
   /** Hardware position of network adapter. */
-  adapterPosition?: NetworkAdapterPosition;
+  adapterPosition?: NetworkAdapterPosition | undefined;
   /** Logical index of the adapter. */
-  index?: number;
+  index?: number | undefined;
   /** Node ID of the network adapter. */
-  nodeId?: string;
+  nodeId?: string | undefined;
   /** Network adapter name. */
-  networkAdapterName?: string;
+  networkAdapterName?: string | undefined;
   /** Hardware label for the adapter. */
-  label?: string;
+  label?: string | undefined;
   /** MAC address. */
-  macAddress?: string;
+  macAddress?: string | undefined;
   /** Link speed. */
-  linkSpeed?: number;
+  linkSpeed?: number | undefined;
   /** Value indicating whether this adapter is valid. */
-  status?: NetworkAdapterStatus;
+  status?: NetworkAdapterStatus | undefined;
   /** Value indicating whether this adapter is RDMA capable. */
-  rdmaStatus?: NetworkAdapterRDMAStatus;
+  rdmaStatus?: NetworkAdapterRDMAStatus | undefined;
   /** Value indicating whether this adapter has DHCP enabled. */
-  dhcpStatus?: NetworkAdapterDHCPStatus;
+  dhcpStatus?: NetworkAdapterDHCPStatus | undefined;
   /** The IPv4 configuration of the network adapter. */
-  ipv4Configuration?: Ipv4Config;
+  ipv4Configuration?: Ipv4Config | undefined;
   /** The IPv6 configuration of the network adapter. */
-  ipv6Configuration?: Ipv6Config;
+  ipv6Configuration?: Ipv6Config | undefined;
   /** The IPv6 local address. */
-  ipv6LinkLocalAddress?: string;
+  ipv6LinkLocalAddress?: string | undefined;
   /** The list of DNS Servers of the device. */
-  dnsServers?: NetworkAdapterDnsServersList;
+  dnsServers?: NetworkAdapterDnsServersList | undefined;
 }
 /** The network adapter list on the device. */
 export type NetworkSettingsPropertiesNetworkAdaptersList = Array<NetworkAdapter>;
 /** The properties of network settings. */
 export interface NetworkSettingsProperties {
   /** The network adapter list on the device. */
-  networkAdapters?: NetworkSettingsPropertiesNetworkAdaptersList;
+  networkAdapters?: NetworkSettingsPropertiesNetworkAdaptersList | undefined;
 }
 export interface GetDeviceNetworkSettingsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of network settings of a device. */
-  properties?: NetworkSettingsProperties;
+  properties?: NetworkSettingsProperties | undefined;
 }
 export interface GetDiagnosticSettingsDiagnosticProactiveLogCollectionSettingsRequest {
   /** The ID of the target subscription. */
@@ -1386,13 +1499,13 @@ export interface ProactiveLogCollectionSettingsProperties {
 }
 export interface GetDiagnosticSettingsDiagnosticProactiveLogCollectionSettingsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the diagnostic proactive log collection settings. */
   properties: ProactiveLogCollectionSettingsProperties;
 }
@@ -1411,11 +1524,11 @@ export type AccessLevel = "None" | "ReadOnly" | "ReadWrite" | "FullAccess";
 /** RemoteApplicationType for which remote support settings is being modified */
 export interface RemoteSupportSettings {
   /** Remote application type */
-  remoteApplicationType?: RemoteApplicationType | (string & {});
+  remoteApplicationType?: RemoteApplicationType | (string & {}) | undefined;
   /** Access level allowed for this remote application type */
-  accessLevel?: AccessLevel | (string & {});
+  accessLevel?: AccessLevel | (string & {}) | undefined;
   /** Expiration time stamp */
-  expirationTimeStampInUTC?: string;
+  expirationTimeStampInUTC?: string | undefined;
 }
 /** Remote support settings list according to the RemoteApplicationType */
 export type DiagnosticRemoteSupportSettingsPropertiesRemoteSupportSettingsListList =
@@ -1423,17 +1536,19 @@ export type DiagnosticRemoteSupportSettingsPropertiesRemoteSupportSettingsListLi
 /** The properties of remote support settings. */
 export interface DiagnosticRemoteSupportSettingsProperties {
   /** Remote support settings list according to the RemoteApplicationType */
-  remoteSupportSettingsList?: DiagnosticRemoteSupportSettingsPropertiesRemoteSupportSettingsListList;
+  remoteSupportSettingsList?:
+    | DiagnosticRemoteSupportSettingsPropertiesRemoteSupportSettingsListList
+    | undefined;
 }
 export interface GetDiagnosticSettingsDiagnosticRemoteSupportSettingsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the remote support settings. */
   properties: DiagnosticRemoteSupportSettingsProperties;
 }
@@ -1482,89 +1597,89 @@ export type DownloadPhase = "Unknown" | "Initializing" | "Downloading" | "Verify
 /** Details about the download progress of update. */
 export interface UpdateDownloadProgress {
   /** The download phase. */
-  downloadPhase?: DownloadPhase;
+  downloadPhase?: DownloadPhase | undefined;
   /** Percentage of completion. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** Total bytes to download. */
-  totalBytesToDownload?: number;
+  totalBytesToDownload?: number | undefined;
   /** Total bytes downloaded. */
-  totalBytesDownloaded?: number;
+  totalBytesDownloaded?: number | undefined;
   /** Number of updates to download. */
-  numberOfUpdatesToDownload?: number;
+  numberOfUpdatesToDownload?: number | undefined;
   /** Number of updates downloaded. */
-  numberOfUpdatesDownloaded?: number;
+  numberOfUpdatesDownloaded?: number | undefined;
 }
 /** Progress details during installation of updates. */
 export interface UpdateInstallProgress {
   /** Percentage completed. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** Number of updates to install. */
-  numberOfUpdatesToInstall?: number;
+  numberOfUpdatesToInstall?: number | undefined;
   /** Number of updates installed. */
-  numberOfUpdatesInstalled?: number;
+  numberOfUpdatesInstalled?: number | undefined;
 }
 /** The properties for the job. */
 export interface JobProperties {
   /** The type of the job. */
-  jobType?: JobType;
+  jobType?: JobType | undefined;
   /** Current stage of the update operation. */
-  currentStage?: UpdateOperationStage;
+  currentStage?: UpdateOperationStage | undefined;
   /** The download progress. */
-  downloadProgress?: UpdateDownloadProgress;
+  downloadProgress?: UpdateDownloadProgress | undefined;
   /** The install progress. */
-  installProgress?: UpdateInstallProgress;
+  installProgress?: UpdateInstallProgress | undefined;
   /** Total number of errors encountered during the refresh process. */
-  totalRefreshErrors?: number;
+  totalRefreshErrors?: number | undefined;
   /** Local share/remote container relative path to the error manifest file of the refresh. */
-  errorManifestFile?: string;
+  errorManifestFile?: string | undefined;
   /** ARM ID of the entity that was refreshed. */
-  refreshedEntityId?: string;
+  refreshedEntityId?: string | undefined;
   /** If only subfolders need to be refreshed, then the subfolder path inside the share or container. (The path is empty if there are no subfolders.) */
-  folder?: string;
+  folder?: string | undefined;
 }
 /** The recommended actions. */
 export type JobErrorItemRecommendationsList = Array<string>;
 /** The job error items. */
 export interface JobErrorItem {
   /** The recommended actions. */
-  recommendations?: JobErrorItemRecommendationsList;
+  recommendations?: JobErrorItemRecommendationsList | undefined;
   /** The code intended for programmatic access. */
-  code?: string;
+  code?: string | undefined;
   /** The message that describes the error in detail. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The error details. */
 export type JobErrorDetailsErrorDetailsList = Array<JobErrorItem>;
 /** The job error information containing the list of job errors. */
 export interface JobErrorDetails {
   /** The error details. */
-  errorDetails?: JobErrorDetailsErrorDetailsList;
+  errorDetails?: JobErrorDetailsErrorDetailsList | undefined;
   /** The code intended for programmatic access. */
-  code?: string;
+  code?: string | undefined;
   /** The message that describes the error in detail. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface GetJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the job. */
-  properties?: JobProperties;
+  properties?: JobProperties | undefined;
   /** The current status of the job. */
-  status?: JobStatus;
+  status?: JobStatus | undefined;
   /** The UTC date and time at which the job started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The UTC date and time at which the job completed. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The percentage of the job that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The error details. */
-  error?: JobErrorDetails;
+  error?: JobErrorDetails | undefined;
 }
 export interface GetMonitoringConfigRequest {
   /** The ID of the target subscription. */
@@ -1592,11 +1707,11 @@ export interface MetricCounter {
   /** The counter name. */
   name: string;
   /** The instance from which counter should be collected. */
-  instance?: string;
+  instance?: string | undefined;
   /** The dimension filter. */
-  dimensionFilter?: MetricCounterDimensionFilterList;
+  dimensionFilter?: MetricCounterDimensionFilterList | undefined;
   /** The additional dimensions to be added to metric. */
-  additionalDimensions?: MetricCounterAdditionalDimensionsList;
+  additionalDimensions?: MetricCounterAdditionalDimensionsList | undefined;
 }
 /** The counters that should be collected in this set. */
 export type MetricCounterSetCountersList = Array<MetricCounter>;
@@ -1612,9 +1727,9 @@ export interface MetricConfiguration {
   /** The Resource ID on which the metrics should be pushed. */
   resourceId: string;
   /** The MDM account to which the counters should be pushed. */
-  mdmAccount?: string;
+  mdmAccount?: string | undefined;
   /** The MDM namespace to which the counters should be pushed. This is required if MDMAccount is specified */
-  metricNameSpace?: string;
+  metricNameSpace?: string | undefined;
   /** Host name for the IoT hub associated to the device. */
   counterSets: MetricConfigurationCounterSetsList;
 }
@@ -1628,13 +1743,13 @@ export interface MonitoringMetricConfigurationProperties {
 }
 export interface GetMonitoringConfigResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The metric setting properties. */
   properties: MonitoringMetricConfigurationProperties;
 }
@@ -1650,25 +1765,25 @@ export interface GetOperationsStatusRequest {
 }
 export interface GetOperationsStatusResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the job. */
-  properties?: JobProperties;
+  properties?: JobProperties | undefined;
   /** The current status of the job. */
-  status?: JobStatus;
+  status?: JobStatus | undefined;
   /** The UTC date and time at which the job started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The UTC date and time at which the job completed. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The percentage of the job that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The error details. */
-  error?: JobErrorDetails;
+  error?: JobErrorDetails | undefined;
 }
 export interface GetOrderRequest {
   /** The ID of the target subscription. */
@@ -1694,17 +1809,17 @@ export interface ContactDetails {
 /** The shipping address of the customer. */
 export interface Address {
   /** The address line1. */
-  addressLine1?: string;
+  addressLine1?: string | undefined;
   /** The address line2. */
-  addressLine2?: string;
+  addressLine2?: string | undefined;
   /** The address line3. */
-  addressLine3?: string;
+  addressLine3?: string | undefined;
   /** The postal code. */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** The city name. */
-  city?: string;
+  city?: string | undefined;
   /** The state name. */
-  state?: string;
+  state?: string | undefined;
   /** The country name. */
   country: string;
 }
@@ -1730,13 +1845,13 @@ export type OrderState =
 /** Tracking courier information. */
 export interface TrackingInfo {
   /** Serial number of the device being tracked. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Name of the carrier used in the delivery. */
-  carrierName?: string;
+  carrierName?: string | undefined;
   /** Tracking ID of the shipment. */
-  trackingId?: string;
+  trackingId?: string | undefined;
   /** Tracking URL of the shipment. */
-  trackingUrl?: string;
+  trackingUrl?: string | undefined;
 }
 /** Dictionary to hold generic information which is not stored by the already existing properties */
 export type OrderStatusAdditionalOrderDetailsMap = { [key: string]: string | undefined };
@@ -1745,13 +1860,13 @@ export interface OrderStatus {
   /** Status of the order as per the allowed status types. */
   status: OrderState;
   /** Time of status update. */
-  updateDateTime?: string;
+  updateDateTime?: string | undefined;
   /** Comments related to this status change. */
-  comments?: string;
+  comments?: string | undefined;
   /** Tracking information related to the state in the ordering flow */
-  trackingInformation?: TrackingInfo;
+  trackingInformation?: TrackingInfo | undefined;
   /** Dictionary to hold generic information which is not stored by the already existing properties */
-  additionalOrderDetails?: OrderStatusAdditionalOrderDetailsMap;
+  additionalOrderDetails?: OrderStatusAdditionalOrderDetailsMap | undefined;
 }
 /** List of status changes in the order. */
 export type OrderPropertiesOrderHistoryList = Array<OrderStatus>;
@@ -1763,37 +1878,37 @@ export type ShipmentType = "NotApplicable" | "ShippedToCustomer" | "SelfPickup";
 /** Order properties. */
 export interface OrderProperties {
   /** It specify the order resource id. */
-  orderId?: string;
+  orderId?: string | undefined;
   /** The contact details. */
   contactInformation: ContactDetails;
   /** The shipping address. */
-  shippingAddress?: Address;
+  shippingAddress?: Address | undefined;
   /** Current status of the order. */
-  currentStatus?: OrderStatus;
+  currentStatus?: OrderStatus | undefined;
   /** List of status changes in the order. */
-  orderHistory?: OrderPropertiesOrderHistoryList;
+  orderHistory?: OrderPropertiesOrderHistoryList | undefined;
   /** Serial number of the device. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Tracking information for the package delivered to the customer whether it has an original or a replacement device. */
-  deliveryTrackingInfo?: OrderPropertiesDeliveryTrackingInfoList;
+  deliveryTrackingInfo?: OrderPropertiesDeliveryTrackingInfoList | undefined;
   /** Tracking information for the package returned from the customer whether it has an original or a replacement device. */
-  returnTrackingInfo?: OrderPropertiesReturnTrackingInfoList;
+  returnTrackingInfo?: OrderPropertiesReturnTrackingInfoList | undefined;
   /** ShipmentType of the order */
-  shipmentType?: ShipmentType;
+  shipmentType?: ShipmentType | undefined;
 }
 export interface GetOrderResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The order properties. */
-  properties?: OrderProperties;
+  properties?: OrderProperties | undefined;
   /** It specify the order api version. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface GetRoleRequest {
   /** The ID of the target subscription. */
@@ -1805,18 +1920,291 @@ export interface GetRoleRequest {
   /** The role name. */
   name: string;
 }
-export interface GetRoleResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Role type. */
-  kind: RoleTypes;
+/** Role type. */
+export type CloudEdgeManagementRoleKind = "CloudEdgeManagement";
+/** Local Edge Management Status */
+export type RoleStatus = "Enabled" | "Disabled";
+/** CloudEdgeManagement Role properties. */
+export interface CloudEdgeManagementRoleProperties {
+  /** Local Edge Management Status */
+  localManagementStatus?: RoleStatus | (string & {}) | undefined;
+  /** Edge Profile of the resource */
+  edgeProfile?: EdgeProfile | undefined;
+  /** Role status. */
+  roleStatus: RoleStatus | (string & {});
 }
+/** The preview of Virtual Machine Cloud Management from the Azure supports deploying and managing VMs on your Azure Stack Edge device from Azure Portal. For more information, refer to: https://docs.microsoft.com/en-us/azure/databox-online/azure-stack-edge-gpu-virtual-machine-overview By using this feature, you agree to the preview legal terms. See the https://azure.microsoft.com/en-us/support/legal/preview-supplemental-terms/ for additional details. */
+export interface CloudEdgeManagementRole {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Role type. */
+  kind: CloudEdgeManagementRoleKind;
+  /** Properties specific to CloudEdgeManagementRole role. */
+  properties?: CloudEdgeManagementRoleProperties | undefined;
+}
+/** Role type. */
+export type IoTRoleKind = "IOT";
+/** Mounting type. */
+export type MountType = "Volume" | "HostPath";
+/** The share mount point. */
+export interface MountPointMap {
+  /** ID of the share mounted to the role VM. */
+  shareId: string;
+  /** ID of the role to which share is mounted. */
+  roleId?: string | undefined;
+  /** Mount point for the share. */
+  mountPoint?: string | undefined;
+  /** Mounting type. */
+  mountType?: MountType | undefined;
+  /** Role type. */
+  roleType?: RoleTypes | undefined;
+}
+/** Mount points of shares in role(s). */
+export type IoTRolePropertiesShareMappingsList = Array<MountPointMap>;
+/** Image repository credential. */
+export interface ImageRepositoryCredential {
+  /** Image repository url (e.g.: mcr.microsoft.com). */
+  imageRepositoryUrl: string;
+  /** Repository user name. */
+  userName: string;
+  /** Repository user password. */
+  password?: AsymmetricEncryptedSecret | undefined;
+}
+/** IoT edge agent details is optional, this will be used for download system Agent module while bootstrapping IoT Role if specified. */
+export interface IoTEdgeAgentInfo {
+  /** Name of the IoT edge agent image. */
+  imageName: string;
+  /** Image Tag. */
+  tag: string;
+  /** Image repository details. */
+  imageRepository?: ImageRepositoryCredential | undefined;
+}
+/** Compute infrastructure Resource */
+export interface ComputeResource {
+  /** Processor count */
+  processorCount: number;
+  /** Memory in GB */
+  memoryInGB: number;
+}
+/** IoT role properties. */
+export interface IoTRoleProperties {
+  /** Host OS supported by the IoT role. */
+  hostPlatform: PlatformType;
+  /** IoT device metadata to which data box edge device needs to be connected. */
+  ioTDeviceDetails: IoTDeviceInfo;
+  /** IoT edge device to which the IoT role needs to be configured. */
+  ioTEdgeDeviceDetails: IoTDeviceInfo;
+  /** Mount points of shares in role(s). */
+  shareMappings?: IoTRolePropertiesShareMappingsList | undefined;
+  /** Iot edge agent details to download the agent and bootstrap iot runtime. */
+  ioTEdgeAgentInfo?: IoTEdgeAgentInfo | undefined;
+  /** Platform where the Iot runtime is hosted. */
+  hostPlatformType?: HostPlatformType | undefined;
+  /** Resource allocation */
+  computeResource?: ComputeResource | undefined;
+  /** Role status. */
+  roleStatus: RoleStatus;
+}
+/** Compute role. */
+export interface IoTRole {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Role type. */
+  kind: IoTRoleKind;
+  /** Properties specific to IoT role. */
+  properties?: IoTRoleProperties | undefined;
+}
+/** Role type. */
+export type KubernetesRoleKind = "Kubernetes";
+/** State of Kubernetes deployment */
+export type KubernetesState =
+  | "Invalid"
+  | "Creating"
+  | "Created"
+  | "Updating"
+  | "Reconfiguring"
+  | "Failed"
+  | "Deleting";
+/** Etcd configuration */
+export interface EtcdInfo {
+  /** Etcd type */
+  type?: string | undefined;
+  /** Etcd version */
+  version?: string | undefined;
+}
+/** Node type - Master/Worker */
+export type KubernetesNodeType = "Invalid" | "Master" | "Worker";
+/** Kubernetes node IP configuration */
+export interface KubernetesIPConfiguration {
+  /** Port of the Kubernetes node. */
+  port?: string | undefined;
+  /** IP address of the Kubernetes node. */
+  ipAddress?: string | undefined;
+}
+/** IP Configuration of the Kubernetes node. */
+export type NodeInfoIpConfigurationList = Array<KubernetesIPConfiguration>;
+/** Kubernetes node info */
+export interface NodeInfo {
+  /** Node name. */
+  name?: string | undefined;
+  /** Node type - Master/Worker */
+  type?: KubernetesNodeType | undefined;
+  /** IP Configuration of the Kubernetes node. */
+  ipConfiguration?: NodeInfoIpConfigurationList | undefined;
+}
+/** Kubernetes cluster nodes */
+export type KubernetesClusterInfoNodesList = Array<NodeInfo>;
+/** Kubernetes cluster configuration */
+export interface KubernetesClusterInfo {
+  /** Etcd configuration */
+  etcdInfo?: EtcdInfo | undefined;
+  /** Kubernetes cluster nodes */
+  nodes?: KubernetesClusterInfoNodesList | undefined;
+  /** Kubernetes cluster version */
+  version: string;
+}
+/** If provisioned storage is posix compliant. */
+export type PosixComplianceStatus = "Invalid" | "Enabled" | "Disabled";
+/** Kubernetes storage class info. */
+export interface KubernetesRoleStorageClassInfo {
+  /** Storage class name. */
+  name?: string | undefined;
+  /** Storage class type. */
+  type?: string | undefined;
+  /** If provisioned storage is posix compliant. */
+  posixCompliant?: PosixComplianceStatus | undefined;
+}
+/** Kubernetes storage class info. */
+export type KubernetesRoleStorageStorageClassesList = Array<KubernetesRoleStorageClassInfo>;
+/** Mount points of shares in role(s). */
+export type KubernetesRoleStorageEndpointsList = Array<MountPointMap>;
+/** Kubernetes role storage resource */
+export interface KubernetesRoleStorage {
+  /** Kubernetes storage class info. */
+  storageClasses?: KubernetesRoleStorageStorageClassesList | undefined;
+  /** Mount points of shares in role(s). */
+  endpoints?: KubernetesRoleStorageEndpointsList | undefined;
+}
+/** Kubernetes role compute resource */
+export interface KubernetesRoleCompute {
+  /** VM profile */
+  vmProfile: string;
+  /** Memory in bytes */
+  memoryInBytes?: number | undefined;
+  /** Processor count */
+  processorCount?: number | undefined;
+}
+/** Cni configuration */
+export interface CniConfig {
+  /** Cni type */
+  type?: string | undefined;
+  /** Cni version */
+  version?: string | undefined;
+  /** Pod Subnet */
+  podSubnet?: string | undefined;
+  /** Service subnet */
+  serviceSubnet?: string | undefined;
+}
+/** Load balancer ipconfig */
+export type LoadBalancerConfigIpRangeList = Array<string>;
+/** Load balancer configuration */
+export interface LoadBalancerConfig {
+  /** Load balancer type */
+  type?: string | undefined;
+  /** Load balancer version */
+  version?: string | undefined;
+  /** Load balancer ipconfig */
+  ipRange?: LoadBalancerConfigIpRangeList | undefined;
+}
+/** Kubernetes role network resource */
+export interface KubernetesRoleNetwork {
+  /** Cni configuration */
+  cniConfig?: CniConfig | undefined;
+  /** Load balancer configuration */
+  loadBalancerConfig?: LoadBalancerConfig | undefined;
+}
+/** Kubernetes role resources */
+export interface KubernetesRoleResources {
+  /** Kubernetes role storage resource */
+  storage?: KubernetesRoleStorage | undefined;
+  /** Kubernetes role compute resource */
+  compute: KubernetesRoleCompute;
+  /** Kubernetes role network resource */
+  network?: KubernetesRoleNetwork | undefined;
+}
+/** Kubernetes role properties. */
+export interface KubernetesRoleProperties {
+  /** Host OS supported by the Kubernetes role. */
+  hostPlatform: PlatformType;
+  /** State of Kubernetes deployment */
+  provisioningState?: KubernetesState | undefined;
+  /** Platform where the runtime is hosted. */
+  hostPlatformType?: HostPlatformType | undefined;
+  /** Kubernetes cluster configuration */
+  kubernetesClusterInfo: KubernetesClusterInfo;
+  /** Kubernetes role resources */
+  kubernetesRoleResources: KubernetesRoleResources;
+  /** Role status. */
+  roleStatus: RoleStatus;
+}
+/** The limited preview of Kubernetes Cluster Management from the Azure supports: 1. Using a simple turn-key option in Azure Portal, deploy a Kubernetes cluster on your Azure Stack Edge device. 2. Configure Kubernetes cluster running on your device with Arc enabled Kubernetes with a click of a button in the Azure Portal. Azure Arc enables organizations to view, manage, and govern their on-premises Kubernetes clusters using the Azure Portal, command line tools, and APIs. 3. Easily configure Persistent Volumes using SMB and NFS shares for storing container data. For more information, refer to the document here: https://databoxupdatepackages.blob.core.windows.net/documentation/Microsoft-Azure-Stack-Edge-K8-Cloud-Management-20210323.pdf Or Demo: https://databoxupdatepackages.blob.core.windows.net/documentation/Microsoft-Azure-Stack-Edge-K8S-Cloud-Management-20210323.mp4 By using this feature, you agree to the preview legal terms. See the https://azure.microsoft.com/en-us/support/legal/preview-supplemental-terms/ */
+export interface KubernetesRole {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Role type. */
+  kind: KubernetesRoleKind;
+  /** Properties specific to Kubernetes role. */
+  properties?: KubernetesRoleProperties | undefined;
+}
+/** Role type. */
+export type MECRoleKind = "MEC";
+/** MEC role properties. */
+export interface MECRoleProperties {
+  /** Activation key of the MEC. */
+  connectionString?: AsymmetricEncryptedSecret | undefined;
+  /** Controller Endpoint. */
+  controllerEndpoint?: string | undefined;
+  /** Unique Id of the Resource. */
+  resourceUniqueId?: string | undefined;
+  /** Role status. */
+  roleStatus: RoleStatus | (string & {});
+}
+/** MEC role. */
+export interface MECRole {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Role type. */
+  kind: MECRoleKind;
+  /** Properties specific to MEC role. */
+  properties?: MECRoleProperties | undefined;
+}
+/** Compute role. */
+export type Role = CloudEdgeManagementRole | IoTRole | KubernetesRole | MECRole;
+export type GetRoleResponse = Role;
 export interface GetShareRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -1864,21 +2252,6 @@ export interface ClientAccessRight {
 }
 /** List of IP addresses and corresponding access rights on the share(required for NFS protocol). */
 export type SharePropertiesClientAccessRightsList = Array<ClientAccessRight>;
-/** Mounting type. */
-export type MountType = "Volume" | "HostPath";
-/** The share mount point. */
-export interface MountPointMap {
-  /** ID of the share mounted to the role VM. */
-  shareId: string;
-  /** ID of the role to which share is mounted. */
-  roleId?: string;
-  /** Mount point for the share. */
-  mountPoint?: string;
-  /** Mounting type. */
-  mountType?: MountType;
-  /** Role type. */
-  roleType?: RoleTypes;
-}
 /** Share mount point to the role. */
 export type SharePropertiesShareMappingsList = Array<MountPointMap>;
 /** Data policy of the share. */
@@ -1886,35 +2259,35 @@ export type DataPolicy = "Cloud" | "Local";
 /** The share properties. */
 export interface ShareProperties {
   /** Description for the share. */
-  description?: string;
+  description?: string | undefined;
   /** Current status of the share. */
   shareStatus: ShareStatus;
   /** Current monitoring status of the share. */
   monitoringStatus: MonitoringStatus;
   /** Azure container mapping for the share. */
-  azureContainerInfo?: AzureContainerInfo;
+  azureContainerInfo?: AzureContainerInfo | undefined;
   /** Access protocol to be used by the share. */
   accessProtocol: ShareAccessProtocol;
   /** Mapping of users and corresponding access rights on the share (required for SMB protocol). */
-  userAccessRights?: SharePropertiesUserAccessRightsList;
+  userAccessRights?: SharePropertiesUserAccessRightsList | undefined;
   /** List of IP addresses and corresponding access rights on the share(required for NFS protocol). */
-  clientAccessRights?: SharePropertiesClientAccessRightsList;
+  clientAccessRights?: SharePropertiesClientAccessRightsList | undefined;
   /** Details of the refresh job on this share. */
-  refreshDetails?: RefreshDetails;
+  refreshDetails?: RefreshDetails | undefined;
   /** Share mount point to the role. */
-  shareMappings?: SharePropertiesShareMappingsList;
+  shareMappings?: SharePropertiesShareMappingsList | undefined;
   /** Data policy of the share. */
-  dataPolicy?: DataPolicy;
+  dataPolicy?: DataPolicy | undefined;
 }
 export interface GetShareResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The share properties. */
   properties: ShareProperties;
 }
@@ -1933,27 +2306,27 @@ export type StorageAccountStatus = "OK" | "Offline" | "Unknown" | "Updating" | "
 /** The storage account properties. */
 export interface StorageAccountProperties {
   /** Description for the storage Account. */
-  description?: string;
+  description?: string | undefined;
   /** Current status of the storage account */
-  storageAccountStatus?: StorageAccountStatus;
+  storageAccountStatus?: StorageAccountStatus | undefined;
   /** Data policy of the storage Account. */
   dataPolicy: DataPolicy;
   /** Storage Account Credential Id */
-  storageAccountCredentialId?: string;
+  storageAccountCredentialId?: string | undefined;
   /** BlobEndpoint of Storage Account */
-  blobEndpoint?: string;
+  blobEndpoint?: string | undefined;
   /** The Container Count. Present only for Storage Accounts with DataPolicy set to Cloud. */
-  containerCount?: number;
+  containerCount?: number | undefined;
 }
 export interface GetStorageAccountResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Storage Account properties. */
   properties: StorageAccountProperties;
 }
@@ -1976,29 +2349,29 @@ export interface StorageAccountCredentialProperties {
   /** Alias for the storage account. */
   alias: string;
   /** Username for the storage account. */
-  userName?: string;
+  userName?: string | undefined;
   /** Encrypted storage key. */
-  accountKey?: AsymmetricEncryptedSecret;
+  accountKey?: AsymmetricEncryptedSecret | undefined;
   /** Connection string for the storage account. Use this string if username and account key are not specified. */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
   /** Signifies whether SSL needs to be enabled or not. */
   sslStatus: SSLStatus | (string & {});
   /** Blob end point for private clouds. */
-  blobDomainName?: string;
+  blobDomainName?: string | undefined;
   /** Type of storage accessed on the storage account. */
   accountType: AccountType | (string & {});
   /** Id of the storage account. */
-  storageAccountId?: string;
+  storageAccountId?: string | undefined;
 }
 export interface GetStorageAccountCredentialsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The storage account credential properties. */
   properties: StorageAccountCredentialProperties;
 }
@@ -2013,19 +2386,79 @@ export interface GetTriggerRequest {
   name: string;
 }
 /** Trigger Kind. */
-export type TriggerEventType = "FileEvent" | "PeriodicTimerEvent";
-export interface GetTriggerResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Trigger Kind. */
-  kind: TriggerEventType;
+export type FileEventTriggerKind = "FileEvent";
+/** File source details. */
+export interface FileSourceInfo {
+  /** File share ID. */
+  shareId: string;
 }
+/** Compute role against which events will be raised. */
+export interface RoleSinkInfo {
+  /** Compute role ID. */
+  roleId: string;
+}
+/** File trigger properties. */
+export interface FileTriggerProperties {
+  /** File event source details. */
+  sourceInfo: FileSourceInfo;
+  /** Role sink info. */
+  sinkInfo: RoleSinkInfo;
+  /** A custom context tag typically used to correlate the trigger against its usage. For example, if a periodic timer trigger is intended for certain specific IoT modules in the device, the tag can be the name or the image URL of the module. */
+  customContextTag?: string | undefined;
+}
+/** Trigger details. */
+export interface FileEventTrigger {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Trigger Kind. */
+  kind: FileEventTriggerKind;
+  /** File trigger properties. */
+  properties: FileTriggerProperties;
+}
+/** Trigger Kind. */
+export type PeriodicTimerEventTriggerKind = "PeriodicTimerEvent";
+/** Periodic timer event source. */
+export interface PeriodicTimerSourceInfo {
+  /** The time of the day that results in a valid trigger. Schedule is computed with reference to the time specified upto seconds. If timezone is not specified the time will considered to be in device timezone. The value will always be returned as UTC time. */
+  startTime: string;
+  /** Periodic frequency at which timer event needs to be raised. Supports daily, hourly, minutes, and seconds. */
+  schedule: string;
+  /** Topic where periodic events are published to IoT device. */
+  topic?: string | undefined;
+}
+/** Periodic timer trigger properties. */
+export interface PeriodicTimerProperties {
+  /** Periodic timer details. */
+  sourceInfo: PeriodicTimerSourceInfo;
+  /** Role Sink information. */
+  sinkInfo: RoleSinkInfo;
+  /** A custom context tag typically used to correlate the trigger against its usage. For example, if a periodic timer trigger is intended for certain specific IoT modules in the device, the tag can be the name or the image URL of the module. */
+  customContextTag?: string | undefined;
+}
+/** Trigger details. */
+export interface PeriodicTimerEventTrigger {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Trigger Kind. */
+  kind: PeriodicTimerEventTriggerKind;
+  /** Periodic timer trigger properties. */
+  properties: PeriodicTimerProperties;
+}
+/** Trigger details. */
+export type Trigger = FileEventTrigger | PeriodicTimerEventTrigger;
+export type GetTriggerResponse = Trigger;
 export interface GetUserRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -2050,21 +2483,21 @@ export type UserType = "Share" | "LocalManagement" | "ARM";
 /** The user properties. */
 export interface UserProperties {
   /** The password details. */
-  encryptedPassword?: AsymmetricEncryptedSecret;
+  encryptedPassword?: AsymmetricEncryptedSecret | undefined;
   /** List of shares that the user has rights on. This field should not be specified during user creation. */
-  shareAccessRights?: UserPropertiesShareAccessRightsList;
+  shareAccessRights?: UserPropertiesShareAccessRightsList | undefined;
   /** Type of the user. */
   userType: UserType;
 }
 export interface GetUserResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The storage account credential properties. */
   properties: UserProperties;
 }
@@ -2078,9 +2511,9 @@ export interface InstallDeviceUpdatesRequest {
 }
 export interface InstallDeviceUpdatesResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListAddonByRoleRequest {
   /** The ID of the target subscription. */
@@ -2092,19 +2525,6 @@ export interface ListAddonByRoleRequest {
   /** The name of the role. */
   roleName: string;
 }
-/** Role Addon */
-export interface Addon {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Addon type. */
-  kind: AddonType;
-}
 /** The Addon items on this page */
 export type AddonListValueList = Array<Addon>;
 /** Collection of all the Role addon on the Azure Stack Edge device. */
@@ -2112,7 +2532,7 @@ export interface AddonList {
   /** The Addon items on this page */
   value: AddonListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAlertByDataBoxEdgeDeviceRequest {
   /** The ID of the target subscription. */
@@ -2125,15 +2545,15 @@ export interface ListAlertByDataBoxEdgeDeviceRequest {
 /** Alert on the data box edge/gateway device. */
 export interface Alert {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of alert. */
-  properties?: AlertProperties;
+  properties?: AlertProperties | undefined;
 }
 /** The Alert items on this page */
 export type AlertListValueList = Array<Alert>;
@@ -2142,7 +2562,7 @@ export interface AlertList {
   /** The Alert items on this page */
   value: AlertListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAvailableSkusRequest {
   /** The ID of the target subscription. */
@@ -2159,22 +2579,22 @@ export type SkuLocationInfoSitesList = Array<string>;
 /** The location info. */
 export interface SkuLocationInfo {
   /** The location. */
-  location?: string;
+  location?: string | undefined;
   /** The zones. */
-  zones?: SkuLocationInfoZonesList;
+  zones?: SkuLocationInfoZonesList | undefined;
   /** The sites. */
-  sites?: SkuLocationInfoSitesList;
+  sites?: SkuLocationInfoSitesList | undefined;
 }
 /** Availability of the Sku for the location/zone/site. */
 export type DataBoxEdgeSkuLocationInfoList = Array<SkuLocationInfo>;
 /** The metadata for retrieving price info. */
 export interface SkuCost {
   /** Used for querying price from commerce. */
-  meterId?: string;
+  meterId?: string | undefined;
   /** The cost quantity. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** The extended unit. */
-  extendedUnit?: string;
+  extendedUnit?: string | undefined;
 }
 /** The pricing info of the Sku. */
 export type DataBoxEdgeSkuCostsList = Array<SkuCost>;
@@ -2189,44 +2609,44 @@ export type DataBoxEdgeSkuShipmentTypesList = Array<ShipmentType>;
 /** The metadata to describe the capability. */
 export interface SkuCapability {
   /** An invariant to describe the feature. */
-  name?: string;
+  name?: string | undefined;
   /** An invariant if the feature is measured by quantity. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The capability info of the SKU. */
 export type DataBoxEdgeSkuCapabilitiesList = Array<SkuCapability>;
 /** The Sku information. */
 export interface DataBoxEdgeSku {
   /** The type of the resource. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The Sku name. */
-  name?: SkuName;
+  name?: SkuName | undefined;
   /** The Sku kind. */
-  kind?: string;
+  kind?: string | undefined;
   /** The Sku tier. */
-  tier?: SkuTier;
+  tier?: SkuTier | undefined;
   /** The Sku kind. */
-  size?: string;
+  size?: string | undefined;
   /** The Sku family. */
-  family?: string;
+  family?: string | undefined;
   /** Availability of the Sku for the region. */
-  locations?: DataBoxEdgeSkuLocationsList;
+  locations?: DataBoxEdgeSkuLocationsList | undefined;
   /** The API versions in which Sku is available. */
-  apiVersions?: DataBoxEdgeSkuApiVersionsList;
+  apiVersions?: DataBoxEdgeSkuApiVersionsList | undefined;
   /** Availability of the Sku for the location/zone/site. */
-  locationInfo?: DataBoxEdgeSkuLocationInfoList;
+  locationInfo?: DataBoxEdgeSkuLocationInfoList | undefined;
   /** The pricing info of the Sku. */
-  costs?: DataBoxEdgeSkuCostsList;
+  costs?: DataBoxEdgeSkuCostsList | undefined;
   /** Sku can be signed up by customer or not. */
-  signupOption?: SkuSignupOption;
+  signupOption?: SkuSignupOption | undefined;
   /** Availability of the Sku as preview/stable. */
-  version?: SkuVersion;
+  version?: SkuVersion | undefined;
   /** Links to the next set of results */
-  availability?: SkuAvailability;
+  availability?: SkuAvailability | undefined;
   /** List of Shipment Types supported by this SKU */
-  shipmentTypes?: DataBoxEdgeSkuShipmentTypesList;
+  shipmentTypes?: DataBoxEdgeSkuShipmentTypesList | undefined;
   /** The capability info of the SKU. */
-  capabilities?: DataBoxEdgeSkuCapabilitiesList;
+  capabilities?: DataBoxEdgeSkuCapabilitiesList | undefined;
 }
 /** The DataBoxEdgeSku items on this page */
 export type DataBoxEdgeSkuListValueList = Array<DataBoxEdgeSku>;
@@ -2235,7 +2655,7 @@ export interface DataBoxEdgeSkuList {
   /** The DataBoxEdgeSku items on this page */
   value: DataBoxEdgeSkuListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBandwidthScheduleByDataBoxEdgeDeviceRequest {
   /** The ID of the target subscription. */
@@ -2248,13 +2668,13 @@ export interface ListBandwidthScheduleByDataBoxEdgeDeviceRequest {
 /** The bandwidth schedule details. */
 export interface BandwidthSchedule {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the bandwidth schedule. */
   properties: BandwidthScheduleProperties;
 }
@@ -2265,7 +2685,7 @@ export interface BandwidthSchedulesList {
   /** The BandwidthSchedule items on this page */
   value: BandwidthSchedulesListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContainerByStorageAccountRequest {
   /** The ID of the target subscription. */
@@ -2280,13 +2700,13 @@ export interface ListContainerByStorageAccountRequest {
 /** Represents a container on the Data Box Edge/Gateway device. */
 export interface Container {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The container properties. */
   properties: ContainerProperties;
 }
@@ -2297,7 +2717,7 @@ export interface ContainerList {
   /** The Container items on this page */
   value: ContainerListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDeviceByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -2305,34 +2725,34 @@ export interface ListDeviceByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Specify $expand=details to populate additional fields related to the resource or Specify $skipToken=<token> to populate the next page in the list. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Resource tags. */
 export type DataBoxEdgeDeviceTagsMap = { [key: string]: string | undefined };
 /** The Data Box Edge/Gateway device. */
 export interface DataBoxEdgeDevice {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DataBoxEdgeDeviceTagsMap;
+  tags?: DataBoxEdgeDeviceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the Data Box Edge/Gateway device. */
-  properties?: DataBoxEdgeDeviceProperties;
+  properties?: DataBoxEdgeDeviceProperties | undefined;
   /** The SKU type. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The etag for the devices. */
-  etag?: string;
+  etag?: string | undefined;
   /** Msi identity of the resource */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
   /** The kind of the device. */
-  kind?: DataBoxEdgeDeviceKind;
+  kind?: DataBoxEdgeDeviceKind | undefined;
 }
 /** The DataBoxEdgeDevice items on this page */
 export type DataBoxEdgeDeviceListValueList = Array<DataBoxEdgeDevice>;
@@ -2341,13 +2761,13 @@ export interface DataBoxEdgeDeviceList {
   /** The DataBoxEdgeDevice items on this page */
   value: DataBoxEdgeDeviceListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDeviceBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** Specify $expand=details to populate additional fields related to the resource or Specify $skipToken=<token> to populate the next page in the list. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface ListMonitoringConfigRequest {
   /** The ID of the target subscription. */
@@ -2362,13 +2782,13 @@ export interface ListMonitoringConfigRequest {
 /** The metric setting details for the role */
 export interface MonitoringMetricConfiguration {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The metric setting properties. */
   properties: MonitoringMetricConfigurationProperties;
 }
@@ -2379,7 +2799,7 @@ export interface MonitoringMetricConfigurationList {
   /** The MonitoringMetricConfiguration items on this page */
   value: MonitoringMetricConfigurationListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNodeByDataBoxEdgeDeviceRequest {
   /** The ID of the target subscription. */
@@ -2394,30 +2814,30 @@ export type NodeStatus = "Unknown" | "Up" | "Down" | "Rebooting" | "ShuttingDown
 /** This class represents the nodes in a highly available cluster */
 export interface NodeProperties {
   /** The current status of the individual node */
-  nodeStatus?: NodeStatus;
+  nodeStatus?: NodeStatus | undefined;
   /** Serial number of the Chassis */
-  nodeChassisSerialNumber?: string;
+  nodeChassisSerialNumber?: string | undefined;
   /** Serial number of the individual node */
-  nodeSerialNumber?: string;
+  nodeSerialNumber?: string | undefined;
   /** Display Name of the individual node */
-  nodeDisplayName?: string;
+  nodeDisplayName?: string | undefined;
   /** Friendly software version name that is currently installed on the node */
-  nodeFriendlySoftwareVersion?: string;
+  nodeFriendlySoftwareVersion?: string | undefined;
   /** HCS version that is currently installed on the node */
-  nodeHcsVersion?: string;
+  nodeHcsVersion?: string | undefined;
   /** Guid instance id of the node */
-  nodeInstanceId?: string;
+  nodeInstanceId?: string | undefined;
 }
 /** Represents a single node in a Data box Edge/Gateway device Gateway devices, standalone Edge devices and a single node cluster Edge device will all have 1 node Multi-node Edge devices will have more than 1 nodes */
 export interface Node {
   /** The path ID that uniquely identifies the object. */
-  id?: string;
+  id?: string | undefined;
   /** The object name. */
-  name?: string;
+  name?: string | undefined;
   /** The hierarchical type of the object. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of the node */
-  properties?: NodeProperties;
+  properties?: NodeProperties | undefined;
 }
 /** The Node items on this page */
 export type NodeListValueList = Array<Node>;
@@ -2426,19 +2846,19 @@ export interface NodeList {
   /** The Node items on this page */
   value: NodeListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Operation display properties. */
 export interface OperationDisplay {
   /** Provider name. */
-  provider?: string;
+  provider?: string | undefined;
   /** The type of resource in which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation to be performed on the resource. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the operation to be performed. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Metric units. */
 export type MetricUnit =
@@ -2462,11 +2882,11 @@ export type MetricAggregationType =
 /** Metric Dimension v1. */
 export interface MetricDimensionV1 {
   /** Name of the metrics dimension. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of the metrics dimension. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** To be exported to shoe box. */
-  toBeExportedForShoebox?: boolean;
+  toBeExportedForShoebox?: boolean | undefined;
 }
 /** Metric dimensions, other than default dimension which is resource. */
 export type MetricSpecificationV1DimensionsList = Array<MetricDimensionV1>;
@@ -2479,51 +2899,51 @@ export type MetricSpecificationV1SupportedAggregationTypesList = Array<MetricAgg
 /** Metric specification version 1. */
 export interface MetricSpecificationV1 {
   /** Name of the metric. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of the metric. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Description of the metric to be displayed. */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** Metric units. */
-  unit?: MetricUnit;
+  unit?: MetricUnit | undefined;
   /** Metric aggregation type. */
-  aggregationType?: MetricAggregationType;
+  aggregationType?: MetricAggregationType | undefined;
   /** Metric dimensions, other than default dimension which is resource. */
-  dimensions?: MetricSpecificationV1DimensionsList;
+  dimensions?: MetricSpecificationV1DimensionsList | undefined;
   /** Set true to fill the gaps with zero. */
-  fillGapWithZero?: boolean;
+  fillGapWithZero?: boolean | undefined;
   /** Metric category. */
-  category?: MetricCategory;
+  category?: MetricCategory | undefined;
   /** Resource name override. */
-  resourceIdDimensionNameOverride?: string;
+  resourceIdDimensionNameOverride?: string | undefined;
   /** Support granularity of metrics. */
-  supportedTimeGrainTypes?: MetricSpecificationV1SupportedTimeGrainTypesList;
-  supportedAggregationTypes?: MetricSpecificationV1SupportedAggregationTypesList;
+  supportedTimeGrainTypes?: MetricSpecificationV1SupportedTimeGrainTypesList | undefined;
+  supportedAggregationTypes?: MetricSpecificationV1SupportedAggregationTypesList | undefined;
 }
 /** Metric specification as defined by shoebox. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecificationV1>;
 /** Service specification. */
 export interface ServiceSpecification {
   /** Metric specification as defined by shoebox. */
-  metricSpecifications?: ServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: ServiceSpecificationMetricSpecificationsList | undefined;
 }
 /** Operation properties. */
 export interface OperationProperties {
   /** Service specification. */
-  serviceSpecification?: ServiceSpecification;
+  serviceSpecification?: ServiceSpecification | undefined;
 }
 /** Operations. */
 export interface Operation {
   /** Name of the operation. */
-  name?: string;
+  name?: string | undefined;
   /** Is data action. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Properties displayed for the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Origin of the operation. */
-  origin?: string;
+  origin?: string | undefined;
   /** Operation properties. */
-  properties?: OperationProperties;
+  properties?: OperationProperties | undefined;
 }
 /** The list of operations. */
 export type OperationsListValueList = Array<Operation>;
@@ -2532,7 +2952,7 @@ export interface OperationsList {
   /** The list of operations. */
   value: OperationsListValueList;
   /** The URL to get the next page of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOrderByDataBoxEdgeDeviceRequest {
   /** The ID of the target subscription. */
@@ -2545,17 +2965,17 @@ export interface ListOrderByDataBoxEdgeDeviceRequest {
 /** The order details. */
 export interface Order {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The order properties. */
-  properties?: OrderProperties;
+  properties?: OrderProperties | undefined;
   /** It specify the order api version. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The Order items on this page */
 export type OrderListValueList = Array<Order>;
@@ -2564,7 +2984,7 @@ export interface OrderList {
   /** The Order items on this page */
   value: OrderListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOrderDCAccessCodeRequest {
   /** The ID of the target subscription. */
@@ -2577,12 +2997,12 @@ export interface ListOrderDCAccessCodeRequest {
 /** DCAccessCode Properties. */
 export interface DCAccessCodeProperties {
   /** DCAccess Code for the Self Managed shipment. */
-  authCode?: string;
+  authCode?: string | undefined;
 }
 /** DC Access code in the case of Self Managed Shipping. */
 export interface DCAccessCode {
   /** DCAccessCode properties. */
-  properties?: DCAccessCodeProperties;
+  properties?: DCAccessCodeProperties | undefined;
 }
 export interface ListRoleByDataBoxEdgeDeviceRequest {
   /** The ID of the target subscription. */
@@ -2592,19 +3012,6 @@ export interface ListRoleByDataBoxEdgeDeviceRequest {
   /** The device name. */
   deviceName: string;
 }
-/** Compute role. */
-export interface Role {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Role type. */
-  kind: RoleTypes;
-}
 /** The Role items on this page */
 export type RoleListValueList = Array<Role>;
 /** Collection of all the roles on the Data Box Edge device. */
@@ -2612,7 +3019,7 @@ export interface RoleList {
   /** The Role items on this page */
   value: RoleListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListShareByDataBoxEdgeDeviceRequest {
   /** The ID of the target subscription. */
@@ -2625,13 +3032,13 @@ export interface ListShareByDataBoxEdgeDeviceRequest {
 /** Represents a share on the Data Box Edge/Gateway device. */
 export interface Share {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The share properties. */
   properties: ShareProperties;
 }
@@ -2642,7 +3049,7 @@ export interface ShareList {
   /** The Share items on this page */
   value: ShareListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageAccountByDataBoxEdgeDeviceRequest {
   /** The ID of the target subscription. */
@@ -2655,13 +3062,13 @@ export interface ListStorageAccountByDataBoxEdgeDeviceRequest {
 /** Represents a Storage Account on the Data Box Edge/Gateway device. */
 export interface StorageAccount {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Storage Account properties. */
   properties: StorageAccountProperties;
 }
@@ -2672,7 +3079,7 @@ export interface StorageAccountList {
   /** The StorageAccount items on this page */
   value: StorageAccountListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageAccountCredentialsByDataBoxEdgeDeviceRequest {
   /** The ID of the target subscription. */
@@ -2685,13 +3092,13 @@ export interface ListStorageAccountCredentialsByDataBoxEdgeDeviceRequest {
 /** The storage account credential. */
 export interface StorageAccountCredential {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The storage account credential properties. */
   properties: StorageAccountCredentialProperties;
 }
@@ -2702,7 +3109,7 @@ export interface StorageAccountCredentialList {
   /** The StorageAccountCredential items on this page */
   value: StorageAccountCredentialListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTriggerByDataBoxEdgeDeviceRequest {
   /** The ID of the target subscription. */
@@ -2712,20 +3119,7 @@ export interface ListTriggerByDataBoxEdgeDeviceRequest {
   /** The device name. */
   deviceName: string;
   /** Specify $filter='CustomContextTag eq <tag>' to filter on custom context tag property */
-  _filter?: string;
-}
-/** Trigger details. */
-export interface Trigger {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Trigger Kind. */
-  kind: TriggerEventType;
+  _filter?: string | undefined;
 }
 /** The Trigger items on this page */
 export type TriggerListValueList = Array<Trigger>;
@@ -2734,7 +3128,7 @@ export interface TriggerList {
   /** The Trigger items on this page */
   value: TriggerListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUserByDataBoxEdgeDeviceRequest {
   /** The ID of the target subscription. */
@@ -2744,18 +3138,18 @@ export interface ListUserByDataBoxEdgeDeviceRequest {
   /** The device name. */
   deviceName: string;
   /** Specify $filter='Type eq <type>' to filter on user type property */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Represents a user who has access to one or more shares on the Data Box Edge/Gateway device. */
 export interface User {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The storage account credential properties. */
   properties: UserProperties;
 }
@@ -2766,7 +3160,7 @@ export interface UserList {
   /** The User items on this page */
   value: UserListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface MonitoringConfigCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2782,28 +3176,28 @@ export interface MonitoringConfigCreateOrUpdateRequest {
 }
 export interface MonitoringConfigCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The metric setting properties. */
   properties: MonitoringMetricConfigurationProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Order properties. */
 export interface OrderPropertiesInput {
   /** The contact details. */
   contactInformation: ContactDetails;
   /** The shipping address. */
-  shippingAddress?: Address;
+  shippingAddress?: Address | undefined;
   /** ShipmentType of the order */
-  shipmentType?: ShipmentType | (string & {});
+  shipmentType?: ShipmentType | (string & {}) | undefined;
 }
 export interface OrdersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2813,25 +3207,25 @@ export interface OrdersCreateOrUpdateRequest {
   /** The device name. */
   deviceName: string;
   /** The order properties. */
-  properties?: OrderPropertiesInput;
+  properties?: OrderPropertiesInput | undefined;
 }
 export interface OrdersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The order properties. */
-  properties?: OrderProperties;
+  properties?: OrderProperties | undefined;
   /** It specify the order api version. */
-  kind?: string;
+  kind?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RefreshContainerRequest {
   /** The ID of the target subscription. */
@@ -2847,9 +3241,9 @@ export interface RefreshContainerRequest {
 }
 export interface RefreshContainerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RefreshShareRequest {
   /** The ID of the target subscription. */
@@ -2863,10 +3257,111 @@ export interface RefreshShareRequest {
 }
 export interface RefreshShareResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
+/** Role type. */
+export type CloudEdgeManagementRoleInputKind = "CloudEdgeManagement";
+/** The preview of Virtual Machine Cloud Management from the Azure supports deploying and managing VMs on your Azure Stack Edge device from Azure Portal. For more information, refer to: https://docs.microsoft.com/en-us/azure/databox-online/azure-stack-edge-gpu-virtual-machine-overview By using this feature, you agree to the preview legal terms. See the https://azure.microsoft.com/en-us/support/legal/preview-supplemental-terms/ for additional details. */
+export interface CloudEdgeManagementRoleInput {
+  /** Role type. */
+  kind: CloudEdgeManagementRoleInputKind;
+  /** Properties specific to CloudEdgeManagementRole role. */
+  properties?: CloudEdgeManagementRoleProperties | undefined;
+}
+/** Role type. */
+export type IoTRoleInputKind = "IOT";
+/** The share mount point. */
+export interface MountPointMapInput {
+  /** ID of the share mounted to the role VM. */
+  shareId: string;
+}
+/** Mount points of shares in role(s). */
+export type IoTRolePropertiesInputShareMappingsList = Array<MountPointMapInput>;
+/** IoT role properties. */
+export interface IoTRolePropertiesInput {
+  /** Host OS supported by the IoT role. */
+  hostPlatform: PlatformType | (string & {});
+  /** IoT device metadata to which data box edge device needs to be connected. */
+  ioTDeviceDetails: IoTDeviceInfo;
+  /** IoT edge device to which the IoT role needs to be configured. */
+  ioTEdgeDeviceDetails: IoTDeviceInfo;
+  /** Mount points of shares in role(s). */
+  shareMappings?: IoTRolePropertiesInputShareMappingsList | undefined;
+  /** Iot edge agent details to download the agent and bootstrap iot runtime. */
+  ioTEdgeAgentInfo?: IoTEdgeAgentInfo | undefined;
+  /** Resource allocation */
+  computeResource?: ComputeResource | undefined;
+  /** Role status. */
+  roleStatus: RoleStatus | (string & {});
+}
+/** Compute role. */
+export interface IoTRoleInput {
+  /** Role type. */
+  kind: IoTRoleInputKind;
+  /** Properties specific to IoT role. */
+  properties?: IoTRolePropertiesInput | undefined;
+}
+/** Role type. */
+export type KubernetesRoleInputKind = "Kubernetes";
+/** Kubernetes cluster configuration */
+export interface KubernetesClusterInfoInput {
+  /** Kubernetes cluster version */
+  version: string;
+}
+/** Mount points of shares in role(s). */
+export type KubernetesRoleStorageInputEndpointsList = Array<MountPointMapInput>;
+/** Kubernetes role storage resource */
+export interface KubernetesRoleStorageInput {
+  /** Mount points of shares in role(s). */
+  endpoints?: KubernetesRoleStorageInputEndpointsList | undefined;
+}
+/** Kubernetes role compute resource */
+export interface KubernetesRoleComputeInput {
+  /** VM profile */
+  vmProfile: string;
+}
+/** Kubernetes role resources */
+export interface KubernetesRoleResourcesInput {
+  /** Kubernetes role storage resource */
+  storage?: KubernetesRoleStorageInput | undefined;
+  /** Kubernetes role compute resource */
+  compute: KubernetesRoleComputeInput;
+}
+/** Kubernetes role properties. */
+export interface KubernetesRolePropertiesInput {
+  /** Host OS supported by the Kubernetes role. */
+  hostPlatform: PlatformType | (string & {});
+  /** Kubernetes cluster configuration */
+  kubernetesClusterInfo: KubernetesClusterInfoInput;
+  /** Kubernetes role resources */
+  kubernetesRoleResources: KubernetesRoleResourcesInput;
+  /** Role status. */
+  roleStatus: RoleStatus | (string & {});
+}
+/** The limited preview of Kubernetes Cluster Management from the Azure supports: 1. Using a simple turn-key option in Azure Portal, deploy a Kubernetes cluster on your Azure Stack Edge device. 2. Configure Kubernetes cluster running on your device with Arc enabled Kubernetes with a click of a button in the Azure Portal. Azure Arc enables organizations to view, manage, and govern their on-premises Kubernetes clusters using the Azure Portal, command line tools, and APIs. 3. Easily configure Persistent Volumes using SMB and NFS shares for storing container data. For more information, refer to the document here: https://databoxupdatepackages.blob.core.windows.net/documentation/Microsoft-Azure-Stack-Edge-K8-Cloud-Management-20210323.pdf Or Demo: https://databoxupdatepackages.blob.core.windows.net/documentation/Microsoft-Azure-Stack-Edge-K8S-Cloud-Management-20210323.mp4 By using this feature, you agree to the preview legal terms. See the https://azure.microsoft.com/en-us/support/legal/preview-supplemental-terms/ */
+export interface KubernetesRoleInput {
+  /** Role type. */
+  kind: KubernetesRoleInputKind;
+  /** Properties specific to Kubernetes role. */
+  properties?: KubernetesRolePropertiesInput | undefined;
+}
+/** Role type. */
+export type MECRoleInputKind = "MEC";
+/** MEC role. */
+export interface MECRoleInput {
+  /** Role type. */
+  kind: MECRoleInputKind;
+  /** Properties specific to MEC role. */
+  properties?: MECRoleProperties | undefined;
+}
+/** Compute role. */
+export type RoleInput =
+  | CloudEdgeManagementRoleInput
+  | IoTRoleInput
+  | KubernetesRoleInput
+  | MECRoleInput;
 export interface RolesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -2876,25 +3371,9 @@ export interface RolesCreateOrUpdateRequest {
   deviceName: string;
   /** The role name. */
   name: string;
-  /** Role type. */
-  kind: RoleTypes | (string & {});
+  body: RoleInput;
 }
-export interface RolesCreateOrUpdateResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Role type. */
-  kind: RoleTypes;
-  /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
-}
+export type RolesCreateOrUpdateResponse = Role;
 /** Mapping of users and corresponding access rights on the share (required for SMB protocol). */
 export type SharePropertiesInputUserAccessRightsList = Array<UserAccessRight>;
 /** List of IP addresses and corresponding access rights on the share(required for NFS protocol). */
@@ -2902,23 +3381,23 @@ export type SharePropertiesInputClientAccessRightsList = Array<ClientAccessRight
 /** The share properties. */
 export interface SharePropertiesInput {
   /** Description for the share. */
-  description?: string;
+  description?: string | undefined;
   /** Current status of the share. */
   shareStatus: ShareStatus | (string & {});
   /** Current monitoring status of the share. */
   monitoringStatus: MonitoringStatus | (string & {});
   /** Azure container mapping for the share. */
-  azureContainerInfo?: AzureContainerInfo;
+  azureContainerInfo?: AzureContainerInfo | undefined;
   /** Access protocol to be used by the share. */
   accessProtocol: ShareAccessProtocol | (string & {});
   /** Mapping of users and corresponding access rights on the share (required for SMB protocol). */
-  userAccessRights?: SharePropertiesInputUserAccessRightsList;
+  userAccessRights?: SharePropertiesInputUserAccessRightsList | undefined;
   /** List of IP addresses and corresponding access rights on the share(required for NFS protocol). */
-  clientAccessRights?: SharePropertiesInputClientAccessRightsList;
+  clientAccessRights?: SharePropertiesInputClientAccessRightsList | undefined;
   /** Details of the refresh job on this share. */
-  refreshDetails?: RefreshDetails;
+  refreshDetails?: RefreshDetails | undefined;
   /** Data policy of the share. */
-  dataPolicy?: DataPolicy | (string & {});
+  dataPolicy?: DataPolicy | (string & {}) | undefined;
 }
 export interface SharesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2934,19 +3413,19 @@ export interface SharesCreateOrUpdateRequest {
 }
 export interface SharesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The share properties. */
   properties: ShareProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StorageAccountCredentialsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2962,30 +3441,30 @@ export interface StorageAccountCredentialsCreateOrUpdateRequest {
 }
 export interface StorageAccountCredentialsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The storage account credential properties. */
   properties: StorageAccountCredentialProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The storage account properties. */
 export interface StorageAccountPropertiesInput {
   /** Description for the storage Account. */
-  description?: string;
+  description?: string | undefined;
   /** Current status of the storage account */
-  storageAccountStatus?: StorageAccountStatus | (string & {});
+  storageAccountStatus?: StorageAccountStatus | (string & {}) | undefined;
   /** Data policy of the storage Account. */
   dataPolicy: DataPolicy | (string & {});
   /** Storage Account Credential Id */
-  storageAccountCredentialId?: string;
+  storageAccountCredentialId?: string | undefined;
 }
 export interface StorageAccountsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -3001,20 +3480,40 @@ export interface StorageAccountsCreateOrUpdateRequest {
 }
 export interface StorageAccountsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The Storage Account properties. */
   properties: StorageAccountProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
+/** Trigger Kind. */
+export type FileEventTriggerInputKind = "FileEvent";
+/** Trigger details. */
+export interface FileEventTriggerInput {
+  /** Trigger Kind. */
+  kind: FileEventTriggerInputKind;
+  /** File trigger properties. */
+  properties: FileTriggerProperties;
+}
+/** Trigger Kind. */
+export type PeriodicTimerEventTriggerInputKind = "PeriodicTimerEvent";
+/** Trigger details. */
+export interface PeriodicTimerEventTriggerInput {
+  /** Trigger Kind. */
+  kind: PeriodicTimerEventTriggerInputKind;
+  /** Periodic timer trigger properties. */
+  properties: PeriodicTimerProperties;
+}
+/** Trigger details. */
+export type TriggerInput = FileEventTriggerInput | PeriodicTimerEventTriggerInput;
 export interface TriggersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -3024,33 +3523,17 @@ export interface TriggersCreateOrUpdateRequest {
   deviceName: string;
   /** The trigger name. */
   name: string;
-  /** Trigger Kind. */
-  kind: TriggerEventType | (string & {});
+  body: TriggerInput;
 }
-export interface TriggersCreateOrUpdateResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Trigger Kind. */
-  kind: TriggerEventType;
-  /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
-}
+export type TriggersCreateOrUpdateResponse = Trigger;
 /** The share properties. */
 export interface SupportPackageRequestProperties {
   /** MinimumTimeStamp from where logs need to be collected */
-  minimumTimeStamp?: string;
+  minimumTimeStamp?: string | undefined;
   /** Start of the timespan of the log collection */
-  maximumTimeStamp?: string;
+  maximumTimeStamp?: string | undefined;
   /** Type of files, which need to be included in the logs This will contain the type of logs (Default/DefaultWithDumps/None/All/DefaultWithArchived) or a comma separated list of log types that are required */
-  include?: string;
+  include?: string | undefined;
 }
 export interface TriggerSupportPackageSupportPackageRequest {
   /** The ID of the target subscription. */
@@ -3064,26 +3547,26 @@ export interface TriggerSupportPackageSupportPackageRequest {
 }
 export interface TriggerSupportPackageSupportPackageResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The tags attached to the Data Box Edge/Gateway resource. */
 export type UpdateDeviceRequestTagsMap = { [key: string]: string | undefined };
 /** The Data Box Edge/Gateway Edge Profile Subscription patch. */
 export interface EdgeProfileSubscriptionPatch {
   /** The path ID that uniquely identifies the subscription of the edge profile. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The Data Box Edge/Gateway Edge Profile patch. */
 export interface EdgeProfilePatch {
   /** The Data Box Edge/Gateway Edge Profile Subscription patch */
-  subscription?: EdgeProfileSubscriptionPatch;
+  subscription?: EdgeProfileSubscriptionPatch | undefined;
 }
 /** The Data Box Edge/Gateway device properties patch. */
 export interface DataBoxEdgeDevicePropertiesPatch {
   /** Edge Profile property of the Data Box Edge/Gateway device */
-  edgeProfile?: EdgeProfilePatch;
+  edgeProfile?: EdgeProfilePatch | undefined;
 }
 export interface UpdateDeviceRequest {
   /** The ID of the target subscription. */
@@ -3093,37 +3576,37 @@ export interface UpdateDeviceRequest {
   /** The device name. */
   deviceName: string;
   /** The tags attached to the Data Box Edge/Gateway resource. */
-  tags?: UpdateDeviceRequestTagsMap;
+  tags?: UpdateDeviceRequestTagsMap | undefined;
   /** Msi identity of the resource */
-  identity?: ResourceIdentityInput;
+  identity?: ResourceIdentityInput | undefined;
   /** The properties associated with the Data Box Edge/Gateway resource */
-  properties?: DataBoxEdgeDevicePropertiesPatch;
+  properties?: DataBoxEdgeDevicePropertiesPatch | undefined;
 }
 /** Resource tags. */
 export type UpdateDeviceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDeviceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateDeviceResponseTagsMap;
+  tags?: UpdateDeviceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The properties of the Data Box Edge/Gateway device. */
-  properties?: DataBoxEdgeDeviceProperties;
+  properties?: DataBoxEdgeDeviceProperties | undefined;
   /** The SKU type. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The etag for the devices. */
-  etag?: string;
+  etag?: string | undefined;
   /** Msi identity of the resource */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
   /** The kind of the device. */
-  kind?: DataBoxEdgeDeviceKind;
+  kind?: DataBoxEdgeDeviceKind | undefined;
 }
 export interface UpdateDeviceExtendedInformationRequest {
   /** The ID of the target subscription. */
@@ -3133,15 +3616,15 @@ export interface UpdateDeviceExtendedInformationRequest {
   /** The device name. */
   deviceName: string;
   /** The Key Vault ARM Id for client secrets */
-  clientSecretStoreId?: string;
+  clientSecretStoreId?: string | undefined;
   /** The url to access the Client Key Vault */
-  clientSecretStoreUrl?: string;
+  clientSecretStoreUrl?: string | undefined;
   /** The name for Channel Integrity Key stored in the Client Key Vault */
-  channelIntegrityKeyName?: string;
+  channelIntegrityKeyName?: string | undefined;
   /** The version of Channel Integrity Key stored in the Client Key Vault */
-  channelIntegrityKeyVersion?: string;
+  channelIntegrityKeyVersion?: string | undefined;
   /** For changing or to initiate the resync to key-vault set the status to KeyVaultSyncPending, rest of the status will not be applicable. */
-  syncStatus?: KeyVaultSyncStatus | (string & {});
+  syncStatus?: KeyVaultSyncStatus | (string & {}) | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdateDeviceExtendedInformationResponseSystemDataCreatedByType =
@@ -3158,29 +3641,31 @@ export type UpdateDeviceExtendedInformationResponseSystemDataLastModifiedByType 
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateDeviceExtendedInformationResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateDeviceExtendedInformationResponseSystemDataCreatedByType;
+  createdByType?: UpdateDeviceExtendedInformationResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateDeviceExtendedInformationResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | UpdateDeviceExtendedInformationResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateDeviceExtendedInformationResponse {
   /** The path ID that uniquely identifies the object. */
-  id?: string;
+  id?: string | undefined;
   /** The object name. */
-  name?: string;
+  name?: string | undefined;
   /** The hierarchical type of the object. */
-  type?: string;
+  type?: string | undefined;
   /** The extended info properties. */
-  properties?: DataBoxEdgeDeviceExtendedInfoProperties;
+  properties?: DataBoxEdgeDeviceExtendedInfoProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateDeviceExtendedInformationResponseSystemData;
+  systemData?: UpdateDeviceExtendedInformationResponseSystemData | undefined;
 }
 export interface UpdateDiagnosticSettingsDiagnosticProactiveLogCollectionSettingsRequest {
   /** The ID of the target subscription. */
@@ -3194,19 +3679,19 @@ export interface UpdateDiagnosticSettingsDiagnosticProactiveLogCollectionSetting
 }
 export interface UpdateDiagnosticSettingsDiagnosticProactiveLogCollectionSettingsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the diagnostic proactive log collection settings. */
   properties: ProactiveLogCollectionSettingsProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateDiagnosticSettingsDiagnosticRemoteSupportSettingsRequest {
   /** The ID of the target subscription. */
@@ -3220,26 +3705,26 @@ export interface UpdateDiagnosticSettingsDiagnosticRemoteSupportSettingsRequest 
 }
 export interface UpdateDiagnosticSettingsDiagnosticRemoteSupportSettingsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the remote support settings. */
   properties: DiagnosticRemoteSupportSettingsProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The authentication type. */
 export type AuthenticationType = "Invalid" | "AzureActiveDirectory";
 /** Raw Certificate Data. */
 export interface RawCertificateData {
   /** The authentication type. */
-  authenticationType?: AuthenticationType | (string & {});
+  authenticationType?: AuthenticationType | (string & {}) | undefined;
   /** The base64 encoded certificate raw data. */
   certificate: string;
 }
@@ -3256,26 +3741,26 @@ export interface UploadDeviceCertificateRequest {
 /** The upload registration certificate response. */
 export interface UploadCertificateResponse {
   /** Specifies authentication type. */
-  authType?: AuthenticationType;
+  authType?: AuthenticationType | undefined;
   /** The resource ID of the Data Box Edge/Gateway device. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Azure Active Directory tenant authority. */
-  aadAuthority?: string;
+  aadAuthority?: string | undefined;
   /** Azure Active Directory tenant ID. */
-  aadTenantId?: string;
+  aadTenantId?: string | undefined;
   /** Azure Active Directory service principal client ID. */
-  servicePrincipalClientId?: string;
+  servicePrincipalClientId?: string | undefined;
   /** Azure Active Directory service principal object ID. */
-  servicePrincipalObjectId?: string;
+  servicePrincipalObjectId?: string | undefined;
   /** The azure management endpoint audience. */
-  azureManagementEndpointAudience?: string;
+  azureManagementEndpointAudience?: string | undefined;
   /** Identifier of the target resource that is the recipient of the requested token. */
-  aadAudience?: string;
+  aadAudience?: string | undefined;
 }
 /** The user properties. */
 export interface UserPropertiesInput {
   /** The password details. */
-  encryptedPassword?: AsymmetricEncryptedSecret;
+  encryptedPassword?: AsymmetricEncryptedSecret | undefined;
   /** Type of the user. */
   userType: UserType | (string & {});
 }
@@ -3293,19 +3778,19 @@ export interface UsersCreateOrUpdateRequest {
 }
 export interface UsersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The storage account credential properties. */
   properties: UserProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type AddonsCreateOrUpdateError = AzureOpError;
 /** Create or update a addon. */
@@ -3315,8 +3800,8 @@ export const AddonsCreateOrUpdate: API.OperationMethod<
   AddonsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AddonsCreateOrUpdateRequest>,
-  output: __S(32, __c2, 0) as any as S.Schema<AddonsCreateOrUpdateResponse>,
+  input: __S(5, __c0, 5) as any as S.Schema<AddonsCreateOrUpdateRequest>,
+  output: __S(96, __c3, 0) as any as S.Schema<AddonsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3332,8 +3817,8 @@ export const BandwidthSchedulesCreateOrUpdate: API.OperationMethod<
   BandwidthSchedulesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<BandwidthSchedulesCreateOrUpdateRequest>,
-  output: __S(49, __c3, 1) as any as S.Schema<BandwidthSchedulesCreateOrUpdateResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<BandwidthSchedulesCreateOrUpdateRequest>,
+  output: __S(193, __c6, 1) as any as S.Schema<BandwidthSchedulesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3350,13 +3835,13 @@ export const CheckDeviceCapacityCheckResourceCreationFeasibility: API.OperationM
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    308,
-    __c19,
+    708,
+    __c22,
     4,
   ) as any as S.Schema<CheckDeviceCapacityCheckResourceCreationFeasibilityRequest>,
   output: __S(
-    309,
-    __c19,
+    709,
+    __c22,
     5,
   ) as any as S.Schema<CheckDeviceCapacityCheckResourceCreationFeasibilityResponse>,
   errors: [UnknownAzureError],
@@ -3374,8 +3859,8 @@ export const ContainersCreateOrUpdate: API.OperationMethod<
   ContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(577, __c36, 1) as any as S.Schema<ContainersCreateOrUpdateRequest>,
-  output: __S(578, __c36, 2) as any as S.Schema<ContainersCreateOrUpdateResponse>,
+  input: __S(1217, __c38, 1) as any as S.Schema<ContainersCreateOrUpdateRequest>,
+  output: __S(1218, __c38, 2) as any as S.Schema<ContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3391,8 +3876,8 @@ export const DeleteAddon: API.OperationMethod<
   DeleteAddonError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<DeleteAddonRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<DeleteAddonResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<DeleteAddonRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DeleteAddonResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3408,8 +3893,8 @@ export const DeleteBandwidthSchedule: API.OperationMethod<
   DeleteBandwidthScheduleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<DeleteBandwidthScheduleRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<DeleteBandwidthScheduleResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<DeleteBandwidthScheduleRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DeleteBandwidthScheduleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3425,8 +3910,8 @@ export const DeleteContainer: API.OperationMethod<
   DeleteContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<DeleteContainerRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<DeleteContainerResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<DeleteContainerRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DeleteContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3442,8 +3927,8 @@ export const DeleteDevice: API.OperationMethod<
   DeleteDeviceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<DeleteDeviceRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<DeleteDeviceResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<DeleteDeviceRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DeleteDeviceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3459,8 +3944,8 @@ export const DeleteMonitoringConfig: API.OperationMethod<
   DeleteMonitoringConfigError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<DeleteMonitoringConfigRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<DeleteMonitoringConfigResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<DeleteMonitoringConfigRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DeleteMonitoringConfigResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3476,8 +3961,8 @@ export const DeleteOrder: API.OperationMethod<
   DeleteOrderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<DeleteOrderRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<DeleteOrderResponse>,
+  input: __S(3712, __c116, 0) as any as S.Schema<DeleteOrderRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DeleteOrderResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3493,8 +3978,8 @@ export const DeleteRole: API.OperationMethod<
   DeleteRoleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<DeleteRoleRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<DeleteRoleResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<DeleteRoleRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DeleteRoleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3510,8 +3995,8 @@ export const DeleteShare: API.OperationMethod<
   DeleteShareError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<DeleteShareRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<DeleteShareResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<DeleteShareRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DeleteShareResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3527,8 +4012,8 @@ export const DeleteStorageAccount: API.OperationMethod<
   DeleteStorageAccountError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<DeleteStorageAccountRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<DeleteStorageAccountResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<DeleteStorageAccountRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DeleteStorageAccountResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3544,8 +4029,8 @@ export const DeleteStorageAccountCredentials: API.OperationMethod<
   DeleteStorageAccountCredentialsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<DeleteStorageAccountCredentialsRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<DeleteStorageAccountCredentialsResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<DeleteStorageAccountCredentialsRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DeleteStorageAccountCredentialsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3561,8 +4046,8 @@ export const DeleteTrigger: API.OperationMethod<
   DeleteTriggerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<DeleteTriggerRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<DeleteTriggerResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<DeleteTriggerRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DeleteTriggerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3578,8 +4063,8 @@ export const DeleteUser: API.OperationMethod<
   DeleteUserError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<DeleteUserRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<DeleteUserResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<DeleteUserRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DeleteUserResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3595,8 +4080,8 @@ export const DevicesCreateOrUpdate: API.OperationMethod<
   DevicesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(193, __c12, 1) as any as S.Schema<DevicesCreateOrUpdateRequest>,
-  output: __S(234, __c14, 10) as any as S.Schema<DevicesCreateOrUpdateResponse>,
+  input: __S(481, __c15, 1) as any as S.Schema<DevicesCreateOrUpdateRequest>,
+  output: __S(581, __c18, 5) as any as S.Schema<DevicesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3612,8 +4097,8 @@ export const DevicesCreateOrUpdateSecuritySettings: API.OperationMethod<
   DevicesCreateOrUpdateSecuritySettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(241, __c15, 1) as any as S.Schema<DevicesCreateOrUpdateSecuritySettingsRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<DevicesCreateOrUpdateSecuritySettingsResponse>,
+  input: __S(609, __c19, 1) as any as S.Schema<DevicesCreateOrUpdateSecuritySettingsRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DevicesCreateOrUpdateSecuritySettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3629,8 +4114,8 @@ export const DevicesGetUpdateSummary: API.OperationMethod<
   DevicesGetUpdateSummaryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<DevicesGetUpdateSummaryRequest>,
-  output: __S(276, __c17, 4) as any as S.Schema<DevicesGetUpdateSummaryResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<DevicesGetUpdateSummaryRequest>,
+  output: __S(644, __c20, 4) as any as S.Schema<DevicesGetUpdateSummaryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3646,8 +4131,8 @@ export const DevicesScanForUpdates: API.OperationMethod<
   DevicesScanForUpdatesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<DevicesScanForUpdatesRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<DevicesScanForUpdatesResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<DevicesScanForUpdatesRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DevicesScanForUpdatesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3663,8 +4148,8 @@ export const DownloadDeviceUpdates: API.OperationMethod<
   DownloadDeviceUpdatesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<DownloadDeviceUpdatesRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<DownloadDeviceUpdatesResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<DownloadDeviceUpdatesRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<DownloadDeviceUpdatesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3680,8 +4165,8 @@ export const GenerateDeviceCertificate: API.OperationMethod<
   GenerateDeviceCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GenerateDeviceCertificateRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<GenerateCertResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<GenerateDeviceCertificateRequest>,
+  output: __S(801, __c25, 1) as any as S.Schema<GenerateCertResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3697,8 +4182,8 @@ export const GetAddon: API.OperationMethod<
   GetAddonError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetAddonRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<GetAddonResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetAddonRequest>,
+  output: __S(96, __c3, 0) as any as S.Schema<GetAddonResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3714,8 +4199,8 @@ export const GetAlert: API.OperationMethod<
   GetAlertError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetAlertRequest>,
-  output: __S(418, __c26, 2) as any as S.Schema<GetAlertResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<GetAlertRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<GetAlertResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3731,8 +4216,8 @@ export const GetBandwidthSchedule: API.OperationMethod<
   GetBandwidthScheduleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetBandwidthScheduleRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<GetBandwidthScheduleResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<GetBandwidthScheduleRequest>,
+  output: __S(960, __c30, 0) as any as S.Schema<GetBandwidthScheduleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3748,8 +4233,8 @@ export const GetContainer: API.OperationMethod<
   GetContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<GetContainerRequest>,
-  output: __S(480, __c30, 0) as any as S.Schema<GetContainerResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<GetContainerRequest>,
+  output: __S(1024, __c32, 0) as any as S.Schema<GetContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3765,8 +4250,8 @@ export const GetDevice: API.OperationMethod<
   GetDeviceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<GetDeviceRequest>,
-  output: __S(234, __c14, 10) as any as S.Schema<GetDeviceResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetDeviceRequest>,
+  output: __S(581, __c18, 5) as any as S.Schema<GetDeviceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3782,8 +4267,8 @@ export const GetDeviceCapacityInfoDeviceCapacityInfo: API.OperationMethod<
   GetDeviceCapacityInfoDeviceCapacityInfoError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<GetDeviceCapacityInfoDeviceCapacityInfoRequest>,
-  output: __S(525, __c32, 13) as any as S.Schema<GetDeviceCapacityInfoDeviceCapacityInfoResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetDeviceCapacityInfoDeviceCapacityInfoRequest>,
+  output: __S(1101, __c34, 13) as any as S.Schema<GetDeviceCapacityInfoDeviceCapacityInfoResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3799,8 +4284,8 @@ export const GetDeviceExtendedInformation: API.OperationMethod<
   GetDeviceExtendedInformationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<GetDeviceExtendedInformationRequest>,
-  output: __S(547, __c34, 3) as any as S.Schema<GetDeviceExtendedInformationResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<GetDeviceExtendedInformationRequest>,
+  output: __S(1155, __c36, 3) as any as S.Schema<GetDeviceExtendedInformationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3816,8 +4301,8 @@ export const GetDeviceNetworkSettings: API.OperationMethod<
   GetDeviceNetworkSettingsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<GetDeviceNetworkSettingsRequest>,
-  output: __S(567, __c35, 7) as any as S.Schema<GetDeviceNetworkSettingsResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<GetDeviceNetworkSettingsRequest>,
+  output: __S(1191, __c37, 7) as any as S.Schema<GetDeviceNetworkSettingsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3834,13 +4319,13 @@ export const GetDiagnosticSettingsDiagnosticProactiveLogCollectionSettings: API.
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    624,
-    __c39,
+    1312,
+    __c41,
     0,
   ) as any as S.Schema<GetDiagnosticSettingsDiagnosticProactiveLogCollectionSettingsRequest>,
   output: __S(
-    625,
-    __c39,
+    1313,
+    __c41,
     1,
   ) as any as S.Schema<GetDiagnosticSettingsDiagnosticProactiveLogCollectionSettingsResponse>,
   errors: [UnknownAzureError],
@@ -3859,13 +4344,13 @@ export const GetDiagnosticSettingsDiagnosticRemoteSupportSettings: API.Operation
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    656,
-    __c41,
+    1376,
+    __c43,
     0,
   ) as any as S.Schema<GetDiagnosticSettingsDiagnosticRemoteSupportSettingsRequest>,
   output: __S(
-    657,
-    __c41,
+    1377,
+    __c43,
     1,
   ) as any as S.Schema<GetDiagnosticSettingsDiagnosticRemoteSupportSettingsResponse>,
   errors: [UnknownAzureError],
@@ -3883,8 +4368,8 @@ export const GetJob: API.OperationMethod<
   GetJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<GetJobRequest>,
-  output: __S(710, __c44, 6) as any as S.Schema<GetJobResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetJobRequest>,
+  output: __S(1478, __c46, 6) as any as S.Schema<GetJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3900,8 +4385,8 @@ export const GetMonitoringConfig: API.OperationMethod<
   GetMonitoringConfigError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<GetMonitoringConfigRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<GetMonitoringConfigResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<GetMonitoringConfigRequest>,
+  output: __S(1536, __c48, 0) as any as S.Schema<GetMonitoringConfigResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3917,8 +4402,8 @@ export const GetOperationsStatus: API.OperationMethod<
   GetOperationsStatusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<GetOperationsStatusRequest>,
-  output: __S(710, __c44, 6) as any as S.Schema<GetOperationsStatusResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<GetOperationsStatusRequest>,
+  output: __S(1478, __c46, 6) as any as S.Schema<GetOperationsStatusResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3934,8 +4419,8 @@ export const GetOrder: API.OperationMethod<
   GetOrderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<GetOrderRequest>,
-  output: __S(800, __c50, 0) as any as S.Schema<GetOrderResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<GetOrderRequest>,
+  output: __S(1664, __c52, 0) as any as S.Schema<GetOrderResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3951,8 +4436,8 @@ export const GetRole: API.OperationMethod<
   GetRoleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<GetRoleRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<GetRoleResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<GetRoleRequest>,
+  output: __S(1824, __c57, 0) as any as S.Schema<GetRoleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3968,8 +4453,8 @@ export const GetShare: API.OperationMethod<
   GetShareError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<GetShareRequest>,
-  output: __S(864, __c54, 0) as any as S.Schema<GetShareResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<GetShareRequest>,
+  output: __S(1888, __c59, 0) as any as S.Schema<GetShareResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3985,8 +4470,8 @@ export const GetStorageAccount: API.OperationMethod<
   GetStorageAccountError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<GetStorageAccountRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<GetStorageAccountResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<GetStorageAccountRequest>,
+  output: __S(1984, __c62, 0) as any as S.Schema<GetStorageAccountResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4002,8 +4487,8 @@ export const GetStorageAccountCredentials: API.OperationMethod<
   GetStorageAccountCredentialsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<GetStorageAccountCredentialsRequest>,
-  output: __S(960, __c60, 0) as any as S.Schema<GetStorageAccountCredentialsResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<GetStorageAccountCredentialsRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<GetStorageAccountCredentialsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4019,8 +4504,8 @@ export const GetTrigger: API.OperationMethod<
   GetTriggerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<GetTriggerRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<GetTriggerResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<GetTriggerRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<GetTriggerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4036,8 +4521,8 @@ export const GetUser: API.OperationMethod<
   GetUserError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(1056, __c66, 0) as any as S.Schema<GetUserResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<GetUserResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4053,8 +4538,8 @@ export const InstallDeviceUpdates: API.OperationMethod<
   InstallDeviceUpdatesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<InstallDeviceUpdatesRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<InstallDeviceUpdatesResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<InstallDeviceUpdatesRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<InstallDeviceUpdatesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4070,8 +4555,8 @@ export const ListAddonByRole: API.OperationMethod<
   ListAddonByRoleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<ListAddonByRoleRequest>,
-  output: __S(1121, __c70, 1) as any as S.Schema<AddonList>,
+  input: __S(2464, __c77, 0) as any as S.Schema<ListAddonByRoleRequest>,
+  output: __S(2466, __c77, 2) as any as S.Schema<AddonList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4087,8 +4572,8 @@ export const ListAlertByDataBoxEdgeDevice: API.OperationMethod<
   ListAlertByDataBoxEdgeDeviceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<ListAlertByDataBoxEdgeDeviceRequest>,
-  output: __S(1138, __c71, 2) as any as S.Schema<AlertList>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ListAlertByDataBoxEdgeDeviceRequest>,
+  output: __S(2498, __c78, 2) as any as S.Schema<AlertList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4104,8 +4589,8 @@ export const ListAvailableSkus: API.OperationMethod<
   ListAvailableSkusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<ListAvailableSkusRequest>,
-  output: __S(1161, __c72, 9) as any as S.Schema<DataBoxEdgeSkuList>,
+  input: __S(2528, __c79, 0) as any as S.Schema<ListAvailableSkusRequest>,
+  output: __S(2537, __c79, 9) as any as S.Schema<DataBoxEdgeSkuList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4121,8 +4606,8 @@ export const ListBandwidthScheduleByDataBoxEdgeDevice: API.OperationMethod<
   ListBandwidthScheduleByDataBoxEdgeDeviceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<ListBandwidthScheduleByDataBoxEdgeDeviceRequest>,
-  output: __S(1170, __c73, 2) as any as S.Schema<BandwidthSchedulesList>,
+  input: __S(2560, __c80, 0) as any as S.Schema<ListBandwidthScheduleByDataBoxEdgeDeviceRequest>,
+  output: __S(2562, __c80, 2) as any as S.Schema<BandwidthSchedulesList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4138,8 +4623,8 @@ export const ListContainerByStorageAccount: API.OperationMethod<
   ListContainerByStorageAccountError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<ListContainerByStorageAccountRequest>,
-  output: __S(1186, __c74, 2) as any as S.Schema<ContainerList>,
+  input: __S(2592, __c81, 0) as any as S.Schema<ListContainerByStorageAccountRequest>,
+  output: __S(2594, __c81, 2) as any as S.Schema<ContainerList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4155,8 +4640,8 @@ export const ListDeviceByResourceGroup: API.OperationMethod<
   ListDeviceByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<ListDeviceByResourceGroupRequest>,
-  output: __S(1217, __c76, 1) as any as S.Schema<DataBoxEdgeDeviceList>,
+  input: __S(2624, __c82, 0) as any as S.Schema<ListDeviceByResourceGroupRequest>,
+  output: __S(2657, __c83, 1) as any as S.Schema<DataBoxEdgeDeviceList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4172,8 +4657,8 @@ export const ListDeviceBySubscription: API.OperationMethod<
   ListDeviceBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<ListDeviceBySubscriptionRequest>,
-  output: __S(1217, __c76, 1) as any as S.Schema<DataBoxEdgeDeviceList>,
+  input: __S(2688, __c84, 0) as any as S.Schema<ListDeviceBySubscriptionRequest>,
+  output: __S(2657, __c83, 1) as any as S.Schema<DataBoxEdgeDeviceList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4189,8 +4674,8 @@ export const ListMonitoringConfig: API.OperationMethod<
   ListMonitoringConfigError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<ListMonitoringConfigRequest>,
-  output: __S(1266, __c79, 2) as any as S.Schema<MonitoringMetricConfigurationList>,
+  input: __S(2752, __c86, 0) as any as S.Schema<ListMonitoringConfigRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<MonitoringMetricConfigurationList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4206,8 +4691,8 @@ export const ListNodeByDataBoxEdgeDevice: API.OperationMethod<
   ListNodeByDataBoxEdgeDeviceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<ListNodeByDataBoxEdgeDeviceRequest>,
-  output: __S(1284, __c80, 4) as any as S.Schema<NodeList>,
+  input: __S(2784, __c87, 0) as any as S.Schema<ListNodeByDataBoxEdgeDeviceRequest>,
+  output: __S(2788, __c87, 4) as any as S.Schema<NodeList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4223,8 +4708,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(1306, __c81, 10) as any as S.Schema<OperationsList>,
+  input: __S(2816, __c88, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(2826, __c88, 10) as any as S.Schema<OperationsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4240,8 +4725,8 @@ export const ListOrderByDataBoxEdgeDevice: API.OperationMethod<
   ListOrderByDataBoxEdgeDeviceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<ListOrderByDataBoxEdgeDeviceRequest>,
-  output: __S(1314, __c82, 2) as any as S.Schema<OrderList>,
+  input: __S(2848, __c89, 0) as any as S.Schema<ListOrderByDataBoxEdgeDeviceRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<OrderList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4257,8 +4742,8 @@ export const ListOrderDCAccessCode: API.OperationMethod<
   ListOrderDCAccessCodeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<ListOrderDCAccessCodeRequest>,
-  output: __S(1330, __c83, 2) as any as S.Schema<DCAccessCode>,
+  input: __S(2880, __c90, 0) as any as S.Schema<ListOrderDCAccessCodeRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<DCAccessCode>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4274,8 +4759,8 @@ export const ListRoleByDataBoxEdgeDevice: API.OperationMethod<
   ListRoleByDataBoxEdgeDeviceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<ListRoleByDataBoxEdgeDeviceRequest>,
-  output: __S(1121, __c70, 1) as any as S.Schema<RoleList>,
+  input: __S(2912, __c91, 0) as any as S.Schema<ListRoleByDataBoxEdgeDeviceRequest>,
+  output: __S(2914, __c91, 2) as any as S.Schema<RoleList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4291,8 +4776,8 @@ export const ListShareByDataBoxEdgeDevice: API.OperationMethod<
   ListShareByDataBoxEdgeDeviceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<ListShareByDataBoxEdgeDeviceRequest>,
-  output: __S(1362, __c85, 2) as any as S.Schema<ShareList>,
+  input: __S(2944, __c92, 0) as any as S.Schema<ListShareByDataBoxEdgeDeviceRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<ShareList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4308,8 +4793,8 @@ export const ListStorageAccountByDataBoxEdgeDevice: API.OperationMethod<
   ListStorageAccountByDataBoxEdgeDeviceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<ListStorageAccountByDataBoxEdgeDeviceRequest>,
-  output: __S(1378, __c86, 2) as any as S.Schema<StorageAccountList>,
+  input: __S(2976, __c93, 0) as any as S.Schema<ListStorageAccountByDataBoxEdgeDeviceRequest>,
+  output: __S(2978, __c93, 2) as any as S.Schema<StorageAccountList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4326,11 +4811,11 @@ export const ListStorageAccountCredentialsByDataBoxEdgeDevice: API.OperationMeth
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1392,
-    __c87,
+    3008,
+    __c94,
     0,
   ) as any as S.Schema<ListStorageAccountCredentialsByDataBoxEdgeDeviceRequest>,
-  output: __S(1394, __c87, 2) as any as S.Schema<StorageAccountCredentialList>,
+  output: __S(3010, __c94, 2) as any as S.Schema<StorageAccountCredentialList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4346,8 +4831,8 @@ export const ListTriggerByDataBoxEdgeDevice: API.OperationMethod<
   ListTriggerByDataBoxEdgeDeviceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<ListTriggerByDataBoxEdgeDeviceRequest>,
-  output: __S(1121, __c70, 1) as any as S.Schema<TriggerList>,
+  input: __S(3040, __c95, 0) as any as S.Schema<ListTriggerByDataBoxEdgeDeviceRequest>,
+  output: __S(3042, __c95, 2) as any as S.Schema<TriggerList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4363,8 +4848,8 @@ export const ListUserByDataBoxEdgeDevice: API.OperationMethod<
   ListUserByDataBoxEdgeDeviceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<ListUserByDataBoxEdgeDeviceRequest>,
-  output: __S(1442, __c90, 2) as any as S.Schema<UserList>,
+  input: __S(3104, __c97, 0) as any as S.Schema<ListUserByDataBoxEdgeDeviceRequest>,
+  output: __S(3106, __c97, 2) as any as S.Schema<UserList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4380,8 +4865,8 @@ export const MonitoringConfigCreateOrUpdate: API.OperationMethod<
   MonitoringConfigCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<MonitoringConfigCreateOrUpdateRequest>,
-  output: __S(1457, __c91, 1) as any as S.Schema<MonitoringConfigCreateOrUpdateResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<MonitoringConfigCreateOrUpdateRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<MonitoringConfigCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4397,8 +4882,8 @@ export const OrdersCreateOrUpdate: API.OperationMethod<
   OrdersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1473, __c92, 1) as any as S.Schema<OrdersCreateOrUpdateRequest>,
-  output: __S(1474, __c92, 2) as any as S.Schema<OrdersCreateOrUpdateResponse>,
+  input: __S(3169, __c99, 1) as any as S.Schema<OrdersCreateOrUpdateRequest>,
+  output: __S(3170, __c99, 2) as any as S.Schema<OrdersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4414,8 +4899,8 @@ export const RefreshContainer: API.OperationMethod<
   RefreshContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<RefreshContainerRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<RefreshContainerResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<RefreshContainerRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<RefreshContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4431,8 +4916,8 @@ export const RefreshShare: API.OperationMethod<
   RefreshShareError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<RefreshShareRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<RefreshShareResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<RefreshShareRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<RefreshShareResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4448,8 +4933,8 @@ export const RolesCreateOrUpdate: API.OperationMethod<
   RolesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<RolesCreateOrUpdateRequest>,
-  output: __S(32, __c2, 0) as any as S.Schema<RolesCreateOrUpdateResponse>,
+  input: __S(3276, __c102, 12) as any as S.Schema<RolesCreateOrUpdateRequest>,
+  output: __S(1824, __c57, 0) as any as S.Schema<RolesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4465,8 +4950,8 @@ export const SharesCreateOrUpdate: API.OperationMethod<
   SharesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1537, __c96, 1) as any as S.Schema<SharesCreateOrUpdateRequest>,
-  output: __S(1538, __c96, 2) as any as S.Schema<SharesCreateOrUpdateResponse>,
+  input: __S(3297, __c103, 1) as any as S.Schema<SharesCreateOrUpdateRequest>,
+  output: __S(3298, __c103, 2) as any as S.Schema<SharesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4482,8 +4967,8 @@ export const StorageAccountCredentialsCreateOrUpdate: API.OperationMethod<
   StorageAccountCredentialsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<StorageAccountCredentialsCreateOrUpdateRequest>,
-  output: __S(1553, __c97, 1) as any as S.Schema<StorageAccountCredentialsCreateOrUpdateResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<StorageAccountCredentialsCreateOrUpdateRequest>,
+  output: __S(3329, __c104, 1) as any as S.Schema<StorageAccountCredentialsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4499,8 +4984,8 @@ export const StorageAccountsCreateOrUpdate: API.OperationMethod<
   StorageAccountsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1569, __c98, 1) as any as S.Schema<StorageAccountsCreateOrUpdateRequest>,
-  output: __S(1570, __c98, 2) as any as S.Schema<StorageAccountsCreateOrUpdateResponse>,
+  input: __S(3361, __c105, 1) as any as S.Schema<StorageAccountsCreateOrUpdateRequest>,
+  output: __S(3362, __c105, 2) as any as S.Schema<StorageAccountsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4516,8 +5001,8 @@ export const TriggersCreateOrUpdate: API.OperationMethod<
   TriggersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<TriggersCreateOrUpdateRequest>,
-  output: __S(32, __c2, 0) as any as S.Schema<TriggersCreateOrUpdateResponse>,
+  input: __S(3395, __c106, 3) as any as S.Schema<TriggersCreateOrUpdateRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<TriggersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4533,8 +5018,8 @@ export const TriggerSupportPackageSupportPackage: API.OperationMethod<
   TriggerSupportPackageSupportPackageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1617, __c101, 1) as any as S.Schema<TriggerSupportPackageSupportPackageRequest>,
-  output: __S(1008, __c63, 0) as any as S.Schema<TriggerSupportPackageSupportPackageResponse>,
+  input: __S(3457, __c108, 1) as any as S.Schema<TriggerSupportPackageSupportPackageRequest>,
+  output: __S(2176, __c68, 0) as any as S.Schema<TriggerSupportPackageSupportPackageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4550,8 +5035,8 @@ export const UpdateDevice: API.OperationMethod<
   UpdateDeviceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1635, __c102, 3) as any as S.Schema<UpdateDeviceRequest>,
-  output: __S(234, __c14, 10) as any as S.Schema<UpdateDeviceResponse>,
+  input: __S(3491, __c109, 3) as any as S.Schema<UpdateDeviceRequest>,
+  output: __S(581, __c18, 5) as any as S.Schema<UpdateDeviceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4567,8 +5052,8 @@ export const UpdateDeviceExtendedInformation: API.OperationMethod<
   UpdateDeviceExtendedInformationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<UpdateDeviceExtendedInformationRequest>,
-  output: __S(547, __c34, 3) as any as S.Schema<UpdateDeviceExtendedInformationResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<UpdateDeviceExtendedInformationRequest>,
+  output: __S(1155, __c36, 3) as any as S.Schema<UpdateDeviceExtendedInformationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4585,13 +5070,13 @@ export const UpdateDiagnosticSettingsDiagnosticProactiveLogCollectionSettings: A
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1664,
-    __c104,
+    3552,
+    __c111,
     0,
   ) as any as S.Schema<UpdateDiagnosticSettingsDiagnosticProactiveLogCollectionSettingsRequest>,
   output: __S(
-    1665,
-    __c104,
+    3553,
+    __c111,
     1,
   ) as any as S.Schema<UpdateDiagnosticSettingsDiagnosticProactiveLogCollectionSettingsResponse>,
   errors: [UnknownAzureError],
@@ -4610,13 +5095,13 @@ export const UpdateDiagnosticSettingsDiagnosticRemoteSupportSettings: API.Operat
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1680,
-    __c105,
+    3584,
+    __c112,
     0,
   ) as any as S.Schema<UpdateDiagnosticSettingsDiagnosticRemoteSupportSettingsRequest>,
   output: __S(
-    1681,
-    __c105,
+    3585,
+    __c112,
     1,
   ) as any as S.Schema<UpdateDiagnosticSettingsDiagnosticRemoteSupportSettingsResponse>,
   errors: [UnknownAzureError],
@@ -4634,8 +5119,8 @@ export const UploadDeviceCertificate: API.OperationMethod<
   UploadDeviceCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1697, __c106, 1) as any as S.Schema<UploadDeviceCertificateRequest>,
-  output: __S(1698, __c106, 2) as any as S.Schema<UploadCertificateResponse>,
+  input: __S(3617, __c113, 1) as any as S.Schema<UploadDeviceCertificateRequest>,
+  output: __S(3618, __c113, 2) as any as S.Schema<UploadCertificateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4651,8 +5136,8 @@ export const UsersCreateOrUpdate: API.OperationMethod<
   UsersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1713, __c107, 1) as any as S.Schema<UsersCreateOrUpdateRequest>,
-  output: __S(1714, __c107, 2) as any as S.Schema<UsersCreateOrUpdateResponse>,
+  input: __S(3649, __c114, 1) as any as S.Schema<UsersCreateOrUpdateRequest>,
+  output: __S(3650, __c114, 2) as any as S.Schema<UsersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4666,12 +5151,44 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          subscriptionId: S.String,
+          resourceGroupName: S.String,
+          resourceName: S.String,
+          resourceLocation: S.String,
+        }),
+      ).annotate({ identifier: "ArcAddonPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "ArcAddonInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ioTDeviceDetails: __S(130, __c4, 2),
+          ioTEdgeDeviceDetails: __S(130, __c4, 2),
+        }),
+      ).annotate({ identifier: "IoTAddonPropertiesInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(2, __c0, 2),
+        }),
+      ).annotate({ identifier: "IoTAddonInput" });
+    case 4:
+      return S.Union([__S(1, __c0, 1), __S(3, __c0, 3)]);
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
           roleName: S.String.pipe(T.Label()),
           addonName: S.String.pipe(T.Label()),
-          kind: S.String,
+          body: __S(4, __c0, 4).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4703,18 +5220,99 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          kind: S.String,
-          location: S.optional(S.String.pipe(T.Header("Location"))),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+          value: S.String,
+          encryptionCertThumbprint: S.optional(S.String),
+          encryptionAlgorithm: S.String,
         }),
-      ).annotate({ identifier: "AddonsCreateOrUpdateResponse" });
+      ).annotate({ identifier: "AsymmetricEncryptedSecret" });
   }
 }
 function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(164, __c5, 4).pipe(T.RawResponseRoot())).annotate({
+        identifier: "AddonsCreateOrUpdateResponse",
+      });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connectionString: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "SymmetricKey" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          symmetricKey: S.optional(__S(128, __c4, 0)),
+        }),
+      ).annotate({ identifier: "Authentication" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          deviceId: S.String,
+          ioTHostHub: S.String,
+          ioTHostHubId: S.optional(S.String),
+          authentication: S.optional(__S(129, __c4, 1)),
+        }),
+      ).annotate({ identifier: "IoTDeviceInfo" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String,
+          resourceGroupName: S.String,
+          resourceName: S.String,
+          resourceLocation: S.String,
+          version: S.optional(S.String),
+          hostPlatform: S.optional(S.String),
+          hostPlatformType: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ArcAddonProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          kind: S.String,
+          properties: __S(160, __c5, 0),
+        }),
+      ).annotate({ identifier: "ArcAddon" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ioTDeviceDetails: __S(130, __c4, 2),
+          ioTEdgeDeviceDetails: __S(130, __c4, 2),
+          version: S.optional(S.String),
+          hostPlatform: S.optional(S.String),
+          hostPlatformType: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IoTAddonProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          kind: S.String,
+          properties: __S(162, __c5, 2),
+        }),
+      ).annotate({ identifier: "IoTAddon" });
+    case 4:
+      return S.Union([__S(161, __c5, 1), __S(163, __c5, 3)]);
+  }
+}
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4723,7 +5321,7 @@ function __c3(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(80, __c5, 0),
+          properties: __S(256, __c8, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4739,21 +5337,21 @@ function __c3(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(80, __c5, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(256, __c8, 0),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "BandwidthSchedulesCreateOrUpdateResponse" });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4761,12 +5359,12 @@ function __c5(j: number): any {
           start: S.String,
           stop: S.String,
           rateInMbps: S.Number,
-          days: __S(64, __c4, 0),
+          days: __S(224, __c7, 0),
         }),
       ).annotate({ identifier: "BandwidthScheduleProperties" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4786,7 +5384,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DeleteRoleRequest" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4806,7 +5404,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DeleteShareRequest" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4826,7 +5424,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DeleteStorageAccountRequest" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4846,7 +5444,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteStorageAccountCredentialsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4866,7 +5464,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteTriggerRequest" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4886,12 +5484,12 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteUserRequest" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dataResidency: S.optional(__S(224, __c14, 0)),
+          dataResidency: S.optional(__S(576, __c18, 0)),
         }),
       ).annotate({ identifier: "DataBoxEdgeDevicePropertiesInput" });
     case 1:
@@ -4900,12 +5498,12 @@ function __c12(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(208, __c13, 0)),
+          tags: S.optional(__S(512, __c16, 0)),
           location: S.String,
-          properties: S.optional(__S(192, __c12, 0)),
-          sku: S.optional(__S(225, __c14, 1)),
+          properties: S.optional(__S(480, __c15, 0)),
+          sku: S.optional(__S(577, __c18, 1)),
           etag: S.optional(S.String),
-          identity: S.optional(__S(224, __c14, 0)),
+          identity: S.optional(__S(576, __c18, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -4917,13 +5515,53 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DevicesCreateOrUpdateRequest" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SubscriptionRegisteredFeatures" });
+    case 1:
+      return S.Array(__S(544, __c17, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          tenantId: S.optional(S.String),
+          locationPlacementId: S.optional(S.String),
+          quotaId: S.optional(S.String),
+          serializedDetails: S.optional(S.String),
+          registeredFeatures: S.optional(__S(545, __c17, 1)),
+        }),
+      ).annotate({ identifier: "SubscriptionProperties" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          registrationId: S.optional(S.String),
+          id: S.optional(S.String),
+          state: S.optional(S.String),
+          registrationDate: S.optional(S.String),
+          subscriptionId: S.optional(S.String),
+          properties: S.optional(__S(546, __c17, 2)),
+        }),
+      ).annotate({ identifier: "EdgeProfileSubscription" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          subscription: S.optional(__S(547, __c17, 3)),
+        }),
+      ).annotate({ identifier: "EdgeProfile" });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4948,43 +5586,7 @@ function __c14(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SubscriptionRegisteredFeatures" });
-    case 4:
-      return S.Array(__S(227, __c14, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          tenantId: S.optional(S.String),
-          locationPlacementId: S.optional(S.String),
-          quotaId: S.optional(S.String),
-          serializedDetails: S.optional(S.String),
-          registeredFeatures: S.optional(__S(228, __c14, 4)),
-        }),
-      ).annotate({ identifier: "SubscriptionProperties" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          registrationId: S.optional(S.String),
-          id: S.optional(S.String),
-          state: S.optional(S.String),
-          registrationDate: S.optional(S.String),
-          subscriptionId: S.optional(S.String),
-          properties: S.optional(__S(229, __c14, 5)),
-        }),
-      ).annotate({ identifier: "EdgeProfileSubscription" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          subscription: S.optional(__S(230, __c14, 6)),
-        }),
-      ).annotate({ identifier: "EdgeProfile" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          systemData: S.optional(__S(16, __c1, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
           dataBoxEdgeDeviceStatus: S.optional(S.String),
           serialNumber: S.optional(S.String),
           description: S.optional(S.String),
@@ -4997,15 +5599,15 @@ function __c14(j: number): any {
           deviceLocalCapacity: S.optional(S.Number),
           timeZone: S.optional(S.String),
           deviceHcsVersion: S.optional(S.String),
-          configuredRoleTypes: S.optional(__S(64, __c4, 0)),
+          configuredRoleTypes: S.optional(__S(224, __c7, 0)),
           nodeCount: S.optional(S.Number),
-          resourceMoveDetails: S.optional(__S(226, __c14, 2)),
-          edgeProfile: S.optional(__S(231, __c14, 7)),
-          dataResidency: S.optional(__S(224, __c14, 0)),
+          resourceMoveDetails: S.optional(__S(578, __c18, 2)),
+          edgeProfile: S.optional(__S(548, __c17, 4)),
+          dataResidency: S.optional(__S(576, __c18, 0)),
           kubernetesWorkloadProfile: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataBoxEdgeDeviceProperties" });
-    case 9:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
@@ -5013,30 +5615,30 @@ function __c14(j: number): any {
           tenantId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceIdentity" });
-    case 10:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          tags: S.optional(__S(208, __c13, 0)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          tags: S.optional(__S(512, __c16, 0)),
           location: S.String,
-          properties: S.optional(__S(232, __c14, 8)),
-          sku: S.optional(__S(225, __c14, 1)),
+          properties: S.optional(__S(579, __c18, 3)),
+          sku: S.optional(__S(577, __c18, 1)),
           etag: S.optional(S.String),
-          identity: S.optional(__S(233, __c14, 9)),
+          identity: S.optional(__S(580, __c18, 4)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "DevicesCreateOrUpdateResponse" });
   }
 }
-function __c15(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deviceAdminPassword: __S(256, __c16, 0),
+          deviceAdminPassword: __S(64, __c2, 0),
         }),
       ).annotate({ identifier: "SecuritySettingsProperties" });
     case 1:
@@ -5045,7 +5647,7 @@ function __c15(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
-          properties: __S(240, __c15, 0),
+          properties: __S(608, __c19, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5057,19 +5659,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DevicesCreateOrUpdateSecuritySettingsRequest" });
   }
 }
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.String,
-          encryptionCertThumbprint: S.optional(S.String),
-          encryptionAlgorithm: S.String,
-        }),
-      ).annotate({ identifier: "AsymmetricEncryptedSecret" });
-  }
-}
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5101,7 +5691,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "UpdateDetails" });
     case 2:
-      return S.Array(__S(273, __c17, 1));
+      return S.Array(__S(641, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5126,8 +5716,8 @@ function __c17(j: number): any {
           inProgressInstallJobId: S.optional(S.String),
           inProgressDownloadJobStartedDateTime: S.optional(S.String),
           inProgressInstallJobStartedDateTime: S.optional(S.String),
-          updateTitles: S.optional(__S(320, __c20, 0)),
-          updates: S.optional(__S(274, __c17, 2)),
+          updateTitles: S.optional(__S(736, __c23, 0)),
+          updates: S.optional(__S(642, __c20, 2)),
           totalUpdateSizeInBytes: S.optional(S.Number),
           totalTimeInMinutes: S.optional(S.Number),
         }),
@@ -5138,13 +5728,13 @@ function __c17(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(275, __c17, 3)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(643, __c20, 3)),
         }),
       ).annotate({ identifier: "DevicesGetUpdateSummaryResponse" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5163,26 +5753,26 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DevicesScanForUpdatesRequest" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(320, __c20, 0));
+      return S.Array(__S(736, __c23, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          vmSize: S.optional(__S(320, __c20, 0)),
+          vmSize: S.optional(__S(736, __c23, 0)),
           isFeasible: S.optional(S.Boolean),
           messageCode: S.optional(S.String),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "VmPlacementRequestResult" });
     case 2:
-      return S.Array(__S(305, __c19, 1));
+      return S.Array(__S(705, __c22, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          vmPlacementQuery: __S(304, __c19, 0),
-          vmPlacementResults: S.optional(__S(306, __c19, 2)),
+          vmPlacementQuery: __S(704, __c22, 0),
+          vmPlacementResults: S.optional(__S(706, __c22, 2)),
         }),
       ).annotate({ identifier: "DeviceCapacityRequestInfoProperties" });
     case 4:
@@ -5192,7 +5782,7 @@ function __c19(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
           capacityName: S.optional(S.String.pipe(T.Query())),
-          properties: __S(307, __c19, 3),
+          properties: __S(707, __c22, 3),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5211,13 +5801,13 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CheckDeviceCapacityCheckResourceCreationFeasibilityResponse" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5236,7 +5826,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DownloadDeviceUpdatesRequest" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5263,7 +5853,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GenerateCertResponse" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5284,21 +5874,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetAddonRequest" });
   }
 }
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          kind: S.String,
-        }),
-      ).annotate({ identifier: "GetAddonResponse" });
-  }
-}
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5318,7 +5894,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetAlertRequest" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5336,8 +5912,8 @@ function __c26(j: number): any {
           appearedAtDateTime: S.optional(S.String),
           recommendation: S.optional(S.String),
           severity: S.optional(S.String),
-          errorDetails: S.optional(__S(416, __c26, 0)),
-          detailedInformation: S.optional(__S(208, __c13, 0)),
+          errorDetails: S.optional(__S(896, __c28, 0)),
+          detailedInformation: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "AlertProperties" });
     case 2:
@@ -5346,13 +5922,13 @@ function __c26(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(417, __c26, 1)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(897, __c28, 1)),
         }),
       ).annotate({ identifier: "GetAlertResponse" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5372,7 +5948,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetBandwidthScheduleRequest" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5380,13 +5956,13 @@ function __c28(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(80, __c5, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(256, __c8, 0),
         }),
       ).annotate({ identifier: "GetBandwidthScheduleResponse" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5407,7 +5983,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetContainerRequest" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5415,13 +5991,13 @@ function __c30(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(608, __c38, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(1280, __c40, 0),
         }),
       ).annotate({ identifier: "GetContainerResponse" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5440,7 +6016,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetDeviceRequest" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5492,8 +6068,8 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           fqdn: S.optional(S.String),
-          gpuCapacity: S.optional(__S(514, __c32, 2)),
-          memoryCapacity: S.optional(__S(515, __c32, 3)),
+          gpuCapacity: S.optional(__S(1090, __c34, 2)),
+          memoryCapacity: S.optional(__S(1091, __c34, 3)),
           lastRefreshedTime: S.optional(S.String),
           totalProvisionedNonHpnCores: S.optional(S.Number),
         }),
@@ -5506,7 +6082,7 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "VmMemory" });
     case 6:
-      return S.Record(S.String, __S(517, __c32, 5));
+      return S.Record(S.String, __S(1093, __c34, 5));
     case 7:
       return S.Array(S.Number);
     case 8:
@@ -5516,33 +6092,33 @@ function __c32(j: number): any {
           totalMemoryInMb: S.optional(S.Number),
           logicalCoreCountPerCore: S.optional(S.Number),
           effectiveAvailableMemoryInMb: S.optional(S.Number),
-          freeVCpuIndexesForHpn: S.optional(__S(519, __c32, 7)),
-          vCpuIndexesForHpn: S.optional(__S(519, __c32, 7)),
-          vCpuIndexesForRoot: S.optional(__S(519, __c32, 7)),
+          freeVCpuIndexesForHpn: S.optional(__S(1095, __c34, 7)),
+          vCpuIndexesForHpn: S.optional(__S(1095, __c34, 7)),
+          vCpuIndexesForRoot: S.optional(__S(1095, __c34, 7)),
         }),
       ).annotate({ identifier: "NumaNodeData" });
     case 9:
-      return S.Array(__S(520, __c32, 8));
+      return S.Array(__S(1096, __c34, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           hostName: S.optional(S.String),
           effectiveAvailableMemoryMbOnHost: S.optional(S.Number),
           availableGpuCount: S.optional(S.Number),
-          vmUsedMemory: S.optional(__S(518, __c32, 6)),
+          vmUsedMemory: S.optional(__S(1094, __c34, 6)),
           gpuType: S.optional(S.String),
-          numaNodesData: S.optional(__S(521, __c32, 9)),
+          numaNodesData: S.optional(__S(1097, __c34, 9)),
         }),
       ).annotate({ identifier: "HostCapacity" });
     case 11:
-      return S.Record(S.String, __S(522, __c32, 10));
+      return S.Record(S.String, __S(1098, __c34, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           timeStamp: S.optional(S.String),
-          clusterStorageCapacityInfo: S.optional(__S(513, __c32, 1)),
-          clusterComputeCapacityInfo: S.optional(__S(516, __c32, 4)),
-          nodeCapacityInfos: S.optional(__S(523, __c32, 11)),
+          clusterStorageCapacityInfo: S.optional(__S(1089, __c34, 1)),
+          clusterComputeCapacityInfo: S.optional(__S(1092, __c34, 4)),
+          nodeCapacityInfos: S.optional(__S(1099, __c34, 11)),
         }),
       ).annotate({ identifier: "DeviceCapacityInfoProperties" });
     case 13:
@@ -5551,13 +6127,13 @@ function __c32(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(524, __c32, 12)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(1100, __c34, 12)),
         }),
       ).annotate({ identifier: "GetDeviceCapacityInfoDeviceCapacityInfoResponse" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5576,17 +6152,17 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetDeviceExtendedInformationRequest" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          encryptedSecret: S.optional(__S(256, __c16, 0)),
+          encryptedSecret: S.optional(__S(64, __c2, 0)),
           keyVaultId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Secret" });
     case 1:
-      return S.Record(S.String, __S(544, __c34, 0));
+      return S.Record(S.String, __S(1152, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5598,7 +6174,7 @@ function __c34(j: number): any {
           channelIntegrityKeyName: S.optional(S.String),
           channelIntegrityKeyVersion: S.optional(S.String),
           keyVaultSyncStatus: S.optional(S.String),
-          deviceSecrets: S.optional(__S(545, __c34, 1)),
+          deviceSecrets: S.optional(__S(1153, __c36, 1)),
           clusterWitnessType: S.optional(S.String),
           fileShareWitnessLocation: S.optional(S.String),
           fileShareWitnessUsername: S.optional(S.String),
@@ -5613,13 +6189,13 @@ function __c34(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(546, __c34, 2)),
-          systemData: S.optional(__S(16, __c1, 0)),
+          properties: S.optional(__S(1154, __c36, 2)),
+          systemData: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "GetDeviceExtendedInformationResponse" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5663,7 +6239,7 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           adapterId: S.optional(S.String),
-          adapterPosition: S.optional(__S(561, __c35, 1)),
+          adapterPosition: S.optional(__S(1185, __c37, 1)),
           index: S.optional(S.Number),
           nodeId: S.optional(S.String),
           networkAdapterName: S.optional(S.String),
@@ -5673,18 +6249,18 @@ function __c35(j: number): any {
           status: S.optional(S.String),
           rdmaStatus: S.optional(S.String),
           dhcpStatus: S.optional(S.String),
-          ipv4Configuration: S.optional(__S(562, __c35, 2)),
-          ipv6Configuration: S.optional(__S(563, __c35, 3)),
+          ipv4Configuration: S.optional(__S(1186, __c37, 2)),
+          ipv6Configuration: S.optional(__S(1187, __c37, 3)),
           ipv6LinkLocalAddress: S.optional(S.String),
-          dnsServers: S.optional(__S(320, __c20, 0)),
+          dnsServers: S.optional(__S(736, __c23, 0)),
         }),
       ).annotate({ identifier: "NetworkAdapter" });
     case 5:
-      return S.Array(__S(564, __c35, 4));
+      return S.Array(__S(1188, __c37, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          networkAdapters: S.optional(__S(565, __c35, 5)),
+          networkAdapters: S.optional(__S(1189, __c37, 5)),
         }),
       ).annotate({ identifier: "NetworkSettingsProperties" });
     case 7:
@@ -5693,13 +6269,13 @@ function __c35(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(566, __c35, 6)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(1190, __c37, 6)),
         }),
       ).annotate({ identifier: "GetDeviceNetworkSettingsResponse" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5715,7 +6291,7 @@ function __c36(j: number): any {
           deviceName: S.String.pipe(T.Label()),
           storageAccountName: S.String.pipe(T.Label()),
           containerName: S.String.pipe(T.Label()),
-          properties: __S(576, __c36, 0),
+          properties: __S(1216, __c38, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5731,15 +6307,15 @@ function __c36(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(608, __c38, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(1280, __c40, 0),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "ContainersCreateOrUpdateResponse" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5752,20 +6328,20 @@ function __c37(j: number): any {
       ).annotate({ identifier: "RefreshDetails" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           containerStatus: S.optional(S.String),
           dataFormat: S.String,
-          refreshDetails: S.optional(__S(592, __c37, 0)),
+          refreshDetails: S.optional(__S(1248, __c39, 0)),
           createdDateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContainerProperties" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5790,15 +6366,15 @@ function __c39(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(640, __c40, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(1344, __c42, 0),
         }),
       ).annotate({
         identifier: "GetDiagnosticSettingsDiagnosticProactiveLogCollectionSettingsResponse",
       });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5808,7 +6384,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "ProactiveLogCollectionSettingsProperties" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5831,13 +6407,13 @@ function __c41(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(674, __c42, 2),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(1410, __c44, 2),
         }),
       ).annotate({ identifier: "GetDiagnosticSettingsDiagnosticRemoteSupportSettingsResponse" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5848,16 +6424,16 @@ function __c42(j: number): any {
         }),
       ).annotate({ identifier: "RemoteSupportSettings" });
     case 1:
-      return S.Array(__S(672, __c42, 0));
+      return S.Array(__S(1408, __c44, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          remoteSupportSettingsList: S.optional(__S(673, __c42, 1)),
+          remoteSupportSettingsList: S.optional(__S(1409, __c44, 1)),
         }),
       ).annotate({ identifier: "DiagnosticRemoteSupportSettingsProperties" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5877,7 +6453,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetJobRequest" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5903,8 +6479,8 @@ function __c44(j: number): any {
         S.Struct({
           jobType: S.optional(S.String),
           currentStage: S.optional(S.String),
-          downloadProgress: S.optional(__S(704, __c44, 0)),
-          installProgress: S.optional(__S(705, __c44, 1)),
+          downloadProgress: S.optional(__S(1472, __c46, 0)),
+          installProgress: S.optional(__S(1473, __c46, 1)),
           totalRefreshErrors: S.optional(S.Number),
           errorManifestFile: S.optional(S.String),
           refreshedEntityId: S.optional(S.String),
@@ -5914,17 +6490,17 @@ function __c44(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          recommendations: S.optional(__S(320, __c20, 0)),
+          recommendations: S.optional(__S(736, __c23, 0)),
           code: S.optional(S.String),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobErrorItem" });
     case 4:
-      return S.Array(__S(707, __c44, 3));
+      return S.Array(__S(1475, __c46, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          errorDetails: S.optional(__S(708, __c44, 4)),
+          errorDetails: S.optional(__S(1476, __c46, 4)),
           code: S.optional(S.String),
           message: S.optional(S.String),
         }),
@@ -5935,18 +6511,18 @@ function __c44(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(706, __c44, 2)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(1474, __c46, 2)),
           status: S.optional(S.String),
           startTime: S.optional(S.String),
           endTime: S.optional(S.String),
           percentComplete: S.optional(S.Number),
-          error: S.optional(__S(709, __c44, 5)),
+          error: S.optional(__S(1477, __c46, 5)),
         }),
       ).annotate({ identifier: "GetJobResponse" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5966,7 +6542,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "GetMonitoringConfigRequest" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5974,13 +6550,13 @@ function __c46(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(760, __c47, 8),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(1576, __c49, 8),
         }),
       ).annotate({ identifier: "GetMonitoringConfigResponse" });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5990,46 +6566,46 @@ function __c47(j: number): any {
         }),
       ).annotate({ identifier: "MetricDimension" });
     case 1:
-      return S.Array(__S(752, __c47, 0));
+      return S.Array(__S(1568, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           instance: S.optional(S.String),
-          dimensionFilter: S.optional(__S(753, __c47, 1)),
-          additionalDimensions: S.optional(__S(753, __c47, 1)),
+          dimensionFilter: S.optional(__S(1569, __c49, 1)),
+          additionalDimensions: S.optional(__S(1569, __c49, 1)),
         }),
       ).annotate({ identifier: "MetricCounter" });
     case 3:
-      return S.Array(__S(754, __c47, 2));
+      return S.Array(__S(1570, __c49, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          counters: __S(755, __c47, 3),
+          counters: __S(1571, __c49, 3),
         }),
       ).annotate({ identifier: "MetricCounterSet" });
     case 5:
-      return S.Array(__S(756, __c47, 4));
+      return S.Array(__S(1572, __c49, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           resourceId: S.String,
           mdmAccount: S.optional(S.String),
           metricNameSpace: S.optional(S.String),
-          counterSets: __S(757, __c47, 5),
+          counterSets: __S(1573, __c49, 5),
         }),
       ).annotate({ identifier: "MetricConfiguration" });
     case 7:
-      return S.Array(__S(758, __c47, 6));
+      return S.Array(__S(1574, __c49, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          metricConfigurations: __S(759, __c47, 7),
+          metricConfigurations: __S(1575, __c49, 7),
         }),
       ).annotate({ identifier: "MonitoringMetricConfigurationProperties" });
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6049,7 +6625,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "GetOperationsStatusRequest" });
   }
 }
-function __c49(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6068,7 +6644,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetOrderRequest" });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6076,14 +6652,14 @@ function __c50(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(822, __c51, 6)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(1702, __c53, 6)),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetOrderResponse" });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6091,7 +6667,7 @@ function __c51(j: number): any {
           contactPerson: S.String,
           companyName: S.String,
           phone: S.String,
-          emailList: __S(320, __c20, 0),
+          emailList: __S(736, __c23, 0),
         }),
       ).annotate({ identifier: "ContactDetails" });
     case 1:
@@ -6121,31 +6697,31 @@ function __c51(j: number): any {
           status: S.String,
           updateDateTime: S.optional(S.String),
           comments: S.optional(S.String),
-          trackingInformation: S.optional(__S(818, __c51, 2)),
-          additionalOrderDetails: S.optional(__S(208, __c13, 0)),
+          trackingInformation: S.optional(__S(1698, __c53, 2)),
+          additionalOrderDetails: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "OrderStatus" });
     case 4:
-      return S.Array(__S(819, __c51, 3));
+      return S.Array(__S(1699, __c53, 3));
     case 5:
-      return S.Array(__S(818, __c51, 2));
+      return S.Array(__S(1698, __c53, 2));
     case 6:
       return S.suspend(() =>
         S.Struct({
           orderId: S.optional(S.String),
-          contactInformation: __S(816, __c51, 0),
-          shippingAddress: S.optional(__S(817, __c51, 1)),
-          currentStatus: S.optional(__S(819, __c51, 3)),
-          orderHistory: S.optional(__S(820, __c51, 4)),
+          contactInformation: __S(1696, __c53, 0),
+          shippingAddress: S.optional(__S(1697, __c53, 1)),
+          currentStatus: S.optional(__S(1699, __c53, 3)),
+          orderHistory: S.optional(__S(1700, __c53, 4)),
           serialNumber: S.optional(S.String),
-          deliveryTrackingInfo: S.optional(__S(821, __c51, 5)),
-          returnTrackingInfo: S.optional(__S(821, __c51, 5)),
+          deliveryTrackingInfo: S.optional(__S(1701, __c53, 5)),
+          returnTrackingInfo: S.optional(__S(1701, __c53, 5)),
           shipmentType: S.optional(S.String),
         }),
       ).annotate({ identifier: "OrderProperties" });
   }
 }
-function __c52(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6165,7 +6741,241 @@ function __c52(j: number): any {
       ).annotate({ identifier: "GetRoleRequest" });
   }
 }
-function __c53(j: number): any {
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          shareId: S.String,
+          roleId: S.optional(S.String),
+          mountPoint: S.optional(S.String),
+          mountType: S.optional(S.String),
+          roleType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MountPointMap" });
+    case 1:
+      return S.Array(__S(1760, __c55, 0));
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          localManagementStatus: S.optional(S.String),
+          edgeProfile: S.optional(__S(548, __c17, 4)),
+          roleStatus: S.String,
+        }),
+      ).annotate({ identifier: "CloudEdgeManagementRoleProperties" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          kind: S.String,
+          properties: S.optional(__S(1792, __c56, 0)),
+        }),
+      ).annotate({ identifier: "CloudEdgeManagementRole" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          imageRepositoryUrl: S.String,
+          userName: S.String,
+          password: S.optional(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "ImageRepositoryCredential" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          imageName: S.String,
+          tag: S.String,
+          imageRepository: S.optional(__S(1794, __c56, 2)),
+        }),
+      ).annotate({ identifier: "IoTEdgeAgentInfo" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          processorCount: S.Number,
+          memoryInGB: S.Number,
+        }),
+      ).annotate({ identifier: "ComputeResource" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          hostPlatform: S.String,
+          ioTDeviceDetails: __S(130, __c4, 2),
+          ioTEdgeDeviceDetails: __S(130, __c4, 2),
+          shareMappings: S.optional(__S(1761, __c55, 1)),
+          ioTEdgeAgentInfo: S.optional(__S(1795, __c56, 3)),
+          hostPlatformType: S.optional(S.String),
+          computeResource: S.optional(__S(1796, __c56, 4)),
+          roleStatus: S.String,
+        }),
+      ).annotate({ identifier: "IoTRoleProperties" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          kind: S.String,
+          properties: S.optional(__S(1797, __c56, 5)),
+        }),
+      ).annotate({ identifier: "IoTRole" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          version: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EtcdInfo" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          port: S.optional(S.String),
+          ipAddress: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KubernetesIPConfiguration" });
+    case 9:
+      return S.Array(__S(1800, __c56, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          ipConfiguration: S.optional(__S(1801, __c56, 9)),
+        }),
+      ).annotate({ identifier: "NodeInfo" });
+    case 11:
+      return S.Array(__S(1802, __c56, 10));
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          etcdInfo: S.optional(__S(1799, __c56, 7)),
+          nodes: S.optional(__S(1803, __c56, 11)),
+          version: S.String,
+        }),
+      ).annotate({ identifier: "KubernetesClusterInfo" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          posixCompliant: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "KubernetesRoleStorageClassInfo" });
+    case 14:
+      return S.Array(__S(1805, __c56, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          storageClasses: S.optional(__S(1806, __c56, 14)),
+          endpoints: S.optional(__S(1761, __c55, 1)),
+        }),
+      ).annotate({ identifier: "KubernetesRoleStorage" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          vmProfile: S.String,
+          memoryInBytes: S.optional(S.Number),
+          processorCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "KubernetesRoleCompute" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          version: S.optional(S.String),
+          podSubnet: S.optional(S.String),
+          serviceSubnet: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CniConfig" });
+    case 18:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          version: S.optional(S.String),
+          ipRange: S.optional(__S(736, __c23, 0)),
+        }),
+      ).annotate({ identifier: "LoadBalancerConfig" });
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          cniConfig: S.optional(__S(1809, __c56, 17)),
+          loadBalancerConfig: S.optional(__S(1810, __c56, 18)),
+        }),
+      ).annotate({ identifier: "KubernetesRoleNetwork" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          storage: S.optional(__S(1807, __c56, 15)),
+          compute: __S(1808, __c56, 16),
+          network: S.optional(__S(1811, __c56, 19)),
+        }),
+      ).annotate({ identifier: "KubernetesRoleResources" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          hostPlatform: S.String,
+          provisioningState: S.optional(S.String),
+          hostPlatformType: S.optional(S.String),
+          kubernetesClusterInfo: __S(1804, __c56, 12),
+          kubernetesRoleResources: __S(1812, __c56, 20),
+          roleStatus: S.String,
+        }),
+      ).annotate({ identifier: "KubernetesRoleProperties" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          kind: S.String,
+          properties: S.optional(__S(1813, __c56, 21)),
+        }),
+      ).annotate({ identifier: "KubernetesRole" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          connectionString: S.optional(__S(64, __c2, 0)),
+          controllerEndpoint: S.optional(S.String),
+          resourceUniqueId: S.optional(S.String),
+          roleStatus: S.String,
+        }),
+      ).annotate({ identifier: "MECRoleProperties" });
+    case 24:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          kind: S.String,
+          properties: S.optional(__S(1815, __c56, 23)),
+        }),
+      ).annotate({ identifier: "MECRole" });
+    case 25:
+      return S.Union([
+        __S(1793, __c56, 1),
+        __S(1798, __c56, 6),
+        __S(1814, __c56, 22),
+        __S(1816, __c56, 24),
+      ]);
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(1817, __c56, 25).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetRoleResponse",
+      });
+  }
+}
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6185,7 +6995,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetShareRequest" });
   }
 }
-function __c54(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6193,13 +7003,13 @@ function __c54(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(887, __c55, 7),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(1925, __c60, 5),
         }),
       ).annotate({ identifier: "GetShareResponse" });
   }
 }
-function __c55(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6217,7 +7027,7 @@ function __c55(j: number): any {
         }),
       ).annotate({ identifier: "UserAccessRight" });
     case 2:
-      return S.Array(__S(881, __c55, 1));
+      return S.Array(__S(1921, __c60, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6226,37 +7036,25 @@ function __c55(j: number): any {
         }),
       ).annotate({ identifier: "ClientAccessRight" });
     case 4:
-      return S.Array(__S(883, __c55, 3));
+      return S.Array(__S(1923, __c60, 3));
     case 5:
-      return S.suspend(() =>
-        S.Struct({
-          shareId: S.String,
-          roleId: S.optional(S.String),
-          mountPoint: S.optional(S.String),
-          mountType: S.optional(S.String),
-          roleType: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MountPointMap" });
-    case 6:
-      return S.Array(__S(885, __c55, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           shareStatus: S.String,
           monitoringStatus: S.String,
-          azureContainerInfo: S.optional(__S(880, __c55, 0)),
+          azureContainerInfo: S.optional(__S(1920, __c60, 0)),
           accessProtocol: S.String,
-          userAccessRights: S.optional(__S(882, __c55, 2)),
-          clientAccessRights: S.optional(__S(884, __c55, 4)),
-          refreshDetails: S.optional(__S(592, __c37, 0)),
-          shareMappings: S.optional(__S(886, __c55, 6)),
+          userAccessRights: S.optional(__S(1922, __c60, 2)),
+          clientAccessRights: S.optional(__S(1924, __c60, 4)),
+          refreshDetails: S.optional(__S(1248, __c39, 0)),
+          shareMappings: S.optional(__S(1761, __c55, 1)),
           dataPolicy: S.optional(S.String),
         }),
       ).annotate({ identifier: "ShareProperties" });
   }
 }
-function __c56(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6276,7 +7074,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GetStorageAccountRequest" });
   }
 }
-function __c57(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6284,13 +7082,13 @@ function __c57(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(928, __c58, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(2016, __c63, 0),
         }),
       ).annotate({ identifier: "GetStorageAccountResponse" });
   }
 }
-function __c58(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6305,7 +7103,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "StorageAccountProperties" });
   }
 }
-function __c59(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6325,7 +7123,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "GetStorageAccountCredentialsRequest" });
   }
 }
-function __c60(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6333,20 +7131,20 @@ function __c60(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(976, __c61, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(2112, __c66, 0),
         }),
       ).annotate({ identifier: "GetStorageAccountCredentialsResponse" });
   }
 }
-function __c61(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           alias: S.String,
           userName: S.optional(S.String),
-          accountKey: S.optional(__S(256, __c16, 0)),
+          accountKey: S.optional(__S(64, __c2, 0)),
           connectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           sslStatus: S.String,
           blobDomainName: S.optional(S.String),
@@ -6356,7 +7154,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "StorageAccountCredentialProperties" });
   }
 }
-function __c62(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6377,7 +7175,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "DeleteAddonRequest" });
   }
 }
-function __c63(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6388,7 +7186,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "DeleteAddonResponse" });
   }
 }
-function __c64(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6408,7 +7206,83 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetTriggerRequest" });
   }
 }
-function __c65(j: number): any {
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          shareId: S.String,
+        }),
+      ).annotate({ identifier: "FileSourceInfo" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          roleId: S.String,
+        }),
+      ).annotate({ identifier: "RoleSinkInfo" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sourceInfo: __S(2240, __c70, 0),
+          sinkInfo: __S(2272, __c71, 0),
+          customContextTag: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FileTriggerProperties" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          kind: S.String,
+          properties: __S(2273, __c71, 1),
+        }),
+      ).annotate({ identifier: "FileEventTrigger" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          startTime: S.String,
+          schedule: S.String,
+          topic: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PeriodicTimerSourceInfo" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          sourceInfo: __S(2275, __c71, 3),
+          sinkInfo: __S(2272, __c71, 0),
+          customContextTag: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PeriodicTimerProperties" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          kind: S.String,
+          properties: __S(2276, __c71, 4),
+        }),
+      ).annotate({ identifier: "PeriodicTimerEventTrigger" });
+    case 6:
+      return S.Union([__S(2274, __c71, 2), __S(2277, __c71, 5)]);
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(2278, __c71, 6).pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetTriggerResponse",
+      });
+  }
+}
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6428,7 +7302,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c66(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6436,13 +7310,13 @@ function __c66(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(1074, __c67, 2),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(2402, __c75, 2),
         }),
       ).annotate({ identifier: "GetUserResponse" });
   }
 }
-function __c67(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6452,18 +7326,18 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "ShareAccessRight" });
     case 1:
-      return S.Array(__S(1072, __c67, 0));
+      return S.Array(__S(2400, __c75, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          encryptedPassword: S.optional(__S(256, __c16, 0)),
-          shareAccessRights: S.optional(__S(1073, __c67, 1)),
+          encryptedPassword: S.optional(__S(64, __c2, 0)),
+          shareAccessRights: S.optional(__S(2401, __c75, 1)),
           userType: S.String,
         }),
       ).annotate({ identifier: "UserProperties" });
   }
 }
-function __c68(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6482,7 +7356,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "InstallDeviceUpdatesRequest" });
   }
 }
-function __c69(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6500,22 +7374,18 @@ function __c69(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListAddonByRoleRequest" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(384, __c24, 0));
     case 1:
+      return S.Array(__S(164, __c5, 4));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1120, __c70, 0),
+          value: __S(2465, __c77, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AddonList" });
   }
 }
-function __c71(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6533,17 +7403,17 @@ function __c71(j: number): any {
         ),
       ).annotate({ identifier: "ListAlertByDataBoxEdgeDeviceRequest" });
     case 1:
-      return S.Array(__S(418, __c26, 2));
+      return S.Array(__S(898, __c28, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1137, __c71, 1),
+          value: __S(2497, __c78, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AlertList" });
   }
 }
-function __c72(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6562,12 +7432,12 @@ function __c72(j: number): any {
       return S.suspend(() =>
         S.Struct({
           location: S.optional(S.String),
-          zones: S.optional(__S(320, __c20, 0)),
-          sites: S.optional(__S(320, __c20, 0)),
+          zones: S.optional(__S(736, __c23, 0)),
+          sites: S.optional(__S(736, __c23, 0)),
         }),
       ).annotate({ identifier: "SkuLocationInfo" });
     case 2:
-      return S.Array(__S(1153, __c72, 1));
+      return S.Array(__S(2529, __c79, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6577,7 +7447,7 @@ function __c72(j: number): any {
         }),
       ).annotate({ identifier: "SkuCost" });
     case 4:
-      return S.Array(__S(1155, __c72, 3));
+      return S.Array(__S(2531, __c79, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -6586,7 +7456,7 @@ function __c72(j: number): any {
         }),
       ).annotate({ identifier: "SkuCapability" });
     case 6:
-      return S.Array(__S(1157, __c72, 5));
+      return S.Array(__S(2533, __c79, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -6596,29 +7466,29 @@ function __c72(j: number): any {
           tier: S.optional(S.String),
           size: S.optional(S.String),
           family: S.optional(S.String),
-          locations: S.optional(__S(320, __c20, 0)),
-          apiVersions: S.optional(__S(320, __c20, 0)),
-          locationInfo: S.optional(__S(1154, __c72, 2)),
-          costs: S.optional(__S(1156, __c72, 4)),
+          locations: S.optional(__S(736, __c23, 0)),
+          apiVersions: S.optional(__S(736, __c23, 0)),
+          locationInfo: S.optional(__S(2530, __c79, 2)),
+          costs: S.optional(__S(2532, __c79, 4)),
           signupOption: S.optional(S.String),
           version: S.optional(S.String),
           availability: S.optional(S.String),
-          shipmentTypes: S.optional(__S(64, __c4, 0)),
-          capabilities: S.optional(__S(1158, __c72, 6)),
+          shipmentTypes: S.optional(__S(224, __c7, 0)),
+          capabilities: S.optional(__S(2534, __c79, 6)),
         }),
       ).annotate({ identifier: "DataBoxEdgeSku" });
     case 8:
-      return S.Array(__S(1159, __c72, 7));
+      return S.Array(__S(2535, __c79, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1160, __c72, 8),
+          value: __S(2536, __c79, 8),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataBoxEdgeSkuList" });
   }
 }
-function __c73(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6636,17 +7506,17 @@ function __c73(j: number): any {
         ),
       ).annotate({ identifier: "ListBandwidthScheduleByDataBoxEdgeDeviceRequest" });
     case 1:
-      return S.Array(__S(448, __c28, 0));
+      return S.Array(__S(960, __c30, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1169, __c73, 1),
+          value: __S(2561, __c80, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "BandwidthSchedulesList" });
   }
 }
-function __c74(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6665,17 +7535,17 @@ function __c74(j: number): any {
         ),
       ).annotate({ identifier: "ListContainerByStorageAccountRequest" });
     case 1:
-      return S.Array(__S(480, __c30, 0));
+      return S.Array(__S(1024, __c32, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1185, __c74, 1),
+          value: __S(2593, __c81, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContainerList" });
   }
 }
-function __c75(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6694,20 +7564,20 @@ function __c75(j: number): any {
       ).annotate({ identifier: "ListDeviceByResourceGroupRequest" });
   }
 }
-function __c76(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(234, __c14, 10));
+      return S.Array(__S(581, __c18, 5));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1216, __c76, 0),
+          value: __S(2656, __c83, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataBoxEdgeDeviceList" });
   }
 }
-function __c77(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6725,7 +7595,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "ListDeviceBySubscriptionRequest" });
   }
 }
-function __c78(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6745,7 +7615,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "DeleteBandwidthScheduleRequest" });
   }
 }
-function __c79(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6764,17 +7634,17 @@ function __c79(j: number): any {
         ),
       ).annotate({ identifier: "ListMonitoringConfigRequest" });
     case 1:
-      return S.Array(__S(736, __c46, 0));
+      return S.Array(__S(1536, __c48, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1265, __c79, 1),
+          value: __S(2753, __c86, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "MonitoringMetricConfigurationList" });
   }
 }
-function __c80(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6809,21 +7679,21 @@ function __c80(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(1281, __c80, 1)),
+          properties: S.optional(__S(2785, __c87, 1)),
         }),
       ).annotate({ identifier: "Node" });
     case 3:
-      return S.Array(__S(1282, __c80, 2));
+      return S.Array(__S(2786, __c87, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1283, __c80, 3),
+          value: __S(2787, __c87, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "NodeList" });
   }
 }
-function __c81(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6854,7 +7724,7 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "MetricDimensionV1" });
     case 3:
-      return S.Array(__S(1298, __c81, 2));
+      return S.Array(__S(2818, __c88, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -6863,26 +7733,26 @@ function __c81(j: number): any {
           displayDescription: S.optional(S.String),
           unit: S.optional(S.String),
           aggregationType: S.optional(S.String),
-          dimensions: S.optional(__S(1299, __c81, 3)),
+          dimensions: S.optional(__S(2819, __c88, 3)),
           fillGapWithZero: S.optional(S.Boolean),
           category: S.optional(S.String),
           resourceIdDimensionNameOverride: S.optional(S.String),
-          supportedTimeGrainTypes: S.optional(__S(64, __c4, 0)),
-          supportedAggregationTypes: S.optional(__S(64, __c4, 0)),
+          supportedTimeGrainTypes: S.optional(__S(224, __c7, 0)),
+          supportedAggregationTypes: S.optional(__S(224, __c7, 0)),
         }),
       ).annotate({ identifier: "MetricSpecificationV1" });
     case 5:
-      return S.Array(__S(1300, __c81, 4));
+      return S.Array(__S(2820, __c88, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          metricSpecifications: S.optional(__S(1301, __c81, 5)),
+          metricSpecifications: S.optional(__S(2821, __c88, 5)),
         }),
       ).annotate({ identifier: "ServiceSpecification" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          serviceSpecification: S.optional(__S(1302, __c81, 6)),
+          serviceSpecification: S.optional(__S(2822, __c88, 6)),
         }),
       ).annotate({ identifier: "OperationProperties" });
     case 8:
@@ -6890,23 +7760,23 @@ function __c81(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
-          display: S.optional(__S(1297, __c81, 1)),
+          display: S.optional(__S(2817, __c88, 1)),
           origin: S.optional(S.String),
-          properties: S.optional(__S(1303, __c81, 7)),
+          properties: S.optional(__S(2823, __c88, 7)),
         }),
       ).annotate({ identifier: "Operation" });
     case 9:
-      return S.Array(__S(1304, __c81, 8));
+      return S.Array(__S(2824, __c88, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1305, __c81, 9),
+          value: __S(2825, __c88, 9),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationsList" });
   }
 }
-function __c82(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6924,17 +7794,17 @@ function __c82(j: number): any {
         ),
       ).annotate({ identifier: "ListOrderByDataBoxEdgeDeviceRequest" });
     case 1:
-      return S.Array(__S(800, __c50, 0));
+      return S.Array(__S(1664, __c52, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1313, __c82, 1),
+          value: __S(2849, __c89, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OrderList" });
   }
 }
-function __c83(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6960,12 +7830,12 @@ function __c83(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(1329, __c83, 1)),
+          properties: S.optional(__S(2881, __c90, 1)),
         }),
       ).annotate({ identifier: "DCAccessCode" });
   }
 }
-function __c84(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6982,9 +7852,18 @@ function __c84(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListRoleByDataBoxEdgeDeviceRequest" });
+    case 1:
+      return S.Array(__S(1817, __c56, 25));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2913, __c91, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RoleList" });
   }
 }
-function __c85(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7002,17 +7881,17 @@ function __c85(j: number): any {
         ),
       ).annotate({ identifier: "ListShareByDataBoxEdgeDeviceRequest" });
     case 1:
-      return S.Array(__S(864, __c54, 0));
+      return S.Array(__S(1888, __c59, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1361, __c85, 1),
+          value: __S(2945, __c92, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ShareList" });
   }
 }
-function __c86(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7030,17 +7909,17 @@ function __c86(j: number): any {
         ),
       ).annotate({ identifier: "ListStorageAccountByDataBoxEdgeDeviceRequest" });
     case 1:
-      return S.Array(__S(912, __c57, 0));
+      return S.Array(__S(1984, __c62, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1377, __c86, 1),
+          value: __S(2977, __c93, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StorageAccountList" });
   }
 }
-function __c87(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7058,17 +7937,17 @@ function __c87(j: number): any {
         ),
       ).annotate({ identifier: "ListStorageAccountCredentialsByDataBoxEdgeDeviceRequest" });
     case 1:
-      return S.Array(__S(960, __c60, 0));
+      return S.Array(__S(2080, __c65, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1393, __c87, 1),
+          value: __S(3009, __c94, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StorageAccountCredentialList" });
   }
 }
-function __c88(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7086,9 +7965,18 @@ function __c88(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListTriggerByDataBoxEdgeDeviceRequest" });
+    case 1:
+      return S.Array(__S(2278, __c71, 6));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(3041, __c95, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "TriggerList" });
   }
 }
-function __c89(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7109,7 +7997,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "DeleteContainerRequest" });
   }
 }
-function __c90(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7128,17 +8016,17 @@ function __c90(j: number): any {
         ),
       ).annotate({ identifier: "ListUserByDataBoxEdgeDeviceRequest" });
     case 1:
-      return S.Array(__S(1056, __c66, 0));
+      return S.Array(__S(2368, __c74, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1441, __c90, 1),
+          value: __S(3105, __c97, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserList" });
   }
 }
-function __c91(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7147,7 +8035,7 @@ function __c91(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
           roleName: S.String.pipe(T.Label()),
-          properties: __S(760, __c47, 8),
+          properties: __S(1576, __c49, 8),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7163,21 +8051,21 @@ function __c91(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(760, __c47, 8),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(1576, __c49, 8),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "MonitoringConfigCreateOrUpdateResponse" });
   }
 }
-function __c92(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          contactInformation: __S(816, __c51, 0),
-          shippingAddress: S.optional(__S(817, __c51, 1)),
+          contactInformation: __S(1696, __c53, 0),
+          shippingAddress: S.optional(__S(1697, __c53, 1)),
           shipmentType: S.optional(S.String),
         }),
       ).annotate({ identifier: "OrderPropertiesInput" });
@@ -7187,7 +8075,7 @@ function __c92(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1472, __c92, 0)),
+          properties: S.optional(__S(3168, __c99, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7203,8 +8091,8 @@ function __c92(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(822, __c51, 6)),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(1702, __c53, 6)),
           kind: S.optional(S.String),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -7212,7 +8100,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "OrdersCreateOrUpdateResponse" });
   }
 }
-function __c93(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7233,7 +8121,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "RefreshContainerRequest" });
   }
 }
-function __c94(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7253,16 +8141,99 @@ function __c94(j: number): any {
       ).annotate({ identifier: "RefreshShareRequest" });
   }
 }
-function __c95(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: S.optional(__S(1792, __c56, 0)),
+        }),
+      ).annotate({ identifier: "CloudEdgeManagementRoleInput" });
+    case 1:
+      return S.Array(__S(2240, __c70, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          hostPlatform: S.String,
+          ioTDeviceDetails: __S(130, __c4, 2),
+          ioTEdgeDeviceDetails: __S(130, __c4, 2),
+          shareMappings: S.optional(__S(3265, __c102, 1)),
+          ioTEdgeAgentInfo: S.optional(__S(1795, __c56, 3)),
+          computeResource: S.optional(__S(1796, __c56, 4)),
+          roleStatus: S.String,
+        }),
+      ).annotate({ identifier: "IoTRolePropertiesInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: S.optional(__S(3266, __c102, 2)),
+        }),
+      ).annotate({ identifier: "IoTRoleInput" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.String,
+        }),
+      ).annotate({ identifier: "KubernetesClusterInfoInput" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          endpoints: S.optional(__S(3265, __c102, 1)),
+        }),
+      ).annotate({ identifier: "KubernetesRoleStorageInput" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          vmProfile: S.String,
+        }),
+      ).annotate({ identifier: "KubernetesRoleComputeInput" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          storage: S.optional(__S(3269, __c102, 5)),
+          compute: __S(3270, __c102, 6),
+        }),
+      ).annotate({ identifier: "KubernetesRoleResourcesInput" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          hostPlatform: S.String,
+          kubernetesClusterInfo: __S(3268, __c102, 4),
+          kubernetesRoleResources: __S(3271, __c102, 7),
+          roleStatus: S.String,
+        }),
+      ).annotate({ identifier: "KubernetesRolePropertiesInput" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: S.optional(__S(3272, __c102, 8)),
+        }),
+      ).annotate({ identifier: "KubernetesRoleInput" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: S.optional(__S(1815, __c56, 23)),
+        }),
+      ).annotate({ identifier: "MECRoleInput" });
+    case 11:
+      return S.Union([
+        __S(3264, __c102, 0),
+        __S(3267, __c102, 3),
+        __S(3273, __c102, 9),
+        __S(3274, __c102, 10),
+      ]);
+    case 12:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          kind: S.String,
+          body: __S(3275, __c102, 11).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7274,7 +8245,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "RolesCreateOrUpdateRequest" });
   }
 }
-function __c96(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7282,11 +8253,11 @@ function __c96(j: number): any {
           description: S.optional(S.String),
           shareStatus: S.String,
           monitoringStatus: S.String,
-          azureContainerInfo: S.optional(__S(880, __c55, 0)),
+          azureContainerInfo: S.optional(__S(1920, __c60, 0)),
           accessProtocol: S.String,
-          userAccessRights: S.optional(__S(882, __c55, 2)),
-          clientAccessRights: S.optional(__S(884, __c55, 4)),
-          refreshDetails: S.optional(__S(592, __c37, 0)),
+          userAccessRights: S.optional(__S(1922, __c60, 2)),
+          clientAccessRights: S.optional(__S(1924, __c60, 4)),
+          refreshDetails: S.optional(__S(1248, __c39, 0)),
           dataPolicy: S.optional(S.String),
         }),
       ).annotate({ identifier: "SharePropertiesInput" });
@@ -7297,7 +8268,7 @@ function __c96(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(1536, __c96, 0),
+          properties: __S(3296, __c103, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7313,15 +8284,15 @@ function __c96(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(887, __c55, 7),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(1925, __c60, 5),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "SharesCreateOrUpdateResponse" });
   }
 }
-function __c97(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7330,7 +8301,7 @@ function __c97(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(976, __c61, 0),
+          properties: __S(2112, __c66, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7346,15 +8317,15 @@ function __c97(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(976, __c61, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(2112, __c66, 0),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "StorageAccountCredentialsCreateOrUpdateResponse" });
   }
 }
-function __c98(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7372,7 +8343,7 @@ function __c98(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
           storageAccountName: S.String.pipe(T.Label()),
-          properties: __S(1568, __c98, 0),
+          properties: __S(3360, __c105, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7388,24 +8359,40 @@ function __c98(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(928, __c58, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(2016, __c63, 0),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "StorageAccountsCreateOrUpdateResponse" });
   }
 }
-function __c99(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(2273, __c71, 1),
+        }),
+      ).annotate({ identifier: "FileEventTriggerInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          kind: S.String,
+          properties: __S(2276, __c71, 4),
+        }),
+      ).annotate({ identifier: "PeriodicTimerEventTriggerInput" });
+    case 2:
+      return S.Union([__S(3392, __c106, 0), __S(3393, __c106, 1)]);
+    case 3:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          kind: S.String,
+          body: __S(3394, __c106, 2).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7417,7 +8404,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "TriggersCreateOrUpdateRequest" });
   }
 }
-function __c100(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7436,7 +8423,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "DeleteDeviceRequest" });
   }
 }
-function __c101(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7452,7 +8439,7 @@ function __c101(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
-          properties: __S(1616, __c101, 0),
+          properties: __S(3456, __c108, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7464,7 +8451,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "TriggerSupportPackageSupportPackageRequest" });
   }
 }
-function __c102(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7475,13 +8462,13 @@ function __c102(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          subscription: S.optional(__S(1632, __c102, 0)),
+          subscription: S.optional(__S(3488, __c109, 0)),
         }),
       ).annotate({ identifier: "EdgeProfilePatch" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          edgeProfile: S.optional(__S(1633, __c102, 1)),
+          edgeProfile: S.optional(__S(3489, __c109, 1)),
         }),
       ).annotate({ identifier: "DataBoxEdgeDevicePropertiesPatch" });
     case 3:
@@ -7490,9 +8477,9 @@ function __c102(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(208, __c13, 0)),
-          identity: S.optional(__S(224, __c14, 0)),
-          properties: S.optional(__S(1634, __c102, 2)),
+          tags: S.optional(__S(512, __c16, 0)),
+          identity: S.optional(__S(576, __c18, 0)),
+          properties: S.optional(__S(3490, __c109, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -7504,7 +8491,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "UpdateDeviceRequest" });
   }
 }
-function __c103(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7528,7 +8515,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "UpdateDeviceExtendedInformationRequest" });
   }
 }
-function __c104(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7536,7 +8523,7 @@ function __c104(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
-          properties: __S(640, __c40, 0),
+          properties: __S(1344, __c42, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7554,8 +8541,8 @@ function __c104(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(640, __c40, 0),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(1344, __c42, 0),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -7564,7 +8551,7 @@ function __c104(j: number): any {
       });
   }
 }
-function __c105(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7572,7 +8559,7 @@ function __c105(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
-          properties: __S(674, __c42, 2),
+          properties: __S(1410, __c44, 2),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7588,15 +8575,15 @@ function __c105(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(674, __c42, 2),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(1410, __c44, 2),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "UpdateDiagnosticSettingsDiagnosticRemoteSupportSettingsResponse" });
   }
 }
-function __c106(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7611,7 +8598,7 @@ function __c106(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
-          properties: __S(1696, __c106, 0),
+          properties: __S(3616, __c113, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7636,12 +8623,12 @@ function __c106(j: number): any {
       ).annotate({ identifier: "UploadCertificateResponse" });
   }
 }
-function __c107(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          encryptedPassword: S.optional(__S(256, __c16, 0)),
+          encryptedPassword: S.optional(__S(64, __c2, 0)),
           userType: S.String,
         }),
       ).annotate({ identifier: "UserPropertiesInput" });
@@ -7652,7 +8639,7 @@ function __c107(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           deviceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(1712, __c107, 0),
+          properties: __S(3648, __c114, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7668,15 +8655,15 @@ function __c107(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(1074, __c67, 2),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(2402, __c75, 2),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "UsersCreateOrUpdateResponse" });
   }
 }
-function __c108(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7696,7 +8683,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "DeleteMonitoringConfigRequest" });
   }
 }
-function __c109(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

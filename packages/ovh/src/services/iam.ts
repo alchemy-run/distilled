@@ -31,9 +31,9 @@ export type CheckIamAuthorizationRequestActionsList = Array<string>;
 export type CheckIamAuthorizationRequestResourceURNsList = Array<string>;
 export interface CheckIamAuthorizationRequest {
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
   /** List of actions to check authorizations for */
   actions: CheckIamAuthorizationRequestActionsList;
   /** Resources on which accesses should be checked */
@@ -46,11 +46,11 @@ export type IamAuthorizeBatchResponseUnauthorizedActionsList = Array<string>;
 /** Result of an authorization request */
 export interface IamAuthorizeBatchResponse {
   /** Authorized actions */
-  authorizedActions?: IamAuthorizeBatchResponseAuthorizedActionsList;
+  authorizedActions?: IamAuthorizeBatchResponseAuthorizedActionsList | undefined;
   /** URN of the resource */
-  resourceURN?: string;
+  resourceURN?: string | undefined;
   /** Unauthorized actions */
-  unauthorizedActions?: IamAuthorizeBatchResponseUnauthorizedActionsList;
+  unauthorizedActions?: IamAuthorizeBatchResponseUnauthorizedActionsList | undefined;
 }
 export type CheckIamAuthorizationResponseBodyList = Array<IamAuthorizeBatchResponse>;
 export type CheckIamAuthorizationResponse = CheckIamAuthorizationResponseBodyList;
@@ -69,9 +69,9 @@ export type IamAuthorizeResponseUnauthorizedActionsList = Array<string>;
 /** Result of an authorization request */
 export interface IamAuthorizeResponse {
   /** Authorized actions */
-  authorizedActions?: IamAuthorizeResponseAuthorizedActionsList;
+  authorizedActions?: IamAuthorizeResponseAuthorizedActionsList | undefined;
   /** Unauthorized actions */
-  unauthorizedActions?: IamAuthorizeResponseUnauthorizedActionsList;
+  unauthorizedActions?: IamAuthorizeResponseUnauthorizedActionsList | undefined;
 }
 export interface CreateIamLogSubscriptionRequest {
   /** Log kind name to subscribe to */
@@ -82,9 +82,9 @@ export interface CreateIamLogSubscriptionRequest {
 /** Asynchronous operation after subscribing or unsubscribing to a resource logs */
 export interface DbaasLogsLogSubscriptionResponse {
   /** Identifier of the operation */
-  operationId?: string;
+  operationId?: string | undefined;
   /** Operation owner's service name */
-  serviceName?: string;
+  serviceName?: string | undefined;
 }
 export interface CreateIamLogUrlRequest {
   /** Log kind name */
@@ -93,9 +93,9 @@ export interface CreateIamLogUrlRequest {
 /** Temporary url information */
 export interface DbaasLogsTemporaryLogsLink {
   /** Temporary url expiration date */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Temporary url */
-  url?: string;
+  url?: string | undefined;
 }
 /** Action that can be allowed or denied on a resource */
 export interface IamPolicyAction {
@@ -111,11 +111,11 @@ export type IamPolicyPermissionsExceptList = Array<IamPolicyAction>;
 /** Permissions included in a policy */
 export interface IamPolicyPermissions {
   /** List of allowed actions */
-  allow?: IamPolicyPermissionsAllowList | null;
+  allow?: IamPolicyPermissionsAllowList | null | undefined;
   /** Actions to deny the access to */
-  deny?: IamPolicyPermissionsDenyList | null;
+  deny?: IamPolicyPermissionsDenyList | null | undefined;
   /** Actions to filter from the allowed list */
-  except?: IamPolicyPermissionsExceptList | null;
+  except?: IamPolicyPermissionsExceptList | null | undefined;
 }
 export interface CreateIamPermissionsGroupRequest {
   /** Description of the permissions group */
@@ -128,21 +128,21 @@ export interface CreateIamPermissionsGroupRequest {
 /** Permissions group defines a re-usable set of permissions */
 export interface IamPermissionsGroup {
   /** Creation time */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Description of the permissions group */
   description: string;
   /** Unique identifier of the permissions group */
-  id?: string;
+  id?: string | undefined;
   /** Name of the permissions group */
   name: string;
   /** Owner of the permissions group */
-  owner?: string;
+  owner?: string | undefined;
   /** Permissions granted when using this permissions group */
   permissions: IamPolicyPermissions;
   /** Last update time */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
   /** Unique resource name used in policies to include this permissions group */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** conditions */
 export type IamPolicyConditionConditionsList = Array<IamPolicyCondition>;
@@ -153,18 +153,18 @@ export type IamPolicyConditionValuesMap = { [key: string]: string | undefined };
 /** Condition included in a policy */
 export interface IamPolicyCondition {
   /** conditions */
-  conditions?: IamPolicyConditionConditionsList | null;
+  conditions?: IamPolicyConditionConditionsList | null | undefined;
   /** Operator used with conditions */
-  operator?: IamPolicyConditionOperatorEnum | (string & {});
+  operator?: IamPolicyConditionOperatorEnum | (string & {}) | undefined;
   /** Conditions to apply */
-  values?: IamPolicyConditionValuesMap | null;
+  values?: IamPolicyConditionValuesMap | null | undefined;
 }
 /** Recipients of the delegated resources */
 export type CreateIamPolicyRequestIdentitiesList = Array<string>;
 /** Permissions group linked to a policy */
 export interface IamPolicyPermissionsGroupInput {
   /** URN of the permissions group */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Permissions groups accorded to the recipients on the given resources */
 export type CreateIamPolicyRequestPermissionsGroupsList = Array<IamPolicyPermissionsGroupInput>;
@@ -177,11 +177,11 @@ export interface IamPolicyResourceInput {
 export type CreateIamPolicyRequestResourcesList = Array<IamPolicyResourceInput>;
 export interface CreateIamPolicyRequest {
   /** Conditions restrict permissions following resources, date or customer's information */
-  conditions?: IamPolicyCondition | null;
+  conditions?: IamPolicyCondition | null | undefined;
   /** Description of the policy */
-  description?: string;
+  description?: string | undefined;
   /** Expiration date of the policy, after this date it will no longer be applied */
-  expiredAt?: string | null;
+  expiredAt?: string | null | undefined;
   /** Recipients of the delegated resources */
   identities: CreateIamPolicyRequestIdentitiesList;
   /** Name of the policy */
@@ -189,7 +189,7 @@ export interface CreateIamPolicyRequest {
   /** Permissions accorded to the recipients on the given resources */
   permissions: IamPolicyPermissions;
   /** Permissions groups accorded to the recipients on the given resources */
-  permissionsGroups?: CreateIamPolicyRequestPermissionsGroupsList | null;
+  permissionsGroups?: CreateIamPolicyRequestPermissionsGroupsList | null | undefined;
   /** Resources to delegate */
   resources: CreateIamPolicyRequestResourcesList;
 }
@@ -198,48 +198,48 @@ export type IamPolicyResponseIdentitiesList = Array<string>;
 /** Permissions group linked to a policy */
 export interface IamPolicyPermissionsGroup {
   /** Name of the permissions group */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Owner of the permissions group */
-  owner?: string | null;
+  owner?: string | null | undefined;
   /** Permissions embedded in the permissions group */
-  permissions?: IamPolicyPermissions | null;
+  permissions?: IamPolicyPermissions | null | undefined;
   /** URN of the permissions group */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Permissions groups accorded to the recipients on the given resources */
 export type IamPolicyResponsePermissionsGroupsList = Array<IamPolicyPermissionsGroup>;
 /** Group defines a set of resources */
 export interface IamPolicyGroup {
   /** Unique identifier of the group */
-  id?: string;
+  id?: string | undefined;
   /** Name of the group */
-  name?: string;
+  name?: string | undefined;
   /** Whether you can add or remove resources */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
 }
 /** Resource tags. Tags that were internally computed are prefixed with ovh: */
 export type IamPolicySingleResourceTagsMap = { [key: string]: string | undefined };
 /** Single resource in a policy */
 export interface IamPolicySingleResource {
   /** Display name of the resource */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Owner of the resource */
-  owner?: string;
+  owner?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamPolicySingleResourceTagsMap | null;
+  tags?: IamPolicySingleResourceTagsMap | null | undefined;
   /** Resource type. All types can be retrieved at /reference/resource/type */
-  type?: string;
+  type?: string | undefined;
 }
 /** Resource in a policy */
 export interface IamPolicyResource {
   /** Group object, if resource is a group */
-  group?: IamPolicyGroup | null;
+  group?: IamPolicyGroup | null | undefined;
   /** Resource object, if resource is a single resource */
-  resource?: IamPolicySingleResource | null;
+  resource?: IamPolicySingleResource | null | undefined;
   /** URN of the resource */
   urn: string;
 }
@@ -248,38 +248,38 @@ export type IamPolicyResponseResourcesList = Array<IamPolicyResource>;
 /** Policy definition */
 export interface IamPolicyResponse {
   /** Conditions restrict permissions following resources, date or customer's information */
-  conditions?: IamPolicyCondition | null;
+  conditions?: IamPolicyCondition | null | undefined;
   /** Creation time */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Description of the policy */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Expiration date of the policy, after this date it will no longer be applied */
-  expiredAt?: string | null;
+  expiredAt?: string | null | undefined;
   /** Unique identifier of the policy */
-  id?: string;
+  id?: string | undefined;
   /** Recipients of the delegated resources */
-  identities?: IamPolicyResponseIdentitiesList;
+  identities?: IamPolicyResponseIdentitiesList | undefined;
   /** Name of the policy */
-  name?: string;
+  name?: string | undefined;
   /** Owner of the policy */
-  owner?: string;
+  owner?: string | undefined;
   /** Permissions accorded to the recipients on the given resources */
-  permissions?: IamPolicyPermissions;
+  permissions?: IamPolicyPermissions | undefined;
   /** Permissions groups accorded to the recipients on the given resources */
-  permissionsGroups?: IamPolicyResponsePermissionsGroupsList;
+  permissionsGroups?: IamPolicyResponsePermissionsGroupsList | undefined;
   /** Whether you can update policy */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Resources to delegate */
-  resources?: IamPolicyResponseResourcesList;
+  resources?: IamPolicyResponseResourcesList | undefined;
   /** Last update time */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 /** Resource is an entity standing for a product. It is used for right delegation */
 export interface IamGroupResourceInput {
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Unique resource name used in policies */
-  urn?: string | null;
+  urn?: string | null | undefined;
 }
 /** Resources to add in the created group */
 export type CreateIamResourceGroupRequestResourcesList = Array<IamGroupResourceInput>;
@@ -287,47 +287,47 @@ export interface CreateIamResourceGroupRequest {
   /** Name of the group */
   name: string;
   /** Resources to add in the created group */
-  resources?: CreateIamResourceGroupRequestResourcesList;
+  resources?: CreateIamResourceGroupRequestResourcesList | undefined;
 }
 /** Resource tags. Tags that were internally computed are prefixed with ovh: */
 export type IamGroupResourceTagsMap = { [key: string]: string | undefined };
 /** Resource is an entity standing for a product. It is used for right delegation */
 export interface IamGroupResource {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Resource owner */
-  owner?: string | null;
+  owner?: string | null | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamGroupResourceTagsMap | null;
+  tags?: IamGroupResourceTagsMap | null | undefined;
   /** Resource type. All types can be retrieved at /reference/resource/type */
-  type?: string | null;
+  type?: string | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string | null;
+  urn?: string | null | undefined;
 }
 /** Resources included in the group */
 export type IamGroupResponseResourcesList = Array<IamGroupResource>;
 /** Group defines a set of resources */
 export interface IamGroupResponse {
   /** Creation time */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Unique identifier of the group */
-  id?: string;
+  id?: string | undefined;
   /** Name of the group */
-  name?: string;
+  name?: string | undefined;
   /** Owner of the group */
-  owner?: string;
+  owner?: string | undefined;
   /** Whether you can add or remove resources */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Resources included in the group */
-  resources?: IamGroupResponseResourcesList;
+  resources?: IamGroupResponseResourcesList | undefined;
   /** Last update time */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 export interface CreateIamResourceTagRequest {
   /** ResourceURN */
@@ -373,17 +373,17 @@ export type DbaasLogsLogKindAdditionalReturnedFieldsList = Array<string>;
 /** Log kind */
 export interface DbaasLogsLogKind {
   /** List of additional log fields managed in this log kind */
-  additionalReturnedFields?: DbaasLogsLogKindAdditionalReturnedFieldsList;
+  additionalReturnedFields?: DbaasLogsLogKindAdditionalReturnedFieldsList | undefined;
   /** Creation date of the log kind */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Log kind display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Log kind ID */
-  kindId?: string;
+  kindId?: string | undefined;
   /** Log kind name */
-  name?: string;
+  name?: string | undefined;
   /** Last update date of the log kind */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetIamLogSubscriptionRequest {
   /** Subscription ID */
@@ -392,26 +392,26 @@ export interface GetIamLogSubscriptionRequest {
 /** Log subscription resource */
 export interface DbaasLogsLogSubscriptionResource {
   /** Name of subscribed resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of subscribed resource */
-  type?: string;
+  type?: string | undefined;
 }
 /** Log subscription */
 export interface DbaasLogsLogSubscription {
   /** Creation date of the subscription */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Log kind name of this subscription */
-  kind?: string;
+  kind?: string | undefined;
   /** Subscribed resource, where the logs come from */
-  resource?: DbaasLogsLogSubscriptionResource;
+  resource?: DbaasLogsLogSubscriptionResource | undefined;
   /** Name of the destination log service */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Id of the destination log stream */
-  streamId?: string;
+  streamId?: string | undefined;
   /** Subscription ID */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Last update date of the subscription */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetIamPermissionsGroupRequest {
   /** Permissions groupurn */
@@ -421,7 +421,7 @@ export interface GetIamPolicyRequest {
   /** Policy ID */
   policyId: string;
   /** Add extra information about resources in output */
-  details?: boolean;
+  details?: boolean | undefined;
 }
 export interface GetIamResourceRequest {
   /** ResourceURN */
@@ -432,49 +432,49 @@ export type IamResourceResourceTagsMap = { [key: string]: string | undefined };
 /** Resource is an entity standing for a product. It is used for right delegation */
 export interface IamResourceResource {
   /** Resource display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource owner */
-  owner?: string;
+  owner?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceResourceTagsMap | null;
+  tags?: IamResourceResourceTagsMap | null | undefined;
   /** Resource type. All types can be retrieved at /reference/resource/type */
-  type?: string;
+  type?: string | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 export interface GetIamResourceGroupRequest {
   /** Group ID */
   groupId: string;
   /** Add extra information about resources in output */
-  details?: boolean;
+  details?: boolean | undefined;
 }
 export interface ListIamLogKindRequest {
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListIamLogKindResponseBodyList = Array<string>;
 export type ListIamLogKindResponse = ListIamLogKindResponseBodyList;
 export interface ListIamLogSubscriptionRequest {
   /** Filter on a specific kind (e.g., default) */
-  kind?: string;
+  kind?: string | undefined;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListIamLogSubscriptionResponseBodyList = Array<string>;
 export type ListIamLogSubscriptionResponse = ListIamLogSubscriptionResponseBodyList;
 export interface ListIamPermissionsGroupRequest {
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListIamPermissionsGroupResponseBodyList = Array<IamPermissionsGroup>;
 export type ListIamPermissionsGroupResponse = ListIamPermissionsGroupResponseBodyList;
@@ -483,53 +483,53 @@ export type ListIamPolicyRequestIdentityList = Array<string>;
 export type ListIamPolicyRequestResourceURNList = Array<string>;
 export interface ListIamPolicyRequest {
   /** Filter on policies embedding the given IAM action */
-  action?: ListIamPolicyRequestActionList;
+  action?: ListIamPolicyRequestActionList | undefined;
   /** Add extra information about resources in output */
-  details?: boolean;
+  details?: boolean | undefined;
   /** Filter on policies embedding the given identity */
-  identity?: ListIamPolicyRequestIdentityList;
+  identity?: ListIamPolicyRequestIdentityList | undefined;
   /** Filter on the readOnly attribute */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Filter on policies embedding the given resource URN */
-  resourceURN?: ListIamPolicyRequestResourceURNList;
+  resourceURN?: ListIamPolicyRequestResourceURNList | undefined;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListIamPolicyResponseBodyList = Array<IamPolicyResponse>;
 export type ListIamPolicyResponse = ListIamPolicyResponseBodyList;
 export type ListIamReferenceActionRequestResourceTypeList = Array<string>;
 export interface ListIamReferenceActionRequest {
   /** Filter actions for specific resource types */
-  resourceType?: ListIamReferenceActionRequestResourceTypeList;
+  resourceType?: ListIamReferenceActionRequestResourceTypeList | undefined;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 /** List of categories the action belongs to */
 export type IamReferenceActionCategoriesList = Array<string>;
 /** Action that can be allowed or denied on a resource */
 export interface IamReferenceAction {
   /** Name of the action */
-  action?: string;
+  action?: string | undefined;
   /** List of categories the action belongs to */
-  categories?: IamReferenceActionCategoriesList;
+  categories?: IamReferenceActionCategoriesList | undefined;
   /** Description of the action */
-  description?: string;
+  description?: string | undefined;
   /** Whether you can use the action with additional parameters */
-  hasQueryParameters?: boolean;
+  hasQueryParameters?: boolean | undefined;
   /** Resource type related to the action */
-  resourceType?: string;
+  resourceType?: string | undefined;
 }
 export type ListIamReferenceActionResponseBodyList = Array<IamReferenceAction>;
 export type ListIamReferenceActionResponse = ListIamReferenceActionResponseBodyList;
 export interface ListIamReferenceResourceTypeRequest {
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListIamReferenceResourceTypeResponseBodyList = Array<string>;
 export type ListIamReferenceResourceTypeResponse = ListIamReferenceResourceTypeResponseBodyList;
@@ -544,27 +544,27 @@ export type ListIamResourceRequestTagsMap = {
 };
 export interface ListIamResourceRequest {
   /** Filter resources for specific resource names */
-  resourceName?: ListIamResourceRequestResourceNameList;
+  resourceName?: ListIamResourceRequestResourceNameList | undefined;
   /** Filter resources for specific resource types */
-  resourceType?: ListIamResourceRequestResourceTypeList;
+  resourceType?: ListIamResourceRequestResourceTypeList | undefined;
   /** Filter resources for specific resource URN patterns */
-  resourceURN?: ListIamResourceRequestResourceURNList;
+  resourceURN?: ListIamResourceRequestResourceURNList | undefined;
   /** Filter resources using tag filters */
-  tags?: ListIamResourceRequestTagsMap;
+  tags?: ListIamResourceRequestTagsMap | undefined;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListIamResourceResponseBodyList = Array<IamResourceResource>;
 export type ListIamResourceResponse = ListIamResourceResponseBodyList;
 export interface ListIamResourceGroupRequest {
   /** Add extra information about resources in output */
-  details?: boolean;
+  details?: boolean | undefined;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListIamResourceGroupResponseBodyList = Array<IamGroupResponse>;
 export type ListIamResourceGroupResponse = ListIamResourceGroupResponseBodyList;
@@ -588,11 +588,11 @@ export interface PutIamPolicyRequest {
   /** Policy ID */
   policyId: string;
   /** Conditions restrict permissions following resources, date or customer's information */
-  conditions?: IamPolicyCondition | null;
+  conditions?: IamPolicyCondition | null | undefined;
   /** Description of the policy */
-  description?: string;
+  description?: string | undefined;
   /** Expiration date of the policy, after this date it will no longer be applied */
-  expiredAt?: string | null;
+  expiredAt?: string | null | undefined;
   /** Recipients of the delegated resources */
   identities: PutIamPolicyRequestIdentitiesList;
   /** Name of the policy */
@@ -600,7 +600,7 @@ export interface PutIamPolicyRequest {
   /** Permissions accorded to the recipients on the given resources */
   permissions: IamPolicyPermissions;
   /** Permissions groups accorded to the recipients on the given resources */
-  permissionsGroups?: PutIamPolicyRequestPermissionsGroupsList | null;
+  permissionsGroups?: PutIamPolicyRequestPermissionsGroupsList | null | undefined;
   /** Resources to delegate */
   resources: PutIamPolicyRequestResourcesList;
 }
@@ -610,7 +610,7 @@ export interface PutIamResourceRequest {
   /** ResourceURN */
   resourceURN: string;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: PutIamResourceRequestTagsMap | null;
+  tags?: PutIamResourceRequestTagsMap | null | undefined;
 }
 /** New list of resources of the group */
 export type PutIamResourceGroupRequestResourcesList = Array<IamGroupResourceInput>;

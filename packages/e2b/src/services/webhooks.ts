@@ -30,7 +30,7 @@ export interface CreateWebhookRequest {
   name: string;
   url: string;
   events: CreateWebhookRequestEventsList;
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Secret used to sign the webhook payloads */
   signatureSecret: string | Redacted.Redacted<string>;
 }
@@ -74,9 +74,9 @@ export interface WebhookDetail {
 export interface GetWebhookStatsRequest {
   webhookID: string;
   /** Inclusive stats range start. Defaults to 24 hours ago. */
-  start?: string;
+  start?: string | undefined;
   /** Exclusive stats range end. Defaults to now. */
-  end?: string;
+  end?: string | undefined;
 }
 /** Webhook delivery duration statistics in milliseconds */
 export interface WebhookDeliveryDurationStats {
@@ -107,17 +107,17 @@ export type ListWebhookDeliveriesRequestEventTypeList = Array<string>;
 export interface ListWebhookDeliveriesRequest {
   webhookID: string;
   /** Opaque cursor from the previous response's nextCursor field. */
-  cursor?: string;
-  limit?: number;
-  orderAsc?: boolean;
+  cursor?: string | undefined;
+  limit?: number | undefined;
+  orderAsc?: boolean | undefined;
   /** Include deliveries at or after this timestamp. */
-  start?: string;
+  start?: string | undefined;
   /** Include deliveries before this timestamp. */
-  end?: string;
+  end?: string | undefined;
   /** Filter deliveries by delivery status */
-  deliveryStatus?: ListWebhookDeliveriesRequestDeliveryStatusList;
+  deliveryStatus?: ListWebhookDeliveriesRequestDeliveryStatusList | undefined;
   /** Filter deliveries by event type */
-  eventType?: ListWebhookDeliveriesRequestEventTypeList;
+  eventType?: ListWebhookDeliveriesRequestEventTypeList | undefined;
 }
 /** Delivery attempt status */
 export type WebhookDeliveryStatus = "success" | "failed";
@@ -155,15 +155,15 @@ export interface WebhookDelivery {
   /** URL attempted for this delivery */
   requestUrl: string;
   /** Truncated response body, if a response was received */
-  responseBody?: string | null;
+  responseBody?: string | null | undefined;
   /** JSON-encoded response headers, if a response was received */
-  responseHeaders?: string | null;
+  responseHeaders?: string | null | undefined;
   /** HTTP response status code, if a response was received */
-  responseHttpStatusCode?: number | null;
+  responseHttpStatusCode?: number | null | undefined;
   /** Machine-readable non-HTTP or HTTP failure class */
   errorClass: WebhookDeliveryErrorClass | null;
   /** Error message for failures without a useful response body */
-  errorMessage?: string | null;
+  errorMessage?: string | null | undefined;
   /** Time when the delivery attempt started */
   timestamp: string;
 }
@@ -188,13 +188,13 @@ export type ListWebhooksResponse = ListWebhooksResponseBodyList;
 export type UpdateWebhookRequestEventsList = Array<string>;
 export interface UpdateWebhookRequest {
   webhookID: string;
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Webhook user friendly name */
-  name?: string;
-  url?: string;
-  events?: UpdateWebhookRequestEventsList;
+  name?: string | undefined;
+  url?: string | undefined;
+  events?: UpdateWebhookRequestEventsList | undefined;
   /** Secret used to sign the webhook payloads */
-  signatureSecret?: string | Redacted.Redacted<string>;
+  signatureSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export type CreateWebhookError = E2BOpError;
 /** Register events webhook. */

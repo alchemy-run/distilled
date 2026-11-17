@@ -31,36 +31,123 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?:
+    | Error400Body10
+    | Error400Body9
+    | Error400Body11
+    | Error400Body2
+    | Error400Body5
+    | Error400Body
+    | Error400Body3
+    | Error400Body6
+    | Error400Body4
+    | Error400Body7
+    | Error400Body12
+    | Error400Body8
+    | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error403Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error404Body | Error404 | Error404Body2 | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          /*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?:
+    | Error422Body3
+    | Error422Body11
+    | Error422Body10
+    | Error422Body12
+    | Error422Body
+    | Error422Body6
+    | Error422Body4
+    | Error422Body2
+    | Error422Body7
+    | Error422Body5
+    | Error422Body8
+    | Error422Body9
+    | string;
+}
 
 export interface ActivatePlanRequest {
   /** The ID of the subscription. */
@@ -71,7 +158,7 @@ export interface ActivateSubscriptionRequest {
   /** The ID of the subscription. */
   id: string;
   /** The reason for activation of a subscription. Required to reactivate the subscription. */
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface ActivateSubscriptionResponse {}
 export interface CancelSubscriptionRequest {
@@ -93,7 +180,7 @@ export interface CaptureSubscriptionRequest {
   /** The ID of the subscription. */
   id: string;
   /** The server stores keys for 72 hours. */
-  payPalRequestId?: string;
+  payPalRequestId?: string | undefined;
   /** The reason or note for the subscription charge. */
   note: string;
   /** The type of capture. */
@@ -114,42 +201,42 @@ export interface AmountWithBreakdown {
   /** The amount for this transaction. */
   gross_amount: Money;
   /** The item total for the transaction. */
-  total_item_amount?: Money;
+  total_item_amount?: Money | undefined;
   /** The fee details for the transaction. */
-  fee_amount?: Money;
+  fee_amount?: Money | undefined;
   /** The shipping amount for the transaction. */
-  shipping_amount?: Money;
+  shipping_amount?: Money | undefined;
   /** The tax amount for the transaction. */
-  tax_amount?: Money;
+  tax_amount?: Money | undefined;
   /** The net amount that the payee receives for this transaction in their PayPal account. The net amount is computed as <code>gross_amount</code> minus the <code>paypal_fee</code>. */
-  net_amount?: Money;
+  net_amount?: Money | undefined;
 }
 /** The name of the party. */
 export interface Name {
   /** The prefix, or title, to the party's name. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** When the party is a person, the party's given, or first, name. */
-  given_name?: string;
+  given_name?: string | undefined;
   /** When the party is a person, the party's surname or family name. Also known as the last name. Required when the party is a person. Use also to store multiple surnames including the matronymic, or mother's, surname. */
-  surname?: string;
+  surname?: string | undefined;
   /** When the party is a person, the party's middle name. Use also to store multiple middle names including the patronymic, or father's, middle name. */
-  middle_name?: string;
+  middle_name?: string | undefined;
   /** The suffix for the party's name. */
-  suffix?: string;
+  suffix?: string | undefined;
   /** When the party is a person, the party's full name. */
-  full_name?: string;
+  full_name?: string | undefined;
 }
 /** The transaction details. */
 export interface Transaction {
   /** The status of the captured payment. */
-  status?: TransactionStatus;
+  status?: TransactionStatus | undefined;
   /** The PayPal-generated transaction ID. */
   id: string;
   amount_with_breakdown: AmountWithBreakdown;
   /** The name of the customer. */
-  payer_name?: Name;
+  payer_name?: Name | undefined;
   /** The email ID of the customer. */
-  payer_email?: string;
+  payer_email?: string | undefined;
   /** The date and time when the transaction was processed, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
   time: string;
 }
@@ -162,7 +249,7 @@ export interface PricingTier {
   /** The starting quantity for the tier. */
   starting_quantity: string;
   /** The ending quantity for the tier. Optional for the last tier. */
-  ending_quantity?: string;
+  ending_quantity?: string | undefined;
   /** The pricing amount for the tier. */
   amount: Money;
 }
@@ -171,10 +258,10 @@ export type PricingTierList = Array<PricingTier>;
 /** The pricing scheme details. */
 export interface PricingSchemeInput {
   /** The fixed amount to charge for the subscription. The changes to fixed amount are applicable to both existing and future subscriptions. For existing subscriptions, payments within 10 days of price change are not affected. */
-  fixed_price?: Money;
+  fixed_price?: Money | undefined;
   /** The pricing model for tiered plan. The `tiers` parameter is required. */
-  pricing_model?: PricingSchemeInputPricingModel | (string & {});
-  tiers?: PricingTierList;
+  pricing_model?: PricingSchemeInputPricingModel | (string & {}) | undefined;
+  tiers?: PricingTierList | undefined;
 }
 /** The interval at which the subscription is charged or billed. */
 export type FrequencyIntervalUnit = "DAY" | "WEEK" | "MONTH" | "YEAR";
@@ -183,14 +270,14 @@ export interface Frequency {
   /** The interval at which the subscription is charged or billed. */
   interval_unit: FrequencyIntervalUnit | (string & {});
   /** The number of intervals after which a subscriber is billed. For example, if the `interval_unit` is `DAY` with an `interval_count` of `2`, the subscription is billed once every two days. The following table lists the maximum allowed values for the `interval_count` for each `interval_unit`:<table><thead><tr><th><code>Interval unit</code></th><th>Maximum interval count</th></tr></thead><tbody><tr><td><code>DAY</code></td><td align="right">365</td></tr><tr><td><code>WEEK</code></td><td align="right">52</td></tr><tr><td><code>MONTH</code></td><td align="right">12</td></tr><tr><td><code>YEAR</code></td><td align="right">1</td></tr></tbody></table> */
-  interval_count?: number;
+  interval_count?: number | undefined;
 }
 /** The tenure type of the billing cycle. In case of a plan having trial cycle, only 2 trial cycles are allowed per plan. */
 export type BillingCycleInputTenureType = "REGULAR" | "TRIAL";
 /** The billing cycle details. */
 export interface BillingCycleInput {
   /** The active pricing scheme for this billing cycle. A free trial billing cycle does not require a pricing scheme. */
-  pricing_scheme?: PricingSchemeInput;
+  pricing_scheme?: PricingSchemeInput | undefined;
   /** The frequency details for this billing cycle. */
   frequency: Frequency;
   /** The tenure type of the billing cycle. In case of a plan having trial cycle, only 2 trial cycles are allowed per plan. */
@@ -198,7 +285,7 @@ export interface BillingCycleInput {
   /** The order in which this cycle is to run among other billing cycles. For example, a trial billing cycle has a `sequence` of `1` while a regular billing cycle has a `sequence` of `2`, so that trial cycle runs before the regular cycle. */
   sequence: number;
   /** The number of times this billing cycle gets executed. Trial billing cycles can only be executed a finite number of times (value between <code>1</code> and <code>999</code> for <code>total_cycles</code>). Regular billing cycles can be executed infinite times (value of <code>0</code> for <code>total_cycles</code>) or a finite number of times (value between <code>1</code> and <code>999</code> for <code>total_cycles</code>). */
-  total_cycles?: number;
+  total_cycles?: number | undefined;
 }
 /** An array of billing cycles for trial billing and regular billing. A plan can have at most two trial cycles and only one regular cycle. */
 export type BillingCycleListInput = Array<BillingCycleInput>;
@@ -207,39 +294,39 @@ export type PaymentPreferencesSetupFeeFailureAction = "CONTINUE" | "CANCEL";
 /** The payment preferences for a subscription. */
 export interface PaymentPreferences {
   /** Indicates whether to automatically bill the outstanding amount in the next billing cycle. */
-  auto_bill_outstanding?: boolean;
+  auto_bill_outstanding?: boolean | undefined;
   /** The initial set-up fee for the service. */
-  setup_fee?: Money;
+  setup_fee?: Money | undefined;
   /** The action to take on the subscription if the initial payment for the setup fails. */
-  setup_fee_failure_action?: PaymentPreferencesSetupFeeFailureAction | (string & {});
+  setup_fee_failure_action?: PaymentPreferencesSetupFeeFailureAction | (string & {}) | undefined;
   /** The maximum number of payment failures before a subscription is suspended. For example, if `payment_failure_threshold` is `2`, the subscription automatically updates to the `SUSPEND` state if two consecutive payments fail. */
-  payment_failure_threshold?: number;
+  payment_failure_threshold?: number | undefined;
 }
 /** The tax details. */
 export interface Taxes {
   /** The tax percentage on the billing amount. */
   percentage: string;
   /** Indicates whether the tax was already included in the billing amount. */
-  inclusive?: boolean;
+  inclusive?: boolean | undefined;
 }
 export interface CreatePlanRequest {
   /** The preferred server response upon successful completion of the request. Value is:<ul><li><code>return=minimal</code>. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the <code>id</code>, <code>status</code> and HATEOAS links.</li><li><code>return=representation</code>. The server returns a complete resource representation, including the current state of the resource.</li></ul> */
-  prefer?: string;
+  prefer?: string | undefined;
   /** The server stores keys for 72 hours. */
-  payPalRequestId?: string;
+  payPalRequestId?: string | undefined;
   /** The ID of the product created through Catalog Products API. */
   product_id: string;
   /** The plan name. */
   name: string;
   /** The initial state of the plan. Allowed input values are CREATED and ACTIVE. */
-  status?: CreatePlanRequestStatus | (string & {});
+  status?: CreatePlanRequestStatus | (string & {}) | undefined;
   /** The detailed description of the plan. */
-  description?: string;
+  description?: string | undefined;
   billing_cycles: BillingCycleListInput;
   payment_preferences: PaymentPreferences;
-  taxes?: Taxes;
+  taxes?: Taxes | undefined;
   /** Indicates whether you can subscribe to this plan by providing a quantity for the goods or service. */
-  quantity_supported?: boolean;
+  quantity_supported?: boolean | undefined;
 }
 /** The plan status. */
 export type PlanStatus = "CREATED" | "INACTIVE" | "ACTIVE";
@@ -248,23 +335,23 @@ export type PricingSchemePricingModel = "VOLUME" | "TIERED";
 /** The pricing scheme details. */
 export interface PricingScheme {
   /** The version of the pricing scheme. */
-  version?: number;
+  version?: number | undefined;
   /** The fixed amount to charge for the subscription. The changes to fixed amount are applicable to both existing and future subscriptions. For existing subscriptions, payments within 10 days of price change are not affected. */
-  fixed_price?: Money;
+  fixed_price?: Money | undefined;
   /** The pricing model for tiered plan. The `tiers` parameter is required. */
-  pricing_model?: PricingSchemePricingModel;
-  tiers?: PricingTierList;
+  pricing_model?: PricingSchemePricingModel | undefined;
+  tiers?: PricingTierList | undefined;
   /** The date and time when this pricing scheme was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  create_time?: string;
+  create_time?: string | undefined;
   /** The date and time when this pricing scheme was last updated, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  update_time?: string;
+  update_time?: string | undefined;
 }
 /** The tenure type of the billing cycle. In case of a plan having trial cycle, only 2 trial cycles are allowed per plan. */
 export type BillingCycleTenureType = "REGULAR" | "TRIAL";
 /** The billing cycle details. */
 export interface BillingCycle {
   /** The active pricing scheme for this billing cycle. A free trial billing cycle does not require a pricing scheme. */
-  pricing_scheme?: PricingScheme;
+  pricing_scheme?: PricingScheme | undefined;
   /** The frequency details for this billing cycle. */
   frequency: Frequency;
   /** The tenure type of the billing cycle. In case of a plan having trial cycle, only 2 trial cycles are allowed per plan. */
@@ -272,7 +359,7 @@ export interface BillingCycle {
   /** The order in which this cycle is to run among other billing cycles. For example, a trial billing cycle has a `sequence` of `1` while a regular billing cycle has a `sequence` of `2`, so that trial cycle runs before the regular cycle. */
   sequence: number;
   /** The number of times this billing cycle gets executed. Trial billing cycles can only be executed a finite number of times (value between <code>1</code> and <code>999</code> for <code>total_cycles</code>). Regular billing cycles can be executed infinite times (value of <code>0</code> for <code>total_cycles</code>) or a finite number of times (value between <code>1</code> and <code>999</code> for <code>total_cycles</code>). */
-  total_cycles?: number;
+  total_cycles?: number | undefined;
 }
 /** An array of billing cycles for trial billing and regular billing. A plan can have at most two trial cycles and only one regular cycle. */
 export type BillingCycleList = Array<BillingCycle>;
@@ -293,39 +380,39 @@ export interface LinkDescription {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: LinkDescriptionMethod;
+  method?: LinkDescriptionMethod | undefined;
 }
 /** An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type LinkDescriptionList = Array<LinkDescription>;
 /** The plan details. */
 export interface Plan {
   /** The unique PayPal-generated ID for the plan. */
-  id?: string;
+  id?: string | undefined;
   /** The ID for the product. */
-  product_id?: string;
+  product_id?: string | undefined;
   /** The plan name. */
-  name?: string;
+  name?: string | undefined;
   /** The plan status. */
-  status?: PlanStatus;
+  status?: PlanStatus | undefined;
   /** The detailed description of the plan. */
-  description?: string;
-  billing_cycles?: BillingCycleList;
-  payment_preferences?: PaymentPreferences;
-  taxes?: Taxes;
+  description?: string | undefined;
+  billing_cycles?: BillingCycleList | undefined;
+  payment_preferences?: PaymentPreferences | undefined;
+  taxes?: Taxes | undefined;
   /** Indicates whether you can subscribe to this plan by providing a quantity for the goods or service. */
-  quantity_supported?: boolean;
+  quantity_supported?: boolean | undefined;
   /** The date and time when the plan was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  create_time?: string;
+  create_time?: string | undefined;
   /** The date and time when the plan was last updated, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  update_time?: string;
-  links?: LinkDescriptionList;
+  update_time?: string | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 /** The name of the party. */
 export interface SubscriberRequestName {
   /** When the party is a person, the party's given, or first, name. */
-  given_name?: string;
+  given_name?: string | undefined;
   /** When the party is a person, the party's surname or family name. Also known as the last name. Required when the party is a person. Use also to store multiple surnames including the matronymic, or mother's, surname. */
-  surname?: string;
+  surname?: string | undefined;
 }
 /** The phone type. */
 export type PhoneType = "FAX" | "HOME" | "MOBILE" | "OTHER" | "PAGER";
@@ -336,14 +423,14 @@ export interface PhoneWithTypePhoneNumber {
 }
 /** The phone information. */
 export interface PhoneWithType {
-  phone_type?: PhoneType | (string & {});
+  phone_type?: PhoneType | (string & {}) | undefined;
   /** The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). */
   phone_number: PhoneWithTypePhoneNumber;
 }
 /** The name of the party. */
 export interface ShippingDetailName {
   /** When the party is a person, the party's full name. */
-  full_name?: string;
+  full_name?: string | undefined;
 }
 /** A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both. */
 export type ShippingDetailType =
@@ -360,9 +447,9 @@ export interface ShippingOption {
   /** A description that the payer sees, which helps them choose an appropriate shipping option. For example, `Free Shipping`, `USPS Priority Shipping`, `Expédition prioritaire USPS`, or `USPS yU+014DuxiU+0101n fU+0101 huò`. Localize this description to the payer's locale. */
   label: string;
   /** A classification for the method of purchase fulfillment. */
-  type?: ShippingType | (string & {});
+  type?: ShippingType | (string & {}) | undefined;
   /** The shipping cost for the selected option. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** If the API request sets `selected = true`, it represents the shipping option that the payee or merchant expects to be pre-selected for the payer when they first view the `shipping.options` in the PayPal Checkout experience. As part of the response if a `shipping.option` contains `selected=true`, it represents the shipping option that the payer selected during the course of checkout with PayPal. Only one `shipping.option` can be set to `selected=true`. */
   selected: boolean;
 }
@@ -371,26 +458,26 @@ export type ShippingOptionList = Array<ShippingOption>;
 /** The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute). */
 export interface ShippingDetailAddress {
   /** The first line of the address, such as number and street, for example, `173 Drury Lane`. Needed for data entry, and Compliance and Risk checks. This field needs to pass the full address. */
-  address_line_1?: string;
+  address_line_1?: string | undefined;
   /** The second line of the address, for example, a suite or apartment number. */
-  address_line_2?: string;
+  address_line_2?: string | undefined;
   /** A city, town, or village. Smaller than `admin_area_level_1`. */
-  admin_area_2?: string;
+  admin_area_2?: string | undefined;
   /** The highest-level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. This data is formatted for postal delivery, for example, `CA` and not `California`. Value, by country, is:<ul><li>UK. A county.</li><li>US. A state.</li><li>Canada. A province.</li><li>Japan. A prefecture.</li><li>Switzerland. A *kanton*.</li></ul> */
-  admin_area_1?: string;
+  admin_area_1?: string | undefined;
   /** The postal code, which is the ZIP code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code). */
-  postal_code?: string;
+  postal_code?: string | undefined;
   country_code: string;
 }
 /** The shipping details. */
 export interface ShippingDetail {
   /** The name of the party. */
-  name?: ShippingDetailName;
+  name?: ShippingDetailName | undefined;
   /** A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both. */
-  type?: ShippingDetailType | (string & {});
-  options?: ShippingOptionList;
+  type?: ShippingDetailType | (string & {}) | undefined;
+  options?: ShippingOptionList | undefined;
   /** The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute). */
-  address?: ShippingDetailAddress;
+  address?: ShippingDetailAddress | undefined;
 }
 /** Type of card. i.e Credit, Debit and so on. */
 export type CardType = "CREDIT" | "DEBIT" | "PREPAID" | "STORE" | "UNKNOWN";
@@ -424,66 +511,66 @@ export type CardBrand =
 export type PaymentSourceCardBillingAddress = ShippingDetailAddress;
 /** The details about a customer in PayPal's system of record. */
 export interface Customer {
-  id?: string;
+  id?: string | undefined;
   /** Email address of the buyer as provided to the merchant or on file with the merchant. Email Address is required if you are processing the transaction using PayPal Guest Processing which is offered to select partners and merchants. For all other use cases we do not expect partners/merchant to send email_address of their customer. */
-  email_address?: string;
+  email_address?: string | undefined;
   /** The phone number of the buyer as provided to the merchant or on file with the merchant. The `phone.phone_number` supports only `national_number`. */
-  phone?: PhoneWithType;
+  phone?: PhoneWithType | undefined;
 }
 /** Defines how and when the payment source gets vaulted. */
 export type StoreInVaultInstruction = "ON_SUCCESS";
 /** Basic vault instruction specification that can be extended by specific payment sources that supports vaulting. */
 export interface VaultInstructionBase {
-  store_in_vault?: StoreInVaultInstruction | (string & {});
+  store_in_vault?: StoreInVaultInstruction | (string & {}) | undefined;
 }
 /** The method used for card verification. */
 export type CardVerificationMethod = "SCA_ALWAYS" | "SCA_WHEN_REQUIRED" | "3D_SECURE" | "AVS_CVV";
 /** The API caller can opt in to verify the card through PayPal offered verification services (e.g. Smart Dollar Auth, 3DS). */
 export interface CardVerification {
   /** The method used for card verification. */
-  method?: CardVerificationMethod | (string & {});
+  method?: CardVerificationMethod | (string & {}) | undefined;
 }
 /** Additional attributes associated with the use of this card. */
 export interface CardAttributes {
-  customer?: Customer;
+  customer?: Customer | undefined;
   /** Instruction to vault the card based on the specified strategy. */
-  vault?: VaultInstructionBase;
+  vault?: VaultInstructionBase | undefined;
   /** Instruction to optionally verify the card based on the specified strategy. */
-  verification?: CardVerification;
+  verification?: CardVerification | undefined;
 }
 /** The payment card to use to fund a payment. Can be a credit or debit card. */
 export interface PaymentSourceCard {
   /** The card holder's name as it appears on the card. */
-  name?: string;
+  name?: string | undefined;
   /** The primary account number (PAN) for the payment card. */
-  number?: string;
+  number?: string | undefined;
   /** The card expiration year and month, in [Internet date format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  expiry?: string;
+  expiry?: string | undefined;
   /** The three- or four-digit security code of the card. Also known as the CVV, CVC, CVN, CVE, or CID. This parameter cannot be present in the request when `payment_initiator=MERCHANT`. */
-  security_code?: string;
+  security_code?: string | undefined;
   /** The payment card type. */
-  type?: CardType | (string & {});
+  type?: CardType | (string & {}) | undefined;
   /** The card brand or network. Typically used in the response. */
-  brand?: CardBrand | (string & {});
+  brand?: CardBrand | (string & {}) | undefined;
   /** The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute). */
-  billing_address?: ShippingDetailAddress;
+  billing_address?: ShippingDetailAddress | undefined;
   /** Additional attributes associated with the use of this card. */
-  attributes?: CardAttributes;
+  attributes?: CardAttributes | undefined;
 }
 /** The payment source definition. To be eligible to create subscription using debit or credit card, you will need to sign up here (https://www.paypal.com/bizsignup/entry/product/ppcp). Please note, its available only for non-3DS cards and for merchants in US and AU regions. */
 export interface PaymentSource {
   /** The payment card to use to fund a payment. Can be a credit or debit card. */
-  card?: PaymentSourceCard;
+  card?: PaymentSourceCard | undefined;
 }
 export interface SubscriberRequest {
   /** The email address of the payer. */
-  email_address?: string;
+  email_address?: string | undefined;
   /** The name of the party. */
-  name?: SubscriberRequestName;
+  name?: SubscriberRequestName | undefined;
   /** The phone number of the customer. Available only when you enable the **Contact Telephone Number** option in the <a href="https://www.paypal.com/cgi-bin/customerprofileweb?cmd=_profile-website-payments">**Profile & Settings**</a> for the merchant's PayPal account. The `phone.phone_number` supports only `national_number`. */
-  phone?: PhoneWithType;
-  shipping_address?: ShippingDetail;
-  payment_source?: PaymentSource;
+  phone?: PhoneWithType | undefined;
+  shipping_address?: ShippingDetail | undefined;
+  payment_source?: PaymentSource | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type ApplicationContextShippingPreference =
@@ -496,20 +583,20 @@ export type ApplicationContextUserAction = "CONTINUE" | "SUBSCRIBE_NOW";
 export type PayeePaymentMethodPreference = "UNRESTRICTED" | "IMMEDIATE_PAYMENT_REQUIRED";
 /** The customer and merchant payment preferences. */
 export interface ApplicationContextPaymentMethod {
-  payee_preferred?: PayeePaymentMethodPreference | (string & {});
+  payee_preferred?: PayeePaymentMethodPreference | (string & {}) | undefined;
 }
 /** The application context, which customizes the payer experience during the subscription approval process with PayPal. */
 export interface ApplicationContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. */
-  brand_name?: string;
+  brand_name?: string | undefined;
   /** The BCP 47-formatted locale of pages that the PayPal payment experience shows. PayPal supports a five-character code. For example, `da-DK`, `he-IL`, `id-ID`, `ja-JP`, `no-NO`, `pt-BR`, `ru-RU`, `sv-SE`, `th-TH`, `zh-CN`, `zh-HK`, or `zh-TW`. */
-  locale?: string;
+  locale?: string | undefined;
   /** The location from which the shipping address is derived. */
-  shipping_preference?: ApplicationContextShippingPreference | (string & {});
+  shipping_preference?: ApplicationContextShippingPreference | (string & {}) | undefined;
   /** Configures the label name to `Continue` or `Subscribe Now` for subscription consent experience. */
-  user_action?: ApplicationContextUserAction | (string & {});
+  user_action?: ApplicationContextUserAction | (string & {}) | undefined;
   /** The customer and merchant payment preferences. */
-  payment_method?: ApplicationContextPaymentMethod;
+  payment_method?: ApplicationContextPaymentMethod | undefined;
   /** The URL where the customer is redirected after the customer approves the payment. */
   return_url: string;
   /** The URL where the customer is redirected after the customer cancels the payment. */
@@ -518,11 +605,11 @@ export interface ApplicationContext {
 /** The billing cycle details to override at subscription level. The subscription billing cycle definition has to adhere to the plan billing cycle definition. */
 export interface BillingCycleOverrideInput {
   /** The active pricing scheme for this billing cycle. A free trial billing cycle does not require a pricing scheme. */
-  pricing_scheme?: PricingSchemeInput;
+  pricing_scheme?: PricingSchemeInput | undefined;
   /** The order in which this cycle is to run among other billing cycles. For example, a trial billing cycle has a `sequence` of `1` while a regular billing cycle has a `sequence` of `2`, so that trial cycle runs before the regular cycle. */
   sequence: number;
   /** The number of times this billing cycle gets executed. Trial billing cycles can only be executed a finite number of times (value between <code>1</code> and <code>999</code> for <code>total_cycles</code>). Regular billing cycles can be executed infinite times (value of <code>0</code> for <code>total_cycles</code>) or a finite number of times (value between <code>1</code> and <code>999</code> for <code>total_cycles</code>). */
-  total_cycles?: number;
+  total_cycles?: number | undefined;
 }
 /** An array of billing cycles for trial billing and regular billing. The subscription billing cycle definition has to adhere to the plan billing cycle definition. */
 export type BillingCycleOverrideListInput = Array<BillingCycleOverrideInput>;
@@ -531,50 +618,53 @@ export type PaymentPreferencesOverrideSetupFeeFailureAction = "CONTINUE" | "CANC
 /** The payment preferences to override at subscription level. */
 export interface PaymentPreferencesOverride {
   /** Indicates whether to automatically bill the outstanding amount in the next billing cycle. */
-  auto_bill_outstanding?: boolean;
+  auto_bill_outstanding?: boolean | undefined;
   /** The initial set-up fee for the service. */
-  setup_fee?: Money;
+  setup_fee?: Money | undefined;
   /** The action to take on the subscription if the initial payment for the setup fails. */
-  setup_fee_failure_action?: PaymentPreferencesOverrideSetupFeeFailureAction | (string & {});
+  setup_fee_failure_action?:
+    | PaymentPreferencesOverrideSetupFeeFailureAction
+    | (string & {})
+    | undefined;
   /** The maximum number of payment failures before a subscription is suspended. For example, if `payment_failure_threshold` is `2`, the subscription automatically updates to the `SUSPEND` state if two consecutive payments fail. */
-  payment_failure_threshold?: number;
+  payment_failure_threshold?: number | undefined;
 }
 /** The tax details. */
 export interface TaxesOverride {
   /** The tax percentage on the billing amount. */
-  percentage?: string;
+  percentage?: string | undefined;
   /** Indicates whether the tax was already included in the billing amount. */
-  inclusive?: boolean;
+  inclusive?: boolean | undefined;
 }
 /** An inline plan object to customise the subscription. You can override plan level default attributes by providing customised values for the subscription in this object. */
 export interface PlanOverrideInput {
-  billing_cycles?: BillingCycleOverrideListInput;
-  payment_preferences?: PaymentPreferencesOverride;
-  taxes?: TaxesOverride;
+  billing_cycles?: BillingCycleOverrideListInput | undefined;
+  payment_preferences?: PaymentPreferencesOverride | undefined;
+  taxes?: TaxesOverride | undefined;
 }
 export interface CreateSubscriptionRequest {
   /** The preferred server response upon successful completion of the request. Value is:<ul><li><code>return=minimal</code>. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the <code>id</code>, <code>status</code> and HATEOAS links.</li><li><code>return=representation</code>. The server returns a complete resource representation, including the current state of the resource.</li></ul> */
-  prefer?: string;
+  prefer?: string | undefined;
   /** The server stores keys for 72 hours. */
-  payPalRequestId?: string;
+  payPalRequestId?: string | undefined;
   /** The ID of the plan. */
   plan_id: string;
   /** The date and time when the subscription started, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  start_time?: string;
+  start_time?: string | undefined;
   /** The quantity of the product in the subscription. */
-  quantity?: string;
+  quantity?: string | undefined;
   /** The shipping charges. */
-  shipping_amount?: Money;
-  subscriber?: SubscriberRequest;
+  shipping_amount?: Money | undefined;
+  subscriber?: SubscriberRequest | undefined;
   /** DEPRECATED. Indicates whether the subscription auto-renews after the billing cycles complete. */
-  auto_renewal?: boolean;
-  application_context?: ApplicationContext;
+  auto_renewal?: boolean | undefined;
+  application_context?: ApplicationContext | undefined;
   /** The custom id for the subscription. Can be invoice id. */
-  custom_id?: string;
+  custom_id?: string | undefined;
   /** An inline plan object to customise the subscription. You can override plan level default attributes by providing customised values for the subscription in this object. */
-  plan?: PlanOverrideInput;
+  plan?: PlanOverrideInput | undefined;
   /** Merchant's inventory identifier details for the WPS hosted button. */
-  merchant_inventory?: unknown;
+  merchant_inventory?: unknown | undefined;
 }
 /** The status of the subscription. */
 export type CreateSubscriptionResponseStatus =
@@ -597,95 +687,95 @@ export type Enrolled = "Y" | "N" | "U" | "B";
 /** Results of 3D Secure Authentication. */
 export interface ThreeDSecureAuthenticationResponse {
   /** The outcome of the issuer's authentication. */
-  authentication_status?: ParesStatus;
+  authentication_status?: ParesStatus | undefined;
   /** Status of authentication eligibility. */
-  enrollment_status?: Enrolled;
+  enrollment_status?: Enrolled | undefined;
 }
 /** Results of Authentication such as 3D Secure. */
 export interface AuthenticationResponse {
-  liability_shift?: LiabilityShift;
-  three_d_secure?: ThreeDSecureAuthenticationResponse;
+  liability_shift?: LiabilityShift | undefined;
+  three_d_secure?: ThreeDSecureAuthenticationResponse | undefined;
 }
 /** The vault status. */
 export type VaultResponseStatus = "VAULTED" | "CREATED" | "APPROVED";
 /** The details about a customer in PayPal's system of record. */
 export interface VaultResponseCustomer {
-  id?: string;
+  id?: string | undefined;
 }
 /** An array of request-related HATEOAS links. */
 export type DefinitionsLinkDescriptionList = Array<LinkDescription>;
 /** The details about a saved payment source. */
 export interface VaultResponse {
   /** The PayPal-generated ID for the saved payment source. */
-  id?: string;
+  id?: string | undefined;
   /** The vault status. */
-  status?: VaultResponseStatus;
+  status?: VaultResponseStatus | undefined;
   /** The details about a customer in PayPal's system of record. */
-  customer?: VaultResponseCustomer;
-  links?: DefinitionsLinkDescriptionList;
+  customer?: VaultResponseCustomer | undefined;
+  links?: DefinitionsLinkDescriptionList | undefined;
 }
 /** Additional attributes associated with the use of this card. */
 export interface CardAttributesResponse {
-  vault?: VaultResponse;
+  vault?: VaultResponse | undefined;
 }
 /** Representation of card details as received in the request. */
 export interface CardFromRequest {
   /** The card expiration year and month, in [Internet date format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  expiry?: string;
+  expiry?: string | undefined;
   /** The last digits of the payment card. */
-  last_digits?: string;
+  last_digits?: string | undefined;
 }
 /** The type of card product assigned to the BIN by the issuer. These values are defined by the issuer and may change over time. Some examples include: PREPAID_GIFT, CONSUMER, CORPORATE. */
 export type ProductsList = Array<string>;
 /** Bank Identification Number (BIN) details used to fund a payment. */
 export interface BinDetails {
   /** The Bank Identification Number (BIN) signifies the number that is being used to identify the granular level details (except the PII information) of the card. */
-  bin?: string;
+  bin?: string | undefined;
   /** The issuer of the card instrument. */
-  issuing_bank?: string;
+  issuing_bank?: string | undefined;
   /** The [two-character ISO-3166-1 country code](/docs/integration/direct/rest/country-codes/) of the bank. */
-  bin_country_code?: string;
-  products?: ProductsList;
+  bin_country_code?: string | undefined;
+  products?: ProductsList | undefined;
 }
 /** The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute). */
 export type CardResponseWithBillingAddressBillingAddress = ShippingDetailAddress;
 export interface CardResponseWithBillingAddress {
   /** The card holder's name as it appears on the card. */
-  name?: string;
+  name?: string | undefined;
   /** The last digits of the payment card. */
-  last_digits?: string;
+  last_digits?: string | undefined;
   /** The card brand or network. Typically used in the response. */
-  brand?: CardBrand;
-  available_networks?: CardBrandList;
+  brand?: CardBrand | undefined;
+  available_networks?: CardBrandList | undefined;
   /** The payment card type. */
-  type?: CardType;
-  authentication_result?: AuthenticationResponse;
-  attributes?: CardAttributesResponse;
-  from_request?: CardFromRequest;
+  type?: CardType | undefined;
+  authentication_result?: AuthenticationResponse | undefined;
+  attributes?: CardAttributesResponse | undefined;
+  from_request?: CardFromRequest | undefined;
   /** The card expiration year and month, in [Internet date format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  expiry?: string;
+  expiry?: string | undefined;
   /** Bank Identification Number (BIN) details used to fund a payment. */
-  bin_details?: BinDetails;
+  bin_details?: BinDetails | undefined;
   /** The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute). */
-  billing_address?: ShippingDetailAddress;
+  billing_address?: ShippingDetailAddress | undefined;
   /** Currency code of the given instrument */
-  currency_code?: string;
+  currency_code?: string | undefined;
 }
 /** The payment source used to fund the payment. */
 export interface PaymentSourceResponse {
-  card?: CardResponseWithBillingAddress;
+  card?: CardResponseWithBillingAddress | undefined;
 }
 export interface Subscriber {
   /** The email address of the payer. */
-  email_address?: string;
+  email_address?: string | undefined;
   /** The PayPal-assigned ID for the payer. */
-  payer_id?: string;
+  payer_id?: string | undefined;
   /** The name of the party. */
-  name?: SubscriberRequestName;
+  name?: SubscriberRequestName | undefined;
   /** The phone number of the customer. Available only when you enable the **Contact Telephone Number** option in the <a href="https://www.paypal.com/cgi-bin/customerprofileweb?cmd=_profile-website-payments">**Profile & Settings**</a> for the merchant's PayPal account. The `phone.phone_number` supports only `national_number`. */
-  phone?: PhoneWithType;
-  shipping_address?: ShippingDetail;
-  payment_source?: PaymentSourceResponse;
+  phone?: PhoneWithType | undefined;
+  shipping_address?: ShippingDetail | undefined;
+  payment_source?: PaymentSourceResponse | undefined;
 }
 /** The type of the billing cycle. */
 export type CycleExecutionTenureType = "REGULAR" | "TRIAL";
@@ -698,19 +788,19 @@ export interface CycleExecution {
   /** The number of billing cycles that have completed. */
   cycles_completed: number;
   /** For a finite billing cycle, cycles_remaining is the number of remaining cycles. For an infinite billing cycle, cycles_remaining is set as 0. */
-  cycles_remaining?: number;
+  cycles_remaining?: number | undefined;
   /** The active pricing scheme version for the billing cycle. */
-  current_pricing_scheme_version?: number;
+  current_pricing_scheme_version?: number | undefined;
   /** The number of times this billing cycle gets executed. Trial billing cycles can only be executed a finite number of times (value between <code>1</code> and <code>999</code> for <code>total_cycles</code>). Regular billing cycles can be executed infinite times (value of <code>0</code> for <code>total_cycles</code>) or a finite number of times (value between <code>1</code> and <code>999</code> for <code>total_cycles</code>). */
-  total_cycles?: number;
+  total_cycles?: number | undefined;
 }
 /** The trial and regular billing executions. */
 export type CycleExecutionList = Array<CycleExecution>;
 export interface LastPaymentDetails {
   /** The last payment amount. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The date and time when the last payment was made, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  time?: string;
+  time?: string | undefined;
 }
 /** The reason code for the payment failure. */
 export type FailedPaymentDetailsReasonCode =
@@ -729,65 +819,65 @@ export interface FailedPaymentDetails {
   /** The date and time when the failed payment was made, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
   time: string;
   /** The reason code for the payment failure. */
-  reason_code?: FailedPaymentDetailsReasonCode;
+  reason_code?: FailedPaymentDetailsReasonCode | undefined;
   /** The time when the retry attempt for the failed payment occurs, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  next_payment_retry_time?: string;
+  next_payment_retry_time?: string | undefined;
 }
 /** The billing details for the subscription. If the subscription was or is active, these fields are populated. */
 export interface SubscriptionBillingInfo {
   /** The total pending bill amount, to be paid by the subscriber. */
   outstanding_balance: Money;
-  cycle_executions?: CycleExecutionList;
+  cycle_executions?: CycleExecutionList | undefined;
   /** The details for the last payment of the subscription. */
-  last_payment?: LastPaymentDetails;
+  last_payment?: LastPaymentDetails | undefined;
   /** The next date and time for billing this subscription, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  next_billing_time?: string;
+  next_billing_time?: string | undefined;
   /** The date and time when the final billing cycle occurs, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  final_payment_time?: string;
+  final_payment_time?: string | undefined;
   /** The number of consecutive payment failures. Resets to `0` after a successful payment. If this reaches the `payment_failure_threshold` value, the subscription updates to the `SUSPENDED` state. */
   failed_payments_count: number;
   /** The details for the last failed payment of the subscription. */
-  last_failed_payment?: FailedPaymentDetails;
+  last_failed_payment?: FailedPaymentDetails | undefined;
 }
 /** The plan details. */
 export interface CreateSubscriptionResponsePlan {
   /** The ID for the product. */
-  product_id?: string;
+  product_id?: string | undefined;
   /** The plan name. */
-  name?: string;
+  name?: string | undefined;
   /** The detailed description of the plan. */
-  description?: string;
-  billing_cycles?: BillingCycleList;
-  payment_preferences?: PaymentPreferences;
-  taxes?: Taxes;
+  description?: string | undefined;
+  billing_cycles?: BillingCycleList | undefined;
+  payment_preferences?: PaymentPreferences | undefined;
+  taxes?: Taxes | undefined;
   /** Indicates whether you can subscribe to this plan by providing a quantity for the goods or service. */
-  quantity_supported?: boolean;
+  quantity_supported?: boolean | undefined;
 }
 export interface CreateSubscriptionResponse {
   /** The status of the subscription. */
-  status?: CreateSubscriptionResponseStatus;
+  status?: CreateSubscriptionResponseStatus | undefined;
   /** The reason or notes for the status of the subscription. */
-  status_change_note?: string;
-  status_update_time?: string;
+  status_change_note?: string | undefined;
+  status_update_time?: string | undefined;
   /** The PayPal-generated ID for the subscription. */
-  id?: string;
+  id?: string | undefined;
   /** The ID of the plan. */
-  plan_id?: string;
-  start_time?: string;
+  plan_id?: string | undefined;
+  start_time?: string | undefined;
   /** The quantity of the product in the subscription. */
-  quantity?: string;
-  shipping_amount?: Money;
-  subscriber?: Subscriber;
-  billing_info?: SubscriptionBillingInfo;
-  create_time?: string;
-  update_time?: string;
+  quantity?: string | undefined;
+  shipping_amount?: Money | undefined;
+  subscriber?: Subscriber | undefined;
+  billing_info?: SubscriptionBillingInfo | undefined;
+  create_time?: string | undefined;
+  update_time?: string | undefined;
   /** The custom id for the subscription. Can be invoice id. */
-  custom_id?: string;
+  custom_id?: string | undefined;
   /** Indicates whether the subscription has overridden any plan attributes. */
-  plan_overridden?: boolean;
+  plan_overridden?: boolean | undefined;
   /** The plan details. */
-  plan?: CreateSubscriptionResponsePlan;
-  links?: LinkDescriptionList;
+  plan?: CreateSubscriptionResponsePlan | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 export interface DeactivatePlanRequest {
   /** The ID of the subscription. */
@@ -802,7 +892,7 @@ export interface GetSubscriptionRequest {
   /** The ID of the subscription. */
   id: string;
   /** List of fields that are to be returned in the response. Possible value for fields are last_failed_payment and plan. */
-  fields?: string;
+  fields?: string | undefined;
 }
 /** The status of the subscription. */
 export type GetSubscriptionResponseStatus =
@@ -816,52 +906,52 @@ export type GetSubscriptionResponseStatus =
 export type GetSubscriptionResponsePlan = CreateSubscriptionResponsePlan;
 export interface GetSubscriptionResponse {
   /** The status of the subscription. */
-  status?: GetSubscriptionResponseStatus;
+  status?: GetSubscriptionResponseStatus | undefined;
   /** The reason or notes for the status of the subscription. */
-  status_change_note?: string;
-  status_update_time?: string;
+  status_change_note?: string | undefined;
+  status_update_time?: string | undefined;
   /** The PayPal-generated ID for the subscription. */
-  id?: string;
+  id?: string | undefined;
   /** The ID of the plan. */
-  plan_id?: string;
-  start_time?: string;
+  plan_id?: string | undefined;
+  start_time?: string | undefined;
   /** The quantity of the product in the subscription. */
-  quantity?: string;
-  shipping_amount?: Money;
-  subscriber?: Subscriber;
-  billing_info?: SubscriptionBillingInfo;
-  create_time?: string;
-  update_time?: string;
+  quantity?: string | undefined;
+  shipping_amount?: Money | undefined;
+  subscriber?: Subscriber | undefined;
+  billing_info?: SubscriptionBillingInfo | undefined;
+  create_time?: string | undefined;
+  update_time?: string | undefined;
   /** The custom id for the subscription. Can be invoice id. */
-  custom_id?: string;
+  custom_id?: string | undefined;
   /** Indicates whether the subscription has overridden any plan attributes. */
-  plan_overridden?: boolean;
+  plan_overridden?: boolean | undefined;
   /** The plan details. */
-  plan?: CreateSubscriptionResponsePlan;
-  links?: LinkDescriptionList;
+  plan?: CreateSubscriptionResponsePlan | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 export interface ListPlansRequest {
   /** Filters the response by a Product ID. */
-  product_id?: string;
+  product_id?: string | undefined;
   /** The number of items to return in the response. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** A non-zero integer which is the start index of the entire list of items to return in the response. The combination of `page=1` and `page_size=20` returns the first 20 items. The combination of `page=2` and `page_size=20` returns the next 20 items. */
-  page?: number;
+  page?: number | undefined;
   /** Indicates whether to show the total count in the response. */
-  total_required?: boolean;
+  total_required?: boolean | undefined;
   /** The preferred server response upon successful completion of the request. Value is:<ul><li><code>return=minimal</code>. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the <code>id</code>, <code>status</code> and HATEOAS links.</li><li><code>return=representation</code>. The server returns a complete resource representation, including the current state of the resource.</li></ul> */
-  prefer?: string;
+  prefer?: string | undefined;
 }
 /** An array of plans. */
 export type PlanList = Array<Plan>;
 /** The list of plans with details. */
 export interface PlanCollection {
-  plans?: PlanList;
+  plans?: PlanList | undefined;
   /** The total number of items. */
-  total_items?: number;
+  total_items?: number | undefined;
   /** The total number of pages. */
-  total_pages?: number;
-  links?: LinkDescriptionList;
+  total_pages?: number | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 /** The operation. */
 export type PatchOp = "add" | "remove" | "replace" | "move" | "copy" | "test";
@@ -870,24 +960,24 @@ export interface Patch {
   /** The operation. */
   op: PatchOp | (string & {});
   /** The <a href="https://tools.ietf.org/html/rfc6901">JSON Pointer</a> to the target document location at which to complete the operation. */
-  path?: string;
+  path?: string | undefined;
   /** The value to apply. The <code>remove</code>, <code>copy</code>, and <code>move</code> operations do not require a value. Since <a href="https://www.rfc-editor.org/rfc/rfc69021">JSON Patch</a> allows any type for <code>value</code>, the <code>type</code> property is not specified. */
-  value?: unknown;
+  value?: unknown | undefined;
   /** The <a href="https://tools.ietf.org/html/rfc6901">JSON Pointer</a> to the target document location from which to move the value. Required for the <code>move</code> operation. */
-  from?: string;
+  from?: string | undefined;
 }
 /** An array of JSON patch objects to apply partial updates to resources. */
 export type PatchRequest = Array<Patch>;
 export interface PatchPlanRequest {
   /** The ID of the subscription. */
   id: string;
-  body?: PatchRequest;
+  body?: PatchRequest | undefined;
 }
 export interface PatchPlanResponse {}
 export interface PatchSubscriptionRequest {
   /** The ID of the subscription. */
   id: string;
-  body?: PatchRequest;
+  body?: PatchRequest | undefined;
 }
 export interface PatchSubscriptionResponse {}
 /** The update pricing scheme request details. */
@@ -915,15 +1005,16 @@ export type SubscriptionsReviseRequestApplicationContextPaymentMethod =
 /** The application context, which customizes the payer experience during the subscription approval process with PayPal. */
 export interface SubscriptionsReviseRequestApplicationContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. */
-  brand_name?: string;
+  brand_name?: string | undefined;
   /** The BCP 47-formatted locale of pages that the PayPal payment experience shows. PayPal supports a five-character code. For example, `da-DK`, `he-IL`, `id-ID`, `ja-JP`, `no-NO`, `pt-BR`, `ru-RU`, `sv-SE`, `th-TH`, `zh-CN`, `zh-HK`, or `zh-TW`. */
-  locale?: string;
+  locale?: string | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | SubscriptionsReviseRequestApplicationContextShippingPreference
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The customer and merchant payment preferences. */
-  payment_method?: ApplicationContextPaymentMethod;
+  payment_method?: ApplicationContextPaymentMethod | undefined;
   /** The URL where the customer is redirected after the customer approves the payment. */
   return_url: string;
   /** The URL where the customer is redirected after the customer cancels the payment. */
@@ -933,52 +1024,52 @@ export interface SubscriptionsReviseRequest {
   /** The ID of the subscription. */
   id: string;
   /** The unique PayPal-generated ID for the plan. */
-  plan_id?: string;
+  plan_id?: string | undefined;
   /** The quantity of the product or service in the subscription. */
-  quantity?: string;
+  quantity?: string | undefined;
   /** The shipping charges. */
-  shipping_amount?: Money;
+  shipping_amount?: Money | undefined;
   /** The shipping address of the subscriber. */
-  shipping_address?: ShippingDetail;
+  shipping_address?: ShippingDetail | undefined;
   /** The application context, which customizes the payer experience during the subscription approval process with PayPal. */
-  application_context?: SubscriptionsReviseRequestApplicationContext;
+  application_context?: SubscriptionsReviseRequestApplicationContext | undefined;
   /** An inline plan object to customise the subscription. You can override plan level default attributes by providing customised values for the subscription in this object. Any existing overrides will not be carried forward during subscription revise. */
-  plan?: PlanOverrideInput;
+  plan?: PlanOverrideInput | undefined;
 }
 /** The billing cycle details to override at subscription level. The subscription billing cycle definition has to adhere to the plan billing cycle definition. */
 export interface BillingCycleOverride {
   /** The active pricing scheme for this billing cycle. A free trial billing cycle does not require a pricing scheme. */
-  pricing_scheme?: PricingScheme;
+  pricing_scheme?: PricingScheme | undefined;
   /** The order in which this cycle is to run among other billing cycles. For example, a trial billing cycle has a `sequence` of `1` while a regular billing cycle has a `sequence` of `2`, so that trial cycle runs before the regular cycle. */
   sequence: number;
   /** The number of times this billing cycle gets executed. Trial billing cycles can only be executed a finite number of times (value between <code>1</code> and <code>999</code> for <code>total_cycles</code>). Regular billing cycles can be executed infinite times (value of <code>0</code> for <code>total_cycles</code>) or a finite number of times (value between <code>1</code> and <code>999</code> for <code>total_cycles</code>). */
-  total_cycles?: number;
+  total_cycles?: number | undefined;
 }
 /** An array of billing cycles for trial billing and regular billing. The subscription billing cycle definition has to adhere to the plan billing cycle definition. */
 export type BillingCycleOverrideList = Array<BillingCycleOverride>;
 /** An inline plan object to customise the subscription. You can override plan level default attributes by providing customised values for the subscription in this object. */
 export interface PlanOverride {
-  billing_cycles?: BillingCycleOverrideList;
-  payment_preferences?: PaymentPreferencesOverride;
-  taxes?: TaxesOverride;
+  billing_cycles?: BillingCycleOverrideList | undefined;
+  payment_preferences?: PaymentPreferencesOverride | undefined;
+  taxes?: TaxesOverride | undefined;
 }
 /** An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type SubscriptionReviseResponseDefinitionsLinkDescriptionList = Array<LinkDescription>;
 /** The response to a request to update the quantity of the product or service in a subscription. You can also use this method to switch the plan and update the `shipping_amount` and `shipping_address` values for the subscription. This type of update requires the buyer's consent. */
 export interface SubscriptionReviseResponse {
   /** The unique PayPal-generated ID for the plan. */
-  plan_id?: string;
+  plan_id?: string | undefined;
   /** The quantity of the product or service in the subscription. */
-  quantity?: string;
+  quantity?: string | undefined;
   /** The shipping charges. */
-  shipping_amount?: Money;
+  shipping_amount?: Money | undefined;
   /** The shipping address of the subscriber. */
-  shipping_address?: ShippingDetail;
+  shipping_address?: ShippingDetail | undefined;
   /** An inline plan object to customise the subscription. You can override plan level default attributes by providing customised values for the subscription in this object. Any existing overrides will not be carried forward during subscription revise. */
-  plan?: PlanOverride;
+  plan?: PlanOverride | undefined;
   /** Indicates whether the subscription has overridden any plan attributes. */
-  plan_overridden?: boolean;
-  links?: SubscriptionReviseResponseDefinitionsLinkDescriptionList;
+  plan_overridden?: boolean | undefined;
+  links?: SubscriptionReviseResponseDefinitionsLinkDescriptionList | undefined;
 }
 export interface SubscriptionsTransactionsRequest {
   /** The ID of the subscription. */
@@ -992,12 +1083,12 @@ export interface SubscriptionsTransactionsRequest {
 export type TransactionList = Array<Transaction>;
 /** The list transactions for a subscription request details. */
 export interface TransactionsList {
-  transactions?: TransactionList;
+  transactions?: TransactionList | undefined;
   /** The total number of items. */
-  total_items?: number;
+  total_items?: number | undefined;
   /** The total number of pages. */
-  total_pages?: number;
-  links?: LinkDescriptionList;
+  total_pages?: number | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 export interface SuspendSubscriptionRequest {
   /** The ID of the subscription. */
@@ -1006,6 +1097,448 @@ export interface SuspendSubscriptionRequest {
   reason: string;
 }
 export interface SuspendSubscriptionResponse {}
+export type Error400BodyName10 = "INVALID_REQUEST";
+export type Error400BodyMessage10 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+/** The location of the field that caused the error. Value is `body`, `path`, or `query`. */
+export type ErrorLocation = "body" | "path" | "query";
+/** The error details. Required for client-side `4XX` errors. */
+export interface ErrorDetails {
+  /** The field that caused the error. If this field is in the body, set this value to the field's JSON pointer value. Required for client-side errors. */
+  field?: string | undefined;
+  /** The value of the field that caused the error. */
+  value?: string | undefined;
+  location?: ErrorLocation | undefined;
+  /** The unique, fine-grained application-level error code. */
+  issue: string;
+  /** The human-readable description for an issue. The description can change over the lifetime of an API, so clients must not depend on this value. */
+  description?: string | undefined;
+}
+export type Error400BodyDetailsList10 = Array<ErrorDetails>;
+/** The HTTP method required to make the related call. */
+export type ErrorLinkDescriptionMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
+/** The request-related [HATEOAS link](/api/rest/responses/#hateoas-links) information. */
+export interface ErrorLinkDescription {
+  /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
+  href: string;
+  /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
+  rel: string;
+  /** The HTTP method required to make the related call. */
+  method?: ErrorLinkDescriptionMethod | undefined;
+}
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList10 = Array<ErrorLinkDescription>;
+export interface Error400Body10 {
+  name?: Error400BodyName10 | undefined;
+  message?: Error400BodyMessage10 | undefined;
+  details?: Error400BodyDetailsList10 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList10 | undefined;
+}
+export type Error400BodyName9 = "INVALID_REQUEST";
+export type Error400BodyMessage9 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList9 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList9 = Array<ErrorLinkDescription>;
+export interface Error400Body9 {
+  name?: Error400BodyName9 | undefined;
+  message?: Error400BodyMessage9 | undefined;
+  details?: Error400BodyDetailsList9 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList9 | undefined;
+}
+export type Error400BodyName11 = "INVALID_REQUEST";
+export type Error400BodyMessage11 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList11 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList11 = Array<ErrorLinkDescription>;
+export interface Error400Body11 {
+  name?: Error400BodyName11 | undefined;
+  message?: Error400BodyMessage11 | undefined;
+  details?: Error400BodyDetailsList11 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList11 | undefined;
+}
+export type Error400BodyName2 = "INVALID_REQUEST";
+export type Error400BodyMessage2 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList2 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList2 = Array<ErrorLinkDescription>;
+export interface Error400Body2 {
+  name?: Error400BodyName2 | undefined;
+  message?: Error400BodyMessage2 | undefined;
+  details?: Error400BodyDetailsList2 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList2 | undefined;
+}
+export type Error400BodyName5 = "INVALID_REQUEST";
+export type Error400BodyMessage5 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList5 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList5 = Array<ErrorLinkDescription>;
+export interface Error400Body5 {
+  name?: Error400BodyName5 | undefined;
+  message?: Error400BodyMessage5 | undefined;
+  details?: Error400BodyDetailsList5 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList5 | undefined;
+}
+export type Error400BodyName = "INVALID_REQUEST";
+export type Error400BodyMessage =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList = Array<ErrorLinkDescription>;
+export interface Error400Body {
+  name?: Error400BodyName | undefined;
+  message?: Error400BodyMessage | undefined;
+  details?: Error400BodyDetailsList | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList | undefined;
+}
+export type Error400BodyName3 = "INVALID_REQUEST";
+export type Error400BodyMessage3 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList3 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList3 = Array<ErrorLinkDescription>;
+export interface Error400Body3 {
+  name?: Error400BodyName3 | undefined;
+  message?: Error400BodyMessage3 | undefined;
+  details?: Error400BodyDetailsList3 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList3 | undefined;
+}
+export type Error400BodyName6 = "INVALID_REQUEST";
+export type Error400BodyMessage6 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList6 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList6 = Array<ErrorLinkDescription>;
+export interface Error400Body6 {
+  name?: Error400BodyName6 | undefined;
+  message?: Error400BodyMessage6 | undefined;
+  details?: Error400BodyDetailsList6 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList6 | undefined;
+}
+export type Error400BodyName4 = "INVALID_REQUEST";
+export type Error400BodyMessage4 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList4 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList4 = Array<ErrorLinkDescription>;
+export interface Error400Body4 {
+  name?: Error400BodyName4 | undefined;
+  message?: Error400BodyMessage4 | undefined;
+  details?: Error400BodyDetailsList4 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList4 | undefined;
+}
+export type Error400BodyName7 = "INVALID_REQUEST";
+export type Error400BodyMessage7 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList7 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList7 = Array<ErrorLinkDescription>;
+export interface Error400Body7 {
+  name?: Error400BodyName7 | undefined;
+  message?: Error400BodyMessage7 | undefined;
+  details?: Error400BodyDetailsList7 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList7 | undefined;
+}
+export type Error400BodyName12 = "INVALID_REQUEST";
+export type Error400BodyMessage12 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList12 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList12 = Array<ErrorLinkDescription>;
+export interface Error400Body12 {
+  name?: Error400BodyName12 | undefined;
+  message?: Error400BodyMessage12 | undefined;
+  details?: Error400BodyDetailsList12 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList12 | undefined;
+}
+export type Error400BodyName8 = "INVALID_REQUEST";
+export type Error400BodyMessage8 =
+  "Request is not well-formed, syntactically incorrect, or violates schema.";
+export type Error400BodyDetailsList8 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error400BodyLinksList8 = Array<ErrorLinkDescription>;
+export interface Error400Body8 {
+  name?: Error400BodyName8 | undefined;
+  message?: Error400BodyMessage8 | undefined;
+  details?: Error400BodyDetailsList8 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error400BodyLinksList8 | undefined;
+}
+export type Error403BodyName = "NOT_AUTHORIZED";
+export type Error403BodyMessage = "Authorization failed due to insufficient permissions.";
+export type Error403BodyDetailsList = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error403BodyLinksList = Array<ErrorLinkDescription>;
+export interface Error403Body {
+  name?: Error403BodyName | undefined;
+  message?: Error403BodyMessage | undefined;
+  details?: Error403BodyDetailsList | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error403BodyLinksList | undefined;
+}
+export type Error404BodyName = "RESOURCE_NOT_FOUND";
+export type Error404BodyMessage = "The specified resource does not exist.";
+export type Error404BodyDetailsList = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error404BodyLinksList = Array<ErrorLinkDescription>;
+export interface Error404Body {
+  name?: Error404BodyName | undefined;
+  message?: Error404BodyMessage | undefined;
+  details?: Error404BodyDetailsList | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error404BodyLinksList | undefined;
+}
+export type Error404Name = "RESOURCE_NOT_FOUND";
+export type Error404Message = "The specified resource does not exist.";
+export type Error404DetailsList = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error404LinksList = Array<ErrorLinkDescription>;
+/** The server has not found anything matching the request URI. This either means that the URI is incorrect or the resource is not available. */
+export interface Error404 {
+  name?: Error404Name | undefined;
+  message?: Error404Message | undefined;
+  details?: Error404DetailsList | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error404LinksList | undefined;
+}
+export type Error404BodyName2 = "RESOURCE_NOT_FOUND";
+export type Error404BodyMessage2 = "The specified resource does not exist.";
+export type Error404BodyDetailsList2 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error404BodyLinksList2 = Array<ErrorLinkDescription>;
+export interface Error404Body2 {
+  name?: Error404BodyName2 | undefined;
+  message?: Error404BodyMessage2 | undefined;
+  details?: Error404BodyDetailsList2 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error404BodyLinksList2 | undefined;
+}
+export type Error422BodyName3 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage3 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList3 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList3 = Array<ErrorLinkDescription>;
+export interface Error422Body3 {
+  name?: Error422BodyName3 | undefined;
+  message?: Error422BodyMessage3 | undefined;
+  details?: Error422BodyDetailsList3 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList3 | undefined;
+}
+export type Error422BodyName11 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage11 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList11 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList11 = Array<ErrorLinkDescription>;
+export interface Error422Body11 {
+  name?: Error422BodyName11 | undefined;
+  message?: Error422BodyMessage11 | undefined;
+  details?: Error422BodyDetailsList11 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList11 | undefined;
+}
+export type Error422BodyName10 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage10 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList10 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList10 = Array<ErrorLinkDescription>;
+export interface Error422Body10 {
+  name?: Error422BodyName10 | undefined;
+  message?: Error422BodyMessage10 | undefined;
+  details?: Error422BodyDetailsList10 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList10 | undefined;
+}
+export type Error422BodyName12 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage12 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList12 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList12 = Array<ErrorLinkDescription>;
+export interface Error422Body12 {
+  name?: Error422BodyName12 | undefined;
+  message?: Error422BodyMessage12 | undefined;
+  details?: Error422BodyDetailsList12 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList12 | undefined;
+}
+export type Error422BodyName = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList = Array<ErrorLinkDescription>;
+export interface Error422Body {
+  name?: Error422BodyName | undefined;
+  message?: Error422BodyMessage | undefined;
+  details?: Error422BodyDetailsList | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList | undefined;
+}
+export type Error422BodyName6 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage6 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList6 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList6 = Array<ErrorLinkDescription>;
+export interface Error422Body6 {
+  name?: Error422BodyName6 | undefined;
+  message?: Error422BodyMessage6 | undefined;
+  details?: Error422BodyDetailsList6 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList6 | undefined;
+}
+export type Error422BodyName4 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage4 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList4 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList4 = Array<ErrorLinkDescription>;
+export interface Error422Body4 {
+  name?: Error422BodyName4 | undefined;
+  message?: Error422BodyMessage4 | undefined;
+  details?: Error422BodyDetailsList4 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList4 | undefined;
+}
+export type Error422BodyName2 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage2 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList2 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList2 = Array<ErrorLinkDescription>;
+export interface Error422Body2 {
+  name?: Error422BodyName2 | undefined;
+  message?: Error422BodyMessage2 | undefined;
+  details?: Error422BodyDetailsList2 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList2 | undefined;
+}
+export type Error422BodyName7 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage7 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList7 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList7 = Array<ErrorLinkDescription>;
+export interface Error422Body7 {
+  name?: Error422BodyName7 | undefined;
+  message?: Error422BodyMessage7 | undefined;
+  details?: Error422BodyDetailsList7 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList7 | undefined;
+}
+export type Error422BodyName5 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage5 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList5 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList5 = Array<ErrorLinkDescription>;
+export interface Error422Body5 {
+  name?: Error422BodyName5 | undefined;
+  message?: Error422BodyMessage5 | undefined;
+  details?: Error422BodyDetailsList5 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList5 | undefined;
+}
+export type Error422BodyName8 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage8 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList8 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList8 = Array<ErrorLinkDescription>;
+export interface Error422Body8 {
+  name?: Error422BodyName8 | undefined;
+  message?: Error422BodyMessage8 | undefined;
+  details?: Error422BodyDetailsList8 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList8 | undefined;
+}
+export type Error422BodyName9 = "UNPROCESSABLE_ENTITY";
+export type Error422BodyMessage9 =
+  "The requested action could not be performed, semantically incorrect, or failed business validation.";
+export type Error422BodyDetailsList9 = Array<ErrorDetails>;
+/** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+export type Error422BodyLinksList9 = Array<ErrorLinkDescription>;
+export interface Error422Body9 {
+  name?: Error422BodyName9 | undefined;
+  message?: Error422BodyMessage9 | undefined;
+  details?: Error422BodyDetailsList9 | undefined;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id?: string | undefined;
+  /** An array of request-related [HATEOAS links](https://en.wikipedia.org/wiki/HATEOAS). */
+  links?: Error422BodyLinksList9 | undefined;
+}
 export type ActivatePlanError = Forbidden | NotFound | UnprocessableEntity | PaypalOpError;
 /** Activate plan Activates a plan, by ID. */
 export const activatePlan: API.OperationMethod<
@@ -1014,8 +1547,8 @@ export const activatePlan: API.OperationMethod<
   ActivatePlanError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<ActivatePlanRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<ActivatePlanResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<ActivatePlanRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<ActivatePlanResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1036,8 +1569,8 @@ export const activateSubscription: API.OperationMethod<
   ActivateSubscriptionError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ActivateSubscriptionRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<ActivateSubscriptionResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<ActivateSubscriptionRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<ActivateSubscriptionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1058,8 +1591,8 @@ export const cancelSubscription: API.OperationMethod<
   CancelSubscriptionError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<CancelSubscriptionRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<CancelSubscriptionResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<CancelSubscriptionRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<CancelSubscriptionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1080,8 +1613,8 @@ export const captureSubscription: API.OperationMethod<
   CaptureSubscriptionError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<CaptureSubscriptionRequest>,
-  output: __S(514, __c16, 2) as any as S.Schema<Transaction>,
+  input: __S(512, __c16, 0) as any as S.Schema<CaptureSubscriptionRequest>,
+  output: __S(546, __c17, 2) as any as S.Schema<Transaction>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1097,8 +1630,8 @@ export const createPlan: API.OperationMethod<
   CreatePlanError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(578, __c18, 2) as any as S.Schema<CreatePlanRequest>,
-  output: __S(608, __c19, 0) as any as S.Schema<Plan>,
+  input: __S(610, __c19, 2) as any as S.Schema<CreatePlanRequest>,
+  output: __S(640, __c20, 0) as any as S.Schema<Plan>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1131,8 +1664,8 @@ export const deactivatePlan: API.OperationMethod<
   DeactivatePlanError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeactivatePlanRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<DeactivatePlanResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<DeactivatePlanRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<DeactivatePlanResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1144,8 +1677,8 @@ export type GetPlanError = Forbidden | NotFound | PaypalOpError;
 /** Show plan details Shows details for a plan, by ID. */
 export const getPlan: API.OperationMethod<GetPlanRequest, Plan, GetPlanError, PaypalOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(32, __c1, 0) as any as S.Schema<GetPlanRequest>,
-    output: __S(608, __c19, 0) as any as S.Schema<Plan>,
+    input: __S(64, __c2, 0) as any as S.Schema<GetPlanRequest>,
+    output: __S(640, __c20, 0) as any as S.Schema<Plan>,
     errors: [Forbidden, NotFound, UnknownPaypalError],
     protocol: PaypalProtocol,
     retry: Retry.Retry,
@@ -1161,7 +1694,7 @@ export const getSubscription: API.OperationMethod<
   GetSubscriptionError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<GetSubscriptionRequest>,
+  input: __S(96, __c3, 0) as any as S.Schema<GetSubscriptionRequest>,
   output: __S(853, __c26, 21) as any as S.Schema<GetSubscriptionResponse>,
   errors: [Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
@@ -1178,8 +1711,8 @@ export const listPlans: API.OperationMethod<
   ListPlansError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<ListPlansRequest>,
-  output: __S(98, __c3, 2) as any as S.Schema<PlanCollection>,
+  input: __S(128, __c4, 0) as any as S.Schema<ListPlansRequest>,
+  output: __S(130, __c4, 2) as any as S.Schema<PlanCollection>,
   errors: [BadRequest, Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1200,8 +1733,8 @@ export const patchPlan: API.OperationMethod<
   PatchPlanError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<PatchPlanRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<PatchPlanResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<PatchPlanRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<PatchPlanResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1222,8 +1755,8 @@ export const patchSubscription: API.OperationMethod<
   PatchSubscriptionError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<PatchSubscriptionRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<PatchSubscriptionResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<PatchSubscriptionRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<PatchSubscriptionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1244,8 +1777,8 @@ export const plansUpdatePricingSchemes: API.OperationMethod<
   PlansUpdatePricingSchemesError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(226, __c7, 2) as any as S.Schema<PlansUpdatePricingSchemesRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<PlansUpdatePricingSchemesResponse>,
+  input: __S(258, __c8, 2) as any as S.Schema<PlansUpdatePricingSchemesRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<PlansUpdatePricingSchemesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1266,8 +1799,8 @@ export const subscriptionsRevise: API.OperationMethod<
   SubscriptionsReviseError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(257, __c8, 1) as any as S.Schema<SubscriptionsReviseRequest>,
-  output: __S(261, __c8, 5) as any as S.Schema<SubscriptionReviseResponse>,
+  input: __S(289, __c9, 1) as any as S.Schema<SubscriptionsReviseRequest>,
+  output: __S(293, __c9, 5) as any as S.Schema<SubscriptionReviseResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1283,8 +1816,8 @@ export const subscriptionsTransactions: API.OperationMethod<
   SubscriptionsTransactionsError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<SubscriptionsTransactionsRequest>,
-  output: __S(290, __c9, 2) as any as S.Schema<TransactionsList>,
+  input: __S(320, __c10, 0) as any as S.Schema<SubscriptionsTransactionsRequest>,
+  output: __S(322, __c10, 2) as any as S.Schema<TransactionsList>,
   errors: [BadRequest, Forbidden, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1305,8 +1838,8 @@ export const suspendSubscription: API.OperationMethod<
   SuspendSubscriptionError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<SuspendSubscriptionRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<SuspendSubscriptionResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<SuspendSubscriptionRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<SuspendSubscriptionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1320,12 +1853,48 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          href: S.String,
+          rel: S.String,
+          method: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LinkDescription" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          value: S.optional(S.String),
+          location: S.optional(S.String),
+          issue: S.String,
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorDetails" });
+    case 3:
+      return S.Array(__S(2, __c0, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          message: S.optional(S.String),
+          details: S.optional(__S(3, __c0, 3)),
+          debug_id: S.optional(S.String),
+          links: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "Error400Body10" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "POST", uri: "/v1/billing/plans/{id}/deactivate", code: 200 })),
       ).annotate({ identifier: "DeactivatePlanRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1335,7 +1904,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetPlanRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1346,7 +1915,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetSubscriptionRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1359,30 +1928,30 @@ function __c3(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/billing/plans", code: 200 })),
       ).annotate({ identifier: "ListPlansRequest" });
     case 1:
-      return S.Array(__S(608, __c19, 0));
+      return S.Array(__S(640, __c20, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          plans: S.optional(__S(97, __c3, 1)),
+          plans: S.optional(__S(129, __c4, 1)),
           total_items: S.optional(S.Number),
           total_pages: S.optional(S.Number),
-          links: S.optional(__S(737, __c23, 1)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "PlanCollection" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(161, __c5, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(193, __c6, 1).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/billing/plans/{id}", code: 200 })),
       ).annotate({ identifier: "PatchPlanRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1394,21 +1963,21 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "Patch" });
     case 1:
-      return S.Array(__S(160, __c5, 0));
+      return S.Array(__S(192, __c6, 0));
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(161, __c5, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(193, __c6, 1).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/billing/subscriptions/{id}", code: 200 })),
       ).annotate({ identifier: "PatchSubscriptionRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1418,12 +1987,12 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "UpdatePricingSchemeRequestInput" });
     case 1:
-      return S.Array(__S(224, __c7, 0));
+      return S.Array(__S(256, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          pricing_schemes: __S(225, __c7, 1),
+          pricing_schemes: __S(257, __c8, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1434,7 +2003,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "PlansUpdatePricingSchemesRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1453,9 +2022,9 @@ function __c8(j: number): any {
           id: S.String.pipe(T.Label()),
           plan_id: S.optional(S.String),
           quantity: S.optional(S.String),
-          shipping_amount: S.optional(__S(544, __c17, 0)),
+          shipping_amount: S.optional(__S(576, __c18, 0)),
           shipping_address: S.optional(__S(868, __c27, 4)),
-          application_context: S.optional(__S(256, __c8, 0)),
+          application_context: S.optional(__S(288, __c9, 0)),
           plan: S.optional(__S(900, __c28, 4)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/billing/subscriptions/{id}/revise", code: 200 }),
@@ -1464,18 +2033,18 @@ function __c8(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pricing_scheme: S.optional(__S(705, __c22, 1)),
+          pricing_scheme: S.optional(__S(737, __c23, 1)),
           sequence: S.Number,
           total_cycles: S.optional(S.Number),
         }),
       ).annotate({ identifier: "BillingCycleOverride" });
     case 3:
-      return S.Array(__S(258, __c8, 2));
+      return S.Array(__S(290, __c9, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          billing_cycles: S.optional(__S(259, __c8, 3)),
-          payment_preferences: S.optional(__S(704, __c22, 0)),
+          billing_cycles: S.optional(__S(291, __c9, 3)),
+          payment_preferences: S.optional(__S(736, __c23, 0)),
           taxes: S.optional(__S(899, __c28, 3)),
         }),
       ).annotate({ identifier: "PlanOverride" });
@@ -1484,16 +2053,16 @@ function __c8(j: number): any {
         S.Struct({
           plan_id: S.optional(S.String),
           quantity: S.optional(S.String),
-          shipping_amount: S.optional(__S(544, __c17, 0)),
+          shipping_amount: S.optional(__S(576, __c18, 0)),
           shipping_address: S.optional(__S(868, __c27, 4)),
-          plan: S.optional(__S(260, __c8, 4)),
+          plan: S.optional(__S(292, __c9, 4)),
           plan_overridden: S.optional(S.Boolean),
-          links: S.optional(__S(737, __c23, 1)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "SubscriptionReviseResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1506,19 +2075,19 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "SubscriptionsTransactionsRequest" });
     case 1:
-      return S.Array(__S(514, __c16, 2));
+      return S.Array(__S(546, __c17, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          transactions: S.optional(__S(289, __c9, 1)),
+          transactions: S.optional(__S(321, __c10, 1)),
           total_items: S.optional(S.Number),
           total_pages: S.optional(S.Number),
-          links: S.optional(__S(737, __c23, 1)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "TransactionsList" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1531,7 +2100,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "SuspendSubscriptionRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1541,13 +2110,13 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ActivatePlanRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "ActivatePlanResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1560,7 +2129,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ActivateSubscriptionRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1573,7 +2142,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CancelSubscriptionRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1582,24 +2151,24 @@ function __c15(j: number): any {
           payPalRequestId: S.optional(S.String.pipe(T.Header("PayPal-Request-Id"))),
           note: S.String,
           capture_type: S.String,
-          amount: __S(544, __c17, 0),
+          amount: __S(576, __c18, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/billing/subscriptions/{id}/capture", code: 200 }),
         ),
       ).annotate({ identifier: "CaptureSubscriptionRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          gross_amount: __S(544, __c17, 0),
-          total_item_amount: S.optional(__S(544, __c17, 0)),
-          fee_amount: S.optional(__S(544, __c17, 0)),
-          shipping_amount: S.optional(__S(544, __c17, 0)),
-          tax_amount: S.optional(__S(544, __c17, 0)),
-          net_amount: S.optional(__S(544, __c17, 0)),
+          gross_amount: __S(576, __c18, 0),
+          total_item_amount: S.optional(__S(576, __c18, 0)),
+          fee_amount: S.optional(__S(576, __c18, 0)),
+          shipping_amount: S.optional(__S(576, __c18, 0)),
+          tax_amount: S.optional(__S(576, __c18, 0)),
+          net_amount: S.optional(__S(576, __c18, 0)),
         }),
       ).annotate({ identifier: "AmountWithBreakdown" });
     case 1:
@@ -1618,15 +2187,15 @@ function __c16(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           id: S.String,
-          amount_with_breakdown: __S(512, __c16, 0),
-          payer_name: S.optional(__S(513, __c16, 1)),
+          amount_with_breakdown: __S(544, __c17, 0),
+          payer_name: S.optional(__S(545, __c17, 1)),
           payer_email: S.optional(S.String),
           time: S.String,
         }),
       ).annotate({ identifier: "Transaction" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1637,20 +2206,20 @@ function __c17(j: number): any {
       ).annotate({ identifier: "Money" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pricing_scheme: S.optional(__S(768, __c24, 0)),
-          frequency: __S(640, __c20, 0),
+          frequency: __S(672, __c21, 0),
           tenure_type: S.String,
           sequence: S.Number,
           total_cycles: S.optional(S.Number),
         }),
       ).annotate({ identifier: "BillingCycleInput" });
     case 1:
-      return S.Array(__S(576, __c18, 0));
+      return S.Array(__S(608, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1660,15 +2229,15 @@ function __c18(j: number): any {
           name: S.String,
           status: S.optional(S.String),
           description: S.optional(S.String),
-          billing_cycles: __S(577, __c18, 1),
-          payment_preferences: __S(704, __c22, 0),
-          taxes: S.optional(__S(641, __c20, 1)),
+          billing_cycles: __S(609, __c19, 1),
+          payment_preferences: __S(736, __c23, 0),
+          taxes: S.optional(__S(673, __c21, 1)),
           quantity_supported: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/v1/billing/plans", code: 200 })),
       ).annotate({ identifier: "CreatePlanRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1678,18 +2247,18 @@ function __c19(j: number): any {
           name: S.optional(S.String),
           status: S.optional(S.String),
           description: S.optional(S.String),
-          billing_cycles: S.optional(__S(643, __c20, 3)),
-          payment_preferences: S.optional(__S(704, __c22, 0)),
-          taxes: S.optional(__S(641, __c20, 1)),
+          billing_cycles: S.optional(__S(675, __c21, 3)),
+          payment_preferences: S.optional(__S(736, __c23, 0)),
+          taxes: S.optional(__S(673, __c21, 1)),
           quantity_supported: S.optional(S.Boolean),
           create_time: S.optional(S.String),
           update_time: S.optional(S.String),
-          links: S.optional(__S(737, __c23, 1)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "Plan" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1708,29 +2277,15 @@ function __c20(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pricing_scheme: S.optional(__S(705, __c22, 1)),
-          frequency: __S(640, __c20, 0),
+          pricing_scheme: S.optional(__S(737, __c23, 1)),
+          frequency: __S(672, __c21, 0),
           tenure_type: S.String,
           sequence: S.Number,
           total_cycles: S.optional(S.Number),
         }),
       ).annotate({ identifier: "BillingCycle" });
     case 3:
-      return S.Array(__S(642, __c20, 2));
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          starting_quantity: S.String,
-          ending_quantity: S.optional(S.String),
-          amount: __S(544, __c17, 0),
-        }),
-      ).annotate({ identifier: "PricingTier" });
-    case 1:
-      return S.Array(__S(672, __c21, 0));
+      return S.Array(__S(674, __c21, 2));
   }
 }
 function __c22(j: number): any {
@@ -1738,8 +2293,22 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          starting_quantity: S.String,
+          ending_quantity: S.optional(S.String),
+          amount: __S(576, __c18, 0),
+        }),
+      ).annotate({ identifier: "PricingTier" });
+    case 1:
+      return S.Array(__S(704, __c22, 0));
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           auto_bill_outstanding: S.optional(S.Boolean),
-          setup_fee: S.optional(__S(544, __c17, 0)),
+          setup_fee: S.optional(__S(576, __c18, 0)),
           setup_fee_failure_action: S.optional(S.String),
           payment_failure_threshold: S.optional(S.Number),
         }),
@@ -1748,27 +2317,13 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.Number),
-          fixed_price: S.optional(__S(544, __c17, 0)),
+          fixed_price: S.optional(__S(576, __c18, 0)),
           pricing_model: S.optional(S.String),
-          tiers: S.optional(__S(673, __c21, 1)),
+          tiers: S.optional(__S(705, __c22, 1)),
           create_time: S.optional(S.String),
           update_time: S.optional(S.String),
         }),
       ).annotate({ identifier: "PricingScheme" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          href: S.String,
-          rel: S.String,
-          method: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LinkDescription" });
-    case 1:
-      return S.Array(__S(736, __c23, 0));
   }
 }
 function __c24(j: number): any {
@@ -1776,9 +2331,9 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          fixed_price: S.optional(__S(544, __c17, 0)),
+          fixed_price: S.optional(__S(576, __c18, 0)),
           pricing_model: S.optional(S.String),
-          tiers: S.optional(__S(673, __c21, 1)),
+          tiers: S.optional(__S(705, __c22, 1)),
         }),
       ).annotate({ identifier: "PricingSchemeInput" });
   }
@@ -1862,7 +2417,7 @@ function __c25(j: number): any {
           plan_id: S.String,
           start_time: S.optional(S.String),
           quantity: S.optional(S.String),
-          shipping_amount: S.optional(__S(544, __c17, 0)),
+          shipping_amount: S.optional(__S(576, __c18, 0)),
           subscriber: S.optional(__S(806, __c25, 6)),
           auto_renewal: S.optional(S.Boolean),
           application_context: S.optional(__S(807, __c25, 7)),
@@ -1923,7 +2478,7 @@ function __c26(j: number): any {
           id: S.optional(S.String),
           status: S.optional(S.String),
           customer: S.optional(__S(838, __c26, 6)),
-          links: S.optional(__S(737, __c23, 1)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "VaultResponse" });
     case 8:
@@ -2000,14 +2555,14 @@ function __c26(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(544, __c17, 0)),
+          amount: S.optional(__S(576, __c18, 0)),
           time: S.optional(S.String),
         }),
       ).annotate({ identifier: "LastPaymentDetails" });
     case 18:
       return S.suspend(() =>
         S.Struct({
-          amount: __S(544, __c17, 0),
+          amount: __S(576, __c18, 0),
           time: S.String,
           reason_code: S.optional(S.String),
           next_payment_retry_time: S.optional(S.String),
@@ -2016,7 +2571,7 @@ function __c26(j: number): any {
     case 19:
       return S.suspend(() =>
         S.Struct({
-          outstanding_balance: __S(544, __c17, 0),
+          outstanding_balance: __S(576, __c18, 0),
           cycle_executions: S.optional(__S(848, __c26, 16)),
           last_payment: S.optional(__S(849, __c26, 17)),
           next_billing_time: S.optional(S.String),
@@ -2031,9 +2586,9 @@ function __c26(j: number): any {
           product_id: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          billing_cycles: S.optional(__S(643, __c20, 3)),
-          payment_preferences: S.optional(__S(704, __c22, 0)),
-          taxes: S.optional(__S(641, __c20, 1)),
+          billing_cycles: S.optional(__S(675, __c21, 3)),
+          payment_preferences: S.optional(__S(736, __c23, 0)),
+          taxes: S.optional(__S(673, __c21, 1)),
           quantity_supported: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateSubscriptionResponsePlan" });
@@ -2047,7 +2602,7 @@ function __c26(j: number): any {
           plan_id: S.optional(S.String),
           start_time: S.optional(S.String),
           quantity: S.optional(S.String),
-          shipping_amount: S.optional(__S(544, __c17, 0)),
+          shipping_amount: S.optional(__S(576, __c18, 0)),
           subscriber: S.optional(__S(846, __c26, 14)),
           billing_info: S.optional(__S(851, __c26, 19)),
           create_time: S.optional(S.String),
@@ -2055,7 +2610,7 @@ function __c26(j: number): any {
           custom_id: S.optional(S.String),
           plan_overridden: S.optional(S.Boolean),
           plan: S.optional(__S(852, __c26, 20)),
-          links: S.optional(__S(737, __c23, 1)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "CreateSubscriptionResponse" });
   }
@@ -2074,7 +2629,7 @@ function __c27(j: number): any {
           id: S.String,
           label: S.String,
           type: S.optional(S.String),
-          amount: S.optional(__S(544, __c17, 0)),
+          amount: S.optional(__S(576, __c18, 0)),
           selected: S.Boolean,
         }),
       ).annotate({ identifier: "ShippingOption" });
@@ -2131,7 +2686,7 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           billing_cycles: S.optional(__S(898, __c28, 2)),
-          payment_preferences: S.optional(__S(704, __c22, 0)),
+          payment_preferences: S.optional(__S(736, __c23, 0)),
           taxes: S.optional(__S(899, __c28, 3)),
         }),
       ).annotate({ identifier: "PlanOverrideInput" });

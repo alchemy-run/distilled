@@ -30,36 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 /** The type of embed for a lesson */
 export type EmbedTypes = "youtube" | "loom";
@@ -74,19 +102,19 @@ export interface CreateCourseLessonRequest {
   /** The unique identifier of the chapter to create the lesson in (e.g., "chap_XXXXX"). */
   chapter_id: string;
   /** The Markdown content body of the lesson. */
-  content?: string | null;
+  content?: string | null | undefined;
   /** The number of days after a student starts the course before this lesson becomes accessible. */
-  days_from_course_start_until_unlock?: number | null;
+  days_from_course_start_until_unlock?: number | null | undefined;
   /** The external video identifier for embedded content (e.g., a YouTube video ID or Loom share ID). */
-  embed_id?: string | null;
+  embed_id?: string | null | undefined;
   /** The type of video embed for this lesson, such as YouTube or Loom. */
-  embed_type?: EmbedTypes | (string & {}) | null;
+  embed_type?: EmbedTypes | (string & {}) | null | undefined;
   /** The content type of the lesson, such as video, text, quiz, or knowledge check. */
   lesson_type: LessonTypes | (string & {});
   /** The thumbnail image for the lesson in PNG, JPEG, or GIF format. */
-  thumbnail?: CreateCourseLessonRequestThumbnail | null;
+  thumbnail?: CreateCourseLessonRequestThumbnail | null | undefined;
   /** The display title of the lesson (e.g., "Getting Started with APIs"). */
-  title?: string | null;
+  title?: string | null | undefined;
 }
 /** Optional image attachment for the question */
 export interface CourseLessonAssessmentQuestionsItemImage {
@@ -227,12 +255,12 @@ export interface GetCourseLessonRequest {
   id: string;
 }
 export interface ListCourseLessonRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
-  course_id?: string;
-  chapter_id?: string;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
+  course_id?: string | undefined;
+  chapter_id?: string | undefined;
 }
 /** The thumbnail image displayed on lesson cards and previews. Null if no thumbnail has been uploaded. */
 export type CourseLessonListItemThumbnail = CourseLessonThumbnail;
@@ -295,11 +323,14 @@ export type SubmitAssessmentCourseLessonRequestAnswersItemSelectedOptionIdsList 
 /** Input for a single question's answer in an assessment submission */
 export interface SubmitAssessmentCourseLessonRequestAnswersItem {
   /** The text answer provided by the user (for short answer questions) */
-  answer_text?: string | null;
+  answer_text?: string | null | undefined;
   /** The ID of the question being answered */
   question_id: string;
   /** The IDs of the selected options (for multiple choice/select questions) */
-  selected_option_ids?: SubmitAssessmentCourseLessonRequestAnswersItemSelectedOptionIdsList | null;
+  selected_option_ids?:
+    | SubmitAssessmentCourseLessonRequestAnswersItemSelectedOptionIdsList
+    | null
+    | undefined;
 }
 /** The list of answers to submit for each assessment question. */
 export type SubmitAssessmentCourseLessonRequestAnswersList =
@@ -357,9 +388,9 @@ export interface SubmitAssessmentCourseLessonResponse {
 /** The passing criteria for quiz or knowledge check lessons, such as minimum grade or correct answers. */
 export interface UpdateCourseLessonRequestAssessmentCompletionRequirement {
   /** The minimum grade percentage required to pass (0-100). Cannot be set together with minimum_questions_correct. */
-  minimum_grade_percent?: number | null;
+  minimum_grade_percent?: number | null | undefined;
   /** The minimum number of questions that must be answered correctly. Cannot be set together with minimum_grade_percent. */
-  minimum_questions_correct?: number | null;
+  minimum_questions_correct?: number | null | undefined;
 }
 /** Optional image attachment for the question */
 export type UpdateCourseLessonRequestAssessmentQuestionsItemImage =
@@ -367,7 +398,7 @@ export type UpdateCourseLessonRequestAssessmentQuestionsItemImage =
 /** Input for creating or updating an assessment question option */
 export interface UpdateCourseLessonRequestAssessmentQuestionsItemOptionsItem {
   /** The ID of an existing option. If provided, the option will be updated. If not provided, a new option will be created. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether this option is a correct answer */
   is_correct: boolean;
   /** The text of the answer option */
@@ -381,11 +412,11 @@ export interface UpdateCourseLessonRequestAssessmentQuestionsItem {
   /** The correct answer for the question. Used for short answer questions */
   correct_answer: string;
   /** The ID of an existing question. If provided, the question will be updated. If not provided, a new question will be created. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Optional image attachment for the question */
-  image?: CreateCourseLessonRequestThumbnail | null;
+  image?: CreateCourseLessonRequestThumbnail | null | undefined;
   /** The answer options for multiple choice/select questions */
-  options?: UpdateCourseLessonRequestAssessmentQuestionsItemOptionsList | null;
+  options?: UpdateCourseLessonRequestAssessmentQuestionsItemOptionsList | null | undefined;
   /** The text of the question */
   question_text: string;
   /** The type of the question */
@@ -406,33 +437,47 @@ export interface UpdateCourseLessonRequest {
   /** The unique identifier of the lesson to update (e.g., "les_XXXXX"). */
   id: string;
   /** The passing criteria for quiz or knowledge check lessons, such as minimum grade or correct answers. */
-  assessment_completion_requirement?: UpdateCourseLessonRequestAssessmentCompletionRequirement | null;
+  assessment_completion_requirement?:
+    | UpdateCourseLessonRequestAssessmentCompletionRequirement
+    | null
+    | undefined;
   /** The full list of assessment questions for quiz or knowledge check lessons. Replaces all existing questions. */
-  assessment_questions?: UpdateCourseLessonRequestAssessmentQuestionsList | null;
+  assessment_questions?: UpdateCourseLessonRequestAssessmentQuestionsList | null | undefined;
   /** File attachments for the lesson such as PDFs or documents. Replaces all existing attachments. */
-  attachments?: UpdateCourseLessonRequestAttachmentsList | null;
+  attachments?: UpdateCourseLessonRequestAttachmentsList | null | undefined;
   /** The Markdown content body of the lesson. */
-  content?: string | null;
+  content?: string | null | undefined;
   /** The number of days after a student starts the course before this lesson becomes accessible. */
-  days_from_course_start_until_unlock?: number | null;
+  days_from_course_start_until_unlock?: number | null | undefined;
   /** The external video identifier for embedded content (e.g., a YouTube video ID or Loom share ID). */
-  embed_id?: string | null;
+  embed_id?: string | null | undefined;
   /** The type of video embed for this lesson, such as YouTube or Loom. */
-  embed_type?: EmbedTypes | (string & {}) | null;
+  embed_type?: EmbedTypes | (string & {}) | null | undefined;
   /** The content type of the lesson, such as video, text, quiz, or knowledge check. */
-  lesson_type?: LessonTypes | (string & {}) | null;
+  lesson_type?: LessonTypes | (string & {}) | null | undefined;
   /** The primary PDF document attached to this lesson for student reference. */
-  main_pdf?: CreateCourseLessonRequestThumbnail | null;
+  main_pdf?: CreateCourseLessonRequestThumbnail | null | undefined;
   /** The maximum number of attempts a student is allowed for assessment lessons. */
-  max_attempts?: number | null;
+  max_attempts?: number | null | undefined;
   /** The identifier of a Mux video asset to attach to this lesson (e.g., "mux_XXXXX"). */
-  mux_asset_id?: string | null;
+  mux_asset_id?: string | null | undefined;
   /** The thumbnail image for the lesson in PNG, JPEG, or GIF format. */
-  thumbnail?: CreateCourseLessonRequestThumbnail | null;
+  thumbnail?: CreateCourseLessonRequestThumbnail | null | undefined;
   /** The display title of the lesson (e.g., "Getting Started with APIs"). */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Controls whether this lesson is visible to students or hidden as a draft. */
-  visibility?: LessonVisibilities | (string & {}) | null;
+  visibility?: LessonVisibilities | (string & {}) | null | undefined;
+}
+export interface Error400BodyError {
+  /** A short string indicating the specific error code, e.g. 'parameter_missing', 'parameter_invalid', 'invalid_json' */
+  code?: string | null | undefined;
+  message: string;
+  /** The parameter that caused the error, if applicable */
+  param?: string | null | undefined;
+  type: string;
+}
+export interface Error400Body {
+  error: Error400BodyError;
 }
 export type CreateCourseLessonError =
   | BadRequest
@@ -447,8 +492,8 @@ export const createCourseLesson: API.OperationMethod<
   CreateCourseLessonError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<CreateCourseLessonRequest>,
-  output: __S(39, __c4, 7) as any as S.Schema<CourseLesson>,
+  input: __S(24, __c3, 0) as any as S.Schema<CreateCourseLessonRequest>,
+  output: __S(47, __c5, 7) as any as S.Schema<CourseLesson>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -469,8 +514,8 @@ export const deleteCourseLesson: API.OperationMethod<
   DeleteCourseLessonError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<DeleteCourseLessonRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<DeleteCourseLessonResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<DeleteCourseLessonRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<DeleteCourseLessonResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -491,8 +536,8 @@ export const getCourseLesson: API.OperationMethod<
   GetCourseLessonError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetCourseLessonRequest>,
-  output: __S(39, __c4, 7) as any as S.Schema<CourseLesson>,
+  input: __S(72, __c9, 0) as any as S.Schema<GetCourseLessonRequest>,
+  output: __S(47, __c5, 7) as any as S.Schema<CourseLesson>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -515,8 +560,8 @@ export const listCourseLesson: API.PaginatedOperationMethod<
   CourseLessonListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(72, __c9, 0) as any as S.Schema<ListCourseLessonRequest>,
-    output: __S(76, __c9, 4) as any as S.Schema<ListCourseLessonResponse>,
+    input: __S(80, __c10, 0) as any as S.Schema<ListCourseLessonRequest>,
+    output: __S(84, __c10, 4) as any as S.Schema<ListCourseLessonResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -547,8 +592,8 @@ export const markAsCompletedCourseLesson: API.OperationMethod<
   MarkAsCompletedCourseLessonError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<MarkAsCompletedCourseLessonRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<MarkAsCompletedCourseLessonResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<MarkAsCompletedCourseLessonRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<MarkAsCompletedCourseLessonResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -569,8 +614,8 @@ export const startCourseLesson: API.OperationMethod<
   StartCourseLessonError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<StartCourseLessonRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<StartCourseLessonResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<StartCourseLessonRequest>,
+  output: __S(64, __c8, 0) as any as S.Schema<StartCourseLessonResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -591,8 +636,8 @@ export const submitAssessmentCourseLesson: API.OperationMethod<
   SubmitAssessmentCourseLessonError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3, __c0, 3) as any as S.Schema<SubmitAssessmentCourseLessonRequest>,
-  output: __S(7, __c0, 7) as any as S.Schema<SubmitAssessmentCourseLessonResponse>,
+  input: __S(11, __c1, 3) as any as S.Schema<SubmitAssessmentCourseLessonRequest>,
+  output: __S(15, __c1, 7) as any as S.Schema<SubmitAssessmentCourseLessonResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -613,8 +658,8 @@ export const updateCourseLesson: API.OperationMethod<
   UpdateCourseLessonError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14, __c1, 6) as any as S.Schema<UpdateCourseLessonRequest>,
-  output: __S(39, __c4, 7) as any as S.Schema<CourseLesson>,
+  input: __S(22, __c2, 6) as any as S.Schema<UpdateCourseLessonRequest>,
+  output: __S(47, __c5, 7) as any as S.Schema<CourseLesson>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -626,22 +671,41 @@ export const updateCourseLesson: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.NullOr(S.String)),
+          message: S.String,
+          param: S.optional(S.NullOr(S.String)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error400BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
           answer_text: S.optional(S.NullOr(S.String)),
           question_id: S.String,
-          selected_option_ids: S.optional(S.NullOr(__S(0, __c0, 0))),
+          selected_option_ids: S.optional(S.NullOr(__S(8, __c1, 0))),
         }),
       ).annotate({ identifier: "SubmitAssessmentCourseLessonRequestAnswersItem" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(9, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           lesson_id: S.String.pipe(T.Label()),
-          answers: __S(2, __c0, 2),
+          answers: __S(10, __c1, 2),
         }).pipe(
           T.Http({
             method: "POST",
@@ -672,20 +736,20 @@ function __c0(j: number): any {
         S.Struct({
           created_at: S.String,
           id: S.String,
-          lesson: __S(4, __c0, 4),
+          lesson: __S(12, __c1, 4),
           result_correct: S.Number,
           result_grade: S.Number,
-          result_graded_questions: __S(5, __c0, 5),
+          result_graded_questions: __S(13, __c1, 5),
           result_passing_grade: S.Boolean,
           result_question_count: S.Number,
           score_percent: S.Number,
           updated_at: S.String,
-          user: __S(6, __c0, 6),
+          user: __S(14, __c1, 6),
         }),
       ).annotate({ identifier: "SubmitAssessmentCourseLessonResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -703,45 +767,45 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "UpdateCourseLessonRequestAssessmentQuestionsItemOptionsItem" });
     case 2:
-      return S.Array(__S(9, __c1, 1));
+      return S.Array(__S(17, __c2, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           correct_answer: S.String,
           id: S.optional(S.NullOr(S.String)),
-          image: S.optional(S.NullOr(__S(24, __c3, 0))),
-          options: S.optional(S.NullOr(__S(10, __c1, 2))),
+          image: S.optional(S.NullOr(__S(32, __c4, 0))),
+          options: S.optional(S.NullOr(__S(18, __c2, 2))),
           question_text: S.String,
           question_type: S.String,
         }),
       ).annotate({ identifier: "UpdateCourseLessonRequestAssessmentQuestionsItem" });
     case 4:
-      return S.Array(__S(11, __c1, 3));
+      return S.Array(__S(19, __c2, 3));
     case 5:
-      return S.Array(__S(24, __c3, 0));
+      return S.Array(__S(32, __c4, 0));
     case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          assessment_completion_requirement: S.optional(S.NullOr(__S(8, __c1, 0))),
-          assessment_questions: S.optional(S.NullOr(__S(12, __c1, 4))),
-          attachments: S.optional(S.NullOr(__S(13, __c1, 5))),
+          assessment_completion_requirement: S.optional(S.NullOr(__S(16, __c2, 0))),
+          assessment_questions: S.optional(S.NullOr(__S(20, __c2, 4))),
+          attachments: S.optional(S.NullOr(__S(21, __c2, 5))),
           content: S.optional(S.NullOr(S.String)),
           days_from_course_start_until_unlock: S.optional(S.NullOr(S.Number)),
           embed_id: S.optional(S.NullOr(S.String)),
           embed_type: S.optional(S.NullOr(S.String)),
           lesson_type: S.optional(S.NullOr(S.String)),
-          main_pdf: S.optional(S.NullOr(__S(24, __c3, 0))),
+          main_pdf: S.optional(S.NullOr(__S(32, __c4, 0))),
           max_attempts: S.optional(S.NullOr(S.Number)),
           mux_asset_id: S.optional(S.NullOr(S.String)),
-          thumbnail: S.optional(S.NullOr(__S(24, __c3, 0))),
+          thumbnail: S.optional(S.NullOr(__S(32, __c4, 0))),
           title: S.optional(S.NullOr(S.String)),
           visibility: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "PATCH", uri: "/course_lessons/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateCourseLessonRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -752,13 +816,13 @@ function __c2(j: number): any {
           embed_id: S.optional(S.NullOr(S.String)),
           embed_type: S.optional(S.NullOr(S.String)),
           lesson_type: S.String,
-          thumbnail: S.optional(S.NullOr(__S(24, __c3, 0))),
+          thumbnail: S.optional(S.NullOr(__S(32, __c4, 0))),
           title: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/course_lessons", code: 200 })),
       ).annotate({ identifier: "CreateCourseLessonRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -768,7 +832,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "CreateCourseLessonRequestThumbnail" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -789,24 +853,24 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "CourseLessonAssessmentQuestionsItemOptionsItem" });
     case 2:
-      return S.Array(__S(33, __c4, 1));
+      return S.Array(__S(41, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           correct_answer: S.NullOr(S.String),
           created_at: S.String,
           id: S.String,
-          image: S.NullOr(__S(32, __c4, 0)),
-          options: __S(34, __c4, 2),
+          image: S.NullOr(__S(40, __c5, 0)),
+          options: __S(42, __c5, 2),
           order: S.Number,
           question_text: S.String,
           question_type: S.String,
         }),
       ).annotate({ identifier: "CourseLessonAssessmentQuestionsItem" });
     case 4:
-      return S.Array(__S(35, __c4, 3));
+      return S.Array(__S(43, __c5, 3));
     case 5:
-      return S.Array(__S(32, __c4, 0));
+      return S.Array(__S(40, __c5, 0));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -828,8 +892,8 @@ function __c4(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          assessment_questions: __S(36, __c4, 4),
-          attachments: __S(37, __c4, 5),
+          assessment_questions: __S(44, __c5, 4),
+          attachments: __S(45, __c5, 5),
           content: S.NullOr(S.String),
           created_at: S.String,
           days_from_course_start_until_unlock: S.NullOr(S.Number),
@@ -837,17 +901,17 @@ function __c4(j: number): any {
           embed_type: S.NullOr(S.String),
           id: S.String,
           lesson_type: S.String,
-          main_pdf: S.NullOr(__S(32, __c4, 0)),
+          main_pdf: S.NullOr(__S(40, __c5, 0)),
           order: S.Number,
-          thumbnail: S.NullOr(__S(40, __c5, 0)),
+          thumbnail: S.NullOr(__S(48, __c6, 0)),
           title: S.String,
-          video_asset: S.NullOr(__S(38, __c4, 6)),
+          video_asset: S.NullOr(__S(46, __c5, 6)),
           visibility: S.String,
         }),
       ).annotate({ identifier: "CourseLesson" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -857,7 +921,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CourseLessonThumbnail" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -867,7 +931,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DeleteCourseLessonRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Boolean.pipe(T.RawResponseRoot())).annotate({
@@ -875,7 +939,7 @@ function __c7(j: number): any {
       });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -885,7 +949,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetCourseLessonRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -909,13 +973,13 @@ function __c9(j: number): any {
           id: S.String,
           lesson_type: S.String,
           order: S.Number,
-          thumbnail: S.NullOr(__S(40, __c5, 0)),
+          thumbnail: S.NullOr(__S(48, __c6, 0)),
           title: S.String,
           visibility: S.String,
         }),
       ).annotate({ identifier: "CourseLessonListItem" });
     case 2:
-      return S.Array(__S(73, __c9, 1));
+      return S.Array(__S(81, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -928,13 +992,13 @@ function __c9(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(74, __c9, 2),
-          page_info: __S(75, __c9, 3),
+          data: __S(82, __c10, 2),
+          page_info: __S(83, __c10, 3),
         }),
       ).annotate({ identifier: "ListCourseLessonResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -950,7 +1014,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "MarkAsCompletedCourseLessonRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -1,0 +1,37 @@
+{
+  "description": "Type the 409 DELETE /v1/organizations/{organizationId}/services/{serviceId} answers for a service in a state that cannot be terminated, after the deletion protection check passes: {\"status\": 409, \"error\": \"CONFLICT: Only instance in one of the following states: 'provisioning','starting','awaking','idle','stopped','degraded','failed' can be terminated. Current state: 'running'\"}. The spec types it only as the shared envelope, so it surfaced as the generic Conflict, which deletion protection and every other conflict also answer. Observed live 2026-11-12 deleting a running service without deletion protection (request id 81eac1eb-e19e-4469-aba7-ed5f68ed29b6); the same call on a stopped service answered 200.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#ServiceNotTerminable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "The service is in a state that cannot be deleted (running or stopping). Stop it, wait for it to be stopped, and delete it again.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "message": {
+                "includes": "can be terminated"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#InstanceDelete/errors/-",
+      "value": {
+        "target": "com.clickhouse.cloud.service#ServiceNotTerminable"
+      }
+    }
+  ]
+}

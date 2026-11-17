@@ -30,6 +30,8 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -39,6 +41,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -48,6 +52,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -56,28 +62,30 @@ export interface CreateSessionRecordingsSharingPasswordRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   recording_id: string;
-  enabled?: boolean;
-  settings?: unknown;
-  password_required?: boolean;
+  enabled?: boolean | undefined;
+  settings?: unknown | undefined;
+  password_required?: boolean | undefined;
 }
 export interface SharePassword {
-  id?: number;
-  created_at?: string;
-  note?: string | null;
-  created_by_email?: string;
-  is_active?: boolean;
+  id?: number | undefined;
+  created_at?: string | undefined;
+  note?: string | null | undefined;
+  created_by_email?: string | undefined;
+  is_active?: boolean | undefined;
 }
 export type SharingConfigurationSharePasswordsList = Array<SharePassword>;
 /** Mixin for serializers to add user access control fields */
 export interface SharingConfiguration {
-  created_at?: string;
-  enabled?: boolean;
-  access_token?: string | Redacted.Redacted<string> | null;
-  settings?: unknown;
-  password_required?: boolean;
-  share_passwords?: SharingConfigurationSharePasswordsList;
+  created_at?: string | undefined;
+  enabled?: boolean | undefined;
+  access_token?: string | Redacted.Redacted<string> | null | undefined;
+  settings?: unknown | undefined;
+  password_required?: boolean | undefined;
+  share_passwords?: SharingConfigurationSharePasswordsList | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
+  /** Whether the project has configured access controls for shared content or its underlying data. */
+  has_relevant_access_controls: boolean;
 }
 export interface ListSessionRecordingsSharingRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -97,9 +105,9 @@ export interface SessionRecordingsSharingRefreshCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   recording_id: string;
-  enabled?: boolean;
-  settings?: unknown;
-  password_required?: boolean;
+  enabled?: boolean | undefined;
+  settings?: unknown | undefined;
+  password_required?: boolean | undefined;
 }
 export type CreateSessionRecordingsSharingPasswordError =
   | BadRequest
@@ -220,6 +228,7 @@ function __c1(j: number): any {
           password_required: S.optional(S.Boolean),
           share_passwords: S.optional(__S(5, __c1, 1)),
           user_access_level: S.optional(S.NullOr(S.String)),
+          has_relevant_access_controls: S.Boolean,
         }),
       ).annotate({ identifier: "SharingConfiguration" });
   }

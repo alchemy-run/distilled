@@ -36,6 +36,7 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -52,11 +53,10 @@ export class AuthenticationTimeout
  * the envelope's `error.code` (the HTTP status the server reported).
  */
 export class UnknownIcebergError
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownIcebergError>()("UnknownIcebergError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownIcebergError>()(
+    "UnknownIcebergError",
+    UnknownErrorFields,
+  ) {}
 
 /** Schema parse error wrapper. */
 export class IcebergParseError

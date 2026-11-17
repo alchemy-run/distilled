@@ -1,0 +1,63 @@
+{
+  "description": "DownloadImpactReport: Scaleway answers the file itself when the request adds `?dl=1` (scaleway-sdk-js sends it for these downloads; the Go SDK and CLI read the JSON `scaleway.std.File` instead). Each gets a `…Raw` twin that sends `dl=1` (the `rawDownload` flag on its http trait) and returns the body as bytes.",
+  "patches": [
+    {
+      "op": "copy",
+      "from": "/shapes/com.scaleway.environmental_footprint_user_v1alpha1#DownloadImpactReportRequest",
+      "path": "/shapes/com.scaleway.environmental_footprint_user_v1alpha1#DownloadImpactReportRawRequest"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.environmental_footprint_user_v1alpha1#DownloadImpactReportRawResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#Blob",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {},
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.scaleway.environmental_footprint_user_v1alpha1#DownloadImpactReport",
+      "path": "/shapes/com.scaleway.environmental_footprint_user_v1alpha1#DownloadImpactReportRaw"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.scaleway.environmental_footprint_user_v1alpha1#DownloadImpactReportRaw/input",
+      "value": {
+        "target": "com.scaleway.environmental_footprint_user_v1alpha1#DownloadImpactReportRawRequest"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.scaleway.environmental_footprint_user_v1alpha1#DownloadImpactReportRaw/output",
+      "value": {
+        "target": "com.scaleway.environmental_footprint_user_v1alpha1#DownloadImpactReportRawResponse"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.environmental_footprint_user_v1alpha1#DownloadImpactReportRaw/traits/smithy.api#http/rawDownload",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.environmental_footprint_user_v1alpha1#DownloadImpactReportRaw/traits/smithy.api#documentation",
+      "value": "The file `downloadImpactReport` returns, as bytes (`?dl=1`), rather than the JSON file object."
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.environmental_footprint_user_v1alpha1#EnvironmentalFootprintUserV1alpha1/operations/-",
+      "value": {
+        "target": "com.scaleway.environmental_footprint_user_v1alpha1#DownloadImpactReportRaw"
+      }
+    }
+  ]
+}

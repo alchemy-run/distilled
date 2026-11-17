@@ -24,8 +24,8 @@ const TELEMETRY = {
 } as const;
 
 export interface ListTaskRequest {
-  environmentName?: string;
-  appId?: string;
+  environmentName?: string | undefined;
+  appId?: string | undefined;
 }
 export interface TaskStats {
   taskId: string;
@@ -39,9 +39,9 @@ export interface ListTaskResponse {
   tasks: TaskStatsList;
 }
 export interface TaskClusterHelloRequest {
-  taskId?: string;
-  containerIp?: string;
-  imexHostIp?: string;
+  taskId?: string | undefined;
+  containerIp?: string | undefined;
+  imexHostIp?: string | undefined;
 }
 export type StringList = Array<string>;
 export interface TaskClusterHelloResponse {
@@ -60,16 +60,15 @@ export interface TaskCurrentInputsResponse {
   inputIds: StringList;
 }
 export interface TaskGetCommandRouterAccessRequest {
-  taskId?: string;
+  taskId?: string | undefined;
 }
 export interface TaskGetCommandRouterAccessResponse {
   jwt: string;
   url: string;
 }
 export interface TaskGetInfoRequest {
-  taskId?: string;
+  taskId?: string | undefined;
 }
-/** Used for both tasks and function outputs */
 export type GenericResultGenericStatus =
   | "GENERIC_STATUS_UNSPECIFIED"
   | "GENERIC_STATUS_SUCCESS"
@@ -82,25 +81,26 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION"
   | "GENERIC_STATUS_MEMORY_THRASHING_EVICTION"
   | "GENERIC_STATUS_KERNEL_OOM_KILL";
-/** sub-type for generic types like lists */
+/** Used for both tasks and function outputs */
 export interface GenericResult {
-  status?: GenericResultGenericStatus | (string & {});
   /** Status of the task or function output. */
-  exception?: string;
+  status?: GenericResultGenericStatus | (string & {}) | undefined;
   /** Exception message for failures, if available. */
-  exitcode?: number;
+  exception?: string | undefined;
   /** Status code of the container entrypoint or builder process if it terminates unexpectedly. */
-  traceback?: string;
+  exitcode?: number | undefined;
   /** String value of the Python traceback. */
-  serializedTb?: string;
+  traceback?: string | undefined;
   /** Pickled traceback object. */
-  tbLineCache?: string;
+  serializedTb?: string | undefined;
   /** Pickled line cache for traceback object. */
-  data?: string;
+  tbLineCache?: string | undefined;
   /** Inline data of the result. */
-  dataBlobId?: string;
+  data?: string | undefined;
   /** Blob ID for large data. */
-  propagationReason?: string;
+  dataBlobId?: string | undefined;
+  /** (?) */
+  propagationReason?: string | undefined;
 }
 export type TaskSnapshotBehavior =
   | "TASK_SNAPSHOT_BEHAVIOR_UNSPECIFIED"
@@ -119,29 +119,29 @@ export type GPUType =
   | "GPU_TYPE_L40S"
   | "GPU_TYPE_H200";
 export interface GPUConfig {
-  type: GPUType;
   /** Deprecated, at some point */
+  type: GPUType;
   count: number;
   gpuType: string;
 }
 export interface TaskInfo {
   id: string;
-  startedAt: number;
   /** For Function containers, this corresponds to the "ready" time, after startup phase */
+  startedAt: number;
   finishedAt: number;
-  result?: GenericResult;
+  result?: GenericResult | undefined;
   enqueuedAt: number;
   gpuType: string;
   sandboxId: string;
   snapshotBehavior: TaskSnapshotBehavior;
-  gpuConfig?: GPUConfig;
+  gpuConfig?: GPUConfig | undefined;
 }
 export interface TaskGetInfoResponse {
   appId: string;
-  info?: TaskInfo;
+  info?: TaskInfo | undefined;
 }
 export interface TaskResultRequest {
-  result?: GenericResult;
+  result?: GenericResult | undefined;
 }
 export interface TaskResultResponse {}
 export type ListTaskError = ModalOpError;

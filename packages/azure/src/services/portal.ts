@@ -35,13 +35,13 @@ const TELEMETRY = {
 /** Tenant Configuration Properties with Provisioning state */
 export interface ConfigurationPropertiesInput {
   /** When flag is set to true Markdown tile will require external storage configuration (URI). The inline content configuration will be prohibited. */
-  enforcePrivateMarkdownStorage?: boolean;
+  enforcePrivateMarkdownStorage?: boolean | undefined;
 }
 export interface CreateTenantConfigurationRequest {
   /** The name of the Configuration */
   configurationName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationPropertiesInput;
+  properties?: ConfigurationPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -50,38 +50,38 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The provisioning state of a resource type. */
 export type AzureResourceManagerResourceProvisioningState = "Succeeded" | "Failed" | "Canceled";
 /** Tenant Configuration Properties with Provisioning state */
 export interface ConfigurationProperties {
   /** When flag is set to true Markdown tile will require external storage configuration (URI). The inline content configuration will be prohibited. */
-  enforcePrivateMarkdownStorage?: boolean;
+  enforcePrivateMarkdownStorage?: boolean | undefined;
   /** The status of the last operation. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
 }
 export interface CreateTenantConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationProperties;
+  properties?: ConfigurationProperties | undefined;
 }
 /** Resource tags. */
 export type DashboardsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -96,14 +96,14 @@ export interface DashboardPartsPosition {
   /** The dashboard's part column span. */
   colSpan: number;
   /** The dashboard part's metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 /** A dashboard part. */
 export interface DashboardParts {
   /** The dashboard's part position. */
   position: DashboardPartsPosition;
   /** The dashboard part's metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 /** The dashboard parts. */
 export type DashboardLensPartsList = Array<DashboardParts>;
@@ -114,16 +114,16 @@ export interface DashboardLens {
   /** The dashboard parts. */
   parts: DashboardLensPartsList;
   /** The dashboard len's metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 /** The dashboard lenses. */
 export type DashboardPropertiesWithProvisioningStateInputLensesList = Array<DashboardLens>;
 /** Dashboard Properties with Provisioning state */
 export interface DashboardPropertiesWithProvisioningStateInput {
   /** The dashboard lenses. */
-  lenses?: DashboardPropertiesWithProvisioningStateInputLensesList;
+  lenses?: DashboardPropertiesWithProvisioningStateInputLensesList | undefined;
   /** The dashboard metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 export interface DashboardsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -133,11 +133,11 @@ export interface DashboardsCreateOrUpdateRequest {
   /** The name of the dashboard. */
   dashboardName: string;
   /** Resource tags. */
-  tags?: DashboardsCreateOrUpdateRequestTagsMap;
+  tags?: DashboardsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: DashboardPropertiesWithProvisioningStateInput;
+  properties?: DashboardPropertiesWithProvisioningStateInput | undefined;
 }
 /** Resource tags. */
 export type DashboardsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -146,27 +146,27 @@ export type DashboardPropertiesWithProvisioningStateLensesList = Array<Dashboard
 /** Dashboard Properties with Provisioning state */
 export interface DashboardPropertiesWithProvisioningState {
   /** The dashboard lenses. */
-  lenses?: DashboardPropertiesWithProvisioningStateLensesList;
+  lenses?: DashboardPropertiesWithProvisioningStateLensesList | undefined;
   /** The dashboard metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The status of the last operation. */
-  provisioningState?: AzureResourceManagerResourceProvisioningState;
+  provisioningState?: AzureResourceManagerResourceProvisioningState | undefined;
 }
 export interface DashboardsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DashboardsCreateOrUpdateResponseTagsMap;
+  tags?: DashboardsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: DashboardPropertiesWithProvisioningState;
+  properties?: DashboardPropertiesWithProvisioningState | undefined;
 }
 export interface DeleteDashboardRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -194,19 +194,19 @@ export interface GetDashboardRequest {
 export type GetDashboardResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDashboardResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetDashboardResponseTagsMap;
+  tags?: GetDashboardResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: DashboardPropertiesWithProvisioningState;
+  properties?: DashboardPropertiesWithProvisioningState | undefined;
 }
 export interface GetTenantConfigurationRequest {
   /** The name of the Configuration */
@@ -214,15 +214,15 @@ export interface GetTenantConfigurationRequest {
 }
 export interface GetTenantConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationProperties;
+  properties?: ConfigurationProperties | undefined;
 }
 export interface ListDashboardByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -235,19 +235,19 @@ export type DashboardTagsMap = { [key: string]: string | undefined };
 /** The shared dashboard resource definition. */
 export interface Dashboard {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: DashboardTagsMap;
+  tags?: DashboardTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: DashboardPropertiesWithProvisioningState;
+  properties?: DashboardPropertiesWithProvisioningState | undefined;
 }
 /** The Dashboard items on this page */
 export type ListDashboardByResourceGroupResponseValueList = Array<Dashboard>;
@@ -255,7 +255,7 @@ export interface ListDashboardByResourceGroupResponse {
   /** The Dashboard items on this page */
   value: ListDashboardByResourceGroupResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDashboardBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -267,17 +267,17 @@ export interface ListDashboardBySubscriptionResponse {
   /** The Dashboard items on this page */
   value: ListDashboardBySubscriptionResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListListTenantConfigurationViolationsRequest {}
 /** Violation information. */
 export interface Violation {
   /** Id of the item that violates tenant configuration. */
-  id?: string;
+  id?: string | undefined;
   /** Id of the user who owns violated item. */
-  userId?: string;
+  userId?: string | undefined;
   /** Error message. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 /** The Violation items on this page */
 export type ListListTenantConfigurationViolationsResponseValueList = Array<Violation>;
@@ -285,19 +285,19 @@ export interface ListListTenantConfigurationViolationsResponse {
   /** The Violation items on this page */
   value: ListListTenantConfigurationViolationsResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -306,37 +306,37 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTenantConfigurationsRequest {}
 /** The tenant configuration resource definition. */
 export interface Configuration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ConfigurationProperties;
+  properties?: ConfigurationProperties | undefined;
 }
 /** The Configuration items on this page */
 export type ListTenantConfigurationsResponseValueList = Array<Configuration>;
@@ -344,16 +344,16 @@ export interface ListTenantConfigurationsResponse {
   /** The Configuration items on this page */
   value: ListTenantConfigurationsResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The dashboard lenses. */
 export type DashboardPropertiesLensesList = Array<DashboardLens>;
 /** The shared dashboard properties. */
 export interface DashboardProperties {
   /** The dashboard lenses. */
-  lenses?: DashboardPropertiesLensesList;
+  lenses?: DashboardPropertiesLensesList | undefined;
   /** The dashboard metadata. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 /** Resource tags */
 export type UpdateDashboardRequestTagsMap = { [key: string]: string | undefined };
@@ -365,27 +365,27 @@ export interface UpdateDashboardRequest {
   /** The name of the dashboard. */
   dashboardName: string;
   /** The shared dashboard properties. */
-  properties?: DashboardProperties;
+  properties?: DashboardProperties | undefined;
   /** Resource tags */
-  tags?: UpdateDashboardRequestTagsMap;
+  tags?: UpdateDashboardRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateDashboardResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDashboardResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateDashboardResponseTagsMap;
+  tags?: UpdateDashboardResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: DashboardPropertiesWithProvisioningState;
+  properties?: DashboardPropertiesWithProvisioningState | undefined;
 }
 export type CreateTenantConfigurationError = AzureOpError;
 /** Create the tenant configuration. If configuration already exists - update it. User has to be a Tenant Admin for this operation. */

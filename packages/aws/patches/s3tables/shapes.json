@@ -1,0 +1,9 @@
+{
+  "description": "S3Tables: Members the API leaves out (not required).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.s3tables#GetTableResponse/members/modifiedBy/traits/smithy.api#required"
+    }
+  ]
+}

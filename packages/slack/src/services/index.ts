@@ -27,6 +27,7 @@ export * as reactions from "./reactions.ts";
 export * as reminders from "./reminders.ts";
 export * as rtm from "./rtm.ts";
 export * as search from "./search.ts";
+export * as slackbot from "./slackbot.ts";
 export * as stars from "./stars.ts";
 export * as team from "./team.ts";
 export * as tooling from "./tooling.ts";

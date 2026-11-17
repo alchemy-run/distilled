@@ -175,9 +175,9 @@ export type SecurityGroupId = string;
 export type SecurityGroupIdList = string[];
 export type NetworkType = "IPV4" | "IPV6" | (string & {});
 export interface NetworkingRequest {
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  networkType?: NetworkType;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  networkType?: NetworkType | undefined;
 }
 export interface SlurmCustomSetting {
   parameterName: string;
@@ -196,7 +196,7 @@ export interface CgroupCustomSetting {
 export type CgroupCustomSettings = CgroupCustomSetting[];
 export type AccountingMode = "STANDARD" | "NONE" | (string & {});
 export interface AccountingRequest {
-  defaultPurgeTimeInDays?: number;
+  defaultPurgeTimeInDays?: number | undefined;
   mode: AccountingMode;
 }
 export type SlurmRestMode = "STANDARD" | "NONE" | (string & {});
@@ -204,12 +204,12 @@ export interface SlurmRestRequest {
   mode: SlurmRestMode;
 }
 export interface ClusterSlurmConfigurationRequest {
-  scaleDownIdleTimeInSeconds?: number;
-  slurmCustomSettings?: SlurmCustomSetting[];
-  slurmdbdCustomSettings?: SlurmdbdCustomSetting[];
-  cgroupCustomSettings?: CgroupCustomSetting[];
-  accounting?: AccountingRequest;
-  slurmRest?: SlurmRestRequest;
+  scaleDownIdleTimeInSeconds?: number | undefined;
+  slurmCustomSettings?: SlurmCustomSetting[] | undefined;
+  slurmdbdCustomSettings?: SlurmdbdCustomSetting[] | undefined;
+  cgroupCustomSettings?: CgroupCustomSetting[] | undefined;
+  accounting?: AccountingRequest | undefined;
+  slurmRest?: SlurmRestRequest | undefined;
 }
 export type SBClientToken = string;
 export type TagKey = string;
@@ -220,9 +220,9 @@ export interface CreateClusterRequest {
   scheduler: SchedulerRequest;
   size: Size;
   networking: NetworkingRequest;
-  slurmConfiguration?: ClusterSlurmConfigurationRequest;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  slurmConfiguration?: ClusterSlurmConfigurationRequest | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ClusterStatus =
   | "CREATING"
@@ -249,43 +249,43 @@ export interface JwtKey {
   secretVersion: string;
 }
 export interface JwtAuth {
-  jwtKey?: JwtKey;
+  jwtKey?: JwtKey | undefined;
 }
 export interface Accounting {
-  defaultPurgeTimeInDays?: number;
+  defaultPurgeTimeInDays?: number | undefined;
   mode: AccountingMode;
 }
 export interface SlurmRest {
   mode: SlurmRestMode;
 }
 export interface ClusterSlurmConfiguration {
-  scaleDownIdleTimeInSeconds?: number;
-  slurmCustomSettings?: SlurmCustomSetting[];
-  slurmdbdCustomSettings?: SlurmdbdCustomSetting[];
-  cgroupCustomSettings?: CgroupCustomSetting[];
-  authKey?: SlurmAuthKey;
-  jwtAuth?: JwtAuth;
-  accounting?: Accounting;
-  slurmRest?: SlurmRest;
+  scaleDownIdleTimeInSeconds?: number | undefined;
+  slurmCustomSettings?: SlurmCustomSetting[] | undefined;
+  slurmdbdCustomSettings?: SlurmdbdCustomSetting[] | undefined;
+  cgroupCustomSettings?: CgroupCustomSetting[] | undefined;
+  authKey?: SlurmAuthKey | undefined;
+  jwtAuth?: JwtAuth | undefined;
+  accounting?: Accounting | undefined;
+  slurmRest?: SlurmRest | undefined;
 }
 export interface Networking {
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  networkType?: NetworkType;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  networkType?: NetworkType | undefined;
 }
 export type EndpointType = "SLURMCTLD" | "SLURMDBD" | "SLURMRESTD" | (string & {});
 export interface Endpoint {
   type: EndpointType;
   privateIpAddress: string;
-  publicIpAddress?: string;
-  ipv6Address?: string;
+  publicIpAddress?: string | undefined;
+  ipv6Address?: string | undefined;
   port: string;
 }
 const Endpoint = /*@__PURE__*/ __L.at(__c23, 0) as any as S.Schema<Endpoint>;
 export type Endpoints = Endpoint[];
 export interface ErrorInfo {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export type ErrorInfoList = ErrorInfo[];
 export interface Cluster {
@@ -297,17 +297,18 @@ export interface Cluster {
   modifiedAt: Date;
   scheduler: Scheduler;
   size: Size;
-  slurmConfiguration?: ClusterSlurmConfiguration;
+  slurmConfiguration?: ClusterSlurmConfiguration | undefined;
   networking: Networking;
-  endpoints?: Endpoint[];
-  errorInfo?: ErrorInfo[];
+  endpoints?: Endpoint[] | undefined;
+  errorInfo?: ErrorInfo[] | undefined;
 }
 export interface CreateClusterResponse {
-  cluster?: Cluster;
+  cluster?: Cluster | undefined;
 }
+export type AmiId = string;
+export type KeyPairName = string;
 export type ClusterIdentifier = string;
 export type ComputeNodeGroupName = string;
-export type AmiId = string;
 export type StringList = string[];
 export type PurchaseOption =
   | "ONDEMAND"
@@ -315,6 +316,7 @@ export type PurchaseOption =
   | "CAPACITY_BLOCK"
   | "INTERRUPTIBLE_CAPACITY_RESERVATION"
   | (string & {});
+export type LaunchTemplateMode = "CUSTOM" | "MANAGED" | (string & {});
 export interface CustomLaunchTemplate {
   id: string;
   version: string;
@@ -325,7 +327,7 @@ export interface ScalingConfigurationRequest {
   maxInstanceCount: number;
 }
 export interface InstanceConfig {
-  instanceType?: string;
+  instanceType?: string | undefined;
 }
 export type InstanceList = InstanceConfig[];
 export type SpotAllocationStrategy =
@@ -334,19 +336,19 @@ export type SpotAllocationStrategy =
   | "price-capacity-optimized"
   | (string & {});
 export interface SpotOptions {
-  allocationStrategy?: SpotAllocationStrategy;
+  allocationStrategy?: SpotAllocationStrategy | undefined;
 }
 export type GresCustomSettingMap = { [key: string]: string | undefined };
 export type GresCustomSettings = { [key: string]: string | undefined }[];
 export interface ComputeNodeGroupSlurmConfigurationRequest {
-  scaleDownIdleTimeInSeconds?: number;
-  slurmCustomSettings?: SlurmCustomSetting[];
-  gresCustomSettings?: { [key: string]: string | undefined }[];
+  scaleDownIdleTimeInSeconds?: number | undefined;
+  slurmCustomSettings?: SlurmCustomSetting[] | undefined;
+  gresCustomSettings?: { [key: string]: string | undefined }[] | undefined;
 }
 export interface ScriptSource {
   scriptLocation: string;
-  s3VersionId?: string;
-  checksum?: string;
+  s3VersionId?: string | undefined;
+  checksum?: string | undefined;
 }
 export type NodeLifecycleScriptArgument = string;
 export type NodeLifecycleScriptArguments = string[];
@@ -355,35 +357,38 @@ export type ExecutionPolicy = "FIRST_BOOT_ONLY" | "EVERY_BOOT" | (string & {});
 export interface NodeLifecycleScript {
   name: string;
   scriptSource: ScriptSource;
-  arguments?: string[];
-  onError?: OnError;
-  executionPolicy?: ExecutionPolicy;
+  arguments?: string[] | undefined;
+  onError?: OnError | undefined;
+  executionPolicy?: ExecutionPolicy | undefined;
 }
 export type NodeLifecycleScriptList = NodeLifecycleScript[];
 export interface NodeLifecycleStages {
-  nodeBootstrapped?: NodeLifecycleScript[];
-  nodeReady?: NodeLifecycleScript[];
+  nodeBootstrapped?: NodeLifecycleScript[] | undefined;
+  nodeReady?: NodeLifecycleScript[] | undefined;
 }
 export type ScriptCachingPolicy = "CACHE_ONCE" | "REFRESH_ON_REBOOT" | (string & {});
 export interface NodeLifecycleActionsRequest {
   stages: NodeLifecycleStages;
-  scriptCachingPolicy?: ScriptCachingPolicy;
+  scriptCachingPolicy?: ScriptCachingPolicy | undefined;
 }
 export interface CreateComputeNodeGroupRequest {
+  amiId?: string | undefined;
+  securityGroupIds?: string[] | undefined;
+  sshKeyName?: string | undefined;
   clusterIdentifier: string;
   computeNodeGroupName: string;
-  amiId?: string;
   subnetIds: string[];
-  purchaseOption?: PurchaseOption;
-  customLaunchTemplate: CustomLaunchTemplate;
+  purchaseOption?: PurchaseOption | undefined;
+  launchTemplateMode?: LaunchTemplateMode | undefined;
+  customLaunchTemplate?: CustomLaunchTemplate | undefined;
   iamInstanceProfileArn: string;
   scalingConfiguration: ScalingConfigurationRequest;
   instanceConfigs: InstanceConfig[];
-  spotOptions?: SpotOptions;
-  slurmConfiguration?: ComputeNodeGroupSlurmConfigurationRequest;
-  nodeLifecycleActions?: NodeLifecycleActionsRequest;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  spotOptions?: SpotOptions | undefined;
+  slurmConfiguration?: ComputeNodeGroupSlurmConfigurationRequest | undefined;
+  nodeLifecycleActions?: NodeLifecycleActionsRequest | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ComputeNodeGroupStatus =
   | "CREATING"
@@ -403,15 +408,18 @@ export interface ScalingConfiguration {
   maxInstanceCount: number;
 }
 export interface ComputeNodeGroupSlurmConfiguration {
-  scaleDownIdleTimeInSeconds?: number;
-  slurmCustomSettings?: SlurmCustomSetting[];
-  gresCustomSettings?: { [key: string]: string | undefined }[];
+  scaleDownIdleTimeInSeconds?: number | undefined;
+  slurmCustomSettings?: SlurmCustomSetting[] | undefined;
+  gresCustomSettings?: { [key: string]: string | undefined }[] | undefined;
 }
 export interface NodeLifecycleActions {
   stages: NodeLifecycleStages;
-  scriptCachingPolicy?: ScriptCachingPolicy;
+  scriptCachingPolicy?: ScriptCachingPolicy | undefined;
 }
 export interface ComputeNodeGroup {
+  amiId?: string | undefined;
+  securityGroupIds?: string[] | undefined;
+  sshKeyName?: string | undefined;
   name: string;
   id: string;
   arn: string;
@@ -419,36 +427,36 @@ export interface ComputeNodeGroup {
   createdAt: Date;
   modifiedAt: Date;
   status: ComputeNodeGroupStatus;
-  amiId?: string;
   subnetIds: string[];
-  purchaseOption?: PurchaseOption;
-  customLaunchTemplate: CustomLaunchTemplate;
+  purchaseOption?: PurchaseOption | undefined;
+  launchTemplateMode?: LaunchTemplateMode | undefined;
+  customLaunchTemplate?: CustomLaunchTemplate | undefined;
   iamInstanceProfileArn: string;
   scalingConfiguration: ScalingConfiguration;
   instanceConfigs: InstanceConfig[];
-  spotOptions?: SpotOptions;
-  slurmConfiguration?: ComputeNodeGroupSlurmConfiguration;
-  nodeLifecycleActions?: NodeLifecycleActions;
-  errorInfo?: ErrorInfo[];
+  spotOptions?: SpotOptions | undefined;
+  slurmConfiguration?: ComputeNodeGroupSlurmConfiguration | undefined;
+  nodeLifecycleActions?: NodeLifecycleActions | undefined;
+  errorInfo?: ErrorInfo[] | undefined;
 }
 export interface CreateComputeNodeGroupResponse {
-  computeNodeGroup?: ComputeNodeGroup;
+  computeNodeGroup?: ComputeNodeGroup | undefined;
 }
 export type QueueName = string;
 export interface ComputeNodeGroupConfiguration {
-  computeNodeGroupId?: string;
+  computeNodeGroupId?: string | undefined;
 }
 export type ComputeNodeGroupConfigurationList = ComputeNodeGroupConfiguration[];
 export interface QueueSlurmConfigurationRequest {
-  slurmCustomSettings?: SlurmCustomSetting[];
+  slurmCustomSettings?: SlurmCustomSetting[] | undefined;
 }
 export interface CreateQueueRequest {
   clusterIdentifier: string;
   queueName: string;
-  computeNodeGroupConfigurations?: ComputeNodeGroupConfiguration[];
-  slurmConfiguration?: QueueSlurmConfigurationRequest;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  computeNodeGroupConfigurations?: ComputeNodeGroupConfiguration[] | undefined;
+  slurmConfiguration?: QueueSlurmConfigurationRequest | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type QueueStatus =
   | "CREATING"
@@ -463,7 +471,7 @@ export type QueueStatus =
   | "RESUMING"
   | (string & {});
 export interface QueueSlurmConfiguration {
-  slurmCustomSettings?: SlurmCustomSetting[];
+  slurmCustomSettings?: SlurmCustomSetting[] | undefined;
 }
 export interface Queue {
   name: string;
@@ -474,55 +482,55 @@ export interface Queue {
   modifiedAt: Date;
   status: QueueStatus;
   computeNodeGroupConfigurations: ComputeNodeGroupConfiguration[];
-  slurmConfiguration?: QueueSlurmConfiguration;
-  errorInfo?: ErrorInfo[];
+  slurmConfiguration?: QueueSlurmConfiguration | undefined;
+  errorInfo?: ErrorInfo[] | undefined;
 }
 export interface CreateQueueResponse {
-  queue?: Queue;
+  queue?: Queue | undefined;
 }
 export interface DeleteClusterRequest {
   clusterIdentifier: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteClusterResponse {}
 export type ComputeNodeGroupIdentifier = string;
 export interface DeleteComputeNodeGroupRequest {
   clusterIdentifier: string;
   computeNodeGroupIdentifier: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteComputeNodeGroupResponse {}
 export type QueueIdentifier = string;
 export interface DeleteQueueRequest {
   clusterIdentifier: string;
   queueIdentifier: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteQueueResponse {}
 export interface GetClusterRequest {
   clusterIdentifier: string;
 }
 export interface GetClusterResponse {
-  cluster?: Cluster;
+  cluster?: Cluster | undefined;
 }
 export interface GetComputeNodeGroupRequest {
   clusterIdentifier: string;
   computeNodeGroupIdentifier: string;
 }
 export interface GetComputeNodeGroupResponse {
-  computeNodeGroup?: ComputeNodeGroup;
+  computeNodeGroup?: ComputeNodeGroup | undefined;
 }
 export interface GetQueueRequest {
   clusterIdentifier: string;
   queueIdentifier: string;
 }
 export interface GetQueueResponse {
-  queue?: Queue;
+  queue?: Queue | undefined;
 }
 export type MaxResults = number;
 export interface ListClustersRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ClusterSummary {
   name: string;
@@ -535,12 +543,12 @@ export interface ClusterSummary {
 export type ClusterList = ClusterSummary[];
 export interface ListClustersResponse {
   clusters: ClusterSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListComputeNodeGroupsRequest {
   clusterIdentifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ComputeNodeGroupSummary {
   name: string;
@@ -554,12 +562,12 @@ export interface ComputeNodeGroupSummary {
 export type ComputeNodeGroupList = ComputeNodeGroupSummary[];
 export interface ListComputeNodeGroupsResponse {
   computeNodeGroups: ComputeNodeGroupSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListQueuesRequest {
   clusterIdentifier: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface QueueSummary {
   name: string;
@@ -573,7 +581,7 @@ export interface QueueSummary {
 export type QueueList = QueueSummary[];
 export interface ListQueuesResponse {
   queues: QueueSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceRequest {
@@ -581,7 +589,7 @@ export interface ListTagsForResourceRequest {
 }
 export type ResponseTagMap = { [key: string]: string | undefined };
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type BootstrapId = string;
 export interface RegisterComputeNodeGroupInstanceRequest {
@@ -593,10 +601,11 @@ export interface RegisterComputeNodeGroupInstanceResponse {
   nodeID: string;
   sharedSecret: string | redacted.Redacted<string>;
   endpoints: Endpoint[];
-  clusterName?: string;
-  computeNodeGroupId?: string;
-  computeNodeGroupName?: string;
-  nodeLifecycleActions?: NodeLifecycleActions;
+  clusterName?: string | undefined;
+  computeNodeGroupId?: string | undefined;
+  computeNodeGroupName?: string | undefined;
+  nodeLifecycleActions?: NodeLifecycleActions | undefined;
+  schedulerVersion?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -610,70 +619,76 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdateAccountingRequest {
-  defaultPurgeTimeInDays?: number;
-  mode?: AccountingMode;
+  defaultPurgeTimeInDays?: number | undefined;
+  mode?: AccountingMode | undefined;
 }
 export interface UpdateSlurmRestRequest {
-  mode?: SlurmRestMode;
+  mode?: SlurmRestMode | undefined;
 }
 export interface UpdateClusterSlurmConfigurationRequest {
-  scaleDownIdleTimeInSeconds?: number;
-  slurmCustomSettings?: SlurmCustomSetting[];
-  slurmdbdCustomSettings?: SlurmdbdCustomSetting[];
-  cgroupCustomSettings?: CgroupCustomSetting[];
-  accounting?: UpdateAccountingRequest;
-  slurmRest?: UpdateSlurmRestRequest;
+  scaleDownIdleTimeInSeconds?: number | undefined;
+  slurmCustomSettings?: SlurmCustomSetting[] | undefined;
+  slurmdbdCustomSettings?: SlurmdbdCustomSetting[] | undefined;
+  cgroupCustomSettings?: CgroupCustomSetting[] | undefined;
+  accounting?: UpdateAccountingRequest | undefined;
+  slurmRest?: UpdateSlurmRestRequest | undefined;
 }
 export interface UpdateSchedulerRequest {
   version: string;
 }
 export interface UpdateClusterRequest {
   clusterIdentifier: string;
-  clientToken?: string;
-  slurmConfiguration?: UpdateClusterSlurmConfigurationRequest;
-  scheduler?: UpdateSchedulerRequest;
+  clientToken?: string | undefined;
+  slurmConfiguration?: UpdateClusterSlurmConfigurationRequest | undefined;
+  scheduler?: UpdateSchedulerRequest | undefined;
 }
 export interface UpdateClusterResponse {
-  cluster?: Cluster;
+  cluster?: Cluster | undefined;
 }
+export type AmiIdOrEmpty = string;
+export type SecurityGroupIdListOrEmpty = string[];
+export type KeyPairNameOrEmpty = string;
 export interface UpdateComputeNodeGroupSlurmConfigurationRequest {
-  scaleDownIdleTimeInSeconds?: number;
-  slurmCustomSettings?: SlurmCustomSetting[];
-  gresCustomSettings?: { [key: string]: string | undefined }[];
+  scaleDownIdleTimeInSeconds?: number | undefined;
+  slurmCustomSettings?: SlurmCustomSetting[] | undefined;
+  gresCustomSettings?: { [key: string]: string | undefined }[] | undefined;
 }
 export interface UpdateNodeLifecycleActionsRequest {
   stages: NodeLifecycleStages;
-  scriptCachingPolicy?: ScriptCachingPolicy;
+  scriptCachingPolicy?: ScriptCachingPolicy | undefined;
 }
 export interface UpdateComputeNodeGroupRequest {
+  amiId?: string | undefined;
+  securityGroupIds?: string[] | undefined;
+  sshKeyName?: string | undefined;
   clusterIdentifier: string;
   computeNodeGroupIdentifier: string;
-  amiId?: string;
-  subnetIds?: string[];
-  customLaunchTemplate?: CustomLaunchTemplate;
-  purchaseOption?: PurchaseOption;
-  spotOptions?: SpotOptions;
-  scalingConfiguration?: ScalingConfigurationRequest;
-  iamInstanceProfileArn?: string;
-  slurmConfiguration?: UpdateComputeNodeGroupSlurmConfigurationRequest;
-  nodeLifecycleActions?: UpdateNodeLifecycleActionsRequest;
-  clientToken?: string;
+  subnetIds?: string[] | undefined;
+  launchTemplateMode?: LaunchTemplateMode | undefined;
+  customLaunchTemplate?: CustomLaunchTemplate | undefined;
+  purchaseOption?: PurchaseOption | undefined;
+  spotOptions?: SpotOptions | undefined;
+  scalingConfiguration?: ScalingConfigurationRequest | undefined;
+  iamInstanceProfileArn?: string | undefined;
+  slurmConfiguration?: UpdateComputeNodeGroupSlurmConfigurationRequest | undefined;
+  nodeLifecycleActions?: UpdateNodeLifecycleActionsRequest | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateComputeNodeGroupResponse {
-  computeNodeGroup?: ComputeNodeGroup;
+  computeNodeGroup?: ComputeNodeGroup | undefined;
 }
 export interface UpdateQueueSlurmConfigurationRequest {
-  slurmCustomSettings?: SlurmCustomSetting[];
+  slurmCustomSettings?: SlurmCustomSetting[] | undefined;
 }
 export interface UpdateQueueRequest {
   clusterIdentifier: string;
   queueIdentifier: string;
-  computeNodeGroupConfigurations?: ComputeNodeGroupConfiguration[];
-  slurmConfiguration?: UpdateQueueSlurmConfigurationRequest;
-  clientToken?: string;
+  computeNodeGroupConfigurations?: ComputeNodeGroupConfiguration[] | undefined;
+  slurmConfiguration?: UpdateQueueSlurmConfigurationRequest | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateQueueResponse {
-  queue?: Queue;
+  queue?: Queue | undefined;
 }
 export type ValidationExceptionReason =
   | "unknownOperation"
@@ -732,7 +747,7 @@ export type CreateComputeNodeGroupError =
   | ValidationException
   | CommonErrors;
 /**
- * Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more PCS queues or as part of the login fleet. A compute node group includes the definition of the compute properties and lifecycle management. PCS uses the information you provide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that PCS launches in your account. You must already have a launch template before you call this API. For more information, see Launch an instance from a launch template in the *Amazon Elastic Compute Cloud User Guide for Linux Instances*.
+ * Creates a managed set of compute nodes. You associate a compute node group with a cluster through 1 or more PCS queues or as part of the login fleet. A compute node group includes the definition of the compute properties and lifecycle management. PCS uses the information you provide to this API action to launch compute nodes in your account. You can only specify subnets in the same Amazon VPC as your cluster. You receive billing charges for the compute nodes that PCS launches in your account. You can configure common instance settings, such as the AMI, security groups, and SSH key pair, directly on the compute node group, or you can provide a custom EC2 launch template. To use a launch template that PCS manages, set `launchTemplateMode` to `MANAGED` and don't provide `customLaunchTemplate`. In this case, you must specify `amiId` and `securityGroupIds`. For more information, see Configuring instance settings for compute node groups in PCS in the *PCS User Guide*.
  */
 export const createComputeNodeGroup: API.OperationMethod<
   CreateComputeNodeGroupRequest & RegionInput,
@@ -1499,6 +1514,7 @@ function __c12(j: number): any {
           computeNodeGroupId: S.optional(S.String),
           computeNodeGroupName: S.optional(S.String),
           nodeLifecycleActions: S.optional(__S(436, __c27, 4)),
+          schedulerVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegisterComputeNodeGroupInstanceResponse" });
   }
@@ -1565,10 +1581,13 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          amiId: S.optional(S.String),
+          securityGroupIds: S.optional(__S(352, __c22, 0)),
+          sshKeyName: S.optional(S.String),
           clusterIdentifier: S.String,
           computeNodeGroupIdentifier: S.String,
-          amiId: S.optional(S.String),
           subnetIds: S.optional(__S(352, __c22, 0)),
+          launchTemplateMode: S.optional(S.String),
           customLaunchTemplate: S.optional(__S(448, __c28, 0)),
           purchaseOption: S.optional(S.String),
           spotOptions: S.optional(__S(452, __c28, 4)),
@@ -1751,12 +1770,15 @@ function __c26(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          amiId: S.optional(S.String),
+          securityGroupIds: S.optional(__S(352, __c22, 0)),
+          sshKeyName: S.optional(S.String),
           clusterIdentifier: S.String,
           computeNodeGroupName: S.String,
-          amiId: S.optional(S.String),
           subnetIds: __S(352, __c22, 0),
           purchaseOption: S.optional(S.String),
-          customLaunchTemplate: __S(448, __c28, 0),
+          launchTemplateMode: S.optional(S.String),
+          customLaunchTemplate: S.optional(__S(448, __c28, 0)),
           iamInstanceProfileArn: S.String,
           scalingConfiguration: __S(449, __c28, 1),
           instanceConfigs: __S(451, __c28, 3),
@@ -1837,6 +1859,9 @@ function __c28(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
+          amiId: S.optional(S.String),
+          securityGroupIds: S.optional(__S(352, __c22, 0)),
+          sshKeyName: S.optional(S.String),
           name: S.String,
           id: S.String,
           arn: S.String,
@@ -1844,10 +1869,10 @@ function __c28(j: number): any {
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           modifiedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
-          amiId: S.optional(S.String),
           subnetIds: __S(352, __c22, 0),
           purchaseOption: S.optional(S.String),
-          customLaunchTemplate: __S(448, __c28, 0),
+          launchTemplateMode: S.optional(S.String),
+          customLaunchTemplate: S.optional(__S(448, __c28, 0)),
           iamInstanceProfileArn: S.String,
           scalingConfiguration: __S(449, __c28, 1),
           instanceConfigs: __S(451, __c28, 3),

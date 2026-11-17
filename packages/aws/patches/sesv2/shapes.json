@@ -1,0 +1,17 @@
+{
+  "description": "SESv2: Members the API leaves out (not required).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.sesv2#MailFromAttributes/members/MailFromDomain/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.sesv2#MailFromAttributes/members/MailFromDomainStatus/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.sesv2#MailFromAttributes/members/BehaviorOnMxFailure/traits/smithy.api#required"
+    }
+  ]
+}

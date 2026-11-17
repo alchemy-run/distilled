@@ -1,0 +1,31 @@
+{
+  "description": "Scheduler: Error shapes the model does not declare, for the errors operations.json list (a shape with aws.codegen#synthetic matches its base wire error by message); categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.scheduler#ExecutionRoleNotAssumable",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ValidationException",
+            "message": {
+              "includes": "must allow AWS EventBridge Scheduler to assume the role"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.scheduler#ValidationException/members",
+      "path": "/shapes/com.amazonaws.scheduler#ExecutionRoleNotAssumable/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.scheduler#ConflictException/traits/distilled.errors#categories",
+      "value": ["ConflictError", "RetryableError"]
+    }
+  ]
+}

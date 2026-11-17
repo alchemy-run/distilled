@@ -59,17 +59,17 @@ export type ApplyUpdatesCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ApplyUpdatesCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ApplyUpdatesCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: ApplyUpdatesCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ApplyUpdatesCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: ApplyUpdatesCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The status */
 export type ApplyUpdatePropertiesStatus =
@@ -81,23 +81,23 @@ export type ApplyUpdatePropertiesStatus =
 /** Properties for apply update */
 export interface ApplyUpdateProperties {
   /** The status */
-  status?: ApplyUpdatePropertiesStatus;
+  status?: ApplyUpdatePropertiesStatus | undefined;
   /** The resourceId */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Last Update time */
-  lastUpdateTime?: string;
+  lastUpdateTime?: string | undefined;
 }
 export interface ApplyUpdatesCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ApplyUpdatesCreateOrUpdateResponseSystemData;
+  systemData?: ApplyUpdatesCreateOrUpdateResponseSystemData | undefined;
   /** Properties of the apply update */
-  properties?: ApplyUpdateProperties;
+  properties?: ApplyUpdateProperties | undefined;
 }
 export interface ApplyUpdatesCreateOrUpdateParentRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -130,29 +130,31 @@ export type ApplyUpdatesCreateOrUpdateParentResponseSystemDataLastModifiedByType
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ApplyUpdatesCreateOrUpdateParentResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ApplyUpdatesCreateOrUpdateParentResponseSystemDataCreatedByType;
+  createdByType?: ApplyUpdatesCreateOrUpdateParentResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ApplyUpdatesCreateOrUpdateParentResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | ApplyUpdatesCreateOrUpdateParentResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ApplyUpdatesCreateOrUpdateParentResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ApplyUpdatesCreateOrUpdateParentResponseSystemData;
+  systemData?: ApplyUpdatesCreateOrUpdateParentResponseSystemData | undefined;
   /** Properties of the apply update */
-  properties?: ApplyUpdateProperties;
+  properties?: ApplyUpdateProperties | undefined;
 }
 /** List of allowed resources. */
 export type ConfigurationAssignmentFilterPropertiesResourceTypesList = Array<string>;
@@ -172,31 +174,31 @@ export type TagSettingsPropertiesFilterOperator = "All" | "Any";
 /** Tag filter information for the VM. */
 export interface TagSettingsProperties {
   /** Dictionary of tags with its list of values. */
-  tags?: TagSettingsPropertiesTagsMap;
+  tags?: TagSettingsPropertiesTagsMap | undefined;
   /** Filter VMs by Any or All specified tags. */
-  filterOperator?: TagSettingsPropertiesFilterOperator | (string & {});
+  filterOperator?: TagSettingsPropertiesFilterOperator | (string & {}) | undefined;
 }
 /** Azure query for the update configuration. */
 export interface ConfigurationAssignmentFilterProperties {
   /** List of allowed resources. */
-  resourceTypes?: ConfigurationAssignmentFilterPropertiesResourceTypesList;
+  resourceTypes?: ConfigurationAssignmentFilterPropertiesResourceTypesList | undefined;
   /** List of allowed resource groups. */
-  resourceGroups?: ConfigurationAssignmentFilterPropertiesResourceGroupsList;
+  resourceGroups?: ConfigurationAssignmentFilterPropertiesResourceGroupsList | undefined;
   /** List of allowed operating systems. */
-  osTypes?: ConfigurationAssignmentFilterPropertiesOsTypesList;
+  osTypes?: ConfigurationAssignmentFilterPropertiesOsTypesList | undefined;
   /** List of locations to scope the query to. */
-  locations?: ConfigurationAssignmentFilterPropertiesLocationsList;
+  locations?: ConfigurationAssignmentFilterPropertiesLocationsList | undefined;
   /** Tag settings for the VM. */
-  tagSettings?: TagSettingsProperties;
+  tagSettings?: TagSettingsProperties | undefined;
 }
 /** Properties for configuration assignment */
 export interface ConfigurationAssignmentProperties {
   /** The maintenance configuration Id */
-  maintenanceConfigurationId?: string;
+  maintenanceConfigurationId?: string | undefined;
   /** The unique resourceId */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Properties of the configuration assignment */
-  filter?: ConfigurationAssignmentFilterProperties;
+  filter?: ConfigurationAssignmentFilterProperties | undefined;
 }
 export interface ConfigurationAssignmentsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -212,9 +214,9 @@ export interface ConfigurationAssignmentsCreateOrUpdateRequest {
   /** Configuration assignment name */
   configurationAssignmentName: string;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the configuration assignment */
-  properties?: ConfigurationAssignmentProperties;
+  properties?: ConfigurationAssignmentProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type ConfigurationAssignmentsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -231,31 +233,33 @@ export type ConfigurationAssignmentsCreateOrUpdateResponseSystemDataLastModified
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ConfigurationAssignmentsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ConfigurationAssignmentsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: ConfigurationAssignmentsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ConfigurationAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | ConfigurationAssignmentsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ConfigurationAssignmentsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ConfigurationAssignmentsCreateOrUpdateResponseSystemData;
+  systemData?: ConfigurationAssignmentsCreateOrUpdateResponseSystemData | undefined;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the configuration assignment */
-  properties?: ConfigurationAssignmentProperties;
+  properties?: ConfigurationAssignmentProperties | undefined;
 }
 export interface ConfigurationAssignmentsCreateOrUpdateParentRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -275,9 +279,9 @@ export interface ConfigurationAssignmentsCreateOrUpdateParentRequest {
   /** Configuration assignment name */
   configurationAssignmentName: string;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the configuration assignment */
-  properties?: ConfigurationAssignmentProperties;
+  properties?: ConfigurationAssignmentProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type ConfigurationAssignmentsCreateOrUpdateParentResponseSystemDataCreatedByType =
@@ -294,31 +298,35 @@ export type ConfigurationAssignmentsCreateOrUpdateParentResponseSystemDataLastMo
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ConfigurationAssignmentsCreateOrUpdateParentResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ConfigurationAssignmentsCreateOrUpdateParentResponseSystemDataCreatedByType;
+  createdByType?:
+    | ConfigurationAssignmentsCreateOrUpdateParentResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ConfigurationAssignmentsCreateOrUpdateParentResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | ConfigurationAssignmentsCreateOrUpdateParentResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ConfigurationAssignmentsCreateOrUpdateParentResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ConfigurationAssignmentsCreateOrUpdateParentResponseSystemData;
+  systemData?: ConfigurationAssignmentsCreateOrUpdateParentResponseSystemData | undefined;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the configuration assignment */
-  properties?: ConfigurationAssignmentProperties;
+  properties?: ConfigurationAssignmentProperties | undefined;
 }
 export interface ConfigurationAssignmentsForResourceGroupCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -328,9 +336,9 @@ export interface ConfigurationAssignmentsForResourceGroupCreateOrUpdateRequest {
   /** Configuration assignment name */
   configurationAssignmentName: string;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the configuration assignment */
-  properties?: ConfigurationAssignmentProperties;
+  properties?: ConfigurationAssignmentProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type ConfigurationAssignmentsForResourceGroupCreateOrUpdateResponseSystemDataCreatedByType =
@@ -347,31 +355,35 @@ export type ConfigurationAssignmentsForResourceGroupCreateOrUpdateResponseSystem
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ConfigurationAssignmentsForResourceGroupCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ConfigurationAssignmentsForResourceGroupCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | ConfigurationAssignmentsForResourceGroupCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ConfigurationAssignmentsForResourceGroupCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | ConfigurationAssignmentsForResourceGroupCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ConfigurationAssignmentsForResourceGroupCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ConfigurationAssignmentsForResourceGroupCreateOrUpdateResponseSystemData;
+  systemData?: ConfigurationAssignmentsForResourceGroupCreateOrUpdateResponseSystemData | undefined;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the configuration assignment */
-  properties?: ConfigurationAssignmentProperties;
+  properties?: ConfigurationAssignmentProperties | undefined;
 }
 export interface ConfigurationAssignmentsForSubscriptionsCreateOrUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -379,9 +391,9 @@ export interface ConfigurationAssignmentsForSubscriptionsCreateOrUpdateRequest {
   /** Configuration assignment name */
   configurationAssignmentName: string;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the configuration assignment */
-  properties?: ConfigurationAssignmentProperties;
+  properties?: ConfigurationAssignmentProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type ConfigurationAssignmentsForSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -398,31 +410,35 @@ export type ConfigurationAssignmentsForSubscriptionsCreateOrUpdateResponseSystem
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ConfigurationAssignmentsForSubscriptionsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ConfigurationAssignmentsForSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | ConfigurationAssignmentsForSubscriptionsCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ConfigurationAssignmentsForSubscriptionsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | ConfigurationAssignmentsForSubscriptionsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface ConfigurationAssignmentsForSubscriptionsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ConfigurationAssignmentsForSubscriptionsCreateOrUpdateResponseSystemData;
+  systemData?: ConfigurationAssignmentsForSubscriptionsCreateOrUpdateResponseSystemData | undefined;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the configuration assignment */
-  properties?: ConfigurationAssignmentProperties;
+  properties?: ConfigurationAssignmentProperties | undefined;
 }
 export interface DeleteConfigurationAssignmentRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -453,31 +469,33 @@ export type DeleteConfigurationAssignmentResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface DeleteConfigurationAssignmentResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: DeleteConfigurationAssignmentResponseSystemDataCreatedByType;
+  createdByType?: DeleteConfigurationAssignmentResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DeleteConfigurationAssignmentResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | DeleteConfigurationAssignmentResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface DeleteConfigurationAssignmentResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DeleteConfigurationAssignmentResponseSystemData;
+  systemData?: DeleteConfigurationAssignmentResponseSystemData | undefined;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the configuration assignment */
-  properties?: ConfigurationAssignmentProperties;
+  properties?: ConfigurationAssignmentProperties | undefined;
 }
 export interface DeleteConfigurationAssignmentParentRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -512,31 +530,33 @@ export type DeleteConfigurationAssignmentParentResponseSystemDataLastModifiedByT
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface DeleteConfigurationAssignmentParentResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: DeleteConfigurationAssignmentParentResponseSystemDataCreatedByType;
+  createdByType?: DeleteConfigurationAssignmentParentResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DeleteConfigurationAssignmentParentResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | DeleteConfigurationAssignmentParentResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface DeleteConfigurationAssignmentParentResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DeleteConfigurationAssignmentParentResponseSystemData;
+  systemData?: DeleteConfigurationAssignmentParentResponseSystemData | undefined;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the configuration assignment */
-  properties?: ConfigurationAssignmentProperties;
+  properties?: ConfigurationAssignmentProperties | undefined;
 }
 export interface DeleteConfigurationAssignmentsForResourceGroupRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -561,31 +581,35 @@ export type DeleteConfigurationAssignmentsForResourceGroupResponseSystemDataLast
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface DeleteConfigurationAssignmentsForResourceGroupResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: DeleteConfigurationAssignmentsForResourceGroupResponseSystemDataCreatedByType;
+  createdByType?:
+    | DeleteConfigurationAssignmentsForResourceGroupResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DeleteConfigurationAssignmentsForResourceGroupResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | DeleteConfigurationAssignmentsForResourceGroupResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface DeleteConfigurationAssignmentsForResourceGroupResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DeleteConfigurationAssignmentsForResourceGroupResponseSystemData;
+  systemData?: DeleteConfigurationAssignmentsForResourceGroupResponseSystemData | undefined;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the configuration assignment */
-  properties?: ConfigurationAssignmentProperties;
+  properties?: ConfigurationAssignmentProperties | undefined;
 }
 export interface DeleteConfigurationAssignmentsForSubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -608,31 +632,35 @@ export type DeleteConfigurationAssignmentsForSubscriptionResponseSystemDataLastM
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface DeleteConfigurationAssignmentsForSubscriptionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: DeleteConfigurationAssignmentsForSubscriptionResponseSystemDataCreatedByType;
+  createdByType?:
+    | DeleteConfigurationAssignmentsForSubscriptionResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DeleteConfigurationAssignmentsForSubscriptionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | DeleteConfigurationAssignmentsForSubscriptionResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface DeleteConfigurationAssignmentsForSubscriptionResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DeleteConfigurationAssignmentsForSubscriptionResponseSystemData;
+  systemData?: DeleteConfigurationAssignmentsForSubscriptionResponseSystemData | undefined;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the configuration assignment */
-  properties?: ConfigurationAssignmentProperties;
+  properties?: ConfigurationAssignmentProperties | undefined;
 }
 export interface DeleteMaintenanceConfigurationRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -657,17 +685,19 @@ export type DeleteMaintenanceConfigurationResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface DeleteMaintenanceConfigurationResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: DeleteMaintenanceConfigurationResponseSystemDataCreatedByType;
+  createdByType?: DeleteMaintenanceConfigurationResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DeleteMaintenanceConfigurationResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | DeleteMaintenanceConfigurationResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Gets or sets tags of the resource */
 export type DeleteMaintenanceConfigurationResponseTagsMap = { [key: string]: string | undefined };
@@ -687,15 +717,15 @@ export type MaintenanceConfigurationPropertiesMaintenanceScope =
 /** Definition of a MaintenanceWindow */
 export interface MaintenanceWindow {
   /** Effective start date of the maintenance window in YYYY-MM-DD hh:mm format. The start date can be set to either the current date or future date. The window will be created in the time zone provided and adjusted to daylight savings according to that time zone. */
-  startDateTime?: string;
+  startDateTime?: string | undefined;
   /** Effective expiration date of the maintenance window in YYYY-MM-DD hh:mm format. The window will be created in the time zone provided and adjusted to daylight savings according to that time zone. Expiration date must be set to a future date. If not provided, it will be set to the maximum datetime 9999-12-31 23:59:59. */
-  expirationDateTime?: string;
+  expirationDateTime?: string | undefined;
   /** Duration of the maintenance window in HH:mm format. If not provided, default value will be used based on maintenance scope provided. Example: 05:00. */
-  duration?: string;
+  duration?: string | undefined;
   /** Name of the timezone. List of timezones can be obtained by executing [System.TimeZoneInfo]::GetSystemTimeZones() in PowerShell. Example: Pacific Standard Time, UTC, W. Europe Standard Time, Korea Standard Time, Cen. Australia Standard Time. */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Rate at which a Maintenance window is expected to recur. The rate can be expressed as daily, weekly, or monthly schedules. Daily schedule are formatted as recurEvery: [Frequency as integer]['Day(s)']. If no frequency is provided, the default frequency is 1. Daily schedule examples are recurEvery: Day, recurEvery: 3Days. Weekly schedule are formatted as recurEvery: [Frequency as integer]['Week(s)'] [Optional comma separated list of weekdays Monday-Sunday]. Weekly schedule examples are recurEvery: 3Weeks, recurEvery: Week Saturday,Sunday. Monthly schedules are formatted as [Frequency as integer]['Month(s)'] [Comma separated list of month days] or [Frequency as integer]['Month(s)'] [Week of Month (First, Second, Third, Fourth, Last)] [Weekday Monday-Sunday] [Optional Offset(No. of days)]. Offset value must be between -6 to 6 inclusive. Monthly schedule examples are recurEvery: Month, recurEvery: 2Months, recurEvery: Month day23,day24, recurEvery: Month Last Sunday, recurEvery: Month Fourth Monday, recurEvery: Month Last Sunday Offset-3, recurEvery: Month Third Sunday Offset6. */
-  recurEvery?: string;
+  recurEvery?: string | undefined;
 }
 /** Gets or sets the visibility of the configuration. The default value is 'Custom' */
 export type MaintenanceConfigurationPropertiesVisibility = "Custom" | "Public";
@@ -710,13 +740,13 @@ export type InputWindowsParametersClassificationsToIncludeList = Array<string>;
 /** Input properties for patching a Windows machine. */
 export interface InputWindowsParameters {
   /** Windows KBID to be excluded for patching. */
-  kbNumbersToExclude?: InputWindowsParametersKbNumbersToExcludeList;
+  kbNumbersToExclude?: InputWindowsParametersKbNumbersToExcludeList | undefined;
   /** Windows KBID to be included for patching. */
-  kbNumbersToInclude?: InputWindowsParametersKbNumbersToIncludeList;
+  kbNumbersToInclude?: InputWindowsParametersKbNumbersToIncludeList | undefined;
   /** Classification category of patches to be patched. Allowed values are 'Critical', 'Security', 'UpdateRollup', 'FeaturePack', 'ServicePack', 'Definition', 'Tools', and 'Updates'. */
-  classificationsToInclude?: InputWindowsParametersClassificationsToIncludeList;
+  classificationsToInclude?: InputWindowsParametersClassificationsToIncludeList | undefined;
   /** Exclude patches which need reboot */
-  excludeKbsRequiringReboot?: boolean;
+  excludeKbsRequiringReboot?: boolean | undefined;
 }
 /** Package names to be excluded for patching. */
 export type InputLinuxParametersPackageNameMasksToExcludeList = Array<string>;
@@ -727,51 +757,51 @@ export type InputLinuxParametersClassificationsToIncludeList = Array<string>;
 /** Input properties for patching a Linux machine. */
 export interface InputLinuxParameters {
   /** Package names to be excluded for patching. */
-  packageNameMasksToExclude?: InputLinuxParametersPackageNameMasksToExcludeList;
+  packageNameMasksToExclude?: InputLinuxParametersPackageNameMasksToExcludeList | undefined;
   /** Package names to be included for patching. */
-  packageNameMasksToInclude?: InputLinuxParametersPackageNameMasksToIncludeList;
+  packageNameMasksToInclude?: InputLinuxParametersPackageNameMasksToIncludeList | undefined;
   /** Classification category of patches to be patched. Allowed values are 'Critical', 'Security', and 'Other'. */
-  classificationsToInclude?: InputLinuxParametersClassificationsToIncludeList;
+  classificationsToInclude?: InputLinuxParametersClassificationsToIncludeList | undefined;
 }
 /** Input configuration for a patch run */
 export interface InputPatchConfiguration {
   /** Possible reboot preference as defined by the user based on which it would be decided to reboot the machine or not after the patch operation is completed. */
-  rebootSetting?: InputPatchConfigurationRebootSetting | (string & {});
+  rebootSetting?: InputPatchConfigurationRebootSetting | (string & {}) | undefined;
   /** Input parameters specific to patching a Windows machine. For Linux machines, do not pass this property. */
-  windowsParameters?: InputWindowsParameters;
+  windowsParameters?: InputWindowsParameters | undefined;
   /** Input parameters specific to patching Linux machine. For Windows machines, do not pass this property. */
-  linuxParameters?: InputLinuxParameters;
+  linuxParameters?: InputLinuxParameters | undefined;
 }
 /** Properties for maintenance configuration */
 export interface MaintenanceConfigurationProperties {
   /** Gets or sets namespace of the resource */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Gets or sets extensionProperties of the maintenanceConfiguration */
-  extensionProperties?: MaintenanceConfigurationPropertiesExtensionPropertiesMap;
+  extensionProperties?: MaintenanceConfigurationPropertiesExtensionPropertiesMap | undefined;
   /** Gets or sets maintenanceScope of the configuration */
-  maintenanceScope?: MaintenanceConfigurationPropertiesMaintenanceScope | (string & {});
+  maintenanceScope?: MaintenanceConfigurationPropertiesMaintenanceScope | (string & {}) | undefined;
   /** Definition of a MaintenanceWindow */
-  maintenanceWindow?: MaintenanceWindow;
+  maintenanceWindow?: MaintenanceWindow | undefined;
   /** Gets or sets the visibility of the configuration. The default value is 'Custom' */
-  visibility?: MaintenanceConfigurationPropertiesVisibility | (string & {});
+  visibility?: MaintenanceConfigurationPropertiesVisibility | (string & {}) | undefined;
   /** The input parameters to be passed to the patch run operation. */
-  installPatches?: InputPatchConfiguration;
+  installPatches?: InputPatchConfiguration | undefined;
 }
 export interface DeleteMaintenanceConfigurationResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DeleteMaintenanceConfigurationResponseSystemData;
+  systemData?: DeleteMaintenanceConfigurationResponseSystemData | undefined;
   /** Gets or sets location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets tags of the resource */
-  tags?: DeleteMaintenanceConfigurationResponseTagsMap;
+  tags?: DeleteMaintenanceConfigurationResponseTagsMap | undefined;
   /** Gets or sets properties of the resource */
-  properties?: MaintenanceConfigurationProperties;
+  properties?: MaintenanceConfigurationProperties | undefined;
 }
 export interface GetApplyUpdateRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -802,29 +832,29 @@ export type GetApplyUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetApplyUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetApplyUpdateResponseSystemDataCreatedByType;
+  createdByType?: GetApplyUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetApplyUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetApplyUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetApplyUpdateResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetApplyUpdateResponseSystemData;
+  systemData?: GetApplyUpdateResponseSystemData | undefined;
   /** Properties of the apply update */
-  properties?: ApplyUpdateProperties;
+  properties?: ApplyUpdateProperties | undefined;
 }
 export interface GetApplyUpdateParentRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -859,29 +889,29 @@ export type GetApplyUpdateParentResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetApplyUpdateParentResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetApplyUpdateParentResponseSystemDataCreatedByType;
+  createdByType?: GetApplyUpdateParentResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetApplyUpdateParentResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetApplyUpdateParentResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetApplyUpdateParentResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetApplyUpdateParentResponseSystemData;
+  systemData?: GetApplyUpdateParentResponseSystemData | undefined;
   /** Properties of the apply update */
-  properties?: ApplyUpdateProperties;
+  properties?: ApplyUpdateProperties | undefined;
 }
 export interface GetConfigurationAssignmentRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -912,31 +942,31 @@ export type GetConfigurationAssignmentResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetConfigurationAssignmentResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetConfigurationAssignmentResponseSystemDataCreatedByType;
+  createdByType?: GetConfigurationAssignmentResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetConfigurationAssignmentResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetConfigurationAssignmentResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetConfigurationAssignmentResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetConfigurationAssignmentResponseSystemData;
+  systemData?: GetConfigurationAssignmentResponseSystemData | undefined;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the configuration assignment */
-  properties?: ConfigurationAssignmentProperties;
+  properties?: ConfigurationAssignmentProperties | undefined;
 }
 export interface GetConfigurationAssignmentParentRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -971,31 +1001,33 @@ export type GetConfigurationAssignmentParentResponseSystemDataLastModifiedByType
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetConfigurationAssignmentParentResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetConfigurationAssignmentParentResponseSystemDataCreatedByType;
+  createdByType?: GetConfigurationAssignmentParentResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetConfigurationAssignmentParentResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetConfigurationAssignmentParentResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetConfigurationAssignmentParentResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetConfigurationAssignmentParentResponseSystemData;
+  systemData?: GetConfigurationAssignmentParentResponseSystemData | undefined;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the configuration assignment */
-  properties?: ConfigurationAssignmentProperties;
+  properties?: ConfigurationAssignmentProperties | undefined;
 }
 export interface GetConfigurationAssignmentsForResourceGroupRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1020,31 +1052,35 @@ export type GetConfigurationAssignmentsForResourceGroupResponseSystemDataLastMod
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetConfigurationAssignmentsForResourceGroupResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetConfigurationAssignmentsForResourceGroupResponseSystemDataCreatedByType;
+  createdByType?:
+    | GetConfigurationAssignmentsForResourceGroupResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetConfigurationAssignmentsForResourceGroupResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetConfigurationAssignmentsForResourceGroupResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetConfigurationAssignmentsForResourceGroupResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetConfigurationAssignmentsForResourceGroupResponseSystemData;
+  systemData?: GetConfigurationAssignmentsForResourceGroupResponseSystemData | undefined;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the configuration assignment */
-  properties?: ConfigurationAssignmentProperties;
+  properties?: ConfigurationAssignmentProperties | undefined;
 }
 export interface GetConfigurationAssignmentsForSubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1067,31 +1103,35 @@ export type GetConfigurationAssignmentsForSubscriptionResponseSystemDataLastModi
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetConfigurationAssignmentsForSubscriptionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetConfigurationAssignmentsForSubscriptionResponseSystemDataCreatedByType;
+  createdByType?:
+    | GetConfigurationAssignmentsForSubscriptionResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetConfigurationAssignmentsForSubscriptionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetConfigurationAssignmentsForSubscriptionResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetConfigurationAssignmentsForSubscriptionResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetConfigurationAssignmentsForSubscriptionResponseSystemData;
+  systemData?: GetConfigurationAssignmentsForSubscriptionResponseSystemData | undefined;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the configuration assignment */
-  properties?: ConfigurationAssignmentProperties;
+  properties?: ConfigurationAssignmentProperties | undefined;
 }
 export interface GetMaintenanceConfigurationRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1116,35 +1156,35 @@ export type GetMaintenanceConfigurationResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetMaintenanceConfigurationResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetMaintenanceConfigurationResponseSystemDataCreatedByType;
+  createdByType?: GetMaintenanceConfigurationResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetMaintenanceConfigurationResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetMaintenanceConfigurationResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Gets or sets tags of the resource */
 export type GetMaintenanceConfigurationResponseTagsMap = { [key: string]: string | undefined };
 export interface GetMaintenanceConfigurationResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetMaintenanceConfigurationResponseSystemData;
+  systemData?: GetMaintenanceConfigurationResponseSystemData | undefined;
   /** Gets or sets location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets tags of the resource */
-  tags?: GetMaintenanceConfigurationResponseTagsMap;
+  tags?: GetMaintenanceConfigurationResponseTagsMap | undefined;
   /** Gets or sets properties of the resource */
-  properties?: MaintenanceConfigurationProperties;
+  properties?: MaintenanceConfigurationProperties | undefined;
 }
 export interface GetPublicMaintenanceConfigurationRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1167,17 +1207,19 @@ export type GetPublicMaintenanceConfigurationResponseSystemDataLastModifiedByTyp
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetPublicMaintenanceConfigurationResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetPublicMaintenanceConfigurationResponseSystemDataCreatedByType;
+  createdByType?: GetPublicMaintenanceConfigurationResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetPublicMaintenanceConfigurationResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetPublicMaintenanceConfigurationResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Gets or sets tags of the resource */
 export type GetPublicMaintenanceConfigurationResponseTagsMap = {
@@ -1185,19 +1227,19 @@ export type GetPublicMaintenanceConfigurationResponseTagsMap = {
 };
 export interface GetPublicMaintenanceConfigurationResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetPublicMaintenanceConfigurationResponseSystemData;
+  systemData?: GetPublicMaintenanceConfigurationResponseSystemData | undefined;
   /** Gets or sets location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets tags of the resource */
-  tags?: GetPublicMaintenanceConfigurationResponseTagsMap;
+  tags?: GetPublicMaintenanceConfigurationResponseTagsMap | undefined;
   /** Gets or sets properties of the resource */
-  properties?: MaintenanceConfigurationProperties;
+  properties?: MaintenanceConfigurationProperties | undefined;
 }
 export interface ListConfigurationAssignmentParentRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1230,39 +1272,39 @@ export type ConfigurationAssignmentSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ConfigurationAssignmentSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ConfigurationAssignmentSystemDataCreatedByType;
+  createdByType?: ConfigurationAssignmentSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ConfigurationAssignmentSystemDataLastModifiedByType;
+  lastModifiedByType?: ConfigurationAssignmentSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Configuration Assignment */
 export interface ConfigurationAssignment {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ConfigurationAssignmentSystemData;
+  systemData?: ConfigurationAssignmentSystemData | undefined;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the configuration assignment */
-  properties?: ConfigurationAssignmentProperties;
+  properties?: ConfigurationAssignmentProperties | undefined;
 }
 /** The list of configuration Assignments */
 export type ListConfigurationAssignmentsResultValueList = Array<ConfigurationAssignment>;
 /** Response for ConfigurationAssignments list */
 export interface ListConfigurationAssignmentsResult {
   /** The list of configuration Assignments */
-  value?: ListConfigurationAssignmentsResultValueList;
+  value?: ListConfigurationAssignmentsResultValueList | undefined;
 }
 export interface ListConfigurationAssignmentsRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1299,43 +1341,43 @@ export type MaintenanceConfigurationSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface MaintenanceConfigurationSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: MaintenanceConfigurationSystemDataCreatedByType;
+  createdByType?: MaintenanceConfigurationSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: MaintenanceConfigurationSystemDataLastModifiedByType;
+  lastModifiedByType?: MaintenanceConfigurationSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Gets or sets tags of the resource */
 export type MaintenanceConfigurationTagsMap = { [key: string]: string | undefined };
 /** Maintenance configuration record type */
 export interface MaintenanceConfiguration {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: MaintenanceConfigurationSystemData;
+  systemData?: MaintenanceConfigurationSystemData | undefined;
   /** Gets or sets location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets tags of the resource */
-  tags?: MaintenanceConfigurationTagsMap;
+  tags?: MaintenanceConfigurationTagsMap | undefined;
   /** Gets or sets properties of the resource */
-  properties?: MaintenanceConfigurationProperties;
+  properties?: MaintenanceConfigurationProperties | undefined;
 }
 /** The list of maintenance Configurations */
 export type ListMaintenanceConfigurationsResultValueList = Array<MaintenanceConfiguration>;
 /** Response for MaintenanceConfigurations list */
 export interface ListMaintenanceConfigurationsResult {
   /** The list of maintenance Configurations */
-  value?: ListMaintenanceConfigurationsResultValueList;
+  value?: ListMaintenanceConfigurationsResultValueList | undefined;
 }
 export interface ListMaintenanceConfigurationsForResourceGroupRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1347,33 +1389,33 @@ export interface ListOperationsRequest {}
 /** Information about an operation */
 export interface OperationInfo {
   /** Name of the provider */
-  provider?: string;
+  provider?: string | undefined;
   /** Name of the resource type */
-  resource?: string;
+  resource?: string | undefined;
   /** Name of the operation */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** Represents an operation returned by the GetOperations request */
 export interface Operation {
   /** Name of the operation */
-  name?: string;
+  name?: string | undefined;
   /** Display name of the operation */
-  display?: OperationInfo;
+  display?: OperationInfo | undefined;
   /** Origin of the operation */
-  origin?: string;
+  origin?: string | undefined;
   /** Properties of the operation */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
 }
 /** A collection of operations */
 export type OperationsListResultValueList = Array<Operation>;
 /** Result of the List Operations operation */
 export interface OperationsListResult {
   /** A collection of operations */
-  value?: OperationsListResultValueList;
+  value?: OperationsListResultValueList | undefined;
 }
 export interface ListPublicMaintenanceConfigurationsRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1411,29 +1453,29 @@ export type UpdateStatus = "Pending" | "InProgress" | "Completed" | "RetryNow" |
 /** Properties for update */
 export interface UpdateProperties {
   /** The resourceId */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 /** Maintenance update on a resource */
 export interface Update {
   /** The impact area */
-  maintenanceScope?: UpdateMaintenanceScope;
+  maintenanceScope?: UpdateMaintenanceScope | undefined;
   /** The impact type */
-  impactType?: UpdateImpactType;
+  impactType?: UpdateImpactType | undefined;
   /** The status */
-  status?: UpdateStatus;
+  status?: UpdateStatus | undefined;
   /** Duration of impact in seconds */
-  impactDurationInSec?: number;
+  impactDurationInSec?: number | undefined;
   /** Time when Azure will start force updates if not self-updated by customer before this time */
-  notBefore?: string;
+  notBefore?: string | undefined;
   /** Properties of the apply update */
-  properties?: UpdateProperties;
+  properties?: UpdateProperties | undefined;
 }
 /** The pending updates */
 export type ListUpdatesResultValueList = Array<Update>;
 /** Response for Updates list */
 export interface ListUpdatesResult {
   /** The pending updates */
-  value?: ListUpdatesResultValueList;
+  value?: ListUpdatesResultValueList | undefined;
 }
 export interface ListUpdatesRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1459,11 +1501,11 @@ export interface MaintenanceConfigurationsCreateOrUpdateRequest {
   /** Maintenance Configuration Name */
   resourceName: string;
   /** Gets or sets location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets tags of the resource */
-  tags?: MaintenanceConfigurationsCreateOrUpdateRequestTagsMap;
+  tags?: MaintenanceConfigurationsCreateOrUpdateRequestTagsMap | undefined;
   /** Gets or sets properties of the resource */
-  properties?: MaintenanceConfigurationProperties;
+  properties?: MaintenanceConfigurationProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type MaintenanceConfigurationsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -1480,17 +1522,21 @@ export type MaintenanceConfigurationsCreateOrUpdateResponseSystemDataLastModifie
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface MaintenanceConfigurationsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: MaintenanceConfigurationsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | MaintenanceConfigurationsCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: MaintenanceConfigurationsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | MaintenanceConfigurationsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Gets or sets tags of the resource */
 export type MaintenanceConfigurationsCreateOrUpdateResponseTagsMap = {
@@ -1498,19 +1544,19 @@ export type MaintenanceConfigurationsCreateOrUpdateResponseTagsMap = {
 };
 export interface MaintenanceConfigurationsCreateOrUpdateResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: MaintenanceConfigurationsCreateOrUpdateResponseSystemData;
+  systemData?: MaintenanceConfigurationsCreateOrUpdateResponseSystemData | undefined;
   /** Gets or sets location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets tags of the resource */
-  tags?: MaintenanceConfigurationsCreateOrUpdateResponseTagsMap;
+  tags?: MaintenanceConfigurationsCreateOrUpdateResponseTagsMap | undefined;
   /** Gets or sets properties of the resource */
-  properties?: MaintenanceConfigurationProperties;
+  properties?: MaintenanceConfigurationProperties | undefined;
 }
 export interface UpdateConfigurationAssignmentsForResourceGroupRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1520,9 +1566,9 @@ export interface UpdateConfigurationAssignmentsForResourceGroupRequest {
   /** Configuration assignment name */
   configurationAssignmentName: string;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the configuration assignment */
-  properties?: ConfigurationAssignmentProperties;
+  properties?: ConfigurationAssignmentProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdateConfigurationAssignmentsForResourceGroupResponseSystemDataCreatedByType =
@@ -1539,31 +1585,35 @@ export type UpdateConfigurationAssignmentsForResourceGroupResponseSystemDataLast
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateConfigurationAssignmentsForResourceGroupResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateConfigurationAssignmentsForResourceGroupResponseSystemDataCreatedByType;
+  createdByType?:
+    | UpdateConfigurationAssignmentsForResourceGroupResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateConfigurationAssignmentsForResourceGroupResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | UpdateConfigurationAssignmentsForResourceGroupResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateConfigurationAssignmentsForResourceGroupResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateConfigurationAssignmentsForResourceGroupResponseSystemData;
+  systemData?: UpdateConfigurationAssignmentsForResourceGroupResponseSystemData | undefined;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the configuration assignment */
-  properties?: ConfigurationAssignmentProperties;
+  properties?: ConfigurationAssignmentProperties | undefined;
 }
 export interface UpdateConfigurationAssignmentsForSubscriptionRequest {
   /** Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -1571,9 +1621,9 @@ export interface UpdateConfigurationAssignmentsForSubscriptionRequest {
   /** Configuration assignment name */
   configurationAssignmentName: string;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the configuration assignment */
-  properties?: ConfigurationAssignmentProperties;
+  properties?: ConfigurationAssignmentProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdateConfigurationAssignmentsForSubscriptionResponseSystemDataCreatedByType =
@@ -1590,31 +1640,35 @@ export type UpdateConfigurationAssignmentsForSubscriptionResponseSystemDataLastM
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateConfigurationAssignmentsForSubscriptionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateConfigurationAssignmentsForSubscriptionResponseSystemDataCreatedByType;
+  createdByType?:
+    | UpdateConfigurationAssignmentsForSubscriptionResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateConfigurationAssignmentsForSubscriptionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | UpdateConfigurationAssignmentsForSubscriptionResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateConfigurationAssignmentsForSubscriptionResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateConfigurationAssignmentsForSubscriptionResponseSystemData;
+  systemData?: UpdateConfigurationAssignmentsForSubscriptionResponseSystemData | undefined;
   /** Location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Properties of the configuration assignment */
-  properties?: ConfigurationAssignmentProperties;
+  properties?: ConfigurationAssignmentProperties | undefined;
 }
 /** Gets or sets tags of the resource */
 export type UpdateMaintenanceConfigurationRequestTagsMap = { [key: string]: string | undefined };
@@ -1626,11 +1680,11 @@ export interface UpdateMaintenanceConfigurationRequest {
   /** Maintenance Configuration Name */
   resourceName: string;
   /** Gets or sets location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets tags of the resource */
-  tags?: UpdateMaintenanceConfigurationRequestTagsMap;
+  tags?: UpdateMaintenanceConfigurationRequestTagsMap | undefined;
   /** Gets or sets properties of the resource */
-  properties?: MaintenanceConfigurationProperties;
+  properties?: MaintenanceConfigurationProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdateMaintenanceConfigurationResponseSystemDataCreatedByType =
@@ -1647,35 +1701,37 @@ export type UpdateMaintenanceConfigurationResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateMaintenanceConfigurationResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateMaintenanceConfigurationResponseSystemDataCreatedByType;
+  createdByType?: UpdateMaintenanceConfigurationResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateMaintenanceConfigurationResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | UpdateMaintenanceConfigurationResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Gets or sets tags of the resource */
 export type UpdateMaintenanceConfigurationResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateMaintenanceConfigurationResponse {
   /** Fully qualified identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of the resource */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateMaintenanceConfigurationResponseSystemData;
+  systemData?: UpdateMaintenanceConfigurationResponseSystemData | undefined;
   /** Gets or sets location of the resource */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets tags of the resource */
-  tags?: UpdateMaintenanceConfigurationResponseTagsMap;
+  tags?: UpdateMaintenanceConfigurationResponseTagsMap | undefined;
   /** Gets or sets properties of the resource */
-  properties?: MaintenanceConfigurationProperties;
+  properties?: MaintenanceConfigurationProperties | undefined;
 }
 export type ApplyUpdatesCreateOrUpdateError = AzureOpError;
 /** Apply Updates to resource Apply maintenance updates to resource */

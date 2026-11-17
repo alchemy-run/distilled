@@ -30,11 +30,11 @@ export type ValidateBlockRequestBlocksCase1List = Array<ValidateBlockRequestBloc
 export type ValidateBlockRequestBlocks = string | ValidateBlockRequestBlocksCase1List;
 export interface ValidateBlockRequest {
   /** A JSON-encoded array of [structured blocks](/reference/block-kit/blocks). Provide exactly one of `blocks`, `view`, or `message`. */
-  blocks?: ValidateBlockRequestBlocks;
+  blocks?: ValidateBlockRequestBlocks | undefined;
   /** A JSON-encoded [message payload](/messaging/creating-interactive-messages) to validate. Provide exactly one of `blocks`, `view`, or `message`. */
-  message?: string;
+  message?: string | undefined;
   /** A JSON-encoded [view payload](/reference/views) to validate. Provide exactly one of `blocks`, `view`, or `message`. */
-  view?: string;
+  view?: string | undefined;
 }
 export interface ValidateBlockResponse {
   /** Always `true` (a failed call raises a typed error instead). */

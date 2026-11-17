@@ -35,6 +35,8 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -44,6 +46,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -54,8 +58,8 @@ export interface AddDatabaseNameRequest {
   body: string | Uint8Array | Blob;
 }
 export interface AddDatabaseNameResponseSuccess {
-  domain?: string;
-  database_result?: string;
+  domain?: string | undefined;
+  database_result?: string | undefined;
 }
 export interface AddDatabaseNameResponse {
   Success: AddDatabaseNameResponseSuccess;
@@ -124,9 +128,9 @@ export interface GetDatabaseLogsRequest {
   /** Database name or Spacetime identity. */
   name_or_identity: string;
   /** Number of most-recent log lines to retrieve. */
-  num_lines?: number;
+  num_lines?: number | undefined;
   /** Whether to continue receiving new logs via a stream. */
-  follow?: boolean;
+  follow?: boolean | undefined;
 }
 export type GetDatabaseLogsResponse = string;
 export interface GetDatabaseNamesRequest {
@@ -141,7 +145,7 @@ export interface GetDatabaseSchemaRequest {
   /** Database name or Spacetime identity. */
   name_or_identity: string;
   /** The version of RawModuleDef to return, e.g. 9. */
-  version?: number;
+  version?: number | undefined;
 }
 export type GetDatabaseSchemaResponseBodyMap = { [key: string]: unknown | undefined };
 export type GetDatabaseSchemaResponse = GetDatabaseSchemaResponseBodyMap;
@@ -184,12 +188,12 @@ export interface UpdateDatabaseRequest {
   /** Database name or Spacetime identity. */
   name_or_identity: string;
   /** Whether to clear any existing data when updating an existing database. */
-  clear?: boolean;
+  clear?: boolean | undefined;
   body: string | Uint8Array | Blob;
 }
 export type UpdateDatabaseResponseSuccessOp = "created" | "updated";
 export interface UpdateDatabaseResponseSuccess {
-  domain?: string | null;
+  domain?: string | null | undefined;
   database_identity: string;
   op: UpdateDatabaseResponseSuccessOp;
 }

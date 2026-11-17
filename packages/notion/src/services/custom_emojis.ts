@@ -25,9 +25,9 @@ const TELEMETRY = {
 } as const;
 
 export interface ListCustomEmojisRequest {
-  start_cursor?: string;
-  page_size?: number;
-  name?: string;
+  start_cursor?: string | undefined;
+  page_size?: number | undefined;
+  name?: string | undefined;
 }
 export interface CustomEmojiResponse {
   /** The ID of the custom emoji. */

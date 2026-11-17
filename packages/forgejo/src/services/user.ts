@@ -30,36 +30,68 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIError | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIForbiddenError | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(256, __c16, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: APINotFound | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIValidationError | APIError | string;
+}
 
 export interface CreateUserVariableRequest {
   /** name of the variable */
@@ -84,7 +116,7 @@ export interface DeleteUserVariableRequest {
 }
 export interface DeleteUserVariableResponse {}
 export interface FollowUserCurrentActivityPubRequest {
-  target?: string;
+  target?: string | undefined;
 }
 export interface FollowUserCurrentActivityPubResponse {}
 export interface GetUserRequest {
@@ -94,46 +126,46 @@ export interface GetUserRequest {
 /** User represents a user */
 export interface User {
   /** Is user active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** URL to the user's avatar */
-  avatar_url?: string;
-  created?: string;
+  avatar_url?: string | undefined;
+  created?: string | undefined;
   /** the user's description */
-  description?: string;
-  email?: string;
+  description?: string | undefined;
+  email?: string | undefined;
   /** user counts */
-  followers_count?: number;
-  following_count?: number;
+  followers_count?: number | undefined;
+  following_count?: number | undefined;
   /** the user's full name */
-  full_name?: string;
+  full_name?: string | undefined;
   /** URL to the user's profile page */
-  html_url?: string;
+  html_url?: string | undefined;
   /** the user's id */
   id: number;
   /** Is the user an administrator */
-  is_admin?: boolean;
+  is_admin?: boolean | undefined;
   /** User locale */
-  language?: string;
-  last_login?: string;
+  language?: string | undefined;
+  last_login?: string | undefined;
   /** the user's location */
-  location?: string;
+  location?: string | undefined;
   /** the user's username */
   login: string;
   /** the user's authentication sign-in name. */
-  login_name?: string;
+  login_name?: string | undefined;
   /** Is user login prohibited */
-  prohibit_login?: boolean;
+  prohibit_login?: boolean | undefined;
   /** the user's pronouns */
-  pronouns?: string;
+  pronouns?: string | undefined;
   /** Is user restricted */
-  restricted?: boolean;
+  restricted?: boolean | undefined;
   /** The ID of the user's Authentication Source */
-  source_id?: number;
-  starred_repos_count?: number;
+  source_id?: number | undefined;
+  starred_repos_count?: number | undefined;
   /** User visibility level option: public, limited, private */
-  visibility?: string;
+  visibility?: string | undefined;
   /** the user's website */
-  website?: string;
+  website?: string | undefined;
 }
 export interface GetUserRunnerRequest {
   /** ID of the runner */
@@ -146,52 +178,52 @@ export type ActionRunnerStatus = "offline" | "idle" | "active";
 /** ActionRunner represents a runner */
 export interface ActionRunner {
   /** Description provides optional details about this runner. */
-  description?: string;
+  description?: string | undefined;
   /** Indicates if runner is ephemeral runner */
-  ephemeral?: boolean;
+  ephemeral?: boolean | undefined;
   /** ID uniquely identifies this runner. */
-  id?: number;
+  id?: number | undefined;
   /** Labels is a list of labels attached to this runner. */
-  labels?: ActionRunnerLabelsList;
+  labels?: ActionRunnerLabelsList | undefined;
   /** Name of the runner; not unique. */
-  name?: string;
+  name?: string | undefined;
   /** OwnerID is the identifier of the user or organization this runner belongs to. O if the runner is owned by a repository. */
-  owner_id?: number;
+  owner_id?: number | undefined;
   /** RepoID is the identifier of the repository this runner belongs to. 0 if the runner belongs to a user or organization. */
-  repo_id?: number;
+  repo_id?: number | undefined;
   /** Status indicates whether this runner is offline, or active, for example. */
-  status?: ActionRunnerStatus;
+  status?: ActionRunnerStatus | undefined;
   /** UUID uniquely identifies this runner. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Version is the self-reported version string of Forgejo Runner. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetUserRunnersRequest {
   /** whether to include all visible runners (true) or only those that are directly owned by the user (false) */
-  visible?: boolean;
+  visible?: boolean | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type GetUserRunnersResponseBodyList = Array<ActionRunner>;
 export type GetUserRunnersResponse = GetUserRunnersResponseBodyList;
 export interface GetUserSettingsRequest {}
 /** UserSettings represents user settings */
 export interface UserSettings {
-  description?: string;
-  diff_view_style?: string;
-  enable_repo_unit_hints?: boolean;
-  full_name?: string;
-  hide_activity?: boolean;
+  description?: string | undefined;
+  diff_view_style?: string | undefined;
+  enable_repo_unit_hints?: boolean | undefined;
+  full_name?: string | undefined;
+  hide_activity?: boolean | undefined;
   /** Privacy */
-  hide_email?: boolean;
-  hide_pronouns?: boolean;
-  language?: string;
-  location?: string;
-  pronouns?: string;
-  theme?: string;
-  website?: string;
+  hide_email?: boolean | undefined;
+  hide_pronouns?: boolean | undefined;
+  language?: string | undefined;
+  location?: string | undefined;
+  pronouns?: string | undefined;
+  theme?: string | undefined;
+  website?: string | undefined;
 }
 export interface GetUserVariableRequest {
   /** name of the variable */
@@ -204,15 +236,15 @@ export interface ActionVariable {
   /** the name of the variable */
   name: string;
   /** the owner to which the variable belongs */
-  owner_id?: number;
+  owner_id?: number | undefined;
   /** the repository to which the variable belongs */
-  repo_id?: number;
+  repo_id?: number | undefined;
 }
 export interface GetUserVariablesListRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type GetUserVariablesListResponseBodyList = Array<ActionVariable>;
 export type GetUserVariablesListResponse = GetUserVariablesListResponseBodyList;
@@ -220,16 +252,16 @@ export interface GetVerificationTokenRequest {}
 export type GetVerificationTokenResponse = string;
 export interface RegisterUserRunnerRequest {
   /** Description of the runner to register. */
-  description?: string;
+  description?: string | undefined;
   /** Register as ephemeral runner https://forgejo.org/docs/latest/admin/actions/security/#ephemeral-runner */
-  ephemeral?: boolean;
+  ephemeral?: boolean | undefined;
   /** Name of the runner to register. The name of the runner does not have to be unique. */
   name: string;
 }
 export interface RegisterRunnerResponse {
-  id?: number;
-  token?: string;
-  uuid?: string;
+  id?: number | undefined;
+  token?: string | undefined;
+  uuid?: string | undefined;
 }
 export type SearchUserRequestSort =
   | "oldest"
@@ -240,20 +272,20 @@ export type SearchUserRequestSort =
   | "leastupdate";
 export interface SearchUserRequest {
   /** keyword */
-  q?: string;
+  q?: string | undefined;
   /** ID of the user to search for */
-  uid?: number;
+  uid?: number | undefined;
   /** sort order of results */
-  sort?: SearchUserRequestSort | (string & {});
+  sort?: SearchUserRequestSort | (string & {}) | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type SearchUserResponseDataList = Array<User>;
 export interface SearchUserResponse {
-  data?: SearchUserResponseDataList;
-  ok?: boolean;
+  data?: SearchUserResponseDataList | undefined;
+  ok?: boolean | undefined;
 }
 export interface UnblockUserRequest {
   /** username of the user */
@@ -268,25 +300,25 @@ export interface UpdateUserSecretRequest {
 }
 export interface UpdateUserSecretResponse {}
 export interface UpdateUserSettingsRequest {
-  description?: string;
-  diff_view_style?: string;
-  enable_repo_unit_hints?: boolean;
-  full_name?: string;
-  hide_activity?: boolean;
+  description?: string | undefined;
+  diff_view_style?: string | undefined;
+  enable_repo_unit_hints?: boolean | undefined;
+  full_name?: string | undefined;
+  hide_activity?: boolean | undefined;
   /** Privacy */
-  hide_email?: boolean;
-  hide_pronouns?: boolean;
-  language?: string;
-  location?: string;
-  pronouns?: string;
-  theme?: string;
-  website?: string;
+  hide_email?: boolean | undefined;
+  hide_pronouns?: boolean | undefined;
+  language?: string | undefined;
+  location?: string | undefined;
+  pronouns?: string | undefined;
+  theme?: string | undefined;
+  website?: string | undefined;
 }
 export interface UpdateUserVariableRequest {
   /** name of the variable */
   variablename: string;
   /** New name for the variable. If the field is empty, the variable name won't be updated. Forgejo will convert it to uppercase. */
-  name?: string;
+  name?: string | undefined;
   /** Value of the variable to update. Special characters will be retained. Line endings will be normalized to LF to match the behaviour of browsers. Encode the data with Base64 if line endings should be retained. */
   value: string;
 }
@@ -295,15 +327,15 @@ export interface UpdateUserVariableResponse {}
 export type UserAddEmailRequestEmailsList = Array<string>;
 export interface UserAddEmailRequest {
   /** email addresses to add */
-  emails?: UserAddEmailRequestEmailsList;
+  emails?: UserAddEmailRequestEmailsList | undefined;
 }
 /** Email an email address belonging to a user */
 export interface Email {
-  email?: string;
-  primary?: boolean;
-  user_id?: number;
-  username?: string;
-  verified?: boolean;
+  email?: string | undefined;
+  primary?: boolean | undefined;
+  user_id?: number | undefined;
+  username?: string | undefined;
+  verified?: boolean | undefined;
 }
 export type UserAddEmailResponseBodyList = Array<Email>;
 export type UserAddEmailResponse = UserAddEmailResponseBodyList;
@@ -340,11 +372,11 @@ export type UserCreateHookRequestType =
   | "wechatwork"
   | "packagist";
 export interface UserCreateHookRequest {
-  active?: boolean;
-  authorization_header?: string;
-  branch_filter?: string;
+  active?: boolean | undefined;
+  authorization_header?: string | undefined;
+  branch_filter?: string | undefined;
   config: CreateHookOptionConfig;
-  events?: UserCreateHookRequestEventsList;
+  events?: UserCreateHookRequestEventsList | undefined;
   type: UserCreateHookRequestType | (string & {});
 }
 /** Deprecated: use Metadata instead */
@@ -353,34 +385,34 @@ export type HookEventsList = Array<string>;
 /** Hook a hook is a web hook when one repository changed */
 export interface Hook {
   active: boolean;
-  authorization_header?: string;
-  branch_filter?: string;
+  authorization_header?: string | undefined;
+  branch_filter?: string | undefined;
   /** Deprecated: use Metadata instead */
-  config?: HookConfigMap;
-  content_type?: string;
+  config?: HookConfigMap | undefined;
+  content_type?: string | undefined;
   created_at: string;
-  events?: HookEventsList;
+  events?: HookEventsList | undefined;
   id: number;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   type: string;
   updated_at: string;
   url: string;
 }
 export type UserCreateOAuth2ApplicationRequestRedirectUrisList = Array<string>;
 export interface UserCreateOAuth2ApplicationRequest {
-  confidential_client?: boolean;
-  name?: string;
-  redirect_uris?: UserCreateOAuth2ApplicationRequestRedirectUrisList;
+  confidential_client?: boolean | undefined;
+  name?: string | undefined;
+  redirect_uris?: UserCreateOAuth2ApplicationRequestRedirectUrisList | undefined;
 }
 export type OAuth2ApplicationRedirectUrisList = Array<string>;
 export interface OAuth2Application {
-  client_id?: string;
-  client_secret?: string | Redacted.Redacted<string>;
-  confidential_client?: boolean;
-  created?: string;
-  id?: number;
-  name?: string;
-  redirect_uris?: OAuth2ApplicationRedirectUrisList;
+  client_id?: string | undefined;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  confidential_client?: boolean | undefined;
+  created?: string | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
+  redirect_uris?: OAuth2ApplicationRedirectUrisList | undefined;
 }
 export interface RepoTargetOption {
   /** Name of repository */
@@ -396,15 +428,15 @@ export interface UserCreateTokenRequest {
   username: string;
   name: string;
   /** If provided and not-empty, creates an access token with access only to specified repositories. */
-  repositories?: UserCreateTokenRequestRepositoriesList;
-  scopes?: UserCreateTokenRequestScopesList;
+  repositories?: UserCreateTokenRequestRepositoriesList | undefined;
+  scopes?: UserCreateTokenRequestScopesList | undefined;
 }
 /** RepositoryMeta basic repository information */
 export interface RepositoryMeta {
-  full_name?: string;
-  id?: number;
-  name?: string;
-  owner?: string;
+  full_name?: string | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
+  owner?: string | undefined;
 }
 /** Indicates that an access token only has access to the specified repositories. Will be null if the access token is not limited to a set of specified repositories. */
 export type AccessTokenRepositoriesList = Array<RepositoryMeta>;
@@ -414,9 +446,9 @@ export interface AccessToken {
   id: number;
   name: string;
   /** Indicates that an access token only has access to the specified repositories. Will be null if the access token is not limited to a set of specified repositories. */
-  repositories?: AccessTokenRepositoriesList;
-  scopes?: AccessTokenScopesList;
-  sha1?: string | Redacted.Redacted<string>;
+  repositories?: AccessTokenRepositoriesList | undefined;
+  scopes?: AccessTokenScopesList | undefined;
+  sha1?: string | Redacted.Redacted<string> | undefined;
   token_last_eight: string;
 }
 export interface UserCurrentCheckFollowingRequest {
@@ -459,26 +491,26 @@ export interface UserCurrentGetGPGKeyRequest {
 }
 /** GPGKeyEmail an email attached to a GPGKey */
 export interface GPGKeyEmail {
-  email?: string;
-  verified?: boolean;
+  email?: string | undefined;
+  verified?: boolean | undefined;
 }
 export type GPGKeyEmailsList = Array<GPGKeyEmail>;
 export type GPGKeySubkeysList = Array<GPGKey>;
 /** GPGKey a user GPG key to sign commit and tag in repository */
 export interface GPGKey {
-  can_certify?: boolean;
-  can_encrypt_comms?: boolean;
-  can_encrypt_storage?: boolean;
-  can_sign?: boolean;
-  created_at?: string;
-  emails?: GPGKeyEmailsList;
-  expires_at?: string;
-  id?: number;
-  key_id?: string;
-  primary_key_id?: string;
-  public_key?: string;
-  subkeys?: GPGKeySubkeysList;
-  verified?: boolean;
+  can_certify?: boolean | undefined;
+  can_encrypt_comms?: boolean | undefined;
+  can_encrypt_storage?: boolean | undefined;
+  can_sign?: boolean | undefined;
+  created_at?: string | undefined;
+  emails?: GPGKeyEmailsList | undefined;
+  expires_at?: string | undefined;
+  id?: number | undefined;
+  key_id?: string | undefined;
+  primary_key_id?: string | undefined;
+  public_key?: string | undefined;
+  subkeys?: GPGKeySubkeysList | undefined;
+  verified?: boolean | undefined;
 }
 export interface UserCurrentGetKeyRequest {
   /** id of key to get */
@@ -486,49 +518,49 @@ export interface UserCurrentGetKeyRequest {
 }
 /** PublicKey publickey is a user key to push code to repository */
 export interface PublicKey {
-  created_at?: string;
-  fingerprint?: string;
-  id?: number;
-  key?: string;
-  key_type?: string;
-  read_only?: boolean;
-  title?: string;
-  updated_at?: string;
-  url?: string;
-  user?: User;
-  verified?: boolean;
+  created_at?: string | undefined;
+  fingerprint?: string | undefined;
+  id?: number | undefined;
+  key?: string | undefined;
+  key_type?: string | undefined;
+  read_only?: boolean | undefined;
+  title?: string | undefined;
+  updated_at?: string | undefined;
+  url?: string | undefined;
+  user?: User | undefined;
+  verified?: boolean | undefined;
 }
 export interface UserCurrentListFollowersRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type UserCurrentListFollowersResponseBodyList = Array<User>;
 export type UserCurrentListFollowersResponse = UserCurrentListFollowersResponseBodyList;
 export interface UserCurrentListFollowingRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type UserCurrentListFollowingResponseBodyList = Array<User>;
 export type UserCurrentListFollowingResponse = UserCurrentListFollowingResponseBodyList;
 export interface UserCurrentListGPGKeysRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type UserCurrentListGPGKeysResponseBodyList = Array<GPGKey>;
 export type UserCurrentListGPGKeysResponse = UserCurrentListGPGKeysResponseBodyList;
 export interface UserCurrentListKeysRequest {
   /** fingerprint of the key */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type UserCurrentListKeysResponseBodyList = Array<PublicKey>;
 export type UserCurrentListKeysResponse = UserCurrentListKeysResponseBodyList;
@@ -553,184 +585,184 @@ export type UserCurrentListReposRequestOrderBy =
   | "fewestforks";
 export interface UserCurrentListReposRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
   /** order the repositories */
-  order_by?: UserCurrentListReposRequestOrderBy | (string & {});
+  order_by?: UserCurrentListReposRequestOrderBy | (string & {}) | undefined;
 }
 /** ExternalTracker represents settings for external tracker */
 export interface ExternalTracker {
   /** External Issue Tracker URL Format. Use the placeholders {user}, {repo} and {index} for the username, repository name and issue index. */
-  external_tracker_format?: string;
+  external_tracker_format?: string | undefined;
   /** External Issue Tracker issue regular expression */
-  external_tracker_regexp_pattern?: string;
+  external_tracker_regexp_pattern?: string | undefined;
   /** External Issue Tracker Number Format, either `numeric`, `alphanumeric`, or `regexp` */
-  external_tracker_style?: string;
+  external_tracker_style?: string | undefined;
   /** URL of external issue tracker. */
-  external_tracker_url?: string;
+  external_tracker_url?: string | undefined;
 }
 /** ExternalWiki represents setting for external wiki */
 export interface ExternalWiki {
   /** URL of external wiki. */
-  external_wiki_url?: string;
+  external_wiki_url?: string | undefined;
 }
 /** InternalTracker represents settings for internal tracker */
 export interface InternalTracker {
   /** Let only contributors track time (Built-in issue tracker) */
-  allow_only_contributors_to_track_time?: boolean;
+  allow_only_contributors_to_track_time?: boolean | undefined;
   /** Enable dependencies for issues and pull requests (Built-in issue tracker) */
-  enable_issue_dependencies?: boolean;
+  enable_issue_dependencies?: boolean | undefined;
   /** Enable time tracking (Built-in issue tracker) */
-  enable_time_tracker?: boolean;
+  enable_time_tracker?: boolean | undefined;
 }
 /** ObjectFormatName of the underlying git repository */
 export type RepositoryObjectFormatName = "sha1" | "sha256";
 /** Permission represents a set of permissions */
 export interface Permission {
-  admin?: boolean;
-  pull?: boolean;
-  push?: boolean;
+  admin?: boolean | undefined;
+  pull?: boolean | undefined;
+  push?: boolean | undefined;
 }
 /** Organization represents an organization */
 export interface Organization {
-  avatar_url?: string;
-  created?: string;
-  description?: string;
-  email?: string;
-  full_name?: string;
+  avatar_url?: string | undefined;
+  created?: string | undefined;
+  description?: string | undefined;
+  email?: string | undefined;
+  full_name?: string | undefined;
   id: number;
-  location?: string;
-  name?: string;
-  repo_admin_change_team_access?: boolean;
+  location?: string | undefined;
+  name?: string | undefined;
+  repo_admin_change_team_access?: boolean | undefined;
   /** deprecated */
   username: string;
-  visibility?: string;
-  website?: string;
+  visibility?: string | undefined;
+  website?: string | undefined;
 }
 export type TeamPermission = "none" | "read" | "write" | "admin" | "owner";
 export type TeamUnitsList = Array<string>;
 export type TeamUnitsMapMap = { [key: string]: string | undefined };
 /** Team represents a team in an organization */
 export interface Team {
-  can_create_org_repo?: boolean;
-  description?: string;
+  can_create_org_repo?: boolean | undefined;
+  description?: string | undefined;
   id: number;
-  includes_all_repositories?: boolean;
+  includes_all_repositories?: boolean | undefined;
   name: string;
-  organization?: Organization;
-  permission?: TeamPermission;
-  units?: TeamUnitsList;
-  units_map?: TeamUnitsMapMap;
+  organization?: Organization | undefined;
+  permission?: TeamPermission | undefined;
+  units?: TeamUnitsList | undefined;
+  units_map?: TeamUnitsMapMap | undefined;
 }
 export type RepoTransferTeamsList = Array<Team>;
 /** RepoTransfer represents a pending repo transfer */
 export interface RepoTransfer {
-  doer?: User;
-  recipient?: User;
-  teams?: RepoTransferTeamsList;
+  doer?: User | undefined;
+  recipient?: User | undefined;
+  teams?: RepoTransferTeamsList | undefined;
 }
 export type RepositoryTopicsList = Array<string>;
 /** Repository represents a repository */
 export interface Repository {
-  allow_fast_forward_only_merge?: boolean;
-  allow_merge_commits?: boolean;
-  allow_rebase?: boolean;
-  allow_rebase_explicit?: boolean;
-  allow_rebase_update?: boolean;
-  allow_squash_merge?: boolean;
-  archived?: boolean;
-  archived_at?: string;
-  avatar_url?: string;
+  allow_fast_forward_only_merge?: boolean | undefined;
+  allow_merge_commits?: boolean | undefined;
+  allow_rebase?: boolean | undefined;
+  allow_rebase_explicit?: boolean | undefined;
+  allow_rebase_update?: boolean | undefined;
+  allow_squash_merge?: boolean | undefined;
+  archived?: boolean | undefined;
+  archived_at?: string | undefined;
+  avatar_url?: string | undefined;
   clone_url: string;
   created_at: string;
-  default_allow_maintainer_edit?: boolean;
+  default_allow_maintainer_edit?: boolean | undefined;
   default_branch: string;
-  default_delete_branch_after_merge?: boolean;
-  default_merge_style?: string;
-  default_update_style?: string;
-  description?: string;
-  empty?: boolean;
-  external_tracker?: ExternalTracker;
-  external_wiki?: ExternalWiki;
-  fork?: boolean;
-  forks_count?: number;
+  default_delete_branch_after_merge?: boolean | undefined;
+  default_merge_style?: string | undefined;
+  default_update_style?: string | undefined;
+  description?: string | undefined;
+  empty?: boolean | undefined;
+  external_tracker?: ExternalTracker | undefined;
+  external_wiki?: ExternalWiki | undefined;
+  fork?: boolean | undefined;
+  forks_count?: number | undefined;
   full_name: string;
-  globally_editable_wiki?: boolean;
-  has_actions?: boolean;
-  has_issues?: boolean;
-  has_packages?: boolean;
-  has_projects?: boolean;
-  has_pull_requests?: boolean;
-  has_releases?: boolean;
+  globally_editable_wiki?: boolean | undefined;
+  has_actions?: boolean | undefined;
+  has_issues?: boolean | undefined;
+  has_packages?: boolean | undefined;
+  has_projects?: boolean | undefined;
+  has_pull_requests?: boolean | undefined;
+  has_releases?: boolean | undefined;
   /** is the wiki enabled */
-  has_wiki?: boolean;
+  has_wiki?: boolean | undefined;
   /** have wiki pages ever been created */
-  has_wiki_contents?: boolean;
+  has_wiki_contents?: boolean | undefined;
   html_url: string;
   id: number;
-  ignore_whitespace_conflicts?: boolean;
-  internal?: boolean;
-  internal_tracker?: InternalTracker;
-  language?: string;
-  languages_url?: string;
-  link?: string;
-  mirror?: boolean;
-  mirror_interval?: string;
-  mirror_updated?: string;
+  ignore_whitespace_conflicts?: boolean | undefined;
+  internal?: boolean | undefined;
+  internal_tracker?: InternalTracker | undefined;
+  language?: string | undefined;
+  languages_url?: string | undefined;
+  link?: string | undefined;
+  mirror?: boolean | undefined;
+  mirror_interval?: string | undefined;
+  mirror_updated?: string | undefined;
   name: string;
   /** ObjectFormatName of the underlying git repository */
-  object_format_name?: RepositoryObjectFormatName;
-  open_issues_count?: number;
-  open_pr_counter?: number;
-  original_url?: string;
+  object_format_name?: RepositoryObjectFormatName | undefined;
+  open_issues_count?: number | undefined;
+  open_pr_counter?: number | undefined;
+  original_url?: string | undefined;
   owner: User;
-  parent?: Repository;
-  permissions?: Permission;
-  private?: boolean;
-  release_counter?: number;
-  repo_transfer?: RepoTransfer;
-  size?: number;
+  parent?: Repository | undefined;
+  permissions?: Permission | undefined;
+  private?: boolean | undefined;
+  release_counter?: number | undefined;
+  repo_transfer?: RepoTransfer | undefined;
+  size?: number | undefined;
   ssh_url: string;
-  stars_count?: number;
-  template?: boolean;
-  topics?: RepositoryTopicsList;
+  stars_count?: number | undefined;
+  template?: boolean | undefined;
+  topics?: RepositoryTopicsList | undefined;
   updated_at: string;
-  url?: string;
-  watchers_count?: number;
-  website?: string;
-  wiki_branch?: string;
-  wiki_clone_url?: string;
-  wiki_ssh_url?: string;
+  url?: string | undefined;
+  watchers_count?: number | undefined;
+  website?: string | undefined;
+  wiki_branch?: string | undefined;
+  wiki_clone_url?: string | undefined;
+  wiki_ssh_url?: string | undefined;
 }
 export type UserCurrentListReposResponseBodyList = Array<Repository>;
 export type UserCurrentListReposResponse = UserCurrentListReposResponseBodyList;
 export interface UserCurrentListStarredRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type UserCurrentListStarredResponseBodyList = Array<Repository>;
 export type UserCurrentListStarredResponse = UserCurrentListStarredResponseBodyList;
 export interface UserCurrentListSubscriptionsRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type UserCurrentListSubscriptionsResponseBodyList = Array<Repository>;
 export type UserCurrentListSubscriptionsResponse = UserCurrentListSubscriptionsResponseBodyList;
 export interface UserCurrentPostGPGKeyRequest {
   /** An armored GPG key to add */
   armored_public_key: string;
-  armored_signature?: string;
+  armored_signature?: string | undefined;
 }
 export interface UserCurrentPostKeyRequest {
   /** An armored SSH key to add */
   key: string;
   /** Describe if the key has only read access or read/write */
-  read_only?: boolean;
+  read_only?: boolean | undefined;
   /** Title of the key to add */
   title: string;
 }
@@ -748,99 +780,99 @@ export interface UserCurrentPutStarRequest {
 export interface UserCurrentPutStarResponse {}
 export interface UserCurrentTrackedTimesRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
   /** Only show times updated after the given time. This is a timestamp in RFC 3339 format */
-  since?: string;
+  since?: string | undefined;
   /** Only show times updated before the given time. This is a timestamp in RFC 3339 format */
-  before?: string;
+  before?: string | undefined;
 }
 export type AttachmentType = "attachment" | "external";
 /** Attachment a generic attachment */
 export interface Attachment {
-  browser_download_url?: string;
-  created_at?: string;
-  download_count?: number;
-  id?: number;
-  name?: string;
-  size?: number;
-  type?: AttachmentType;
-  uuid?: string;
+  browser_download_url?: string | undefined;
+  created_at?: string | undefined;
+  download_count?: number | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
+  size?: number | undefined;
+  type?: AttachmentType | undefined;
+  uuid?: string | undefined;
 }
 export type IssueAssetsList = Array<Attachment>;
 export type IssueAssigneesList = Array<User>;
 /** Label a label to an issue or a pr */
 export interface Label {
   color: string;
-  description?: string;
-  exclusive?: boolean;
+  description?: string | undefined;
+  exclusive?: boolean | undefined;
   id: number;
-  is_archived?: boolean;
+  is_archived?: boolean | undefined;
   name: string;
-  url?: string;
+  url?: string | undefined;
 }
 export type IssueLabelsList = Array<Label>;
 /** Milestone milestone is a collection of issues on one repository */
 export interface Milestone {
-  closed_at?: string;
-  closed_issues?: number;
-  created_at?: string;
-  description?: string;
-  due_on?: string;
-  id?: number;
-  open_issues?: number;
-  state?: string;
-  title?: string;
-  updated_at?: string;
+  closed_at?: string | undefined;
+  closed_issues?: number | undefined;
+  created_at?: string | undefined;
+  description?: string | undefined;
+  due_on?: string | undefined;
+  id?: number | undefined;
+  open_issues?: number | undefined;
+  state?: string | undefined;
+  title?: string | undefined;
+  updated_at?: string | undefined;
 }
 /** PullRequestMeta PR info if an issue is a PR */
 export interface PullRequestMeta {
-  draft?: boolean;
-  html_url?: string;
-  merged?: boolean;
-  merged_at?: string;
+  draft?: boolean | undefined;
+  html_url?: string | undefined;
+  merged?: boolean | undefined;
+  merged_at?: string | undefined;
 }
 /** Issue represents an issue in a repository */
 export interface Issue {
-  assets?: IssueAssetsList;
-  assignee?: User;
-  assignees?: IssueAssigneesList;
-  body?: string;
-  closed_at?: string;
-  comments?: number;
-  created_at?: string;
-  due_date?: string;
-  html_url?: string;
-  id?: number;
-  is_locked?: boolean;
-  labels?: IssueLabelsList;
-  milestone?: Milestone;
-  number?: number;
-  original_author?: string;
-  original_author_id?: number;
-  pin_order?: number;
-  pull_request?: PullRequestMeta;
-  ref?: string;
-  repository?: RepositoryMeta;
-  state?: string;
-  title?: string;
-  updated_at?: string;
-  url?: string;
-  user?: User;
+  assets?: IssueAssetsList | undefined;
+  assignee?: User | undefined;
+  assignees?: IssueAssigneesList | undefined;
+  body?: string | undefined;
+  closed_at?: string | undefined;
+  comments?: number | undefined;
+  created_at?: string | undefined;
+  due_date?: string | undefined;
+  html_url?: string | undefined;
+  id?: number | undefined;
+  is_locked?: boolean | undefined;
+  labels?: IssueLabelsList | undefined;
+  milestone?: Milestone | undefined;
+  number?: number | undefined;
+  original_author?: string | undefined;
+  original_author_id?: number | undefined;
+  pin_order?: number | undefined;
+  pull_request?: PullRequestMeta | undefined;
+  ref?: string | undefined;
+  repository?: RepositoryMeta | undefined;
+  state?: string | undefined;
+  title?: string | undefined;
+  updated_at?: string | undefined;
+  url?: string | undefined;
+  user?: User | undefined;
 }
 /** TrackedTime worked time for an issue / pr */
 export interface TrackedTime {
-  created?: string;
-  id?: number;
-  issue?: Issue;
+  created?: string | undefined;
+  id?: number | undefined;
+  issue?: Issue | undefined;
   /** deprecated (only for backwards compatibility) */
-  issue_id?: number;
+  issue_id?: number | undefined;
   /** Time in seconds */
-  time?: number;
+  time?: number | undefined;
   /** deprecated (only for backwards compatibility) */
-  user_id?: number;
-  user_name?: string;
+  user_id?: number | undefined;
+  user_name?: string | undefined;
 }
 export type UserCurrentTrackedTimesResponseBodyList = Array<TrackedTime>;
 export type UserCurrentTrackedTimesResponse = UserCurrentTrackedTimesResponseBodyList;
@@ -857,7 +889,7 @@ export interface UserDeleteAvatarResponse {}
 export type UserDeleteEmailRequestEmailsList = Array<string>;
 export interface UserDeleteEmailRequest {
   /** email addresses to delete */
-  emails?: UserDeleteEmailRequestEmailsList;
+  emails?: UserDeleteEmailRequestEmailsList | undefined;
 }
 export interface UserDeleteEmailResponse {}
 export interface UserDeleteHookRequest {
@@ -875,11 +907,11 @@ export type UserEditHookRequestEventsList = Array<string>;
 export interface UserEditHookRequest {
   /** id of the hook to update */
   id: number;
-  active?: boolean;
-  authorization_header?: string;
-  branch_filter?: string;
-  config?: UserEditHookRequestConfigMap;
-  events?: UserEditHookRequestEventsList;
+  active?: boolean | undefined;
+  authorization_header?: string | undefined;
+  branch_filter?: string | undefined;
+  config?: UserEditHookRequestConfigMap | undefined;
+  events?: UserEditHookRequestEventsList | undefined;
 }
 export interface UserGetCurrentRequest {}
 export interface UserGetHeatmapDataRequest {
@@ -888,8 +920,8 @@ export interface UserGetHeatmapDataRequest {
 }
 /** UserHeatmapData represents the data needed to create a heatmap */
 export interface UserHeatmapData {
-  contributions?: number;
-  timestamp?: number;
+  contributions?: number | undefined;
+  timestamp?: number | undefined;
 }
 export type UserGetHeatmapDataResponseBodyList = Array<UserHeatmapData>;
 export type UserGetHeatmapDataResponse = UserGetHeatmapDataResponseBodyList;
@@ -903,9 +935,9 @@ export interface UserGetOAuth2ApplicationRequest {
 }
 export interface UserGetOAuth2ApplicationsRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type UserGetOAuth2ApplicationsResponseBodyList = Array<OAuth2Application>;
 export type UserGetOAuth2ApplicationsResponse = UserGetOAuth2ApplicationsResponseBodyList;
@@ -915,84 +947,84 @@ export type QuotaRuleInfoSubjectsList = Array<string>;
 /** QuotaRuleInfo contains information about a quota rule */
 export interface QuotaRuleInfo {
   /** The limit set by the rule */
-  limit?: number;
+  limit?: number | undefined;
   /** Name of the rule (only shown to admins) */
-  name?: string;
+  name?: string | undefined;
   /** Subjects the rule affects */
-  subjects?: QuotaRuleInfoSubjectsList;
+  subjects?: QuotaRuleInfoSubjectsList | undefined;
 }
 /** Rules associated with the group */
 export type QuotaGroupRulesList = Array<QuotaRuleInfo>;
 /** QuotaGroup represents a quota group */
 export interface QuotaGroup {
   /** Name of the group */
-  name?: string;
+  name?: string | undefined;
   /** Rules associated with the group */
-  rules?: QuotaGroupRulesList;
+  rules?: QuotaGroupRulesList | undefined;
 }
 /** QuotaGroupList represents a list of quota groups */
 export type QuotaGroupList = Array<QuotaGroup>;
 /** QuotaUsedSizeAssetsAttachments represents the size-based attachment quota usage of a user */
 export interface QuotaUsedSizeAssetsAttachments {
   /** Storage size used for the user's issue & comment attachments */
-  issues?: number;
+  issues?: number | undefined;
   /** Storage size used for the user's release attachments */
-  releases?: number;
+  releases?: number | undefined;
 }
 /** QuotaUsedSizeAssetsPackages represents the size-based package quota usage of a user */
 export interface QuotaUsedSizeAssetsPackages {
   /** Storage suze used for the user's packages */
-  all?: number;
+  all?: number | undefined;
 }
 /** QuotaUsedSizeAssets represents the size-based asset usage of a user */
 export interface QuotaUsedSizeAssets {
   /** Storage size used for the user's artifacts */
-  artifacts?: number;
-  attachments?: QuotaUsedSizeAssetsAttachments;
-  packages?: QuotaUsedSizeAssetsPackages;
+  artifacts?: number | undefined;
+  attachments?: QuotaUsedSizeAssetsAttachments | undefined;
+  packages?: QuotaUsedSizeAssetsPackages | undefined;
 }
 /** QuotaUsedSizeGit represents the size-based git (lfs) quota usage of a user */
 export interface QuotaUsedSizeGit {
   /** Storage size of the user's Git LFS objects */
-  LFS?: number;
+  LFS?: number | undefined;
 }
 /** QuotaUsedSizeRepos represents the size-based repository quota usage of a user */
 export interface QuotaUsedSizeRepos {
   /** Storage size of the user's private repositories */
-  private?: number;
+  private?: number | undefined;
   /** Storage size of the user's public repositories */
-  public?: number;
+  public?: number | undefined;
 }
 /** QuotaUsedSize represents the size-based quota usage of a user */
 export interface QuotaUsedSize {
-  assets?: QuotaUsedSizeAssets;
-  git?: QuotaUsedSizeGit;
-  repos?: QuotaUsedSizeRepos;
+  assets?: QuotaUsedSizeAssets | undefined;
+  git?: QuotaUsedSizeGit | undefined;
+  repos?: QuotaUsedSizeRepos | undefined;
 }
 /** QuotaUsed represents the quota usage of a user */
 export interface QuotaUsed {
-  size?: QuotaUsedSize;
+  size?: QuotaUsedSize | undefined;
 }
 /** QuotaInfo represents information about a user's quota */
 export interface QuotaInfo {
-  groups?: QuotaGroupList;
-  used?: QuotaUsed;
+  groups?: QuotaGroupList | undefined;
+  used?: QuotaUsed | undefined;
 }
 export interface UserGetStopWatchesRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** StopWatch represent a running stopwatch */
 export interface StopWatch {
-  created?: string;
-  duration?: string;
-  issue_index?: number;
-  issue_title?: string;
-  repo_name?: string;
-  repo_owner_name?: string;
-  seconds?: number;
+  created?: string | undefined;
+  duration?: string | undefined;
+  issue_index?: number | undefined;
+  issue_title?: string | undefined;
+  repo_name?: string | undefined;
+  repo_owner_name?: string | undefined;
+  seconds?: number | undefined;
 }
 export type UserGetStopWatchesResponseBodyList = Array<StopWatch>;
 export type UserGetStopWatchesResponse = UserGetStopWatchesResponseBodyList;
@@ -1000,9 +1032,9 @@ export interface UserGetTokensRequest {
   /** username of user */
   username: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type UserGetTokensResponseBodyList = Array<AccessToken>;
 export type UserGetTokensResponse = UserGetTokensResponseBodyList;
@@ -1010,39 +1042,39 @@ export interface UserListActivityFeedsRequest {
   /** username of user */
   username: string;
   /** if true, only show actions performed by the requested user */
-  only_performed_by?: boolean;
+  only_performed_by?: boolean | undefined;
   /** the date of the activities to be found */
-  date?: string;
+  date?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** The attachments to the comment */
 export type CommentAssetsList = Array<Attachment>;
 /** Comment represents a comment on a commit or issue */
 export interface Comment {
   /** The attachments to the comment */
-  assets?: CommentAssetsList;
+  assets?: CommentAssetsList | undefined;
   /** The body of the comment */
-  body?: string;
+  body?: string | undefined;
   /** The time of the comment's creation */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The HTML URL of the comment */
-  html_url?: string;
+  html_url?: string | undefined;
   /** The identifier of the comment */
-  id?: number;
+  id?: number | undefined;
   /** The HTML URL of the issue if the comment is posted on an issue, else empty string */
-  issue_url?: string;
+  issue_url?: string | undefined;
   /** The original author that posted the comment if it was not posted locally, else empty string */
-  original_author?: string;
+  original_author?: string | undefined;
   /** The ID of the original author that posted the comment if it was not posted locally, else 0 */
-  original_author_id?: number;
+  original_author_id?: number | undefined;
   /** The HTML URL of the pull request if the comment is posted on a pull request, else empty string */
-  pull_request_url?: string;
+  pull_request_url?: string | undefined;
   /** The time of the comment's update */
-  updated_at?: string;
-  user?: User;
+  updated_at?: string | undefined;
+  user?: User | undefined;
 }
 /** the type of action */
 export type ActivityOpType =
@@ -1074,32 +1106,32 @@ export type ActivityOpType =
   | "pull_request_ready_for_review"
   | "auto_merge_pull_request";
 export interface Activity {
-  act_user?: User;
-  act_user_id?: number;
-  comment?: Comment;
-  comment_id?: number;
-  content?: string;
-  created?: string;
-  id?: number;
-  is_private?: boolean;
+  act_user?: User | undefined;
+  act_user_id?: number | undefined;
+  comment?: Comment | undefined;
+  comment_id?: number | undefined;
+  content?: string | undefined;
+  created?: string | undefined;
+  id?: number | undefined;
+  is_private?: boolean | undefined;
   /** the type of action */
-  op_type?: ActivityOpType;
-  ref_name?: string;
-  repo?: Repository;
-  repo_id?: number;
-  user_id?: number;
+  op_type?: ActivityOpType | undefined;
+  ref_name?: string | undefined;
+  repo?: Repository | undefined;
+  repo_id?: number | undefined;
+  user_id?: number | undefined;
 }
 export type UserListActivityFeedsResponseBodyList = Array<Activity>;
 export type UserListActivityFeedsResponse = UserListActivityFeedsResponseBodyList;
 export interface UserListBlockedUsersRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface BlockedUser {
-  block_id?: number;
-  created_at?: string;
+  block_id?: number | undefined;
+  created_at?: string | undefined;
 }
 export type UserListBlockedUsersResponseBodyList = Array<BlockedUser>;
 export type UserListBlockedUsersResponse = UserListBlockedUsersResponseBodyList;
@@ -1110,9 +1142,9 @@ export interface UserListFollowersRequest {
   /** username of user */
   username: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type UserListFollowersResponseBodyList = Array<User>;
 export type UserListFollowersResponse = UserListFollowersResponseBodyList;
@@ -1120,9 +1152,9 @@ export interface UserListFollowingRequest {
   /** username of user */
   username: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type UserListFollowingResponseBodyList = Array<User>;
 export type UserListFollowingResponse = UserListFollowingResponseBodyList;
@@ -1130,17 +1162,17 @@ export interface UserListGPGKeysRequest {
   /** username of user */
   username: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type UserListGPGKeysResponseBodyList = Array<GPGKey>;
 export type UserListGPGKeysResponse = UserListGPGKeysResponseBodyList;
 export interface UserListHooksRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type UserListHooksResponseBodyList = Array<Hook>;
 export type UserListHooksResponse = UserListHooksResponseBodyList;
@@ -1148,77 +1180,77 @@ export interface UserListKeysRequest {
   /** username of user */
   username: string;
   /** fingerprint of the key */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type UserListKeysResponseBodyList = Array<PublicKey>;
 export type UserListKeysResponse = UserListKeysResponseBodyList;
 export interface UserListQuotaArtifactsRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** QuotaUsedArtifact represents an artifact counting towards a user's quota */
 export interface QuotaUsedArtifact {
   /** HTML URL to the action run containing the artifact */
-  html_url?: string;
+  html_url?: string | undefined;
   /** Name of the artifact */
-  name?: string;
+  name?: string | undefined;
   /** Size of the artifact (compressed) */
-  size?: number;
+  size?: number | undefined;
 }
 /** QuotaUsedArtifactList represents a list of artifacts counting towards a user's quota */
 export type QuotaUsedArtifactList = Array<QuotaUsedArtifact>;
 export type UserListQuotaArtifactsResponse = QuotaUsedArtifactList;
 export interface UserListQuotaAttachmentsRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Context for the attachment: URLs to the containing object */
 export interface QuotaUsedAttachmentContainedIn {
   /** API URL for the object that contains this attachment */
-  api_url?: string;
+  api_url?: string | undefined;
   /** HTML URL for the object that contains this attachment */
-  html_url?: string;
+  html_url?: string | undefined;
 }
 /** QuotaUsedAttachment represents an attachment counting towards a user's quota */
 export interface QuotaUsedAttachment {
   /** API URL for the attachment */
-  api_url?: string;
+  api_url?: string | undefined;
   /** Context for the attachment: URLs to the containing object */
-  contained_in?: QuotaUsedAttachmentContainedIn;
+  contained_in?: QuotaUsedAttachmentContainedIn | undefined;
   /** Filename of the attachment */
-  name?: string;
+  name?: string | undefined;
   /** Size of the attachment (in bytes) */
-  size?: number;
+  size?: number | undefined;
 }
 /** QuotaUsedAttachmentList represents a list of attachment counting towards a user's quota */
 export type QuotaUsedAttachmentList = Array<QuotaUsedAttachment>;
 export type UserListQuotaAttachmentsResponse = QuotaUsedAttachmentList;
 export interface UserListQuotaPackagesRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** QuotaUsedPackage represents a package counting towards a user's quota */
 export interface QuotaUsedPackage {
   /** HTML URL to the package version */
-  html_url?: string;
+  html_url?: string | undefined;
   /** Name of the package */
-  name?: string;
+  name?: string | undefined;
   /** Size of the package version */
-  size?: number;
+  size?: number | undefined;
   /** Type of the package */
-  type?: string;
+  type?: string | undefined;
   /** Version of the package */
-  version?: string;
+  version?: string | undefined;
 }
 /** QuotaUsedPackageList represents a list of packages counting towards a user's quota */
 export type QuotaUsedPackageList = Array<QuotaUsedPackage>;
@@ -1227,9 +1259,9 @@ export interface UserListReposRequest {
   /** username of user */
   username: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type UserListReposResponseBodyList = Array<Repository>;
 export type UserListReposResponse = UserListReposResponseBodyList;
@@ -1237,9 +1269,9 @@ export interface UserListStarredRequest {
   /** username of user */
   username: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type UserListStarredResponseBodyList = Array<Repository>;
 export type UserListStarredResponse = UserListStarredResponseBodyList;
@@ -1247,23 +1279,23 @@ export interface UserListSubscriptionsRequest {
   /** username of the user */
   username: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type UserListSubscriptionsResponseBodyList = Array<Repository>;
 export type UserListSubscriptionsResponse = UserListSubscriptionsResponseBodyList;
 export interface UserListTeamsRequest {
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type UserListTeamsResponseBodyList = Array<Team>;
 export type UserListTeamsResponse = UserListTeamsResponseBodyList;
 export interface UserSearchRunJobsRequest {
   /** a comma separated list of run job labels to search for */
-  labels?: string;
+  labels?: string | undefined;
 }
 /** the action run job needed ids */
 export type ActionRunJobNeedsList = Array<string>;
@@ -1272,48 +1304,61 @@ export type ActionRunJobRunsOnList = Array<string>;
 /** ActionRunJob represents a job of a run */
 export interface ActionRunJob {
   /** How many times the job has been attempted including the current attempt. */
-  attempt?: number;
+  attempt?: number | undefined;
   /** Opaque identifier that uniquely identifies a single attempt of a job. */
-  handle?: string;
+  handle?: string | undefined;
   /** Identifier of this job. */
-  id?: number;
+  id?: number | undefined;
   /** the action run job name */
-  name?: string;
+  name?: string | undefined;
   /** the action run job needed ids */
-  needs?: ActionRunJobNeedsList;
+  needs?: ActionRunJobNeedsList | undefined;
   /** the owner id */
-  owner_id?: number;
+  owner_id?: number | undefined;
   /** the repository id */
-  repo_id?: number;
+  repo_id?: number | undefined;
   /** Identifier of the workflow run this job belongs to. */
-  run_id?: number;
+  run_id?: number | undefined;
   /** the action run job labels to run on */
-  runs_on?: ActionRunJobRunsOnList;
+  runs_on?: ActionRunJobRunsOnList | undefined;
   /** the action run job status */
-  status?: string;
+  status?: string | undefined;
   /** the action run job latest task id */
-  task_id?: number;
+  task_id?: number | undefined;
 }
 export type UserSearchRunJobsResponseBodyList = Array<ActionRunJob>;
 export type UserSearchRunJobsResponse = UserSearchRunJobsResponseBodyList;
 export interface UserUpdateAvatarRequest {
   /** image must be base64 encoded */
-  image?: string;
+  image?: string | undefined;
 }
 export interface UserUpdateAvatarResponse {}
 export type UserUpdateOAuth2ApplicationRequestRedirectUrisList = Array<string>;
 export interface UserUpdateOAuth2ApplicationRequest {
   /** application to be updated */
   id: number;
-  confidential_client?: boolean;
-  name?: string;
-  redirect_uris?: UserUpdateOAuth2ApplicationRequestRedirectUrisList;
+  confidential_client?: boolean | undefined;
+  name?: string | undefined;
+  redirect_uris?: UserUpdateOAuth2ApplicationRequestRedirectUrisList | undefined;
 }
 export interface UserVerifyGPGKeyRequest {
-  armored_signature?: string;
+  armored_signature?: string | undefined;
   /** An Signature for a GPG key token */
   key_id: string;
 }
+/** APIError is an api error with a message */
+export interface APIError {
+  message?: string | undefined;
+  url?: string | undefined;
+}
+export type APIForbiddenError = APIError;
+export type APINotFoundErrorsList = Array<string>;
+export interface APINotFound {
+  errors?: APINotFoundErrorsList | undefined;
+  message?: string | undefined;
+  url?: string | undefined;
+}
+export type APIValidationError = APIError;
 export type CreateUserVariableError = BadRequest | Forbidden | NotFound | ForgejoOpError;
 /** Create a user-level variable */
 export const createUserVariable: API.OperationMethod<
@@ -1322,8 +1367,8 @@ export const createUserVariable: API.OperationMethod<
   CreateUserVariableError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<CreateUserVariableRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<CreateUserVariableResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<CreateUserVariableRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<CreateUserVariableResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1339,8 +1384,8 @@ export const deleteUserRunner: API.OperationMethod<
   DeleteUserRunnerError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<DeleteUserRunnerRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<DeleteUserRunnerResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<DeleteUserRunnerRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<DeleteUserRunnerResponse>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1356,8 +1401,8 @@ export const deleteUserSecret: API.OperationMethod<
   DeleteUserSecretError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<DeleteUserSecretRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<DeleteUserSecretResponse>,
+  input: __S(1200, __c75, 0) as any as S.Schema<DeleteUserSecretRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<DeleteUserSecretResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1373,8 +1418,8 @@ export const deleteUserVariable: API.OperationMethod<
   DeleteUserVariableError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<DeleteUserVariableRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<DeleteUserVariableResponse>,
+  input: __S(1376, __c86, 0) as any as S.Schema<DeleteUserVariableRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<DeleteUserVariableResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1390,8 +1435,8 @@ export const followUserCurrentActivityPub: API.OperationMethod<
   FollowUserCurrentActivityPubError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<FollowUserCurrentActivityPubRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<FollowUserCurrentActivityPubResponse>,
+  input: __S(1552, __c97, 0) as any as S.Schema<FollowUserCurrentActivityPubRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<FollowUserCurrentActivityPubResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1403,8 +1448,8 @@ export type GetUserError = NotFound | ForgejoOpError;
 /** Get a user */
 export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, ForgejoOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1568, __c98, 0) as any as S.Schema<GetUserRequest>,
-    output: __S(1584, __c99, 0) as any as S.Schema<User>,
+    input: __S(1600, __c100, 0) as any as S.Schema<GetUserRequest>,
+    output: __S(1616, __c101, 0) as any as S.Schema<User>,
     errors: [NotFound],
     protocol: ForgejoProtocol,
     retry: Retry.Retry,
@@ -1420,8 +1465,8 @@ export const getUserRunner: API.OperationMethod<
   GetUserRunnerError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetUserRunnerRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<ActionRunner>,
+  input: __S(16, __c1, 0) as any as S.Schema<GetUserRunnerRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<ActionRunner>,
   errors: [BadRequest, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1557,7 +1602,7 @@ export const unblockUser: API.OperationMethod<
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<UnblockUserRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<UnblockUserResponse>,
+  output: __S(768, __c48, 0) as any as S.Schema<UnblockUserResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1574,7 +1619,7 @@ export const updateUserSecret: API.OperationMethod<
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<UpdateUserSecretRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<UpdateUserSecretResponse>,
+  output: __S(768, __c48, 0) as any as S.Schema<UpdateUserSecretResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1590,7 +1635,7 @@ export const updateUserSettings: API.OperationMethod<
   UpdateUserSettingsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<UpdateUserSettingsRequest>,
+  input: __S(272, __c17, 0) as any as S.Schema<UpdateUserSettingsRequest>,
   output: __S(80, __c5, 0) as any as S.Schema<UserSettings>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
@@ -1607,8 +1652,8 @@ export const updateUserVariable: API.OperationMethod<
   UpdateUserVariableError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<UpdateUserVariableRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<UpdateUserVariableResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<UpdateUserVariableRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<UpdateUserVariableResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1624,8 +1669,8 @@ export const userAddEmail: API.OperationMethod<
   UserAddEmailError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<UserAddEmailRequest>,
-  output: __S(290, __c18, 2) as any as S.Schema<UserAddEmailResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<UserAddEmailRequest>,
+  output: __S(322, __c20, 2) as any as S.Schema<UserAddEmailResponse>,
   errors: [Forbidden, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1641,8 +1686,8 @@ export const userBlockUser: API.OperationMethod<
   UserBlockUserError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<UserBlockUserRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<UserBlockUserResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<UserBlockUserRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<UserBlockUserResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1658,8 +1703,8 @@ export const userCheckFollowing: API.OperationMethod<
   UserCheckFollowingError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<UserCheckFollowingRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<UserCheckFollowingResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<UserCheckFollowingRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<UserCheckFollowingResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1675,8 +1720,8 @@ export const userCheckQuota: API.OperationMethod<
   UserCheckQuotaError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<UserCheckQuotaRequest>,
-  output: __S(337, __c21, 1) as any as S.Schema<UserCheckQuotaResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<UserCheckQuotaRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<UserCheckQuotaResponse>,
   errors: [Forbidden, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1692,8 +1737,8 @@ export const userCreateHook: API.OperationMethod<
   UserCreateHookError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<UserCreateHookRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<Hook>,
+  input: __S(384, __c24, 0) as any as S.Schema<UserCreateHookRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<Hook>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1709,8 +1754,8 @@ export const userCreateOAuth2Application: API.OperationMethod<
   UserCreateOAuth2ApplicationError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<UserCreateOAuth2ApplicationRequest>,
-  output: __S(416, __c26, 0) as any as S.Schema<OAuth2Application>,
+  input: __S(432, __c27, 0) as any as S.Schema<UserCreateOAuth2ApplicationRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<OAuth2Application>,
   errors: [BadRequest, Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1726,8 +1771,8 @@ export const userCreateToken: API.OperationMethod<
   UserCreateTokenError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(434, __c27, 2) as any as S.Schema<UserCreateTokenRequest>,
-  output: __S(465, __c29, 1) as any as S.Schema<AccessToken>,
+  input: __S(466, __c29, 2) as any as S.Schema<UserCreateTokenRequest>,
+  output: __S(497, __c31, 1) as any as S.Schema<AccessToken>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1743,8 +1788,8 @@ export const userCurrentCheckFollowing: API.OperationMethod<
   UserCurrentCheckFollowingError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<UserCurrentCheckFollowingRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<UserCurrentCheckFollowingResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<UserCurrentCheckFollowingRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<UserCurrentCheckFollowingResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1760,8 +1805,8 @@ export const userCurrentCheckStarring: API.OperationMethod<
   UserCurrentCheckStarringError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<UserCurrentCheckStarringRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<UserCurrentCheckStarringResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<UserCurrentCheckStarringRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<UserCurrentCheckStarringResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1777,8 +1822,8 @@ export const userCurrentDeleteFollow: API.OperationMethod<
   UserCurrentDeleteFollowError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<UserCurrentDeleteFollowRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<UserCurrentDeleteFollowResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<UserCurrentDeleteFollowRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<UserCurrentDeleteFollowResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1794,8 +1839,8 @@ export const userCurrentDeleteGPGKey: API.OperationMethod<
   UserCurrentDeleteGPGKeyError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<UserCurrentDeleteGPGKeyRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<UserCurrentDeleteGPGKeyResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<UserCurrentDeleteGPGKeyRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<UserCurrentDeleteGPGKeyResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1811,8 +1856,8 @@ export const userCurrentDeleteKey: API.OperationMethod<
   UserCurrentDeleteKeyError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<UserCurrentDeleteKeyRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<UserCurrentDeleteKeyResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<UserCurrentDeleteKeyRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<UserCurrentDeleteKeyResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1828,8 +1873,8 @@ export const userCurrentDeleteStar: API.OperationMethod<
   UserCurrentDeleteStarError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<UserCurrentDeleteStarRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<UserCurrentDeleteStarResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<UserCurrentDeleteStarRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<UserCurrentDeleteStarResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1845,8 +1890,8 @@ export const userCurrentGetGPGKey: API.OperationMethod<
   UserCurrentGetGPGKeyError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<UserCurrentGetGPGKeyRequest>,
-  output: __S(595, __c37, 3) as any as S.Schema<GPGKey>,
+  input: __S(608, __c38, 0) as any as S.Schema<UserCurrentGetGPGKeyRequest>,
+  output: __S(627, __c39, 3) as any as S.Schema<GPGKey>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1862,8 +1907,8 @@ export const userCurrentGetKey: API.OperationMethod<
   UserCurrentGetKeyError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<UserCurrentGetKeyRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<PublicKey>,
+  input: __S(640, __c40, 0) as any as S.Schema<UserCurrentGetKeyRequest>,
+  output: __S(656, __c41, 0) as any as S.Schema<PublicKey>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1879,8 +1924,8 @@ export const userCurrentListFollowers: API.OperationMethod<
   UserCurrentListFollowersError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<UserCurrentListFollowersRequest>,
-  output: __S(656, __c41, 0) as any as S.Schema<UserCurrentListFollowersResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<UserCurrentListFollowersRequest>,
+  output: __S(688, __c43, 0) as any as S.Schema<UserCurrentListFollowersResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1896,8 +1941,8 @@ export const userCurrentListFollowing: API.OperationMethod<
   UserCurrentListFollowingError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<UserCurrentListFollowingRequest>,
-  output: __S(656, __c41, 0) as any as S.Schema<UserCurrentListFollowingResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<UserCurrentListFollowingRequest>,
+  output: __S(688, __c43, 0) as any as S.Schema<UserCurrentListFollowingResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1913,8 +1958,8 @@ export const userCurrentListGPGKeys: API.OperationMethod<
   UserCurrentListGPGKeysError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<UserCurrentListGPGKeysRequest>,
-  output: __S(705, __c44, 1) as any as S.Schema<UserCurrentListGPGKeysResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<UserCurrentListGPGKeysRequest>,
+  output: __S(737, __c46, 1) as any as S.Schema<UserCurrentListGPGKeysResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1930,8 +1975,8 @@ export const userCurrentListKeys: API.OperationMethod<
   UserCurrentListKeysError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<UserCurrentListKeysRequest>,
-  output: __S(769, __c48, 1) as any as S.Schema<UserCurrentListKeysResponse>,
+  input: __S(784, __c49, 0) as any as S.Schema<UserCurrentListKeysRequest>,
+  output: __S(801, __c50, 1) as any as S.Schema<UserCurrentListKeysResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1947,8 +1992,8 @@ export const userCurrentListRepos: API.OperationMethod<
   UserCurrentListReposError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<UserCurrentListReposRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<UserCurrentListReposResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<UserCurrentListReposRequest>,
+  output: __S(865, __c54, 1) as any as S.Schema<UserCurrentListReposResponse>,
   errors: [Forbidden, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1964,8 +2009,8 @@ export const userCurrentListStarred: API.OperationMethod<
   UserCurrentListStarredError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<UserCurrentListStarredRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<UserCurrentListStarredResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<UserCurrentListStarredRequest>,
+  output: __S(865, __c54, 1) as any as S.Schema<UserCurrentListStarredResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -1981,8 +2026,8 @@ export const userCurrentListSubscriptions: API.OperationMethod<
   UserCurrentListSubscriptionsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<UserCurrentListSubscriptionsRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<UserCurrentListSubscriptionsResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<UserCurrentListSubscriptionsRequest>,
+  output: __S(865, __c54, 1) as any as S.Schema<UserCurrentListSubscriptionsResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2002,8 +2047,8 @@ export const userCurrentPostGPGKey: API.OperationMethod<
   UserCurrentPostGPGKeyError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<UserCurrentPostGPGKeyRequest>,
-  output: __S(595, __c37, 3) as any as S.Schema<GPGKey>,
+  input: __S(912, __c57, 0) as any as S.Schema<UserCurrentPostGPGKeyRequest>,
+  output: __S(627, __c39, 3) as any as S.Schema<GPGKey>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2019,8 +2064,8 @@ export const userCurrentPostKey: API.OperationMethod<
   UserCurrentPostKeyError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<UserCurrentPostKeyRequest>,
-  output: __S(624, __c39, 0) as any as S.Schema<PublicKey>,
+  input: __S(928, __c58, 0) as any as S.Schema<UserCurrentPostKeyRequest>,
+  output: __S(656, __c41, 0) as any as S.Schema<PublicKey>,
   errors: [Forbidden, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2036,8 +2081,8 @@ export const userCurrentPutFollow: API.OperationMethod<
   UserCurrentPutFollowError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<UserCurrentPutFollowRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<UserCurrentPutFollowResponse>,
+  input: __S(944, __c59, 0) as any as S.Schema<UserCurrentPutFollowRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<UserCurrentPutFollowResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2053,8 +2098,8 @@ export const userCurrentPutStar: API.OperationMethod<
   UserCurrentPutStarError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<UserCurrentPutStarRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<UserCurrentPutStarResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<UserCurrentPutStarRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<UserCurrentPutStarResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2070,8 +2115,8 @@ export const userCurrentTrackedTimes: API.OperationMethod<
   UserCurrentTrackedTimesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<UserCurrentTrackedTimesRequest>,
-  output: __S(952, __c59, 8) as any as S.Schema<UserCurrentTrackedTimesResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<UserCurrentTrackedTimesRequest>,
+  output: __S(984, __c61, 8) as any as S.Schema<UserCurrentTrackedTimesResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2091,8 +2136,8 @@ export const userDeleteAccessToken: API.OperationMethod<
   UserDeleteAccessTokenError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<UserDeleteAccessTokenRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<UserDeleteAccessTokenResponse>,
+  input: __S(1008, __c63, 0) as any as S.Schema<UserDeleteAccessTokenRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<UserDeleteAccessTokenResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2108,8 +2153,8 @@ export const userDeleteAvatar: API.OperationMethod<
   UserDeleteAvatarError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<UserDeleteAvatarRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<UserDeleteAvatarResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<UserDeleteAvatarRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<UserDeleteAvatarResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2125,8 +2170,8 @@ export const userDeleteEmail: API.OperationMethod<
   UserDeleteEmailError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<UserDeleteEmailRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<UserDeleteEmailResponse>,
+  input: __S(1056, __c66, 0) as any as S.Schema<UserDeleteEmailRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<UserDeleteEmailResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2142,8 +2187,8 @@ export const userDeleteHook: API.OperationMethod<
   UserDeleteHookError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<UserDeleteHookRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<UserDeleteHookResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<UserDeleteHookRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<UserDeleteHookResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2159,8 +2204,8 @@ export const userDeleteOAuth2Application: API.OperationMethod<
   UserDeleteOAuth2ApplicationError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<UserDeleteOAuth2ApplicationRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<UserDeleteOAuth2ApplicationResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<UserDeleteOAuth2ApplicationRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<UserDeleteOAuth2ApplicationResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2176,8 +2221,8 @@ export const userEditHook: API.OperationMethod<
   UserEditHookError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<UserEditHookRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<Hook>,
+  input: __S(1104, __c69, 0) as any as S.Schema<UserEditHookRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<Hook>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2193,8 +2238,8 @@ export const userGetCurrent: API.OperationMethod<
   UserGetCurrentError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<UserGetCurrentRequest>,
-  output: __S(1584, __c99, 0) as any as S.Schema<User>,
+  input: __S(1120, __c70, 0) as any as S.Schema<UserGetCurrentRequest>,
+  output: __S(1616, __c101, 0) as any as S.Schema<User>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2210,8 +2255,8 @@ export const userGetHeatmapData: API.OperationMethod<
   UserGetHeatmapDataError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<UserGetHeatmapDataRequest>,
-  output: __S(1107, __c69, 3) as any as S.Schema<UserGetHeatmapDataResponse>,
+  input: __S(1136, __c71, 0) as any as S.Schema<UserGetHeatmapDataRequest>,
+  output: __S(1139, __c71, 3) as any as S.Schema<UserGetHeatmapDataResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2227,8 +2272,8 @@ export const userGetHook: API.OperationMethod<
   UserGetHookError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<UserGetHookRequest>,
-  output: __S(384, __c24, 0) as any as S.Schema<Hook>,
+  input: __S(1152, __c72, 0) as any as S.Schema<UserGetHookRequest>,
+  output: __S(416, __c26, 0) as any as S.Schema<Hook>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2244,8 +2289,8 @@ export const userGetOAuth2Application: API.OperationMethod<
   UserGetOAuth2ApplicationError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<UserGetOAuth2ApplicationRequest>,
-  output: __S(416, __c26, 0) as any as S.Schema<OAuth2Application>,
+  input: __S(1168, __c73, 0) as any as S.Schema<UserGetOAuth2ApplicationRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<OAuth2Application>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2261,8 +2306,8 @@ export const userGetOAuth2Applications: API.OperationMethod<
   UserGetOAuth2ApplicationsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<UserGetOAuth2ApplicationsRequest>,
-  output: __S(1154, __c72, 2) as any as S.Schema<UserGetOAuth2ApplicationsResponse>,
+  input: __S(1184, __c74, 0) as any as S.Schema<UserGetOAuth2ApplicationsRequest>,
+  output: __S(1186, __c74, 2) as any as S.Schema<UserGetOAuth2ApplicationsResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2278,8 +2323,8 @@ export const userGetQuota: API.OperationMethod<
   UserGetQuotaError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<UserGetQuotaRequest>,
-  output: __S(1196, __c74, 12) as any as S.Schema<QuotaInfo>,
+  input: __S(1216, __c76, 0) as any as S.Schema<UserGetQuotaRequest>,
+  output: __S(1228, __c76, 12) as any as S.Schema<QuotaInfo>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2295,8 +2340,8 @@ export const userGetStopWatches: API.OperationMethod<
   UserGetStopWatchesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<UserGetStopWatchesRequest>,
-  output: __S(1203, __c75, 3) as any as S.Schema<UserGetStopWatchesResponse>,
+  input: __S(1232, __c77, 0) as any as S.Schema<UserGetStopWatchesRequest>,
+  output: __S(1235, __c77, 3) as any as S.Schema<UserGetStopWatchesResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2312,8 +2357,8 @@ export const userGetTokens: API.OperationMethod<
   UserGetTokensError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<UserGetTokensRequest>,
-  output: __S(1218, __c76, 2) as any as S.Schema<UserGetTokensResponse>,
+  input: __S(1248, __c78, 0) as any as S.Schema<UserGetTokensRequest>,
+  output: __S(1250, __c78, 2) as any as S.Schema<UserGetTokensResponse>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2329,8 +2374,8 @@ export const userListActivityFeeds: API.OperationMethod<
   UserListActivityFeedsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<UserListActivityFeedsRequest>,
-  output: __S(1236, __c77, 4) as any as S.Schema<UserListActivityFeedsResponse>,
+  input: __S(1264, __c79, 0) as any as S.Schema<UserListActivityFeedsRequest>,
+  output: __S(1268, __c79, 4) as any as S.Schema<UserListActivityFeedsResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2346,8 +2391,8 @@ export const userListBlockedUsers: API.OperationMethod<
   UserListBlockedUsersError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<UserListBlockedUsersRequest>,
-  output: __S(1251, __c78, 3) as any as S.Schema<UserListBlockedUsersResponse>,
+  input: __S(1280, __c80, 0) as any as S.Schema<UserListBlockedUsersRequest>,
+  output: __S(1283, __c80, 3) as any as S.Schema<UserListBlockedUsersResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2363,8 +2408,8 @@ export const userListEmails: API.OperationMethod<
   UserListEmailsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<UserListEmailsRequest>,
-  output: __S(290, __c18, 2) as any as S.Schema<UserListEmailsResponse>,
+  input: __S(1296, __c81, 0) as any as S.Schema<UserListEmailsRequest>,
+  output: __S(322, __c20, 2) as any as S.Schema<UserListEmailsResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2380,8 +2425,8 @@ export const userListFollowers: API.OperationMethod<
   UserListFollowersError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<UserListFollowersRequest>,
-  output: __S(656, __c41, 0) as any as S.Schema<UserListFollowersResponse>,
+  input: __S(1312, __c82, 0) as any as S.Schema<UserListFollowersRequest>,
+  output: __S(688, __c43, 0) as any as S.Schema<UserListFollowersResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2397,8 +2442,8 @@ export const userListFollowing: API.OperationMethod<
   UserListFollowingError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<UserListFollowingRequest>,
-  output: __S(656, __c41, 0) as any as S.Schema<UserListFollowingResponse>,
+  input: __S(1328, __c83, 0) as any as S.Schema<UserListFollowingRequest>,
+  output: __S(688, __c43, 0) as any as S.Schema<UserListFollowingResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2414,8 +2459,8 @@ export const userListGPGKeys: API.OperationMethod<
   UserListGPGKeysError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<UserListGPGKeysRequest>,
-  output: __S(705, __c44, 1) as any as S.Schema<UserListGPGKeysResponse>,
+  input: __S(1344, __c84, 0) as any as S.Schema<UserListGPGKeysRequest>,
+  output: __S(737, __c46, 1) as any as S.Schema<UserListGPGKeysResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2431,8 +2476,8 @@ export const userListHooks: API.OperationMethod<
   UserListHooksError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<UserListHooksRequest>,
-  output: __S(1330, __c83, 2) as any as S.Schema<UserListHooksResponse>,
+  input: __S(1360, __c85, 0) as any as S.Schema<UserListHooksRequest>,
+  output: __S(1362, __c85, 2) as any as S.Schema<UserListHooksResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2448,8 +2493,8 @@ export const userListKeys: API.OperationMethod<
   UserListKeysError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<UserListKeysRequest>,
-  output: __S(769, __c48, 1) as any as S.Schema<UserListKeysResponse>,
+  input: __S(1392, __c87, 0) as any as S.Schema<UserListKeysRequest>,
+  output: __S(801, __c50, 1) as any as S.Schema<UserListKeysResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2465,8 +2510,8 @@ export const userListQuotaArtifacts: API.OperationMethod<
   UserListQuotaArtifactsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<UserListQuotaArtifactsRequest>,
-  output: __S(1379, __c86, 3) as any as S.Schema<UserListQuotaArtifactsResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<UserListQuotaArtifactsRequest>,
+  output: __S(1411, __c88, 3) as any as S.Schema<UserListQuotaArtifactsResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2482,8 +2527,8 @@ export const userListQuotaAttachments: API.OperationMethod<
   UserListQuotaAttachmentsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<UserListQuotaAttachmentsRequest>,
-  output: __S(1396, __c87, 4) as any as S.Schema<UserListQuotaAttachmentsResponse>,
+  input: __S(1424, __c89, 0) as any as S.Schema<UserListQuotaAttachmentsRequest>,
+  output: __S(1428, __c89, 4) as any as S.Schema<UserListQuotaAttachmentsResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2499,8 +2544,8 @@ export const userListQuotaPackages: API.OperationMethod<
   UserListQuotaPackagesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<UserListQuotaPackagesRequest>,
-  output: __S(1411, __c88, 3) as any as S.Schema<UserListQuotaPackagesResponse>,
+  input: __S(1440, __c90, 0) as any as S.Schema<UserListQuotaPackagesRequest>,
+  output: __S(1443, __c90, 3) as any as S.Schema<UserListQuotaPackagesResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2516,8 +2561,8 @@ export const userListRepos: API.OperationMethod<
   UserListReposError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<UserListReposRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<UserListReposResponse>,
+  input: __S(1456, __c91, 0) as any as S.Schema<UserListReposRequest>,
+  output: __S(865, __c54, 1) as any as S.Schema<UserListReposResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2533,8 +2578,8 @@ export const userListStarred: API.OperationMethod<
   UserListStarredError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<UserListStarredRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<UserListStarredResponse>,
+  input: __S(1472, __c92, 0) as any as S.Schema<UserListStarredRequest>,
+  output: __S(865, __c54, 1) as any as S.Schema<UserListStarredResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2550,8 +2595,8 @@ export const userListSubscriptions: API.OperationMethod<
   UserListSubscriptionsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<UserListSubscriptionsRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<UserListSubscriptionsResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<UserListSubscriptionsRequest>,
+  output: __S(865, __c54, 1) as any as S.Schema<UserListSubscriptionsResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2567,8 +2612,8 @@ export const userListTeams: API.OperationMethod<
   UserListTeamsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<UserListTeamsRequest>,
-  output: __S(1473, __c92, 1) as any as S.Schema<UserListTeamsResponse>,
+  input: __S(1504, __c94, 0) as any as S.Schema<UserListTeamsRequest>,
+  output: __S(1505, __c94, 1) as any as S.Schema<UserListTeamsResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2584,8 +2629,8 @@ export const userSearchRunJobs: API.OperationMethod<
   UserSearchRunJobsError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<UserSearchRunJobsRequest>,
-  output: __S(1491, __c93, 3) as any as S.Schema<UserSearchRunJobsResponse>,
+  input: __S(1520, __c95, 0) as any as S.Schema<UserSearchRunJobsRequest>,
+  output: __S(1523, __c95, 3) as any as S.Schema<UserSearchRunJobsResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2601,8 +2646,8 @@ export const userUpdateAvatar: API.OperationMethod<
   UserUpdateAvatarError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<UserUpdateAvatarRequest>,
-  output: __S(736, __c46, 0) as any as S.Schema<UserUpdateAvatarResponse>,
+  input: __S(1536, __c96, 0) as any as S.Schema<UserUpdateAvatarRequest>,
+  output: __S(768, __c48, 0) as any as S.Schema<UserUpdateAvatarResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2618,8 +2663,8 @@ export const userUpdateOAuth2Application: API.OperationMethod<
   UserUpdateOAuth2ApplicationError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<UserUpdateOAuth2ApplicationRequest>,
-  output: __S(416, __c26, 0) as any as S.Schema<OAuth2Application>,
+  input: __S(1568, __c98, 0) as any as S.Schema<UserUpdateOAuth2ApplicationRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<OAuth2Application>,
   errors: [Forbidden, NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2635,8 +2680,8 @@ export const userVerifyGPGKey: API.OperationMethod<
   UserVerifyGPGKeyError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<UserVerifyGPGKeyRequest>,
-  output: __S(595, __c37, 3) as any as S.Schema<GPGKey>,
+  input: __S(1584, __c99, 0) as any as S.Schema<UserVerifyGPGKeyRequest>,
+  output: __S(627, __c39, 3) as any as S.Schema<GPGKey>,
   errors: [Forbidden, NotFound, UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -2650,9 +2695,10 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          runner_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/user/actions/runners/{runner_id}", code: 200 })),
-      ).annotate({ identifier: "GetUserRunnerRequest" });
+          message: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "APIError" });
   }
 }
 function __c1(j: number): any {
@@ -2660,10 +2706,20 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          runner_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/user/actions/runners/{runner_id}", code: 200 })),
+      ).annotate({ identifier: "GetUserRunnerRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           description: S.optional(S.String),
           ephemeral: S.optional(S.Boolean),
           id: S.optional(S.Number),
-          labels: S.optional(__S(32, __c2, 0)),
+          labels: S.optional(__S(240, __c15, 0)),
           name: S.optional(S.String),
           owner_id: S.optional(S.Number),
           repo_id: S.optional(S.Number),
@@ -2672,12 +2728,6 @@ function __c1(j: number): any {
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "ActionRunner" });
-  }
-}
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
   }
 }
 function __c3(j: number): any {
@@ -2691,7 +2741,7 @@ function __c3(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/user/actions/runners", code: 200 })),
       ).annotate({ identifier: "GetUserRunnersRequest" });
     case 1:
-      return S.Array(__S(16, __c1, 0));
+      return S.Array(__S(32, __c2, 0));
     case 2:
       return S.suspend(() => __S(49, __c3, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetUserRunnersResponse",
@@ -2825,7 +2875,7 @@ function __c11(j: number): any {
 function __c12(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1584, __c99, 0));
+      return S.Array(__S(1616, __c101, 0));
   }
 }
 function __c13(j: number): any {
@@ -2852,6 +2902,24 @@ function __c14(j: number): any {
 function __c15(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(240, __c15, 0)),
+          message: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "APINotFound" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
@@ -2870,7 +2938,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "UpdateUserSettingsRequest" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2884,17 +2952,17 @@ function __c16(j: number): any {
       ).annotate({ identifier: "UpdateUserVariableRequest" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          emails: S.optional(__S(32, __c2, 0)),
+          emails: S.optional(__S(240, __c15, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/user/emails", code: 200 })),
       ).annotate({ identifier: "UserAddEmailRequest" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2907,14 +2975,14 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "Email" });
     case 1:
-      return S.Array(__S(288, __c18, 0));
+      return S.Array(__S(320, __c20, 0));
     case 2:
-      return S.suspend(() => __S(289, __c18, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(321, __c20, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "UserAddEmailResponse",
       });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2924,7 +2992,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "UserBlockUserRequest" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2935,7 +3003,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "UserCheckFollowingRequest" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2949,7 +3017,7 @@ function __c21(j: number): any {
       });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2957,20 +3025,20 @@ function __c22(j: number): any {
           active: S.optional(S.Boolean),
           authorization_header: S.optional(S.String),
           branch_filter: S.optional(S.String),
-          config: __S(368, __c23, 0),
-          events: S.optional(__S(32, __c2, 0)),
+          config: __S(400, __c25, 0),
+          events: S.optional(__S(240, __c15, 0)),
           type: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/user/hooks", code: 200 })),
       ).annotate({ identifier: "UserCreateHookRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2978,10 +3046,10 @@ function __c24(j: number): any {
           active: S.Boolean,
           authorization_header: S.optional(S.String),
           branch_filter: S.optional(S.String),
-          config: S.optional(__S(368, __c23, 0)),
+          config: S.optional(__S(400, __c25, 0)),
           content_type: S.optional(S.String),
           created_at: S.String,
-          events: S.optional(__S(32, __c2, 0)),
+          events: S.optional(__S(240, __c15, 0)),
           id: S.Number,
           metadata: S.optional(S.Unknown),
           type: S.String,
@@ -2991,19 +3059,19 @@ function __c24(j: number): any {
       ).annotate({ identifier: "Hook" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           confidential_client: S.optional(S.Boolean),
           name: S.optional(S.String),
-          redirect_uris: S.optional(__S(32, __c2, 0)),
+          redirect_uris: S.optional(__S(240, __c15, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/user/applications/oauth2", code: 200 })),
       ).annotate({ identifier: "UserCreateOAuth2ApplicationRequest" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3014,12 +3082,12 @@ function __c26(j: number): any {
           created: S.optional(S.String),
           id: S.optional(S.Number),
           name: S.optional(S.String),
-          redirect_uris: S.optional(__S(32, __c2, 0)),
+          redirect_uris: S.optional(__S(240, __c15, 0)),
         }),
       ).annotate({ identifier: "OAuth2Application" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3029,19 +3097,19 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "RepoTargetOption" });
     case 1:
-      return S.Array(__S(432, __c27, 0));
+      return S.Array(__S(464, __c29, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           username: S.String.pipe(T.Label()),
           name: S.String,
-          repositories: S.optional(__S(433, __c27, 1)),
-          scopes: S.optional(__S(32, __c2, 0)),
+          repositories: S.optional(__S(465, __c29, 1)),
+          scopes: S.optional(__S(240, __c15, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/users/{username}/tokens", code: 200 })),
       ).annotate({ identifier: "UserCreateTokenRequest" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3054,25 +3122,25 @@ function __c28(j: number): any {
       ).annotate({ identifier: "RepositoryMeta" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(448, __c28, 0));
+      return S.Array(__S(480, __c30, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           created_at: S.String,
           id: S.Number,
           name: S.String,
-          repositories: S.optional(__S(464, __c29, 0)),
-          scopes: S.optional(__S(32, __c2, 0)),
+          repositories: S.optional(__S(496, __c31, 0)),
+          scopes: S.optional(__S(240, __c15, 0)),
           sha1: S.optional(S.String.pipe(T.SensitiveValue({}))),
           token_last_eight: S.String,
         }),
       ).annotate({ identifier: "AccessToken" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3082,7 +3150,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "UserCurrentCheckFollowingRequest" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3093,7 +3161,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "UserCurrentCheckStarringRequest" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3103,7 +3171,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "UserCurrentDeleteFollowRequest" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3113,7 +3181,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "UserCurrentDeleteGPGKeyRequest" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3123,7 +3191,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "UserCurrentDeleteKeyRequest" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3134,7 +3202,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "UserCurrentDeleteStarRequest" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3144,7 +3212,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "UserCurrentGetGPGKeyRequest" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3154,9 +3222,9 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "GPGKeyEmail" });
     case 1:
-      return S.Array(__S(592, __c37, 0));
+      return S.Array(__S(624, __c39, 0));
     case 2:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(595, __c37, 3)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(627, __c39, 3)));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3165,19 +3233,19 @@ function __c37(j: number): any {
           can_encrypt_storage: S.optional(S.Boolean),
           can_sign: S.optional(S.Boolean),
           created_at: S.optional(S.String),
-          emails: S.optional(__S(593, __c37, 1)),
+          emails: S.optional(__S(625, __c39, 1)),
           expires_at: S.optional(S.String),
           id: S.optional(S.Number),
           key_id: S.optional(S.String),
           primary_key_id: S.optional(S.String),
           public_key: S.optional(S.String),
-          subkeys: S.optional(__S(594, __c37, 2)),
+          subkeys: S.optional(__S(626, __c39, 2)),
           verified: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GPGKey" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3187,7 +3255,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "UserCurrentGetKeyRequest" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3201,13 +3269,13 @@ function __c39(j: number): any {
           title: S.optional(S.String),
           updated_at: S.optional(S.String),
           url: S.optional(S.String),
-          user: S.optional(__S(1584, __c99, 0)),
+          user: S.optional(__S(1616, __c101, 0)),
           verified: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PublicKey" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3218,7 +3286,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "UserCurrentListFollowersRequest" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => __S(192, __c12, 0).pipe(T.RawResponseRoot())).annotate({
@@ -3226,7 +3294,7 @@ function __c41(j: number): any {
       });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3237,7 +3305,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "UserCurrentListFollowingRequest" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3248,17 +3316,17 @@ function __c43(j: number): any {
       ).annotate({ identifier: "UserCurrentListGPGKeysRequest" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(595, __c37, 3));
+      return S.Array(__S(627, __c39, 3));
     case 1:
-      return S.suspend(() => __S(704, __c44, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(736, __c46, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "UserCurrentListGPGKeysResponse",
       });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3271,13 +3339,13 @@ function __c45(j: number): any {
       ).annotate({ identifier: "CreateUserVariableRequest" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateUserVariableResponse" });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3289,17 +3357,17 @@ function __c47(j: number): any {
       ).annotate({ identifier: "UserCurrentListKeysRequest" });
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(624, __c39, 0));
+      return S.Array(__S(656, __c41, 0));
     case 1:
-      return S.suspend(() => __S(768, __c48, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(800, __c50, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "UserCurrentListKeysResponse",
       });
   }
 }
-function __c49(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3311,7 +3379,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "UserCurrentListReposRequest" });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3347,9 +3415,9 @@ function __c50(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          doer: S.optional(__S(1584, __c99, 0)),
-          recipient: S.optional(__S(1584, __c99, 0)),
-          teams: S.optional(__S(818, __c51, 2)),
+          doer: S.optional(__S(1616, __c101, 0)),
+          recipient: S.optional(__S(1616, __c101, 0)),
+          teams: S.optional(__S(850, __c53, 2)),
         }),
       ).annotate({ identifier: "RepoTransfer" });
     case 5:
@@ -3373,8 +3441,8 @@ function __c50(j: number): any {
           default_update_style: S.optional(S.String),
           description: S.optional(S.String),
           empty: S.optional(S.Boolean),
-          external_tracker: S.optional(__S(800, __c50, 0)),
-          external_wiki: S.optional(__S(801, __c50, 1)),
+          external_tracker: S.optional(__S(832, __c52, 0)),
+          external_wiki: S.optional(__S(833, __c52, 1)),
           fork: S.optional(S.Boolean),
           forks_count: S.optional(S.Number),
           full_name: S.String,
@@ -3391,7 +3459,7 @@ function __c50(j: number): any {
           id: S.Number,
           ignore_whitespace_conflicts: S.optional(S.Boolean),
           internal: S.optional(S.Boolean),
-          internal_tracker: S.optional(__S(802, __c50, 2)),
+          internal_tracker: S.optional(__S(834, __c52, 2)),
           language: S.optional(S.String),
           languages_url: S.optional(S.String),
           link: S.optional(S.String),
@@ -3403,17 +3471,17 @@ function __c50(j: number): any {
           open_issues_count: S.optional(S.Number),
           open_pr_counter: S.optional(S.Number),
           original_url: S.optional(S.String),
-          owner: __S(1584, __c99, 0),
-          parent: S.optional(__S(805, __c50, 5)),
-          permissions: S.optional(__S(803, __c50, 3)),
+          owner: __S(1616, __c101, 0),
+          parent: S.optional(__S(837, __c52, 5)),
+          permissions: S.optional(__S(835, __c52, 3)),
           private: S.optional(S.Boolean),
           release_counter: S.optional(S.Number),
-          repo_transfer: S.optional(__S(804, __c50, 4)),
+          repo_transfer: S.optional(__S(836, __c52, 4)),
           size: S.optional(S.Number),
           ssh_url: S.String,
           stars_count: S.optional(S.Number),
           template: S.optional(S.Boolean),
-          topics: S.optional(__S(32, __c2, 0)),
+          topics: S.optional(__S(240, __c15, 0)),
           updated_at: S.String,
           url: S.optional(S.String),
           watchers_count: S.optional(S.Number),
@@ -3425,7 +3493,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "Repository" });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3452,27 +3520,27 @@ function __c51(j: number): any {
           id: S.Number,
           includes_all_repositories: S.optional(S.Boolean),
           name: S.String,
-          organization: S.optional(__S(816, __c51, 0)),
+          organization: S.optional(__S(848, __c53, 0)),
           permission: S.optional(S.String),
-          units: S.optional(__S(32, __c2, 0)),
-          units_map: S.optional(__S(368, __c23, 0)),
+          units: S.optional(__S(240, __c15, 0)),
+          units_map: S.optional(__S(400, __c25, 0)),
         }),
       ).annotate({ identifier: "Team" });
     case 2:
-      return S.Array(__S(817, __c51, 1));
+      return S.Array(__S(849, __c53, 1));
   }
 }
-function __c52(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(805, __c50, 5));
+      return S.Array(__S(837, __c52, 5));
     case 1:
-      return S.suspend(() => __S(832, __c52, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(864, __c54, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "UserCurrentListReposResponse",
       });
   }
 }
-function __c53(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3483,7 +3551,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "UserCurrentListStarredRequest" });
   }
 }
-function __c54(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3494,7 +3562,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "UserCurrentListSubscriptionsRequest" });
   }
 }
-function __c55(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3505,7 +3573,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "UserCurrentPostGPGKeyRequest" });
   }
 }
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3517,7 +3585,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "UserCurrentPostKeyRequest" });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3527,7 +3595,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "UserCurrentPutFollowRequest" });
   }
 }
-function __c58(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3538,7 +3606,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "UserCurrentPutStarRequest" });
   }
 }
-function __c59(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3562,7 +3630,7 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "Label" });
     case 2:
-      return S.Array(__S(945, __c59, 1));
+      return S.Array(__S(977, __c61, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3590,8 +3658,8 @@ function __c59(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          assets: S.optional(__S(961, __c60, 1)),
-          assignee: S.optional(__S(1584, __c99, 0)),
+          assets: S.optional(__S(993, __c62, 1)),
+          assignee: S.optional(__S(1616, __c101, 0)),
           assignees: S.optional(__S(192, __c12, 0)),
           body: S.optional(S.String),
           closed_at: S.optional(S.String),
@@ -3601,20 +3669,20 @@ function __c59(j: number): any {
           html_url: S.optional(S.String),
           id: S.optional(S.Number),
           is_locked: S.optional(S.Boolean),
-          labels: S.optional(__S(946, __c59, 2)),
-          milestone: S.optional(__S(947, __c59, 3)),
+          labels: S.optional(__S(978, __c61, 2)),
+          milestone: S.optional(__S(979, __c61, 3)),
           number: S.optional(S.Number),
           original_author: S.optional(S.String),
           original_author_id: S.optional(S.Number),
           pin_order: S.optional(S.Number),
-          pull_request: S.optional(__S(948, __c59, 4)),
+          pull_request: S.optional(__S(980, __c61, 4)),
           ref: S.optional(S.String),
-          repository: S.optional(__S(448, __c28, 0)),
+          repository: S.optional(__S(480, __c30, 0)),
           state: S.optional(S.String),
           title: S.optional(S.String),
           updated_at: S.optional(S.String),
           url: S.optional(S.String),
-          user: S.optional(__S(1584, __c99, 0)),
+          user: S.optional(__S(1616, __c101, 0)),
         }),
       ).annotate({ identifier: "Issue" });
     case 6:
@@ -3622,7 +3690,7 @@ function __c59(j: number): any {
         S.Struct({
           created: S.optional(S.String),
           id: S.optional(S.Number),
-          issue: S.optional(__S(949, __c59, 5)),
+          issue: S.optional(__S(981, __c61, 5)),
           issue_id: S.optional(S.Number),
           time: S.optional(S.Number),
           user_id: S.optional(S.Number),
@@ -3630,14 +3698,14 @@ function __c59(j: number): any {
         }),
       ).annotate({ identifier: "TrackedTime" });
     case 7:
-      return S.Array(__S(950, __c59, 6));
+      return S.Array(__S(982, __c61, 6));
     case 8:
-      return S.suspend(() => __S(951, __c59, 7).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(983, __c61, 7).pipe(T.RawResponseRoot())).annotate({
         identifier: "UserCurrentTrackedTimesResponse",
       });
   }
 }
-function __c60(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3653,10 +3721,10 @@ function __c60(j: number): any {
         }),
       ).annotate({ identifier: "Attachment" });
     case 1:
-      return S.Array(__S(960, __c60, 0));
+      return S.Array(__S(992, __c62, 0));
   }
 }
-function __c61(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3667,7 +3735,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "UserDeleteAccessTokenRequest" });
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3677,7 +3745,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "DeleteUserRunnerRequest" });
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3685,17 +3753,17 @@ function __c63(j: number): any {
       ).annotate({ identifier: "UserDeleteAvatarRequest" });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          emails: S.optional(__S(32, __c2, 0)),
+          emails: S.optional(__S(240, __c15, 0)),
         }).pipe(T.Http({ method: "DELETE", uri: "/user/emails", code: 200 })),
       ).annotate({ identifier: "UserDeleteEmailRequest" });
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3705,7 +3773,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "UserDeleteHookRequest" });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3715,7 +3783,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "UserDeleteOAuth2ApplicationRequest" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3724,13 +3792,13 @@ function __c67(j: number): any {
           active: S.optional(S.Boolean),
           authorization_header: S.optional(S.String),
           branch_filter: S.optional(S.String),
-          config: S.optional(__S(368, __c23, 0)),
-          events: S.optional(__S(32, __c2, 0)),
+          config: S.optional(__S(400, __c25, 0)),
+          events: S.optional(__S(240, __c15, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/user/hooks/{id}", code: 200 })),
       ).annotate({ identifier: "UserEditHookRequest" });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3738,7 +3806,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "UserGetCurrentRequest" });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3754,14 +3822,14 @@ function __c69(j: number): any {
         }),
       ).annotate({ identifier: "UserHeatmapData" });
     case 2:
-      return S.Array(__S(1105, __c69, 1));
+      return S.Array(__S(1137, __c71, 1));
     case 3:
-      return S.suspend(() => __S(1106, __c69, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1138, __c71, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "UserGetHeatmapDataResponse",
       });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3771,7 +3839,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "UserGetHookRequest" });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3781,7 +3849,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "UserGetOAuth2ApplicationRequest" });
   }
 }
-function __c72(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3791,14 +3859,14 @@ function __c72(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/user/applications/oauth2", code: 200 })),
       ).annotate({ identifier: "UserGetOAuth2ApplicationsRequest" });
     case 1:
-      return S.Array(__S(416, __c26, 0));
+      return S.Array(__S(448, __c28, 0));
     case 2:
-      return S.suspend(() => __S(1153, __c72, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1185, __c74, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "UserGetOAuth2ApplicationsResponse",
       });
   }
 }
-function __c73(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3808,7 +3876,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "DeleteUserSecretRequest" });
   }
 }
-function __c74(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3819,20 +3887,20 @@ function __c74(j: number): any {
         S.Struct({
           limit: S.optional(S.Number),
           name: S.optional(S.String),
-          subjects: S.optional(__S(32, __c2, 0)),
+          subjects: S.optional(__S(240, __c15, 0)),
         }),
       ).annotate({ identifier: "QuotaRuleInfo" });
     case 2:
-      return S.Array(__S(1185, __c74, 1));
+      return S.Array(__S(1217, __c76, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          rules: S.optional(__S(1186, __c74, 2)),
+          rules: S.optional(__S(1218, __c76, 2)),
         }),
       ).annotate({ identifier: "QuotaGroup" });
     case 4:
-      return S.Array(__S(1187, __c74, 3));
+      return S.Array(__S(1219, __c76, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -3850,8 +3918,8 @@ function __c74(j: number): any {
       return S.suspend(() =>
         S.Struct({
           artifacts: S.optional(S.Number),
-          attachments: S.optional(__S(1189, __c74, 5)),
-          packages: S.optional(__S(1190, __c74, 6)),
+          attachments: S.optional(__S(1221, __c76, 5)),
+          packages: S.optional(__S(1222, __c76, 6)),
         }),
       ).annotate({ identifier: "QuotaUsedSizeAssets" });
     case 8:
@@ -3870,27 +3938,27 @@ function __c74(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          assets: S.optional(__S(1191, __c74, 7)),
-          git: S.optional(__S(1192, __c74, 8)),
-          repos: S.optional(__S(1193, __c74, 9)),
+          assets: S.optional(__S(1223, __c76, 7)),
+          git: S.optional(__S(1224, __c76, 8)),
+          repos: S.optional(__S(1225, __c76, 9)),
         }),
       ).annotate({ identifier: "QuotaUsedSize" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          size: S.optional(__S(1194, __c74, 10)),
+          size: S.optional(__S(1226, __c76, 10)),
         }),
       ).annotate({ identifier: "QuotaUsed" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          groups: S.optional(__S(1188, __c74, 4)),
-          used: S.optional(__S(1195, __c74, 11)),
+          groups: S.optional(__S(1220, __c76, 4)),
+          used: S.optional(__S(1227, __c76, 11)),
         }),
       ).annotate({ identifier: "QuotaInfo" });
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3912,14 +3980,14 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "StopWatch" });
     case 2:
-      return S.Array(__S(1201, __c75, 1));
+      return S.Array(__S(1233, __c77, 1));
     case 3:
-      return S.suspend(() => __S(1202, __c75, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1234, __c77, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "UserGetStopWatchesResponse",
       });
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3930,14 +3998,14 @@ function __c76(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/users/{username}/tokens", code: 200 })),
       ).annotate({ identifier: "UserGetTokensRequest" });
     case 1:
-      return S.Array(__S(465, __c29, 1));
+      return S.Array(__S(497, __c31, 1));
     case 2:
-      return S.suspend(() => __S(1217, __c76, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1249, __c78, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "UserGetTokensResponse",
       });
   }
 }
-function __c77(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3952,7 +4020,7 @@ function __c77(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          assets: S.optional(__S(961, __c60, 1)),
+          assets: S.optional(__S(993, __c62, 1)),
           body: S.optional(S.String),
           created_at: S.optional(S.String),
           html_url: S.optional(S.String),
@@ -3962,15 +4030,15 @@ function __c77(j: number): any {
           original_author_id: S.optional(S.Number),
           pull_request_url: S.optional(S.String),
           updated_at: S.optional(S.String),
-          user: S.optional(__S(1584, __c99, 0)),
+          user: S.optional(__S(1616, __c101, 0)),
         }),
       ).annotate({ identifier: "Comment" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          act_user: S.optional(__S(1584, __c99, 0)),
+          act_user: S.optional(__S(1616, __c101, 0)),
           act_user_id: S.optional(S.Number),
-          comment: S.optional(__S(1233, __c77, 1)),
+          comment: S.optional(__S(1265, __c79, 1)),
           comment_id: S.optional(S.Number),
           content: S.optional(S.String),
           created: S.optional(S.String),
@@ -3978,20 +4046,20 @@ function __c77(j: number): any {
           is_private: S.optional(S.Boolean),
           op_type: S.optional(S.String),
           ref_name: S.optional(S.String),
-          repo: S.optional(__S(805, __c50, 5)),
+          repo: S.optional(__S(837, __c52, 5)),
           repo_id: S.optional(S.Number),
           user_id: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Activity" });
     case 3:
-      return S.Array(__S(1234, __c77, 2));
+      return S.Array(__S(1266, __c79, 2));
     case 4:
-      return S.suspend(() => __S(1235, __c77, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1267, __c79, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "UserListActivityFeedsResponse",
       });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4008,14 +4076,14 @@ function __c78(j: number): any {
         }),
       ).annotate({ identifier: "BlockedUser" });
     case 2:
-      return S.Array(__S(1249, __c78, 1));
+      return S.Array(__S(1281, __c80, 1));
     case 3:
-      return S.suspend(() => __S(1250, __c78, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1282, __c80, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "UserListBlockedUsersResponse",
       });
   }
 }
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4023,7 +4091,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "UserListEmailsRequest" });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4035,7 +4103,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "UserListFollowersRequest" });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4047,7 +4115,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "UserListFollowingRequest" });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4059,7 +4127,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "UserListGPGKeysRequest" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4069,14 +4137,14 @@ function __c83(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/user/hooks", code: 200 })),
       ).annotate({ identifier: "UserListHooksRequest" });
     case 1:
-      return S.Array(__S(384, __c24, 0));
+      return S.Array(__S(416, __c26, 0));
     case 2:
-      return S.suspend(() => __S(1329, __c83, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1361, __c85, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "UserListHooksResponse",
       });
   }
 }
-function __c84(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4088,7 +4156,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "DeleteUserVariableRequest" });
   }
 }
-function __c85(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4101,7 +4169,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "UserListKeysRequest" });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4119,14 +4187,14 @@ function __c86(j: number): any {
         }),
       ).annotate({ identifier: "QuotaUsedArtifact" });
     case 2:
-      return S.Array(__S(1377, __c86, 1));
+      return S.Array(__S(1409, __c88, 1));
     case 3:
-      return S.suspend(() => __S(1378, __c86, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1410, __c88, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "UserListQuotaArtifactsResponse",
       });
   }
 }
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4146,20 +4214,20 @@ function __c87(j: number): any {
       return S.suspend(() =>
         S.Struct({
           api_url: S.optional(S.String),
-          contained_in: S.optional(__S(1393, __c87, 1)),
+          contained_in: S.optional(__S(1425, __c89, 1)),
           name: S.optional(S.String),
           size: S.optional(S.Number),
         }),
       ).annotate({ identifier: "QuotaUsedAttachment" });
     case 3:
-      return S.Array(__S(1394, __c87, 2));
+      return S.Array(__S(1426, __c89, 2));
     case 4:
-      return S.suspend(() => __S(1395, __c87, 3).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1427, __c89, 3).pipe(T.RawResponseRoot())).annotate({
         identifier: "UserListQuotaAttachmentsResponse",
       });
   }
 }
-function __c88(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4179,14 +4247,14 @@ function __c88(j: number): any {
         }),
       ).annotate({ identifier: "QuotaUsedPackage" });
     case 2:
-      return S.Array(__S(1409, __c88, 1));
+      return S.Array(__S(1441, __c90, 1));
     case 3:
-      return S.suspend(() => __S(1410, __c88, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1442, __c90, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "UserListQuotaPackagesResponse",
       });
   }
 }
-function __c89(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4198,7 +4266,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "UserListReposRequest" });
   }
 }
-function __c90(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4210,7 +4278,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "UserListStarredRequest" });
   }
 }
-function __c91(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4222,7 +4290,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "UserListSubscriptionsRequest" });
   }
 }
-function __c92(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4232,12 +4300,12 @@ function __c92(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/user/teams", code: 200 })),
       ).annotate({ identifier: "UserListTeamsRequest" });
     case 1:
-      return S.suspend(() => __S(818, __c51, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(850, __c53, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "UserListTeamsResponse",
       });
   }
 }
-function __c93(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4252,24 +4320,24 @@ function __c93(j: number): any {
           handle: S.optional(S.String),
           id: S.optional(S.Number),
           name: S.optional(S.String),
-          needs: S.optional(__S(32, __c2, 0)),
+          needs: S.optional(__S(240, __c15, 0)),
           owner_id: S.optional(S.Number),
           repo_id: S.optional(S.Number),
           run_id: S.optional(S.Number),
-          runs_on: S.optional(__S(32, __c2, 0)),
+          runs_on: S.optional(__S(240, __c15, 0)),
           status: S.optional(S.String),
           task_id: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ActionRunJob" });
     case 2:
-      return S.Array(__S(1489, __c93, 1));
+      return S.Array(__S(1521, __c95, 1));
     case 3:
-      return S.suspend(() => __S(1490, __c93, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1522, __c95, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "UserSearchRunJobsResponse",
       });
   }
 }
-function __c94(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4279,7 +4347,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "UserUpdateAvatarRequest" });
   }
 }
-function __c95(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4289,7 +4357,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "FollowUserCurrentActivityPubRequest" });
   }
 }
-function __c96(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4297,12 +4365,12 @@ function __c96(j: number): any {
           id: S.Number.pipe(T.Label()),
           confidential_client: S.optional(S.Boolean),
           name: S.optional(S.String),
-          redirect_uris: S.optional(__S(32, __c2, 0)),
+          redirect_uris: S.optional(__S(240, __c15, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/user/applications/oauth2/{id}", code: 200 })),
       ).annotate({ identifier: "UserUpdateOAuth2ApplicationRequest" });
   }
 }
-function __c97(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4313,7 +4381,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "UserVerifyGPGKeyRequest" });
   }
 }
-function __c98(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4323,7 +4391,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c99(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

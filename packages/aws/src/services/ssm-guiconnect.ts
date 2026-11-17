@@ -109,7 +109,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -127,7 +127,7 @@ export class ThrottlingException
     "ThrottlingException",
     { message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
     "ValidationException",
@@ -136,10 +136,10 @@ export class ValidationException
   ).pipe(C.withBadRequestError) {}
 export type ClientToken = string;
 export interface DeleteConnectionRecordingPreferencesRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface DeleteConnectionRecordingPreferencesResponse {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface GetConnectionRecordingPreferencesRequest {}
 export type AccountId = string;
@@ -157,16 +157,16 @@ export interface ConnectionRecordingPreferences {
   KMSKeyArn: string;
 }
 export interface GetConnectionRecordingPreferencesResponse {
-  ClientToken?: string;
-  ConnectionRecordingPreferences?: ConnectionRecordingPreferences;
+  ClientToken?: string | undefined;
+  ConnectionRecordingPreferences?: ConnectionRecordingPreferences | undefined;
 }
 export interface UpdateConnectionRecordingPreferencesRequest {
   ConnectionRecordingPreferences: ConnectionRecordingPreferences;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface UpdateConnectionRecordingPreferencesResponse {
-  ClientToken?: string;
-  ConnectionRecordingPreferences?: ConnectionRecordingPreferences;
+  ClientToken?: string | undefined;
+  ConnectionRecordingPreferences?: ConnectionRecordingPreferences | undefined;
 }
 export type ErrorMessage = string;
 export type DeleteConnectionRecordingPreferencesError =

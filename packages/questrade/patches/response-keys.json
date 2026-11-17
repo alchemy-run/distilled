@@ -1,0 +1,31 @@
+{
+  "description": "Where a page's sample response and its own property table disagree on a key, use the key the API returns. Evidence: the property tables, and the fixtures of three independent clients tested against the live API (lucaspanjer/questrade-client, Luxcium/questrade-ts, elislade/QuestradeAPI). GET symbols/search: table and clients say `symbols`, the sample `symbol`. POST markets/quotes/strategies: clients say `strategyQuotes`, the sample `stategyQuotes`. GET symbols/:id/options: clients say `optionChain` (the table says `symbols`, the sample `options`), and each chainPerRoot entry carries `optionRoot` (the sample `root`; the table nests `optionRoot` one level too deep, under ChainPerStrikePrice).",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.questrade.api#GetV1SymbolsSearchResponse/members/symbol",
+      "path": "/shapes/com.questrade.api#GetV1SymbolsSearchResponse/members/symbols"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.questrade.api#PostV1MarketsQuotesStrategiesResponse/members/stategyQuotes",
+      "path": "/shapes/com.questrade.api#PostV1MarketsQuotesStrategiesResponse/members/strategyQuotes"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.questrade.api#GetV1SymbolsIdOptionsResponse/members/options",
+      "path": "/shapes/com.questrade.api#GetV1SymbolsIdOptionsResponse/members/optionChain"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.questrade.api#ChainPerRoot/members/root",
+      "path": "/shapes/com.questrade.api#ChainPerRoot/members/optionRoot"
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.questrade.api#ChainPerStrikePrice/members/optionRoot/traits",
+      "path": "/shapes/com.questrade.api#ChainPerRoot/members/optionRoot/traits"
+    },
+    { "op": "remove", "path": "/shapes/com.questrade.api#ChainPerStrikePrice/members/optionRoot" }
+  ]
+}

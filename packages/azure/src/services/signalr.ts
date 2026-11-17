@@ -45,11 +45,11 @@ export interface CheckSignalRNameAvailabilityRequest {
 /** Result of the request to check name availability. It contains a flag and possible reason of failure. */
 export interface NameAvailability {
   /** Indicates whether the name is available or not. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason of the availability. Required if name is not available. */
-  reason?: string;
+  reason?: string | undefined;
   /** The message of the operation. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteSignalRRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -130,17 +130,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type GetSignalRResponseTagsMap = { [key: string]: string | undefined };
@@ -150,13 +150,13 @@ export type SignalRSkuTier = "Free" | "Basic" | "Standard" | "Premium";
 export interface ResourceSku {
   /** The name of the SKU. Required. Allowed values: Standard_S1, Free_F1, Premium_P1, Premium_P2 */
   name: string;
-  tier?: SignalRSkuTier;
+  tier?: SignalRSkuTier | undefined;
   /** Not used. Retained for future use. */
-  size?: string;
+  size?: string | undefined;
   /** Not used. Retained for future use. */
-  family?: string;
+  family?: string | undefined;
   /** Optional, integer. The unit count of the resource. 1 for Free_F1/Standard_S1/Premium_P1, 100 for Premium_P2 by default. If present, following values are allowed: Free_F1: 1; Standard_S1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100; Premium_P1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100; Premium_P2: 100,200,300,400,500,600,700,800,900,1000; */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** Provisioning state of the resource. */
 export type ProvisioningState =
@@ -172,7 +172,7 @@ export type ProvisioningState =
 /** Private endpoint */
 export interface PrivateEndpoint {
   /** Full qualified Id of the private endpoint */
-  id?: string;
+  id?: string | undefined;
 }
 /** Group IDs */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
@@ -184,31 +184,31 @@ export type PrivateLinkServiceConnectionStatus =
   | "Disconnected";
 /** Connection state of the private endpoint connection */
 export interface PrivateLinkServiceConnectionState {
-  status?: PrivateLinkServiceConnectionStatus | (string & {});
+  status?: PrivateLinkServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Private endpoint connection properties */
 export interface PrivateEndpointConnectionProperties {
-  provisioningState?: ProvisioningState;
-  privateEndpoint?: PrivateEndpoint;
+  provisioningState?: ProvisioningState | undefined;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** Group IDs */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState | undefined;
 }
 /** A private endpoint connection to an azure resource */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: PrivateEndpointConnectionProperties;
+  systemData?: SystemData | undefined;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** Private endpoint connections to the resource. */
 export type SignalRPropertiesPrivateEndpointConnectionsList = Array<PrivateEndpointConnection>;
@@ -225,29 +225,29 @@ export interface SharedPrivateLinkResourceProperties {
   groupId: string;
   /** The resource id of the resource the shared private link resource is for */
   privateLinkResourceId: string;
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The request message for requesting approval of the shared private link resource */
-  requestMessage?: string;
-  status?: SharedPrivateLinkResourceStatus;
+  requestMessage?: string | undefined;
+  status?: SharedPrivateLinkResourceStatus | undefined;
 }
 /** Describes a Shared Private Link Resource */
 export interface SharedPrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SharedPrivateLinkResourceProperties;
+  systemData?: SystemData | undefined;
+  properties?: SharedPrivateLinkResourceProperties | undefined;
 }
 /** The list of shared private link resources. */
 export type SignalRPropertiesSharedPrivateLinkResourcesList = Array<SharedPrivateLinkResource>;
 /** TLS settings for the resource */
 export interface SignalRTlsSettings {
   /** Request client certificate during TLS handshake if enabled. Not supported for free tier. Any input will be ignored for free tier. */
-  clientCertEnabled?: boolean;
+  clientCertEnabled?: boolean | undefined;
 }
 /** FeatureFlags is the supported features of Azure SignalR service. - ServiceMode: Flag for backend server for SignalR service. Values allowed: "Default": have your own backend server; "Serverless": your application doesn't have a backend server; "Classic": for backward compatibility. Support both Default and Serverless mode but not recommended; "PredefinedOnly": for future use. - EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log category respectively. - EnableMessagingLogs: "true"/"false", to enable/disable the connectivity log category respectively. - EnableLiveTrace: Live Trace allows you to know what's happening inside Azure SignalR service, it will give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application or self-troubleshooting some issues. Please note that live traces are counted as outbound messages that will be charged. Values allowed: "true"/"false", to enable/disable live trace feature. */
 export type FeatureFlags =
@@ -263,82 +263,82 @@ export interface SignalRFeature {
   /** Value of the feature flag. See Azure SignalR service document https://docs.microsoft.com/azure/azure-signalr/ for allowed values. */
   value: string;
   /** Optional properties related to this feature. */
-  properties?: SignalRFeaturePropertiesMap;
+  properties?: SignalRFeaturePropertiesMap | undefined;
 }
 /** List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags. */
 export type SignalRPropertiesFeaturesList = Array<SignalRFeature>;
 /** Live trace category configuration of a Microsoft.SignalRService resource. */
 export interface LiveTraceCategory {
   /** Gets or sets the live trace category's name. Available values: ConnectivityLogs, MessagingLogs. Case insensitive. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether or the live trace category is enabled. Available values: true, false. Case insensitive. */
-  enabled?: string;
+  enabled?: string | undefined;
 }
 /** Gets or sets the list of category configurations. */
 export type LiveTraceConfigurationCategoriesList = Array<LiveTraceCategory>;
 /** Live trace configuration of a Microsoft.SignalRService resource. */
 export interface LiveTraceConfiguration {
   /** Indicates whether or not enable live trace. When it's set to true, live trace client can connect to the service. Otherwise, live trace client can't connect to the service, so that you are unable to receive any log, no matter what you configure in "categories". Available values: true, false. Case insensitive. */
-  enabled?: string;
+  enabled?: string | undefined;
   /** Gets or sets the list of category configurations. */
-  categories?: LiveTraceConfigurationCategoriesList;
+  categories?: LiveTraceConfigurationCategoriesList | undefined;
 }
 /** Resource log category configuration of a Microsoft.SignalRService resource. */
 export interface ResourceLogCategory {
   /** Gets or sets the resource log category's name. Available values: ConnectivityLogs, MessagingLogs. Case insensitive. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether or the resource log category is enabled. Available values: true, false. Case insensitive. */
-  enabled?: string;
+  enabled?: string | undefined;
 }
 /** Gets or sets the list of category configurations. */
 export type ResourceLogConfigurationCategoriesList = Array<ResourceLogCategory>;
 /** Resource log configuration of a Microsoft.SignalRService resource. */
 export interface ResourceLogConfiguration {
   /** Gets or sets the list of category configurations. */
-  categories?: ResourceLogConfigurationCategoriesList;
+  categories?: ResourceLogConfigurationCategoriesList | undefined;
 }
 /** Gets or sets the list of origins that should be allowed to make cross-origin calls (for example: http://example.com:12345). Use "*" to allow all. If omitted, allow all by default. */
 export type SignalRCorsSettingsAllowedOriginsList = Array<string>;
 /** Cross-Origin Resource Sharing (CORS) settings. */
 export interface SignalRCorsSettings {
   /** Gets or sets the list of origins that should be allowed to make cross-origin calls (for example: http://example.com:12345). Use "*" to allow all. If omitted, allow all by default. */
-  allowedOrigins?: SignalRCorsSettingsAllowedOriginsList;
+  allowedOrigins?: SignalRCorsSettingsAllowedOriginsList | undefined;
 }
 /** Serverless settings. */
 export interface ServerlessSettings {
   /** Gets or sets Client Connection Timeout. Optional to be set. Value in seconds. Default value is 30 seconds. Customer should set the timeout to a shorter period if messages are expected to be sent in shorter intervals, and want the client to disconnect more quickly after the last message is sent. You can set the timeout to a longer period if messages are expected to be sent in longer intervals, and they want to keep the same client connection alive during this session. The service considers the client disconnected if it hasn't received a message (including keep-alive) in this interval. */
-  connectionTimeoutInSeconds?: number;
+  connectionTimeoutInSeconds?: number | undefined;
 }
 /** Upstream auth type enum. */
 export type UpstreamAuthType = "None" | "ManagedIdentity";
 /** Managed identity settings for upstream. */
 export interface ManagedIdentitySettings {
   /** The Resource indicating the App ID URI of the target resource. It also appears in the aud (audience) claim of the issued token. */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** Upstream auth settings. If not set, no auth is used for upstream messages. */
 export interface UpstreamAuthSettings {
-  type?: UpstreamAuthType | (string & {});
-  managedIdentity?: ManagedIdentitySettings;
+  type?: UpstreamAuthType | (string & {}) | undefined;
+  managedIdentity?: ManagedIdentitySettings | undefined;
 }
 /** Upstream template item settings. It defines the Upstream URL of the incoming requests. The template defines the pattern of the event, the hub or the category of the incoming request that matches current URL template. */
 export interface UpstreamTemplate {
   /** Gets or sets the matching pattern for hub names. If not set, it matches any hub. There are 3 kind of patterns supported: 1. "*", it to matches any hub name. 2. Combine multiple hubs with ",", for example "hub1,hub2", it matches "hub1" and "hub2". 3. The single hub name, for example, "hub1", it matches "hub1". */
-  hubPattern?: string;
+  hubPattern?: string | undefined;
   /** Gets or sets the matching pattern for event names. If not set, it matches any event. There are 3 kind of patterns supported: 1. "*", it to matches any event name. 2. Combine multiple events with ",", for example "connect,disconnect", it matches event "connect" and "disconnect". 3. The single event name, for example, "connect", it matches "connect". */
-  eventPattern?: string;
+  eventPattern?: string | undefined;
   /** Gets or sets the matching pattern for category names. If not set, it matches any category. There are 3 kind of patterns supported: 1. "*", it to matches any category name. 2. Combine multiple categories with ",", for example "connections,messages", it matches category "connections" and "messages". 3. The single category name, for example, "connections", it matches the category "connections". */
-  categoryPattern?: string;
+  categoryPattern?: string | undefined;
   /** Gets or sets the Upstream URL template. You can use 3 predefined parameters {hub}, {category} {event} inside the template, the value of the Upstream URL is dynamically calculated when the client request comes in. For example, if the urlTemplate is `http://example.com/{hub}/api/{event}`, with a client request from hub `chat` connects, it will first POST to this URL: `http://example.com/chat/api/connect`. */
   urlTemplate: string;
-  auth?: UpstreamAuthSettings;
+  auth?: UpstreamAuthSettings | undefined;
 }
 /** Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects. */
 export type ServerlessUpstreamSettingsTemplatesList = Array<UpstreamTemplate>;
 /** The settings for the Upstream when the service is in server-less mode. */
 export interface ServerlessUpstreamSettings {
   /** Gets or sets the list of Upstream URL templates. Order matters, and the first matching template takes effects. */
-  templates?: ServerlessUpstreamSettingsTemplatesList;
+  templates?: ServerlessUpstreamSettingsTemplatesList | undefined;
 }
 /** Azure Networking ACL Action. */
 export type ACLAction = "Allow" | "Deny";
@@ -351,9 +351,9 @@ export type NetworkACLDenyList = Array<SignalRRequestType | (string & {})>;
 /** Network ACL */
 export interface NetworkACL {
   /** Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
-  allow?: NetworkACLAllowList;
+  allow?: NetworkACLAllowList | undefined;
   /** Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
-  deny?: NetworkACLDenyList;
+  deny?: NetworkACLDenyList | undefined;
 }
 /** Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
 export type PrivateEndpointACLAllowList = Array<SignalRRequestType | (string & {})>;
@@ -362,9 +362,9 @@ export type PrivateEndpointACLDenyList = Array<SignalRRequestType | (string & {}
 /** ACL for a private endpoint */
 export interface PrivateEndpointACL {
   /** Allowed request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
-  allow?: PrivateEndpointACLAllowList;
+  allow?: PrivateEndpointACLAllowList | undefined;
   /** Denied request types. The value can be one or more of: ClientConnection, ServerConnection, RESTAPI. */
-  deny?: PrivateEndpointACLDenyList;
+  deny?: PrivateEndpointACLDenyList | undefined;
   /** Name of the private endpoint connection */
   name: string;
 }
@@ -373,58 +373,58 @@ export type SignalRNetworkACLsPrivateEndpointsList = Array<PrivateEndpointACL>;
 /** An IP rule */
 export interface IPRule {
   /** An IP or CIDR or ServiceTag */
-  value?: string;
-  action?: ACLAction | (string & {});
+  value?: string | undefined;
+  action?: ACLAction | (string & {}) | undefined;
 }
 /** IP rules for filtering public traffic */
 export type SignalRNetworkACLsIpRulesList = Array<IPRule>;
 /** Network ACLs for the resource */
 export interface SignalRNetworkACLs {
-  defaultAction?: ACLAction | (string & {});
-  publicNetwork?: NetworkACL;
+  defaultAction?: ACLAction | (string & {}) | undefined;
+  publicNetwork?: NetworkACL | undefined;
   /** ACLs for requests from private endpoints */
-  privateEndpoints?: SignalRNetworkACLsPrivateEndpointsList;
+  privateEndpoints?: SignalRNetworkACLsPrivateEndpointsList | undefined;
   /** IP rules for filtering public traffic */
-  ipRules?: SignalRNetworkACLsIpRulesList;
+  ipRules?: SignalRNetworkACLsIpRulesList | undefined;
 }
 /** A class that describes the properties of the resource */
 export interface SignalRProperties {
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The publicly accessible IP of the resource. */
-  externalIP?: string;
+  externalIP?: string | undefined;
   /** FQDN of the service instance. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** The publicly accessible port of the resource which is designed for browser/client side usage. */
-  publicPort?: number;
+  publicPort?: number | undefined;
   /** The publicly accessible port of the resource which is designed for customer server side usage. */
-  serverPort?: number;
+  serverPort?: number | undefined;
   /** Version of the resource. Probably you need the same or higher version of client SDKs. */
-  version?: string;
+  version?: string | undefined;
   /** Private endpoint connections to the resource. */
-  privateEndpointConnections?: SignalRPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: SignalRPropertiesPrivateEndpointConnectionsList | undefined;
   /** The list of shared private link resources. */
-  sharedPrivateLinkResources?: SignalRPropertiesSharedPrivateLinkResourcesList;
-  tls?: SignalRTlsSettings;
+  sharedPrivateLinkResources?: SignalRPropertiesSharedPrivateLinkResourcesList | undefined;
+  tls?: SignalRTlsSettings | undefined;
   /** Deprecated. */
-  hostNamePrefix?: string;
+  hostNamePrefix?: string | undefined;
   /** List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags. */
-  features?: SignalRPropertiesFeaturesList;
-  liveTraceConfiguration?: LiveTraceConfiguration;
-  resourceLogConfiguration?: ResourceLogConfiguration;
-  cors?: SignalRCorsSettings;
-  serverless?: ServerlessSettings;
-  upstream?: ServerlessUpstreamSettings;
-  networkACLs?: SignalRNetworkACLs;
+  features?: SignalRPropertiesFeaturesList | undefined;
+  liveTraceConfiguration?: LiveTraceConfiguration | undefined;
+  resourceLogConfiguration?: ResourceLogConfiguration | undefined;
+  cors?: SignalRCorsSettings | undefined;
+  serverless?: ServerlessSettings | undefined;
+  upstream?: ServerlessUpstreamSettings | undefined;
+  networkACLs?: SignalRNetworkACLs | undefined;
   /** Enable or disable public network access. Default to "Enabled". When it's Enabled, network ACLs still apply. When it's Disabled, public network access is always disabled no matter what you set in network ACLs. */
-  publicNetworkAccess?: string;
+  publicNetworkAccess?: string | undefined;
   /** DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won't work. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won't work. */
-  disableAadAuth?: boolean;
+  disableAadAuth?: boolean | undefined;
   /** Enable or disable the regional endpoint. Default to "Enabled". When it's Disabled, new connections will not be routed to this endpoint, however existing connections will not be affected. This property is replica specific. Disable the regional endpoint without replica is not allowed. */
-  regionEndpointEnabled?: string;
+  regionEndpointEnabled?: string | undefined;
   /** Stop or start the resource. Default to "False". When it's true, the data plane of the resource is shutdown. When it's false, the data plane of the resource is started. */
-  resourceStopped?: string;
+  resourceStopped?: string | undefined;
 }
 /** The kind of the service */
 export type ServiceKind = "SignalR" | "RawWebSockets";
@@ -433,9 +433,9 @@ export type ManagedIdentityType = "None" | "SystemAssigned" | "UserAssigned";
 /** Properties of user assigned identity. */
 export interface UserAssignedIdentityProperty {
   /** Get the principal id for the user assigned identity */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Get the client id for the user assigned identity */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** Get or set the user assigned identities */
 export type ManagedIdentityUserAssignedIdentitiesMap = {
@@ -443,31 +443,31 @@ export type ManagedIdentityUserAssignedIdentitiesMap = {
 };
 /** A class represent managed identities used for request and response */
 export interface ManagedIdentity {
-  type?: ManagedIdentityType;
+  type?: ManagedIdentityType | undefined;
   /** Get or set the user assigned identities */
-  userAssignedIdentities?: ManagedIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ManagedIdentityUserAssignedIdentitiesMap | undefined;
   /** Get the principal id for the system assigned identity. Only be used in response. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Get the tenant id for the system assigned identity. Only be used in response */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export interface GetSignalRResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSignalRResponseTagsMap;
+  tags?: GetSignalRResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSku;
-  properties?: SignalRProperties;
-  kind?: ServiceKind;
-  identity?: ManagedIdentity;
+  sku?: ResourceSku | undefined;
+  properties?: SignalRProperties | undefined;
+  kind?: ServiceKind | undefined;
+  identity?: ManagedIdentity | undefined;
 }
 export interface GetSignalRCustomCertificateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -481,23 +481,23 @@ export interface GetSignalRCustomCertificateRequest {
 }
 /** Custom certificate properties. */
 export interface CustomCertificateProperties {
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Base uri of the KeyVault that stores certificate. */
   keyVaultBaseUri: string;
   /** Certificate secret name. */
   keyVaultSecretName: string;
   /** Certificate secret version. */
-  keyVaultSecretVersion?: string;
+  keyVaultSecretVersion?: string | undefined;
 }
 export interface GetSignalRCustomCertificateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: CustomCertificateProperties;
 }
 export interface GetSignalRCustomDomainRequest {
@@ -513,24 +513,24 @@ export interface GetSignalRCustomDomainRequest {
 /** Reference to a resource. */
 export interface ResourceReference {
   /** Resource ID. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Properties of a custom domain. */
 export interface CustomDomainProperties {
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The custom domain name. */
   domainName: string;
   customCertificate: ResourceReference;
 }
 export interface GetSignalRCustomDomainResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: CustomDomainProperties;
 }
 export interface GetSignalRPrivateEndpointConnectionRequest {
@@ -545,14 +545,14 @@ export interface GetSignalRPrivateEndpointConnectionRequest {
 }
 export interface GetSignalRPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: PrivateEndpointConnectionProperties;
+  systemData?: SystemData | undefined;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetSignalRReplicasRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -567,27 +567,27 @@ export interface GetSignalRReplicasRequest {
 /** Resource tags. */
 export type GetSignalRReplicasResponseTagsMap = { [key: string]: string | undefined };
 export interface ReplicaProperties {
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Enable or disable the regional endpoint. Default to "Enabled". When it's Disabled, new connections will not be routed to this endpoint, however existing connections will not be affected. */
-  regionEndpointEnabled?: string;
+  regionEndpointEnabled?: string | undefined;
   /** Stop or start the resource. Default to "false". When it's true, the data plane of the resource is shutdown. When it's false, the data plane of the resource is started. */
-  resourceStopped?: string;
+  resourceStopped?: string | undefined;
 }
 export interface GetSignalRReplicasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSignalRReplicasResponseTagsMap;
+  tags?: GetSignalRReplicasResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSku;
-  properties?: ReplicaProperties;
+  sku?: ResourceSku | undefined;
+  properties?: ReplicaProperties | undefined;
 }
 export interface GetSignalRReplicaSharedPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -603,14 +603,14 @@ export interface GetSignalRReplicaSharedPrivateLinkResourceRequest {
 }
 export interface GetSignalRReplicaSharedPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SharedPrivateLinkResourceProperties;
+  systemData?: SystemData | undefined;
+  properties?: SharedPrivateLinkResourceProperties | undefined;
 }
 export interface GetSignalRSharedPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -624,100 +624,100 @@ export interface GetSignalRSharedPrivateLinkResourceRequest {
 }
 export interface GetSignalRSharedPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SharedPrivateLinkResourceProperties;
+  systemData?: SystemData | undefined;
+  properties?: SharedPrivateLinkResourceProperties | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that describes a operation. */
 export interface OperationDisplay {
   /** Friendly name of the resource provider */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource type on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** The localized friendly name for the operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** The localized friendly description for the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** Specifications of the Dimension of metrics. */
 export interface Dimension {
   /** The public facing name of the dimension. */
-  name?: string;
+  name?: string | undefined;
   /** Localized friendly display name of the dimension. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Name of the dimension as it appears in MDM. */
-  internalName?: string;
+  internalName?: string | undefined;
   /** A Boolean flag indicating whether this dimension should be included for the shoebox export scenario. */
-  toBeExportedForShoebox?: boolean;
+  toBeExportedForShoebox?: boolean | undefined;
 }
 /** The dimensions of the metrics. */
 export type MetricSpecificationDimensionsList = Array<Dimension>;
 /** Specifications of the Metrics for Azure Monitoring. */
 export interface MetricSpecification {
   /** Name of the metric. */
-  name?: string;
+  name?: string | undefined;
   /** Localized friendly display name of the metric. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Localized friendly description of the metric. */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** The unit that makes sense for the metric. */
-  unit?: string;
+  unit?: string | undefined;
   /** Only provide one value for this field. Valid values: Average, Minimum, Maximum, Total, Count. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Optional. If set to true, then zero will be returned for time duration where no metric is emitted/published. Ex. a metric that returns the number of times a particular error code was emitted. The error code may not appear often, instead of the RP publishing 0, Shoebox can auto fill in 0s for time periods where nothing was emitted. */
-  fillGapWithZero?: string;
+  fillGapWithZero?: string | undefined;
   /** The name of the metric category that the metric belongs to. A metric can only belong to a single category. */
-  category?: string;
+  category?: string | undefined;
   /** The dimensions of the metrics. */
-  dimensions?: MetricSpecificationDimensionsList;
+  dimensions?: MetricSpecificationDimensionsList | undefined;
 }
 /** Specifications of the Metrics for Azure Monitoring. */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
 /** Specifications of the Logs for Azure Monitoring. */
 export interface LogSpecification {
   /** Name of the log. */
-  name?: string;
+  name?: string | undefined;
   /** Localized friendly display name of the log. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** Specifications of the Logs for Azure Monitoring. */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
 /** An object that describes a specification. */
 export interface ServiceSpecification {
   /** Specifications of the Metrics for Azure Monitoring. */
-  metricSpecifications?: ServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: ServiceSpecificationMetricSpecificationsList | undefined;
   /** Specifications of the Logs for Azure Monitoring. */
-  logSpecifications?: ServiceSpecificationLogSpecificationsList;
+  logSpecifications?: ServiceSpecificationLogSpecificationsList | undefined;
 }
 /** Extra Operation properties. */
 export interface OperationProperties {
-  serviceSpecification?: ServiceSpecification;
+  serviceSpecification?: ServiceSpecification | undefined;
 }
 /** REST API operation supported by resource provider. */
 export interface Operation {
   /** Name of the operation with format: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** If the operation is a data action. (for data plane rbac) */
-  isDataAction?: boolean;
-  display?: OperationDisplay;
+  isDataAction?: boolean | undefined;
+  display?: OperationDisplay | undefined;
   /** Optional. The intended executor of the operation; governs the display of the operation in the RBAC UX and the audit logs UX. */
-  origin?: string;
-  properties?: OperationProperties;
+  origin?: string | undefined;
+  properties?: OperationProperties | undefined;
 }
 /** List of operations supported by the resource provider. */
 export type OperationListValueList = Array<Operation>;
 /** Result of the request to list REST API operations. It contains a list of operations. */
 export interface OperationList {
   /** List of operations supported by the resource provider. */
-  value?: OperationListValueList;
+  value?: OperationListValueList | undefined;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSignalRByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -730,30 +730,30 @@ export type SignalRResourceTagsMap = { [key: string]: string | undefined };
 /** A class represent a resource. */
 export interface SignalRResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SignalRResourceTagsMap;
+  tags?: SignalRResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSku;
-  properties?: SignalRProperties;
-  kind?: ServiceKind;
-  identity?: ManagedIdentity;
+  sku?: ResourceSku | undefined;
+  properties?: SignalRProperties | undefined;
+  kind?: ServiceKind | undefined;
+  identity?: ManagedIdentity | undefined;
 }
 /** List of the resources */
 export type SignalRResourceListValueList = Array<SignalRResource>;
 /** Object that includes an array of resources and a possible link for next set. */
 export interface SignalRResourceList {
   /** List of the resources */
-  value?: SignalRResourceListValueList;
+  value?: SignalRResourceListValueList | undefined;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSignalRBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -770,13 +770,13 @@ export interface ListSignalRCustomCertificatesRequest {
 /** A custom certificate. */
 export interface CustomCertificate {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: CustomCertificateProperties;
 }
 /** List of custom certificates of this resource. */
@@ -784,9 +784,9 @@ export type CustomCertificateListValueList = Array<CustomCertificate>;
 /** Custom certificates list. */
 export interface CustomCertificateList {
   /** List of custom certificates of this resource. */
-  value?: CustomCertificateListValueList;
+  value?: CustomCertificateListValueList | undefined;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSignalRCustomDomainsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -799,13 +799,13 @@ export interface ListSignalRCustomDomainsRequest {
 /** A custom domain */
 export interface CustomDomain {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: CustomDomainProperties;
 }
 /** List of custom domains that bind to this resource. */
@@ -813,9 +813,9 @@ export type CustomDomainListValueList = Array<CustomDomain>;
 /** Custom domains list */
 export interface CustomDomainList {
   /** List of custom domains that bind to this resource. */
-  value?: CustomDomainListValueList;
+  value?: CustomDomainListValueList | undefined;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSignalRKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -828,13 +828,13 @@ export interface ListSignalRKeysRequest {
 /** A class represents the access keys of the resource. */
 export interface SignalRKeys {
   /** The primary access key. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** The secondary access key. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** Connection string constructed via the primaryKey */
-  primaryConnectionString?: string;
+  primaryConnectionString?: string | undefined;
   /** Connection string constructed via the secondaryKey */
-  secondaryConnectionString?: string;
+  secondaryConnectionString?: string | undefined;
 }
 export interface ListSignalRPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -849,9 +849,9 @@ export type PrivateEndpointConnectionListValueList = Array<PrivateEndpointConnec
 /** A list of private endpoint connections */
 export interface PrivateEndpointConnectionList {
   /** The list of the private endpoint connections */
-  value?: PrivateEndpointConnectionListValueList;
+  value?: PrivateEndpointConnectionListValueList | undefined;
   /** Request URL that can be used to query next page of private endpoint connections. Returned when the total number of requested private endpoint connections exceed maximum page size. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSignalRPrivateLinkResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -868,17 +868,17 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Describes the properties of a resource type that has been onboarded to private link service */
 export interface ShareablePrivateLinkResourceProperties {
   /** The description of the resource type that has been onboarded to private link service */
-  description?: string;
+  description?: string | undefined;
   /** The resource provider group id for the resource that has been onboarded to private link service */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The resource provider type for the resource that has been onboarded to private link service */
-  type?: string;
+  type?: string | undefined;
 }
 /** Describes a resource type that has been onboarded to private link service */
 export interface ShareablePrivateLinkResourceType {
   /** The name of the resource type that has been onboarded to private link service */
-  name?: string;
-  properties?: ShareablePrivateLinkResourceProperties;
+  name?: string | undefined;
+  properties?: ShareablePrivateLinkResourceProperties | undefined;
 }
 /** The list of resources that are onboarded to private link service */
 export type PrivateLinkResourcePropertiesShareablePrivateLinkResourceTypesList =
@@ -886,34 +886,36 @@ export type PrivateLinkResourcePropertiesShareablePrivateLinkResourceTypesList =
 /** Private link resource properties */
 export interface PrivateLinkResourceProperties {
   /** Group Id of the private link resource */
-  groupId?: string;
+  groupId?: string | undefined;
   /** Required members of the private link resource */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** Required private DNS zone names */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
   /** The list of resources that are onboarded to private link service */
-  shareablePrivateLinkResourceTypes?: PrivateLinkResourcePropertiesShareablePrivateLinkResourceTypesList;
+  shareablePrivateLinkResourceTypes?:
+    | PrivateLinkResourcePropertiesShareablePrivateLinkResourceTypesList
+    | undefined;
 }
 /** Private link resource */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: PrivateLinkResourceProperties;
+  systemData?: SystemData | undefined;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** List of PrivateLinkResource */
 export type PrivateLinkResourceListValueList = Array<PrivateLinkResource>;
 /** Contains a list of PrivateLinkResource and a possible link to query more results */
 export interface PrivateLinkResourceList {
   /** List of PrivateLinkResource */
-  value?: PrivateLinkResourceListValueList;
+  value?: PrivateLinkResourceListValueList | undefined;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSignalRReplicasRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -928,27 +930,27 @@ export type ReplicaTagsMap = { [key: string]: string | undefined };
 /** A class represent a replica resource. */
 export interface Replica {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ReplicaTagsMap;
+  tags?: ReplicaTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSku;
-  properties?: ReplicaProperties;
+  sku?: ResourceSku | undefined;
+  properties?: ReplicaProperties | undefined;
 }
 /** List of the replica */
 export type ReplicaListValueList = Array<Replica>;
 export interface ReplicaList {
   /** List of the replica */
-  value?: ReplicaListValueList;
+  value?: ReplicaListValueList | undefined;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSignalRReplicaSharedPrivateLinkResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -965,9 +967,9 @@ export type SharedPrivateLinkResourceListValueList = Array<SharedPrivateLinkReso
 /** A list of shared private link resources */
 export interface SharedPrivateLinkResourceList {
   /** The list of the shared private link resources */
-  value?: SharedPrivateLinkResourceListValueList;
+  value?: SharedPrivateLinkResourceListValueList | undefined;
   /** Request URL that can be used to query next page of private endpoint connections. Returned when the total number of requested private endpoint connections exceed maximum page size. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSignalRReplicaSkusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -986,30 +988,30 @@ export type ScaleType = "None" | "Manual" | "Automatic";
 /** Describes scaling information of a sku. */
 export interface SkuCapacity {
   /** The lowest permitted capacity for this resource */
-  minimum?: number;
+  minimum?: number | undefined;
   /** The highest permitted capacity for this resource */
-  maximum?: number;
+  maximum?: number | undefined;
   /** The default capacity. */
-  default?: number;
+  default?: number | undefined;
   /** Allows capacity value list. */
-  allowedValues?: SkuCapacityAllowedValuesList;
-  scaleType?: ScaleType;
+  allowedValues?: SkuCapacityAllowedValuesList | undefined;
+  scaleType?: ScaleType | undefined;
 }
 /** Describes an available sku." */
 export interface Sku {
   /** The resource type that this object applies to */
-  resourceType?: string;
-  sku?: ResourceSku;
-  capacity?: SkuCapacity;
+  resourceType?: string | undefined;
+  sku?: ResourceSku | undefined;
+  capacity?: SkuCapacity | undefined;
 }
 /** The list of skus available for the resource. */
 export type SkuListValueList = Array<Sku>;
 /** The list skus operation response */
 export interface SkuList {
   /** The list of skus available for the resource. */
-  value?: SkuListValueList;
+  value?: SkuListValueList | undefined;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSignalRSharedPrivateLinkResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1036,30 +1038,30 @@ export interface ListUsagesRequest {
 /** Localizable String object containing the name and a localized value. */
 export interface SignalRUsageName {
   /** The identifier of the usage. */
-  value?: string;
+  value?: string | undefined;
   /** Localized name of the usage. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** Object that describes a specific usage of the resources. */
 export interface SignalRUsage {
   /** Fully qualified ARM resource id */
-  id?: string;
+  id?: string | undefined;
   /** Current value for the usage quota. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** The maximum permitted value for the usage quota. If there is no limit, this value will be -1. */
-  limit?: number;
-  name?: SignalRUsageName;
+  limit?: number | undefined;
+  name?: SignalRUsageName | undefined;
   /** Representing the units of the usage quota. Possible values are: Count, Bytes, Seconds, Percent, CountPerSecond, BytesPerSecond. */
-  unit?: string;
+  unit?: string | undefined;
 }
 /** List of the resource usages */
 export type SignalRUsageListValueList = Array<SignalRUsage>;
 /** Object that includes an array of the resource usages and a possible link for next set. */
 export interface SignalRUsageList {
   /** List of the resource usages */
-  value?: SignalRUsageListValueList;
+  value?: SignalRUsageListValueList | undefined;
   /** The URL the client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The type of access key. */
 export type KeyType = "Primary" | "Secondary" | "Salt";
@@ -1070,19 +1072,19 @@ export interface RegenerateSignalRKeyRequest {
   resourceGroupName: string;
   /** The name of the resource. */
   resourceName: string;
-  keyType?: KeyType | (string & {});
+  keyType?: KeyType | (string & {}) | undefined;
 }
 /** A class represents the access keys of the resource. */
 export interface RegenerateSignalRKeyResponse {
   /** The primary access key. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** The secondary access key. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** Connection string constructed via the primaryKey */
-  primaryConnectionString?: string;
+  primaryConnectionString?: string | undefined;
   /** Connection string constructed via the secondaryKey */
-  secondaryConnectionString?: string;
-  location?: string;
+  secondaryConnectionString?: string | undefined;
+  location?: string | undefined;
 }
 export interface RestartSignalRRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1093,7 +1095,7 @@ export interface RestartSignalRRequest {
   resourceName: string;
 }
 export interface RestartSignalRResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface RestartSignalRReplicasRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1106,7 +1108,7 @@ export interface RestartSignalRReplicasRequest {
   replicaName: string;
 }
 export interface RestartSignalRReplicasResponse {
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type SignalRCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1114,33 +1116,33 @@ export type SignalRCreateOrUpdateRequestTagsMap = { [key: string]: string | unde
 export interface ResourceSkuInput {
   /** The name of the SKU. Required. Allowed values: Standard_S1, Free_F1, Premium_P1, Premium_P2 */
   name: string;
-  tier?: SignalRSkuTier | (string & {});
+  tier?: SignalRSkuTier | (string & {}) | undefined;
   /** Optional, integer. The unit count of the resource. 1 for Free_F1/Standard_S1/Premium_P1, 100 for Premium_P2 by default. If present, following values are allowed: Free_F1: 1; Standard_S1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100; Premium_P1: 1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100; Premium_P2: 100,200,300,400,500,600,700,800,900,1000; */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags. */
 export type SignalRPropertiesInputFeaturesList = Array<SignalRFeature>;
 /** A class that describes the properties of the resource */
 export interface SignalRPropertiesInput {
-  tls?: SignalRTlsSettings;
+  tls?: SignalRTlsSettings | undefined;
   /** List of the featureFlags. FeatureFlags that are not included in the parameters for the update operation will not be modified. And the response will only include featureFlags that are explicitly set. When a featureFlag is not explicitly set, its globally default value will be used But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags. */
-  features?: SignalRPropertiesInputFeaturesList;
-  liveTraceConfiguration?: LiveTraceConfiguration;
-  resourceLogConfiguration?: ResourceLogConfiguration;
-  cors?: SignalRCorsSettings;
-  serverless?: ServerlessSettings;
-  upstream?: ServerlessUpstreamSettings;
-  networkACLs?: SignalRNetworkACLs;
+  features?: SignalRPropertiesInputFeaturesList | undefined;
+  liveTraceConfiguration?: LiveTraceConfiguration | undefined;
+  resourceLogConfiguration?: ResourceLogConfiguration | undefined;
+  cors?: SignalRCorsSettings | undefined;
+  serverless?: ServerlessSettings | undefined;
+  upstream?: ServerlessUpstreamSettings | undefined;
+  networkACLs?: SignalRNetworkACLs | undefined;
   /** Enable or disable public network access. Default to "Enabled". When it's Enabled, network ACLs still apply. When it's Disabled, public network access is always disabled no matter what you set in network ACLs. */
-  publicNetworkAccess?: string;
+  publicNetworkAccess?: string | undefined;
   /** DisableLocalAuth Enable or disable local auth with AccessKey When set as true, connection with AccessKey=xxx won't work. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** DisableLocalAuth Enable or disable aad auth When set as true, connection with AuthType=aad won't work. */
-  disableAadAuth?: boolean;
+  disableAadAuth?: boolean | undefined;
   /** Enable or disable the regional endpoint. Default to "Enabled". When it's Disabled, new connections will not be routed to this endpoint, however existing connections will not be affected. This property is replica specific. Disable the regional endpoint without replica is not allowed. */
-  regionEndpointEnabled?: string;
+  regionEndpointEnabled?: string | undefined;
   /** Stop or start the resource. Default to "False". When it's true, the data plane of the resource is shutdown. When it's false, the data plane of the resource is started. */
-  resourceStopped?: string;
+  resourceStopped?: string | undefined;
 }
 /** Properties of user assigned identity. */
 export interface UserAssignedIdentityPropertyInput {}
@@ -1150,9 +1152,9 @@ export type ManagedIdentityInputUserAssignedIdentitiesMap = {
 };
 /** A class represent managed identities used for request and response */
 export interface ManagedIdentityInput {
-  type?: ManagedIdentityType | (string & {});
+  type?: ManagedIdentityType | (string & {}) | undefined;
   /** Get or set the user assigned identities */
-  userAssignedIdentities?: ManagedIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ManagedIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface SignalRCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1162,33 +1164,33 @@ export interface SignalRCreateOrUpdateRequest {
   /** The name of the resource. */
   resourceName: string;
   /** Resource tags. */
-  tags?: SignalRCreateOrUpdateRequestTagsMap;
+  tags?: SignalRCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSkuInput;
-  properties?: SignalRPropertiesInput;
-  kind?: ServiceKind | (string & {});
-  identity?: ManagedIdentityInput;
+  sku?: ResourceSkuInput | undefined;
+  properties?: SignalRPropertiesInput | undefined;
+  kind?: ServiceKind | (string & {}) | undefined;
+  identity?: ManagedIdentityInput | undefined;
 }
 /** Resource tags. */
 export type SignalRCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface SignalRCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SignalRCreateOrUpdateResponseTagsMap;
+  tags?: SignalRCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSku;
-  properties?: SignalRProperties;
-  kind?: ServiceKind;
-  identity?: ManagedIdentity;
+  sku?: ResourceSku | undefined;
+  properties?: SignalRProperties | undefined;
+  kind?: ServiceKind | undefined;
+  identity?: ManagedIdentity | undefined;
 }
 /** Custom certificate properties. */
 export interface CustomCertificatePropertiesInput {
@@ -1197,7 +1199,7 @@ export interface CustomCertificatePropertiesInput {
   /** Certificate secret name. */
   keyVaultSecretName: string;
   /** Certificate secret version. */
-  keyVaultSecretVersion?: string;
+  keyVaultSecretVersion?: string | undefined;
 }
 export interface SignalRCustomCertificatesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1212,13 +1214,13 @@ export interface SignalRCustomCertificatesCreateOrUpdateRequest {
 }
 export interface SignalRCustomCertificatesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: CustomCertificateProperties;
 }
 /** Properties of a custom domain. */
@@ -1240,22 +1242,22 @@ export interface SignalRCustomDomainsCreateOrUpdateRequest {
 }
 export interface SignalRCustomDomainsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: CustomDomainProperties;
 }
 /** Resource tags. */
 export type SignalRReplicasCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 export interface ReplicaPropertiesInput {
   /** Enable or disable the regional endpoint. Default to "Enabled". When it's Disabled, new connections will not be routed to this endpoint, however existing connections will not be affected. */
-  regionEndpointEnabled?: string;
+  regionEndpointEnabled?: string | undefined;
   /** Stop or start the resource. Default to "false". When it's true, the data plane of the resource is shutdown. When it's false, the data plane of the resource is started. */
-  resourceStopped?: string;
+  resourceStopped?: string | undefined;
 }
 export interface SignalRReplicasCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1267,29 +1269,29 @@ export interface SignalRReplicasCreateOrUpdateRequest {
   /** The name of the replica. */
   replicaName: string;
   /** Resource tags. */
-  tags?: SignalRReplicasCreateOrUpdateRequestTagsMap;
+  tags?: SignalRReplicasCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSkuInput;
-  properties?: ReplicaPropertiesInput;
+  sku?: ResourceSkuInput | undefined;
+  properties?: ReplicaPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type SignalRReplicasCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface SignalRReplicasCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SignalRReplicasCreateOrUpdateResponseTagsMap;
+  tags?: SignalRReplicasCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSku;
-  properties?: ReplicaProperties;
+  sku?: ResourceSku | undefined;
+  properties?: ReplicaProperties | undefined;
 }
 /** Describes the properties of an existing Shared Private Link Resource */
 export interface SharedPrivateLinkResourcePropertiesInput {
@@ -1298,7 +1300,7 @@ export interface SharedPrivateLinkResourcePropertiesInput {
   /** The resource id of the resource the shared private link resource is for */
   privateLinkResourceId: string;
   /** The request message for requesting approval of the shared private link resource */
-  requestMessage?: string;
+  requestMessage?: string | undefined;
 }
 export interface SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1311,18 +1313,18 @@ export interface SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateRequest {
   replicaName: string;
   /** The name of the shared private link resource. */
   sharedPrivateLinkResourceName: string;
-  properties?: SharedPrivateLinkResourcePropertiesInput;
+  properties?: SharedPrivateLinkResourcePropertiesInput | undefined;
 }
 export interface SignalRReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SharedPrivateLinkResourceProperties;
+  systemData?: SystemData | undefined;
+  properties?: SharedPrivateLinkResourceProperties | undefined;
 }
 export interface SignalRSharedPrivateLinkResourcesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1333,18 +1335,18 @@ export interface SignalRSharedPrivateLinkResourcesCreateOrUpdateRequest {
   resourceName: string;
   /** The name of the shared private link resource. */
   sharedPrivateLinkResourceName: string;
-  properties?: SharedPrivateLinkResourcePropertiesInput;
+  properties?: SharedPrivateLinkResourcePropertiesInput | undefined;
 }
 export interface SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: SharedPrivateLinkResourceProperties;
+  systemData?: SystemData | undefined;
+  properties?: SharedPrivateLinkResourceProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateSignalRRequestTagsMap = { [key: string]: string | undefined };
@@ -1356,39 +1358,39 @@ export interface UpdateSignalRRequest {
   /** The name of the resource. */
   resourceName: string;
   /** Resource tags. */
-  tags?: UpdateSignalRRequestTagsMap;
+  tags?: UpdateSignalRRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSkuInput;
-  properties?: SignalRPropertiesInput;
-  kind?: ServiceKind | (string & {});
-  identity?: ManagedIdentityInput;
+  sku?: ResourceSkuInput | undefined;
+  properties?: SignalRPropertiesInput | undefined;
+  kind?: ServiceKind | (string & {}) | undefined;
+  identity?: ManagedIdentityInput | undefined;
 }
 /** Resource tags. */
 export type UpdateSignalRResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSignalRResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSignalRResponseTagsMap;
+  tags?: UpdateSignalRResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSku;
-  properties?: SignalRProperties;
-  kind?: ServiceKind;
-  identity?: ManagedIdentity;
-  locationHeader?: string;
+  sku?: ResourceSku | undefined;
+  properties?: SignalRProperties | undefined;
+  kind?: ServiceKind | undefined;
+  identity?: ManagedIdentity | undefined;
+  locationHeader?: string | undefined;
 }
 /** Private endpoint connection properties */
 export interface PrivateEndpointConnectionPropertiesInput {
-  privateEndpoint?: PrivateEndpoint;
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  privateEndpoint?: PrivateEndpoint | undefined;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState | undefined;
 }
 export interface UpdateSignalRPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1399,18 +1401,18 @@ export interface UpdateSignalRPrivateEndpointConnectionRequest {
   resourceName: string;
   /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface UpdateSignalRPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  properties?: PrivateEndpointConnectionProperties;
+  systemData?: SystemData | undefined;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateSignalRReplicasRequestTagsMap = { [key: string]: string | undefined };
@@ -1424,30 +1426,30 @@ export interface UpdateSignalRReplicasRequest {
   /** The name of the replica. */
   replicaName: string;
   /** Resource tags. */
-  tags?: UpdateSignalRReplicasRequestTagsMap;
+  tags?: UpdateSignalRReplicasRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSkuInput;
-  properties?: ReplicaPropertiesInput;
+  sku?: ResourceSkuInput | undefined;
+  properties?: ReplicaPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateSignalRReplicasResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSignalRReplicasResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSignalRReplicasResponseTagsMap;
+  tags?: UpdateSignalRReplicasResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  sku?: ResourceSku;
-  properties?: ReplicaProperties;
-  locationHeader?: string;
+  sku?: ResourceSku | undefined;
+  properties?: ReplicaProperties | undefined;
+  locationHeader?: string | undefined;
 }
 export type CheckSignalRNameAvailabilityError = AzureOpError;
 /** Checks that the resource name is valid and is not already in use. */

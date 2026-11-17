@@ -123,8 +123,8 @@ export interface ParameterValue {
 export type ParameterValueList = ParameterValue[];
 export interface ActivatePipelineInput {
   pipelineId: string;
-  parameterValues?: ParameterValue[];
-  startTimestamp?: Date;
+  parameterValues?: ParameterValue[] | undefined;
+  startTimestamp?: Date | undefined;
 }
 export interface ActivatePipelineOutput {}
 export type TagKey = string;
@@ -142,8 +142,8 @@ export interface AddTagsOutput {}
 export interface CreatePipelineInput {
   name: string;
   uniqueId: string;
-  description?: string;
-  tags?: Tag[];
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreatePipelineOutput {
   pipelineId: string;
@@ -151,7 +151,7 @@ export interface CreatePipelineOutput {
 export type CancelActive = boolean;
 export interface DeactivatePipelineInput {
   pipelineId: string;
-  cancelActive?: boolean;
+  cancelActive?: boolean | undefined;
 }
 export interface DeactivatePipelineOutput {}
 export interface DeletePipelineInput {
@@ -162,13 +162,13 @@ export type IdList = string[];
 export interface DescribeObjectsInput {
   pipelineId: string;
   objectIds: string[];
-  evaluateExpressions?: boolean;
-  marker?: string;
+  evaluateExpressions?: boolean | undefined;
+  marker?: string | undefined;
 }
 export interface Field {
   key: string;
-  stringValue?: string;
-  refValue?: string;
+  stringValue?: string | undefined;
+  refValue?: string | undefined;
 }
 export type FieldList = Field[];
 export interface PipelineObject {
@@ -179,8 +179,8 @@ export interface PipelineObject {
 export type PipelineObjectList = PipelineObject[];
 export interface DescribeObjectsOutput {
   pipelineObjects: PipelineObject[];
-  marker?: string;
-  hasMoreResults?: boolean;
+  marker?: string | undefined;
+  hasMoreResults?: boolean | undefined;
 }
 export interface DescribePipelinesInput {
   pipelineIds: string[];
@@ -189,8 +189,8 @@ export interface PipelineDescription {
   pipelineId: string;
   name: string;
   fields: Field[];
-  description?: string;
-  tags?: Tag[];
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type PipelineDescriptionList = PipelineDescription[];
 export interface DescribePipelinesOutput {
@@ -207,7 +207,7 @@ export interface EvaluateExpressionOutput {
 }
 export interface GetPipelineDefinitionInput {
   pipelineId: string;
-  version?: string;
+  version?: string | undefined;
 }
 export type AttributeNameString = string;
 export type AttributeValueString = string;
@@ -222,92 +222,92 @@ export interface ParameterObject {
 }
 export type ParameterObjectList = ParameterObject[];
 export interface GetPipelineDefinitionOutput {
-  pipelineObjects?: PipelineObject[];
-  parameterObjects?: ParameterObject[];
-  parameterValues?: ParameterValue[];
+  pipelineObjects?: PipelineObject[] | undefined;
+  parameterObjects?: ParameterObject[] | undefined;
+  parameterValues?: ParameterValue[] | undefined;
 }
 export interface ListPipelinesInput {
-  marker?: string;
+  marker?: string | undefined;
 }
 export interface PipelineIdName {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 export type PipelineList = PipelineIdName[];
 export interface ListPipelinesOutput {
   pipelineIdList: PipelineIdName[];
-  marker?: string;
-  hasMoreResults?: boolean;
+  marker?: string | undefined;
+  hasMoreResults?: boolean | undefined;
 }
 export interface InstanceIdentity {
-  document?: string;
-  signature?: string;
+  document?: string | undefined;
+  signature?: string | undefined;
 }
 export interface PollForTaskInput {
   workerGroup: string;
-  hostname?: string;
-  instanceIdentity?: InstanceIdentity;
+  hostname?: string | undefined;
+  instanceIdentity?: InstanceIdentity | undefined;
 }
 export type TaskId = string;
 export type PipelineObjectMap = { [key: string]: PipelineObject | undefined };
 export interface TaskObject {
-  taskId?: string;
-  pipelineId?: string;
-  attemptId?: string;
-  objects?: { [key: string]: PipelineObject | undefined };
+  taskId?: string | undefined;
+  pipelineId?: string | undefined;
+  attemptId?: string | undefined;
+  objects?: { [key: string]: PipelineObject | undefined } | undefined;
 }
 export interface PollForTaskOutput {
-  taskObject?: TaskObject;
+  taskObject?: TaskObject | undefined;
 }
 export interface PutPipelineDefinitionInput {
   pipelineId: string;
   pipelineObjects: PipelineObject[];
-  parameterObjects?: ParameterObject[];
-  parameterValues?: ParameterValue[];
+  parameterObjects?: ParameterObject[] | undefined;
+  parameterValues?: ParameterValue[] | undefined;
 }
 export type ValidationMessage = string;
 export type ValidationMessages = string[];
 export interface ValidationError {
-  id?: string;
-  errors?: string[];
+  id?: string | undefined;
+  errors?: string[] | undefined;
 }
 export type ValidationErrors = ValidationError[];
 export interface ValidationWarning {
-  id?: string;
-  warnings?: string[];
+  id?: string | undefined;
+  warnings?: string[] | undefined;
 }
 export type ValidationWarnings = ValidationWarning[];
 export interface PutPipelineDefinitionOutput {
-  validationErrors?: ValidationError[];
-  validationWarnings?: ValidationWarning[];
+  validationErrors?: ValidationError[] | undefined;
+  validationWarnings?: ValidationWarning[] | undefined;
   errored: boolean;
 }
 export type OperatorType = "EQ" | "REF_EQ" | "LE" | "GE" | "BETWEEN" | (string & {});
 export type StringList = string[];
 export interface Operator {
-  type?: OperatorType;
-  values?: string[];
+  type?: OperatorType | undefined;
+  values?: string[] | undefined;
 }
 export interface Selector {
-  fieldName?: string;
-  operator?: Operator;
+  fieldName?: string | undefined;
+  operator?: Operator | undefined;
 }
 export type SelectorList = Selector[];
 export interface Query {
-  selectors?: Selector[];
+  selectors?: Selector[] | undefined;
 }
 export type Int = number;
 export interface QueryObjectsInput {
   pipelineId: string;
-  query?: Query;
+  query?: Query | undefined;
   sphere: string;
-  marker?: string;
-  limit?: number;
+  marker?: string | undefined;
+  limit?: number | undefined;
 }
 export interface QueryObjectsOutput {
-  ids?: string[];
-  marker?: string;
-  hasMoreResults?: boolean;
+  ids?: string[] | undefined;
+  marker?: string | undefined;
+  hasMoreResults?: boolean | undefined;
 }
 export interface RemoveTagsInput {
   pipelineId: string;
@@ -316,15 +316,15 @@ export interface RemoveTagsInput {
 export interface RemoveTagsOutput {}
 export interface ReportTaskProgressInput {
   taskId: string;
-  fields?: Field[];
+  fields?: Field[] | undefined;
 }
 export interface ReportTaskProgressOutput {
   canceled: boolean;
 }
 export interface ReportTaskRunnerHeartbeatInput {
   taskrunnerId: string;
-  workerGroup?: string;
-  hostname?: string;
+  workerGroup?: string | undefined;
+  hostname?: string | undefined;
 }
 export interface ReportTaskRunnerHeartbeatOutput {
   terminate: boolean;
@@ -340,20 +340,20 @@ export type ErrorMessage = string;
 export interface SetTaskStatusInput {
   taskId: string;
   taskStatus: TaskStatus;
-  errorId?: string;
-  errorMessage?: string;
-  errorStackTrace?: string;
+  errorId?: string | undefined;
+  errorMessage?: string | undefined;
+  errorStackTrace?: string | undefined;
 }
 export interface SetTaskStatusOutput {}
 export interface ValidatePipelineDefinitionInput {
   pipelineId: string;
   pipelineObjects: PipelineObject[];
-  parameterObjects?: ParameterObject[];
-  parameterValues?: ParameterValue[];
+  parameterObjects?: ParameterObject[] | undefined;
+  parameterValues?: ParameterValue[] | undefined;
 }
 export interface ValidatePipelineDefinitionOutput {
-  validationErrors?: ValidationError[];
-  validationWarnings?: ValidationWarning[];
+  validationErrors?: ValidationError[] | undefined;
+  validationWarnings?: ValidationWarning[] | undefined;
   errored: boolean;
 }
 export type ActivatePipelineError =

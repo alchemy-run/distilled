@@ -37,9 +37,562 @@ export type ViewTypeRequest =
   | "chart"
   | "map"
   | "dashboard";
-export type ViewSortsRequest = Array<unknown>;
+export interface TextPropertyFilterCase0Case0 {
+  equals: string;
+}
+export interface TextPropertyFilterCase0Case1 {
+  does_not_equal: string;
+}
+export interface TextPropertyFilterCase0Case2 {
+  contains: string;
+}
+export interface TextPropertyFilterCase0Case3 {
+  does_not_contain: string;
+}
+export interface TextPropertyFilterCase0Case4 {
+  starts_with: string;
+}
+export interface TextPropertyFilterCase0Case5 {
+  ends_with: string;
+}
+export type TextPropertyFilterCase0 =
+  | TextPropertyFilterCase0Case0
+  | TextPropertyFilterCase0Case1
+  | TextPropertyFilterCase0Case2
+  | TextPropertyFilterCase0Case3
+  | TextPropertyFilterCase0Case4
+  | TextPropertyFilterCase0Case5;
+export interface ExistencePropertyFilterCase0 {
+  is_empty: boolean;
+}
+export interface ExistencePropertyFilterCase1 {
+  is_not_empty: boolean;
+}
+export type ExistencePropertyFilter = ExistencePropertyFilterCase0 | ExistencePropertyFilterCase1;
+export type TextPropertyFilter = TextPropertyFilterCase0 | ExistencePropertyFilter;
+export interface PropertyFilterCase0 {
+  title: TextPropertyFilter;
+  property: string;
+  type?: string | undefined;
+}
+export interface PropertyFilterCase1 {
+  rich_text: TextPropertyFilter;
+  property: string;
+  type?: string | undefined;
+}
+export interface NumberPropertyFilterCase0Case0 {
+  equals: number;
+}
+export interface NumberPropertyFilterCase0Case1 {
+  does_not_equal: number;
+}
+export interface NumberPropertyFilterCase0Case2 {
+  greater_than: number;
+}
+export interface NumberPropertyFilterCase0Case3 {
+  less_than: number;
+}
+export interface NumberPropertyFilterCase0Case4 {
+  greater_than_or_equal_to: number;
+}
+export interface NumberPropertyFilterCase0Case5 {
+  less_than_or_equal_to: number;
+}
+export type NumberPropertyFilterCase0 =
+  | NumberPropertyFilterCase0Case0
+  | NumberPropertyFilterCase0Case1
+  | NumberPropertyFilterCase0Case2
+  | NumberPropertyFilterCase0Case3
+  | NumberPropertyFilterCase0Case4
+  | NumberPropertyFilterCase0Case5;
+export type NumberPropertyFilter = NumberPropertyFilterCase0 | ExistencePropertyFilter;
+export interface PropertyFilterCase2 {
+  number: NumberPropertyFilter;
+  property: string;
+  type?: string | undefined;
+}
+export interface CheckboxPropertyFilterCase0 {
+  equals: boolean;
+}
+export interface CheckboxPropertyFilterCase1 {
+  does_not_equal: boolean;
+}
+export type CheckboxPropertyFilter = CheckboxPropertyFilterCase0 | CheckboxPropertyFilterCase1;
+export interface PropertyFilterCase3 {
+  checkbox: CheckboxPropertyFilter;
+  property: string;
+  type?: string | undefined;
+}
+export type StringOrStringArrayCase1List = Array<string>;
+export type StringOrStringArray = string | StringOrStringArrayCase1List;
+export interface SelectPropertyFilterCase0Case0 {
+  equals: StringOrStringArray;
+}
+export interface SelectPropertyFilterCase0Case1 {
+  does_not_equal: StringOrStringArray;
+}
+export type SelectPropertyFilterCase0 =
+  | SelectPropertyFilterCase0Case0
+  | SelectPropertyFilterCase0Case1;
+export type SelectPropertyFilter = SelectPropertyFilterCase0 | ExistencePropertyFilter;
+export interface PropertyFilterCase4 {
+  select: SelectPropertyFilter;
+  property: string;
+  type?: string | undefined;
+}
+export interface MultiSelectPropertyFilterCase0Case0 {
+  contains: StringOrStringArray;
+}
+export interface MultiSelectPropertyFilterCase0Case1 {
+  does_not_contain: StringOrStringArray;
+}
+export type MultiSelectPropertyFilterCase0 =
+  | MultiSelectPropertyFilterCase0Case0
+  | MultiSelectPropertyFilterCase0Case1;
+export type MultiSelectPropertyFilter = MultiSelectPropertyFilterCase0 | ExistencePropertyFilter;
+export interface PropertyFilterCase5 {
+  multi_select: MultiSelectPropertyFilter;
+  property: string;
+  type?: string | undefined;
+}
+export type StatusValueFilterCase0 = SelectPropertyFilterCase0Case0;
+export type StatusValueFilterCase1 = SelectPropertyFilterCase0Case1;
+export type StatusGroupNamesCase1List = Array<string>;
+export type StatusGroupNames = string | StatusGroupNamesCase1List;
+export interface StatusValueFilterCase2 {
+  group_equals: StatusGroupNames;
+}
+export interface StatusValueFilterCase3 {
+  group_does_not_equal: StatusGroupNames;
+}
+/** The group operators match status groups instead of options. They require the `Notion-Beta: status-group-filters-2026-10-06` header. */
+export type StatusValueFilter =
+  | SelectPropertyFilterCase0Case0
+  | SelectPropertyFilterCase0Case1
+  | StatusValueFilterCase2
+  | StatusValueFilterCase3;
+export type StatusPropertyFilter = StatusValueFilter | ExistencePropertyFilter;
+export interface PropertyFilterCase6 {
+  status: StatusPropertyFilter;
+  property: string;
+  type?: string | undefined;
+}
+export type RelativeDateValue =
+  | "today"
+  | "tomorrow"
+  | "yesterday"
+  | "one_week_ago"
+  | "one_week_from_now"
+  | "one_month_ago"
+  | "one_month_from_now";
+export type DateOrRelativeDate = string | RelativeDateValue;
+export interface DatePropertyFilterCase0Case0 {
+  equals: DateOrRelativeDate;
+}
+export interface DatePropertyFilterCase0Case1 {
+  before: DateOrRelativeDate;
+}
+export interface DatePropertyFilterCase0Case2 {
+  after: DateOrRelativeDate;
+}
+export interface DatePropertyFilterCase0Case3 {
+  on_or_before: DateOrRelativeDate;
+}
+export interface DatePropertyFilterCase0Case4 {
+  on_or_after: DateOrRelativeDate;
+}
+export interface DatePropertyFilterCase0Case5 {
+  this_week: unknown;
+}
+export interface DatePropertyFilterCase0Case6 {
+  past_week: unknown;
+}
+export interface DatePropertyFilterCase0Case7 {
+  past_month: unknown;
+}
+export interface DatePropertyFilterCase0Case8 {
+  past_year: unknown;
+}
+export interface DatePropertyFilterCase0Case9 {
+  next_week: unknown;
+}
+export interface DatePropertyFilterCase0Case10 {
+  next_month: unknown;
+}
+export interface DatePropertyFilterCase0Case11 {
+  next_year: unknown;
+}
+export type DatePropertyFilterCase0 =
+  | DatePropertyFilterCase0Case0
+  | DatePropertyFilterCase0Case1
+  | DatePropertyFilterCase0Case2
+  | DatePropertyFilterCase0Case3
+  | DatePropertyFilterCase0Case4
+  | DatePropertyFilterCase0Case5
+  | DatePropertyFilterCase0Case6
+  | DatePropertyFilterCase0Case7
+  | DatePropertyFilterCase0Case8
+  | DatePropertyFilterCase0Case9
+  | DatePropertyFilterCase0Case10
+  | DatePropertyFilterCase0Case11;
+export type DatePropertyFilter = DatePropertyFilterCase0 | ExistencePropertyFilter;
+export interface PropertyFilterCase7 {
+  date: DatePropertyFilter;
+  property: string;
+  type?: string | undefined;
+}
+export type PeoplePropertyFilterCase0Case0 = TextPropertyFilterCase0Case2;
+export type PeoplePropertyFilterCase0Case1 = TextPropertyFilterCase0Case3;
+export type PeoplePropertyFilterCase0 = TextPropertyFilterCase0Case2 | TextPropertyFilterCase0Case3;
+export type PeoplePropertyFilter = PeoplePropertyFilterCase0 | ExistencePropertyFilter;
+export interface PropertyFilterCase8 {
+  people: PeoplePropertyFilter;
+  property: string;
+  type?: string | undefined;
+}
+export interface PropertyFilterCase9 {
+  files: ExistencePropertyFilter;
+  property: string;
+  type?: string | undefined;
+}
+export interface PropertyFilterCase10 {
+  url: TextPropertyFilter;
+  property: string;
+  type?: string | undefined;
+}
+export interface PropertyFilterCase11 {
+  email: TextPropertyFilter;
+  property: string;
+  type?: string | undefined;
+}
+export interface PropertyFilterCase12 {
+  phone_number: TextPropertyFilter;
+  property: string;
+  type?: string | undefined;
+}
+export type RelationPropertyFilterCase0Case0 = TextPropertyFilterCase0Case2;
+export type RelationPropertyFilterCase0Case1 = TextPropertyFilterCase0Case3;
+export type RelationPropertyFilterCase0 =
+  | TextPropertyFilterCase0Case2
+  | TextPropertyFilterCase0Case3;
+export type RelationPropertyFilter = RelationPropertyFilterCase0 | ExistencePropertyFilter;
+export interface PropertyFilterCase13 {
+  relation: RelationPropertyFilter;
+  property: string;
+  type?: string | undefined;
+}
+export interface PropertyFilterCase14 {
+  created_by: PeoplePropertyFilter;
+  property: string;
+  type?: string | undefined;
+}
+export interface PropertyFilterCase15 {
+  created_time: DatePropertyFilter;
+  property: string;
+  type?: string | undefined;
+}
+export interface PropertyFilterCase16 {
+  last_edited_by: PeoplePropertyFilter;
+  property: string;
+  type?: string | undefined;
+}
+export interface PropertyFilterCase17 {
+  last_edited_time: DatePropertyFilter;
+  property: string;
+  type?: string | undefined;
+}
+export interface FormulaPropertyFilterCase0 {
+  string: TextPropertyFilter;
+}
+export interface FormulaPropertyFilterCase1 {
+  checkbox: CheckboxPropertyFilter;
+}
+export interface FormulaPropertyFilterCase2 {
+  number: NumberPropertyFilter;
+}
+export interface FormulaPropertyFilterCase3 {
+  date: DatePropertyFilter;
+}
+export type FormulaPropertyFilter =
+  | FormulaPropertyFilterCase0
+  | FormulaPropertyFilterCase1
+  | FormulaPropertyFilterCase2
+  | FormulaPropertyFilterCase3;
+export interface PropertyFilterCase18 {
+  formula: FormulaPropertyFilter;
+  property: string;
+  type?: string | undefined;
+}
+export interface PropertyFilterCase19 {
+  unique_id: NumberPropertyFilter;
+  property: string;
+  type?: string | undefined;
+}
+export interface RollupSubfilterPropertyFilterCase0 {
+  rich_text: TextPropertyFilter;
+}
+export type RollupSubfilterPropertyFilterCase1 = FormulaPropertyFilterCase2;
+export type RollupSubfilterPropertyFilterCase2 = FormulaPropertyFilterCase1;
+export interface RollupSubfilterPropertyFilterCase3 {
+  select: SelectPropertyFilter;
+}
+export interface RollupSubfilterPropertyFilterCase4 {
+  multi_select: MultiSelectPropertyFilter;
+}
+export interface RollupSubfilterPropertyFilterCase5 {
+  relation: RelationPropertyFilter;
+}
+export type RollupSubfilterPropertyFilterCase6 = FormulaPropertyFilterCase3;
+export interface RollupSubfilterPropertyFilterCase7 {
+  people: PeoplePropertyFilter;
+}
+export interface RollupSubfilterPropertyFilterCase8 {
+  files: ExistencePropertyFilter;
+}
+export interface RollupSubfilterPropertyFilterCase9 {
+  status: StatusPropertyFilter;
+}
+export type RollupSubfilterPropertyFilter =
+  | RollupSubfilterPropertyFilterCase0
+  | FormulaPropertyFilterCase2
+  | FormulaPropertyFilterCase1
+  | RollupSubfilterPropertyFilterCase3
+  | RollupSubfilterPropertyFilterCase4
+  | RollupSubfilterPropertyFilterCase5
+  | FormulaPropertyFilterCase3
+  | RollupSubfilterPropertyFilterCase7
+  | RollupSubfilterPropertyFilterCase8
+  | RollupSubfilterPropertyFilterCase9;
+export interface RollupPropertyFilterCase0 {
+  any: RollupSubfilterPropertyFilter;
+}
+export interface RollupPropertyFilterCase1 {
+  none: RollupSubfilterPropertyFilter;
+}
+export interface RollupPropertyFilterCase2 {
+  every: RollupSubfilterPropertyFilter;
+}
+export type RollupPropertyFilterCase3 = FormulaPropertyFilterCase3;
+export type RollupPropertyFilterCase4 = FormulaPropertyFilterCase2;
+export type RollupPropertyFilter =
+  | RollupPropertyFilterCase0
+  | RollupPropertyFilterCase1
+  | RollupPropertyFilterCase2
+  | FormulaPropertyFilterCase3
+  | FormulaPropertyFilterCase2;
+export interface PropertyFilterCase20 {
+  rollup: RollupPropertyFilter;
+  property: string;
+  type?: string | undefined;
+}
+export type VerificationPropertyStatusFilterStatus = "verified" | "expired" | "none";
+export interface VerificationPropertyStatusFilter {
+  status: VerificationPropertyStatusFilterStatus | (string & {});
+}
+export type VerificationPropertyDoesNotEqualFilterDoesNotEqual = "verified" | "expired" | "none";
+export interface VerificationPropertyDoesNotEqualFilter {
+  does_not_equal: VerificationPropertyDoesNotEqualFilterDoesNotEqual | (string & {});
+}
+export type PropertyFilterCase21Verification =
+  | VerificationPropertyStatusFilter
+  | VerificationPropertyDoesNotEqualFilter;
+export interface PropertyFilterCase21 {
+  verification: PropertyFilterCase21Verification;
+  property: string;
+  type?: string | undefined;
+}
+export type PropertyFilter =
+  | PropertyFilterCase0
+  | PropertyFilterCase1
+  | PropertyFilterCase2
+  | PropertyFilterCase3
+  | PropertyFilterCase4
+  | PropertyFilterCase5
+  | PropertyFilterCase6
+  | PropertyFilterCase7
+  | PropertyFilterCase8
+  | PropertyFilterCase9
+  | PropertyFilterCase10
+  | PropertyFilterCase11
+  | PropertyFilterCase12
+  | PropertyFilterCase13
+  | PropertyFilterCase14
+  | PropertyFilterCase15
+  | PropertyFilterCase16
+  | PropertyFilterCase17
+  | PropertyFilterCase18
+  | PropertyFilterCase19
+  | PropertyFilterCase20
+  | PropertyFilterCase21;
+export interface TimestampCreatedTimeFilter {
+  created_time: DatePropertyFilter;
+  timestamp: string;
+  type?: string | undefined;
+}
+export interface TimestampLastEditedTimeFilter {
+  last_edited_time: DatePropertyFilter;
+  timestamp: string;
+  type?: string | undefined;
+}
+export type TimestampFilter = TimestampCreatedTimeFilter | TimestampLastEditedTimeFilter;
+export type PropertyOrTimestampFilter = PropertyFilter | TimestampFilter;
+export type PropertyOrTimestampFilterArray = Array<PropertyOrTimestampFilter>;
+export interface GroupFilterOperatorArrayItemCase1Case0 {
+  or: PropertyOrTimestampFilterArray;
+}
+export interface GroupFilterOperatorArrayItemCase1Case1 {
+  and: PropertyOrTimestampFilterArray;
+}
+export type GroupFilterOperatorArrayItemCase1 =
+  | GroupFilterOperatorArrayItemCase1Case0
+  | GroupFilterOperatorArrayItemCase1Case1;
+export type GroupFilterOperatorArrayItem =
+  | PropertyOrTimestampFilter
+  | GroupFilterOperatorArrayItemCase1;
+export type GroupFilterOperatorArray = Array<GroupFilterOperatorArrayItem>;
+export interface ViewFilterRequestCase0Case0 {
+  or: GroupFilterOperatorArray;
+}
+export interface ViewFilterRequestCase0Case1 {
+  and: GroupFilterOperatorArray;
+}
+export type ViewFilterRequestCase0 = ViewFilterRequestCase0Case0 | ViewFilterRequestCase0Case1;
+/** A property filter, timestamp filter, or compound and/or filter. */
+export type ViewFilterRequest = ViewFilterRequestCase0 | PropertyFilter | TimestampFilter;
+export type ViewSortRequestCase0Direction = "ascending" | "descending";
+export interface ViewSortRequestCase0 {
+  property: string;
+  direction: ViewSortRequestCase0Direction | (string & {});
+}
+export type ViewSortRequestCase1Timestamp = "created_time" | "last_edited_time";
+export type ViewSortRequestCase1Direction = "ascending" | "descending";
+export interface ViewSortRequestCase1 {
+  timestamp: ViewSortRequestCase1Timestamp | (string & {});
+  direction: ViewSortRequestCase1Direction | (string & {});
+}
+/** Sort by property name or ID, or by timestamp. */
+export type ViewSortRequest = ViewSortRequestCase0 | ViewSortRequestCase1;
+export type ViewSortsRequest = Array<ViewSortRequest>;
+export interface QuickFilterConditionRequestCase1Case0 {
+  title: TextPropertyFilter;
+  type?: string | undefined;
+}
+export interface QuickFilterConditionRequestCase1Case1 {
+  rich_text: TextPropertyFilter;
+  type?: string | undefined;
+}
+export interface QuickFilterConditionRequestCase1Case2 {
+  number: NumberPropertyFilter;
+  type?: string | undefined;
+}
+export interface QuickFilterConditionRequestCase1Case3 {
+  checkbox: CheckboxPropertyFilter;
+  type?: string | undefined;
+}
+export interface QuickFilterConditionRequestCase1Case4 {
+  select: SelectPropertyFilter;
+  type?: string | undefined;
+}
+export interface QuickFilterConditionRequestCase1Case5 {
+  multi_select: MultiSelectPropertyFilter;
+  type?: string | undefined;
+}
+export interface QuickFilterConditionRequestCase1Case6 {
+  status: StatusPropertyFilter;
+  type?: string | undefined;
+}
+export interface QuickFilterConditionRequestCase1Case7 {
+  date: DatePropertyFilter;
+  type?: string | undefined;
+}
+export interface QuickFilterConditionRequestCase1Case8 {
+  people: PeoplePropertyFilter;
+  type?: string | undefined;
+}
+export interface QuickFilterConditionRequestCase1Case9 {
+  files: ExistencePropertyFilter;
+  type?: string | undefined;
+}
+export interface QuickFilterConditionRequestCase1Case10 {
+  url: TextPropertyFilter;
+  type?: string | undefined;
+}
+export interface QuickFilterConditionRequestCase1Case11 {
+  email: TextPropertyFilter;
+  type?: string | undefined;
+}
+export interface QuickFilterConditionRequestCase1Case12 {
+  phone_number: TextPropertyFilter;
+  type?: string | undefined;
+}
+export interface QuickFilterConditionRequestCase1Case13 {
+  relation: RelationPropertyFilter;
+  type?: string | undefined;
+}
+export interface QuickFilterConditionRequestCase1Case14 {
+  created_by: PeoplePropertyFilter;
+  type?: string | undefined;
+}
+export interface QuickFilterConditionRequestCase1Case15 {
+  created_time: DatePropertyFilter;
+  type?: string | undefined;
+}
+export interface QuickFilterConditionRequestCase1Case16 {
+  last_edited_by: PeoplePropertyFilter;
+  type?: string | undefined;
+}
+export interface QuickFilterConditionRequestCase1Case17 {
+  last_edited_time: DatePropertyFilter;
+  type?: string | undefined;
+}
+export interface QuickFilterConditionRequestCase1Case18 {
+  formula: FormulaPropertyFilter;
+  type?: string | undefined;
+}
+export interface QuickFilterConditionRequestCase1Case19 {
+  unique_id: NumberPropertyFilter;
+  type?: string | undefined;
+}
+export interface QuickFilterConditionRequestCase1Case20 {
+  rollup: RollupPropertyFilter;
+  type?: string | undefined;
+}
+export type QuickFilterConditionRequestCase1Case21Verification =
+  | VerificationPropertyStatusFilter
+  | VerificationPropertyDoesNotEqualFilter;
+export interface QuickFilterConditionRequestCase1Case21 {
+  verification: QuickFilterConditionRequestCase1Case21Verification;
+  type?: string | undefined;
+}
+export type QuickFilterConditionRequestCase1 =
+  | QuickFilterConditionRequestCase1Case0
+  | QuickFilterConditionRequestCase1Case1
+  | QuickFilterConditionRequestCase1Case2
+  | QuickFilterConditionRequestCase1Case3
+  | QuickFilterConditionRequestCase1Case4
+  | QuickFilterConditionRequestCase1Case5
+  | QuickFilterConditionRequestCase1Case6
+  | QuickFilterConditionRequestCase1Case7
+  | QuickFilterConditionRequestCase1Case8
+  | QuickFilterConditionRequestCase1Case9
+  | QuickFilterConditionRequestCase1Case10
+  | QuickFilterConditionRequestCase1Case11
+  | QuickFilterConditionRequestCase1Case12
+  | QuickFilterConditionRequestCase1Case13
+  | QuickFilterConditionRequestCase1Case14
+  | QuickFilterConditionRequestCase1Case15
+  | QuickFilterConditionRequestCase1Case16
+  | QuickFilterConditionRequestCase1Case17
+  | QuickFilterConditionRequestCase1Case18
+  | QuickFilterConditionRequestCase1Case19
+  | QuickFilterConditionRequestCase1Case20
+  | QuickFilterConditionRequestCase1Case21;
+/** A property filter condition. The quick filter key identifies the property. Pass an empty object to add the property to the filter bar without criteria. */
+export type QuickFilterConditionRequest = unknown | QuickFilterConditionRequestCase1;
 /** Quick filters to pin in the view's filter bar. Keys are property names or IDs. Values are filter conditions (same shape as a property filter but without the property field). Each quick filter appears as a clickable pill above the view, independent of the advanced filter. */
-export type CreateViewRequestQuickFiltersMap = { [key: string]: unknown | undefined };
+export type CreateViewRequestQuickFiltersMap = {
+  [key: string]: QuickFilterConditionRequest | undefined;
+};
 /** The parent page for the new linked database block. */
 export interface CreateDatabaseForViewRequestParent {
   /** The parent type. Must be "page_id". */
@@ -58,9 +611,9 @@ export interface CreateDatabaseForViewRequest {
   /** The parent page for the new linked database block. */
   parent: CreateDatabaseForViewRequestParent;
   /** Where to place the new database block within the parent page. Defaults to appending at the end. */
-  position?: CreateDatabaseForViewRequestPosition;
+  position?: CreateDatabaseForViewRequestPosition | undefined;
   /** Whether to show the data source title above the new linked database's views. Defaults to true. */
-  show_data_source_title?: boolean;
+  show_data_source_title?: boolean | undefined;
 }
 /** How to display status properties (select dropdown or checkbox). */
 export type ViewPropertyConfigRequestStatusShowAs = "select" | "checkbox";
@@ -80,19 +633,22 @@ export interface ViewPropertyConfigRequest {
   /** Property ID (stable identifier). */
   property_id: string;
   /** Whether this property is visible in the view. */
-  visible?: boolean;
+  visible?: boolean | undefined;
   /** Width of the property column in pixels (table view only). */
-  width?: number;
+  width?: number | undefined;
   /** Whether to wrap content in this property cell/card. */
-  wrap?: boolean;
+  wrap?: boolean | undefined;
   /** How to display status properties (select dropdown or checkbox). */
-  status_show_as?: ViewPropertyConfigRequestStatusShowAs | (string & {});
+  status_show_as?: ViewPropertyConfigRequestStatusShowAs | (string & {}) | undefined;
   /** Property width mode in compact card layouts (board/gallery). */
-  card_property_width_mode?: ViewPropertyConfigRequestCardPropertyWidthMode | (string & {});
+  card_property_width_mode?:
+    | ViewPropertyConfigRequestCardPropertyWidthMode
+    | (string & {})
+    | undefined;
   /** Date display format (date properties only). */
-  date_format?: ViewPropertyConfigRequestDateFormat | (string & {});
+  date_format?: ViewPropertyConfigRequestDateFormat | (string & {}) | undefined;
   /** Time display format (date properties only). */
-  time_format?: ViewPropertyConfigRequestTimeFormat | (string & {});
+  time_format?: ViewPropertyConfigRequestTimeFormat | (string & {}) | undefined;
 }
 export type TableViewConfigRequestPropertiesList = Array<ViewPropertyConfigRequest>;
 /** The property type for grouping. */
@@ -111,7 +667,7 @@ export interface SelectGroupByConfigRequest {
   /** Sort order for groups. */
   sort: GroupSortRequest;
   /** Whether to hide groups that have no items. */
-  hide_empty_groups?: boolean;
+  hide_empty_groups?: boolean | undefined;
 }
 /** How to group status values. "group" groups by status group (To Do/In Progress/Done), "option" groups by individual option. */
 export type StatusGroupByConfigRequestGroupBy = "group" | "option";
@@ -125,7 +681,7 @@ export interface StatusGroupByConfigRequest {
   /** Sort order for groups. */
   sort: GroupSortRequest;
   /** Whether to hide groups that have no items. */
-  hide_empty_groups?: boolean;
+  hide_empty_groups?: boolean | undefined;
 }
 /** The property type for grouping. */
 export type PersonGroupByConfigRequestType = "person" | "created_by" | "last_edited_by";
@@ -137,7 +693,7 @@ export interface PersonGroupByConfigRequest {
   /** Sort order for groups. */
   sort: GroupSortRequest;
   /** Whether to hide groups that have no items. */
-  hide_empty_groups?: boolean;
+  hide_empty_groups?: boolean | undefined;
 }
 export interface RelationGroupByConfigRequest {
   /** The property type for grouping. */
@@ -147,7 +703,7 @@ export interface RelationGroupByConfigRequest {
   /** Sort order for groups. */
   sort: GroupSortRequest;
   /** Whether to hide groups that have no items. */
-  hide_empty_groups?: boolean;
+  hide_empty_groups?: boolean | undefined;
 }
 /** The property type for grouping. */
 export type DateGroupByConfigRequestType = "date" | "created_time" | "last_edited_time";
@@ -165,9 +721,9 @@ export interface DateGroupByConfigRequest {
   /** Sort order for groups. */
   sort: GroupSortRequest;
   /** Whether to hide groups that have no items. */
-  hide_empty_groups?: boolean;
+  hide_empty_groups?: boolean | undefined;
   /** Start day of week for week grouping (0 = Sunday, 1 = Monday). */
-  start_day_of_week?: DateGroupByConfigRequestStartDayOfWeek | (number & {});
+  start_day_of_week?: DateGroupByConfigRequestStartDayOfWeek | (number & {}) | undefined;
 }
 /** The property type for grouping. */
 export type TextGroupByConfigRequestType = "text" | "title" | "url" | "email" | "phone_number";
@@ -183,7 +739,7 @@ export interface TextGroupByConfigRequest {
   /** Sort order for groups. */
   sort: GroupSortRequest;
   /** Whether to hide groups that have no items. */
-  hide_empty_groups?: boolean;
+  hide_empty_groups?: boolean | undefined;
 }
 export interface NumberGroupByConfigRequest {
   /** The property type for grouping. */
@@ -193,13 +749,13 @@ export interface NumberGroupByConfigRequest {
   /** Sort order for groups. */
   sort: GroupSortRequest;
   /** Whether to hide groups that have no items. */
-  hide_empty_groups?: boolean;
+  hide_empty_groups?: boolean | undefined;
   /** Start of the range for number grouping buckets. */
-  range_start?: number;
+  range_start?: number | undefined;
   /** End of the range for number grouping buckets. */
-  range_end?: number;
+  range_end?: number | undefined;
   /** Size of each bucket in number grouping. */
-  range_size?: number;
+  range_size?: number | undefined;
 }
 export type CheckboxGroupByConfigRequest = RelationGroupByConfigRequest;
 /** Granularity for date grouping. */
@@ -214,7 +770,7 @@ export interface FormulaDateSubGroupByRequest {
   /** Sort order for groups. */
   sort: GroupSortRequest;
   /** Start day of week for week grouping (0 = Sunday, 1 = Monday). */
-  start_day_of_week?: FormulaDateSubGroupByRequestStartDayOfWeek | (number & {});
+  start_day_of_week?: FormulaDateSubGroupByRequestStartDayOfWeek | (number & {}) | undefined;
 }
 /** How to group text values. "exact" = exact match, "alphabet_prefix" = first letter. */
 export type FormulaTextSubGroupByRequestGroupBy = "exact" | "alphabet_prefix";
@@ -232,11 +788,11 @@ export interface FormulaNumberSubGroupByRequest {
   /** Sort order for groups. */
   sort: GroupSortRequest;
   /** Start of the range for number grouping buckets. */
-  range_start?: number;
+  range_start?: number | undefined;
   /** End of the range for number grouping buckets. */
-  range_end?: number;
+  range_end?: number | undefined;
   /** Size of each bucket in number grouping. */
-  range_size?: number;
+  range_size?: number | undefined;
 }
 export interface FormulaCheckboxSubGroupByRequest {
   /** The formula result type for grouping. */
@@ -258,7 +814,7 @@ export interface FormulaGroupByConfigRequest {
   /** Sub-group-by configuration based on the formula result type. */
   group_by: FormulaGroupByConfigRequestGroupBy;
   /** Whether to hide groups that have no items. */
-  hide_empty_groups?: boolean;
+  hide_empty_groups?: boolean | undefined;
 }
 /** Group-by configuration based on property type. */
 export type GroupByConfigRequest =
@@ -277,29 +833,29 @@ export type SubtaskConfigRequestDisplayMode = "show" | "hidden" | "flattened" | 
 export type SubtaskConfigRequestFilterScope = "parents" | "parents_and_subitems" | "subitems";
 export interface SubtaskConfigRequest {
   /** Relation property ID used for parent-child nesting. */
-  property_id?: string;
+  property_id?: string | undefined;
   /** How sub-items are displayed. "show" renders hierarchically with toggles, "hidden" shows parents with a count, "flattened" shows sub-items with a parent indicator, "disabled" turns off sub-item rendering. */
-  display_mode?: SubtaskConfigRequestDisplayMode | (string & {});
+  display_mode?: SubtaskConfigRequestDisplayMode | (string & {}) | undefined;
   /** Which items are included when filtering. "parents" includes parent items only, "parents_and_subitems" includes both, "subitems" includes sub-items only. */
-  filter_scope?: SubtaskConfigRequestFilterScope | (string & {});
+  filter_scope?: SubtaskConfigRequestFilterScope | (string & {}) | undefined;
   /** Property ID of the column showing the sub-item expand/collapse toggle. */
-  toggle_column_id?: string;
+  toggle_column_id?: string | undefined;
 }
 export interface TableViewConfigRequest {
   /** The view type. Must be "table". */
   type: string;
   /** Property visibility and display configuration. Pass null to clear. */
-  properties?: TableViewConfigRequestPropertiesList | null;
+  properties?: TableViewConfigRequestPropertiesList | null | undefined;
   /** Group-by configuration for the table. Pass null to remove grouping. */
-  group_by?: GroupByConfigRequest | null;
+  group_by?: GroupByConfigRequest | null | undefined;
   /** Subtask (sub-item) configuration. Pass null to reset subtask config to defaults (which may show subtasks). Use `{ "display_mode": "disabled" }` to explicitly disable subtasks. */
-  subtasks?: SubtaskConfigRequest | null;
+  subtasks?: SubtaskConfigRequest | null | undefined;
   /** Whether to wrap cell content in the table. */
-  wrap_cells?: boolean;
+  wrap_cells?: boolean | undefined;
   /** Number of columns frozen from the left side of the table. */
-  frozen_column_index?: number;
+  frozen_column_index?: number | undefined;
   /** Whether to show vertical grid lines between columns. */
-  show_vertical_lines?: boolean;
+  show_vertical_lines?: boolean | undefined;
 }
 export type BoardViewConfigRequestPropertiesList = Array<ViewPropertyConfigRequest>;
 /** Source of the cover image. */
@@ -308,7 +864,7 @@ export interface CoverConfigRequest {
   /** Source of the cover image. */
   type: CoverConfigRequestType | (string & {});
   /** Property ID when type is "property". */
-  property_id?: string;
+  property_id?: string | undefined;
 }
 /** One of: `small`, `medium`, `large` */
 export type BoardViewConfigRequestCoverSize = "small" | "medium" | "large";
@@ -322,17 +878,17 @@ export interface BoardViewConfigRequest {
   /** Group-by configuration for board columns. */
   group_by: GroupByConfigRequest;
   /** Secondary group-by configuration for sub-grouping within columns. Pass null to remove sub-grouping. */
-  sub_group_by?: GroupByConfigRequest | null;
+  sub_group_by?: GroupByConfigRequest | null | undefined;
   /** Property visibility and display configuration on cards. Pass null to clear. */
-  properties?: BoardViewConfigRequestPropertiesList | null;
+  properties?: BoardViewConfigRequestPropertiesList | null | undefined;
   /** Cover image configuration for cards. Pass null to clear. */
-  cover?: CoverConfigRequest | null;
+  cover?: CoverConfigRequest | null | undefined;
   /** Size of the cover image on cards. Pass null to clear. */
-  cover_size?: BoardViewConfigRequestCoverSize | (string & {}) | null;
+  cover_size?: BoardViewConfigRequestCoverSize | (string & {}) | null | undefined;
   /** Aspect ratio mode for cover images. "contain" fits the image, "cover" fills the area. Pass null to clear. */
-  cover_aspect?: BoardViewConfigRequestCoverAspect | (string & {}) | null;
+  cover_aspect?: BoardViewConfigRequestCoverAspect | (string & {}) | null | undefined;
   /** Card layout mode. "list" shows full cards, "compact" shows condensed cards. Pass null to clear. */
-  card_layout?: BoardViewConfigRequestCardLayout | (string & {}) | null;
+  card_layout?: BoardViewConfigRequestCardLayout | (string & {}) | null | undefined;
 }
 export type CalendarViewConfigRequestPropertiesList = Array<ViewPropertyConfigRequest>;
 /** One of: `week`, `month` */
@@ -343,11 +899,11 @@ export interface CalendarViewConfigRequest {
   /** Property ID of the date property used to position items on the calendar. */
   date_property_id: string;
   /** Property visibility and display configuration on calendar cards. Pass null to clear. */
-  properties?: CalendarViewConfigRequestPropertiesList | null;
+  properties?: CalendarViewConfigRequestPropertiesList | null | undefined;
   /** Default calendar range. "week" shows a week view, "month" shows a month view. Pass null to clear. */
-  view_range?: CalendarViewConfigRequestViewRange | (string & {}) | null;
+  view_range?: CalendarViewConfigRequestViewRange | (string & {}) | null | undefined;
   /** Whether to show weekend days. Pass null to clear. */
-  show_weekends?: boolean | null;
+  show_weekends?: boolean | null | undefined;
 }
 export type TimelineViewConfigRequestPropertiesList = Array<ViewPropertyConfigRequest>;
 export type TimelineViewConfigRequestTablePropertiesList = Array<ViewPropertyConfigRequest>;
@@ -365,11 +921,11 @@ export interface TimelinePreferenceRequest {
   /** Zoom level for the timeline. */
   zoom_level: TimelinePreferenceRequestZoomLevel | (string & {});
   /** Timestamp (ms) to center the timeline view on. */
-  center_timestamp?: number;
+  center_timestamp?: number | undefined;
 }
 export interface TimelineArrowsByRequest {
   /** Relation property ID used for dependency arrows, or null to disable arrows. */
-  property_id?: string | null;
+  property_id?: string | null | undefined;
 }
 export interface TimelineViewConfigRequest {
   /** The view type. Must be "timeline". */
@@ -377,19 +933,19 @@ export interface TimelineViewConfigRequest {
   /** Property ID of the date property used for the start of timeline items. */
   date_property_id: string;
   /** Property ID of the date property used for the end of timeline items. Pass null to clear. */
-  end_date_property_id?: string | null;
+  end_date_property_id?: string | null | undefined;
   /** Property visibility and display configuration on timeline items. Pass null to clear. */
-  properties?: TimelineViewConfigRequestPropertiesList | null;
+  properties?: TimelineViewConfigRequestPropertiesList | null | undefined;
   /** Whether to show the table panel alongside the timeline. Pass null to clear. */
-  show_table?: boolean | null;
+  show_table?: boolean | null | undefined;
   /** Property configuration for the table panel (when show_table is true). Pass null to clear. */
-  table_properties?: TimelineViewConfigRequestTablePropertiesList | null;
+  table_properties?: TimelineViewConfigRequestTablePropertiesList | null | undefined;
   /** Timeline display preferences (zoom level and center position). Pass null to clear. */
-  preference?: TimelinePreferenceRequest | null;
+  preference?: TimelinePreferenceRequest | null | undefined;
   /** Configuration for dependency arrows between timeline items. Pass null to clear. */
-  arrows_by?: TimelineArrowsByRequest | null;
+  arrows_by?: TimelineArrowsByRequest | null | undefined;
   /** Whether to color timeline items by a property. Pass null to clear. */
-  color_by?: boolean | null;
+  color_by?: boolean | null | undefined;
 }
 export type GalleryViewConfigRequestPropertiesList = Array<ViewPropertyConfigRequest>;
 /** One of: `small`, `medium`, `large` */
@@ -402,22 +958,22 @@ export interface GalleryViewConfigRequest {
   /** The view type. Must be "gallery". */
   type: string;
   /** Property visibility and display configuration on gallery cards. Pass null to clear. */
-  properties?: GalleryViewConfigRequestPropertiesList | null;
+  properties?: GalleryViewConfigRequestPropertiesList | null | undefined;
   /** Cover image configuration for cards. Pass null to clear. */
-  cover?: CoverConfigRequest | null;
+  cover?: CoverConfigRequest | null | undefined;
   /** Size of the cover image on cards. Pass null to clear. */
-  cover_size?: GalleryViewConfigRequestCoverSize | (string & {}) | null;
+  cover_size?: GalleryViewConfigRequestCoverSize | (string & {}) | null | undefined;
   /** Aspect ratio mode for cover images. "contain" fits the image, "cover" fills the area. Pass null to clear. */
-  cover_aspect?: GalleryViewConfigRequestCoverAspect | (string & {}) | null;
+  cover_aspect?: GalleryViewConfigRequestCoverAspect | (string & {}) | null | undefined;
   /** Card layout mode. "list" shows full cards, "compact" shows condensed cards. Pass null to clear. */
-  card_layout?: GalleryViewConfigRequestCardLayout | (string & {}) | null;
+  card_layout?: GalleryViewConfigRequestCardLayout | (string & {}) | null | undefined;
 }
 export type ListViewConfigRequestPropertiesList = Array<ViewPropertyConfigRequest>;
 export interface ListViewConfigRequest {
   /** The view type. Must be "list". */
   type: string;
   /** Property visibility and display configuration. Pass null to clear. */
-  properties?: ListViewConfigRequestPropertiesList | null;
+  properties?: ListViewConfigRequestPropertiesList | null | undefined;
 }
 /** One of: `small`, `medium`, `large`, `extra_large` */
 export type MapViewConfigRequestHeight = "small" | "medium" | "large" | "extra_large";
@@ -426,11 +982,11 @@ export interface MapViewConfigRequest {
   /** The view type. Must be "map". */
   type: string;
   /** Map display height. Pass null to clear. */
-  height?: MapViewConfigRequestHeight | (string & {}) | null;
+  height?: MapViewConfigRequestHeight | (string & {}) | null | undefined;
   /** Property ID of the location property used to position items on the map. Pass null to clear. */
-  map_by?: string | null;
+  map_by?: string | null | undefined;
   /** Property visibility and display configuration on map pin cards. Pass null to clear. */
-  properties?: MapViewConfigRequestPropertiesList | null;
+  properties?: MapViewConfigRequestPropertiesList | null | undefined;
 }
 /** One of: `none`, `comment_only`, `reader`, `read_and_write`, `editor` */
 export type FormViewConfigRequestSubmissionPermissions =
@@ -443,11 +999,15 @@ export interface FormViewConfigRequest {
   /** The view type. Must be "form". */
   type: string;
   /** Whether the form is closed for submissions. Pass null to clear. */
-  is_form_closed?: boolean | null;
+  is_form_closed?: boolean | null | undefined;
   /** Whether anonymous (non-logged-in) submissions are allowed. Pass null to clear. */
-  anonymous_submissions?: boolean | null;
+  anonymous_submissions?: boolean | null | undefined;
   /** Permission level granted to the submitter on the created page after form submission. Pass null to clear. */
-  submission_permissions?: FormViewConfigRequestSubmissionPermissions | (string & {}) | null;
+  submission_permissions?:
+    | FormViewConfigRequestSubmissionPermissions
+    | (string & {})
+    | null
+    | undefined;
 }
 /** The chart type. */
 export type ChartViewConfigRequestChartType = "column" | "bar" | "line" | "donut" | "number";
@@ -477,7 +1037,7 @@ export interface ChartAggregationRequest {
   /** The aggregation operator. "count" counts all rows and does not require a property_id. All other operators require a property_id. */
   aggregator: ChartAggregationRequestAggregator | (string & {});
   /** The property to aggregate on. Required for all operators except "count". */
-  property_id?: string;
+  property_id?: string | undefined;
 }
 /** One of: `manual`, `x_ascending`, `x_descending`, `y_ascending`, `y_descending` */
 export type ChartViewConfigRequestSort =
@@ -535,7 +1095,7 @@ export interface ChartReferenceLineRequest {
   /** Line style: "solid" for a continuous line, "dash" for a dashed line. */
   dash_style: ChartReferenceLineRequestDashStyle | (string & {});
   /** Unique identifier for the reference line. Auto-generated if omitted. */
-  id?: string;
+  id?: string | undefined;
 }
 export type ChartViewConfigRequestReferenceLinesList = Array<ChartReferenceLineRequest>;
 export interface ChartViewConfigRequest {
@@ -544,55 +1104,55 @@ export interface ChartViewConfigRequest {
   /** The chart type. */
   chart_type: ChartViewConfigRequestChartType | (string & {});
   /** X-axis grouping configuration for grouped data mode. Pass null to clear. */
-  x_axis?: GroupByConfigRequest | null;
+  x_axis?: GroupByConfigRequest | null | undefined;
   /** Y-axis aggregation for grouped data mode. Pass null to clear. */
-  y_axis?: ChartAggregationRequest | null;
+  y_axis?: ChartAggregationRequest | null | undefined;
   /** Property ID for x-axis values in results mode. Pass null to clear. */
-  x_axis_property_id?: string | null;
+  x_axis_property_id?: string | null | undefined;
   /** Property ID for y-axis values in results mode. Pass null to clear. */
-  y_axis_property_id?: string | null;
+  y_axis_property_id?: string | null | undefined;
   /** Aggregation for number charts. Pass null to clear. */
-  value?: ChartAggregationRequest | null;
+  value?: ChartAggregationRequest | null | undefined;
   /** Sort order for chart data. Pass null to clear. */
-  sort?: ChartViewConfigRequestSort | (string & {}) | null;
+  sort?: ChartViewConfigRequestSort | (string & {}) | null | undefined;
   /** Color theme. Pass null to clear. */
-  color_theme?: ChartViewConfigRequestColorTheme | (string & {}) | null;
+  color_theme?: ChartViewConfigRequestColorTheme | (string & {}) | null | undefined;
   /** Chart height. Pass null to clear. */
-  height?: ChartViewConfigRequestHeight | (string & {}) | null;
+  height?: ChartViewConfigRequestHeight | (string & {}) | null | undefined;
   /** Whether to hide groups with no data. Pass null to clear. */
-  hide_empty_groups?: boolean | null;
+  hide_empty_groups?: boolean | null | undefined;
   /** Legend position. Pass null to clear. */
-  legend_position?: ChartViewConfigRequestLegendPosition | (string & {}) | null;
+  legend_position?: ChartViewConfigRequestLegendPosition | (string & {}) | null | undefined;
   /** Whether to show data labels. Pass null to clear. */
-  show_data_labels?: boolean | null;
+  show_data_labels?: boolean | null | undefined;
   /** Which axis labels to show. Pass null to clear. */
-  axis_labels?: ChartViewConfigRequestAxisLabels | (string & {}) | null;
+  axis_labels?: ChartViewConfigRequestAxisLabels | (string & {}) | null | undefined;
   /** Which grid lines to show. Pass null to clear. */
-  grid_lines?: ChartViewConfigRequestGridLines | (string & {}) | null;
+  grid_lines?: ChartViewConfigRequestGridLines | (string & {}) | null | undefined;
   /** Cumulative values (line only). Pass null to clear. */
-  cumulative?: boolean | null;
+  cumulative?: boolean | null | undefined;
   /** Smooth line curves (line only). Pass null to clear. */
-  smooth_line?: boolean | null;
+  smooth_line?: boolean | null | undefined;
   /** Hide area fill (line only). Pass null to clear. */
-  hide_line_fill_area?: boolean | null;
+  hide_line_fill_area?: boolean | null | undefined;
   /** Grouped/stacked bar display style. Pass null to clear. */
-  group_style?: ChartViewConfigRequestGroupStyle | (string & {}) | null;
+  group_style?: ChartViewConfigRequestGroupStyle | (string & {}) | null | undefined;
   /** Custom y-axis minimum. Pass null to clear. */
-  y_axis_min?: number | null;
+  y_axis_min?: number | null | undefined;
   /** Custom y-axis maximum. Pass null to clear. */
-  y_axis_max?: number | null;
+  y_axis_max?: number | null | undefined;
   /** Donut slice labels. Pass null to clear. */
-  donut_labels?: ChartViewConfigRequestDonutLabels | (string & {}) | null;
+  donut_labels?: ChartViewConfigRequestDonutLabels | (string & {}) | null | undefined;
   /** Hide title (number only). Pass null to clear. */
-  hide_title?: boolean | null;
+  hide_title?: boolean | null | undefined;
   /** Stack-by grouping for stacked/grouped bar charts. Pass null to clear. */
-  stack_by?: GroupByConfigRequest | null;
+  stack_by?: GroupByConfigRequest | null | undefined;
   /** Reference lines on the chart. Pass null to clear. */
-  reference_lines?: ChartViewConfigRequestReferenceLinesList | null;
+  reference_lines?: ChartViewConfigRequestReferenceLinesList | null | undefined;
   /** Chart caption text. Pass null to clear. */
-  caption?: string | null;
+  caption?: string | null | undefined;
   /** Whether to color chart elements by their numeric value (gradient coloring). Pass null to clear. */
-  color_by_value?: boolean | null;
+  color_by_value?: boolean | null | undefined;
 }
 /** View configuration, discriminated by the type field. */
 export type ViewConfigRequest =
@@ -628,7 +1188,7 @@ export interface WidgetPlacementRequestCase0 {
   /** Placement type. "new_row" creates a new row containing the widget. */
   type: string;
   /** The 0-based row position to insert the new row at. If omitted, the new row is appended at the end. */
-  row_index?: number;
+  row_index?: number | undefined;
 }
 export interface WidgetPlacementRequestCase1 {
   /** Placement type. "existing_row" adds the widget to an existing row (side-by-side with other widgets). */
@@ -646,23 +1206,23 @@ export interface CreateViewRequest {
   /** The type of view to create. */
   type: ViewTypeRequest | (string & {});
   /** The ID of the database to create a view in. Mutually exclusive with view_id and create_database. */
-  database_id?: string;
+  database_id?: string | undefined;
   /** The ID of a dashboard view to add this view to as a widget. Mutually exclusive with database_id and create_database. */
-  view_id?: string;
-  /** Filter to apply to the view. Uses the same format as the data source query filter. */
-  filter?: unknown;
-  /** Sorts to apply to the view. Uses the same format as the data source query sorts. */
-  sorts?: ViewSortsRequest;
+  view_id?: string | undefined;
+  /** Filter to apply to the view. Uses the same format as the data source query filter. Simple property filters appear in the view's filter bar. For example, a status filter can exclude several values with does_not_equal. */
+  filter?: ViewFilterRequest | undefined;
+  /** Property sorts to save on the view. Timestamp sorts are accepted but are not saved. */
+  sorts?: ViewSortsRequest | undefined;
   /** Quick filters to pin in the view's filter bar. Keys are property names or IDs. Values are filter conditions (same shape as a property filter but without the property field). Each quick filter appears as a clickable pill above the view, independent of the advanced filter. */
-  quick_filters?: CreateViewRequestQuickFiltersMap;
+  quick_filters?: CreateViewRequestQuickFiltersMap | undefined;
   /** Create a new linked database block on a page and add the view to it. Mutually exclusive with database_id and view_id. */
-  create_database?: CreateDatabaseForViewRequest;
+  create_database?: CreateDatabaseForViewRequest | undefined;
   /** View presentation configuration. The type field must match the view type. */
-  configuration?: ViewConfigRequest;
+  configuration?: ViewConfigRequest | undefined;
   /** Where to place the new view in the database's view tab bar. Only applicable when database_id is provided. Defaults to "end" (append). */
-  position?: ViewPositionRequest;
+  position?: ViewPositionRequest | undefined;
   /** Where to place the new widget in a dashboard view. Only applicable when view_id is provided. Defaults to creating a new row at the end. */
-  placement?: WidgetPlacementRequest;
+  placement?: WidgetPlacementRequest | undefined;
 }
 export interface DatabaseParentResponse {
   /** The parent type. */
@@ -774,9 +1334,9 @@ export type ViewFilterResponseCase2OrItemCase2AndList =
 /** A compound filter at the deepest nesting level. Can only contain property or timestamp filters (no further nesting). */
 export interface ViewFilterResponseCase2OrItemCase2 {
   /** Filters combined with OR logic. */
-  or?: ViewFilterResponseCase2OrItemCase2OrList;
+  or?: ViewFilterResponseCase2OrItemCase2OrList | undefined;
   /** Filters combined with AND logic. */
-  and?: ViewFilterResponseCase2OrItemCase2AndList;
+  and?: ViewFilterResponseCase2OrItemCase2AndList | undefined;
 }
 /** A filter that can be a property filter, timestamp filter, or nested compound filter. */
 export type ViewFilterResponseCase2OrItem =
@@ -836,9 +1396,9 @@ export type ViewFilterResponseCase2AndItemCase2AndList =
 /** A compound filter at the deepest nesting level. Can only contain property or timestamp filters (no further nesting). */
 export interface ViewFilterResponseCase2AndItemCase2 {
   /** Filters combined with OR logic. */
-  or?: ViewFilterResponseCase2AndItemCase2OrList;
+  or?: ViewFilterResponseCase2AndItemCase2OrList | undefined;
   /** Filters combined with AND logic. */
-  and?: ViewFilterResponseCase2AndItemCase2AndList;
+  and?: ViewFilterResponseCase2AndItemCase2AndList | undefined;
 }
 /** A filter that can be a property filter, timestamp filter, or nested compound filter. */
 export type ViewFilterResponseCase2AndItem =
@@ -850,9 +1410,9 @@ export type ViewFilterResponseCase2AndList = Array<ViewFilterResponseCase2AndIte
 /** A compound filter that combines multiple filters with AND or OR logic. Supports up to 2 levels of nesting. */
 export interface ViewFilterResponseCase2 {
   /** Filters combined with OR logic. */
-  or?: ViewFilterResponseCase2OrList;
+  or?: ViewFilterResponseCase2OrList | undefined;
   /** Filters combined with AND logic. */
-  and?: ViewFilterResponseCase2AndList;
+  and?: ViewFilterResponseCase2AndList | undefined;
 }
 /** Filter for the view. Can be a property filter (filter by property value), timestamp filter (filter by created_time or last_edited_time), or compound filter (combine filters with and/or logic). Compound filters support up to 2 levels of nesting. */
 export type ViewFilterResponse =
@@ -899,21 +1459,21 @@ export interface ViewPropertyConfigResponse {
   /** Property ID (stable identifier). */
   property_id: string;
   /** Property name (convenience field, not stable across renames). */
-  property_name?: string;
+  property_name?: string | undefined;
   /** Whether this property is visible in the view. */
-  visible?: boolean;
+  visible?: boolean | undefined;
   /** Width of the property column in pixels (table view only). */
-  width?: number;
+  width?: number | undefined;
   /** Whether to wrap content in this property cell/card. */
-  wrap?: boolean;
+  wrap?: boolean | undefined;
   /** How to display status properties (as select dropdown or checkbox). */
-  status_show_as?: ViewPropertyConfigResponseStatusShowAs;
+  status_show_as?: ViewPropertyConfigResponseStatusShowAs | undefined;
   /** Property width mode in compact card layouts (board/gallery). */
-  card_property_width_mode?: ViewPropertyConfigResponseCardPropertyWidthMode;
+  card_property_width_mode?: ViewPropertyConfigResponseCardPropertyWidthMode | undefined;
   /** Date display format (date properties only). "full" = localized full date, "short" = month and day, "month_day_year" = MM/DD/YYYY, "day_month_year" = DD/MM/YYYY, "year_month_day" = YYYY/MM/DD, "relative" = relative dates. */
-  date_format?: ViewPropertyConfigResponseDateFormat;
+  date_format?: ViewPropertyConfigResponseDateFormat | undefined;
   /** Time display format (date properties only). "12_hour" = 12-hour clock with AM/PM, "24_hour" = 24-hour clock, "hidden" = hide time. */
-  time_format?: ViewPropertyConfigResponseTimeFormat;
+  time_format?: ViewPropertyConfigResponseTimeFormat | undefined;
 }
 /** Columns/properties visible in the table view. */
 export type TableViewConfigResponsePropertiesList = Array<ViewPropertyConfigResponse>;
@@ -933,9 +1493,9 @@ export interface SelectGroupByConfigResponse {
   /** Sort order for groups. */
   sort: GroupSortResponse;
   /** Property name (convenience field). */
-  property_name?: string;
+  property_name?: string | undefined;
   /** Whether to hide groups that have no items. */
-  hide_empty_groups?: boolean;
+  hide_empty_groups?: boolean | undefined;
 }
 /** How to group status values. "group" groups by status group (To Do/In Progress/Done), "option" groups by individual option. */
 export type StatusGroupByConfigResponseGroupBy = "group" | "option";
@@ -949,9 +1509,9 @@ export interface StatusGroupByConfigResponse {
   /** Sort order for groups. */
   sort: GroupSortResponse;
   /** Property name (convenience field). */
-  property_name?: string;
+  property_name?: string | undefined;
   /** Whether to hide groups that have no items. */
-  hide_empty_groups?: boolean;
+  hide_empty_groups?: boolean | undefined;
 }
 /** The property type for grouping. */
 export type PersonGroupByConfigResponseType = "person" | "created_by" | "last_edited_by";
@@ -963,9 +1523,9 @@ export interface PersonGroupByConfigResponse {
   /** Sort order for groups (only manual supported). */
   sort: GroupSortResponse;
   /** Property name (convenience field). */
-  property_name?: string;
+  property_name?: string | undefined;
   /** Whether to hide groups that have no items. */
-  hide_empty_groups?: boolean;
+  hide_empty_groups?: boolean | undefined;
 }
 export interface RelationGroupByConfigResponse {
   /** The property type for grouping. */
@@ -975,9 +1535,9 @@ export interface RelationGroupByConfigResponse {
   /** Sort order for groups. */
   sort: GroupSortResponse;
   /** Property name (convenience field). */
-  property_name?: string;
+  property_name?: string | undefined;
   /** Whether to hide groups that have no items. */
-  hide_empty_groups?: boolean;
+  hide_empty_groups?: boolean | undefined;
 }
 /** The property type for grouping. */
 export type DateGroupByConfigResponseType = "date" | "created_time" | "last_edited_time";
@@ -995,11 +1555,11 @@ export interface DateGroupByConfigResponse {
   /** Sort order for groups (no manual sort for dates). */
   sort: GroupSortResponse;
   /** Property name (convenience field). */
-  property_name?: string;
+  property_name?: string | undefined;
   /** Whether to hide groups that have no items. */
-  hide_empty_groups?: boolean;
+  hide_empty_groups?: boolean | undefined;
   /** Start day of week for week grouping (0 = Sunday, 1 = Monday). */
-  start_day_of_week?: DateGroupByConfigResponseStartDayOfWeek;
+  start_day_of_week?: DateGroupByConfigResponseStartDayOfWeek | undefined;
 }
 /** The property type for grouping. */
 export type TextGroupByConfigResponseType = "text" | "title" | "url" | "email" | "phone_number";
@@ -1015,9 +1575,9 @@ export interface TextGroupByConfigResponse {
   /** Sort order for groups. */
   sort: GroupSortResponse;
   /** Property name (convenience field). */
-  property_name?: string;
+  property_name?: string | undefined;
   /** Whether to hide groups that have no items. */
-  hide_empty_groups?: boolean;
+  hide_empty_groups?: boolean | undefined;
 }
 export interface NumberGroupByConfigResponse {
   /** The property type for grouping. */
@@ -1027,15 +1587,15 @@ export interface NumberGroupByConfigResponse {
   /** Sort order for groups (ascending or descending only). */
   sort: GroupSortResponse;
   /** Property name (convenience field). */
-  property_name?: string;
+  property_name?: string | undefined;
   /** Whether to hide groups that have no items. */
-  hide_empty_groups?: boolean;
+  hide_empty_groups?: boolean | undefined;
   /** Start of the range for number grouping buckets. */
-  range_start?: number;
+  range_start?: number | undefined;
   /** End of the range for number grouping buckets. */
-  range_end?: number;
+  range_end?: number | undefined;
   /** Size of each bucket in number grouping. */
-  range_size?: number;
+  range_size?: number | undefined;
 }
 export interface CheckboxGroupByConfigResponse {
   /** The property type for grouping. */
@@ -1045,9 +1605,9 @@ export interface CheckboxGroupByConfigResponse {
   /** Sort order for groups (only manual for checkbox). */
   sort: GroupSortResponse;
   /** Property name (convenience field). */
-  property_name?: string;
+  property_name?: string | undefined;
   /** Whether to hide groups that have no items. */
-  hide_empty_groups?: boolean;
+  hide_empty_groups?: boolean | undefined;
 }
 /** Granularity for date grouping. */
 export type FormulaDateSubGroupByResponseGroupBy = "relative" | "day" | "week" | "month" | "year";
@@ -1061,7 +1621,7 @@ export interface FormulaDateSubGroupByResponse {
   /** Sort order for groups. */
   sort: GroupSortResponse;
   /** Start day of week for week grouping (0 = Sunday, 1 = Monday). */
-  start_day_of_week?: FormulaDateSubGroupByResponseStartDayOfWeek;
+  start_day_of_week?: FormulaDateSubGroupByResponseStartDayOfWeek | undefined;
 }
 /** How to group text values. "exact" = exact match, "alphabet_prefix" = first letter. */
 export type FormulaTextSubGroupByResponseGroupBy = "exact" | "alphabet_prefix";
@@ -1079,11 +1639,11 @@ export interface FormulaNumberSubGroupByResponse {
   /** Sort order for groups (ascending or descending only). */
   sort: GroupSortResponse;
   /** Start of the range for number grouping buckets. */
-  range_start?: number;
+  range_start?: number | undefined;
   /** End of the range for number grouping buckets. */
-  range_end?: number;
+  range_end?: number | undefined;
   /** Size of each bucket in number grouping. */
-  range_size?: number;
+  range_size?: number | undefined;
 }
 export interface FormulaCheckboxSubGroupByResponse {
   /** The formula result type for grouping. */
@@ -1105,9 +1665,9 @@ export interface FormulaGroupByConfigResponse {
   /** Sub-group-by configuration based on the formula result type. */
   group_by: FormulaSubGroupByResponse;
   /** Property name (convenience field). */
-  property_name?: string;
+  property_name?: string | undefined;
   /** Whether to hide groups that have no items. */
-  hide_empty_groups?: boolean;
+  hide_empty_groups?: boolean | undefined;
 }
 /** Group-by configuration based on property type. */
 export type GroupByConfigResponse =
@@ -1126,29 +1686,29 @@ export type SubtaskConfigResponseDisplayMode = "show" | "hidden" | "flattened" |
 export type SubtaskConfigResponseFilterScope = "parents" | "parents_and_subitems" | "subitems";
 export interface SubtaskConfigResponse {
   /** Relation property ID used for parent-child nesting. */
-  property_id?: string;
+  property_id?: string | undefined;
   /** How sub-items are displayed. "show" renders hierarchically with toggles, "hidden" shows parents with a count, "flattened" shows sub-items with a parent indicator, "disabled" turns off sub-item rendering. */
-  display_mode?: SubtaskConfigResponseDisplayMode;
+  display_mode?: SubtaskConfigResponseDisplayMode | undefined;
   /** Which items are included when filtering. "parents" includes parent items only, "parents_and_subitems" includes both, "subitems" includes sub-items only. */
-  filter_scope?: SubtaskConfigResponseFilterScope;
+  filter_scope?: SubtaskConfigResponseFilterScope | undefined;
   /** Property ID of the column showing the sub-item expand/collapse toggle. */
-  toggle_column_id?: string;
+  toggle_column_id?: string | undefined;
 }
 export interface TableViewConfigResponse {
   /** The view configuration type. */
   type: string;
   /** Columns/properties visible in the table view. */
-  properties?: TableViewConfigResponsePropertiesList;
+  properties?: TableViewConfigResponsePropertiesList | undefined;
   /** Vertical (row) grouping configuration. */
-  group_by?: GroupByConfigResponse;
+  group_by?: GroupByConfigResponse | undefined;
   /** Sub-item (subtask) display configuration. */
-  subtasks?: SubtaskConfigResponse;
+  subtasks?: SubtaskConfigResponse | undefined;
   /** Whether to wrap cell content by default. */
-  wrap_cells?: boolean;
+  wrap_cells?: boolean | undefined;
   /** Index of the last frozen column. Columns up to and including this index are frozen. */
-  frozen_column_index?: number;
+  frozen_column_index?: number | undefined;
   /** Whether to show vertical lines between columns. */
-  show_vertical_lines?: boolean;
+  show_vertical_lines?: boolean | undefined;
 }
 /** Properties to display on each card. */
 export type BoardViewConfigResponsePropertiesList = Array<ViewPropertyConfigResponse>;
@@ -1162,7 +1722,7 @@ export interface CoverConfigResponse {
   /** Source of the cover image. */
   type: CoverConfigResponseType;
   /** Property ID when type is "property". */
-  property_id?: string;
+  property_id?: string | undefined;
 }
 /** Cover image size. */
 export type BoardViewConfigResponseCoverSize = "small" | "medium" | "large";
@@ -1176,17 +1736,17 @@ export interface BoardViewConfigResponse {
   /** Column (horizontal) grouping - required for board view. */
   group_by: GroupByConfigResponse;
   /** Sub-grouping (vertical swimlanes within columns). */
-  sub_group_by?: GroupByConfigResponse;
+  sub_group_by?: GroupByConfigResponse | undefined;
   /** Properties to display on each card. */
-  properties?: BoardViewConfigResponsePropertiesList;
+  properties?: BoardViewConfigResponsePropertiesList | undefined;
   /** Card cover/preview image configuration. */
-  cover?: CoverConfigResponse;
+  cover?: CoverConfigResponse | undefined;
   /** Cover image size. */
-  cover_size?: BoardViewConfigResponseCoverSize;
+  cover_size?: BoardViewConfigResponseCoverSize | undefined;
   /** Cover image aspect ratio. */
-  cover_aspect?: BoardViewConfigResponseCoverAspect;
+  cover_aspect?: BoardViewConfigResponseCoverAspect | undefined;
   /** Card layout mode (list shows all properties, compact shows inline). */
-  card_layout?: BoardViewConfigResponseCardLayout;
+  card_layout?: BoardViewConfigResponseCardLayout | undefined;
 }
 /** Properties to display on calendar event cards. */
 export type CalendarViewConfigResponsePropertiesList = Array<ViewPropertyConfigResponse>;
@@ -1198,13 +1758,13 @@ export interface CalendarViewConfigResponse {
   /** Date property used to position items on the calendar - required. */
   date_property_id: string;
   /** Date property name (convenience field). */
-  date_property_name?: string;
+  date_property_name?: string | undefined;
   /** Properties to display on calendar event cards. */
-  properties?: CalendarViewConfigResponsePropertiesList;
+  properties?: CalendarViewConfigResponsePropertiesList | undefined;
   /** Calendar view range. */
-  view_range?: CalendarViewConfigResponseViewRange;
+  view_range?: CalendarViewConfigResponseViewRange | undefined;
   /** Whether to show weekend days. */
-  show_weekends?: boolean;
+  show_weekends?: boolean | undefined;
 }
 /** Properties to display on timeline items. */
 export type TimelineViewConfigResponsePropertiesList = Array<ViewPropertyConfigResponse>;
@@ -1224,11 +1784,11 @@ export interface TimelinePreferenceResponse {
   /** Zoom level for the timeline. */
   zoom_level: TimelinePreferenceResponseZoomLevel;
   /** Center timestamp for the timeline view (Unix timestamp in ms). */
-  center_timestamp?: number;
+  center_timestamp?: number | undefined;
 }
 export interface TimelineArrowsByResponse {
   /** Relation property ID used for dependency arrows. */
-  property_id?: string | null;
+  property_id?: string | null | undefined;
 }
 export interface TimelineViewConfigResponse {
   /** The view configuration type. */
@@ -1236,23 +1796,23 @@ export interface TimelineViewConfigResponse {
   /** Start date property - required. */
   date_property_id: string;
   /** Start date property name (convenience field). */
-  date_property_name?: string;
+  date_property_name?: string | undefined;
   /** End date property (optional, for items that span a range). */
-  end_date_property_id?: string;
+  end_date_property_id?: string | undefined;
   /** End date property name (convenience field). */
-  end_date_property_name?: string;
+  end_date_property_name?: string | undefined;
   /** Properties to display on timeline items. */
-  properties?: TimelineViewConfigResponsePropertiesList;
+  properties?: TimelineViewConfigResponsePropertiesList | undefined;
   /** Whether to show the table panel alongside the timeline. */
-  show_table?: boolean;
+  show_table?: boolean | undefined;
   /** Properties to display in the table panel (when show_table is true). */
-  table_properties?: TimelineViewConfigResponseTablePropertiesList;
+  table_properties?: TimelineViewConfigResponseTablePropertiesList | undefined;
   /** Timeline zoom/preference state. */
-  preference?: TimelinePreferenceResponse;
+  preference?: TimelinePreferenceResponse | undefined;
   /** Dependency arrows configuration. */
-  arrows_by?: TimelineArrowsByResponse;
+  arrows_by?: TimelineArrowsByResponse | undefined;
   /** Whether to color-code items by property. */
-  color_by?: boolean;
+  color_by?: boolean | undefined;
 }
 /** Properties to display on gallery cards. */
 export type GalleryViewConfigResponsePropertiesList = Array<ViewPropertyConfigResponse>;
@@ -1266,15 +1826,15 @@ export interface GalleryViewConfigResponse {
   /** The view configuration type. */
   type: string;
   /** Properties to display on gallery cards. */
-  properties?: GalleryViewConfigResponsePropertiesList;
+  properties?: GalleryViewConfigResponsePropertiesList | undefined;
   /** Card cover/preview image configuration. */
-  cover?: CoverConfigResponse;
+  cover?: CoverConfigResponse | undefined;
   /** Cover image size. */
-  cover_size?: GalleryViewConfigResponseCoverSize;
+  cover_size?: GalleryViewConfigResponseCoverSize | undefined;
   /** Cover image aspect ratio. */
-  cover_aspect?: GalleryViewConfigResponseCoverAspect;
+  cover_aspect?: GalleryViewConfigResponseCoverAspect | undefined;
   /** Card layout mode (list shows all properties, compact shows inline). */
-  card_layout?: GalleryViewConfigResponseCardLayout;
+  card_layout?: GalleryViewConfigResponseCardLayout | undefined;
 }
 /** Properties to display in list items. */
 export type ListViewConfigResponsePropertiesList = Array<ViewPropertyConfigResponse>;
@@ -1282,7 +1842,7 @@ export interface ListViewConfigResponse {
   /** The view configuration type. */
   type: string;
   /** Properties to display in list items. */
-  properties?: ListViewConfigResponsePropertiesList;
+  properties?: ListViewConfigResponsePropertiesList | undefined;
 }
 /** Map display height. */
 export type MapViewConfigResponseHeight = "small" | "medium" | "large" | "extra_large";
@@ -1292,13 +1852,13 @@ export interface MapViewConfigResponse {
   /** The view configuration type. */
   type: string;
   /** Map display height. */
-  height?: MapViewConfigResponseHeight;
+  height?: MapViewConfigResponseHeight | undefined;
   /** Property ID of the location property used to position items on the map. */
-  map_by?: string;
+  map_by?: string | undefined;
   /** Map-by property name (convenience field). */
-  map_by_property_name?: string;
+  map_by_property_name?: string | undefined;
   /** Properties to display on map pin cards. */
-  properties?: MapViewConfigResponsePropertiesList;
+  properties?: MapViewConfigResponsePropertiesList | undefined;
 }
 /** Permission level granted to the submitter on the created page after form submission. */
 export type FormViewConfigResponseSubmissionPermissions =
@@ -1311,11 +1871,11 @@ export interface FormViewConfigResponse {
   /** The view configuration type. */
   type: string;
   /** Whether the form is closed for submissions. */
-  is_form_closed?: boolean;
+  is_form_closed?: boolean | undefined;
   /** Whether anonymous (non-logged-in) submissions are allowed. */
-  anonymous_submissions?: boolean;
+  anonymous_submissions?: boolean | undefined;
   /** Permission level granted to the submitter on the created page after form submission. */
-  submission_permissions?: FormViewConfigResponseSubmissionPermissions;
+  submission_permissions?: FormViewConfigResponseSubmissionPermissions | undefined;
 }
 /** The chart type: column (vertical bars), bar (horizontal bars), line, donut, or number (single value display). */
 export type ChartViewConfigResponseChartType = "column" | "bar" | "line" | "donut" | "number";
@@ -1345,7 +1905,7 @@ export interface ChartAggregationResponse {
   /** The aggregation operator. "count" counts all rows and does not require a property_id. All other operators require a property_id. */
   aggregator: ChartAggregationResponseAggregator;
   /** The property to aggregate on. Required for all operators except "count". */
-  property_id?: string;
+  property_id?: string | undefined;
 }
 /** Sort order for chart data. */
 export type ChartViewConfigResponseSort =
@@ -1412,55 +1972,55 @@ export interface ChartViewConfigResponse {
   /** The chart type: column (vertical bars), bar (horizontal bars), line, donut, or number (single value display). */
   chart_type: ChartViewConfigResponseChartType;
   /** X-axis grouping configuration for column/bar/line/donut charts using grouped data. Null when using results (raw property values) mode. */
-  x_axis?: GroupByConfigResponse | null;
+  x_axis?: GroupByConfigResponse | null | undefined;
   /** Y-axis aggregation for column/bar/line/donut charts using grouped data. Null when using results mode. */
-  y_axis?: ChartAggregationResponse | null;
+  y_axis?: ChartAggregationResponse | null | undefined;
   /** Property ID for the x-axis name values when using results (raw property values) mode. */
-  x_axis_property_id?: string;
+  x_axis_property_id?: string | undefined;
   /** Property ID for the y-axis numeric values when using results (raw property values) mode. */
-  y_axis_property_id?: string;
+  y_axis_property_id?: string | undefined;
   /** Aggregation configuration for number charts (single value display). */
-  value?: ChartAggregationResponse;
+  value?: ChartAggregationResponse | undefined;
   /** Sort order for chart data. */
-  sort?: ChartViewConfigResponseSort;
+  sort?: ChartViewConfigResponseSort | undefined;
   /** Color theme for the chart. */
-  color_theme?: ChartViewConfigResponseColorTheme;
+  color_theme?: ChartViewConfigResponseColorTheme | undefined;
   /** Chart height. */
-  height?: ChartViewConfigResponseHeight;
+  height?: ChartViewConfigResponseHeight | undefined;
   /** Whether to hide groups with no data on the x-axis. */
-  hide_empty_groups?: boolean;
+  hide_empty_groups?: boolean | undefined;
   /** Legend display position. "off" hides the legend. */
-  legend_position?: ChartViewConfigResponseLegendPosition;
+  legend_position?: ChartViewConfigResponseLegendPosition | undefined;
   /** Whether to show data value labels on chart elements. */
-  show_data_labels?: boolean;
+  show_data_labels?: boolean | undefined;
   /** Which axis labels to display. */
-  axis_labels?: ChartViewConfigResponseAxisLabels;
+  axis_labels?: ChartViewConfigResponseAxisLabels | undefined;
   /** Which grid lines to display. */
-  grid_lines?: ChartViewConfigResponseGridLines;
+  grid_lines?: ChartViewConfigResponseGridLines | undefined;
   /** Whether to show cumulative values (line charts only). */
-  cumulative?: boolean;
+  cumulative?: boolean | undefined;
   /** Whether to use smooth curves (line charts only). */
-  smooth_line?: boolean;
+  smooth_line?: boolean | undefined;
   /** Whether to hide the shaded area under the line (line charts only). */
-  hide_line_fill_area?: boolean;
+  hide_line_fill_area?: boolean | undefined;
   /** How grouped/stacked bars are displayed. "normal" stacks values, "percent" normalizes to 100%, "side_by_side" places bars next to each other. */
-  group_style?: ChartViewConfigResponseGroupStyle;
+  group_style?: ChartViewConfigResponseGroupStyle | undefined;
   /** Custom minimum value for the y-axis. Null clears the override. */
-  y_axis_min?: number | null;
+  y_axis_min?: number | null | undefined;
   /** Custom maximum value for the y-axis. Null clears the override. */
-  y_axis_max?: number | null;
+  y_axis_max?: number | null | undefined;
   /** What to display on donut chart slices. */
-  donut_labels?: ChartViewConfigResponseDonutLabels;
+  donut_labels?: ChartViewConfigResponseDonutLabels | undefined;
   /** Whether to hide the title label (number charts only). */
-  hide_title?: boolean;
+  hide_title?: boolean | undefined;
   /** Stack-by grouping configuration for stacked/grouped bar charts (column/bar/line only). Null when not stacked. */
-  stack_by?: GroupByConfigResponse | null;
+  stack_by?: GroupByConfigResponse | null | undefined;
   /** Reference lines drawn on the chart. Null when no reference lines are configured. */
-  reference_lines?: ChartViewConfigResponseReferenceLinesList | null;
+  reference_lines?: ChartViewConfigResponseReferenceLinesList | null | undefined;
   /** Text caption displayed below the chart. Null when no caption is shown. */
-  caption?: string | null;
+  caption?: string | null | undefined;
   /** Whether chart elements are colored by their numeric value (gradient coloring). */
-  color_by_value?: boolean;
+  color_by_value?: boolean | undefined;
 }
 export interface DashboardWidgetResponse {
   /** The ID of this widget module. */
@@ -1468,9 +2028,9 @@ export interface DashboardWidgetResponse {
   /** The ID of the collection view rendered by this widget. */
   view_id: string;
   /** Width of the widget in a 12-column grid (1-12). 12 means full width. */
-  width?: number;
+  width?: number | undefined;
   /** The 0-based index of the row this widget belongs to. Widgets in the same row share the same row_index. */
-  row_index?: number;
+  row_index?: number | undefined;
 }
 /** The widget modules within this row. */
 export type DashboardRowResponseWidgetsList = Array<DashboardWidgetResponse>;
@@ -1480,7 +2040,7 @@ export interface DashboardRowResponse {
   /** The widget modules within this row. */
   widgets: DashboardRowResponseWidgetsList;
   /** Fixed height of the row in pixels. */
-  height?: number;
+  height?: number | undefined;
 }
 /** The rows that make up the dashboard layout. Each row contains one or more widget modules. */
 export type DashboardViewConfigResponseRowsList = Array<DashboardRowResponse>;
@@ -1520,21 +2080,21 @@ export interface DataSourceViewObjectResponse {
   /** Canonical deep link to the view in Notion. */
   url: string;
   /** The ID of the data source this view is scoped to, or null for dashboard views. */
-  data_source_id?: string | null;
+  data_source_id?: string | null | undefined;
   /** The user who created the view, or null if not available. */
-  created_by?: PartialUserObjectResponse | null;
+  created_by?: PartialUserObjectResponse | null | undefined;
   /** The user who last edited the view, or null if not available. */
-  last_edited_by?: PartialUserObjectResponse | null;
+  last_edited_by?: PartialUserObjectResponse | null | undefined;
   /** The filter applied to this view (same shape as data source query filter). */
-  filter?: ViewFilterResponse | null;
+  filter?: ViewFilterResponse | null | undefined;
   /** The sorts applied to this view (same shape as data source query sorts). */
-  sorts?: DataSourceViewObjectResponseSortsList | null;
+  sorts?: DataSourceViewObjectResponseSortsList | null | undefined;
   /** Quick filters pinned to the view's filter bar. Keys are property IDs. Values are filter conditions (same shape as a property filter without the property field). Null when no quick filters are set. */
-  quick_filters?: DataSourceViewObjectResponseQuickFiltersMap | null;
+  quick_filters?: DataSourceViewObjectResponseQuickFiltersMap | null | undefined;
   /** View presentation configuration. */
-  configuration?: ViewConfigResponse | null;
+  configuration?: ViewConfigResponse | null | undefined;
   /** For dashboard widget views, the ID of the parent dashboard view. Only present when this view is a widget inside a dashboard. */
-  dashboard_view_id?: string;
+  dashboard_view_id?: string | undefined;
 }
 export type CreateViewResponseBody =
   | PartialDataSourceViewObjectResponse
@@ -1543,7 +2103,7 @@ export type CreateViewResponse = CreateViewResponseBody;
 export interface CreateViewQueryRequest {
   view_id: string;
   /** The number of results to return per page. Maximum: 100 */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export interface PageReferenceResponse {
   /** The object type. */
@@ -1559,7 +2119,7 @@ export interface RequestStatusResponse {
   /** Whether the result set is complete or incomplete. `incomplete` means the response does not include all rows that match the query parameters (e.g. due to a server-side pagination depth limit). */
   type: RequestStatusResponseType;
   /** Why the result set is incomplete. Only present when `type` is `incomplete`. */
-  incomplete_reason?: string;
+  incomplete_reason?: string | undefined;
 }
 export interface ViewQueryResponse {
   /** The object type. */
@@ -1579,7 +2139,7 @@ export interface ViewQueryResponse {
   /** Whether there are more results. */
   has_more: boolean;
   /** Set to `{ type: 'incomplete', incomplete_reason: 'query_result_limit_reached' }` when the view's underlying data source has more rows matching this query than the server-side pagination depth limit allows. */
-  request_status?: RequestStatusResponse;
+  request_status?: RequestStatusResponse | undefined;
 }
 export interface DeleteViewRequest {
   view_id: string;
@@ -1606,8 +2166,8 @@ export type GetViewResponse = GetViewResponseBody;
 export interface GetViewQueryResultsRequest {
   view_id: string;
   query_id: string;
-  start_cursor?: string;
-  page_size?: number;
+  start_cursor?: string | undefined;
+  page_size?: number | undefined;
 }
 export interface PartialPageObjectResponse {
   /** The page object type name. */
@@ -1625,13 +2185,13 @@ export interface GetViewQueryResultsResponse {
   /** Always `page` */
   type: string;
   page: unknown;
-  request_status?: RequestStatusResponse;
+  request_status?: RequestStatusResponse | undefined;
 }
 export interface ListViewsRequest {
-  database_id?: string;
-  data_source_id?: string;
-  start_cursor?: string;
-  page_size?: number;
+  database_id?: string | undefined;
+  data_source_id?: string | undefined;
+  start_cursor?: string | undefined;
+  page_size?: number | undefined;
 }
 export interface DataSourceViewReferenceResponse {
   /** The object type name. */
@@ -1649,7 +2209,7 @@ export interface ListViewsResponse {
   /** Always `view` */
   type: string;
   view: unknown;
-  request_status?: RequestStatusResponse;
+  request_status?: RequestStatusResponse | undefined;
 }
 /** One of: `ascending`, `descending` */
 export type SortDirectionRequest = "ascending" | "descending";
@@ -1660,19 +2220,21 @@ export interface ViewPropertySortRequest {
   direction: SortDirectionRequest | (string & {});
 }
 export type ViewPropertySortsRequest = Array<ViewPropertySortRequest>;
-export type UpdateViewRequestQuickFiltersMap = { [key: string]: unknown | null | undefined };
+export type UpdateViewRequestQuickFiltersMap = {
+  [key: string]: QuickFilterConditionRequest | null | undefined;
+};
 export interface UpdateViewRequest {
   view_id: string;
   /** New name for the view. */
-  name?: string;
+  name?: string | undefined;
   /** Filter to apply to the view. Uses the same format as the data source query filter. Pass null to clear the filter. */
-  filter?: unknown | null;
+  filter?: ViewFilterRequest | null | undefined;
   /** Property sorts to apply to the view. Only property-based sorts are supported. Pass null to clear the sorts. */
-  sorts?: ViewPropertySortsRequest | null;
+  sorts?: ViewPropertySortsRequest | null | undefined;
   /** Quick filters for the view's filter bar. Keys are property names or IDs. Set a key to a filter condition to add/update that quick filter. Set a key to null to remove it. Pass null for the entire field to clear all quick filters. Unmentioned quick filters are preserved. */
-  quick_filters?: UpdateViewRequestQuickFiltersMap | null;
+  quick_filters?: UpdateViewRequestQuickFiltersMap | null | undefined;
   /** View presentation configuration. The type field must match the view type. Individual nullable fields within the configuration can be set to null to clear them. */
-  configuration?: ViewConfigRequest;
+  configuration?: ViewConfigRequest | undefined;
 }
 export type UpdateViewResponseBody =
   | PartialDataSourceViewObjectResponse
@@ -2052,7 +2614,7 @@ function __c8(j: number): any {
           property: S.String,
           direction: S.String,
         }),
-      ).annotate({ identifier: "PropertySortResponse" });
+      ).annotate({ identifier: "ViewSortRequestCase0" });
     case 1:
       return S.Array(__S(64, __c8, 0));
     case 2:

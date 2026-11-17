@@ -45,11 +45,11 @@ export interface AbortAgentPoolLatestOperationRequest {
 }
 export interface AbortAgentPoolLatestOperationResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface AbortManagedClusterLatestOperationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -61,11 +61,11 @@ export interface AbortManagedClusterLatestOperationRequest {
 }
 export interface AbortManagedClusterLatestOperationResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The OS disk type to be used for machines in the agent pool. The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os). */
 export type OSDiskType = "Managed" | "Ephemeral";
@@ -100,22 +100,22 @@ export type UndrainableNodeBehavior = "Cordon" | "Schedule";
 /** Settings for upgrading an agentpool */
 export interface AgentPoolUpgradeSettings {
   /** The maximum number or percentage of nodes that are surged during upgrade. This can either be set to an integer (e.g. '5') or a percentage (e.g. '50%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 10%. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster */
-  maxSurge?: string;
+  maxSurge?: string | undefined;
   /** The maximum number or percentage of nodes that can be simultaneously unavailable during upgrade. This can either be set to an integer (e.g. '1') or a percentage (e.g. '5%'). If a percentage is specified, it is the percentage of the total agent pool size at the time of the upgrade. For percentages, fractional nodes are rounded up. If not specified, the default is 0. For more information, including best practices, see: https://learn.microsoft.com/en-us/azure/aks/upgrade-cluster */
-  maxUnavailable?: string;
+  maxUnavailable?: string | undefined;
   /** The drain timeout for a node. The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes. */
-  drainTimeoutInMinutes?: number;
+  drainTimeoutInMinutes?: number | undefined;
   /** The soak duration for a node. The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes. */
-  nodeSoakDurationInMinutes?: number;
+  nodeSoakDurationInMinutes?: number | undefined;
   /** Defines the behavior for undrainable nodes during upgrade. The most common cause of undrainable nodes is Pod Disruption Budgets (PDBs), but other issues, such as pod termination grace period is exceeding the remaining per-node drain timeout or pod is still being in a running state, can also cause undrainable nodes. */
-  undrainableNodeBehavior?: UndrainableNodeBehavior | (string & {});
+  undrainableNodeBehavior?: UndrainableNodeBehavior | (string & {}) | undefined;
 }
 /** Tells whether the cluster is Running or Stopped */
 export type Code = "Running" | "Stopped";
 /** Describes the Power State of the cluster */
 export interface PowerState {
   /** Tells whether the cluster is Running or Stopped */
-  code?: Code | (string & {});
+  code?: Code | (string & {}) | undefined;
 }
 /** The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'. */
 export type ManagedClusterAgentPoolProfilePropertiesInputAvailabilityZonesList = Array<string>;
@@ -140,111 +140,111 @@ export type KubeletConfigAllowedUnsafeSysctlsList = Array<string>;
 /** Kubelet configurations of agent nodes. See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details. */
 export interface KubeletConfig {
   /** The CPU Manager policy to use. The default is 'none'. See [Kubernetes CPU management policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies) for more information. Allowed values are 'none' and 'static'. */
-  cpuManagerPolicy?: string;
+  cpuManagerPolicy?: string | undefined;
   /** If CPU CFS quota enforcement is enabled for containers that specify CPU limits. The default is true. */
-  cpuCfsQuota?: boolean;
+  cpuCfsQuota?: boolean | undefined;
   /** The CPU CFS quota period value. The default is '100ms.' Valid values are a sequence of decimal numbers with an optional fraction and a unit suffix. For example: '300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'. */
-  cpuCfsQuotaPeriod?: string;
+  cpuCfsQuotaPeriod?: string | undefined;
   /** The percent of disk usage after which image garbage collection is always run. To disable image garbage collection, set to 100. The default is 85% */
-  imageGcHighThreshold?: number;
+  imageGcHighThreshold?: number | undefined;
   /** The percent of disk usage before which image garbage collection is never run. This cannot be set higher than imageGcHighThreshold. The default is 80% */
-  imageGcLowThreshold?: number;
+  imageGcLowThreshold?: number | undefined;
   /** The Topology Manager policy to use. For more information see [Kubernetes Topology Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager). The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted', and 'single-numa-node'. */
-  topologyManagerPolicy?: string;
+  topologyManagerPolicy?: string | undefined;
   /** Allowed list of unsafe sysctls or unsafe sysctl patterns (ending in `*`). */
-  allowedUnsafeSysctls?: KubeletConfigAllowedUnsafeSysctlsList;
+  allowedUnsafeSysctls?: KubeletConfigAllowedUnsafeSysctlsList | undefined;
   /** If set to true it will make the Kubelet fail to start if swap is enabled on the node. */
-  failSwapOn?: boolean;
+  failSwapOn?: boolean | undefined;
   /** The maximum size (e.g. 10Mi) of container log file before it is rotated. */
-  containerLogMaxSizeMB?: number;
+  containerLogMaxSizeMB?: number | undefined;
   /** The maximum number of container log files that can be present for a container. The number must be >= 2. */
-  containerLogMaxFiles?: number;
+  containerLogMaxFiles?: number | undefined;
   /** The maximum number of processes per pod. */
-  podMaxPids?: number;
+  podMaxPids?: number | undefined;
 }
 /** Sysctl settings for Linux agent nodes. */
 export interface SysctlConfig {
   /** Sysctl setting net.core.somaxconn. */
-  netCoreSomaxconn?: number;
+  netCoreSomaxconn?: number | undefined;
   /** Sysctl setting net.core.netdev_max_backlog. */
-  netCoreNetdevMaxBacklog?: number;
+  netCoreNetdevMaxBacklog?: number | undefined;
   /** Sysctl setting net.core.rmem_default. */
-  netCoreRmemDefault?: number;
+  netCoreRmemDefault?: number | undefined;
   /** Sysctl setting net.core.rmem_max. */
-  netCoreRmemMax?: number;
+  netCoreRmemMax?: number | undefined;
   /** Sysctl setting net.core.wmem_default. */
-  netCoreWmemDefault?: number;
+  netCoreWmemDefault?: number | undefined;
   /** Sysctl setting net.core.wmem_max. */
-  netCoreWmemMax?: number;
+  netCoreWmemMax?: number | undefined;
   /** Sysctl setting net.core.optmem_max. */
-  netCoreOptmemMax?: number;
+  netCoreOptmemMax?: number | undefined;
   /** Sysctl setting net.ipv4.tcp_max_syn_backlog. */
-  netIpv4TcpMaxSynBacklog?: number;
+  netIpv4TcpMaxSynBacklog?: number | undefined;
   /** Sysctl setting net.ipv4.tcp_max_tw_buckets. */
-  netIpv4TcpMaxTwBuckets?: number;
+  netIpv4TcpMaxTwBuckets?: number | undefined;
   /** Sysctl setting net.ipv4.tcp_fin_timeout. */
-  netIpv4TcpFinTimeout?: number;
+  netIpv4TcpFinTimeout?: number | undefined;
   /** Sysctl setting net.ipv4.tcp_keepalive_time. */
-  netIpv4TcpKeepaliveTime?: number;
+  netIpv4TcpKeepaliveTime?: number | undefined;
   /** Sysctl setting net.ipv4.tcp_keepalive_probes. */
-  netIpv4TcpKeepaliveProbes?: number;
+  netIpv4TcpKeepaliveProbes?: number | undefined;
   /** Sysctl setting net.ipv4.tcp_keepalive_intvl. */
-  netIpv4TcpkeepaliveIntvl?: number;
+  netIpv4TcpkeepaliveIntvl?: number | undefined;
   /** Sysctl setting net.ipv4.tcp_tw_reuse. */
-  netIpv4TcpTwReuse?: boolean;
+  netIpv4TcpTwReuse?: boolean | undefined;
   /** Sysctl setting net.ipv4.ip_local_port_range. */
-  netIpv4IpLocalPortRange?: string;
+  netIpv4IpLocalPortRange?: string | undefined;
   /** Sysctl setting net.ipv4.neigh.default.gc_thresh1. */
-  netIpv4NeighDefaultGcThresh1?: number;
+  netIpv4NeighDefaultGcThresh1?: number | undefined;
   /** Sysctl setting net.ipv4.neigh.default.gc_thresh2. */
-  netIpv4NeighDefaultGcThresh2?: number;
+  netIpv4NeighDefaultGcThresh2?: number | undefined;
   /** Sysctl setting net.ipv4.neigh.default.gc_thresh3. */
-  netIpv4NeighDefaultGcThresh3?: number;
+  netIpv4NeighDefaultGcThresh3?: number | undefined;
   /** Sysctl setting net.netfilter.nf_conntrack_max. */
-  netNetfilterNfConntrackMax?: number;
+  netNetfilterNfConntrackMax?: number | undefined;
   /** Sysctl setting net.netfilter.nf_conntrack_buckets. */
-  netNetfilterNfConntrackBuckets?: number;
+  netNetfilterNfConntrackBuckets?: number | undefined;
   /** Sysctl setting fs.inotify.max_user_watches. */
-  fsInotifyMaxUserWatches?: number;
+  fsInotifyMaxUserWatches?: number | undefined;
   /** Sysctl setting fs.file-max. */
-  fsFileMax?: number;
+  fsFileMax?: number | undefined;
   /** Sysctl setting fs.aio-max-nr. */
-  fsAioMaxNr?: number;
+  fsAioMaxNr?: number | undefined;
   /** Sysctl setting fs.nr_open. */
-  fsNrOpen?: number;
+  fsNrOpen?: number | undefined;
   /** Sysctl setting kernel.threads-max. */
-  kernelThreadsMax?: number;
+  kernelThreadsMax?: number | undefined;
   /** Sysctl setting vm.max_map_count. */
-  vmMaxMapCount?: number;
+  vmMaxMapCount?: number | undefined;
   /** Sysctl setting vm.swappiness. */
-  vmSwappiness?: number;
+  vmSwappiness?: number | undefined;
   /** Sysctl setting vm.vfs_cache_pressure. */
-  vmVfsCachePressure?: number;
+  vmVfsCachePressure?: number | undefined;
 }
 /** OS configurations of Linux agent nodes. See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details. */
 export interface LinuxOSConfig {
   /** Sysctl settings for Linux agent nodes. */
-  sysctls?: SysctlConfig;
+  sysctls?: SysctlConfig | undefined;
   /** Whether transparent hugepages are enabled. Valid values are 'always', 'madvise', and 'never'. The default is 'always'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge). */
-  transparentHugePageEnabled?: string;
+  transparentHugePageEnabled?: string | undefined;
   /** Whether the kernel should make aggressive use of memory compaction to make more hugepages available. Valid values are 'always', 'defer', 'defer+madvise', 'madvise' and 'never'. The default is 'madvise'. For more information see [Transparent Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge). */
-  transparentHugePageDefrag?: string;
+  transparentHugePageDefrag?: string | undefined;
   /** The size in MB of a swap file that will be created on each node. */
-  swapFileSizeMB?: number;
+  swapFileSizeMB?: number | undefined;
 }
 /** GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU. */
 export type GPUInstanceProfile = "MIG1g" | "MIG2g" | "MIG3g" | "MIG4g" | "MIG7g";
 /** Data used when creating a target resource from a source resource. */
 export interface CreationData {
   /** This is the ARM ID of the source object to be used to create the target object. */
-  sourceResourceId?: string;
+  sourceResourceId?: string | undefined;
 }
 /** Contains the IPTag associated with the object. */
 export interface IPTag {
   /** The IP tag type. Example: RoutingPreference. */
-  ipTagType?: string;
+  ipTagType?: string | undefined;
   /** The value of the IP tag associated with the public IP. Example: Internet. */
-  tag?: string;
+  tag?: string | undefined;
 }
 /** IPTags of instance-level public IPs. */
 export type AgentPoolNetworkProfileNodePublicIPTagsList = Array<IPTag>;
@@ -253,11 +253,11 @@ export type Protocol = "TCP" | "UDP";
 /** The port range. */
 export interface PortRange {
   /** The minimum port that is included in the range. It should be ranged from 1 to 65535, and be less than or equal to portEnd. */
-  portStart?: number;
+  portStart?: number | undefined;
   /** The maximum port that is included in the range. It should be ranged from 1 to 65535, and be greater than or equal to portStart. */
-  portEnd?: number;
+  portEnd?: number | undefined;
   /** The network protocol of the port. */
-  protocol?: Protocol | (string & {});
+  protocol?: Protocol | (string & {}) | undefined;
 }
 /** The port ranges that are allowed to access. The specified ranges are allowed to overlap. */
 export type AgentPoolNetworkProfileAllowedHostPortsList = Array<PortRange>;
@@ -268,90 +268,99 @@ export type DRANETMode = "Unmanaged" | "Managed";
 /** DRANET settings of an agent pool. */
 export interface DRANETProfile {
   /** The DRANET mode for the agent pool. */
-  mode?: DRANETMode | (string & {});
+  mode?: DRANETMode | (string & {}) | undefined;
 }
 /** Network settings of an agent pool. */
 export interface AgentPoolNetworkProfile {
   /** IPTags of instance-level public IPs. */
-  nodePublicIPTags?: AgentPoolNetworkProfileNodePublicIPTagsList;
+  nodePublicIPTags?: AgentPoolNetworkProfileNodePublicIPTagsList | undefined;
   /** The port ranges that are allowed to access. The specified ranges are allowed to overlap. */
-  allowedHostPorts?: AgentPoolNetworkProfileAllowedHostPortsList;
+  allowedHostPorts?: AgentPoolNetworkProfileAllowedHostPortsList | undefined;
   /** The IDs of the application security groups which agent pool will associate when created. */
-  applicationSecurityGroups?: AgentPoolNetworkProfileApplicationSecurityGroupsList;
+  applicationSecurityGroups?: AgentPoolNetworkProfileApplicationSecurityGroupsList | undefined;
   /** DRANET settings of an agent pool. */
-  dranet?: DRANETProfile;
+  dranet?: DRANETProfile | undefined;
 }
 /** The Windows agent pool's specific profile. */
 export interface AgentPoolWindowsProfile {
   /** Whether to disable OutboundNAT in windows nodes. The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled. */
-  disableOutboundNat?: boolean;
+  disableOutboundNat?: boolean | undefined;
 }
 /** SSH access method of an agent pool. */
 export type AgentPoolSSHAccess = "LocalUser" | "Disabled" | "EntraId";
 /** The security settings of an agent pool. */
 export interface AgentPoolSecurityProfile {
   /** vTPM is a Trusted Launch feature for configuring a dedicated secure vault for keys and measurements held locally on the node. For more details, see aka.ms/aks/trustedlaunch. If not specified, the default is false. */
-  enableVTPM?: boolean;
+  enableVTPM?: boolean | undefined;
   /** Secure Boot is a feature of Trusted Launch which ensures that only signed operating systems and drivers can boot. For more details, see aka.ms/aks/trustedlaunch. If not specified, the default is false. */
-  enableSecureBoot?: boolean;
+  enableSecureBoot?: boolean | undefined;
   /** SSH access method of an agent pool. */
-  sshAccess?: AgentPoolSSHAccess | (string & {});
+  sshAccess?: AgentPoolSSHAccess | (string & {}) | undefined;
 }
 /** Whether to install GPU drivers. When it's not specified, default is Install. */
 export type GPUDriver = "Install" | "None";
+/** The Managed GPU experience installs additional components, such as the Data Center GPU Manager (DCGM) metrics for monitoring, on top of the GPU driver for you. For more details of what is installed, check out aka.ms/aks/managed-gpu. */
+export type ManagementMode = "Unmanaged" | "Managed";
+/** NVIDIA-specific GPU settings */
+export interface NvidiaGPUProfile {
+  /** The Managed GPU experience installs additional components, such as the Data Center GPU Manager (DCGM) metrics for monitoring, on top of the GPU driver for you. For more details of what is installed, check out aka.ms/aks/managed-gpu. */
+  managementMode?: ManagementMode | (string & {}) | undefined;
+}
 /** GPU settings for the Agent Pool. */
 export interface GPUProfile {
   /** Whether to install GPU drivers. When it's not specified, default is Install. */
-  driver?: GPUDriver | (string & {});
+  driver?: GPUDriver | (string & {}) | undefined;
+  /** NVIDIA-specific GPU settings. */
+  nvidia?: NvidiaGPUProfile | undefined;
 }
 /** Profile of the managed cluster gateway agent pool. */
 export interface AgentPoolGatewayProfile {
   /** The Gateway agent pool associates one public IPPrefix for each static egress gateway to provide public egress. The size of Public IPPrefix should be selected by the user. Each node in the agent pool is assigned with one IP from the IPPrefix. The IPPrefix size thus serves as a cap on the size of the Gateway agent pool. Due to Azure public IPPrefix size limitation, the valid value range is [28, 31] (/31 = 2 nodes/IPs, /30 = 4 nodes/IPs, /29 = 8 nodes/IPs, /28 = 16 nodes/IPs). The default value is 31. */
-  publicIPPrefixSize?: number;
+  publicIPPrefixSize?: number | undefined;
 }
 /** Artifact streaming profile for the agent pool. */
 export interface AgentPoolArtifactStreamingProfile {
   /** Artifact streaming speeds up the cold-start of containers on a node through on-demand image loading. To use this feature, container images must also enable artifact streaming on ACR. If not specified, the default is false. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Specifications on number of machines. */
 export interface ManualScaleProfile {
   /** VM size that AKS will use when creating and scaling e.g. 'Standard_E4s_v3', 'Standard_E16s_v3' or 'Standard_D16s_v5'. */
-  size?: string;
+  size?: string | undefined;
   /** Number of nodes. */
-  count?: number;
+  count?: number | undefined;
 }
 /** Specifications on how to scale the VirtualMachines agent pool to a fixed size. */
 export type ScaleProfileManualList = Array<ManualScaleProfile>;
 /** Specifications on auto-scaling. */
 export interface AutoScaleProfile {
   /** VM size that AKS will use when creating and scaling e.g. 'Standard_E4s_v3', 'Standard_E16s_v3' or 'Standard_D16s_v5'. */
-  size?: string;
+  size?: string | undefined;
   /** The minimum number of nodes of the specified sizes. */
-  minCount?: number;
+  minCount?: number | undefined;
   /** The maximum number of nodes of the specified sizes. */
-  maxCount?: number;
+  maxCount?: number | undefined;
 }
 /** Specifications on how to auto-scale the VirtualMachines agent pool within a predefined size range. Each profile targets a specific VM SKU and is evaluated independently. Scaling decisions across profiles are governed by the cluster autoscaler expander, configurable via `ManagedCluster.properties.autoScalerProfile.expander`. */
 export type ScaleProfileAutoscaleList = Array<AutoScaleProfile>;
 /** Specifications on how to scale a VirtualMachines agent pool. */
 export interface ScaleProfile {
   /** Specifications on how to scale the VirtualMachines agent pool to a fixed size. */
-  manual?: ScaleProfileManualList;
+  manual?: ScaleProfileManualList | undefined;
   /** Specifications on how to auto-scale the VirtualMachines agent pool within a predefined size range. Each profile targets a specific VM SKU and is evaluated independently. Scaling decisions across profiles are governed by the cluster autoscaler expander, configurable via `ManagedCluster.properties.autoScalerProfile.expander`. */
-  autoscale?: ScaleProfileAutoscaleList;
+  autoscale?: ScaleProfileAutoscaleList | undefined;
 }
 /** Specifications on VirtualMachines agent pool. */
 export interface VirtualMachinesProfile {
   /** Specifications on how to scale a VirtualMachines agent pool. */
-  scale?: ScaleProfile;
+  scale?: ScaleProfile | undefined;
 }
 /** Current status on a group of nodes of the same vm size. */
 export interface VirtualMachineNodes {
   /** The VM size of the agents used to host this group of nodes. */
-  size?: string;
+  size?: string | undefined;
   /** Number of nodes. */
-  count?: number;
+  count?: number | undefined;
 }
 /** The status of nodes in a VirtualMachines agent pool. */
 export type ManagedClusterAgentPoolProfilePropertiesInputVirtualMachineNodesStatusList =
@@ -361,7 +370,7 @@ export interface AgentPoolStatusInputProvisioningError {}
 /** Contains read-only information about the Agent Pool. */
 export interface AgentPoolStatusInput {
   /** The error detail. */
-  provisioningError?: AgentPoolStatusInputProvisioningError;
+  provisioningError?: AgentPoolStatusInputProvisioningError | undefined;
 }
 /** Mode of enablement for localDNS. */
 export type LocalDNSProfileMode = "Preferred" | "Required" | "Disabled";
@@ -380,21 +389,21 @@ export type LocalDNSOverrideServeStale = "Verify" | "Immediate" | "Disable";
 /** Overrides for localDNS profile. */
 export interface LocalDNSOverride {
   /** Log level for DNS queries in localDNS. */
-  queryLogging?: LocalDNSOverrideQueryLogging | (string & {});
+  queryLogging?: LocalDNSOverrideQueryLogging | (string & {}) | undefined;
   /** Enforce TCP or prefer UDP protocol for connections from localDNS to upstream DNS server. */
-  protocol?: LocalDNSOverrideProtocol | (string & {});
+  protocol?: LocalDNSOverrideProtocol | (string & {}) | undefined;
   /** Destination server for DNS queries to be forwarded from localDNS. */
-  forwardDestination?: LocalDNSOverrideForwardDestination | (string & {});
+  forwardDestination?: LocalDNSOverrideForwardDestination | (string & {}) | undefined;
   /** Forward policy for selecting upstream DNS server. See [forward plugin](https://coredns.io/plugins/forward) for more information. */
-  forwardPolicy?: LocalDNSOverrideForwardPolicy | (string & {});
+  forwardPolicy?: LocalDNSOverrideForwardPolicy | (string & {}) | undefined;
   /** Maximum number of concurrent queries. See [forward plugin](https://coredns.io/plugins/forward) for more information. */
-  maxConcurrent?: number;
+  maxConcurrent?: number | undefined;
   /** Cache max TTL in seconds. See [cache plugin](https://coredns.io/plugins/cache) for more information. */
-  cacheDurationInSeconds?: number;
+  cacheDurationInSeconds?: number | undefined;
   /** Serve stale duration in seconds. See [cache plugin](https://coredns.io/plugins/cache) for more information. */
-  serveStaleDurationInSeconds?: number;
+  serveStaleDurationInSeconds?: number | undefined;
   /** Policy for serving stale data. See [cache plugin](https://coredns.io/plugins/cache) for more information. */
-  serveStale?: LocalDNSOverrideServeStale | (string & {});
+  serveStale?: LocalDNSOverrideServeStale | (string & {}) | undefined;
 }
 /** VnetDNS overrides apply to DNS traffic from pods with dnsPolicy:default or kubelet (referred to as VnetDNS traffic). */
 export type LocalDNSProfileVnetDNSOverridesMap = { [key: string]: LocalDNSOverride | undefined };
@@ -403,122 +412,130 @@ export type LocalDNSProfileKubeDNSOverridesMap = { [key: string]: LocalDNSOverri
 /** Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns. */
 export interface LocalDNSProfile {
   /** Mode of enablement for localDNS. */
-  mode?: LocalDNSProfileMode | (string & {});
+  mode?: LocalDNSProfileMode | (string & {}) | undefined;
   /** System-generated state of localDNS. */
-  state?: LocalDNSState | (string & {});
+  state?: LocalDNSState | (string & {}) | undefined;
   /** VnetDNS overrides apply to DNS traffic from pods with dnsPolicy:default or kubelet (referred to as VnetDNS traffic). */
-  vnetDNSOverrides?: LocalDNSProfileVnetDNSOverridesMap;
+  vnetDNSOverrides?: LocalDNSProfileVnetDNSOverridesMap | undefined;
   /** KubeDNS overrides apply to DNS traffic from pods with dnsPolicy:ClusterFirst (referred to as KubeDNS traffic). */
-  kubeDNSOverrides?: LocalDNSProfileKubeDNSOverridesMap;
+  kubeDNSOverrides?: LocalDNSProfileKubeDNSOverridesMap | undefined;
 }
 /** Properties for the container service agent pool profile. */
 export interface ManagedClusterAgentPoolProfilePropertiesInput {
   /** Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1. */
-  count?: number;
+  count?: number | undefined;
   /** The size of the agent pool VMs. VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** OS Disk Size in GB to be used to specify the disk size for every machine in the master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified. */
-  osDiskSizeGB?: number;
+  osDiskSizeGB?: number | undefined;
   /** The OS disk type to be used for machines in the agent pool. The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os). */
-  osDiskType?: OSDiskType | (string & {});
+  osDiskType?: OSDiskType | (string & {}) | undefined;
   /** Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage. */
-  kubeletDiskType?: KubeletDiskType | (string & {});
+  kubeletDiskType?: KubeletDiskType | (string & {}) | undefined;
   /** Determines the type of workload a node can run. */
-  workloadRuntime?: WorkloadRuntime | (string & {});
+  workloadRuntime?: WorkloadRuntime | (string & {}) | undefined;
   /** Message of the day for Linux nodes, base64-encoded. A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script). */
-  messageOfTheDay?: string;
+  messageOfTheDay?: string | undefined;
   /** The ID of the subnet which agent pool nodes and optionally pods will join on startup. If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
-  vnetSubnetID?: string;
+  vnetSubnetID?: string | undefined;
   /** The ID of the subnet which pods will join when launched. If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
-  podSubnetID?: string;
+  podSubnetID?: string | undefined;
   /** Pod IP Allocation Mode. The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'. */
-  podIPAllocationMode?: PodIPAllocationMode | (string & {});
+  podIPAllocationMode?: PodIPAllocationMode | (string & {}) | undefined;
   /** The maximum number of pods that can run on a node. */
-  maxPods?: number;
+  maxPods?: number | undefined;
   /** The operating system type. The default is Linux. */
-  osType?: ManagedClusterAgentPoolProfilePropertiesInputOsType | (string & {});
+  osType?: ManagedClusterAgentPoolProfilePropertiesInputOsType | (string & {}) | undefined;
   /** Specifies the OS SKU used by the agent pool. The default is Ubuntu if OSType is Linux. The default is Windows2019 when Kubernetes <= 1.24 or Windows2022 when Kubernetes >= 1.25 if OSType is Windows. */
-  osSKU?: OSSKU | (string & {});
+  osSKU?: OSSKU | (string & {}) | undefined;
   /** The maximum number of nodes for auto-scaling */
-  maxCount?: number;
+  maxCount?: number | undefined;
   /** The minimum number of nodes for auto-scaling */
-  minCount?: number;
+  minCount?: number | undefined;
   /** Whether to enable auto-scaler */
-  enableAutoScaling?: boolean;
+  enableAutoScaling?: boolean | undefined;
   /** The scale down mode to use when scaling the Agent Pool. This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete. */
-  scaleDownMode?: ScaleDownMode | (string & {});
+  scaleDownMode?: ScaleDownMode | (string & {}) | undefined;
   /** The type of Agent Pool. */
-  type?: AgentPoolType | (string & {});
+  type?: AgentPoolType | (string & {}) | undefined;
   /** The mode of an agent pool. A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools */
-  mode?: AgentPoolMode | (string & {});
+  mode?: AgentPoolMode | (string & {}) | undefined;
   /** The version of Kubernetes specified by the user. Both patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool). */
-  orchestratorVersion?: string;
+  orchestratorVersion?: string | undefined;
   /** The version of the node image. Setting this value triggers an agentPool rollback. Only values from `recentlyUsedVersions` are allowed. */
-  nodeImageVersion?: string;
+  nodeImageVersion?: string | undefined;
   /** Settings for upgrading the agentpool */
-  upgradeSettings?: AgentPoolUpgradeSettings;
+  upgradeSettings?: AgentPoolUpgradeSettings | undefined;
   /** Whether the Agent Pool is running or stopped. When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded */
-  powerState?: PowerState;
+  powerState?: PowerState | undefined;
   /** The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'. */
-  availabilityZones?: ManagedClusterAgentPoolProfilePropertiesInputAvailabilityZonesList;
+  availabilityZones?:
+    | ManagedClusterAgentPoolProfilePropertiesInputAvailabilityZonesList
+    | undefined;
   /** Whether each node is allocated its own public IP. Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false. */
-  enableNodePublicIP?: boolean;
+  enableNodePublicIP?: boolean | undefined;
   /** The public IP prefix ID which VM nodes should use IPs from. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName} */
-  nodePublicIPPrefixID?: string;
+  nodePublicIPPrefixID?: string | undefined;
   /** The Virtual Machine Scale Set priority. */
-  scaleSetPriority?: ManagedClusterAgentPoolProfilePropertiesInputScaleSetPriority | (string & {});
+  scaleSetPriority?:
+    | ManagedClusterAgentPoolProfilePropertiesInputScaleSetPriority
+    | (string & {})
+    | undefined;
   /** The Virtual Machine Scale Set eviction policy. The eviction policy specifies what to do with the VM when it is evicted. The default is Delete. For more information about eviction see [spot VMs](https://docs.microsoft.com/azure/virtual-machines/spot-vms) */
   scaleSetEvictionPolicy?:
     | ManagedClusterAgentPoolProfilePropertiesInputScaleSetEvictionPolicy
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The max price (in US Dollars) you are willing to pay for spot instances. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand. Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing) */
-  spotMaxPrice?: number;
+  spotMaxPrice?: number | undefined;
   /** The tags to be persisted on the agent pool virtual machine scale set. */
-  tags?: ManagedClusterAgentPoolProfilePropertiesInputTagsMap;
+  tags?: ManagedClusterAgentPoolProfilePropertiesInputTagsMap | undefined;
   /** The node labels to be persisted across all nodes in agent pool. */
-  nodeLabels?: ManagedClusterAgentPoolProfilePropertiesInputNodeLabelsMap;
+  nodeLabels?: ManagedClusterAgentPoolProfilePropertiesInputNodeLabelsMap | undefined;
   /** The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule. */
-  nodeTaints?: ManagedClusterAgentPoolProfilePropertiesInputNodeTaintsList;
+  nodeTaints?: ManagedClusterAgentPoolProfilePropertiesInputNodeTaintsList | undefined;
   /** The ID for Proximity Placement Group. */
-  proximityPlacementGroupID?: string;
+  proximityPlacementGroupID?: string | undefined;
   /** The Kubelet configuration on the agent pool nodes. */
-  kubeletConfig?: KubeletConfig;
+  kubeletConfig?: KubeletConfig | undefined;
   /** The OS configuration of Linux agent nodes. */
-  linuxOSConfig?: LinuxOSConfig;
+  linuxOSConfig?: LinuxOSConfig | undefined;
   /** Whether to enable host based OS and data drive encryption. This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption */
-  enableEncryptionAtHost?: boolean;
+  enableEncryptionAtHost?: boolean | undefined;
   /** Whether to enable UltraSSD */
-  enableUltraSSD?: boolean;
+  enableUltraSSD?: boolean | undefined;
   /** Whether to use a FIPS-enabled OS. See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details. */
-  enableFIPS?: boolean;
+  enableFIPS?: boolean | undefined;
   /** GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU. */
-  gpuInstanceProfile?: GPUInstanceProfile | (string & {});
+  gpuInstanceProfile?: GPUInstanceProfile | (string & {}) | undefined;
   /** CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot. */
-  creationData?: CreationData;
+  creationData?: CreationData | undefined;
   /** The fully qualified resource ID of the Capacity Reservation Group to provide virtual machines from a reserved group of Virtual Machines. This is of the form: '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Compute/capacityreservationgroups/{capacityReservationGroupName}' Customers use it to create an agentpool with a specified CRG. For more information see [Capacity Reservation](https://learn.microsoft.com/en-us/azure/virtual-machines/capacity-reservation-overview) */
-  capacityReservationGroupID?: string;
+  capacityReservationGroupID?: string | undefined;
   /** The fully qualified resource ID of the Dedicated Host Group to provision virtual machines from, used only in creation scenario and not allowed to changed once set. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts). */
-  hostGroupID?: string;
+  hostGroupID?: string | undefined;
   /** Network-related settings of an agent pool. */
-  networkProfile?: AgentPoolNetworkProfile;
+  networkProfile?: AgentPoolNetworkProfile | undefined;
   /** The Windows agent pool's specific profile. */
-  windowsProfile?: AgentPoolWindowsProfile;
+  windowsProfile?: AgentPoolWindowsProfile | undefined;
   /** The security settings of an agent pool. */
-  securityProfile?: AgentPoolSecurityProfile;
+  securityProfile?: AgentPoolSecurityProfile | undefined;
   /** GPU settings for the Agent Pool. */
-  gpuProfile?: GPUProfile;
+  gpuProfile?: GPUProfile | undefined;
   /** Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent pool mode is not Gateway. */
-  gatewayProfile?: AgentPoolGatewayProfile;
+  gatewayProfile?: AgentPoolGatewayProfile | undefined;
   /** Configuration for using artifact streaming on AKS. */
-  artifactStreamingProfile?: AgentPoolArtifactStreamingProfile;
+  artifactStreamingProfile?: AgentPoolArtifactStreamingProfile | undefined;
   /** Specifications on VirtualMachines agent pool. */
-  virtualMachinesProfile?: VirtualMachinesProfile;
+  virtualMachinesProfile?: VirtualMachinesProfile | undefined;
   /** The status of nodes in a VirtualMachines agent pool. */
-  virtualMachineNodesStatus?: ManagedClusterAgentPoolProfilePropertiesInputVirtualMachineNodesStatusList;
+  virtualMachineNodesStatus?:
+    | ManagedClusterAgentPoolProfilePropertiesInputVirtualMachineNodesStatusList
+    | undefined;
   /** Contains read-only information about the Agent Pool. */
-  status?: AgentPoolStatusInput;
+  status?: AgentPoolStatusInput | undefined;
   /** Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns. */
-  localDNSProfile?: LocalDNSProfile;
+  localDNSProfile?: LocalDNSProfile | undefined;
 }
 export interface AgentPoolsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -530,7 +547,7 @@ export interface AgentPoolsCreateOrUpdateRequest {
   /** The name of the agent pool. */
   agentPoolName: string;
   /** Properties of an agent pool. */
-  properties?: ManagedClusterAgentPoolProfilePropertiesInput;
+  properties?: ManagedClusterAgentPoolProfilePropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -539,17 +556,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The operating system type. The default is Linux. */
 export type ManagedClusterAgentPoolProfilePropertiesOsType = "Linux" | "Windows";
@@ -577,24 +594,24 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The error details. */
 export type AgentPoolStatusProvisioningErrorDetailsList = Array<ErrorDetail>;
@@ -603,149 +620,153 @@ export type AgentPoolStatusProvisioningErrorAdditionalInfoList = Array<ErrorAddi
 /** The error detail. */
 export interface AgentPoolStatusProvisioningError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: AgentPoolStatusProvisioningErrorDetailsList;
+  details?: AgentPoolStatusProvisioningErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: AgentPoolStatusProvisioningErrorAdditionalInfoList;
+  additionalInfo?: AgentPoolStatusProvisioningErrorAdditionalInfoList | undefined;
 }
 /** Contains read-only information about the Agent Pool. */
 export interface AgentPoolStatus {
   /** The error detail. */
-  provisioningError?: AgentPoolStatusProvisioningError;
+  provisioningError?: AgentPoolStatusProvisioningError | undefined;
 }
 /** Properties for the container service agent pool profile. */
 export interface ManagedClusterAgentPoolProfileProperties {
   /** Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal eTag convention. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1. */
-  count?: number;
+  count?: number | undefined;
   /** The size of the agent pool VMs. VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** OS Disk Size in GB to be used to specify the disk size for every machine in the master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified. */
-  osDiskSizeGB?: number;
+  osDiskSizeGB?: number | undefined;
   /** The OS disk type to be used for machines in the agent pool. The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os). */
-  osDiskType?: OSDiskType;
+  osDiskType?: OSDiskType | undefined;
   /** Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage. */
-  kubeletDiskType?: KubeletDiskType;
+  kubeletDiskType?: KubeletDiskType | undefined;
   /** Determines the type of workload a node can run. */
-  workloadRuntime?: WorkloadRuntime;
+  workloadRuntime?: WorkloadRuntime | undefined;
   /** Message of the day for Linux nodes, base64-encoded. A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script). */
-  messageOfTheDay?: string;
+  messageOfTheDay?: string | undefined;
   /** The ID of the subnet which agent pool nodes and optionally pods will join on startup. If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
-  vnetSubnetID?: string;
+  vnetSubnetID?: string | undefined;
   /** The ID of the subnet which pods will join when launched. If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
-  podSubnetID?: string;
+  podSubnetID?: string | undefined;
   /** Pod IP Allocation Mode. The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'. */
-  podIPAllocationMode?: PodIPAllocationMode;
+  podIPAllocationMode?: PodIPAllocationMode | undefined;
   /** The maximum number of pods that can run on a node. */
-  maxPods?: number;
+  maxPods?: number | undefined;
   /** The operating system type. The default is Linux. */
-  osType?: ManagedClusterAgentPoolProfilePropertiesOsType;
+  osType?: ManagedClusterAgentPoolProfilePropertiesOsType | undefined;
   /** Specifies the OS SKU used by the agent pool. The default is Ubuntu if OSType is Linux. The default is Windows2019 when Kubernetes <= 1.24 or Windows2022 when Kubernetes >= 1.25 if OSType is Windows. */
-  osSKU?: OSSKU;
+  osSKU?: OSSKU | undefined;
   /** The maximum number of nodes for auto-scaling */
-  maxCount?: number;
+  maxCount?: number | undefined;
   /** The minimum number of nodes for auto-scaling */
-  minCount?: number;
+  minCount?: number | undefined;
   /** Whether to enable auto-scaler */
-  enableAutoScaling?: boolean;
+  enableAutoScaling?: boolean | undefined;
   /** The scale down mode to use when scaling the Agent Pool. This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete. */
-  scaleDownMode?: ScaleDownMode;
+  scaleDownMode?: ScaleDownMode | undefined;
   /** The type of Agent Pool. */
-  type?: AgentPoolType;
+  type?: AgentPoolType | undefined;
   /** The mode of an agent pool. A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools */
-  mode?: AgentPoolMode;
+  mode?: AgentPoolMode | undefined;
   /** The version of Kubernetes specified by the user. Both patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool). */
-  orchestratorVersion?: string;
+  orchestratorVersion?: string | undefined;
   /** The version of Kubernetes the Agent Pool is running. If orchestratorVersion is a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion is <major.minor>, this field will contain the full <major.minor.patch> version being used. */
-  currentOrchestratorVersion?: string;
+  currentOrchestratorVersion?: string | undefined;
   /** The version of the node image. Setting this value triggers an agentPool rollback. Only values from `recentlyUsedVersions` are allowed. */
-  nodeImageVersion?: string;
+  nodeImageVersion?: string | undefined;
   /** Settings for upgrading the agentpool */
-  upgradeSettings?: AgentPoolUpgradeSettings;
+  upgradeSettings?: AgentPoolUpgradeSettings | undefined;
   /** The current deployment or provisioning state. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Whether the Agent Pool is running or stopped. When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded */
-  powerState?: PowerState;
+  powerState?: PowerState | undefined;
   /** The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'. */
-  availabilityZones?: ManagedClusterAgentPoolProfilePropertiesAvailabilityZonesList;
+  availabilityZones?: ManagedClusterAgentPoolProfilePropertiesAvailabilityZonesList | undefined;
   /** Whether each node is allocated its own public IP. Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false. */
-  enableNodePublicIP?: boolean;
+  enableNodePublicIP?: boolean | undefined;
   /** The public IP prefix ID which VM nodes should use IPs from. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName} */
-  nodePublicIPPrefixID?: string;
+  nodePublicIPPrefixID?: string | undefined;
   /** The Virtual Machine Scale Set priority. */
-  scaleSetPriority?: ManagedClusterAgentPoolProfilePropertiesScaleSetPriority;
+  scaleSetPriority?: ManagedClusterAgentPoolProfilePropertiesScaleSetPriority | undefined;
   /** The Virtual Machine Scale Set eviction policy. The eviction policy specifies what to do with the VM when it is evicted. The default is Delete. For more information about eviction see [spot VMs](https://docs.microsoft.com/azure/virtual-machines/spot-vms) */
-  scaleSetEvictionPolicy?: ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy;
+  scaleSetEvictionPolicy?:
+    | ManagedClusterAgentPoolProfilePropertiesScaleSetEvictionPolicy
+    | undefined;
   /** The max price (in US Dollars) you are willing to pay for spot instances. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand. Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing) */
-  spotMaxPrice?: number;
+  spotMaxPrice?: number | undefined;
   /** The tags to be persisted on the agent pool virtual machine scale set. */
-  tags?: ManagedClusterAgentPoolProfilePropertiesTagsMap;
+  tags?: ManagedClusterAgentPoolProfilePropertiesTagsMap | undefined;
   /** The node labels to be persisted across all nodes in agent pool. */
-  nodeLabels?: ManagedClusterAgentPoolProfilePropertiesNodeLabelsMap;
+  nodeLabels?: ManagedClusterAgentPoolProfilePropertiesNodeLabelsMap | undefined;
   /** The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule. */
-  nodeTaints?: ManagedClusterAgentPoolProfilePropertiesNodeTaintsList;
+  nodeTaints?: ManagedClusterAgentPoolProfilePropertiesNodeTaintsList | undefined;
   /** The ID for Proximity Placement Group. */
-  proximityPlacementGroupID?: string;
+  proximityPlacementGroupID?: string | undefined;
   /** The Kubelet configuration on the agent pool nodes. */
-  kubeletConfig?: KubeletConfig;
+  kubeletConfig?: KubeletConfig | undefined;
   /** The OS configuration of Linux agent nodes. */
-  linuxOSConfig?: LinuxOSConfig;
+  linuxOSConfig?: LinuxOSConfig | undefined;
   /** Whether to enable host based OS and data drive encryption. This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption */
-  enableEncryptionAtHost?: boolean;
+  enableEncryptionAtHost?: boolean | undefined;
   /** Whether to enable UltraSSD */
-  enableUltraSSD?: boolean;
+  enableUltraSSD?: boolean | undefined;
   /** Whether to use a FIPS-enabled OS. See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details. */
-  enableFIPS?: boolean;
+  enableFIPS?: boolean | undefined;
   /** GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU. */
-  gpuInstanceProfile?: GPUInstanceProfile;
+  gpuInstanceProfile?: GPUInstanceProfile | undefined;
   /** CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot. */
-  creationData?: CreationData;
+  creationData?: CreationData | undefined;
   /** The fully qualified resource ID of the Capacity Reservation Group to provide virtual machines from a reserved group of Virtual Machines. This is of the form: '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Compute/capacityreservationgroups/{capacityReservationGroupName}' Customers use it to create an agentpool with a specified CRG. For more information see [Capacity Reservation](https://learn.microsoft.com/en-us/azure/virtual-machines/capacity-reservation-overview) */
-  capacityReservationGroupID?: string;
+  capacityReservationGroupID?: string | undefined;
   /** The fully qualified resource ID of the Dedicated Host Group to provision virtual machines from, used only in creation scenario and not allowed to changed once set. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts). */
-  hostGroupID?: string;
+  hostGroupID?: string | undefined;
   /** Network-related settings of an agent pool. */
-  networkProfile?: AgentPoolNetworkProfile;
+  networkProfile?: AgentPoolNetworkProfile | undefined;
   /** The Windows agent pool's specific profile. */
-  windowsProfile?: AgentPoolWindowsProfile;
+  windowsProfile?: AgentPoolWindowsProfile | undefined;
   /** The security settings of an agent pool. */
-  securityProfile?: AgentPoolSecurityProfile;
+  securityProfile?: AgentPoolSecurityProfile | undefined;
   /** GPU settings for the Agent Pool. */
-  gpuProfile?: GPUProfile;
+  gpuProfile?: GPUProfile | undefined;
   /** Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent pool mode is not Gateway. */
-  gatewayProfile?: AgentPoolGatewayProfile;
+  gatewayProfile?: AgentPoolGatewayProfile | undefined;
   /** Configuration for using artifact streaming on AKS. */
-  artifactStreamingProfile?: AgentPoolArtifactStreamingProfile;
+  artifactStreamingProfile?: AgentPoolArtifactStreamingProfile | undefined;
   /** Specifications on VirtualMachines agent pool. */
-  virtualMachinesProfile?: VirtualMachinesProfile;
+  virtualMachinesProfile?: VirtualMachinesProfile | undefined;
   /** The status of nodes in a VirtualMachines agent pool. */
-  virtualMachineNodesStatus?: ManagedClusterAgentPoolProfilePropertiesVirtualMachineNodesStatusList;
+  virtualMachineNodesStatus?:
+    | ManagedClusterAgentPoolProfilePropertiesVirtualMachineNodesStatusList
+    | undefined;
   /** Contains read-only information about the Agent Pool. */
-  status?: AgentPoolStatus;
+  status?: AgentPoolStatus | undefined;
   /** Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns. */
-  localDNSProfile?: LocalDNSProfile;
+  localDNSProfile?: LocalDNSProfile | undefined;
 }
 export interface AgentPoolsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an agent pool. */
-  properties?: ManagedClusterAgentPoolProfileProperties;
+  properties?: ManagedClusterAgentPoolProfileProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface AgentPoolsUpgradeNodeImageVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -759,11 +780,11 @@ export interface AgentPoolsUpgradeNodeImageVersionRequest {
 }
 export interface AgentPoolsUpgradeNodeImageVersionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface AutoUpgradeProfileOperationsGenerateUpdateRunRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -780,9 +801,9 @@ export interface GenerateResponse {
   /** The ARM resource id of the generated UpdateRun. e.g.: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/fleets/{fleetName}/updateRuns/{updateRunName}'. */
   id: string;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Configuration of how auto upgrade will be run. */
 export type UpgradeChannel_2 = "Stable" | "Rapid" | "NodeImage" | "TargetKubernetesVersion";
@@ -798,24 +819,24 @@ export type AutoUpgradeProfileStatusInputLastTriggerError = AgentPoolStatusInput
 /** AutoUpgradeProfileStatus is the status of an auto upgrade profile. */
 export interface AutoUpgradeProfileStatusInput {
   /** The error detail. */
-  lastTriggerError?: AgentPoolStatusInputProvisioningError;
+  lastTriggerError?: AgentPoolStatusInputProvisioningError | undefined;
 }
 /** The properties of the AutoUpgradeProfile. */
 export interface AutoUpgradeProfilePropertiesInput {
   /** The resource id of the UpdateStrategy resource to reference. If not specified, the auto upgrade will run on all clusters which are members of the fleet. */
-  updateStrategyId?: string;
+  updateStrategyId?: string | undefined;
   /** Configures how auto-upgrade will be run. */
   channel: UpgradeChannel_2 | (string & {});
   /** The node image upgrade to be applied to the target clusters in auto upgrade. */
-  nodeImageSelection?: AutoUpgradeNodeImageSelection;
+  nodeImageSelection?: AutoUpgradeNodeImageSelection | undefined;
   /** If set to False: the auto upgrade has effect - target managed clusters will be upgraded on schedule. If set to True: the auto upgrade has no effect - no upgrade will be run on the target managed clusters. This is a boolean and not an enum because enabled/disabled are all available states of the auto upgrade profile. By default, this is set to False. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The status of the auto upgrade profile. */
-  autoUpgradeProfileStatus?: AutoUpgradeProfileStatusInput;
+  autoUpgradeProfileStatus?: AutoUpgradeProfileStatusInput | undefined;
   /** This is the target Kubernetes version for auto-upgrade. The format must be `{major version}.{minor version}`. For example, "1.30". By default, this is empty. If upgrade channel is set to TargetKubernetesVersion, this field must not be empty. If upgrade channel is not TargetKubernetesVersion, this field must be empty. */
-  targetKubernetesVersion?: string;
+  targetKubernetesVersion?: string | undefined;
   /** If upgrade channel is not TargetKubernetesVersion, this field must be False. If set to True: Fleet auto upgrade will continue generate update runs for patches of minor versions earlier than N-2 (where N is the latest supported minor version) if those minor versions support Long-Term Support (LTS). By default, this is set to False. For more information on AKS LTS, please see https://learn.microsoft.com/en-us/azure/aks/long-term-support */
-  longTermSupport?: boolean;
+  longTermSupport?: boolean | undefined;
 }
 export interface AutoUpgradeProfilesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -827,7 +848,7 @@ export interface AutoUpgradeProfilesCreateOrUpdateRequest {
   /** The name of the AutoUpgradeProfile resource. */
   autoUpgradeProfileName: string;
   /** The resource-specific properties for this resource. */
-  properties?: AutoUpgradeProfilePropertiesInput;
+  properties?: AutoUpgradeProfilePropertiesInput | undefined;
 }
 /** The provisioning state of the AutoUpgradeProfile resource. */
 export type AutoUpgradeProfileProvisioningState = "Succeeded" | "Failed" | "Canceled";
@@ -840,65 +861,65 @@ export type AutoUpgradeProfileStatusLastTriggerErrorAdditionalInfoList = Array<E
 /** The error detail. */
 export interface AutoUpgradeProfileStatusLastTriggerError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: AutoUpgradeProfileStatusLastTriggerErrorDetailsList;
+  details?: AutoUpgradeProfileStatusLastTriggerErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: AutoUpgradeProfileStatusLastTriggerErrorAdditionalInfoList;
+  additionalInfo?: AutoUpgradeProfileStatusLastTriggerErrorAdditionalInfoList | undefined;
 }
 /** The target Kubernetes version or node image versions of the last trigger. */
 export type AutoUpgradeProfileStatusLastTriggerUpgradeVersionsList = Array<string>;
 /** AutoUpgradeProfileStatus is the status of an auto upgrade profile. */
 export interface AutoUpgradeProfileStatus {
   /** The UTC time of the last attempt to automatically create and start an UpdateRun as triggered by the release of new versions. */
-  lastTriggeredAt?: string;
+  lastTriggeredAt?: string | undefined;
   /** The status of the last AutoUpgrade trigger. */
-  lastTriggerStatus?: AutoUpgradeLastTriggerStatus;
+  lastTriggerStatus?: AutoUpgradeLastTriggerStatus | undefined;
   /** The error detail. */
-  lastTriggerError?: AutoUpgradeProfileStatusLastTriggerError;
+  lastTriggerError?: AutoUpgradeProfileStatusLastTriggerError | undefined;
   /** The target Kubernetes version or node image versions of the last trigger. */
-  lastTriggerUpgradeVersions?: AutoUpgradeProfileStatusLastTriggerUpgradeVersionsList;
+  lastTriggerUpgradeVersions?: AutoUpgradeProfileStatusLastTriggerUpgradeVersionsList | undefined;
 }
 /** The properties of the AutoUpgradeProfile. */
 export interface AutoUpgradeProfileProperties {
   /** The provisioning state of the AutoUpgradeProfile resource. */
-  provisioningState?: AutoUpgradeProfileProvisioningState;
+  provisioningState?: AutoUpgradeProfileProvisioningState | undefined;
   /** The resource id of the UpdateStrategy resource to reference. If not specified, the auto upgrade will run on all clusters which are members of the fleet. */
-  updateStrategyId?: string;
+  updateStrategyId?: string | undefined;
   /** Configures how auto-upgrade will be run. */
   channel: UpgradeChannel_2;
   /** The node image upgrade to be applied to the target clusters in auto upgrade. */
-  nodeImageSelection?: AutoUpgradeNodeImageSelection;
+  nodeImageSelection?: AutoUpgradeNodeImageSelection | undefined;
   /** If set to False: the auto upgrade has effect - target managed clusters will be upgraded on schedule. If set to True: the auto upgrade has no effect - no upgrade will be run on the target managed clusters. This is a boolean and not an enum because enabled/disabled are all available states of the auto upgrade profile. By default, this is set to False. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The status of the auto upgrade profile. */
-  autoUpgradeProfileStatus?: AutoUpgradeProfileStatus;
+  autoUpgradeProfileStatus?: AutoUpgradeProfileStatus | undefined;
   /** This is the target Kubernetes version for auto-upgrade. The format must be `{major version}.{minor version}`. For example, "1.30". By default, this is empty. If upgrade channel is set to TargetKubernetesVersion, this field must not be empty. If upgrade channel is not TargetKubernetesVersion, this field must be empty. */
-  targetKubernetesVersion?: string;
+  targetKubernetesVersion?: string | undefined;
   /** If upgrade channel is not TargetKubernetesVersion, this field must be False. If set to True: Fleet auto upgrade will continue generate update runs for patches of minor versions earlier than N-2 (where N is the latest supported minor version) if those minor versions support Long-Term Support (LTS). By default, this is set to False. For more information on AKS LTS, please see https://learn.microsoft.com/en-us/azure/aks/long-term-support */
-  longTermSupport?: boolean;
+  longTermSupport?: boolean | undefined;
 }
 export interface AutoUpgradeProfilesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AutoUpgradeProfileProperties;
+  properties?: AutoUpgradeProfileProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Specifies the level of Deployment Safeguards */
 export type DeploymentSafeguardsLevel = "Warn" | "Enforce";
@@ -911,15 +932,15 @@ export interface DeploymentSafeguardsPropertiesInput {
   /** The deployment safeguards level. Possible values are Warn and Enforce */
   level: DeploymentSafeguardsLevel | (string & {});
   /** User defined list of namespaces to exclude from Deployment Safeguards. Deployments in these namespaces will not be checked against any safeguards */
-  excludedNamespaces?: DeploymentSafeguardsPropertiesInputExcludedNamespacesList;
+  excludedNamespaces?: DeploymentSafeguardsPropertiesInputExcludedNamespacesList | undefined;
   /** The pod security standards level */
-  podSecurityStandardsLevel?: PodSecurityStandardsLevel | (string & {});
+  podSecurityStandardsLevel?: PodSecurityStandardsLevel | (string & {}) | undefined;
 }
 export interface CreateDeploymentSafeguardRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentSafeguardsPropertiesInput;
+  properties?: DeploymentSafeguardsPropertiesInput | undefined;
 }
 /** The provisioning state of the last accepted operation. */
 export type ProvisioningState =
@@ -936,33 +957,33 @@ export type DeploymentSafeguardsPropertiesSystemExcludedNamespacesList = Array<s
 /** DeploymentSafeguards Properties */
 export interface DeploymentSafeguardsProperties {
   /** Provisioning State */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The deployment safeguards level. Possible values are Warn and Enforce */
   level: DeploymentSafeguardsLevel;
   /** User defined list of namespaces to exclude from Deployment Safeguards. Deployments in these namespaces will not be checked against any safeguards */
-  excludedNamespaces?: DeploymentSafeguardsPropertiesExcludedNamespacesList;
+  excludedNamespaces?: DeploymentSafeguardsPropertiesExcludedNamespacesList | undefined;
   /** System defined list of namespaces excluded from Deployment Safeguards. These are determined by the underlying provider (such as AKS), and cannot be changed. Deployments in these namespaces will not be checked */
   systemExcludedNamespaces: DeploymentSafeguardsPropertiesSystemExcludedNamespacesList;
   /** The pod security standards level */
-  podSecurityStandardsLevel?: PodSecurityStandardsLevel;
+  podSecurityStandardsLevel?: PodSecurityStandardsLevel | undefined;
 }
 export interface CreateDeploymentSafeguardResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentSafeguardsProperties;
+  properties?: DeploymentSafeguardsProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The labels for the fleet member. */
 export type FleetMemberPropertiesInputLabelsMap = { [key: string]: string | undefined };
@@ -971,9 +992,9 @@ export interface FleetMemberPropertiesInput {
   /** The ARM resource id of the cluster that joins the Fleet. Must be a valid Azure resource id. e.g.: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{clusterName}'. */
   clusterResourceId: string;
   /** The group this member belongs to for multi-cluster update management. */
-  group?: string;
+  group?: string | undefined;
   /** The labels for the fleet member. */
-  labels?: FleetMemberPropertiesInputLabelsMap;
+  labels?: FleetMemberPropertiesInputLabelsMap | undefined;
 }
 export interface CreateFleetMemberRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -985,7 +1006,7 @@ export interface CreateFleetMemberRequest {
   /** The name of the Fleet member resource. */
   fleetMemberName: string;
   /** The resource-specific properties for this resource. */
-  properties?: FleetMemberPropertiesInput;
+  properties?: FleetMemberPropertiesInput | undefined;
 }
 /** The provisioning state of the last accepted operation. */
 export type FleetMemberProvisioningState =
@@ -1004,51 +1025,51 @@ export type FleetMemberStatusLastOperationErrorAdditionalInfoList = Array<ErrorA
 /** The error detail. */
 export interface FleetMemberStatusLastOperationError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: FleetMemberStatusLastOperationErrorDetailsList;
+  details?: FleetMemberStatusLastOperationErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: FleetMemberStatusLastOperationErrorAdditionalInfoList;
+  additionalInfo?: FleetMemberStatusLastOperationErrorAdditionalInfoList | undefined;
 }
 /** Status information for the fleet member */
 export interface FleetMemberStatus {
   /** The last operation ID for the fleet member */
-  lastOperationId?: string;
+  lastOperationId?: string | undefined;
   /** The error detail. */
-  lastOperationError?: FleetMemberStatusLastOperationError;
+  lastOperationError?: FleetMemberStatusLastOperationError | undefined;
 }
 /** A member of the Fleet. It contains a reference to an existing Kubernetes cluster on Azure. */
 export interface FleetMemberProperties {
   /** The ARM resource id of the cluster that joins the Fleet. Must be a valid Azure resource id. e.g.: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{clusterName}'. */
   clusterResourceId: string;
   /** The group this member belongs to for multi-cluster update management. */
-  group?: string;
+  group?: string | undefined;
   /** The status of the last operation. */
-  provisioningState?: FleetMemberProvisioningState;
+  provisioningState?: FleetMemberProvisioningState | undefined;
   /** The labels for the fleet member. */
-  labels?: FleetMemberPropertiesLabelsMap;
+  labels?: FleetMemberPropertiesLabelsMap | undefined;
   /** Status information of the last operation for fleet member. */
-  status?: FleetMemberStatus;
+  status?: FleetMemberStatus | undefined;
 }
 export interface CreateFleetMemberResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FleetMemberProperties;
+  properties?: FleetMemberProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAgentPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1060,15 +1081,15 @@ export interface DeleteAgentPoolRequest {
   /** The name of the agent pool. */
   agentPoolName: string;
   /** ignore-pod-disruption-budget=true to delete those pods on a node without considering Pod Disruption Budget */
-  ignore_pod_disruption_budget?: boolean;
+  ignore_pod_disruption_budget?: boolean | undefined;
 }
 export interface DeleteAgentPoolResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The agent pool machine names. */
 export type DeleteAgentPoolMachinesRequestMachineNamesList = Array<string>;
@@ -1086,11 +1107,11 @@ export interface DeleteAgentPoolMachinesRequest {
 }
 export interface DeleteAgentPoolMachinesResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAutoUpgradeProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1104,9 +1125,9 @@ export interface DeleteAutoUpgradeProfileRequest {
 }
 export interface DeleteAutoUpgradeProfileResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDeploymentSafeguardRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1114,9 +1135,9 @@ export interface DeleteDeploymentSafeguardRequest {
 }
 export interface DeleteDeploymentSafeguardResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFleetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1128,9 +1149,9 @@ export interface DeleteFleetRequest {
 }
 export interface DeleteFleetResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFleetManagedNamespaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1144,9 +1165,9 @@ export interface DeleteFleetManagedNamespaceRequest {
 }
 export interface DeleteFleetManagedNamespaceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFleetMemberRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1160,9 +1181,9 @@ export interface DeleteFleetMemberRequest {
 }
 export interface DeleteFleetMemberResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFleetUpdateStrategyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1176,11 +1197,11 @@ export interface DeleteFleetUpdateStrategyRequest {
 }
 export interface DeleteFleetUpdateStrategyResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteIdentityBindingRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1194,11 +1215,11 @@ export interface DeleteIdentityBindingRequest {
 }
 export interface DeleteIdentityBindingResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteMaintenanceConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1221,11 +1242,11 @@ export interface DeleteManagedClusterRequest {
 }
 export interface DeleteManagedClusterResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteManagedNamespaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1239,11 +1260,11 @@ export interface DeleteManagedNamespaceRequest {
 }
 export interface DeleteManagedNamespaceResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1257,9 +1278,9 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSnapshotRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1282,11 +1303,11 @@ export interface DeleteTrustedAccessRoleBindingRequest {
 }
 export interface DeleteTrustedAccessRoleBindingResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteUpdateRunRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1300,9 +1321,9 @@ export interface DeleteUpdateRunRequest {
 }
 export interface DeleteUpdateRunResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type FleetManagedNamespacesCreateOrUpdateRequestTagsMap = {
@@ -1315,33 +1336,33 @@ export type ManagedNamespacePropertiesAnnotationsMap = { [key: string]: string |
 /** The resource quota for the managed namespace. */
 export interface ResourceQuota_2 {
   /** The CPU request for the managed namespace. See more at https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu */
-  cpuRequest?: string;
+  cpuRequest?: string | undefined;
   /** The CPU limit for the managed namespace. See more at https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu */
-  cpuLimit?: string;
+  cpuLimit?: string | undefined;
   /** The memory request for the managed namespace. See more at https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory */
-  memoryRequest?: string;
+  memoryRequest?: string | undefined;
   /** The memory limit for the managed namespace. See more at https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory */
-  memoryLimit?: string;
+  memoryLimit?: string | undefined;
 }
 /** The possible values representing different network policy rules. */
 export type PolicyRule = "AllowAll" | "DenyAll" | "AllowSameNamespace";
 /** The network policy for the managed namespace. */
 export interface NetworkPolicy_2 {
   /** The ingress policy for the managed namespace. */
-  ingress?: PolicyRule | (string & {});
+  ingress?: PolicyRule | (string & {}) | undefined;
   /** The egress policy for the managed namespace. */
-  egress?: PolicyRule | (string & {});
+  egress?: PolicyRule | (string & {}) | undefined;
 }
 /** The namespace properties for the fleet managed namespace. */
 export interface ManagedNamespaceProperties {
   /** The labels for the fleet managed namespace. */
-  labels?: ManagedNamespacePropertiesLabelsMap;
+  labels?: ManagedNamespacePropertiesLabelsMap | undefined;
   /** The annotations for the fleet managed namespace. */
-  annotations?: ManagedNamespacePropertiesAnnotationsMap;
+  annotations?: ManagedNamespacePropertiesAnnotationsMap | undefined;
   /** The default resource quota for the fleet managed namespace. */
-  defaultResourceQuota?: ResourceQuota_2;
+  defaultResourceQuota?: ResourceQuota_2 | undefined;
   /** The default network policy for the fleet managed namespace. */
-  defaultNetworkPolicy?: NetworkPolicy_2;
+  defaultNetworkPolicy?: NetworkPolicy_2 | undefined;
 }
 /** Action if the Namespace with the same name already exists. */
 export type AdoptionPolicy_2 = "Never" | "IfIdentical" | "Always";
@@ -1366,16 +1387,16 @@ export interface MetaV1LabelSelectorRequirement {
   /** operator represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist. */
   operator: MetaV1LabelSelectorOperator | (string & {});
   /** values is an array of string values. If the operator is In or NotIn, the values array must be non-empty. If the operator is Exists or DoesNotExist, the values array must be empty. This array is replaced during a strategic merge patch. */
-  values?: MetaV1LabelSelectorRequirementValuesList;
+  values?: MetaV1LabelSelectorRequirementValuesList | undefined;
 }
 /** matchExpressions is a list of label selector requirements. The requirements are ANDed. */
 export type MetaV1LabelSelectorMatchExpressionsList = Array<MetaV1LabelSelectorRequirement>;
 /** A label selector is a label query over a set of resources. The result of matchLabels and matchExpressions are ANDed. An empty label selector matches all objects. A null label selector matches no objects. */
 export interface MetaV1LabelSelector {
   /** matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is "key", the operator is "In", and the values array contains only "value". The requirements are ANDed. */
-  matchLabels?: MetaV1LabelSelectorMatchLabelsMap;
+  matchLabels?: MetaV1LabelSelectorMatchLabelsMap | undefined;
   /** matchExpressions is a list of label selector requirements. The requirements are ANDed. */
-  matchExpressions?: MetaV1LabelSelectorMatchExpressionsList;
+  matchExpressions?: MetaV1LabelSelectorMatchExpressionsList | undefined;
 }
 /** PropertySelectorOperator is the operator that can be used with PropertySelectorRequirements. */
 export type PlacementV1PropertySelectorOperator = "Gt" | "Ge" | "Eq" | "Ne" | "Lt" | "Le";
@@ -1401,9 +1422,9 @@ export interface PlacementV1PropertySelector {
 /** ClusterSelectorTerm */
 export interface PlacementV1ClusterSelectorTerm {
   /** LabelSelector is a label query over all the joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd. */
-  labelSelector?: MetaV1LabelSelector;
+  labelSelector?: MetaV1LabelSelector | undefined;
   /** PropertySelector is a property query over all joined member clusters. Clusters matching the query are selected. If you specify both label and property selectors in the same term, the results are AND'd. At this moment, PropertySelector can only be used with `RequiredDuringSchedulingIgnoredDuringExecution` affinity terms. This field is beta-level; it is for the property-based scheduling feature and is only functional when a property provider is enabled in the deployment. */
-  propertySelector?: PlacementV1PropertySelector;
+  propertySelector?: PlacementV1PropertySelector | undefined;
 }
 /** ClusterSelectorTerms is a list of cluster selector terms. The terms are `ORed`. */
 export type PlacementV1ClusterSelectorClusterSelectorTermsList =
@@ -1416,12 +1437,12 @@ export interface PlacementV1ClusterSelector {
 /** ClusterAffinity contains cluster affinity scheduling rules for the selected resources. */
 export interface PlacementV1ClusterAffinity {
   /** If the affinity requirements specified by this field are not met at scheduling time, the resource will not be scheduled onto the cluster. If the affinity requirements specified by this field cease to be met at some point after the placement (e.g. due to an update), the system may or may not try to eventually remove the resource from the cluster. */
-  requiredDuringSchedulingIgnoredDuringExecution?: PlacementV1ClusterSelector;
+  requiredDuringSchedulingIgnoredDuringExecution?: PlacementV1ClusterSelector | undefined;
 }
 /** Affinity is a group of cluster affinity scheduling rules. More to be added. */
 export interface PlacementV1Affinity {
   /** ClusterAffinity contains cluster affinity scheduling rules for the selected resources. */
-  clusterAffinity?: PlacementV1ClusterAffinity;
+  clusterAffinity?: PlacementV1ClusterAffinity | undefined;
 }
 /** A toleration operator is the set of operators that can be used in a toleration. */
 export type CoreV1TolerationOperator = "Exists" | "Equal";
@@ -1430,54 +1451,54 @@ export type CoreV1TaintEffect = "NoSchedule";
 /** Toleration allows ClusterResourcePlacement to tolerate any taint that matches the triple <key,value,effect> using the matching operator <operator>. */
 export interface PlacementV1Toleration {
   /** Key is the taint key that the toleration applies to. Empty means match all taint keys. If the key is empty, operator must be Exists; this combination means to match all values and all keys. */
-  key?: string;
+  key?: string | undefined;
   /** Operator represents a key's relationship to the value. Valid operators are Exists and Equal. Defaults to Equal. Exists is equivalent to wildcard for value, so that a ClusterResourcePlacement can tolerate all taints of a particular category. */
-  operator?: CoreV1TolerationOperator | (string & {});
+  operator?: CoreV1TolerationOperator | (string & {}) | undefined;
   /** Value is the taint value the toleration matches to. If the operator is Exists, the value should be empty, otherwise just a regular string. */
-  value?: string;
+  value?: string | undefined;
   /** Effect indicates the taint effect to match. Empty means match all taint effects. When specified, only allowed value is NoSchedule. */
-  effect?: CoreV1TaintEffect | (string & {});
+  effect?: CoreV1TaintEffect | (string & {}) | undefined;
 }
 /** If specified, the ClusterResourcePlacement's Tolerations. Tolerations cannot be updated or deleted. This field is beta-level and is for the taints and tolerations feature. */
 export type PlacementV1PlacementPolicyTolerationsList = Array<PlacementV1Toleration>;
 /** PlacementPolicy contains the rules to select target member clusters to place the selected resources. Note that only clusters that are both joined and satisfying the rules will be selected. You can only specify at most one of the two fields: ClusterNames and Affinity. If none is specified, all the joined clusters are selected. */
 export interface PlacementV1PlacementPolicy {
   /** Type of placement. Can be "PickAll", "PickN" or "PickFixed". Default is PickAll. */
-  placementType?: PlacementV1PlacementType | (string & {});
+  placementType?: PlacementV1PlacementType | (string & {}) | undefined;
   /** ClusterNames contains a list of names of MemberCluster to place the selected resources. Only valid if the placement type is "PickFixed" */
-  clusterNames?: PlacementV1PlacementPolicyClusterNamesList;
+  clusterNames?: PlacementV1PlacementPolicyClusterNamesList | undefined;
   /** Affinity contains cluster affinity scheduling rules. Defines which member clusters to place the selected resources. Only valid if the placement type is "PickAll" or "PickN". */
-  affinity?: PlacementV1Affinity;
+  affinity?: PlacementV1Affinity | undefined;
   /** If specified, the ClusterResourcePlacement's Tolerations. Tolerations cannot be updated or deleted. This field is beta-level and is for the taints and tolerations feature. */
-  tolerations?: PlacementV1PlacementPolicyTolerationsList;
+  tolerations?: PlacementV1PlacementPolicyTolerationsList | undefined;
 }
 /** ClusterResourcePlacementSpec defines the desired state of ClusterResourcePlacement. */
 export interface PlacementV1ClusterResourcePlacementSpec {
   /** Policy defines how to select member clusters to place the selected resources. If unspecified, all the joined member clusters are selected. */
-  policy?: PlacementV1PlacementPolicy;
+  policy?: PlacementV1PlacementPolicy | undefined;
 }
 /** The configuration profile for default ClusterResourcePlacement for placement. */
 export interface PlacementProfile {
   /** The default ClusterResourcePlacement policy configuration. */
-  defaultClusterResourcePlacement?: PlacementV1ClusterResourcePlacementSpec;
+  defaultClusterResourcePlacement?: PlacementV1ClusterResourcePlacementSpec | undefined;
 }
 /** The propagation to be used for provisioning the namespace among the fleet. */
 export interface PropagationPolicy {
   /** The type of the policy to be used. Default is Placement. */
   type: PropagationType | (string & {});
   /** The profile to be used for propagation via placement. */
-  placementProfile?: PlacementProfile;
+  placementProfile?: PlacementProfile | undefined;
 }
 /** The properties of a fleet managed namespace. */
 export interface FleetManagedNamespacePropertiesInput {
   /** The namespace properties for the fleet managed namespace. */
-  managedNamespaceProperties?: ManagedNamespaceProperties;
+  managedNamespaceProperties?: ManagedNamespaceProperties | undefined;
   /** Action if the managed namespace with the same name already exists. Default is Never. */
   adoptionPolicy: AdoptionPolicy_2 | (string & {});
   /** Delete options of a fleet managed namespace. Default is Keep. */
   deletePolicy: DeletePolicy_2 | (string & {});
   /** The profile of the propagation to create the namespace. */
-  propagationPolicy?: PropagationPolicy;
+  propagationPolicy?: PropagationPolicy | undefined;
 }
 export interface FleetManagedNamespacesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1489,11 +1510,11 @@ export interface FleetManagedNamespacesCreateOrUpdateRequest {
   /** The name of the fleet managed namespace resource. */
   managedNamespaceName: string;
   /** Resource tags. */
-  tags?: FleetManagedNamespacesCreateOrUpdateRequestTagsMap;
+  tags?: FleetManagedNamespacesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FleetManagedNamespacePropertiesInput;
+  properties?: FleetManagedNamespacePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type FleetManagedNamespacesCreateOrUpdateResponseTagsMap = {
@@ -1515,93 +1536,93 @@ export type FleetManagedNamespaceStatusLastOperationErrorAdditionalInfoList =
 /** The error detail. */
 export interface FleetManagedNamespaceStatusLastOperationError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: FleetManagedNamespaceStatusLastOperationErrorDetailsList;
+  details?: FleetManagedNamespaceStatusLastOperationErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: FleetManagedNamespaceStatusLastOperationErrorAdditionalInfoList;
+  additionalInfo?: FleetManagedNamespaceStatusLastOperationErrorAdditionalInfoList | undefined;
 }
 /** Status information for the fleet managed namespace. */
 export interface FleetManagedNamespaceStatus {
   /** The last operation ID for the fleet managed namespace */
-  lastOperationId?: string;
+  lastOperationId?: string | undefined;
   /** The error detail. */
-  lastOperationError?: FleetManagedNamespaceStatusLastOperationError;
+  lastOperationError?: FleetManagedNamespaceStatusLastOperationError | undefined;
 }
 /** The properties of a fleet managed namespace. */
 export interface FleetManagedNamespaceProperties {
   /** The status of the last operation. */
-  provisioningState?: FleetManagedNamespaceProvisioningState;
+  provisioningState?: FleetManagedNamespaceProvisioningState | undefined;
   /** The namespace properties for the fleet managed namespace. */
-  managedNamespaceProperties?: ManagedNamespaceProperties;
+  managedNamespaceProperties?: ManagedNamespaceProperties | undefined;
   /** Action if the managed namespace with the same name already exists. Default is Never. */
   adoptionPolicy: AdoptionPolicy_2;
   /** Delete options of a fleet managed namespace. Default is Keep. */
   deletePolicy: DeletePolicy_2;
   /** The profile of the propagation to create the namespace. */
-  propagationPolicy?: PropagationPolicy;
+  propagationPolicy?: PropagationPolicy | undefined;
   /** Status information of the last operation for fleet managed namespace. */
-  status?: FleetManagedNamespaceStatus;
+  status?: FleetManagedNamespaceStatus | undefined;
   /** The Azure Portal FQDN of the Fleet hub. */
-  portalFqdn?: string;
+  portalFqdn?: string | undefined;
 }
 export interface FleetManagedNamespacesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: FleetManagedNamespacesCreateOrUpdateResponseTagsMap;
+  tags?: FleetManagedNamespacesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FleetManagedNamespaceProperties;
+  properties?: FleetManagedNamespaceProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type FleetsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Access profile for the Fleet hub API server. */
 export interface APIServerAccessProfile {
   /** Whether to create the Fleet hub as a private cluster or not. */
-  enablePrivateCluster?: boolean;
+  enablePrivateCluster?: boolean | undefined;
   /** Whether to enable apiserver vnet integration for the Fleet hub or not. */
-  enableVnetIntegration?: boolean;
+  enableVnetIntegration?: boolean | undefined;
   /** The subnet to be used when apiserver vnet integration is enabled. It is required when creating a new Fleet with BYO vnet. */
-  subnetId?: string;
+  subnetId?: string | undefined;
 }
 /** Agent profile for the Fleet hub. */
 export interface AgentProfile {
   /** The ID of the subnet which the Fleet hub node will join on startup. If this is not specified, a vnet and subnet will be generated and used. */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** The virtual machine size of the Fleet hub. */
-  vmSize?: string;
+  vmSize?: string | undefined;
 }
 /** The FleetHubProfile configures the fleet hub. */
 export interface FleetHubProfileInput {
   /** DNS prefix used to create the FQDN for the Fleet hub. */
-  dnsPrefix?: string;
+  dnsPrefix?: string | undefined;
   /** The access profile for the Fleet hub API server. */
-  apiServerAccessProfile?: APIServerAccessProfile;
+  apiServerAccessProfile?: APIServerAccessProfile | undefined;
   /** The agent profile for the Fleet hub. */
-  agentProfile?: AgentProfile;
+  agentProfile?: AgentProfile | undefined;
 }
 /** Fleet properties. */
 export interface FleetPropertiesInput {
   /** The FleetHubProfile configures the Fleet's hub. */
-  hubProfile?: FleetHubProfileInput;
+  hubProfile?: FleetHubProfileInput | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -1618,7 +1639,7 @@ export type UserAssignedIdentitiesInput = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface FleetsCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 export interface FleetsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1628,13 +1649,13 @@ export interface FleetsCreateOrUpdateRequest {
   /** The name of the Fleet resource. */
   fleetName: string;
   /** Resource tags. */
-  tags?: FleetsCreateOrUpdateRequestTagsMap;
+  tags?: FleetsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FleetPropertiesInput;
+  properties?: FleetPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: FleetsCreateOrUpdateRequestIdentity;
+  identity?: FleetsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type FleetsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -1649,17 +1670,17 @@ export type FleetProvisioningState =
 /** The FleetHubProfile configures the fleet hub. */
 export interface FleetHubProfile {
   /** DNS prefix used to create the FQDN for the Fleet hub. */
-  dnsPrefix?: string;
+  dnsPrefix?: string | undefined;
   /** The access profile for the Fleet hub API server. */
-  apiServerAccessProfile?: APIServerAccessProfile;
+  apiServerAccessProfile?: APIServerAccessProfile | undefined;
   /** The agent profile for the Fleet hub. */
-  agentProfile?: AgentProfile;
+  agentProfile?: AgentProfile | undefined;
   /** The FQDN of the Fleet hub. */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** The Kubernetes version of the Fleet hub. */
-  kubernetesVersion?: string;
+  kubernetesVersion?: string | undefined;
   /** The Azure Portal FQDN of the Fleet hub. */
-  portalFqdn?: string;
+  portalFqdn?: string | undefined;
 }
 /** The error details. */
 export type FleetStatusLastOperationErrorDetailsList = Array<ErrorDetail>;
@@ -1668,78 +1689,78 @@ export type FleetStatusLastOperationErrorAdditionalInfoList = Array<ErrorAdditio
 /** The error detail. */
 export interface FleetStatusLastOperationError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: FleetStatusLastOperationErrorDetailsList;
+  details?: FleetStatusLastOperationErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: FleetStatusLastOperationErrorAdditionalInfoList;
+  additionalInfo?: FleetStatusLastOperationErrorAdditionalInfoList | undefined;
 }
 /** Status information for the fleet. */
 export interface FleetStatus {
   /** The last operation ID for the fleet. */
-  lastOperationId?: string;
+  lastOperationId?: string | undefined;
   /** The error detail. */
-  lastOperationError?: FleetStatusLastOperationError;
+  lastOperationError?: FleetStatusLastOperationError | undefined;
 }
 /** Fleet properties. */
 export interface FleetProperties {
   /** The status of the last operation. */
-  provisioningState?: FleetProvisioningState;
+  provisioningState?: FleetProvisioningState | undefined;
   /** The FleetHubProfile configures the Fleet's hub. */
-  hubProfile?: FleetHubProfile;
+  hubProfile?: FleetHubProfile | undefined;
   /** Status information for the fleet. */
-  status?: FleetStatus;
+  status?: FleetStatus | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity_2 {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity_2 | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface FleetsCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface FleetsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: FleetsCreateOrUpdateResponseTagsMap;
+  tags?: FleetsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FleetProperties;
+  properties?: FleetProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: FleetsCreateOrUpdateResponseIdentity;
+  identity?: FleetsCreateOrUpdateResponseIdentity | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The type of the Gate determines how it is completed. */
 export type GateType = "Approval";
 /** GateConfiguration is used to define where Gates should be placed within the Update Run. */
 export interface GateConfiguration {
   /** The human-readable display name of the Gate. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The type of the Gate determines how it is completed. */
   type: GateType | (string & {});
 }
@@ -1752,11 +1773,11 @@ export interface UpdateGroup {
   /** Name of the group. It must match a group name of an existing fleet member. */
   name: string;
   /** The max number of upgrades that can run concurrently in this specific group. Acts as a ceiling (and not a quota) for the number of concurrent upgrades within the group you want to tolerate at a time. Actual concurrency may be lower depending on stage-level concurrency limits or individual member conditions. Group maxConcurrency has a min value of "1". The max value is min(number of clusters in the group, the stage maxConcurrency). If no value is provided, defaults to 1. Accepts either: * A fixed count, e.g. "3" * A percentage, e.g. "25%" (range 1-100). Percentage is of the number of clusters in the group. Fractional results are rounded down. A minimum of 1 upgrade is enforced. Examples: * "3" --> up to 3 members from this group upgrade at once. * "100%" --> "all at once", up to all members for this group upgrade at the same time. * "25%" --> up to 25% of the members in the group will be upgraded at the same time. */
-  maxConcurrency?: string;
+  maxConcurrency?: string | undefined;
   /** A list of Gates that will be created before this Group is executed. */
-  beforeGates?: UpdateGroupBeforeGatesList;
+  beforeGates?: UpdateGroupBeforeGatesList | undefined;
   /** A list of Gates that will be created after this Group is executed. */
-  afterGates?: UpdateGroupAfterGatesList;
+  afterGates?: UpdateGroupAfterGatesList | undefined;
 }
 /** Defines the groups to be executed in parallel in this stage. Duplicate groups are not allowed. Min size: 1. */
 export type UpdateStageGroupsList = Array<UpdateGroup>;
@@ -1769,15 +1790,15 @@ export interface UpdateStage {
   /** The name of the stage. Must be unique within the UpdateRun. */
   name: string;
   /** Defines the groups to be executed in parallel in this stage. Duplicate groups are not allowed. Min size: 1. */
-  groups?: UpdateStageGroupsList;
+  groups?: UpdateStageGroupsList | undefined;
   /** The time in seconds to wait at the end of this stage before starting the next one. Defaults to 0 seconds if unspecified. */
-  afterStageWaitInSeconds?: number;
+  afterStageWaitInSeconds?: number | undefined;
   /** The max number of upgrades that can run concurrently across all groups in this stage. Acts as a ceiling (and not a quota) for the number of concurrent upgrades within the stage you want to tolerate at a time. Actual concurrency may be lower depending on group-level concurrency limits or individual member conditions. Stage maxConcurrency has a min value of "1". Accepts either: * A fixed count, e.g., "3" * A percentage, e.g., "25%" (range 1-100). Percentage is of the total number of clusters across all groups in the stage. Fractional results are rounded down. A minimum of 1 upgrade is enforced. Examples: * "3" --> up to 3 clusters from this stage upgrade at once (across all groups). * "100%" --> "all at once"; up to all clusters in this stage upgrade at the same time. * "25%" --> up to 25% of the stage's total clusters upgrade at the same time. */
-  maxConcurrency?: string;
+  maxConcurrency?: string | undefined;
   /** A list of Gates that will be created before this Stage is executed. */
-  beforeGates?: UpdateStageBeforeGatesList;
+  beforeGates?: UpdateStageBeforeGatesList | undefined;
   /** A list of Gates that will be created after this Stage is executed. */
-  afterGates?: UpdateStageAfterGatesList;
+  afterGates?: UpdateStageAfterGatesList | undefined;
 }
 /** The list of stages that compose this update run. Min size: 1. */
 export type UpdateRunStrategyStagesList = Array<UpdateStage>;
@@ -1801,32 +1822,32 @@ export interface FleetUpdateStrategiesCreateOrUpdateRequest {
   /** The name of the UpdateStrategy resource. */
   updateStrategyName: string;
   /** The resource-specific properties for this resource. */
-  properties?: FleetUpdateStrategyPropertiesInput;
+  properties?: FleetUpdateStrategyPropertiesInput | undefined;
 }
 /** The provisioning state of the UpdateStrategy resource. */
 export type FleetUpdateStrategyProvisioningState = "Succeeded" | "Failed" | "Canceled";
 /** The properties of the UpdateStrategy. */
 export interface FleetUpdateStrategyProperties {
   /** The provisioning state of the UpdateStrategy resource. */
-  provisioningState?: FleetUpdateStrategyProvisioningState;
+  provisioningState?: FleetUpdateStrategyProvisioningState | undefined;
   /** Defines the update sequence of the clusters. */
   strategy: UpdateRunStrategy;
 }
 export interface FleetUpdateStrategiesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FleetUpdateStrategyProperties;
+  properties?: FleetUpdateStrategyProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetAgentPoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1840,15 +1861,15 @@ export interface GetAgentPoolRequest {
 }
 export interface GetAgentPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an agent pool. */
-  properties?: ManagedClusterAgentPoolProfileProperties;
+  properties?: ManagedClusterAgentPoolProfileProperties | undefined;
 }
 export interface GetAgentPoolAvailableAgentPoolVersionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1861,11 +1882,11 @@ export interface GetAgentPoolAvailableAgentPoolVersionsRequest {
 /** Available version information for an agent pool. */
 export interface AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem {
   /** Whether this version is the default agent pool version. */
-  default?: boolean;
+  default?: boolean | undefined;
   /** The Kubernetes version (major.minor.patch). */
-  kubernetesVersion?: string;
+  kubernetesVersion?: string | undefined;
   /** Whether Kubernetes version is currently in preview. */
-  isPreview?: boolean;
+  isPreview?: boolean | undefined;
 }
 /** List of versions available for agent pool. */
 export type AgentPoolAvailableVersionsPropertiesAgentPoolVersionsList =
@@ -1873,16 +1894,16 @@ export type AgentPoolAvailableVersionsPropertiesAgentPoolVersionsList =
 /** The list of available agent pool versions. */
 export interface AgentPoolAvailableVersionsProperties {
   /** List of versions available for agent pool. */
-  agentPoolVersions?: AgentPoolAvailableVersionsPropertiesAgentPoolVersionsList;
+  agentPoolVersions?: AgentPoolAvailableVersionsPropertiesAgentPoolVersionsList | undefined;
 }
 /** The list of available versions for an agent pool. */
 export interface AgentPoolAvailableVersions {
   /** The ID of the agent pool version list. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the agent pool version list. */
-  name?: string;
+  name?: string | undefined;
   /** Type of the agent pool version list. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of agent pool available versions. */
   properties: AgentPoolAvailableVersionsProperties;
 }
@@ -1901,9 +1922,9 @@ export type AgentPoolUpgradeProfilePropertiesOsType = "Linux" | "Windows";
 /** Available upgrades for an AgentPool. */
 export interface AgentPoolUpgradeProfilePropertiesUpgradesItem {
   /** The Kubernetes version (major.minor.patch). */
-  kubernetesVersion?: string;
+  kubernetesVersion?: string | undefined;
   /** Whether the Kubernetes version is currently in preview. */
-  isPreview?: boolean;
+  isPreview?: boolean | undefined;
 }
 /** List of orchestrator types and versions available for upgrade. */
 export type AgentPoolUpgradeProfilePropertiesUpgradesList =
@@ -1911,11 +1932,11 @@ export type AgentPoolUpgradeProfilePropertiesUpgradesList =
 /** A historical version that can be used for rollback operations. */
 export interface AgentPoolRecentlyUsedVersion {
   /** The Kubernetes version (major.minor.patch) available for rollback. */
-  orchestratorVersion?: string;
+  orchestratorVersion?: string | undefined;
   /** The node image version available for rollback. */
-  nodeImageVersion?: string;
+  nodeImageVersion?: string | undefined;
   /** The timestamp when this version was last used. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 /** List of historical good versions for rollback operations. */
 export type AgentPoolUpgradeProfilePropertiesRecentlyUsedVersionsList =
@@ -1927,21 +1948,21 @@ export interface AgentPoolUpgradeProfileProperties {
   /** The operating system type. The default is Linux. */
   osType: AgentPoolUpgradeProfilePropertiesOsType;
   /** List of orchestrator types and versions available for upgrade. */
-  upgrades?: AgentPoolUpgradeProfilePropertiesUpgradesList;
+  upgrades?: AgentPoolUpgradeProfilePropertiesUpgradesList | undefined;
   /** List of historical good versions for rollback operations. */
-  recentlyUsedVersions?: AgentPoolUpgradeProfilePropertiesRecentlyUsedVersionsList;
+  recentlyUsedVersions?: AgentPoolUpgradeProfilePropertiesRecentlyUsedVersionsList | undefined;
   /** The latest AKS supported node image version. */
-  latestNodeImageVersion?: string;
+  latestNodeImageVersion?: string | undefined;
 }
 export interface GetAgentPoolUpgradeProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the agent pool upgrade profile. */
   properties: AgentPoolUpgradeProfileProperties;
 }
@@ -1957,17 +1978,17 @@ export interface GetAutoUpgradeProfileRequest {
 }
 export interface GetAutoUpgradeProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AutoUpgradeProfileProperties;
+  properties?: AutoUpgradeProfileProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetDeploymentSafeguardRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1975,17 +1996,17 @@ export interface GetDeploymentSafeguardRequest {
 }
 export interface GetDeploymentSafeguardResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentSafeguardsProperties;
+  properties?: DeploymentSafeguardsProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetFleetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2001,23 +2022,23 @@ export type GetFleetResponseTagsMap = { [key: string]: string | undefined };
 export type GetFleetResponseIdentity = FleetsCreateOrUpdateResponseIdentity;
 export interface GetFleetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetFleetResponseTagsMap;
+  tags?: GetFleetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FleetProperties;
+  properties?: FleetProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: FleetsCreateOrUpdateResponseIdentity;
+  identity?: FleetsCreateOrUpdateResponseIdentity | undefined;
 }
 export interface GetFleetManagedNamespaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2033,21 +2054,21 @@ export interface GetFleetManagedNamespaceRequest {
 export type GetFleetManagedNamespaceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetFleetManagedNamespaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetFleetManagedNamespaceResponseTagsMap;
+  tags?: GetFleetManagedNamespaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FleetManagedNamespaceProperties;
+  properties?: FleetManagedNamespaceProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetFleetMemberRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2061,17 +2082,17 @@ export interface GetFleetMemberRequest {
 }
 export interface GetFleetMemberResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FleetMemberProperties;
+  properties?: FleetMemberProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetFleetUpdateStrategyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2085,17 +2106,17 @@ export interface GetFleetUpdateStrategyRequest {
 }
 export interface GetFleetUpdateStrategyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FleetUpdateStrategyProperties;
+  properties?: FleetUpdateStrategyProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetGateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2116,9 +2137,9 @@ export interface UpdateRunGateTargetProperties {
   /** The name of the Update Run. */
   name: string;
   /** The Update Stage of the Update Run. */
-  stage?: string;
+  stage?: string | undefined;
   /** The Update Group of the Update Run. */
-  group?: string;
+  group?: string | undefined;
   /** Whether the Gate is placed before or after the update itself. */
   timing: Timing;
 }
@@ -2127,16 +2148,16 @@ export interface GateTarget {
   /** The resource id that the Gate is controlling the rollout of. */
   id: string;
   /** The properties of the Update Run that the Gate is targeting. */
-  updateRunProperties?: UpdateRunGateTargetProperties;
+  updateRunProperties?: UpdateRunGateTargetProperties | undefined;
 }
 /** The state of the Gate. */
 export type GateState = "Pending" | "Skipped" | "Completed";
 /** A Gate controls the progression during a staged rollout, e.g. in an Update Run. */
 export interface GateProperties {
   /** The provisioning state of the Gate resource. */
-  provisioningState?: GateProvisioningState;
+  provisioningState?: GateProvisioningState | undefined;
   /** The human-readable display name of the Gate. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The type of the Gate determines how it is completed. */
   gateType: GateType;
   /** The target that the Gate is controlling, e.g. an Update Run. */
@@ -2146,17 +2167,17 @@ export interface GateProperties {
 }
 export interface GetGateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: GateProperties;
+  properties?: GateProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetIdentityBindingRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2173,16 +2194,16 @@ export interface IdentityBindingManagedIdentityProfile {
   /** The resource ID of the managed identity. */
   resourceId: string;
   /** The object ID of the managed identity. */
-  objectId?: string;
+  objectId?: string | undefined;
   /** The client ID of the managed identity. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The tenant ID of the managed identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** IdentityBinding OIDC issuer profile. */
 export interface IdentityBindingOidcIssuerProfile {
   /** The OIDC issuer URL of the IdentityBinding. */
-  oidcIssuerUrl?: string;
+  oidcIssuerUrl?: string | undefined;
 }
 /** The provisioning state of the last accepted operation. */
 export type IdentityBindingProvisioningState =
@@ -2197,23 +2218,23 @@ export interface IdentityBindingProperties {
   /** Managed identity profile for the identity binding. */
   managedIdentity: IdentityBindingManagedIdentityProfile;
   /** The OIDC issuer URL of the IdentityBinding. */
-  oidcIssuer?: IdentityBindingOidcIssuerProfile;
+  oidcIssuer?: IdentityBindingOidcIssuerProfile | undefined;
   /** The status of the last operation. */
-  provisioningState?: IdentityBindingProvisioningState;
+  provisioningState?: IdentityBindingProvisioningState | undefined;
 }
 export interface GetIdentityBindingResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: IdentityBindingProperties;
+  properties?: IdentityBindingProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetMachineRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2232,39 +2253,39 @@ export type IPFamily = "IPv4" | "IPv6";
 /** The machine IP address details. */
 export interface MachineIpAddress {
   /** To determine if address belongs IPv4 or IPv6 family */
-  family?: IPFamily;
+  family?: IPFamily | undefined;
   /** IPv4 or IPv6 address of the machine */
-  ip?: string;
+  ip?: string | undefined;
 }
 /** IPv4, IPv6 addresses of the machine */
 export type MachineNetworkPropertiesIpAddressesList = Array<MachineIpAddress>;
 /** network properties of the machine */
 export interface MachineNetworkProperties {
   /** IPv4, IPv6 addresses of the machine */
-  ipAddresses?: MachineNetworkPropertiesIpAddressesList;
+  ipAddresses?: MachineNetworkPropertiesIpAddressesList | undefined;
 }
 /** The properties of the machine */
 export interface MachineProperties {
   /** network properties of the machine */
-  network?: MachineNetworkProperties;
+  network?: MachineNetworkProperties | undefined;
   /** Azure resource id of the machine. It can be used to GET underlying VM Instance */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 /** The Availability zone in which machine is located. */
 export type GetMachineResponseZonesList = Array<string>;
 export interface GetMachineResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the machine */
-  properties?: MachineProperties;
+  properties?: MachineProperties | undefined;
   /** The Availability zone in which machine is located. */
-  zones?: GetMachineResponseZonesList;
+  zones?: GetMachineResponseZonesList | undefined;
 }
 export interface GetMaintenanceConfigurationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2290,18 +2311,18 @@ export type TimeInWeekHourSlotsList = Array<number>;
 /** Time in a week. */
 export interface TimeInWeek {
   /** The day of the week. */
-  day?: WeekDay | (string & {});
+  day?: WeekDay | (string & {}) | undefined;
   /** A list of hours in the day used to identify a time range. Each integer hour represents a time range beginning at 0m after the hour ending at the next hour (non-inclusive). 0 corresponds to 00:00 UTC, 23 corresponds to 23:00 UTC. Specifying [0, 1] means the 00:00 - 02:00 UTC time range. */
-  hourSlots?: TimeInWeekHourSlotsList;
+  hourSlots?: TimeInWeekHourSlotsList | undefined;
 }
 /** Time slots during the week when planned maintenance is allowed to proceed. If two array entries specify the same day of the week, the applied configuration is the union of times in both entries. */
 export type MaintenanceConfigurationPropertiesTimeInWeekList = Array<TimeInWeek>;
 /** A time range. For example, between 2021-05-25T13:00:00Z and 2021-05-25T14:00:00Z. */
 export interface TimeSpan {
   /** The start of a time span */
-  start?: string;
+  start?: string | undefined;
   /** The end of a time span */
-  end?: string;
+  end?: string | undefined;
 }
 /** Time slots on which upgrade is not allowed. */
 export type MaintenanceConfigurationPropertiesNotAllowedTimeList = Array<TimeSpan>;
@@ -2338,13 +2359,13 @@ export interface RelativeMonthlySchedule {
 /** One and only one of the schedule types should be specified. Choose either 'daily', 'weekly', 'absoluteMonthly' or 'relativeMonthly' for your maintenance schedule. */
 export interface Schedule {
   /** For schedules like: 'recur every day' or 'recur every 3 days'. */
-  daily?: DailySchedule;
+  daily?: DailySchedule | undefined;
   /** For schedules like: 'recur every Monday' or 'recur every 3 weeks on Wednesday'. */
-  weekly?: WeeklySchedule;
+  weekly?: WeeklySchedule | undefined;
   /** For schedules like: 'recur every month on the 15th' or 'recur every 3 months on the 20th'. */
-  absoluteMonthly?: AbsoluteMonthlySchedule;
+  absoluteMonthly?: AbsoluteMonthlySchedule | undefined;
   /** For schedules like: 'recur every month on the first Monday' or 'recur every 3 months on last Friday'. */
-  relativeMonthly?: RelativeMonthlySchedule;
+  relativeMonthly?: RelativeMonthlySchedule | undefined;
 }
 /** A date range. For example, between '2022-12-23' and '2023-01-05'. */
 export interface DateSpan {
@@ -2362,34 +2383,34 @@ export interface MaintenanceWindow {
   /** Length of maintenance window range from 4 to 24 hours. */
   durationHours: number;
   /** The UTC offset in format +/-HH:mm. For example, '+05:30' for IST and '-07:00' for PST. If not specified, the default is '+00:00'. */
-  utcOffset?: string;
+  utcOffset?: string | undefined;
   /** The date the maintenance window activates. If the current date is before this date, the maintenance window is inactive and will not be used for upgrades. If not specified, the maintenance window will be active right away. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** The start time of the maintenance window. Accepted values are from '00:00' to '23:59'. 'utcOffset' applies to this field. For example: '02:00' with 'utcOffset: +02:00' means UTC time '00:00'. */
   startTime: string;
   /** Date ranges on which upgrade is not allowed. 'utcOffset' applies to this field. For example, with 'utcOffset: +02:00' and 'dateSpan' being '2022-12-23' to '2023-01-03', maintenance will be blocked from '2022-12-22 22:00' to '2023-01-03 22:00' in UTC time. */
-  notAllowedDates?: MaintenanceWindowNotAllowedDatesList;
+  notAllowedDates?: MaintenanceWindowNotAllowedDatesList | undefined;
 }
 /** Properties used to configure planned maintenance for a Managed Cluster. */
 export interface MaintenanceConfigurationProperties {
   /** Time slots during the week when planned maintenance is allowed to proceed. If two array entries specify the same day of the week, the applied configuration is the union of times in both entries. */
-  timeInWeek?: MaintenanceConfigurationPropertiesTimeInWeekList;
+  timeInWeek?: MaintenanceConfigurationPropertiesTimeInWeekList | undefined;
   /** Time slots on which upgrade is not allowed. */
-  notAllowedTime?: MaintenanceConfigurationPropertiesNotAllowedTimeList;
+  notAllowedTime?: MaintenanceConfigurationPropertiesNotAllowedTimeList | undefined;
   /** Maintenance window for the maintenance configuration. */
-  maintenanceWindow?: MaintenanceWindow;
+  maintenanceWindow?: MaintenanceWindow | undefined;
 }
 export interface GetMaintenanceConfigurationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a default maintenance configuration. */
-  properties?: MaintenanceConfigurationProperties;
+  properties?: MaintenanceConfigurationProperties | undefined;
 }
 export interface GetManagedClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2421,115 +2442,117 @@ export type ManagedClusterAgentPoolProfileVirtualMachineNodesStatusList =
 /** Profile for the container service agent pool. */
 export interface ManagedClusterAgentPoolProfile {
   /** Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal eTag convention. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1. */
-  count?: number;
+  count?: number | undefined;
   /** The size of the agent pool VMs. VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** OS Disk Size in GB to be used to specify the disk size for every machine in the master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified. */
-  osDiskSizeGB?: number;
+  osDiskSizeGB?: number | undefined;
   /** The OS disk type to be used for machines in the agent pool. The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os). */
-  osDiskType?: OSDiskType;
+  osDiskType?: OSDiskType | undefined;
   /** Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage. */
-  kubeletDiskType?: KubeletDiskType;
+  kubeletDiskType?: KubeletDiskType | undefined;
   /** Determines the type of workload a node can run. */
-  workloadRuntime?: WorkloadRuntime;
+  workloadRuntime?: WorkloadRuntime | undefined;
   /** Message of the day for Linux nodes, base64-encoded. A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script). */
-  messageOfTheDay?: string;
+  messageOfTheDay?: string | undefined;
   /** The ID of the subnet which agent pool nodes and optionally pods will join on startup. If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
-  vnetSubnetID?: string;
+  vnetSubnetID?: string | undefined;
   /** The ID of the subnet which pods will join when launched. If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
-  podSubnetID?: string;
+  podSubnetID?: string | undefined;
   /** Pod IP Allocation Mode. The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'. */
-  podIPAllocationMode?: PodIPAllocationMode;
+  podIPAllocationMode?: PodIPAllocationMode | undefined;
   /** The maximum number of pods that can run on a node. */
-  maxPods?: number;
+  maxPods?: number | undefined;
   /** The operating system type. The default is Linux. */
-  osType?: ManagedClusterAgentPoolProfileOsType;
+  osType?: ManagedClusterAgentPoolProfileOsType | undefined;
   /** Specifies the OS SKU used by the agent pool. The default is Ubuntu if OSType is Linux. The default is Windows2019 when Kubernetes <= 1.24 or Windows2022 when Kubernetes >= 1.25 if OSType is Windows. */
-  osSKU?: OSSKU;
+  osSKU?: OSSKU | undefined;
   /** The maximum number of nodes for auto-scaling */
-  maxCount?: number;
+  maxCount?: number | undefined;
   /** The minimum number of nodes for auto-scaling */
-  minCount?: number;
+  minCount?: number | undefined;
   /** Whether to enable auto-scaler */
-  enableAutoScaling?: boolean;
+  enableAutoScaling?: boolean | undefined;
   /** The scale down mode to use when scaling the Agent Pool. This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete. */
-  scaleDownMode?: ScaleDownMode;
+  scaleDownMode?: ScaleDownMode | undefined;
   /** The type of Agent Pool. */
-  type?: AgentPoolType;
+  type?: AgentPoolType | undefined;
   /** The mode of an agent pool. A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools */
-  mode?: AgentPoolMode;
+  mode?: AgentPoolMode | undefined;
   /** The version of Kubernetes specified by the user. Both patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool). */
-  orchestratorVersion?: string;
+  orchestratorVersion?: string | undefined;
   /** The version of Kubernetes the Agent Pool is running. If orchestratorVersion is a fully specified version <major.minor.patch>, this field will be exactly equal to it. If orchestratorVersion is <major.minor>, this field will contain the full <major.minor.patch> version being used. */
-  currentOrchestratorVersion?: string;
+  currentOrchestratorVersion?: string | undefined;
   /** The version of the node image. Setting this value triggers an agentPool rollback. Only values from `recentlyUsedVersions` are allowed. */
-  nodeImageVersion?: string;
+  nodeImageVersion?: string | undefined;
   /** Settings for upgrading the agentpool */
-  upgradeSettings?: AgentPoolUpgradeSettings;
+  upgradeSettings?: AgentPoolUpgradeSettings | undefined;
   /** The current deployment or provisioning state. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Whether the Agent Pool is running or stopped. When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded */
-  powerState?: PowerState;
+  powerState?: PowerState | undefined;
   /** The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'. */
-  availabilityZones?: ManagedClusterAgentPoolProfileAvailabilityZonesList;
+  availabilityZones?: ManagedClusterAgentPoolProfileAvailabilityZonesList | undefined;
   /** Whether each node is allocated its own public IP. Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false. */
-  enableNodePublicIP?: boolean;
+  enableNodePublicIP?: boolean | undefined;
   /** The public IP prefix ID which VM nodes should use IPs from. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName} */
-  nodePublicIPPrefixID?: string;
+  nodePublicIPPrefixID?: string | undefined;
   /** The Virtual Machine Scale Set priority. */
-  scaleSetPriority?: ManagedClusterAgentPoolProfileScaleSetPriority;
+  scaleSetPriority?: ManagedClusterAgentPoolProfileScaleSetPriority | undefined;
   /** The Virtual Machine Scale Set eviction policy. The eviction policy specifies what to do with the VM when it is evicted. The default is Delete. For more information about eviction see [spot VMs](https://docs.microsoft.com/azure/virtual-machines/spot-vms) */
-  scaleSetEvictionPolicy?: ManagedClusterAgentPoolProfileScaleSetEvictionPolicy;
+  scaleSetEvictionPolicy?: ManagedClusterAgentPoolProfileScaleSetEvictionPolicy | undefined;
   /** The max price (in US Dollars) you are willing to pay for spot instances. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand. Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing) */
-  spotMaxPrice?: number;
+  spotMaxPrice?: number | undefined;
   /** The tags to be persisted on the agent pool virtual machine scale set. */
-  tags?: ManagedClusterAgentPoolProfileTagsMap;
+  tags?: ManagedClusterAgentPoolProfileTagsMap | undefined;
   /** The node labels to be persisted across all nodes in agent pool. */
-  nodeLabels?: ManagedClusterAgentPoolProfileNodeLabelsMap;
+  nodeLabels?: ManagedClusterAgentPoolProfileNodeLabelsMap | undefined;
   /** The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule. */
-  nodeTaints?: ManagedClusterAgentPoolProfileNodeTaintsList;
+  nodeTaints?: ManagedClusterAgentPoolProfileNodeTaintsList | undefined;
   /** The ID for Proximity Placement Group. */
-  proximityPlacementGroupID?: string;
+  proximityPlacementGroupID?: string | undefined;
   /** The Kubelet configuration on the agent pool nodes. */
-  kubeletConfig?: KubeletConfig;
+  kubeletConfig?: KubeletConfig | undefined;
   /** The OS configuration of Linux agent nodes. */
-  linuxOSConfig?: LinuxOSConfig;
+  linuxOSConfig?: LinuxOSConfig | undefined;
   /** Whether to enable host based OS and data drive encryption. This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption */
-  enableEncryptionAtHost?: boolean;
+  enableEncryptionAtHost?: boolean | undefined;
   /** Whether to enable UltraSSD */
-  enableUltraSSD?: boolean;
+  enableUltraSSD?: boolean | undefined;
   /** Whether to use a FIPS-enabled OS. See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details. */
-  enableFIPS?: boolean;
+  enableFIPS?: boolean | undefined;
   /** GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU. */
-  gpuInstanceProfile?: GPUInstanceProfile;
+  gpuInstanceProfile?: GPUInstanceProfile | undefined;
   /** CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot. */
-  creationData?: CreationData;
+  creationData?: CreationData | undefined;
   /** The fully qualified resource ID of the Capacity Reservation Group to provide virtual machines from a reserved group of Virtual Machines. This is of the form: '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Compute/capacityreservationgroups/{capacityReservationGroupName}' Customers use it to create an agentpool with a specified CRG. For more information see [Capacity Reservation](https://learn.microsoft.com/en-us/azure/virtual-machines/capacity-reservation-overview) */
-  capacityReservationGroupID?: string;
+  capacityReservationGroupID?: string | undefined;
   /** The fully qualified resource ID of the Dedicated Host Group to provision virtual machines from, used only in creation scenario and not allowed to changed once set. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts). */
-  hostGroupID?: string;
+  hostGroupID?: string | undefined;
   /** Network-related settings of an agent pool. */
-  networkProfile?: AgentPoolNetworkProfile;
+  networkProfile?: AgentPoolNetworkProfile | undefined;
   /** The Windows agent pool's specific profile. */
-  windowsProfile?: AgentPoolWindowsProfile;
+  windowsProfile?: AgentPoolWindowsProfile | undefined;
   /** The security settings of an agent pool. */
-  securityProfile?: AgentPoolSecurityProfile;
+  securityProfile?: AgentPoolSecurityProfile | undefined;
   /** GPU settings for the Agent Pool. */
-  gpuProfile?: GPUProfile;
+  gpuProfile?: GPUProfile | undefined;
   /** Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent pool mode is not Gateway. */
-  gatewayProfile?: AgentPoolGatewayProfile;
+  gatewayProfile?: AgentPoolGatewayProfile | undefined;
   /** Configuration for using artifact streaming on AKS. */
-  artifactStreamingProfile?: AgentPoolArtifactStreamingProfile;
+  artifactStreamingProfile?: AgentPoolArtifactStreamingProfile | undefined;
   /** Specifications on VirtualMachines agent pool. */
-  virtualMachinesProfile?: VirtualMachinesProfile;
+  virtualMachinesProfile?: VirtualMachinesProfile | undefined;
   /** The status of nodes in a VirtualMachines agent pool. */
-  virtualMachineNodesStatus?: ManagedClusterAgentPoolProfileVirtualMachineNodesStatusList;
+  virtualMachineNodesStatus?:
+    | ManagedClusterAgentPoolProfileVirtualMachineNodesStatusList
+    | undefined;
   /** Contains read-only information about the Agent Pool. */
-  status?: AgentPoolStatus;
+  status?: AgentPoolStatus | undefined;
   /** Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns. */
-  localDNSProfile?: LocalDNSProfile;
+  localDNSProfile?: LocalDNSProfile | undefined;
   /** Unique name of the agent pool profile in the context of the subscription and resource group. Windows agent pool names must be 6 characters or less. */
   name: string;
 }
@@ -2559,51 +2582,51 @@ export type LicenseType = "None" | "Windows_Server";
 /** Windows gMSA Profile in the managed cluster. */
 export interface WindowsGmsaProfile {
   /** Whether to enable Windows gMSA. Specifies whether to enable Windows gMSA in the managed cluster. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Specifies the DNS server for Windows gMSA. <br><br> Set it to empty if you have configured the DNS server in the vnet which is used to create the managed cluster. */
-  dnsServer?: string;
+  dnsServer?: string | undefined;
   /** Specifies the root domain name for Windows gMSA. <br><br> Set it to empty if you have configured the DNS server in the vnet which is used to create the managed cluster. */
-  rootDomainName?: string;
+  rootDomainName?: string | undefined;
 }
 /** Profile for Windows VMs in the managed cluster. */
 export interface ManagedClusterWindowsProfile {
   /** Specifies the name of the administrator account. <br><br> **Restriction:** Cannot end in "." <br><br> **Disallowed values:** "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123", "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server", "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5". <br><br> **Minimum-length:** 1 character <br><br> **Max-length:** 20 characters */
   adminUsername: string;
   /** Specifies the password of the administrator account. <br><br> **Minimum-length:** 8 characters <br><br> **Max-length:** 123 characters <br><br> **Complexity requirements:** 3 out of 4 conditions below need to be fulfilled <br> Has lower characters <br>Has upper characters <br> Has a digit <br> Has a special character (Regex match [\W_]) <br><br> **Disallowed values:** "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1", "Password22", "iloveyou!" */
-  adminPassword?: string | Redacted.Redacted<string>;
+  adminPassword?: string | Redacted.Redacted<string> | undefined;
   /** The license type to use for Windows VMs. See [Azure Hybrid User Benefits](https://azure.microsoft.com/pricing/hybrid-benefit/faq/) for more details. */
-  licenseType?: LicenseType | (string & {});
+  licenseType?: LicenseType | (string & {}) | undefined;
   /** Whether to enable CSI proxy. For more details on CSI proxy, see the [CSI proxy GitHub repo](https://github.com/kubernetes-csi/csi-proxy). */
-  enableCSIProxy?: boolean;
+  enableCSIProxy?: boolean | undefined;
   /** The Windows gMSA Profile in the Managed Cluster. */
-  gmsaProfile?: WindowsGmsaProfile;
+  gmsaProfile?: WindowsGmsaProfile | undefined;
 }
 /** Information about a service principal identity for the cluster to use for manipulating Azure APIs. */
 export interface ManagedClusterServicePrincipalProfile {
   /** The ID for the service principal. */
   clientId: string;
   /** The secret password associated with the service principal in plain text. */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** Key-value pairs for configuring an add-on. */
 export type ManagedClusterAddonProfileConfigMap = { [key: string]: string | undefined };
 /** Details about a user assigned identity. */
 export interface UserAssignedIdentity {
   /** The resource ID of the user assigned identity. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The client ID of the user assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The object ID of the user assigned identity. */
-  objectId?: string;
+  objectId?: string | undefined;
 }
 /** A Kubernetes add-on profile for a managed cluster. */
 export interface ManagedClusterAddonProfile {
   /** Whether the add-on is enabled or not. */
   enabled: boolean;
   /** Key-value pairs for configuring an add-on. */
-  config?: ManagedClusterAddonProfileConfigMap;
+  config?: ManagedClusterAddonProfileConfigMap | undefined;
   /** Information of user assigned identity used by this add-on. */
-  identity?: UserAssignedIdentity;
+  identity?: UserAssignedIdentity | undefined;
 }
 /** The profile of managed cluster add-on. */
 export type ManagedClusterPropertiesAddonProfilesMap = {
@@ -2623,23 +2646,23 @@ export type ManagedClusterPodIdentityProvisioningErrorBodyDetailsList =
 /** An error response from the pod identity provisioning. */
 export interface ManagedClusterPodIdentityProvisioningErrorBody {
   /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
-  code?: string;
+  code?: string | undefined;
   /** A message describing the error, intended to be suitable for display in a user interface. */
-  message?: string;
+  message?: string | undefined;
   /** The target of the particular error. For example, the name of the property in error. */
-  target?: string;
+  target?: string | undefined;
   /** A list of additional details about the error. */
-  details?: ManagedClusterPodIdentityProvisioningErrorBodyDetailsList;
+  details?: ManagedClusterPodIdentityProvisioningErrorBodyDetailsList | undefined;
 }
 /** An error response from the pod identity provisioning. */
 export interface ManagedClusterPodIdentityProvisioningError {
   /** Details about the error. */
-  error?: ManagedClusterPodIdentityProvisioningErrorBody;
+  error?: ManagedClusterPodIdentityProvisioningErrorBody | undefined;
 }
 /** Pod identity provisioning information. */
 export interface ManagedClusterPodIdentityProvisioningInfo {
   /** Pod identity assignment error (if any). */
-  error?: ManagedClusterPodIdentityProvisioningError;
+  error?: ManagedClusterPodIdentityProvisioningError | undefined;
 }
 /** Details about the pod identity assigned to the Managed Cluster. */
 export interface ManagedClusterPodIdentity {
@@ -2648,13 +2671,13 @@ export interface ManagedClusterPodIdentity {
   /** The namespace of the pod identity. */
   namespace: string;
   /** The binding selector to use for the AzureIdentityBinding resource. */
-  bindingSelector?: string;
+  bindingSelector?: string | undefined;
   /** The user assigned identity details. */
   identity: UserAssignedIdentity;
   /** The current provisioning state of the pod identity. */
-  provisioningState?: ManagedClusterPodIdentityProvisioningState;
+  provisioningState?: ManagedClusterPodIdentityProvisioningState | undefined;
   /** The provisioning information for the pod identity. */
-  provisioningInfo?: ManagedClusterPodIdentityProvisioningInfo;
+  provisioningInfo?: ManagedClusterPodIdentityProvisioningInfo | undefined;
 }
 /** The pod identities to use in the cluster. */
 export type ManagedClusterPodIdentityProfileUserAssignedIdentitiesList =
@@ -2676,27 +2699,29 @@ export type ManagedClusterPodIdentityProfileUserAssignedIdentityExceptionsList =
 /** The pod identity profile of the Managed Cluster. See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on pod identity integration. */
 export interface ManagedClusterPodIdentityProfile {
   /** Whether the pod identity addon is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Whether pod identity is allowed to run on clusters with Kubenet networking. Running in Kubenet is disabled by default due to the security related nature of AAD Pod Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod Identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities) for more information. */
-  allowNetworkPluginKubenet?: boolean;
+  allowNetworkPluginKubenet?: boolean | undefined;
   /** The pod identities to use in the cluster. */
-  userAssignedIdentities?: ManagedClusterPodIdentityProfileUserAssignedIdentitiesList;
+  userAssignedIdentities?: ManagedClusterPodIdentityProfileUserAssignedIdentitiesList | undefined;
   /** The pod identity exceptions to allow. */
-  userAssignedIdentityExceptions?: ManagedClusterPodIdentityProfileUserAssignedIdentityExceptionsList;
+  userAssignedIdentityExceptions?:
+    | ManagedClusterPodIdentityProfileUserAssignedIdentityExceptionsList
+    | undefined;
 }
 /** The OIDC issuer profile of the Managed Cluster. */
 export interface ManagedClusterOIDCIssuerProfile {
   /** The OIDC issuer url of the Managed Cluster. */
-  issuerURL?: string;
+  issuerURL?: string | undefined;
   /** Whether the OIDC issuer is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** The restriction level applied to the cluster's node resource group. If not specified, the default is 'Unrestricted' */
 export type RestrictionLevel = "Unrestricted" | "ReadOnly";
 /** Node resource group lockdown profile for a managed cluster. */
 export interface ManagedClusterNodeResourceGroupProfile {
   /** The restriction level applied to the cluster's node resource group. If not specified, the default is 'Unrestricted' */
-  restrictionLevel?: RestrictionLevel | (string & {});
+  restrictionLevel?: RestrictionLevel | (string & {}) | undefined;
 }
 /** Different support tiers for AKS managed clusters */
 export type KubernetesSupportPlan = "KubernetesOfficial" | "AKSLongTermSupport";
@@ -2713,7 +2738,7 @@ export type NetworkDataplane = "azure" | "cilium";
 /** Observability profile to enable advanced network metrics and flow logs with historical contexts. */
 export interface AdvancedNetworkingObservability {
   /** Indicates the enablement of Advanced Networking observability functionalities on clusters. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Enable advanced network policies. This allows users to configure Layer 7 network policies (FQDN, HTTP, Kafka). Policies themselves must be configured via the Cilium Network Policy resources, see https://docs.cilium.io/en/latest/security/policy/index.html. This can be enabled only on cilium-based clusters. If not specified, the default value is FQDN if security.enabled is set to true. */
 export type AdvancedNetworkPolicies = "L7" | "FQDN" | "None";
@@ -2722,34 +2747,34 @@ export type TransitEncryptionType = "WireGuard" | "None";
 /** Encryption configuration for Cilium-based clusters. Once enabled all traffic between Cilium managed pods will be encrypted when it leaves the node boundary. */
 export interface AdvancedNetworkingSecurityTransitEncryption {
   /** Configures pod-to-pod encryption. This can be enabled only on Cilium-based clusters. If not specified, the default value is None. */
-  type?: TransitEncryptionType | (string & {});
+  type?: TransitEncryptionType | (string & {}) | undefined;
 }
 /** Security profile to enable security features on cilium based cluster. */
 export interface AdvancedNetworkingSecurity {
   /** This feature allows user to configure network policy based on DNS (FQDN) names. It can be enabled only on cilium based clusters. If not specified, the default is false. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Enable advanced network policies. This allows users to configure Layer 7 network policies (FQDN, HTTP, Kafka). Policies themselves must be configured via the Cilium Network Policy resources, see https://docs.cilium.io/en/latest/security/policy/index.html. This can be enabled only on cilium-based clusters. If not specified, the default value is FQDN if security.enabled is set to true. */
-  advancedNetworkPolicies?: AdvancedNetworkPolicies | (string & {});
+  advancedNetworkPolicies?: AdvancedNetworkPolicies | (string & {}) | undefined;
   /** Encryption configuration for Cilium-based clusters. Once enabled all traffic between Cilium managed pods will be encrypted when it leaves the node boundary. */
-  transitEncryption?: AdvancedNetworkingSecurityTransitEncryption;
+  transitEncryption?: AdvancedNetworkingSecurityTransitEncryption | undefined;
 }
 /** Enable advanced network acceleration options. This allows users to configure acceleration using BPF host routing. This can be enabled only with Cilium dataplane. If not specified, the default value is None (no acceleration). The acceleration mode can be changed on a pre-existing cluster. See https://aka.ms/acnsperformance for a detailed explanation */
 export type AdvancedNetworkingPerformanceAccelerationMode = "BpfVeth" | "None";
 /** Profile to enable performance-enhancing features on clusters that use Azure CNI powered by Cilium. */
 export interface AdvancedNetworkingPerformance {
   /** Enable advanced network acceleration options. This allows users to configure acceleration using BPF host routing. This can be enabled only with Cilium dataplane. If not specified, the default value is None (no acceleration). The acceleration mode can be changed on a pre-existing cluster. See https://aka.ms/acnsperformance for a detailed explanation */
-  accelerationMode?: AdvancedNetworkingPerformanceAccelerationMode | (string & {});
+  accelerationMode?: AdvancedNetworkingPerformanceAccelerationMode | (string & {}) | undefined;
 }
 /** Advanced Networking profile for enabling observability and security feature suite on a cluster. For more information see aka.ms/aksadvancednetworking. */
 export interface AdvancedNetworking {
   /** Indicates the enablement of Advanced Networking functionalities of observability and security on AKS clusters. When this is set to true, all observability and security features will be set to enabled unless explicitly disabled. If not specified, the default is false. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Observability profile to enable advanced network metrics and flow logs with historical contexts. */
-  observability?: AdvancedNetworkingObservability;
+  observability?: AdvancedNetworkingObservability | undefined;
   /** Security profile to enable security features on cilium based cluster. */
-  security?: AdvancedNetworkingSecurity;
+  security?: AdvancedNetworkingSecurity | undefined;
   /** Profile to enable performance-enhancing features on clusters that use Azure CNI powered by Cilium. */
-  performance?: AdvancedNetworkingPerformance;
+  performance?: AdvancedNetworkingPerformance | undefined;
 }
 /** The outbound (egress) routing method. This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype). */
 export type ContainerServiceNetworkProfileOutboundType =
@@ -2763,14 +2788,14 @@ export type LoadBalancerSku = "standard" | "basic";
 /** Desired managed outbound IPs for the cluster load balancer. */
 export interface ManagedClusterLoadBalancerProfileManagedOutboundIPs {
   /** The desired number of IPv4 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 1. */
-  count?: number;
+  count?: number | undefined;
   /** The desired number of IPv6 outbound IPs created/managed by Azure for the cluster load balancer. Allowed values must be in the range of 1 to 100 (inclusive). The default value is 0 for single-stack and 1 for dual-stack. */
-  countIPv6?: number;
+  countIPv6?: number | undefined;
 }
 /** A reference to an Azure resource. */
 export interface ResourceReference {
   /** The fully qualified Azure resource id. */
-  id?: string;
+  id?: string | undefined;
 }
 /** A list of public IP prefix resources. */
 export type ManagedClusterLoadBalancerProfileOutboundIPPrefixesPublicIPPrefixesList =
@@ -2778,14 +2803,16 @@ export type ManagedClusterLoadBalancerProfileOutboundIPPrefixesPublicIPPrefixesL
 /** Desired outbound IP Prefix resources for the cluster load balancer. */
 export interface ManagedClusterLoadBalancerProfileOutboundIPPrefixes {
   /** A list of public IP prefix resources. */
-  publicIPPrefixes?: ManagedClusterLoadBalancerProfileOutboundIPPrefixesPublicIPPrefixesList;
+  publicIPPrefixes?:
+    | ManagedClusterLoadBalancerProfileOutboundIPPrefixesPublicIPPrefixesList
+    | undefined;
 }
 /** A list of public IP resources. */
 export type ManagedClusterLoadBalancerProfileOutboundIPsPublicIPsList = Array<ResourceReference>;
 /** Desired outbound IP resources for the cluster load balancer. */
 export interface ManagedClusterLoadBalancerProfileOutboundIPs {
   /** A list of public IP resources. */
-  publicIPs?: ManagedClusterLoadBalancerProfileOutboundIPsPublicIPsList;
+  publicIPs?: ManagedClusterLoadBalancerProfileOutboundIPsPublicIPsList | undefined;
 }
 /** The effective outbound IP resources of the cluster load balancer. */
 export type ManagedClusterLoadBalancerProfileEffectiveOutboundIPsList = Array<ResourceReference>;
@@ -2794,30 +2821,30 @@ export type ManagedClusterLoadBalancerProfileBackendPoolType = "NodeIPConfigurat
 /** Profile of the managed cluster load balancer. */
 export interface ManagedClusterLoadBalancerProfile {
   /** Desired managed outbound IPs for the cluster load balancer. */
-  managedOutboundIPs?: ManagedClusterLoadBalancerProfileManagedOutboundIPs;
+  managedOutboundIPs?: ManagedClusterLoadBalancerProfileManagedOutboundIPs | undefined;
   /** Desired outbound IP Prefix resources for the cluster load balancer. */
-  outboundIPPrefixes?: ManagedClusterLoadBalancerProfileOutboundIPPrefixes;
+  outboundIPPrefixes?: ManagedClusterLoadBalancerProfileOutboundIPPrefixes | undefined;
   /** Desired outbound IP resources for the cluster load balancer. */
-  outboundIPs?: ManagedClusterLoadBalancerProfileOutboundIPs;
+  outboundIPs?: ManagedClusterLoadBalancerProfileOutboundIPs | undefined;
   /** The effective outbound IP resources of the cluster load balancer. */
-  effectiveOutboundIPs?: ManagedClusterLoadBalancerProfileEffectiveOutboundIPsList;
+  effectiveOutboundIPs?: ManagedClusterLoadBalancerProfileEffectiveOutboundIPsList | undefined;
   /** The desired number of allocated SNAT ports per VM. Allowed values are in the range of 0 to 64000 (inclusive). The default value is 0 which results in Azure dynamically allocating ports. */
-  allocatedOutboundPorts?: number;
+  allocatedOutboundPorts?: number | undefined;
   /** Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120 (inclusive). The default value is 30 minutes. */
-  idleTimeoutInMinutes?: number;
+  idleTimeoutInMinutes?: number | undefined;
   /** Enable multiple standard load balancers per AKS cluster or not. */
-  enableMultipleStandardLoadBalancers?: boolean;
+  enableMultipleStandardLoadBalancers?: boolean | undefined;
   /** The type of the managed inbound Load Balancer BackendPool. */
-  backendPoolType?: ManagedClusterLoadBalancerProfileBackendPoolType;
+  backendPoolType?: ManagedClusterLoadBalancerProfileBackendPoolType | undefined;
 }
 /** The SKU of a managed cluster NAT Gateway. */
 export type ManagedClusterNATGatewaySku = "Standard" | "StandardV2";
 /** Profile of the managed outbound IP resources of the managed cluster. */
 export interface ManagedClusterManagedOutboundIPProfile {
   /** The desired number of outbound IPs created/managed by Azure. Allowed values must be in the range of 1 to 16 (inclusive). The default value is 1. */
-  count?: number;
+  count?: number | undefined;
   /** The desired number of IPv6 outbound IPs created/managed by Azure. Allowed values must be in the range of 1 to 16 (inclusive). */
-  countIPv6?: number;
+  countIPv6?: number | undefined;
 }
 /** The effective outbound IP resources of the cluster NAT gateway. */
 export type ManagedClusterNATGatewayProfileEffectiveOutboundIPsList = Array<ResourceReference>;
@@ -2826,34 +2853,36 @@ export type ManagedClusterNATGatewayProfileOutboundIPPrefixesPublicIPPrefixesLis
 /** Desired outbound IP Prefix resources for the managed NAT Gateway. Only compatible with NAT Gateway V2. */
 export interface ManagedClusterNATGatewayProfileOutboundIPPrefixes {
   /** A list of public IP prefix resources. */
-  publicIPPrefixes?: ManagedClusterNATGatewayProfileOutboundIPPrefixesPublicIPPrefixesList;
+  publicIPPrefixes?:
+    | ManagedClusterNATGatewayProfileOutboundIPPrefixesPublicIPPrefixesList
+    | undefined;
 }
 /** A list of public IP resources. */
 export type ManagedClusterNATGatewayProfileOutboundIPsPublicIPsList = Array<string>;
 /** Desired outbound IP resources for the managed NAT Gateway. */
 export interface ManagedClusterNATGatewayProfileOutboundIPs {
   /** A list of public IP resources. */
-  publicIPs?: ManagedClusterNATGatewayProfileOutboundIPsPublicIPsList;
+  publicIPs?: ManagedClusterNATGatewayProfileOutboundIPsPublicIPsList | undefined;
 }
 /** Profile of the managed cluster NAT gateway. */
 export interface ManagedClusterNATGatewayProfile {
   /** The SKU of the managed cluster NAT Gateway. Defaults to 'StandardV2' where available in the region, otherwise 'Standard'. */
-  sku?: ManagedClusterNATGatewaySku;
+  sku?: ManagedClusterNATGatewaySku | undefined;
   /** Profile of the managed outbound IP resources of the cluster NAT gateway. */
-  managedOutboundIPProfile?: ManagedClusterManagedOutboundIPProfile;
+  managedOutboundIPProfile?: ManagedClusterManagedOutboundIPProfile | undefined;
   /** The effective outbound IP resources of the cluster NAT gateway. */
-  effectiveOutboundIPs?: ManagedClusterNATGatewayProfileEffectiveOutboundIPsList;
+  effectiveOutboundIPs?: ManagedClusterNATGatewayProfileEffectiveOutboundIPsList | undefined;
   /** Desired outbound IP Prefix resources for the managed NAT Gateway. Only compatible with NAT Gateway V2. */
-  outboundIPPrefixes?: ManagedClusterNATGatewayProfileOutboundIPPrefixes;
+  outboundIPPrefixes?: ManagedClusterNATGatewayProfileOutboundIPPrefixes | undefined;
   /** Desired outbound IP resources for the managed NAT Gateway. */
-  outboundIPs?: ManagedClusterNATGatewayProfileOutboundIPs;
+  outboundIPs?: ManagedClusterNATGatewayProfileOutboundIPs | undefined;
   /** Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120 (inclusive). The default value is 4 minutes. */
-  idleTimeoutInMinutes?: number;
+  idleTimeoutInMinutes?: number | undefined;
 }
 /** The Static Egress Gateway addon configuration for the cluster. */
 export interface ManagedClusterStaticEgressGatewayProfile {
   /** Enable Static Egress Gateway addon. Indicates if Static Egress Gateway addon is enabled or not. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** The CIDR notation IP ranges from which to assign pod IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. */
 export type ContainerServiceNetworkProfilePodCidrsList = Array<string>;
@@ -2864,58 +2893,58 @@ export type ContainerServiceNetworkProfileIpFamiliesList = Array<IPFamily>;
 /** Profile of network configuration. */
 export interface ContainerServiceNetworkProfile {
   /** Network plugin used for building the Kubernetes network. */
-  networkPlugin?: NetworkPlugin;
+  networkPlugin?: NetworkPlugin | undefined;
   /** The mode the network plugin should use. */
-  networkPluginMode?: NetworkPluginMode;
+  networkPluginMode?: NetworkPluginMode | undefined;
   /** Network policy used for building the Kubernetes network. */
-  networkPolicy?: NetworkPolicy;
+  networkPolicy?: NetworkPolicy | undefined;
   /** The network mode Azure CNI is configured with. This cannot be specified if networkPlugin is anything other than 'azure'. */
-  networkMode?: NetworkMode;
+  networkMode?: NetworkMode | undefined;
   /** Network dataplane used in the Kubernetes cluster. */
-  networkDataplane?: NetworkDataplane;
+  networkDataplane?: NetworkDataplane | undefined;
   /** Advanced Networking profile for enabling observability and security feature suite on a cluster. For more information see aka.ms/aksadvancednetworking. */
-  advancedNetworking?: AdvancedNetworking;
+  advancedNetworking?: AdvancedNetworking | undefined;
   /** A CIDR notation IP range from which to assign pod IPs when kubenet is used. */
-  podCidr?: string;
+  podCidr?: string | undefined;
   /** A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges. */
-  serviceCidr?: string;
+  serviceCidr?: string | undefined;
   /** An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr. */
-  dnsServiceIP?: string;
+  dnsServiceIP?: string | undefined;
   /** The outbound (egress) routing method. This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype). */
-  outboundType?: ContainerServiceNetworkProfileOutboundType;
+  outboundType?: ContainerServiceNetworkProfileOutboundType | undefined;
   /** The load balancer sku for the managed cluster. The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs. */
-  loadBalancerSku?: LoadBalancerSku;
+  loadBalancerSku?: LoadBalancerSku | undefined;
   /** Profile of the cluster load balancer. */
-  loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
+  loadBalancerProfile?: ManagedClusterLoadBalancerProfile | undefined;
   /** Profile of the cluster NAT gateway. */
-  natGatewayProfile?: ManagedClusterNATGatewayProfile;
+  natGatewayProfile?: ManagedClusterNATGatewayProfile | undefined;
   /** The profile for Static Egress Gateway addon. For more details about Static Egress Gateway, see https://aka.ms/aks/static-egress-gateway. */
-  staticEgressGatewayProfile?: ManagedClusterStaticEgressGatewayProfile;
+  staticEgressGatewayProfile?: ManagedClusterStaticEgressGatewayProfile | undefined;
   /** The CIDR notation IP ranges from which to assign pod IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. */
-  podCidrs?: ContainerServiceNetworkProfilePodCidrsList;
+  podCidrs?: ContainerServiceNetworkProfilePodCidrsList | undefined;
   /** The CIDR notation IP ranges from which to assign service cluster IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges. */
-  serviceCidrs?: ContainerServiceNetworkProfileServiceCidrsList;
+  serviceCidrs?: ContainerServiceNetworkProfileServiceCidrsList | undefined;
   /** The IP families used to specify IP versions available to the cluster. IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6. */
-  ipFamilies?: ContainerServiceNetworkProfileIpFamiliesList;
+  ipFamilies?: ContainerServiceNetworkProfileIpFamiliesList | undefined;
 }
 /** The list of AAD group object IDs that will have admin role of the cluster. */
 export type ManagedClusterAADProfileAdminGroupObjectIDsList = Array<string>;
 /** AADProfile specifies attributes for Azure Active Directory integration. For more details see [managed AAD on AKS](https://docs.microsoft.com/azure/aks/managed-aad). */
 export interface ManagedClusterAADProfile {
   /** Whether to enable managed AAD. */
-  managed?: boolean;
+  managed?: boolean | undefined;
   /** Whether to enable Azure RBAC for Kubernetes authorization. */
-  enableAzureRBAC?: boolean;
+  enableAzureRBAC?: boolean | undefined;
   /** The list of AAD group object IDs that will have admin role of the cluster. */
-  adminGroupObjectIDs?: ManagedClusterAADProfileAdminGroupObjectIDsList;
+  adminGroupObjectIDs?: ManagedClusterAADProfileAdminGroupObjectIDsList | undefined;
   /** (DEPRECATED) The client AAD application ID. Learn more at https://aka.ms/aks/aad-legacy. */
-  clientAppID?: string;
+  clientAppID?: string | undefined;
   /** (DEPRECATED) The server AAD application ID. Learn more at https://aka.ms/aks/aad-legacy. */
-  serverAppID?: string;
+  serverAppID?: string | undefined;
   /** (DEPRECATED) The server AAD application secret. Learn more at https://aka.ms/aks/aad-legacy. */
-  serverAppSecret?: string;
+  serverAppSecret?: string | undefined;
   /** The AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment subscription. */
-  tenantID?: string;
+  tenantID?: string | undefined;
 }
 /** The upgrade channel for auto upgrade. The default is 'none'. For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel). */
 export type UpgradeChannel = "rapid" | "stable" | "patch" | "node-image" | "none";
@@ -2924,85 +2953,85 @@ export type NodeOSUpgradeChannel = "None" | "Unmanaged" | "NodeImage" | "Securit
 /** Auto upgrade profile for a managed cluster. */
 export interface ManagedClusterAutoUpgradeProfile {
   /** The upgrade channel for auto upgrade. The default is 'none'. For more information see [setting the AKS cluster auto-upgrade channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel). */
-  upgradeChannel?: UpgradeChannel | (string & {});
+  upgradeChannel?: UpgradeChannel | (string & {}) | undefined;
   /** Node OS Upgrade Channel. Manner in which the OS on your nodes is updated. The default is NodeImage. */
-  nodeOSUpgradeChannel?: NodeOSUpgradeChannel | (string & {});
+  nodeOSUpgradeChannel?: NodeOSUpgradeChannel | (string & {}) | undefined;
 }
 /** Settings for overrides when upgrading a cluster. */
 export interface UpgradeOverrideSettings {
   /** Whether to force upgrade the cluster. Note that this option instructs upgrade operation to bypass upgrade protections such as checking for deprecated API usage. Enable this option only with caution. */
-  forceUpgrade?: boolean;
+  forceUpgrade?: boolean | undefined;
   /** Until when the overrides are effective. Note that this only matches the start time of an upgrade, and the effectiveness won't change once an upgrade starts even if the `until` expires as upgrade proceeds. This field is not set by default. It must be set for the overrides to take effect. */
-  until?: string;
+  until?: string | undefined;
 }
 /** Settings for upgrading a cluster. */
 export interface ClusterUpgradeSettings {
   /** Settings for overrides. */
-  overrideSettings?: UpgradeOverrideSettings;
+  overrideSettings?: UpgradeOverrideSettings | undefined;
 }
 /** The expander to use when scaling up. If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information. */
 export type Expander = "least-waste" | "most-pods" | "priority" | "random";
 /** Parameters to be applied to the cluster-autoscaler when enabled */
 export interface ManagedClusterPropertiesAutoScalerProfile {
   /** Detects similar node pools and balances the number of nodes between them. Valid values are 'true' and 'false' */
-  balance_similar_node_groups?: string;
+  balance_similar_node_groups?: string | undefined;
   /** DaemonSet pods will be gracefully terminated from empty nodes. If set to true, all daemonset pods on empty nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted. */
-  daemonset_eviction_for_empty_nodes?: boolean;
+  daemonset_eviction_for_empty_nodes?: boolean | undefined;
   /** DaemonSet pods will be gracefully terminated from non-empty nodes. If set to true, all daemonset pods on occupied nodes will be evicted before deletion of the node. If the daemonset pod cannot be evicted another node will be chosen for scaling. If set to false, the node will be deleted without ensuring that daemonset pods are deleted or evicted. */
-  daemonset_eviction_for_occupied_nodes?: boolean;
+  daemonset_eviction_for_occupied_nodes?: boolean | undefined;
   /** Should CA ignore DaemonSet pods when calculating resource utilization for scaling down. If set to true, the resources used by daemonset will be taken into account when making scaling down decisions. */
-  ignore_daemonsets_utilization?: boolean;
+  ignore_daemonsets_utilization?: boolean | undefined;
   /** The expander to use when scaling up. If not specified, the default is 'random'. See [expanders](https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#what-are-expanders) for more information. */
-  expander?: Expander | (string & {});
+  expander?: Expander | (string & {}) | undefined;
   /** The maximum number of empty nodes that can be deleted at the same time. This must be a positive integer. The default is 10. */
-  max_empty_bulk_delete?: string;
+  max_empty_bulk_delete?: string | undefined;
   /** The maximum number of seconds the cluster autoscaler waits for pod termination when trying to scale down a node. The default is 600. */
-  max_graceful_termination_sec?: string;
+  max_graceful_termination_sec?: string | undefined;
   /** The maximum time the autoscaler waits for a node to be provisioned. The default is '15m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported. */
-  max_node_provision_time?: string;
+  max_node_provision_time?: string | undefined;
   /** The maximum percentage of unready nodes in the cluster. After this percentage is exceeded, cluster autoscaler halts operations. The default is 45. The maximum is 100 and the minimum is 0. */
-  max_total_unready_percentage?: string;
+  max_total_unready_percentage?: string | undefined;
   /** Ignore unscheduled pods before they're a certain age. For scenarios like burst/batch scale where you don't want CA to act before the kubernetes scheduler could schedule all the pods, you can tell CA to ignore unscheduled pods before they're a certain age. The default is '0s'. Values must be an integer followed by a unit ('s' for seconds, 'm' for minutes, 'h' for hours, etc). */
-  new_pod_scale_up_delay?: string;
+  new_pod_scale_up_delay?: string | undefined;
   /** The number of allowed unready nodes, irrespective of max-total-unready-percentage. This must be an integer. The default is 3. */
-  ok_total_unready_count?: string;
+  ok_total_unready_count?: string | undefined;
   /** How often cluster is reevaluated for scale up or down. The default is '10'. Values must be an integer number of seconds. */
-  scan_interval?: string;
+  scan_interval?: string | undefined;
   /** How long after scale up that scale down evaluation resumes. The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported. */
-  scale_down_delay_after_add?: string;
+  scale_down_delay_after_add?: string | undefined;
   /** How long after node deletion that scale down evaluation resumes. The default is the scan-interval. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported. */
-  scale_down_delay_after_delete?: string;
+  scale_down_delay_after_delete?: string | undefined;
   /** How long after scale down failure that scale down evaluation resumes. The default is '3m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported. */
-  scale_down_delay_after_failure?: string;
+  scale_down_delay_after_failure?: string | undefined;
   /** How long a node should be unneeded before it is eligible for scale down. The default is '10m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported. */
-  scale_down_unneeded_time?: string;
+  scale_down_unneeded_time?: string | undefined;
   /** How long an unready node should be unneeded before it is eligible for scale down. The default is '20m'. Values must be an integer followed by an 'm'. No unit of time other than minutes (m) is supported. */
-  scale_down_unready_time?: string;
+  scale_down_unready_time?: string | undefined;
   /** Node utilization level, defined as sum of requested resources divided by capacity, below which a node can be considered for scale down. The default is '0.5'. */
-  scale_down_utilization_threshold?: string;
+  scale_down_utilization_threshold?: string | undefined;
   /** If cluster autoscaler will skip deleting nodes with pods with local storage, for example, EmptyDir or HostPath. The default is true. */
-  skip_nodes_with_local_storage?: string;
+  skip_nodes_with_local_storage?: string | undefined;
   /** If cluster autoscaler will skip deleting nodes with pods from kube-system (except for DaemonSet or mirror pods). The default is true. */
-  skip_nodes_with_system_pods?: string;
+  skip_nodes_with_system_pods?: string | undefined;
 }
 /** The IP ranges authorized to access the Kubernetes API server. IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges). */
 export type ManagedClusterAPIServerAccessProfileAuthorizedIPRangesList = Array<string>;
 /** Access profile for managed cluster API server. */
 export interface ManagedClusterAPIServerAccessProfile {
   /** The IP ranges authorized to access the Kubernetes API server. IP ranges are specified in CIDR format, e.g. 137.117.106.88/29. This feature is not compatible with clusters that use Public IP Per Node, or clusters that are using a Basic Load Balancer. For more information see [API server authorized IP ranges](https://docs.microsoft.com/azure/aks/api-server-authorized-ip-ranges). */
-  authorizedIPRanges?: ManagedClusterAPIServerAccessProfileAuthorizedIPRangesList;
+  authorizedIPRanges?: ManagedClusterAPIServerAccessProfileAuthorizedIPRangesList | undefined;
   /** Whether to create the cluster as a private cluster or not. For more details, see [Creating a private AKS cluster](https://docs.microsoft.com/azure/aks/private-clusters). */
-  enablePrivateCluster?: boolean;
+  enablePrivateCluster?: boolean | undefined;
   /** The private DNS zone mode for the cluster. The default is System. For more details see [configure private DNS zone](https://docs.microsoft.com/azure/aks/private-clusters#configure-private-dns-zone). Allowed values are 'system' and 'none'. */
-  privateDNSZone?: string;
+  privateDNSZone?: string | undefined;
   /** Whether to create additional public FQDN for private cluster or not. */
-  enablePrivateClusterPublicFQDN?: boolean;
+  enablePrivateClusterPublicFQDN?: boolean | undefined;
   /** Whether to disable run command for the cluster or not. */
-  disableRunCommand?: boolean;
+  disableRunCommand?: boolean | undefined;
   /** Whether to enable apiserver vnet integration for the cluster or not. See aka.ms/AksVnetIntegration for more details. */
-  enableVnetIntegration?: boolean;
+  enableVnetIntegration?: boolean | undefined;
   /** The subnet to be used when apiserver vnet integration is enabled. It is required when creating a new cluster with BYO Vnet, or when updating an existing cluster to enable apiserver vnet integration. */
-  subnetId?: string;
+  subnetId?: string | undefined;
 }
 /** The user identity associated with the managed cluster. This identity will be used by the kubelet. Only one user assigned identity is allowed. The only accepted key is "kubeletidentity", with value of "resourceId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}". */
 export type ManagedClusterPropertiesIdentityProfileMap = {
@@ -3013,17 +3042,17 @@ export type PrivateLinkResourceRequiredMembersList = Array<string>;
 /** A private link resource */
 export interface PrivateLinkResource {
   /** The ID of the private link resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the private link resource. See [naming rules](https://aka.ms/search-naming-rules) for more details. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The group ID of the resource. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The RequiredMembers of the resource */
-  requiredMembers?: PrivateLinkResourceRequiredMembersList;
+  requiredMembers?: PrivateLinkResourceRequiredMembersList | undefined;
   /** The private link service ID of the resource, this field is exposed only to NRP internally. */
-  privateLinkServiceID?: string;
+  privateLinkServiceID?: string | undefined;
 }
 /** Private link resources associated with the cluster. */
 export type ManagedClusterPropertiesPrivateLinkResourcesList = Array<PrivateLinkResource>;
@@ -3032,27 +3061,27 @@ export type ManagedClusterHTTPProxyConfigNoProxyList = Array<string>;
 /** Cluster HTTP proxy configuration. */
 export interface ManagedClusterHTTPProxyConfig {
   /** The HTTP proxy server endpoint to use. */
-  httpProxy?: string;
+  httpProxy?: string | undefined;
   /** The HTTPS proxy server endpoint to use. */
-  httpsProxy?: string;
+  httpsProxy?: string | undefined;
   /** The endpoints that should not go through proxy. */
-  noProxy?: ManagedClusterHTTPProxyConfigNoProxyList;
+  noProxy?: ManagedClusterHTTPProxyConfigNoProxyList | undefined;
   /** Alternative CA cert to use for connecting to proxy servers. */
-  trustedCa?: string;
+  trustedCa?: string | undefined;
   /** Whether to enable HTTP proxy. If disabled, the specified proxy configuration will be not be set on pods and nodes. If not specified, the default is true. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Microsoft Defender settings for the security profile threat detection. */
 export interface ManagedClusterSecurityProfileDefenderSecurityMonitoring {
   /** Whether to enable Defender threat detection */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Identity mapping used by Defender security gating for registry access. */
 export interface ManagedClusterSecurityProfileDefenderSecurityGatingIdentity {
   /** The container registry for which the identity will be used; the identity specified here should have a federated identity credential attached to it. */
-  azureContainerRegistry?: string;
+  azureContainerRegistry?: string | undefined;
   /** The identity object used to access the registry */
-  identity?: UserAssignedIdentity;
+  identity?: UserAssignedIdentity | undefined;
 }
 /** List of identities that the admission controller uses to pull security artifacts from registries. These are the same identities used by the cluster to pull container images. For more information on configuring this identity, see https://learn.microsoft.com/en-us/azure/defender-for-cloud/gated-deployment-infrastructure-as-code. */
 export type ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesList =
@@ -3060,112 +3089,114 @@ export type ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesList =
 /** Microsoft Defender settings for security gating. This validates container image eligibility for deployment based on Defender for Containers security findings. Using Admission Controller, it either audits or prevents deployment of images that do not meet security standards. */
 export interface ManagedClusterSecurityProfileDefenderSecurityGating {
   /** Whether to enable Defender security gating. When enabled, the gating feature scans container images and audits or blocks deployment of images that do not meet security standards according to configured security rules. For more information, see https://aka.ms/KubernetesDefenderAuditRule. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** List of identities that the admission controller uses to pull security artifacts from registries. These are the same identities used by the cluster to pull container images. For more information on configuring this identity, see https://learn.microsoft.com/en-us/azure/defender-for-cloud/gated-deployment-infrastructure-as-code. */
-  identities?: ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesList;
+  identities?: ManagedClusterSecurityProfileDefenderSecurityGatingIdentitiesList | undefined;
   /** In use only while registry access is granted by secret rather than managed identity. Sets whether to grant the Defender gating agent access to cluster secrets for pulling images from registries. If secret access is denied and the registry requires pull secrets, the add-on will not perform image validation. Default value is false. */
-  allowSecretAccess?: boolean;
+  allowSecretAccess?: boolean | undefined;
 }
 /** Microsoft Defender settings for the security profile. */
 export interface ManagedClusterSecurityProfileDefender {
   /** Resource ID of the Log Analytics workspace to be associated with Microsoft Defender. When Microsoft Defender is enabled, this field is required and must be a valid workspace resource ID. When Microsoft Defender is disabled, leave the field empty. */
-  logAnalyticsWorkspaceResourceId?: string;
+  logAnalyticsWorkspaceResourceId?: string | undefined;
   /** Microsoft Defender threat detection for Cloud settings for the security profile. */
-  securityMonitoring?: ManagedClusterSecurityProfileDefenderSecurityMonitoring;
+  securityMonitoring?: ManagedClusterSecurityProfileDefenderSecurityMonitoring | undefined;
   /** Microsoft Defender settings for security gating. This validates container images eligibility for deployment based on Defender for Containers security findings. Using Admission Controller, it either audits or prevents deployment of images that do not meet security standards. For more information, see https://aka.ms/KubernetesDefenderAuditRule. */
-  securityGating?: ManagedClusterSecurityProfileDefenderSecurityGating;
+  securityGating?: ManagedClusterSecurityProfileDefenderSecurityGating | undefined;
 }
 /** Network access of the key vault. Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`. */
 export type AzureKeyVaultKmsKeyVaultNetworkAccess = "Public" | "Private";
 /** Azure Key Vault key management service settings for the security profile. */
 export interface AzureKeyVaultKms {
   /** Whether to enable Azure Key Vault key management service. The default is false. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The identifier of the Azure Key Vault key. For more information, see [Azure Key Vault key identifiers](https://docs.microsoft.com/en-us/azure/key-vault/general/about-keys-secrets-certificates#vault-name-and-object-name). This property is required when Azure Key Vault key management service is enabled and must be omitted when the service is disabled. Starting with API versions 2026-07-01 and 2026-07-02-preview, a versioned key identifier uses the legacy KMS experience, while an unversioned key identifier uses the new KMS experience. For more information, see [KMS data encryption concepts](https://learn.microsoft.com/en-us/azure/aks/kms-data-encryption-concepts). */
-  keyId?: string;
+  keyId?: string | undefined;
   /** Network access of the key vault. Network access of key vault. The possible values are `Public` and `Private`. `Public` means the key vault allows public access from all networks. `Private` means the key vault disables public access and enables private link. The default value is `Public`. */
-  keyVaultNetworkAccess?: AzureKeyVaultKmsKeyVaultNetworkAccess | (string & {});
+  keyVaultNetworkAccess?: AzureKeyVaultKmsKeyVaultNetworkAccess | (string & {}) | undefined;
   /** Resource ID of key vault. When keyVaultNetworkAccess is `Private`, this field is required and must be a valid resource ID. When keyVaultNetworkAccess is `Public`, leave the field empty. */
-  keyVaultResourceId?: string;
+  keyVaultResourceId?: string | undefined;
 }
 /** Whether to enable encryption at rest of Kubernetes resource objects using service-managed keys. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
 export type InfrastructureEncryption = "Enabled";
 /** Encryption at rest of Kubernetes resource objects using service-managed keys. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
 export interface KubernetesResourceObjectEncryptionProfile {
   /** Whether to enable encryption at rest of Kubernetes resource objects using service-managed keys. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption. */
-  infrastructureEncryption?: InfrastructureEncryption | (string & {});
+  infrastructureEncryption?: InfrastructureEncryption | (string & {}) | undefined;
 }
 /** Workload identity settings for the security profile. */
 export interface ManagedClusterSecurityProfileWorkloadIdentity {
   /** Whether to enable workload identity. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Image Cleaner removes unused images from nodes, freeing up disk space and helping to reduce attack surface area. Here are settings for the security profile. */
 export interface ManagedClusterSecurityProfileImageCleaner {
   /** Whether to enable Image Cleaner on AKS cluster. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Image Cleaner scanning interval in hours. */
-  intervalHours?: number;
+  intervalHours?: number | undefined;
 }
 /** A list of up to 10 base64 encoded CAs that will be added to the trust store on all nodes in the cluster. For more information see [Custom CA Trust Certificates](https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority). */
 export type ManagedClusterSecurityProfileCustomCATrustCertificatesList = Array<string>;
 /** Security profile for the container service cluster. */
 export interface ManagedClusterSecurityProfile {
   /** Microsoft Defender settings for the security profile. */
-  defender?: ManagedClusterSecurityProfileDefender;
+  defender?: ManagedClusterSecurityProfileDefender | undefined;
   /** Azure Key Vault [key management service](https://kubernetes.io/docs/tasks/administer-cluster/kms-provider/) settings for the security profile. */
-  azureKeyVaultKms?: AzureKeyVaultKms;
+  azureKeyVaultKms?: AzureKeyVaultKms | undefined;
   /** Encryption at rest of Kubernetes resource objects. More information on this can be found under https://aka.ms/aks/kubernetesResourceObjectEncryption */
-  kubernetesResourceObjectEncryptionProfile?: KubernetesResourceObjectEncryptionProfile;
+  kubernetesResourceObjectEncryptionProfile?: KubernetesResourceObjectEncryptionProfile | undefined;
   /** Workload identity settings for the security profile. Workload identity enables Kubernetes applications to access Azure cloud resources securely with Azure AD. See https://aka.ms/aks/wi for more details. */
-  workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
+  workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity | undefined;
   /** Image Cleaner settings for the security profile. */
-  imageCleaner?: ManagedClusterSecurityProfileImageCleaner;
+  imageCleaner?: ManagedClusterSecurityProfileImageCleaner | undefined;
   /** A list of up to 10 base64 encoded CAs that will be added to the trust store on all nodes in the cluster. For more information see [Custom CA Trust Certificates](https://learn.microsoft.com/en-us/azure/aks/custom-certificate-authority). */
-  customCATrustCertificates?: ManagedClusterSecurityProfileCustomCATrustCertificatesList;
+  customCATrustCertificates?:
+    | ManagedClusterSecurityProfileCustomCATrustCertificatesList
+    | undefined;
 }
 /** AzureDisk CSI Driver settings for the storage profile. */
 export interface ManagedClusterStorageProfileDiskCSIDriver {
   /** Whether to enable AzureDisk CSI Driver. The default value is true. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** AzureFile CSI Driver settings for the storage profile. */
 export interface ManagedClusterStorageProfileFileCSIDriver {
   /** Whether to enable AzureFile CSI Driver. The default value is true. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Snapshot Controller settings for the storage profile. */
 export interface ManagedClusterStorageProfileSnapshotController {
   /** Whether to enable Snapshot Controller. The default value is true. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** AzureBlob CSI Driver settings for the storage profile. */
 export interface ManagedClusterStorageProfileBlobCSIDriver {
   /** Whether to enable AzureBlob CSI Driver. The default value is false. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Storage profile for the container service cluster. */
 export interface ManagedClusterStorageProfile {
   /** AzureDisk CSI Driver settings for the storage profile. */
-  diskCSIDriver?: ManagedClusterStorageProfileDiskCSIDriver;
+  diskCSIDriver?: ManagedClusterStorageProfileDiskCSIDriver | undefined;
   /** AzureFile CSI Driver settings for the storage profile. */
-  fileCSIDriver?: ManagedClusterStorageProfileFileCSIDriver;
+  fileCSIDriver?: ManagedClusterStorageProfileFileCSIDriver | undefined;
   /** Snapshot Controller settings for the storage profile. */
-  snapshotController?: ManagedClusterStorageProfileSnapshotController;
+  snapshotController?: ManagedClusterStorageProfileSnapshotController | undefined;
   /** AzureBlob CSI Driver settings for the storage profile. */
-  blobCSIDriver?: ManagedClusterStorageProfileBlobCSIDriver;
+  blobCSIDriver?: ManagedClusterStorageProfileBlobCSIDriver | undefined;
 }
 /** Whether to enable Istio as a Gateway API implementation for managed ingress with App Routing. */
 export type GatewayAPIIstioEnabled = "Enabled" | "Disabled";
 /** Configuration for using a sidecar-less Istio control plane for managed ingress via the Gateway API with App Routing. See https://aka.ms/gateway-on-istio for information on using Istio for ingress via the Gateway API. */
 export interface ManagedClusterAppRoutingIstio {
   /** Whether to enable Istio as a Gateway API implementation for managed ingress with App Routing. */
-  mode?: GatewayAPIIstioEnabled | (string & {});
+  mode?: GatewayAPIIstioEnabled | (string & {}) | undefined;
 }
 /** Configurations for Gateway API providers to be used for managed ingress with App Routing. */
 export interface ManagedClusterWebAppRoutingGatewayAPIImplementations {
   /** Configuration for using a sidecar-less Istio control plane for managed ingress via the Gateway API with App Routing. See https://aka.ms/gateway-on-istio for information on using Istio for ingress via the Gateway API. */
-  appRoutingIstio?: ManagedClusterAppRoutingIstio;
+  appRoutingIstio?: ManagedClusterAppRoutingIstio | undefined;
 }
 /** Resource IDs of the DNS zones to be associated with the Application Routing add-on. Used only when Application Routing add-on is enabled. Public and private DNS zones can be in different resource groups, but all public DNS zones must be in the same resource group and all private DNS zones must be in the same resource group. */
 export type ManagedClusterIngressProfileWebAppRoutingDnsZoneResourceIdsList = Array<string>;
@@ -3174,34 +3205,34 @@ export type NginxIngressControllerType = "AnnotationControlled" | "External" | "
 /** Nginx ingress controller configuration for the managed cluster ingress profile. */
 export interface ManagedClusterIngressProfileNginx {
   /** Ingress type for the default NginxIngressController custom resource */
-  defaultIngressControllerType?: NginxIngressControllerType | (string & {});
+  defaultIngressControllerType?: NginxIngressControllerType | (string & {}) | undefined;
 }
 /** Application Routing add-on settings for the ingress profile. */
 export interface ManagedClusterIngressProfileWebAppRouting {
   /** Whether to enable the Application Routing add-on. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Configurations for Gateway API providers to be used for managed ingress with App Routing. See https://aka.ms/k8s-gateway-api for more information on the Gateway API. */
-  gatewayAPIImplementations?: ManagedClusterWebAppRoutingGatewayAPIImplementations;
+  gatewayAPIImplementations?: ManagedClusterWebAppRoutingGatewayAPIImplementations | undefined;
   /** Resource IDs of the DNS zones to be associated with the Application Routing add-on. Used only when Application Routing add-on is enabled. Public and private DNS zones can be in different resource groups, but all public DNS zones must be in the same resource group and all private DNS zones must be in the same resource group. */
-  dnsZoneResourceIds?: ManagedClusterIngressProfileWebAppRoutingDnsZoneResourceIdsList;
+  dnsZoneResourceIds?: ManagedClusterIngressProfileWebAppRoutingDnsZoneResourceIdsList | undefined;
   /** Configuration for the default NginxIngressController. See more at https://learn.microsoft.com/en-us/azure/aks/app-routing-nginx-configuration#the-default-nginx-ingress-controller. */
-  nginx?: ManagedClusterIngressProfileNginx;
+  nginx?: ManagedClusterIngressProfileNginx | undefined;
   /** Managed identity of the Application Routing add-on. This is the identity that should be granted permissions, for example, to manage the associated Azure DNS resource and get certificates from Azure Key Vault. See [this overview of the add-on](https://learn.microsoft.com/en-us/azure/aks/web-app-routing?tabs=with-osm) for more instructions. */
-  identity?: UserAssignedIdentity;
+  identity?: UserAssignedIdentity | undefined;
 }
 /** Configuration for the managed Gateway API installation. If not specified, the default is 'Disabled'. See https://aka.ms/k8s-gateway-api for more details. */
 export type ManagedGatewayType = "Disabled" | "Standard";
 /** Configuration for managed Gateway API CRDs. See https://aka.ms/k8s-gateway-api for more details. */
 export interface ManagedClusterIngressProfileGatewayConfiguration {
   /** Configuration for the managed Gateway API installation. If not specified, the default is 'Disabled'. See https://aka.ms/k8s-gateway-api for more details. */
-  installation?: ManagedGatewayType | (string & {});
+  installation?: ManagedGatewayType | (string & {}) | undefined;
 }
 /** Ingress profile for the container service cluster. */
 export interface ManagedClusterIngressProfile {
   /** App Routing settings for the ingress profile. You can find an overview and onboarding guide for this feature at https://learn.microsoft.com/en-us/azure/aks/app-routing?tabs=default%2Cdeploy-app-default. */
-  webAppRouting?: ManagedClusterIngressProfileWebAppRouting;
+  webAppRouting?: ManagedClusterIngressProfileWebAppRouting | undefined;
   /** Settings for the managed Gateway API installation */
-  gatewayAPI?: ManagedClusterIngressProfileGatewayConfiguration;
+  gatewayAPI?: ManagedClusterIngressProfileGatewayConfiguration | undefined;
 }
 /** PublicNetworkAccess of the managedCluster. Allow or deny public network access for AKS */
 export type PublicNetworkAccess = "Enabled" | "Disabled";
@@ -3218,86 +3249,92 @@ export interface ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler {
 /** Workload Auto-scaler profile for the managed cluster. */
 export interface ManagedClusterWorkloadAutoScalerProfile {
   /** KEDA (Kubernetes Event-driven Autoscaling) settings for the workload auto-scaler profile. */
-  keda?: ManagedClusterWorkloadAutoScalerProfileKeda;
+  keda?: ManagedClusterWorkloadAutoScalerProfileKeda | undefined;
   /** VPA (Vertical Pod Autoscaler) settings for the workload auto-scaler profile. */
-  verticalPodAutoscaler?: ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler;
+  verticalPodAutoscaler?: ManagedClusterWorkloadAutoScalerProfileVerticalPodAutoscaler | undefined;
 }
 /** Kube State Metrics profile for the Azure Managed Prometheus addon. These optional settings are for the kube-state-metrics pod that is deployed with the addon. See aka.ms/AzureManagedPrometheus-optional-parameters for details. */
 export interface ManagedClusterAzureMonitorProfileKubeStateMetrics {
   /** Comma-separated list of additional Kubernetes label keys that will be used in the resource's labels metric (Example: 'namespaces=[k8s-label-1,k8s-label-n,...],pods=[app],...'). By default the metric contains only resource name and namespace labels. */
-  metricLabelsAllowlist?: string;
+  metricLabelsAllowlist?: string | undefined;
   /** Comma-separated list of Kubernetes annotation keys that will be used in the resource's labels metric (Example: 'namespaces=[kubernetes.io/team,...],pods=[kubernetes.io/team],...'). By default the metric contains only resource name and namespace labels. */
-  metricAnnotationsAllowList?: string;
+  metricAnnotationsAllowList?: string | undefined;
 }
 /** Control plane metrics collection profile for the Azure Managed Prometheus addon. Configures collection of operational runtime metrics from managed control plane components (kube-apiserver, etcd, etc). See aka.ms/aks/controlplane-metrics for an overview. */
 export interface ManagedClusterAzureMonitorProfileMetricsControlPlane {
   /** Whether to enable or disable collection of control plane metrics by the Azure Managed Prometheus addon. Defaults to disabled. See aka.ms/aks/controlplane-metrics for details. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Metrics profile for the Azure Monitor managed service for Prometheus addon. Collect out-of-the-box Kubernetes infrastructure metrics to send to an Azure Monitor Workspace and configure additional scraping for custom targets. See aka.ms/AzureManagedPrometheus for an overview. */
 export interface ManagedClusterAzureMonitorProfileMetrics {
   /** Whether to enable or disable the Azure Managed Prometheus addon for Prometheus monitoring. See aka.ms/AzureManagedPrometheus-aks-enable for details on enabling and disabling. */
   enabled: boolean;
   /** Kube State Metrics profile for the Azure Managed Prometheus addon. These optional settings are for the kube-state-metrics pod that is deployed with the addon. See aka.ms/AzureManagedPrometheus-optional-parameters for details. */
-  kubeStateMetrics?: ManagedClusterAzureMonitorProfileKubeStateMetrics;
+  kubeStateMetrics?: ManagedClusterAzureMonitorProfileKubeStateMetrics | undefined;
   /** Control plane metrics collection profile for the Azure Managed Prometheus addon. Configures collection of operational runtime metrics from managed control plane components (kube-apiserver, etcd, etc). See aka.ms/aks/controlplane-metrics for an overview. */
-  controlPlane?: ManagedClusterAzureMonitorProfileMetricsControlPlane;
+  controlPlane?: ManagedClusterAzureMonitorProfileMetricsControlPlane | undefined;
 }
 /** Allowed values for container network logs ingestion with Azure Monitor. When `Enabled`, the specific log types ingested are controlled by the associated CRD; defaults to `Disabled`. See https://aka.ms/ContainerNetworkLogsDoc and https://aka.ms/acns/howtoenablecnl for details. */
 export type ContainerNetworkLogs = "Disabled" | "Enabled";
 /** Azure Monitor Container Insights profile. Represents the configuration for collecting Kubernetes events, inventory, and container stdout & stderr logs. See aka.ms/AzureMonitorContainerInsights for an overview. */
 export interface ManagedClusterAzureMonitorProfileContainerInsights {
   /** Indicates if Azure Monitor Container Insights Logs Addon is enabled or not. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Fully Qualified ARM Resource Id of Azure Log Analytics Workspace for storing Azure Monitor Container Insights Logs. */
-  logAnalyticsWorkspaceResourceId?: string;
+  logAnalyticsWorkspaceResourceId?: string | undefined;
   /** The syslog host port. If not specified, the default port is 28330. */
-  syslogPort?: number;
+  syslogPort?: number | undefined;
   /** Indicates whether prometheus metrics scraping is disabled or not. If not specified the default is false i.e. the prometheus scraping is enabled. */
-  disablePrometheusMetricsScraping?: boolean;
+  disablePrometheusMetricsScraping?: boolean | undefined;
   /** Configures container network logs ingestion with Azure Monitor. The log types ingested are controlled by the associated CRD; if unspecified, defaults to `Disabled`. See https://aka.ms/ContainerNetworkLogsDoc and https://aka.ms/acns/howtoenablecnl for details. */
-  containerNetworkLogs?: ContainerNetworkLogs | (string & {});
+  containerNetworkLogs?: ContainerNetworkLogs | (string & {}) | undefined;
 }
 /** Application Monitoring auto-instrumentation for AKS. Deploys a webhook that auto-instruments workloads with Microsoft OpenTelemetry Distros to collect OpenTelemetry metrics, logs, and traces. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
 export interface ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation {
   /** Indicates if Application Monitoring Auto-instrumentation is enabled or not. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Application Monitoring OpenTelemetry Metrics Profile for AKS. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
 export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics {
   /** Indicates if Application Monitoring OpenTelemetry Metrics is enabled or not. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The host port for OpenTelemetry HTTP/PROTOBUF metrics. If not specified, the default port is 28333. */
-  httpPort?: number;
+  httpPort?: number | undefined;
   /** The host port for OpenTelemetry GRPC metrics. If not specified, the default port is 28334. */
-  grpcPort?: number;
+  grpcPort?: number | undefined;
 }
 /** Application Monitoring OpenTelemetry logs and traces profile for AKS. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
 export interface ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces {
   /** Indicates if Application Monitoring OpenTelemetry Logs and traces is enabled or not. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The host port for OpenTelemetry HTTP/PROTOBUF logs and traces. If not specified, the default port is 28331. */
-  httpPort?: number;
+  httpPort?: number | undefined;
   /** The host port for OpenTelemetry GRPC logs and traces. If not specified, the default port is 28332. */
-  grpcPort?: number;
+  grpcPort?: number | undefined;
 }
 /** Application Monitoring profile for AKS. */
 export interface ManagedClusterAzureMonitorProfileAppMonitoring {
   /** Application Monitoring auto-instrumentation for AKS. Deploys a webhook that auto-instruments workloads with Microsoft OpenTelemetry Distros to collect OpenTelemetry metrics, logs, and traces. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
-  autoInstrumentation?: ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation;
+  autoInstrumentation?:
+    | ManagedClusterAzureMonitorProfileAppMonitoringAutoInstrumentation
+    | undefined;
   /** Application Monitoring OpenTelemetry Metrics Profile for AKS. Collects OpenTelemetry metrics of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
-  openTelemetryMetrics?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics;
+  openTelemetryMetrics?:
+    | ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryMetrics
+    | undefined;
   /** Application Monitoring OpenTelemetry logs and traces profile for AKS. Collects OpenTelemetry logs and traces of the application using Azure Monitor OpenTelemetry based SDKs. See https://aka.ms/AKSAppMonitoringDocs and https://aka.ms/AzureMonitorApplicationMonitoring for an overview. */
-  openTelemetryLogsAndTraces?: ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces;
+  openTelemetryLogsAndTraces?:
+    | ManagedClusterAzureMonitorProfileAppMonitoringOpenTelemetryLogsAndTraces
+    | undefined;
 }
 /** Azure Monitor addon profiles for monitoring the managed cluster. */
 export interface ManagedClusterAzureMonitorProfile {
   /** Metrics profile for the Azure Monitor managed service for Prometheus addon. Collect out-of-the-box Kubernetes infrastructure metrics to send to an Azure Monitor Workspace and configure additional scraping for custom targets. See aka.ms/AzureManagedPrometheus for an overview. */
-  metrics?: ManagedClusterAzureMonitorProfileMetrics;
+  metrics?: ManagedClusterAzureMonitorProfileMetrics | undefined;
   /** Set this to enable and configure Azure Monitor Container Insights for the cluster, which collects Kubernetes events, inventory, and container stdout & stderr logs. See aka.ms/AzureMonitorContainerInsights for an overview. */
-  containerInsights?: ManagedClusterAzureMonitorProfileContainerInsights;
+  containerInsights?: ManagedClusterAzureMonitorProfileContainerInsights | undefined;
   /** Application Monitoring Profile for Kubernetes Application Container. Collects application logs, metrics and traces through auto-instrumentation of the application using Azure Monitor OpenTelemetry based SDKs. See aka.ms/AzureMonitorApplicationMonitoring for an overview. */
-  appMonitoring?: ManagedClusterAzureMonitorProfileAppMonitoring;
+  appMonitoring?: ManagedClusterAzureMonitorProfileAppMonitoring | undefined;
 }
 /** Mode of the service mesh. */
 export type ServiceMeshMode = "Istio" | "Disabled";
@@ -3319,9 +3356,9 @@ export interface IstioEgressGateway {
   /** Name of the Istio add-on egress gateway. */
   name: string;
   /** Namespace that the Istio add-on egress gateway should be deployed in. If unspecified, the default is aks-istio-egress. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Name of the gateway configuration custom resource for the Istio add-on egress gateway. Must be specified when enabling the Istio egress gateway. Must be deployed in the same namespace that the Istio egress gateway will be deployed in. */
-  gatewayConfigurationName?: string;
+  gatewayConfigurationName?: string | undefined;
 }
 /** Istio egress gateways. */
 export type IstioComponentsEgressGatewaysList = Array<IstioEgressGateway>;
@@ -3330,57 +3367,57 @@ export type ProxyRedirectionMechanism = "InitContainers" | "CNIChaining";
 /** Istio components configuration. */
 export interface IstioComponents {
   /** Istio ingress gateways. */
-  ingressGateways?: IstioComponentsIngressGatewaysList;
+  ingressGateways?: IstioComponentsIngressGatewaysList | undefined;
   /** Istio egress gateways. */
-  egressGateways?: IstioComponentsEgressGatewaysList;
+  egressGateways?: IstioComponentsEgressGatewaysList | undefined;
   /** Mode of traffic redirection. */
-  proxyRedirectionMechanism?: ProxyRedirectionMechanism | (string & {});
+  proxyRedirectionMechanism?: ProxyRedirectionMechanism | (string & {}) | undefined;
 }
 /** Plugin certificates information for Service Mesh. */
 export interface IstioPluginCertificateAuthority {
   /** The resource ID of the Key Vault. */
-  keyVaultId?: string;
+  keyVaultId?: string | undefined;
   /** Intermediate certificate object name in Azure Key Vault. */
-  certObjectName?: string;
+  certObjectName?: string | undefined;
   /** Intermediate certificate private key object name in Azure Key Vault. */
-  keyObjectName?: string;
+  keyObjectName?: string | undefined;
   /** Root certificate object name in Azure Key Vault. */
-  rootCertObjectName?: string;
+  rootCertObjectName?: string | undefined;
   /** Certificate chain object name in Azure Key Vault. */
-  certChainObjectName?: string;
+  certChainObjectName?: string | undefined;
 }
 /** Istio Service Mesh Certificate Authority (CA) configuration. For now, we only support plugin certificates as described here https://aka.ms/asm-plugin-ca */
 export interface IstioCertificateAuthority {
   /** Plugin certificates information for Service Mesh. */
-  plugin?: IstioPluginCertificateAuthority;
+  plugin?: IstioPluginCertificateAuthority | undefined;
 }
 /** The list of revisions of the Istio control plane. When an upgrade is not in progress, this holds one value. When canary upgrade is in progress, this can only hold two consecutive values. For more information, see: https://learn.microsoft.com/en-us/azure/aks/istio-upgrade */
 export type IstioServiceMeshRevisionsList = Array<string>;
 /** Istio service mesh configuration. */
 export interface IstioServiceMesh {
   /** Istio components configuration. */
-  components?: IstioComponents;
+  components?: IstioComponents | undefined;
   /** Istio Service Mesh Certificate Authority (CA) configuration. For now, we only support plugin certificates as described here https://aka.ms/asm-plugin-ca */
-  certificateAuthority?: IstioCertificateAuthority;
+  certificateAuthority?: IstioCertificateAuthority | undefined;
   /** The list of revisions of the Istio control plane. When an upgrade is not in progress, this holds one value. When canary upgrade is in progress, this can only hold two consecutive values. For more information, see: https://learn.microsoft.com/en-us/azure/aks/istio-upgrade */
-  revisions?: IstioServiceMeshRevisionsList;
+  revisions?: IstioServiceMeshRevisionsList | undefined;
 }
 /** Service mesh profile for a managed cluster. */
 export interface ServiceMeshProfile {
   /** Mode of the service mesh. */
   mode: ServiceMeshMode | (string & {});
   /** Istio service mesh configuration. */
-  istio?: IstioServiceMesh;
+  istio?: IstioServiceMesh | undefined;
 }
 /** The cost analysis configuration for the cluster */
 export interface ManagedClusterCostAnalysis {
   /** Whether to enable cost analysis. The Managed Cluster sku.tier must be set to 'Standard' or 'Premium' to enable this feature. Enabling this will add Kubernetes Namespace and Deployment details to the Cost Analysis views in the Azure portal. If not specified, the default is false. For more information see aka.ms/aks/docs/cost-analysis. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** The metrics profile for the ManagedCluster. */
 export interface ManagedClusterMetricsProfile {
   /** The configuration for detailed per-Kubernetes resource cost analysis. */
-  costAnalysis?: ManagedClusterCostAnalysis;
+  costAnalysis?: ManagedClusterCostAnalysis | undefined;
 }
 /** The node provisioning mode. If not specified, the default is Manual. */
 export type NodeProvisioningMode = "Manual" | "Auto";
@@ -3389,44 +3426,47 @@ export type ManagedClusterNodeProvisioningProfileDefaultNodePools = "None" | "Au
 /** Node provisioning profile for the managed cluster. */
 export interface ManagedClusterNodeProvisioningProfile {
   /** The node provisioning mode. If not specified, the default is Manual. */
-  mode?: NodeProvisioningMode | (string & {});
+  mode?: NodeProvisioningMode | (string & {}) | undefined;
   /** The set of default Karpenter NodePools (CRDs) configured for node provisioning. This field has no effect unless mode is 'Auto'. Warning: Changing this from Auto to None on an existing cluster will cause the default Karpenter NodePools to be deleted, which will drain and delete the nodes associated with those pools. It is strongly recommended to not do this unless there are idle nodes ready to take the pods evicted by that action. If not specified, the default is Auto. For more information see aka.ms/aks/nap#node-pools. */
-  defaultNodePools?: ManagedClusterNodeProvisioningProfileDefaultNodePools | (string & {});
+  defaultNodePools?:
+    | ManagedClusterNodeProvisioningProfileDefaultNodePools
+    | (string & {})
+    | undefined;
 }
 /** The artifact source. The source where the artifacts are downloaded from. */
 export type ManagedClusterBootstrapProfileArtifactSource = "Cache" | "Direct";
 /** The bootstrap profile. */
 export interface ManagedClusterBootstrapProfile {
   /** The artifact source. The source where the artifacts are downloaded from. */
-  artifactSource?: ManagedClusterBootstrapProfileArtifactSource | (string & {});
+  artifactSource?: ManagedClusterBootstrapProfileArtifactSource | (string & {}) | undefined;
   /** The resource Id of Azure Container Registry. The registry must have private network access, premium SKU and zone redundancy. */
-  containerRegistryId?: string;
+  containerRegistryId?: string | undefined;
 }
 /** When enabling the operator, a set of AKS managed CRDs and controllers will be installed in the cluster. The operator automates the deployment of OSS models for inference and/or training purposes. It provides a set of preset models and enables distributed inference against them. */
 export interface ManagedClusterAIToolchainOperatorProfile {
   /** Whether to enable AI toolchain operator to the cluster. Indicates if AI toolchain operator enabled or not. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** The config customization mode for this scheduler instance. */
 export type SchedulerConfigMode = "Default" | "ManagedByCRD";
 /** Profile with settings related to a specific instance of an AKS-managed scheduler. */
 export interface SchedulerInstanceProfile {
   /** The configuration mode to be used by the AKS-managed scheduler. */
-  schedulerConfigMode?: SchedulerConfigMode | (string & {});
+  schedulerConfigMode?: SchedulerConfigMode | (string & {}) | undefined;
 }
 /** Profile with scheduler-related settings, like the configuration mode for each scheduler managed by AKS. See https://aka.ms/aks/scheduler-profile. */
 export interface SchedulerProfile {
   /** Profile with settings related to upstream variant of kube-scheduler (https://github.com/kubernetes/kubernetes/tree/master/pkg/scheduler). */
-  upstream?: SchedulerInstanceProfile;
+  upstream?: SchedulerInstanceProfile | undefined;
 }
 /** Settings for hosted system addons. */
 export interface ManagedClusterHostedSystemProfile {
   /** Whether to enable hosted system addons for the cluster. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The ID of the subnet that will be joined by system nodes managed and hosted by AKS for running critical system addons. This ID must be provided together with `nodeSubnetID` and `apiserverAccessProfile.subnetId`, and all three subnet IDs must belong to the same VNet. If you don't specify it, AKS will create a subnet in the managed resource group using a default /26 CIDR. */
-  systemNodeSubnetID?: string;
+  systemNodeSubnetID?: string | undefined;
   /** The ID of the subnet that will be joined by worker nodes managed by node auto provisioner for running workload pods in your tenant. This must be provided together with `systemNodeSubnetID` and `apiserverAccessProfile.subnetId`, and all three subnet IDs must be in the same VNet. If you don't specify it, AKS will create a subnet in the managed resource group using a default /16 CIDR. */
-  nodeSubnetID?: string;
+  nodeSubnetID?: string | undefined;
 }
 /** The error details. */
 export type ManagedClusterStatusProvisioningErrorDetailsList = Array<ErrorDetail>;
@@ -3435,119 +3475,119 @@ export type ManagedClusterStatusProvisioningErrorAdditionalInfoList = Array<Erro
 /** The error detail. */
 export interface ManagedClusterStatusProvisioningError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ManagedClusterStatusProvisioningErrorDetailsList;
+  details?: ManagedClusterStatusProvisioningErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ManagedClusterStatusProvisioningErrorAdditionalInfoList;
+  additionalInfo?: ManagedClusterStatusProvisioningErrorAdditionalInfoList | undefined;
 }
 /** Contains read-only information about the Managed Cluster. */
 export interface ManagedClusterStatus {
   /** The error detail. */
-  provisioningError?: ManagedClusterStatusProvisioningError;
+  provisioningError?: ManagedClusterStatusProvisioningError | undefined;
 }
 /** Properties of the managed cluster. */
 export interface ManagedClusterProperties {
   /** The current provisioning state. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The Power State of the cluster. */
-  powerState?: PowerState;
+  powerState?: PowerState | undefined;
   /** The max number of agent pools for the managed cluster. */
-  maxAgentPools?: number;
+  maxAgentPools?: number | undefined;
   /** The version of Kubernetes specified by the user. Both patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x -> 1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an AKS cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more details. */
-  kubernetesVersion?: string;
+  kubernetesVersion?: string | undefined;
   /** The version of Kubernetes the Managed Cluster is running. If kubernetesVersion was a fully specified version <major.minor.patch>, this field will be exactly equal to it. If kubernetesVersion was <major.minor>, this field will contain the full <major.minor.patch> version being used. */
-  currentKubernetesVersion?: string;
+  currentKubernetesVersion?: string | undefined;
   /** The DNS prefix of the Managed Cluster. This cannot be updated once the Managed Cluster has been created. */
-  dnsPrefix?: string;
+  dnsPrefix?: string | undefined;
   /** The FQDN subdomain of the private cluster with custom private dns zone. This cannot be updated once the Managed Cluster has been created. */
-  fqdnSubdomain?: string;
+  fqdnSubdomain?: string | undefined;
   /** The FQDN of the master pool. */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** The FQDN of private cluster. */
-  privateFQDN?: string;
+  privateFQDN?: string | undefined;
   /** The special FQDN used by the Azure Portal to access the Managed Cluster. This FQDN is for use only by the Azure Portal and should not be used by other clients. The Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some responses, which Kubernetes APIServer doesn't handle by default. This special FQDN supports CORS, allowing the Azure Portal to function properly. */
-  azurePortalFQDN?: string;
+  azurePortalFQDN?: string | undefined;
   /** The agent pool properties. */
-  agentPoolProfiles?: ManagedClusterPropertiesAgentPoolProfilesList;
+  agentPoolProfiles?: ManagedClusterPropertiesAgentPoolProfilesList | undefined;
   /** The profile for Linux VMs in the Managed Cluster. */
-  linuxProfile?: ContainerServiceLinuxProfile;
+  linuxProfile?: ContainerServiceLinuxProfile | undefined;
   /** The profile for Windows VMs in the Managed Cluster. */
-  windowsProfile?: ManagedClusterWindowsProfile;
+  windowsProfile?: ManagedClusterWindowsProfile | undefined;
   /** Information about a service principal identity for the cluster to use for manipulating Azure APIs. */
-  servicePrincipalProfile?: ManagedClusterServicePrincipalProfile;
+  servicePrincipalProfile?: ManagedClusterServicePrincipalProfile | undefined;
   /** The profile of managed cluster add-on. */
-  addonProfiles?: ManagedClusterPropertiesAddonProfilesMap;
+  addonProfiles?: ManagedClusterPropertiesAddonProfilesMap | undefined;
   /** The pod identity profile of the Managed Cluster. See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on AAD pod identity integration. */
-  podIdentityProfile?: ManagedClusterPodIdentityProfile;
+  podIdentityProfile?: ManagedClusterPodIdentityProfile | undefined;
   /** The OIDC issuer profile of the Managed Cluster. */
-  oidcIssuerProfile?: ManagedClusterOIDCIssuerProfile;
+  oidcIssuerProfile?: ManagedClusterOIDCIssuerProfile | undefined;
   /** The name of the resource group containing agent pool nodes. */
-  nodeResourceGroup?: string;
+  nodeResourceGroup?: string | undefined;
   /** Profile of the node resource group configuration. */
-  nodeResourceGroupProfile?: ManagedClusterNodeResourceGroupProfile;
+  nodeResourceGroupProfile?: ManagedClusterNodeResourceGroupProfile | undefined;
   /** Whether to enable Kubernetes Role-Based Access Control. */
-  enableRBAC?: boolean;
+  enableRBAC?: boolean | undefined;
   /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
-  supportPlan?: KubernetesSupportPlan;
+  supportPlan?: KubernetesSupportPlan | undefined;
   /** Whether to enable FIPS mode at the cluster level. When enabled, this setting enforces FIPS compliance for all AKS-managed components, such as the node operating system, addons, and [managed containerized components](https://aka.ms/aks/components/docs). See [Enable cluster-wide FIPS](https://aka.ms/aks/fips) for more details. When this property is enabled, all node pools in the cluster must also be FIPS-enabled. Although this property is available in a stable API version, cluster-wide FIPS remains a preview feature. Write requests whose resulting cluster state has this property set to true require the `Microsoft.ContainerService/EnableFIPSPreview` subscription feature registration. */
-  enableFIPS?: boolean;
+  enableFIPS?: boolean | undefined;
   /** The network configuration profile. */
-  networkProfile?: ContainerServiceNetworkProfile;
+  networkProfile?: ContainerServiceNetworkProfile | undefined;
   /** The Azure Active Directory configuration. */
-  aadProfile?: ManagedClusterAADProfile;
+  aadProfile?: ManagedClusterAADProfile | undefined;
   /** The auto upgrade configuration. */
-  autoUpgradeProfile?: ManagedClusterAutoUpgradeProfile;
+  autoUpgradeProfile?: ManagedClusterAutoUpgradeProfile | undefined;
   /** Settings for upgrading a cluster. */
-  upgradeSettings?: ClusterUpgradeSettings;
+  upgradeSettings?: ClusterUpgradeSettings | undefined;
   /** Parameters to be applied to the cluster-autoscaler when enabled */
-  autoScalerProfile?: ManagedClusterPropertiesAutoScalerProfile;
+  autoScalerProfile?: ManagedClusterPropertiesAutoScalerProfile | undefined;
   /** The access profile for managed cluster API server. */
-  apiServerAccessProfile?: ManagedClusterAPIServerAccessProfile;
+  apiServerAccessProfile?: ManagedClusterAPIServerAccessProfile | undefined;
   /** The Resource ID of the disk encryption set to use for enabling encryption at rest. This is of the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{encryptionSetName}' */
-  diskEncryptionSetID?: string;
+  diskEncryptionSetID?: string | undefined;
   /** The user identity associated with the managed cluster. This identity will be used by the kubelet. Only one user assigned identity is allowed. The only accepted key is "kubeletidentity", with value of "resourceId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}". */
-  identityProfile?: ManagedClusterPropertiesIdentityProfileMap;
+  identityProfile?: ManagedClusterPropertiesIdentityProfileMap | undefined;
   /** Private link resources associated with the cluster. */
-  privateLinkResources?: ManagedClusterPropertiesPrivateLinkResourcesList;
+  privateLinkResources?: ManagedClusterPropertiesPrivateLinkResourcesList | undefined;
   /** If local accounts should be disabled on the Managed Cluster. If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled. For more details see [disable local accounts](https://docs.microsoft.com/azure/aks/managed-aad#disable-local-accounts-preview). */
-  disableLocalAccounts?: boolean;
+  disableLocalAccounts?: boolean | undefined;
   /** Configurations for provisioning the cluster with HTTP proxy servers. */
-  httpProxyConfig?: ManagedClusterHTTPProxyConfig;
+  httpProxyConfig?: ManagedClusterHTTPProxyConfig | undefined;
   /** Security profile for the managed cluster. */
-  securityProfile?: ManagedClusterSecurityProfile;
+  securityProfile?: ManagedClusterSecurityProfile | undefined;
   /** Storage profile for the managed cluster. */
-  storageProfile?: ManagedClusterStorageProfile;
+  storageProfile?: ManagedClusterStorageProfile | undefined;
   /** Ingress profile for the managed cluster. */
-  ingressProfile?: ManagedClusterIngressProfile;
+  ingressProfile?: ManagedClusterIngressProfile | undefined;
   /** PublicNetworkAccess of the managedCluster. Allow or deny public network access for AKS */
-  publicNetworkAccess?: PublicNetworkAccess;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
   /** Workload Auto-scaler profile for the managed cluster. */
-  workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
+  workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile | undefined;
   /** Azure Monitor addon profiles for monitoring the managed cluster. */
-  azureMonitorProfile?: ManagedClusterAzureMonitorProfile;
+  azureMonitorProfile?: ManagedClusterAzureMonitorProfile | undefined;
   /** Service mesh profile for a managed cluster. */
-  serviceMeshProfile?: ServiceMeshProfile;
+  serviceMeshProfile?: ServiceMeshProfile | undefined;
   /** The resourceUID uniquely identifies ManagedClusters that reuse ARM ResourceIds (i.e: create, delete, create sequence) */
-  resourceUID?: string;
+  resourceUID?: string | undefined;
   /** Optional cluster metrics configuration. */
-  metricsProfile?: ManagedClusterMetricsProfile;
+  metricsProfile?: ManagedClusterMetricsProfile | undefined;
   /** Node provisioning settings that apply to the whole cluster. */
-  nodeProvisioningProfile?: ManagedClusterNodeProvisioningProfile;
+  nodeProvisioningProfile?: ManagedClusterNodeProvisioningProfile | undefined;
   /** Profile of the cluster bootstrap configuration. */
-  bootstrapProfile?: ManagedClusterBootstrapProfile;
+  bootstrapProfile?: ManagedClusterBootstrapProfile | undefined;
   /** AI toolchain operator settings that apply to the whole cluster. */
-  aiToolchainOperatorProfile?: ManagedClusterAIToolchainOperatorProfile;
+  aiToolchainOperatorProfile?: ManagedClusterAIToolchainOperatorProfile | undefined;
   /** Profile with scheduler-related settings, like the configuration mode for each scheduler managed by AKS. See https://aka.ms/aks/scheduler-profile. */
-  schedulerProfile?: SchedulerProfile;
+  schedulerProfile?: SchedulerProfile | undefined;
   /** Settings for hosted system addons. For more information, see https://aka.ms/aks/automatic/systemcomponents. */
-  hostedSystemProfile?: ManagedClusterHostedSystemProfile;
+  hostedSystemProfile?: ManagedClusterHostedSystemProfile | undefined;
   /** Contains read-only information about the Managed Cluster. */
-  status?: ManagedClusterStatus;
+  status?: ManagedClusterStatus | undefined;
 }
 /** The name of a managed cluster SKU. */
 export type ManagedClusterSKUName = "Base" | "Automatic";
@@ -3556,31 +3596,31 @@ export type ManagedClusterSKUTier = "Premium" | "Standard" | "Free";
 /** The SKU of a Managed Cluster. */
 export interface ManagedClusterSKU {
   /** The name of a managed cluster SKU. */
-  name?: ManagedClusterSKUName | (string & {});
+  name?: ManagedClusterSKUName | (string & {}) | undefined;
   /** The tier of a managed cluster SKU. If not specified, the default is 'Free'. See [AKS Pricing Tier](https://learn.microsoft.com/azure/aks/free-standard-pricing-tiers) for more details. */
-  tier?: ManagedClusterSKUTier | (string & {});
+  tier?: ManagedClusterSKUTier | (string & {}) | undefined;
 }
 /** The type of extendedLocation. */
 export type ExtendedLocationTypes = "EdgeZone";
 /** The complex type of the extended location. */
 export interface ExtendedLocation {
   /** The name of the extended location. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the extended location. */
-  type?: ExtendedLocationTypes | (string & {});
+  type?: ExtendedLocationTypes | (string & {}) | undefined;
 }
 /** The type of identity used for the managed cluster. For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity). */
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 /** Delegated resource properties - internal use only. */
 export interface ManagedClusterIdentityDelegatedResourcesValue {
   /** The ARM resource id of the delegated resource - internal use only. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The tenant id of the delegated resource - internal use only. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The delegation id of the referral delegation (optional) - internal use only. */
-  referralResource?: string;
+  referralResource?: string | undefined;
   /** The source resource location - internal use only. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The delegated identity resources assigned to this managed cluster. This can only be set by another Azure Resource Provider, and managed cluster only accept one delegated identity resource. Internal use only. */
 export type ManagedClusterIdentityDelegatedResourcesMap = {
@@ -3589,9 +3629,9 @@ export type ManagedClusterIdentityDelegatedResourcesMap = {
 /** User assigned identity properties. */
 export interface ManagedServiceIdentityUserAssignedIdentitiesValue {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client id of user assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The user identity associated with the managed cluster. This identity will be used in control plane. Only one user assigned identity is allowed. The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type ManagedClusterIdentityUserAssignedIdentitiesMap = {
@@ -3600,41 +3640,41 @@ export type ManagedClusterIdentityUserAssignedIdentitiesMap = {
 /** Identity for the managed cluster. */
 export interface ManagedClusterIdentity {
   /** The principal id of the system assigned identity which is used by master components. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant id of the system assigned identity which is used by master components. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of identity used for the managed cluster. For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity). */
-  type?: ResourceIdentityType;
+  type?: ResourceIdentityType | undefined;
   /** The delegated identity resources assigned to this managed cluster. This can only be set by another Azure Resource Provider, and managed cluster only accept one delegated identity resource. Internal use only. */
-  delegatedResources?: ManagedClusterIdentityDelegatedResourcesMap;
+  delegatedResources?: ManagedClusterIdentityDelegatedResourcesMap | undefined;
   /** The user identity associated with the managed cluster. This identity will be used in control plane. Only one user assigned identity is allowed. The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: ManagedClusterIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ManagedClusterIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetManagedClusterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetManagedClusterResponseTagsMap;
+  tags?: GetManagedClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a managed cluster. */
-  properties?: ManagedClusterProperties;
+  properties?: ManagedClusterProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The managed cluster SKU. */
-  sku?: ManagedClusterSKU;
+  sku?: ManagedClusterSKU | undefined;
   /** The extended location of the Virtual Machine. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** The identity of the managed cluster, if configured. */
-  identity?: ManagedClusterIdentity;
+  identity?: ManagedClusterIdentity | undefined;
   /** This is primarily used to expose different UI experiences in the portal for different kinds */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface GetManagedClusterCommandResultRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3649,28 +3689,28 @@ export interface GetManagedClusterCommandResultRequest {
 /** The results of a run command */
 export interface CommandResultProperties {
   /** provisioning State */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The exit code of the command */
-  exitCode?: number;
+  exitCode?: number | undefined;
   /** The time when the command started. */
-  startedAt?: string;
+  startedAt?: string | undefined;
   /** The time when the command finished. */
-  finishedAt?: string;
+  finishedAt?: string | undefined;
   /** The command output. */
-  logs?: string;
+  logs?: string | undefined;
   /** An explanation of why provisioningState is set to failed (if so). */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** run command result. */
 export interface RunCommandResult {
   /** The command id. */
-  id?: string;
+  id?: string | undefined;
   /** Properties of command result. */
-  properties?: CommandResultProperties;
+  properties?: CommandResultProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetManagedClusterMeshRevisionProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3687,39 +3727,39 @@ export type CompatibleVersionsVersionsList = Array<string>;
 /** Version information about a product/service that is compatible with a service mesh revision. */
 export interface CompatibleVersions {
   /** The product/service name. */
-  name?: string;
+  name?: string | undefined;
   /** Product/service versions compatible with a service mesh add-on revision. */
-  versions?: CompatibleVersionsVersionsList;
+  versions?: CompatibleVersionsVersionsList | undefined;
 }
 /** List of items this revision of service mesh is compatible with, and their associated versions. */
 export type MeshRevisionCompatibleWithList = Array<CompatibleVersions>;
 /** Holds information on upgrades and compatibility for given major.minor mesh release. */
 export interface MeshRevision {
   /** The revision of the mesh release. */
-  revision?: string;
+  revision?: string | undefined;
   /** List of revisions available for upgrade of a specific mesh revision */
-  upgrades?: MeshRevisionUpgradesList;
+  upgrades?: MeshRevisionUpgradesList | undefined;
   /** List of items this revision of service mesh is compatible with, and their associated versions. */
-  compatibleWith?: MeshRevisionCompatibleWithList;
+  compatibleWith?: MeshRevisionCompatibleWithList | undefined;
 }
 /** Available mesh revisions. */
 export type MeshRevisionProfilePropertiesMeshRevisionsList = Array<MeshRevision>;
 /** Mesh revision profile properties for a mesh */
 export interface MeshRevisionProfileProperties {
   /** Available mesh revisions. */
-  meshRevisions?: MeshRevisionProfilePropertiesMeshRevisionsList;
+  meshRevisions?: MeshRevisionProfilePropertiesMeshRevisionsList | undefined;
 }
 export interface GetManagedClusterMeshRevisionProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Mesh revision profile properties for a mesh */
-  properties?: MeshRevisionProfileProperties;
+  properties?: MeshRevisionProfileProperties | undefined;
 }
 export interface GetManagedClusterMeshUpgradeProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3733,15 +3773,15 @@ export interface GetManagedClusterMeshUpgradeProfileRequest {
 }
 export interface GetManagedClusterMeshUpgradeProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Mesh upgrade profile properties for a major.minor release. */
-  properties?: MeshRevision;
+  properties?: MeshRevision | undefined;
 }
 export interface GetManagedClusterUpgradeProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3764,11 +3804,11 @@ export interface ManagedClusterPoolUpgradeProfile {
   /** The Kubernetes version (major.minor.patch). */
   kubernetesVersion: string;
   /** The Agent Pool name. */
-  name?: string;
+  name?: string | undefined;
   /** The operating system type. The default is Linux. */
   osType: ManagedClusterPoolUpgradeProfileOsType;
   /** List of orchestrator types and versions available for upgrade. */
-  upgrades?: ManagedClusterPoolUpgradeProfileUpgradesList;
+  upgrades?: ManagedClusterPoolUpgradeProfileUpgradesList | undefined;
 }
 /** The list of available upgrade versions for agent pools. */
 export type ManagedClusterUpgradeProfilePropertiesAgentPoolProfilesList =
@@ -3782,13 +3822,13 @@ export interface ManagedClusterUpgradeProfileProperties {
 }
 export interface GetManagedClusterUpgradeProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the upgrade profile. */
   properties: ManagedClusterUpgradeProfileProperties;
 }
@@ -3819,13 +3859,13 @@ export type NamespacePropertiesAnnotationsMap = { [key: string]: string | undefi
 /** Resource quota for the namespace. */
 export interface ResourceQuota {
   /** CPU request of the namespace in one-thousandth CPU form. See [CPU resource units](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu) for more details. */
-  cpuRequest?: string;
+  cpuRequest?: string | undefined;
   /** CPU limit of the namespace in one-thousandth CPU form. See [CPU resource units](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-cpu) for more details. */
-  cpuLimit?: string;
+  cpuLimit?: string | undefined;
   /** Memory request of the namespace in the power-of-two equivalents form: Ei, Pi, Ti, Gi, Mi, Ki. See [Memory resource units](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory) for more details. */
-  memoryRequest?: string;
+  memoryRequest?: string | undefined;
   /** Memory limit of the namespace in the power-of-two equivalents form: Ei, Pi, Ti, Gi, Mi, Ki. See [Memory resource units](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/#meaning-of-memory) for more details. */
-  memoryLimit?: string;
+  memoryLimit?: string | undefined;
 }
 /** Enum representing different network policy rules. */
 export type NetworkPoliciesIngress = "DenyAll" | "AllowAll" | "AllowSameNamespace";
@@ -3834,9 +3874,9 @@ export type NetworkPoliciesEgress = "DenyAll" | "AllowAll" | "AllowSameNamespace
 /** Default network policy of the namespace, specifying ingress and egress rules. */
 export interface NetworkPolicies {
   /** Enum representing different network policy rules. */
-  ingress?: NetworkPoliciesIngress | (string & {});
+  ingress?: NetworkPoliciesIngress | (string & {}) | undefined;
   /** Enum representing different network policy rules. */
-  egress?: NetworkPoliciesEgress | (string & {});
+  egress?: NetworkPoliciesEgress | (string & {}) | undefined;
 }
 /** Action if Kubernetes namespace with same name already exists. */
 export type AdoptionPolicy = "Never" | "IfIdentical" | "Always";
@@ -3845,39 +3885,39 @@ export type DeletePolicy = "Keep" | "Delete";
 /** Properties of a namespace managed by ARM */
 export interface NamespaceProperties {
   /** The current provisioning state of the namespace. */
-  provisioningState?: NamespaceProvisioningState;
+  provisioningState?: NamespaceProvisioningState | undefined;
   /** The labels of managed namespace. */
-  labels?: NamespacePropertiesLabelsMap;
+  labels?: NamespacePropertiesLabelsMap | undefined;
   /** The annotations of managed namespace. */
-  annotations?: NamespacePropertiesAnnotationsMap;
+  annotations?: NamespacePropertiesAnnotationsMap | undefined;
   /** The special FQDN used by the Azure Portal to access the Managed Cluster. This FQDN is for use only by the Azure Portal and should not be used by other clients. The Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some responses, which Kubernetes APIServer doesn't handle by default. This special FQDN supports CORS, allowing the Azure Portal to function properly. */
-  portalFqdn?: string;
+  portalFqdn?: string | undefined;
   /** The default resource quota enforced upon the namespace. Customers can have other Kubernetes resource quota objects under the namespace. Resource quotas are additive; if multiple resource quotas are applied to a given namespace, then the effective limit will be one such that all quotas on the namespace can be satisfied. */
-  defaultResourceQuota?: ResourceQuota;
+  defaultResourceQuota?: ResourceQuota | undefined;
   /** The default network policy enforced upon the namespace. Customers can have other Kubernetes network policy objects under the namespace. Network policies are additive; if a policy or policies apply to a given pod for a given direction, the connections allowed in that direction for the pod is the union of what all applicable policies allow. */
-  defaultNetworkPolicy?: NetworkPolicies;
+  defaultNetworkPolicy?: NetworkPolicies | undefined;
   /** Action if Kubernetes namespace with same name already exists. */
-  adoptionPolicy?: AdoptionPolicy;
+  adoptionPolicy?: AdoptionPolicy | undefined;
   /** Delete options of a namespace. */
-  deletePolicy?: DeletePolicy;
+  deletePolicy?: DeletePolicy | undefined;
 }
 export interface GetManagedNamespaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetManagedNamespaceResponseTagsMap;
+  tags?: GetManagedNamespaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a namespace. */
-  properties?: NamespaceProperties;
+  properties?: NamespaceProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3899,37 +3939,37 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Private endpoint which a connection belongs to. */
 export interface PrivateEndpoint {
   /** The resource ID of the private endpoint */
-  id?: string;
+  id?: string | undefined;
 }
 /** The private link service connection status. */
 export type ConnectionStatus = "Pending" | "Approved" | "Rejected" | "Disconnected";
 /** The state of a private link service connection. */
 export interface PrivateLinkServiceConnectionState {
   /** The private link service connection status. */
-  status?: ConnectionStatus | (string & {});
+  status?: ConnectionStatus | (string & {}) | undefined;
   /** The private link service connection description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** The current provisioning state. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
   /** The resource of private endpoint. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a private endpoint connection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetSnapshotRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3948,37 +3988,37 @@ export type SnapshotPropertiesOsType = "Linux" | "Windows";
 /** Properties used to configure a node pool snapshot. */
 export interface SnapshotProperties {
   /** CreationData to be used to specify the source agent pool resource ID to create this snapshot. */
-  creationData?: CreationData;
+  creationData?: CreationData | undefined;
   /** The type of a snapshot. The default is NodePool. */
-  snapshotType?: SnapshotPropertiesSnapshotType;
+  snapshotType?: SnapshotPropertiesSnapshotType | undefined;
   /** The version of Kubernetes. */
-  kubernetesVersion?: string;
+  kubernetesVersion?: string | undefined;
   /** The version of node image. */
-  nodeImageVersion?: string;
+  nodeImageVersion?: string | undefined;
   /** The operating system type. The default is Linux. */
-  osType?: SnapshotPropertiesOsType;
+  osType?: SnapshotPropertiesOsType | undefined;
   /** Specifies the OS SKU used by the agent pool. The default is Ubuntu if OSType is Linux. The default is Windows2019 when Kubernetes <= 1.24 or Windows2022 when Kubernetes >= 1.25 if OSType is Windows. */
-  osSku?: OSSKU;
+  osSku?: OSSKU | undefined;
   /** The size of the VM. */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** Whether to use a FIPS-enabled OS. */
-  enableFIPS?: boolean;
+  enableFIPS?: boolean | undefined;
 }
 export interface GetSnapshotResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSnapshotResponseTagsMap;
+  tags?: GetSnapshotResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a snapshot. */
-  properties?: SnapshotProperties;
+  properties?: SnapshotProperties | undefined;
 }
 export interface GetTrustedAccessRoleBindingRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4002,7 +4042,7 @@ export type TrustedAccessRoleBindingPropertiesRolesList = Array<string>;
 /** Properties for trusted access role binding */
 export interface TrustedAccessRoleBindingProperties {
   /** The current provisioning state of trusted access role binding. */
-  provisioningState?: TrustedAccessRoleBindingProvisioningState;
+  provisioningState?: TrustedAccessRoleBindingProvisioningState | undefined;
   /** The ARM resource ID of source resource that trusted access is configured for. */
   sourceResourceId: string;
   /** A list of roles to bind, each item is a resource type qualified role name. For example: 'Microsoft.MachineLearningServices/workspaces/reader'. */
@@ -4010,13 +4050,13 @@ export interface TrustedAccessRoleBindingProperties {
 }
 export interface GetTrustedAccessRoleBindingResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for trusted access role binding */
   properties: TrustedAccessRoleBindingProperties;
 }
@@ -4039,14 +4079,14 @@ export interface ManagedClusterUpgradeSpec {
   /** ManagedClusterUpgradeType is the type of upgrade to be applied. */
   type: ManagedClusterUpgradeType | (string & {});
   /** The Kubernetes version to upgrade the member clusters to. */
-  kubernetesVersion?: string;
+  kubernetesVersion?: string | undefined;
 }
 /** The node image upgrade type. */
 export type NodeImageSelectionType = "Latest" | "Consistent" | "Custom";
 /** The node upgrade image version. */
 export interface NodeImageVersion {
   /** The image version to upgrade the nodes to (e.g., 'AKSUbuntu-1804gen2containerd-2022.12.13'). */
-  version?: string;
+  version?: string | undefined;
 }
 /** Custom node image versions to upgrade the nodes to. This field is required if node image selection type is Custom. Otherwise, it must be empty. For each node image family (e.g., 'AKSUbuntu-1804gen2containerd'), this field can contain at most one version (e.g., only one of 'AKSUbuntu-1804gen2containerd-2023.01.12' or 'AKSUbuntu-1804gen2containerd-2023.02.12', not both). If the nodes belong to a family without a matching image version in this field, they are not upgraded. */
 export type NodeImageSelectionCustomNodeImageVersionsList = Array<NodeImageVersion>;
@@ -4055,14 +4095,14 @@ export interface NodeImageSelection {
   /** The node image upgrade type. */
   type: NodeImageSelectionType;
   /** Custom node image versions to upgrade the nodes to. This field is required if node image selection type is Custom. Otherwise, it must be empty. For each node image family (e.g., 'AKSUbuntu-1804gen2containerd'), this field can contain at most one version (e.g., only one of 'AKSUbuntu-1804gen2containerd-2023.01.12' or 'AKSUbuntu-1804gen2containerd-2023.02.12', not both). If the nodes belong to a family without a matching image version in this field, they are not upgraded. */
-  customNodeImageVersions?: NodeImageSelectionCustomNodeImageVersionsList;
+  customNodeImageVersions?: NodeImageSelectionCustomNodeImageVersionsList | undefined;
 }
 /** The update to be applied to the ManagedClusters. */
 export interface ManagedClusterUpdate {
   /** The upgrade to apply to the ManagedClusters. */
   upgrade: ManagedClusterUpgradeSpec;
   /** The node image upgrade to be applied to the target nodes in update run. */
-  nodeImageSelection?: NodeImageSelection;
+  nodeImageSelection?: NodeImageSelection | undefined;
 }
 /** The state of the UpdateRun, UpdateStage, UpdateGroup, or MemberUpdate. */
 export type UpdateState =
@@ -4081,50 +4121,50 @@ export type UpdateStatusErrorAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface UpdateStatusError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: UpdateStatusErrorDetailsList;
+  details?: UpdateStatusErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: UpdateStatusErrorAdditionalInfoList;
+  additionalInfo?: UpdateStatusErrorAdditionalInfoList | undefined;
 }
 /** The status for an operation or group of operations. */
 export interface UpdateStatus {
   /** The time the operation or group was started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The time the operation or group was completed. */
-  completedTime?: string;
+  completedTime?: string | undefined;
   /** The State of the operation or group. */
-  state?: UpdateState;
+  state?: UpdateState | undefined;
   /** The error detail. */
-  error?: UpdateStatusError;
+  error?: UpdateStatusError | undefined;
 }
 /** The status of a member update operation. */
 export interface MemberUpdateStatus {
   /** The status of the MemberUpdate operation. */
-  status?: UpdateStatus;
+  status?: UpdateStatus | undefined;
   /** The name of the FleetMember. */
-  name?: string;
+  name?: string | undefined;
   /** The Azure resource id of the target Kubernetes cluster. */
-  clusterResourceId?: string;
+  clusterResourceId?: string | undefined;
   /** The operation resource id of the latest attempt to perform the operation. */
-  operationId?: string;
+  operationId?: string | undefined;
   /** The status message after processing the member update operation. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The list of member this UpdateGroup updates. */
 export type UpdateGroupStatusMembersList = Array<MemberUpdateStatus>;
 /** The status of the Gate, as represented in the Update Run. */
 export interface UpdateRunGateStatus {
   /** The human-readable display name of the Gate. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The resource id of the Gate. */
-  gateId?: string;
+  gateId?: string | undefined;
   /** The status of the Gate. */
-  status?: UpdateStatus;
+  status?: UpdateStatus | undefined;
 }
 /** The list of Gates that will run before this UpdateGroup. */
 export type UpdateGroupStatusBeforeGatesList = Array<UpdateRunGateStatus>;
@@ -4133,17 +4173,17 @@ export type UpdateGroupStatusAfterGatesList = Array<UpdateRunGateStatus>;
 /** The status of a UpdateGroup. */
 export interface UpdateGroupStatus {
   /** The status of the UpdateGroup. */
-  status?: UpdateStatus;
+  status?: UpdateStatus | undefined;
   /** The name of the UpdateGroup. */
-  name?: string;
+  name?: string | undefined;
   /** The max number of upgrades that can run concurrently in this group, resolved from the UpdateStrategy.UpdateGroup.maxConcurrency value. If no value was provided, this value defaults to "1". */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** The list of member this UpdateGroup updates. */
-  members?: UpdateGroupStatusMembersList;
+  members?: UpdateGroupStatusMembersList | undefined;
   /** The list of Gates that will run before this UpdateGroup. */
-  beforeGates?: UpdateGroupStatusBeforeGatesList;
+  beforeGates?: UpdateGroupStatusBeforeGatesList | undefined;
   /** The list of Gates that will run after this UpdateGroup. */
-  afterGates?: UpdateGroupStatusAfterGatesList;
+  afterGates?: UpdateGroupStatusAfterGatesList | undefined;
 }
 /** The list of groups to be updated as part of this UpdateStage. */
 export type UpdateStageStatusGroupsList = Array<UpdateGroupStatus>;
@@ -4154,26 +4194,26 @@ export type UpdateStageStatusAfterGatesList = Array<UpdateRunGateStatus>;
 /** The status of the wait duration. */
 export interface WaitStatus {
   /** The status of the wait duration. */
-  status?: UpdateStatus;
+  status?: UpdateStatus | undefined;
   /** The wait duration configured in seconds. */
-  waitDurationInSeconds?: number;
+  waitDurationInSeconds?: number | undefined;
 }
 /** The status of a UpdateStage. */
 export interface UpdateStageStatus {
   /** The status of the UpdateStage. */
-  status?: UpdateStatus;
+  status?: UpdateStatus | undefined;
   /** The name of the UpdateStage. */
-  name?: string;
+  name?: string | undefined;
   /** The max number of upgrades that can run concurrently across all groups in this stage, resolved from the UpdateStrategy.UpdateStage.maxConcurrency value. */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** The list of groups to be updated as part of this UpdateStage. */
-  groups?: UpdateStageStatusGroupsList;
+  groups?: UpdateStageStatusGroupsList | undefined;
   /** The list of Gates that will run before this UpdateStage. */
-  beforeGates?: UpdateStageStatusBeforeGatesList;
+  beforeGates?: UpdateStageStatusBeforeGatesList | undefined;
   /** The list of Gates that will run after this UpdateStage. */
-  afterGates?: UpdateStageStatusAfterGatesList;
+  afterGates?: UpdateStageStatusAfterGatesList | undefined;
   /** The status of the wait period configured on the UpdateStage. */
-  afterStageWaitStatus?: WaitStatus;
+  afterStageWaitStatus?: WaitStatus | undefined;
 }
 /** The stages composing an update run. Stages are run sequentially withing an UpdateRun. */
 export type UpdateRunStatusStagesList = Array<UpdateStageStatus>;
@@ -4182,45 +4222,45 @@ export type NodeImageSelectionStatusSelectedNodeImageVersionsList = Array<NodeIm
 /** The node image upgrade specs for the update run. */
 export interface NodeImageSelectionStatus {
   /** The image versions to upgrade the nodes to. */
-  selectedNodeImageVersions?: NodeImageSelectionStatusSelectedNodeImageVersionsList;
+  selectedNodeImageVersions?: NodeImageSelectionStatusSelectedNodeImageVersionsList | undefined;
 }
 /** The status of a UpdateRun. */
 export interface UpdateRunStatus {
   /** The status of the UpdateRun. */
-  status?: UpdateStatus;
+  status?: UpdateStatus | undefined;
   /** The stages composing an update run. Stages are run sequentially withing an UpdateRun. */
-  stages?: UpdateRunStatusStagesList;
+  stages?: UpdateRunStatusStagesList | undefined;
   /** The node image upgrade specs for the update run. It is only set in update run when `NodeImageSelection.type` is `Consistent`. */
-  nodeImageSelection?: NodeImageSelectionStatus;
+  nodeImageSelection?: NodeImageSelectionStatus | undefined;
 }
 /** The properties of the UpdateRun. */
 export interface UpdateRunProperties {
   /** The provisioning state of the UpdateRun resource. */
-  provisioningState?: UpdateRunProvisioningState;
+  provisioningState?: UpdateRunProvisioningState | undefined;
   /** The resource id of the FleetUpdateStrategy resource to reference. When creating a new run, there are three ways to define a strategy for the run: 1. Define a new strategy in place: Set the "strategy" field. 2. Use an existing strategy: Set the "updateStrategyId" field. (since 2023-08-15-preview) 3. Use the default strategy to update all the members one by one: Leave both "updateStrategyId" and "strategy" unset. (since 2023-08-15-preview) Setting both "updateStrategyId" and "strategy" is invalid. UpdateRuns created by "updateStrategyId" snapshot the referenced UpdateStrategy at the time of creation and store it in the "strategy" field. Subsequent changes to the referenced FleetUpdateStrategy resource do not propagate. UpdateRunStrategy changes can be made directly on the "strategy" field before launching the UpdateRun. */
-  updateStrategyId?: string;
+  updateStrategyId?: string | undefined;
   /** The strategy defines the order in which the clusters will be updated. If not set, all members will be updated sequentially. The UpdateRun status will show a single UpdateStage and a single UpdateGroup targeting all members. The strategy of the UpdateRun can be modified until the run is started. */
-  strategy?: UpdateRunStrategy;
+  strategy?: UpdateRunStrategy | undefined;
   /** The update to be applied to all clusters in the UpdateRun. The managedClusterUpdate can be modified until the run is started. */
   managedClusterUpdate: ManagedClusterUpdate;
   /** The status of the UpdateRun. */
-  status?: UpdateRunStatus;
+  status?: UpdateRunStatus | undefined;
   /** AutoUpgradeProfileId is the id of an auto upgrade profile resource. */
-  autoUpgradeProfileId?: string;
+  autoUpgradeProfileId?: string | undefined;
 }
 export interface GetUpdateRunResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: UpdateRunProperties;
+  properties?: UpdateRunProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Managed identity profile for the identity binding. */
 export interface IdentityBindingManagedIdentityProfileInput {
@@ -4242,27 +4282,27 @@ export interface IdentityBindingsCreateOrUpdateRequest {
   /** The name of the identity binding. */
   identityBindingName: string;
   /** The resource-specific properties for this resource. */
-  properties?: IdentityBindingPropertiesInput;
+  properties?: IdentityBindingPropertiesInput | undefined;
 }
 export interface IdentityBindingsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: IdentityBindingProperties;
+  properties?: IdentityBindingProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListAgentPoolsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4275,15 +4315,15 @@ export interface ListAgentPoolsRequest {
 /** Agent Pool. */
 export interface AgentPool {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an agent pool. */
-  properties?: ManagedClusterAgentPoolProfileProperties;
+  properties?: ManagedClusterAgentPoolProfileProperties | undefined;
 }
 /** The AgentPool items on this page */
 export type AgentPoolListResultValueList = Array<AgentPool>;
@@ -4292,7 +4332,7 @@ export interface AgentPoolListResult {
   /** The AgentPool items on this page */
   value: AgentPoolListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAutoUpgradeProfileByFleetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4302,24 +4342,24 @@ export interface ListAutoUpgradeProfileByFleetRequest {
   /** The name of the Fleet resource. */
   fleetName: string;
   /** The number of result items to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** The page-continuation token to use with a paged version of this API. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** The AutoUpgradeProfile resource. */
 export interface AutoUpgradeProfile {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AutoUpgradeProfileProperties;
+  properties?: AutoUpgradeProfileProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The AutoUpgradeProfile items on this page */
 export type AutoUpgradeProfileListResultValueList = Array<AutoUpgradeProfile>;
@@ -4328,7 +4368,7 @@ export interface AutoUpgradeProfileListResult {
   /** The AutoUpgradeProfile items on this page */
   value: AutoUpgradeProfileListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentSafeguardsRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -4337,17 +4377,17 @@ export interface ListDeploymentSafeguardsRequest {
 /** Deployment Safeguards */
 export interface DeploymentSafeguard {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentSafeguardsProperties;
+  properties?: DeploymentSafeguardsProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The DeploymentSafeguard items on this page */
 export type DeploymentSafeguardListResultValueList = Array<DeploymentSafeguard>;
@@ -4356,7 +4396,7 @@ export interface DeploymentSafeguardListResult {
   /** The DeploymentSafeguard items on this page */
   value: DeploymentSafeguardListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFleetByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4371,23 +4411,23 @@ export type FleetIdentity = FleetsCreateOrUpdateResponseIdentity;
 /** The Fleet resource. */
 export interface Fleet {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: FleetTagsMap;
+  tags?: FleetTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FleetProperties;
+  properties?: FleetProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: FleetsCreateOrUpdateResponseIdentity;
+  identity?: FleetsCreateOrUpdateResponseIdentity | undefined;
 }
 /** The Fleet items on this page */
 export type FleetListResultValueList = Array<Fleet>;
@@ -4396,15 +4436,15 @@ export interface FleetListResult {
   /** The Fleet items on this page */
   value: FleetListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFleetBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The number of result items to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** The page-continuation token to use with a paged version of this API. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListFleetCredentialsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4417,16 +4457,16 @@ export interface ListFleetCredentialsRequest {
 /** One credential result item. */
 export interface FleetCredentialResult {
   /** The name of the credential. */
-  name?: string;
+  name?: string | undefined;
   /** Base64-encoded Kubernetes configuration file. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Array of base64-encoded Kubernetes configuration files. */
 export type FleetCredentialResultsKubeconfigsList = Array<FleetCredentialResult>;
 /** The Credential results response. */
 export interface FleetCredentialResults {
   /** Array of base64-encoded Kubernetes configuration files. */
-  kubeconfigs?: FleetCredentialResultsKubeconfigsList;
+  kubeconfigs?: FleetCredentialResultsKubeconfigsList | undefined;
 }
 export interface ListFleetManagedNamespaceByFleetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4441,21 +4481,21 @@ export type FleetManagedNamespaceTagsMap = { [key: string]: string | undefined }
 /** A fleet managed namespace. */
 export interface FleetManagedNamespace {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: FleetManagedNamespaceTagsMap;
+  tags?: FleetManagedNamespaceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FleetManagedNamespaceProperties;
+  properties?: FleetManagedNamespaceProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The FleetManagedNamespace items on this page */
 export type FleetManagedNamespaceListResultValueList = Array<FleetManagedNamespace>;
@@ -4464,7 +4504,7 @@ export interface FleetManagedNamespaceListResult {
   /** The FleetManagedNamespace items on this page */
   value: FleetManagedNamespaceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFleetMemberByFleetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4474,26 +4514,26 @@ export interface ListFleetMemberByFleetRequest {
   /** The name of the Fleet resource. */
   fleetName: string;
   /** The number of result items to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** The page-continuation token to use with a paged version of this API. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
   /** Filter the result list using the given expression. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** A member of the Fleet. It contains a reference to an existing Kubernetes cluster on Azure. */
 export interface FleetMember {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FleetMemberProperties;
+  properties?: FleetMemberProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The FleetMember items on this page */
 export type FleetMemberListResultValueList = Array<FleetMember>;
@@ -4502,7 +4542,7 @@ export interface FleetMemberListResult {
   /** The FleetMember items on this page */
   value: FleetMemberListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFleetUpdateStrategyByFleetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4512,24 +4552,24 @@ export interface ListFleetUpdateStrategyByFleetRequest {
   /** The name of the Fleet resource. */
   fleetName: string;
   /** The number of result items to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** The page-continuation token to use with a paged version of this API. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Defines a multi-stage process to perform update operations across members of a Fleet. */
 export interface FleetUpdateStrategy {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FleetUpdateStrategyProperties;
+  properties?: FleetUpdateStrategyProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The FleetUpdateStrategy items on this page */
 export type FleetUpdateStrategyListResultValueList = Array<FleetUpdateStrategy>;
@@ -4538,7 +4578,7 @@ export interface FleetUpdateStrategyListResult {
   /** The FleetUpdateStrategy items on this page */
   value: FleetUpdateStrategyListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListGateByFleetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4548,26 +4588,26 @@ export interface ListGateByFleetRequest {
   /** The name of the Fleet resource. */
   fleetName: string;
   /** Filter the result list using the given expression. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of result items to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** The page-continuation token to use with a paged version of this API. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** A Gate controls the progression during a staged rollout, e.g. in an Update Run. */
 export interface Gate {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: GateProperties;
+  properties?: GateProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The Gate items on this page */
 export type GateListResultValueList = Array<Gate>;
@@ -4576,7 +4616,7 @@ export interface GateListResult {
   /** The Gate items on this page */
   value: GateListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIdentityBindingByManagedClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4589,17 +4629,17 @@ export interface ListIdentityBindingByManagedClusterRequest {
 /** The IdentityBinding resource. */
 export interface IdentityBinding {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: IdentityBindingProperties;
+  properties?: IdentityBindingProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The IdentityBinding items on this page */
 export type IdentityBindingListResultValueList = Array<IdentityBinding>;
@@ -4608,7 +4648,7 @@ export interface IdentityBindingListResult {
   /** The IdentityBinding items on this page */
   value: IdentityBindingListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMachinesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4625,17 +4665,17 @@ export type MachineZonesList = Array<string>;
 /** A machine. Contains details about the underlying virtual machine. A machine may be visible here but not in kubectl get nodes; if so it may be because the machine has not been registered with the Kubernetes API Server yet. */
 export interface Machine {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the machine */
-  properties?: MachineProperties;
+  properties?: MachineProperties | undefined;
   /** The Availability zone in which machine is located. */
-  zones?: MachineZonesList;
+  zones?: MachineZonesList | undefined;
 }
 /** The Machine items on this page */
 export type MachineListResultValueList = Array<Machine>;
@@ -4644,7 +4684,7 @@ export interface MachineListResult {
   /** The Machine items on this page */
   value: MachineListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMaintenanceConfigurationByManagedClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4657,15 +4697,15 @@ export interface ListMaintenanceConfigurationByManagedClusterRequest {
 /** Planned maintenance configuration, used to configure when updates can be deployed to a Managed Cluster. See [planned maintenance](https://docs.microsoft.com/azure/aks/planned-maintenance) for more information about planned maintenance. */
 export interface MaintenanceConfiguration {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a default maintenance configuration. */
-  properties?: MaintenanceConfigurationProperties;
+  properties?: MaintenanceConfigurationProperties | undefined;
 }
 /** The MaintenanceConfiguration items on this page */
 export type MaintenanceConfigurationListResultValueList = Array<MaintenanceConfiguration>;
@@ -4674,7 +4714,7 @@ export interface MaintenanceConfigurationListResult {
   /** The MaintenanceConfiguration items on this page */
   value: MaintenanceConfigurationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedClusterByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4687,29 +4727,29 @@ export type ManagedClusterTagsMap = { [key: string]: string | undefined };
 /** Managed cluster. */
 export interface ManagedCluster {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ManagedClusterTagsMap;
+  tags?: ManagedClusterTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a managed cluster. */
-  properties?: ManagedClusterProperties;
+  properties?: ManagedClusterProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The managed cluster SKU. */
-  sku?: ManagedClusterSKU;
+  sku?: ManagedClusterSKU | undefined;
   /** The extended location of the Virtual Machine. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** The identity of the managed cluster, if configured. */
-  identity?: ManagedClusterIdentity;
+  identity?: ManagedClusterIdentity | undefined;
   /** This is primarily used to expose different UI experiences in the portal for different kinds */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The ManagedCluster items on this page */
 export type ManagedClusterListResultValueList = Array<ManagedCluster>;
@@ -4718,7 +4758,7 @@ export interface ManagedClusterListResult {
   /** The ManagedCluster items on this page */
   value: ManagedClusterListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedClusterClusterAdminCredentialsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4728,7 +4768,7 @@ export interface ListManagedClusterClusterAdminCredentialsRequest {
   /** The name of the managed cluster resource. */
   resourceName: string;
   /** server fqdn type for credentials to be returned */
-  server_fqdn?: string;
+  server_fqdn?: string | undefined;
 }
 /** The credential result response. */
 export type CredentialResult = FleetCredentialResult;
@@ -4737,7 +4777,7 @@ export type CredentialResultsKubeconfigsList = Array<FleetCredentialResult>;
 /** The list credential result response. */
 export interface CredentialResults {
   /** Base64-encoded Kubernetes configuration file. */
-  kubeconfigs?: CredentialResultsKubeconfigsList;
+  kubeconfigs?: CredentialResultsKubeconfigsList | undefined;
 }
 export interface ListManagedClusterClusterMonitoringUserCredentialsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4747,7 +4787,7 @@ export interface ListManagedClusterClusterMonitoringUserCredentialsRequest {
   /** The name of the managed cluster resource. */
   resourceName: string;
   /** server fqdn type for credentials to be returned */
-  server_fqdn?: string;
+  server_fqdn?: string | undefined;
 }
 export type ListManagedClusterClusterUserCredentialsRequestFormat = "azure" | "exec";
 export interface ListManagedClusterClusterUserCredentialsRequest {
@@ -4758,9 +4798,9 @@ export interface ListManagedClusterClusterUserCredentialsRequest {
   /** The name of the managed cluster resource. */
   resourceName: string;
   /** server fqdn type for credentials to be returned */
-  server_fqdn?: string;
+  server_fqdn?: string | undefined;
   /** Only apply to AAD clusters, specifies the format of returned kubeconfig. Format 'azure' will return azure auth-provider kubeconfig; format 'exec' will return exec format kubeconfig, which requires kubelogin binary in the path. */
-  format?: ListManagedClusterClusterUserCredentialsRequestFormat | (string & {});
+  format?: ListManagedClusterClusterUserCredentialsRequestFormat | (string & {}) | undefined;
 }
 export interface ListManagedClusterKubernetesVersionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4773,14 +4813,14 @@ export type KubernetesVersionCapabilitiesSupportPlanList = Array<KubernetesSuppo
 /** Capabilities on this Kubernetes version. */
 export interface KubernetesVersionCapabilities {
   /** Kubernetes support plans available for this version. */
-  supportPlan?: KubernetesVersionCapabilitiesSupportPlanList;
+  supportPlan?: KubernetesVersionCapabilitiesSupportPlanList | undefined;
 }
 /** Possible upgrade path for given patch version */
 export type KubernetesPatchVersionUpgradesList = Array<string>;
 /** Kubernetes patch version profile */
 export interface KubernetesPatchVersion {
   /** Possible upgrade path for given patch version */
-  upgrades?: KubernetesPatchVersionUpgradesList;
+  upgrades?: KubernetesPatchVersionUpgradesList | undefined;
 }
 /** Patch versions of Kubernetes release */
 export type KubernetesVersionPatchVersionsMap = {
@@ -4789,22 +4829,22 @@ export type KubernetesVersionPatchVersionsMap = {
 /** Kubernetes version profile for given major.minor release. */
 export interface KubernetesVersion {
   /** major.minor version of Kubernetes release */
-  version?: string;
+  version?: string | undefined;
   /** Capabilities on this Kubernetes version. */
-  capabilities?: KubernetesVersionCapabilities;
+  capabilities?: KubernetesVersionCapabilities | undefined;
   /** Whether this version is default. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Whether this version is in preview mode. */
-  isPreview?: boolean;
+  isPreview?: boolean | undefined;
   /** Patch versions of Kubernetes release */
-  patchVersions?: KubernetesVersionPatchVersionsMap;
+  patchVersions?: KubernetesVersionPatchVersionsMap | undefined;
 }
 /** Array of AKS supported Kubernetes versions. */
 export type KubernetesVersionListResultValuesList = Array<KubernetesVersion>;
 /** Hold values properties, which is array of KubernetesVersion */
 export interface KubernetesVersionListResult {
   /** Array of AKS supported Kubernetes versions. */
-  values?: KubernetesVersionListResultValuesList;
+  values?: KubernetesVersionListResultValuesList | undefined;
 }
 export interface ListManagedClusterMeshRevisionProfilesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4815,15 +4855,15 @@ export interface ListManagedClusterMeshRevisionProfilesRequest {
 /** Mesh revision profile for a mesh. */
 export interface MeshRevisionProfile {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Mesh revision profile properties for a mesh */
-  properties?: MeshRevisionProfileProperties;
+  properties?: MeshRevisionProfileProperties | undefined;
 }
 /** The MeshRevisionProfile items on this page */
 export type MeshRevisionProfileListValueList = Array<MeshRevisionProfile>;
@@ -4832,7 +4872,7 @@ export interface MeshRevisionProfileList {
   /** The MeshRevisionProfile items on this page */
   value: MeshRevisionProfileListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedClusterMeshUpgradeProfilesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4845,15 +4885,15 @@ export interface ListManagedClusterMeshUpgradeProfilesRequest {
 /** Upgrade profile for given mesh. */
 export interface MeshUpgradeProfile {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Mesh upgrade profile properties for a major.minor release. */
-  properties?: MeshRevision;
+  properties?: MeshRevision | undefined;
 }
 /** The MeshUpgradeProfile items on this page */
 export type MeshUpgradeProfileListValueList = Array<MeshUpgradeProfile>;
@@ -4862,7 +4902,7 @@ export interface MeshUpgradeProfileList {
   /** The MeshUpgradeProfile items on this page */
   value: MeshUpgradeProfileListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedClusterOutboundNetworkDependenciesEndpointsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4875,31 +4915,31 @@ export interface ListManagedClusterOutboundNetworkDependenciesEndpointsRequest {
 /** connect information from the AKS agent nodes to a single endpoint. */
 export interface EndpointDetail {
   /** An IP Address that Domain Name currently resolves to. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** The port an endpoint is connected to. */
-  port?: number;
+  port?: number | undefined;
   /** The protocol used for connection */
-  protocol?: string;
+  protocol?: string | undefined;
   /** Description of the detail */
-  description?: string;
+  description?: string | undefined;
 }
 /** The Ports and Protocols used when connecting to domainName. */
 export type EndpointDependencyEndpointDetailsList = Array<EndpointDetail>;
 /** A domain name that AKS agent nodes are reaching at. */
 export interface EndpointDependency {
   /** The domain name of the dependency. */
-  domainName?: string;
+  domainName?: string | undefined;
   /** The Ports and Protocols used when connecting to domainName. */
-  endpointDetails?: EndpointDependencyEndpointDetailsList;
+  endpointDetails?: EndpointDependencyEndpointDetailsList | undefined;
 }
 /** The endpoints that AKS agent nodes connect to */
 export type OutboundEnvironmentEndpointEndpointsList = Array<EndpointDependency>;
 /** Egress endpoints which AKS agent nodes connect to for common purpose. */
 export interface OutboundEnvironmentEndpoint {
   /** The category of endpoints accessed by the AKS agent node, e.g. azure-resource-management, apiserver, etc. */
-  category?: string;
+  category?: string | undefined;
   /** The endpoints that AKS agent nodes connect to */
-  endpoints?: OutboundEnvironmentEndpointEndpointsList;
+  endpoints?: OutboundEnvironmentEndpointEndpointsList | undefined;
 }
 /** The OutboundEnvironmentEndpoint items on this page */
 export type OutboundEnvironmentEndpointCollectionValueList = Array<OutboundEnvironmentEndpoint>;
@@ -4908,7 +4948,7 @@ export interface OutboundEnvironmentEndpointCollection {
   /** The OutboundEnvironmentEndpoint items on this page */
   value: OutboundEnvironmentEndpointCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedClustersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4927,21 +4967,21 @@ export type ManagedNamespaceTagsMap = { [key: string]: string | undefined };
 /** Namespace managed by ARM. */
 export interface ManagedNamespace {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ManagedNamespaceTagsMap;
+  tags?: ManagedNamespaceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a namespace. */
-  properties?: NamespaceProperties;
+  properties?: NamespaceProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The ManagedNamespace items on this page */
 export type ManagedNamespaceListResultValueList = Array<ManagedNamespace>;
@@ -4950,7 +4990,7 @@ export interface ManagedNamespaceListResult {
   /** The ManagedNamespace items on this page */
   value: ManagedNamespaceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedNamespaceCredentialRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4966,22 +5006,22 @@ export interface ListOperationsRequest {}
 /** Describes the properties of a Operation Value Display. */
 export interface OperationValueDisplay {
   /** The display name of the operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** The display name of the resource the operation applies to. */
-  resource?: string;
+  resource?: string | undefined;
   /** The description of the operation. */
-  description?: string;
+  description?: string | undefined;
   /** The resource provider for the operation. */
-  provider?: string;
+  provider?: string | undefined;
 }
 /** Describes the properties of a Operation value. */
 export interface OperationValue {
   /** The origin of the operation. */
-  origin?: string;
+  origin?: string | undefined;
   /** The name of the operation. */
-  name?: string;
+  name?: string | undefined;
   /** Describes the properties of a Operation Value Display. */
-  display?: OperationValueDisplay;
+  display?: OperationValueDisplay | undefined;
 }
 /** The list of operations */
 export type OperationListResultValueList = Array<OperationValue>;
@@ -4990,7 +5030,7 @@ export interface OperationListResult {
   /** The list of operations */
   value: OperationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5003,22 +5043,22 @@ export interface ListPrivateEndpointConnectionsRequest {
 /** A private endpoint connection */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a private endpoint connection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** The collection value. */
 export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpointConnection>;
 /** A list of private endpoint connections */
 export interface PrivateEndpointConnectionListResult {
   /** The collection value. */
-  value?: PrivateEndpointConnectionListResultValueList;
+  value?: PrivateEndpointConnectionListResultValueList | undefined;
 }
 export interface ListPrivateLinkResourcesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5033,7 +5073,7 @@ export type PrivateLinkResourcesListResultValueList = Array<PrivateLinkResource>
 /** A list of private link resources */
 export interface PrivateLinkResourcesListResult {
   /** The collection value. */
-  value?: PrivateLinkResourcesListResultValueList;
+  value?: PrivateLinkResourcesListResultValueList | undefined;
 }
 export interface ListSnapshotByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5046,19 +5086,19 @@ export type SnapshotTagsMap = { [key: string]: string | undefined };
 /** A node pool snapshot resource. */
 export interface Snapshot {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SnapshotTagsMap;
+  tags?: SnapshotTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a snapshot. */
-  properties?: SnapshotProperties;
+  properties?: SnapshotProperties | undefined;
 }
 /** The Snapshot items on this page */
 export type SnapshotListResultValueList = Array<Snapshot>;
@@ -5067,7 +5107,7 @@ export interface SnapshotListResult {
   /** The Snapshot items on this page */
   value: SnapshotListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSnapshotsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5084,13 +5124,13 @@ export interface ListTrustedAccessRoleBindingsRequest {
 /** Defines binding between a resource and role */
 export interface TrustedAccessRoleBinding {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for trusted access role binding */
   properties: TrustedAccessRoleBindingProperties;
 }
@@ -5101,7 +5141,7 @@ export interface TrustedAccessRoleBindingListResult {
   /** The TrustedAccessRoleBinding items on this page */
   value: TrustedAccessRoleBindingListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTrustedAccessRolesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5122,26 +5162,26 @@ export type TrustedAccessRoleRuleNonResourceURLsList = Array<string>;
 /** Rule for trusted access role */
 export interface TrustedAccessRoleRule {
   /** List of allowed verbs */
-  verbs?: TrustedAccessRoleRuleVerbsList;
+  verbs?: TrustedAccessRoleRuleVerbsList | undefined;
   /** List of allowed apiGroups */
-  apiGroups?: TrustedAccessRoleRuleApiGroupsList;
+  apiGroups?: TrustedAccessRoleRuleApiGroupsList | undefined;
   /** List of allowed resources */
-  resources?: TrustedAccessRoleRuleResourcesList;
+  resources?: TrustedAccessRoleRuleResourcesList | undefined;
   /** List of allowed names */
-  resourceNames?: TrustedAccessRoleRuleResourceNamesList;
+  resourceNames?: TrustedAccessRoleRuleResourceNamesList | undefined;
   /** List of allowed nonResourceURLs */
-  nonResourceURLs?: TrustedAccessRoleRuleNonResourceURLsList;
+  nonResourceURLs?: TrustedAccessRoleRuleNonResourceURLsList | undefined;
 }
 /** List of rules for the role. This maps to 'rules' property of [Kubernetes Cluster Role](https://kubernetes.io/docs/reference/kubernetes-api/authorization-resources/cluster-role-v1/#ClusterRole). */
 export type TrustedAccessRoleRulesList = Array<TrustedAccessRoleRule>;
 /** Trusted access role definition. */
 export interface TrustedAccessRole {
   /** Resource type of Azure resource */
-  sourceResourceType?: string;
+  sourceResourceType?: string | undefined;
   /** Name of role, name is unique under a source resource type */
-  name?: string;
+  name?: string | undefined;
   /** List of rules for the role. This maps to 'rules' property of [Kubernetes Cluster Role](https://kubernetes.io/docs/reference/kubernetes-api/authorization-resources/cluster-role-v1/#ClusterRole). */
-  rules?: TrustedAccessRoleRulesList;
+  rules?: TrustedAccessRoleRulesList | undefined;
 }
 /** The TrustedAccessRole items on this page */
 export type TrustedAccessRoleListResultValueList = Array<TrustedAccessRole>;
@@ -5150,7 +5190,7 @@ export interface TrustedAccessRoleListResult {
   /** The TrustedAccessRole items on this page */
   value: TrustedAccessRoleListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUpdateRunByFleetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5160,24 +5200,24 @@ export interface ListUpdateRunByFleetRequest {
   /** The name of the Fleet resource. */
   fleetName: string;
   /** The number of result items to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** The page-continuation token to use with a paged version of this API. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** A multi-stage process to perform update operations across members of a Fleet. */
 export interface UpdateRun {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: UpdateRunProperties;
+  properties?: UpdateRunProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** The UpdateRun items on this page */
 export type UpdateRunListResultValueList = Array<UpdateRun>;
@@ -5186,7 +5226,7 @@ export interface UpdateRunListResult {
   /** The UpdateRun items on this page */
   value: UpdateRunListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface MaintenanceConfigurationsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5198,19 +5238,19 @@ export interface MaintenanceConfigurationsCreateOrUpdateRequest {
   /** The name of the maintenance configuration. Supported values are 'default', 'aksManagedAutoUpgradeSchedule', or 'aksManagedNodeOSUpgradeSchedule'. */
   configName: string;
   /** Properties of a default maintenance configuration. */
-  properties?: MaintenanceConfigurationProperties;
+  properties?: MaintenanceConfigurationProperties | undefined;
 }
 export interface MaintenanceConfigurationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a default maintenance configuration. */
-  properties?: MaintenanceConfigurationProperties;
+  properties?: MaintenanceConfigurationProperties | undefined;
 }
 /** Resource tags. */
 export type ManagedClustersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5236,111 +5276,117 @@ export type ManagedClusterAgentPoolProfileInputVirtualMachineNodesStatusList =
 /** Profile for the container service agent pool. */
 export interface ManagedClusterAgentPoolProfileInput {
   /** Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1. */
-  count?: number;
+  count?: number | undefined;
   /** The size of the agent pool VMs. VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** OS Disk Size in GB to be used to specify the disk size for every machine in the master/agent pool. If you specify 0, it will apply the default osDisk size according to the vmSize specified. */
-  osDiskSizeGB?: number;
+  osDiskSizeGB?: number | undefined;
   /** The OS disk type to be used for machines in the agent pool. The default is 'Ephemeral' if the VM supports it and has a cache disk larger than the requested OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after creation. For more information see [Ephemeral OS](https://docs.microsoft.com/azure/aks/cluster-configuration#ephemeral-os). */
-  osDiskType?: OSDiskType | (string & {});
+  osDiskType?: OSDiskType | (string & {}) | undefined;
   /** Determines the placement of emptyDir volumes, container runtime data root, and Kubelet ephemeral storage. */
-  kubeletDiskType?: KubeletDiskType | (string & {});
+  kubeletDiskType?: KubeletDiskType | (string & {}) | undefined;
   /** Determines the type of workload a node can run. */
-  workloadRuntime?: WorkloadRuntime | (string & {});
+  workloadRuntime?: WorkloadRuntime | (string & {}) | undefined;
   /** Message of the day for Linux nodes, base64-encoded. A base64-encoded string which will be written to /etc/motd after decoding. This allows customization of the message of the day for Linux nodes. It must not be specified for Windows nodes. It must be a static string (i.e., will be printed raw and not be executed as a script). */
-  messageOfTheDay?: string;
+  messageOfTheDay?: string | undefined;
   /** The ID of the subnet which agent pool nodes and optionally pods will join on startup. If this is not specified, a VNET and subnet will be generated and used. If no podSubnetID is specified, this applies to nodes and pods, otherwise it applies to just nodes. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
-  vnetSubnetID?: string;
+  vnetSubnetID?: string | undefined;
   /** The ID of the subnet which pods will join when launched. If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
-  podSubnetID?: string;
+  podSubnetID?: string | undefined;
   /** Pod IP Allocation Mode. The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'. */
-  podIPAllocationMode?: PodIPAllocationMode | (string & {});
+  podIPAllocationMode?: PodIPAllocationMode | (string & {}) | undefined;
   /** The maximum number of pods that can run on a node. */
-  maxPods?: number;
+  maxPods?: number | undefined;
   /** The operating system type. The default is Linux. */
-  osType?: ManagedClusterAgentPoolProfileInputOsType | (string & {});
+  osType?: ManagedClusterAgentPoolProfileInputOsType | (string & {}) | undefined;
   /** Specifies the OS SKU used by the agent pool. The default is Ubuntu if OSType is Linux. The default is Windows2019 when Kubernetes <= 1.24 or Windows2022 when Kubernetes >= 1.25 if OSType is Windows. */
-  osSKU?: OSSKU | (string & {});
+  osSKU?: OSSKU | (string & {}) | undefined;
   /** The maximum number of nodes for auto-scaling */
-  maxCount?: number;
+  maxCount?: number | undefined;
   /** The minimum number of nodes for auto-scaling */
-  minCount?: number;
+  minCount?: number | undefined;
   /** Whether to enable auto-scaler */
-  enableAutoScaling?: boolean;
+  enableAutoScaling?: boolean | undefined;
   /** The scale down mode to use when scaling the Agent Pool. This also effects the cluster autoscaler behavior. If not specified, it defaults to Delete. */
-  scaleDownMode?: ScaleDownMode | (string & {});
+  scaleDownMode?: ScaleDownMode | (string & {}) | undefined;
   /** The type of Agent Pool. */
-  type?: AgentPoolType | (string & {});
+  type?: AgentPoolType | (string & {}) | undefined;
   /** The mode of an agent pool. A cluster must have at least one 'System' Agent Pool at all times. For additional information on agent pool restrictions and best practices, see: https://docs.microsoft.com/azure/aks/use-system-pools */
-  mode?: AgentPoolMode | (string & {});
+  mode?: AgentPoolMode | (string & {}) | undefined;
   /** The version of Kubernetes specified by the user. Both patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. As a best practice, you should upgrade all node pools in an AKS cluster to the same Kubernetes version. The node pool version must have the same major version as the control plane. The node pool minor version must be within two minor versions of the control plane version. The node pool version cannot be greater than the control plane version. For more information see [upgrading a node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool). */
-  orchestratorVersion?: string;
+  orchestratorVersion?: string | undefined;
   /** The version of the node image. Setting this value triggers an agentPool rollback. Only values from `recentlyUsedVersions` are allowed. */
-  nodeImageVersion?: string;
+  nodeImageVersion?: string | undefined;
   /** Settings for upgrading the agentpool */
-  upgradeSettings?: AgentPoolUpgradeSettings;
+  upgradeSettings?: AgentPoolUpgradeSettings | undefined;
   /** Whether the Agent Pool is running or stopped. When an Agent Pool is first created it is initially Running. The Agent Pool can be stopped by setting this field to Stopped. A stopped Agent Pool stops all of its VMs and does not accrue billing charges. An Agent Pool can only be stopped if it is Running and provisioning state is Succeeded */
-  powerState?: PowerState;
+  powerState?: PowerState | undefined;
   /** The list of Availability zones to use for nodes. This can only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'. */
-  availabilityZones?: ManagedClusterAgentPoolProfileInputAvailabilityZonesList;
+  availabilityZones?: ManagedClusterAgentPoolProfileInputAvailabilityZonesList | undefined;
   /** Whether each node is allocated its own public IP. Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false. */
-  enableNodePublicIP?: boolean;
+  enableNodePublicIP?: boolean | undefined;
   /** The public IP prefix ID which VM nodes should use IPs from. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName} */
-  nodePublicIPPrefixID?: string;
+  nodePublicIPPrefixID?: string | undefined;
   /** The Virtual Machine Scale Set priority. */
-  scaleSetPriority?: ManagedClusterAgentPoolProfileInputScaleSetPriority | (string & {});
+  scaleSetPriority?:
+    | ManagedClusterAgentPoolProfileInputScaleSetPriority
+    | (string & {})
+    | undefined;
   /** The Virtual Machine Scale Set eviction policy. The eviction policy specifies what to do with the VM when it is evicted. The default is Delete. For more information about eviction see [spot VMs](https://docs.microsoft.com/azure/virtual-machines/spot-vms) */
   scaleSetEvictionPolicy?:
     | ManagedClusterAgentPoolProfileInputScaleSetEvictionPolicy
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The max price (in US Dollars) you are willing to pay for spot instances. Possible values are any decimal value greater than zero or -1 which indicates default price to be up-to on-demand. Possible values are any decimal value greater than zero or -1 which indicates the willingness to pay any on-demand price. For more details on spot pricing, see [spot VMs pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing) */
-  spotMaxPrice?: number;
+  spotMaxPrice?: number | undefined;
   /** The tags to be persisted on the agent pool virtual machine scale set. */
-  tags?: ManagedClusterAgentPoolProfileInputTagsMap;
+  tags?: ManagedClusterAgentPoolProfileInputTagsMap | undefined;
   /** The node labels to be persisted across all nodes in agent pool. */
-  nodeLabels?: ManagedClusterAgentPoolProfileInputNodeLabelsMap;
+  nodeLabels?: ManagedClusterAgentPoolProfileInputNodeLabelsMap | undefined;
   /** The taints added to new nodes during node pool create and scale. For example, key=value:NoSchedule. */
-  nodeTaints?: ManagedClusterAgentPoolProfileInputNodeTaintsList;
+  nodeTaints?: ManagedClusterAgentPoolProfileInputNodeTaintsList | undefined;
   /** The ID for Proximity Placement Group. */
-  proximityPlacementGroupID?: string;
+  proximityPlacementGroupID?: string | undefined;
   /** The Kubelet configuration on the agent pool nodes. */
-  kubeletConfig?: KubeletConfig;
+  kubeletConfig?: KubeletConfig | undefined;
   /** The OS configuration of Linux agent nodes. */
-  linuxOSConfig?: LinuxOSConfig;
+  linuxOSConfig?: LinuxOSConfig | undefined;
   /** Whether to enable host based OS and data drive encryption. This is only supported on certain VM sizes and in certain Azure regions. For more information, see: https://docs.microsoft.com/azure/aks/enable-host-encryption */
-  enableEncryptionAtHost?: boolean;
+  enableEncryptionAtHost?: boolean | undefined;
   /** Whether to enable UltraSSD */
-  enableUltraSSD?: boolean;
+  enableUltraSSD?: boolean | undefined;
   /** Whether to use a FIPS-enabled OS. See [Add a FIPS-enabled node pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview) for more details. */
-  enableFIPS?: boolean;
+  enableFIPS?: boolean | undefined;
   /** GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU. */
-  gpuInstanceProfile?: GPUInstanceProfile | (string & {});
+  gpuInstanceProfile?: GPUInstanceProfile | (string & {}) | undefined;
   /** CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot. */
-  creationData?: CreationData;
+  creationData?: CreationData | undefined;
   /** The fully qualified resource ID of the Capacity Reservation Group to provide virtual machines from a reserved group of Virtual Machines. This is of the form: '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Compute/capacityreservationgroups/{capacityReservationGroupName}' Customers use it to create an agentpool with a specified CRG. For more information see [Capacity Reservation](https://learn.microsoft.com/en-us/azure/virtual-machines/capacity-reservation-overview) */
-  capacityReservationGroupID?: string;
+  capacityReservationGroupID?: string | undefined;
   /** The fully qualified resource ID of the Dedicated Host Group to provision virtual machines from, used only in creation scenario and not allowed to changed once set. This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}. For more information see [Azure dedicated hosts](https://docs.microsoft.com/azure/virtual-machines/dedicated-hosts). */
-  hostGroupID?: string;
+  hostGroupID?: string | undefined;
   /** Network-related settings of an agent pool. */
-  networkProfile?: AgentPoolNetworkProfile;
+  networkProfile?: AgentPoolNetworkProfile | undefined;
   /** The Windows agent pool's specific profile. */
-  windowsProfile?: AgentPoolWindowsProfile;
+  windowsProfile?: AgentPoolWindowsProfile | undefined;
   /** The security settings of an agent pool. */
-  securityProfile?: AgentPoolSecurityProfile;
+  securityProfile?: AgentPoolSecurityProfile | undefined;
   /** GPU settings for the Agent Pool. */
-  gpuProfile?: GPUProfile;
+  gpuProfile?: GPUProfile | undefined;
   /** Profile specific to a managed agent pool in Gateway mode. This field cannot be set if agent pool mode is not Gateway. */
-  gatewayProfile?: AgentPoolGatewayProfile;
+  gatewayProfile?: AgentPoolGatewayProfile | undefined;
   /** Configuration for using artifact streaming on AKS. */
-  artifactStreamingProfile?: AgentPoolArtifactStreamingProfile;
+  artifactStreamingProfile?: AgentPoolArtifactStreamingProfile | undefined;
   /** Specifications on VirtualMachines agent pool. */
-  virtualMachinesProfile?: VirtualMachinesProfile;
+  virtualMachinesProfile?: VirtualMachinesProfile | undefined;
   /** The status of nodes in a VirtualMachines agent pool. */
-  virtualMachineNodesStatus?: ManagedClusterAgentPoolProfileInputVirtualMachineNodesStatusList;
+  virtualMachineNodesStatus?:
+    | ManagedClusterAgentPoolProfileInputVirtualMachineNodesStatusList
+    | undefined;
   /** Contains read-only information about the Agent Pool. */
-  status?: AgentPoolStatusInput;
+  status?: AgentPoolStatusInput | undefined;
   /** Configures the per-node local DNS, with VnetDNS and KubeDNS overrides. LocalDNS helps improve performance and reliability of DNS resolution in an AKS cluster. For more details see aka.ms/aks/localdns. */
-  localDNSProfile?: LocalDNSProfile;
+  localDNSProfile?: LocalDNSProfile | undefined;
   /** Unique name of the agent pool profile in the context of the subscription and resource group. Windows agent pool names must be 6 characters or less. */
   name: string;
 }
@@ -5358,7 +5404,7 @@ export interface ManagedClusterPodIdentityInput {
   /** The namespace of the pod identity. */
   namespace: string;
   /** The binding selector to use for the AzureIdentityBinding resource. */
-  bindingSelector?: string;
+  bindingSelector?: string | undefined;
   /** The user assigned identity details. */
   identity: UserAssignedIdentity;
 }
@@ -5371,18 +5417,22 @@ export type ManagedClusterPodIdentityProfileInputUserAssignedIdentityExceptionsL
 /** The pod identity profile of the Managed Cluster. See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on pod identity integration. */
 export interface ManagedClusterPodIdentityProfileInput {
   /** Whether the pod identity addon is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Whether pod identity is allowed to run on clusters with Kubenet networking. Running in Kubenet is disabled by default due to the security related nature of AAD Pod Identity and the risks of IP spoofing. See [using Kubenet network plugin with AAD Pod Identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity#using-kubenet-network-plugin-with-azure-active-directory-pod-managed-identities) for more information. */
-  allowNetworkPluginKubenet?: boolean;
+  allowNetworkPluginKubenet?: boolean | undefined;
   /** The pod identities to use in the cluster. */
-  userAssignedIdentities?: ManagedClusterPodIdentityProfileInputUserAssignedIdentitiesList;
+  userAssignedIdentities?:
+    | ManagedClusterPodIdentityProfileInputUserAssignedIdentitiesList
+    | undefined;
   /** The pod identity exceptions to allow. */
-  userAssignedIdentityExceptions?: ManagedClusterPodIdentityProfileInputUserAssignedIdentityExceptionsList;
+  userAssignedIdentityExceptions?:
+    | ManagedClusterPodIdentityProfileInputUserAssignedIdentityExceptionsList
+    | undefined;
 }
 /** The OIDC issuer profile of the Managed Cluster. */
 export interface ManagedClusterOIDCIssuerProfileInput {
   /** Whether the OIDC issuer is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** The outbound (egress) routing method. This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype). */
 export type ContainerServiceNetworkProfileInputOutboundType =
@@ -5398,19 +5448,22 @@ export type ManagedClusterLoadBalancerProfileInputBackendPoolType =
 /** Profile of the managed cluster load balancer. */
 export interface ManagedClusterLoadBalancerProfileInput {
   /** Desired managed outbound IPs for the cluster load balancer. */
-  managedOutboundIPs?: ManagedClusterLoadBalancerProfileManagedOutboundIPs;
+  managedOutboundIPs?: ManagedClusterLoadBalancerProfileManagedOutboundIPs | undefined;
   /** Desired outbound IP Prefix resources for the cluster load balancer. */
-  outboundIPPrefixes?: ManagedClusterLoadBalancerProfileOutboundIPPrefixes;
+  outboundIPPrefixes?: ManagedClusterLoadBalancerProfileOutboundIPPrefixes | undefined;
   /** Desired outbound IP resources for the cluster load balancer. */
-  outboundIPs?: ManagedClusterLoadBalancerProfileOutboundIPs;
+  outboundIPs?: ManagedClusterLoadBalancerProfileOutboundIPs | undefined;
   /** The desired number of allocated SNAT ports per VM. Allowed values are in the range of 0 to 64000 (inclusive). The default value is 0 which results in Azure dynamically allocating ports. */
-  allocatedOutboundPorts?: number;
+  allocatedOutboundPorts?: number | undefined;
   /** Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120 (inclusive). The default value is 30 minutes. */
-  idleTimeoutInMinutes?: number;
+  idleTimeoutInMinutes?: number | undefined;
   /** Enable multiple standard load balancers per AKS cluster or not. */
-  enableMultipleStandardLoadBalancers?: boolean;
+  enableMultipleStandardLoadBalancers?: boolean | undefined;
   /** The type of the managed inbound Load Balancer BackendPool. */
-  backendPoolType?: ManagedClusterLoadBalancerProfileInputBackendPoolType | (string & {});
+  backendPoolType?:
+    | ManagedClusterLoadBalancerProfileInputBackendPoolType
+    | (string & {})
+    | undefined;
 }
 /** A list of public IP prefix resources. */
 export type ManagedClusterNATGatewayProfileInputOutboundIPPrefixesPublicIPPrefixesList =
@@ -5418,27 +5471,29 @@ export type ManagedClusterNATGatewayProfileInputOutboundIPPrefixesPublicIPPrefix
 /** Desired outbound IP Prefix resources for the managed NAT Gateway. Only compatible with NAT Gateway V2. */
 export interface ManagedClusterNATGatewayProfileInputOutboundIPPrefixes {
   /** A list of public IP prefix resources. */
-  publicIPPrefixes?: ManagedClusterNATGatewayProfileInputOutboundIPPrefixesPublicIPPrefixesList;
+  publicIPPrefixes?:
+    | ManagedClusterNATGatewayProfileInputOutboundIPPrefixesPublicIPPrefixesList
+    | undefined;
 }
 /** A list of public IP resources. */
 export type ManagedClusterNATGatewayProfileInputOutboundIPsPublicIPsList = Array<string>;
 /** Desired outbound IP resources for the managed NAT Gateway. */
 export interface ManagedClusterNATGatewayProfileInputOutboundIPs {
   /** A list of public IP resources. */
-  publicIPs?: ManagedClusterNATGatewayProfileInputOutboundIPsPublicIPsList;
+  publicIPs?: ManagedClusterNATGatewayProfileInputOutboundIPsPublicIPsList | undefined;
 }
 /** Profile of the managed cluster NAT gateway. */
 export interface ManagedClusterNATGatewayProfileInput {
   /** The SKU of the managed cluster NAT Gateway. Defaults to 'StandardV2' where available in the region, otherwise 'Standard'. */
-  sku?: ManagedClusterNATGatewaySku | (string & {});
+  sku?: ManagedClusterNATGatewaySku | (string & {}) | undefined;
   /** Profile of the managed outbound IP resources of the cluster NAT gateway. */
-  managedOutboundIPProfile?: ManagedClusterManagedOutboundIPProfile;
+  managedOutboundIPProfile?: ManagedClusterManagedOutboundIPProfile | undefined;
   /** Desired outbound IP Prefix resources for the managed NAT Gateway. Only compatible with NAT Gateway V2. */
-  outboundIPPrefixes?: ManagedClusterNATGatewayProfileInputOutboundIPPrefixes;
+  outboundIPPrefixes?: ManagedClusterNATGatewayProfileInputOutboundIPPrefixes | undefined;
   /** Desired outbound IP resources for the managed NAT Gateway. */
-  outboundIPs?: ManagedClusterNATGatewayProfileInputOutboundIPs;
+  outboundIPs?: ManagedClusterNATGatewayProfileInputOutboundIPs | undefined;
   /** Desired outbound flow idle timeout in minutes. Allowed values are in the range of 4 to 120 (inclusive). The default value is 4 minutes. */
-  idleTimeoutInMinutes?: number;
+  idleTimeoutInMinutes?: number | undefined;
 }
 /** The CIDR notation IP ranges from which to assign pod IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. */
 export type ContainerServiceNetworkProfileInputPodCidrsList = Array<string>;
@@ -5449,39 +5504,39 @@ export type ContainerServiceNetworkProfileInputIpFamiliesList = Array<IPFamily |
 /** Profile of network configuration. */
 export interface ContainerServiceNetworkProfileInput {
   /** Network plugin used for building the Kubernetes network. */
-  networkPlugin?: NetworkPlugin | (string & {});
+  networkPlugin?: NetworkPlugin | (string & {}) | undefined;
   /** The mode the network plugin should use. */
-  networkPluginMode?: NetworkPluginMode | (string & {});
+  networkPluginMode?: NetworkPluginMode | (string & {}) | undefined;
   /** Network policy used for building the Kubernetes network. */
-  networkPolicy?: NetworkPolicy | (string & {});
+  networkPolicy?: NetworkPolicy | (string & {}) | undefined;
   /** The network mode Azure CNI is configured with. This cannot be specified if networkPlugin is anything other than 'azure'. */
-  networkMode?: NetworkMode | (string & {});
+  networkMode?: NetworkMode | (string & {}) | undefined;
   /** Network dataplane used in the Kubernetes cluster. */
-  networkDataplane?: NetworkDataplane | (string & {});
+  networkDataplane?: NetworkDataplane | (string & {}) | undefined;
   /** Advanced Networking profile for enabling observability and security feature suite on a cluster. For more information see aka.ms/aksadvancednetworking. */
-  advancedNetworking?: AdvancedNetworking;
+  advancedNetworking?: AdvancedNetworking | undefined;
   /** A CIDR notation IP range from which to assign pod IPs when kubenet is used. */
-  podCidr?: string;
+  podCidr?: string | undefined;
   /** A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges. */
-  serviceCidr?: string;
+  serviceCidr?: string | undefined;
   /** An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr. */
-  dnsServiceIP?: string;
+  dnsServiceIP?: string | undefined;
   /** The outbound (egress) routing method. This can only be set at cluster creation time and cannot be changed later. For more information see [egress outbound type](https://docs.microsoft.com/azure/aks/egress-outboundtype). */
-  outboundType?: ContainerServiceNetworkProfileInputOutboundType | (string & {});
+  outboundType?: ContainerServiceNetworkProfileInputOutboundType | (string & {}) | undefined;
   /** The load balancer sku for the managed cluster. The default is 'standard'. See [Azure Load Balancer SKUs](https://docs.microsoft.com/azure/load-balancer/skus) for more information about the differences between load balancer SKUs. */
-  loadBalancerSku?: LoadBalancerSku | (string & {});
+  loadBalancerSku?: LoadBalancerSku | (string & {}) | undefined;
   /** Profile of the cluster load balancer. */
-  loadBalancerProfile?: ManagedClusterLoadBalancerProfileInput;
+  loadBalancerProfile?: ManagedClusterLoadBalancerProfileInput | undefined;
   /** Profile of the cluster NAT gateway. */
-  natGatewayProfile?: ManagedClusterNATGatewayProfileInput;
+  natGatewayProfile?: ManagedClusterNATGatewayProfileInput | undefined;
   /** The profile for Static Egress Gateway addon. For more details about Static Egress Gateway, see https://aka.ms/aks/static-egress-gateway. */
-  staticEgressGatewayProfile?: ManagedClusterStaticEgressGatewayProfile;
+  staticEgressGatewayProfile?: ManagedClusterStaticEgressGatewayProfile | undefined;
   /** The CIDR notation IP ranges from which to assign pod IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. */
-  podCidrs?: ContainerServiceNetworkProfileInputPodCidrsList;
+  podCidrs?: ContainerServiceNetworkProfileInputPodCidrsList | undefined;
   /** The CIDR notation IP ranges from which to assign service cluster IPs. One IPv4 CIDR is expected for single-stack networking. Two CIDRs, one for each IP family (IPv4/IPv6), is expected for dual-stack networking. They must not overlap with any Subnet IP ranges. */
-  serviceCidrs?: ContainerServiceNetworkProfileInputServiceCidrsList;
+  serviceCidrs?: ContainerServiceNetworkProfileInputServiceCidrsList | undefined;
   /** The IP families used to specify IP versions available to the cluster. IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6. */
-  ipFamilies?: ContainerServiceNetworkProfileInputIpFamiliesList;
+  ipFamilies?: ContainerServiceNetworkProfileInputIpFamiliesList | undefined;
 }
 /** The user identity associated with the managed cluster. This identity will be used by the kubelet. Only one user assigned identity is allowed. The only accepted key is "kubeletidentity", with value of "resourceId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}". */
 export type ManagedClusterPropertiesInputIdentityProfileMap = {
@@ -5492,15 +5547,15 @@ export type PrivateLinkResourceInputRequiredMembersList = Array<string>;
 /** A private link resource */
 export interface PrivateLinkResourceInput {
   /** The ID of the private link resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the private link resource. See [naming rules](https://aka.ms/search-naming-rules) for more details. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The group ID of the resource. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The RequiredMembers of the resource */
-  requiredMembers?: PrivateLinkResourceInputRequiredMembersList;
+  requiredMembers?: PrivateLinkResourceInputRequiredMembersList | undefined;
 }
 /** Private link resources associated with the cluster. */
 export type ManagedClusterPropertiesInputPrivateLinkResourcesList = Array<PrivateLinkResourceInput>;
@@ -5511,85 +5566,85 @@ export type ManagedClusterStatusInput = AgentPoolStatusInput;
 /** Properties of the managed cluster. */
 export interface ManagedClusterPropertiesInput {
   /** The version of Kubernetes specified by the user. Both patch version <major.minor.patch> (e.g. 1.20.13) and <major.minor> (e.g. 1.20) are supported. When <major.minor> is specified, the latest supported GA patch version is chosen automatically. Updating the cluster with the same <major.minor> once it has been created (e.g. 1.14.x -> 1.14) will not trigger an upgrade, even if a newer patch version is available. When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x -> 1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an AKS cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more details. */
-  kubernetesVersion?: string;
+  kubernetesVersion?: string | undefined;
   /** The DNS prefix of the Managed Cluster. This cannot be updated once the Managed Cluster has been created. */
-  dnsPrefix?: string;
+  dnsPrefix?: string | undefined;
   /** The FQDN subdomain of the private cluster with custom private dns zone. This cannot be updated once the Managed Cluster has been created. */
-  fqdnSubdomain?: string;
+  fqdnSubdomain?: string | undefined;
   /** The agent pool properties. */
-  agentPoolProfiles?: ManagedClusterPropertiesInputAgentPoolProfilesList;
+  agentPoolProfiles?: ManagedClusterPropertiesInputAgentPoolProfilesList | undefined;
   /** The profile for Linux VMs in the Managed Cluster. */
-  linuxProfile?: ContainerServiceLinuxProfile;
+  linuxProfile?: ContainerServiceLinuxProfile | undefined;
   /** The profile for Windows VMs in the Managed Cluster. */
-  windowsProfile?: ManagedClusterWindowsProfile;
+  windowsProfile?: ManagedClusterWindowsProfile | undefined;
   /** Information about a service principal identity for the cluster to use for manipulating Azure APIs. */
-  servicePrincipalProfile?: ManagedClusterServicePrincipalProfile;
+  servicePrincipalProfile?: ManagedClusterServicePrincipalProfile | undefined;
   /** The profile of managed cluster add-on. */
-  addonProfiles?: ManagedClusterPropertiesInputAddonProfilesMap;
+  addonProfiles?: ManagedClusterPropertiesInputAddonProfilesMap | undefined;
   /** The pod identity profile of the Managed Cluster. See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on AAD pod identity integration. */
-  podIdentityProfile?: ManagedClusterPodIdentityProfileInput;
+  podIdentityProfile?: ManagedClusterPodIdentityProfileInput | undefined;
   /** The OIDC issuer profile of the Managed Cluster. */
-  oidcIssuerProfile?: ManagedClusterOIDCIssuerProfileInput;
+  oidcIssuerProfile?: ManagedClusterOIDCIssuerProfileInput | undefined;
   /** The name of the resource group containing agent pool nodes. */
-  nodeResourceGroup?: string;
+  nodeResourceGroup?: string | undefined;
   /** Profile of the node resource group configuration. */
-  nodeResourceGroupProfile?: ManagedClusterNodeResourceGroupProfile;
+  nodeResourceGroupProfile?: ManagedClusterNodeResourceGroupProfile | undefined;
   /** Whether to enable Kubernetes Role-Based Access Control. */
-  enableRBAC?: boolean;
+  enableRBAC?: boolean | undefined;
   /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
-  supportPlan?: KubernetesSupportPlan | (string & {});
+  supportPlan?: KubernetesSupportPlan | (string & {}) | undefined;
   /** Whether to enable FIPS mode at the cluster level. When enabled, this setting enforces FIPS compliance for all AKS-managed components, such as the node operating system, addons, and [managed containerized components](https://aka.ms/aks/components/docs). See [Enable cluster-wide FIPS](https://aka.ms/aks/fips) for more details. When this property is enabled, all node pools in the cluster must also be FIPS-enabled. Although this property is available in a stable API version, cluster-wide FIPS remains a preview feature. Write requests whose resulting cluster state has this property set to true require the `Microsoft.ContainerService/EnableFIPSPreview` subscription feature registration. */
-  enableFIPS?: boolean;
+  enableFIPS?: boolean | undefined;
   /** The network configuration profile. */
-  networkProfile?: ContainerServiceNetworkProfileInput;
+  networkProfile?: ContainerServiceNetworkProfileInput | undefined;
   /** The Azure Active Directory configuration. */
-  aadProfile?: ManagedClusterAADProfile;
+  aadProfile?: ManagedClusterAADProfile | undefined;
   /** The auto upgrade configuration. */
-  autoUpgradeProfile?: ManagedClusterAutoUpgradeProfile;
+  autoUpgradeProfile?: ManagedClusterAutoUpgradeProfile | undefined;
   /** Settings for upgrading a cluster. */
-  upgradeSettings?: ClusterUpgradeSettings;
+  upgradeSettings?: ClusterUpgradeSettings | undefined;
   /** Parameters to be applied to the cluster-autoscaler when enabled */
-  autoScalerProfile?: ManagedClusterPropertiesAutoScalerProfile;
+  autoScalerProfile?: ManagedClusterPropertiesAutoScalerProfile | undefined;
   /** The access profile for managed cluster API server. */
-  apiServerAccessProfile?: ManagedClusterAPIServerAccessProfile;
+  apiServerAccessProfile?: ManagedClusterAPIServerAccessProfile | undefined;
   /** The Resource ID of the disk encryption set to use for enabling encryption at rest. This is of the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{encryptionSetName}' */
-  diskEncryptionSetID?: string;
+  diskEncryptionSetID?: string | undefined;
   /** The user identity associated with the managed cluster. This identity will be used by the kubelet. Only one user assigned identity is allowed. The only accepted key is "kubeletidentity", with value of "resourceId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}". */
-  identityProfile?: ManagedClusterPropertiesInputIdentityProfileMap;
+  identityProfile?: ManagedClusterPropertiesInputIdentityProfileMap | undefined;
   /** Private link resources associated with the cluster. */
-  privateLinkResources?: ManagedClusterPropertiesInputPrivateLinkResourcesList;
+  privateLinkResources?: ManagedClusterPropertiesInputPrivateLinkResourcesList | undefined;
   /** If local accounts should be disabled on the Managed Cluster. If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled. For more details see [disable local accounts](https://docs.microsoft.com/azure/aks/managed-aad#disable-local-accounts-preview). */
-  disableLocalAccounts?: boolean;
+  disableLocalAccounts?: boolean | undefined;
   /** Configurations for provisioning the cluster with HTTP proxy servers. */
-  httpProxyConfig?: ManagedClusterHTTPProxyConfig;
+  httpProxyConfig?: ManagedClusterHTTPProxyConfig | undefined;
   /** Security profile for the managed cluster. */
-  securityProfile?: ManagedClusterSecurityProfile;
+  securityProfile?: ManagedClusterSecurityProfile | undefined;
   /** Storage profile for the managed cluster. */
-  storageProfile?: ManagedClusterStorageProfile;
+  storageProfile?: ManagedClusterStorageProfile | undefined;
   /** Ingress profile for the managed cluster. */
-  ingressProfile?: ManagedClusterIngressProfile;
+  ingressProfile?: ManagedClusterIngressProfile | undefined;
   /** PublicNetworkAccess of the managedCluster. Allow or deny public network access for AKS */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** Workload Auto-scaler profile for the managed cluster. */
-  workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
+  workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile | undefined;
   /** Azure Monitor addon profiles for monitoring the managed cluster. */
-  azureMonitorProfile?: ManagedClusterAzureMonitorProfile;
+  azureMonitorProfile?: ManagedClusterAzureMonitorProfile | undefined;
   /** Service mesh profile for a managed cluster. */
-  serviceMeshProfile?: ServiceMeshProfile;
+  serviceMeshProfile?: ServiceMeshProfile | undefined;
   /** Optional cluster metrics configuration. */
-  metricsProfile?: ManagedClusterMetricsProfile;
+  metricsProfile?: ManagedClusterMetricsProfile | undefined;
   /** Node provisioning settings that apply to the whole cluster. */
-  nodeProvisioningProfile?: ManagedClusterNodeProvisioningProfile;
+  nodeProvisioningProfile?: ManagedClusterNodeProvisioningProfile | undefined;
   /** Profile of the cluster bootstrap configuration. */
-  bootstrapProfile?: ManagedClusterBootstrapProfile;
+  bootstrapProfile?: ManagedClusterBootstrapProfile | undefined;
   /** AI toolchain operator settings that apply to the whole cluster. */
-  aiToolchainOperatorProfile?: ManagedClusterAIToolchainOperatorProfile;
+  aiToolchainOperatorProfile?: ManagedClusterAIToolchainOperatorProfile | undefined;
   /** Profile with scheduler-related settings, like the configuration mode for each scheduler managed by AKS. See https://aka.ms/aks/scheduler-profile. */
-  schedulerProfile?: SchedulerProfile;
+  schedulerProfile?: SchedulerProfile | undefined;
   /** Settings for hosted system addons. For more information, see https://aka.ms/aks/automatic/systemcomponents. */
-  hostedSystemProfile?: ManagedClusterHostedSystemProfile;
+  hostedSystemProfile?: ManagedClusterHostedSystemProfile | undefined;
   /** Contains read-only information about the Managed Cluster. */
-  status?: AgentPoolStatusInput;
+  status?: AgentPoolStatusInput | undefined;
 }
 /** Delegated resource properties - internal use only. */
 export type ManagedClusterIdentityInputDelegatedResourcesValue =
@@ -5608,11 +5663,11 @@ export type ManagedClusterIdentityInputUserAssignedIdentitiesMap = {
 /** Identity for the managed cluster. */
 export interface ManagedClusterIdentityInput {
   /** The type of identity used for the managed cluster. For more information see [use managed identities in AKS](https://docs.microsoft.com/azure/aks/use-managed-identity). */
-  type?: ResourceIdentityType | (string & {});
+  type?: ResourceIdentityType | (string & {}) | undefined;
   /** The delegated identity resources assigned to this managed cluster. This can only be set by another Azure Resource Provider, and managed cluster only accept one delegated identity resource. Internal use only. */
-  delegatedResources?: ManagedClusterIdentityInputDelegatedResourcesMap;
+  delegatedResources?: ManagedClusterIdentityInputDelegatedResourcesMap | undefined;
   /** The user identity associated with the managed cluster. This identity will be used in control plane. Only one user assigned identity is allowed. The keys must be ARM resource IDs in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: ManagedClusterIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ManagedClusterIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface ManagedClustersCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5622,51 +5677,51 @@ export interface ManagedClustersCreateOrUpdateRequest {
   /** The name of the managed cluster resource. */
   resourceName: string;
   /** Resource tags. */
-  tags?: ManagedClustersCreateOrUpdateRequestTagsMap;
+  tags?: ManagedClustersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a managed cluster. */
-  properties?: ManagedClusterPropertiesInput;
+  properties?: ManagedClusterPropertiesInput | undefined;
   /** The managed cluster SKU. */
-  sku?: ManagedClusterSKU;
+  sku?: ManagedClusterSKU | undefined;
   /** The extended location of the Virtual Machine. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** The identity of the managed cluster, if configured. */
-  identity?: ManagedClusterIdentityInput;
+  identity?: ManagedClusterIdentityInput | undefined;
   /** This is primarily used to expose different UI experiences in the portal for different kinds */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Resource tags. */
 export type ManagedClustersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ManagedClustersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ManagedClustersCreateOrUpdateResponseTagsMap;
+  tags?: ManagedClustersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a managed cluster. */
-  properties?: ManagedClusterProperties;
+  properties?: ManagedClusterProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The managed cluster SKU. */
-  sku?: ManagedClusterSKU;
+  sku?: ManagedClusterSKU | undefined;
   /** The extended location of the Virtual Machine. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** The identity of the managed cluster, if configured. */
-  identity?: ManagedClusterIdentity;
+  identity?: ManagedClusterIdentity | undefined;
   /** This is primarily used to expose different UI experiences in the portal for different kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type ManagedNamespacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5677,17 +5732,17 @@ export type NamespacePropertiesInputAnnotationsMap = { [key: string]: string | u
 /** Properties of a namespace managed by ARM */
 export interface NamespacePropertiesInput {
   /** The labels of managed namespace. */
-  labels?: NamespacePropertiesInputLabelsMap;
+  labels?: NamespacePropertiesInputLabelsMap | undefined;
   /** The annotations of managed namespace. */
-  annotations?: NamespacePropertiesInputAnnotationsMap;
+  annotations?: NamespacePropertiesInputAnnotationsMap | undefined;
   /** The default resource quota enforced upon the namespace. Customers can have other Kubernetes resource quota objects under the namespace. Resource quotas are additive; if multiple resource quotas are applied to a given namespace, then the effective limit will be one such that all quotas on the namespace can be satisfied. */
-  defaultResourceQuota?: ResourceQuota;
+  defaultResourceQuota?: ResourceQuota | undefined;
   /** The default network policy enforced upon the namespace. Customers can have other Kubernetes network policy objects under the namespace. Network policies are additive; if a policy or policies apply to a given pod for a given direction, the connections allowed in that direction for the pod is the union of what all applicable policies allow. */
-  defaultNetworkPolicy?: NetworkPolicies;
+  defaultNetworkPolicy?: NetworkPolicies | undefined;
   /** Action if Kubernetes namespace with same name already exists. */
-  adoptionPolicy?: AdoptionPolicy | (string & {});
+  adoptionPolicy?: AdoptionPolicy | (string & {}) | undefined;
   /** Delete options of a namespace. */
-  deletePolicy?: DeletePolicy | (string & {});
+  deletePolicy?: DeletePolicy | (string & {}) | undefined;
 }
 export interface ManagedNamespacesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5699,35 +5754,35 @@ export interface ManagedNamespacesCreateOrUpdateRequest {
   /** The name of the managed namespace. */
   managedNamespaceName: string;
   /** Resource tags. */
-  tags?: ManagedNamespacesCreateOrUpdateRequestTagsMap;
+  tags?: ManagedNamespacesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a namespace. */
-  properties?: NamespacePropertiesInput;
+  properties?: NamespacePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type ManagedNamespacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ManagedNamespacesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ManagedNamespacesCreateOrUpdateResponseTagsMap;
+  tags?: ManagedNamespacesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a namespace. */
-  properties?: NamespaceProperties;
+  properties?: NamespaceProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The RequiredMembers of the resource */
 export type PostResolvePrivateLinkServiceIdRequestRequiredMembersList = Array<string>;
@@ -5739,15 +5794,15 @@ export interface PostResolvePrivateLinkServiceIdRequest {
   /** The name of the managed cluster resource. */
   resourceName: string;
   /** The ID of the private link resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the private link resource. See [naming rules](https://aka.ms/search-naming-rules) for more details. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The group ID of the resource. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The RequiredMembers of the resource */
-  requiredMembers?: PostResolvePrivateLinkServiceIdRequestRequiredMembersList;
+  requiredMembers?: PostResolvePrivateLinkServiceIdRequestRequiredMembersList | undefined;
 }
 export interface ResetManagedClusterServicePrincipalProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5759,13 +5814,13 @@ export interface ResetManagedClusterServicePrincipalProfileRequest {
   /** The ID for the service principal. */
   clientId: string;
   /** The secret password associated with the service principal in plain text. */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ResetManagedClusterServicePrincipalProfileResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RotateManagedClusterClusterCertificatesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5777,9 +5832,9 @@ export interface RotateManagedClusterClusterCertificatesRequest {
 }
 export interface RotateManagedClusterClusterCertificatesResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RotateManagedClusterServiceAccountSigningKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5791,9 +5846,9 @@ export interface RotateManagedClusterServiceAccountSigningKeysRequest {
 }
 export interface RotateManagedClusterServiceAccountSigningKeysResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RunManagedClusterCommandRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5805,9 +5860,9 @@ export interface RunManagedClusterCommandRequest {
   /** The command to run. */
   command: string;
   /** A base64 encoded zip file containing the files required by the command. */
-  context?: string;
+  context?: string | undefined;
   /** AuthToken issued for AKS AAD Server App. */
-  clusterToken?: string;
+  clusterToken?: string | undefined;
 }
 /** Resource tags. */
 export type SnapshotsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5816,9 +5871,9 @@ export type SnapshotPropertiesInputSnapshotType = "NodePool";
 /** Properties used to configure a node pool snapshot. */
 export interface SnapshotPropertiesInput {
   /** CreationData to be used to specify the source agent pool resource ID to create this snapshot. */
-  creationData?: CreationData;
+  creationData?: CreationData | undefined;
   /** The type of a snapshot. The default is NodePool. */
-  snapshotType?: SnapshotPropertiesInputSnapshotType | (string & {});
+  snapshotType?: SnapshotPropertiesInputSnapshotType | (string & {}) | undefined;
 }
 export interface SnapshotsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5828,29 +5883,29 @@ export interface SnapshotsCreateOrUpdateRequest {
   /** The name of the managed cluster resource. */
   resourceName: string;
   /** Resource tags. */
-  tags?: SnapshotsCreateOrUpdateRequestTagsMap;
+  tags?: SnapshotsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a snapshot. */
-  properties?: SnapshotPropertiesInput;
+  properties?: SnapshotPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type SnapshotsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface SnapshotsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SnapshotsCreateOrUpdateResponseTagsMap;
+  tags?: SnapshotsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a snapshot. */
-  properties?: SnapshotProperties;
+  properties?: SnapshotProperties | undefined;
 }
 export interface StartManagedClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5862,9 +5917,9 @@ export interface StartManagedClusterRequest {
 }
 export interface StartManagedClusterResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartUpdateRunRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5878,21 +5933,21 @@ export interface StartUpdateRunRequest {
 }
 export interface StartUpdateRunResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: UpdateRunProperties;
+  properties?: UpdateRunProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StopManagedClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5904,9 +5959,9 @@ export interface StopManagedClusterRequest {
 }
 export interface StopManagedClusterResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StopUpdateRunRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5920,21 +5975,21 @@ export interface StopUpdateRunRequest {
 }
 export interface StopUpdateRunResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: UpdateRunProperties;
+  properties?: UpdateRunProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** A list of roles to bind, each item is a resource type qualified role name. For example: 'Microsoft.MachineLearningServices/workspaces/reader'. */
 export type TrustedAccessRoleBindingPropertiesInputRolesList = Array<string>;
@@ -5959,19 +6014,19 @@ export interface TrustedAccessRoleBindingsCreateOrUpdateRequest {
 }
 export interface TrustedAccessRoleBindingsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for trusted access role binding */
   properties: TrustedAccessRoleBindingProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateFleetRequestTagsMap = { [key: string]: string | undefined };
@@ -5985,9 +6040,9 @@ export interface UpdateFleetRequest {
   /** The name of the Fleet resource. */
   fleetName: string;
   /** Resource tags. */
-  tags?: UpdateFleetRequestTagsMap;
+  tags?: UpdateFleetRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: FleetsCreateOrUpdateRequestIdentity;
+  identity?: FleetsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateFleetResponseTagsMap = { [key: string]: string | undefined };
@@ -5995,27 +6050,27 @@ export type UpdateFleetResponseTagsMap = { [key: string]: string | undefined };
 export type UpdateFleetResponseIdentity = FleetsCreateOrUpdateResponseIdentity;
 export interface UpdateFleetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateFleetResponseTagsMap;
+  tags?: UpdateFleetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FleetProperties;
+  properties?: FleetProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: FleetsCreateOrUpdateResponseIdentity;
+  identity?: FleetsCreateOrUpdateResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateFleetManagedNamespaceRequestTagsMap = { [key: string]: string | undefined };
@@ -6029,40 +6084,40 @@ export interface UpdateFleetManagedNamespaceRequest {
   /** The name of the fleet managed namespace resource. */
   managedNamespaceName: string;
   /** Resource tags. */
-  tags?: UpdateFleetManagedNamespaceRequestTagsMap;
+  tags?: UpdateFleetManagedNamespaceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateFleetManagedNamespaceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateFleetManagedNamespaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateFleetManagedNamespaceResponseTagsMap;
+  tags?: UpdateFleetManagedNamespaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: FleetManagedNamespaceProperties;
+  properties?: FleetManagedNamespaceProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The labels for the fleet member. */
 export type FleetMemberUpdatePropertiesLabelsMap = { [key: string]: string | undefined };
 /** The updatable properties of the FleetMember. */
 export interface FleetMemberUpdateProperties {
   /** The group this member belongs to for multi-cluster update management. */
-  group?: string;
+  group?: string | undefined;
   /** The labels for the fleet member. */
-  labels?: FleetMemberUpdatePropertiesLabelsMap;
+  labels?: FleetMemberUpdatePropertiesLabelsMap | undefined;
 }
 export interface UpdateFleetMemberRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6074,30 +6129,30 @@ export interface UpdateFleetMemberRequest {
   /** The name of the Fleet member resource. */
   fleetMemberName: string;
   /** The resource-specific properties for this resource. */
-  properties?: FleetMemberUpdateProperties;
+  properties?: FleetMemberUpdateProperties | undefined;
 }
 export interface UpdateFleetMemberResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: FleetMemberProperties;
+  properties?: FleetMemberProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Properties of a Gate that can be patched. */
 export interface GatePatchProperties {
   /** The state of the Gate. */
-  state?: GateState | (string & {});
+  state?: GateState | (string & {}) | undefined;
 }
 export interface UpdateGateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6109,25 +6164,25 @@ export interface UpdateGateRequest {
   /** The name of the Gate resource, a GUID. */
   gateName: string;
   /** Properties of a Gate that can be patched. */
-  properties?: GatePatchProperties;
+  properties?: GatePatchProperties | undefined;
 }
 export interface UpdateGateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: GateProperties;
+  properties?: GateProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateManagedClusterTagsRequestTagsMap = { [key: string]: string | undefined };
@@ -6139,41 +6194,41 @@ export interface UpdateManagedClusterTagsRequest {
   /** The name of the managed cluster resource. */
   resourceName: string;
   /** Resource tags. */
-  tags?: UpdateManagedClusterTagsRequestTagsMap;
+  tags?: UpdateManagedClusterTagsRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateManagedClusterTagsResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateManagedClusterTagsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateManagedClusterTagsResponseTagsMap;
+  tags?: UpdateManagedClusterTagsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a managed cluster. */
-  properties?: ManagedClusterProperties;
+  properties?: ManagedClusterProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The managed cluster SKU. */
-  sku?: ManagedClusterSKU;
+  sku?: ManagedClusterSKU | undefined;
   /** The extended location of the Virtual Machine. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** The identity of the managed cluster, if configured. */
-  identity?: ManagedClusterIdentity;
+  identity?: ManagedClusterIdentity | undefined;
   /** This is primarily used to expose different UI experiences in the portal for different kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateManagedNamespaceRequestTagsMap = { [key: string]: string | undefined };
@@ -6187,32 +6242,32 @@ export interface UpdateManagedNamespaceRequest {
   /** The name of the managed namespace. */
   managedNamespaceName: string;
   /** Resource tags. */
-  tags?: UpdateManagedNamespaceRequestTagsMap;
+  tags?: UpdateManagedNamespaceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateManagedNamespaceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateManagedNamespaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateManagedNamespaceResponseTagsMap;
+  tags?: UpdateManagedNamespaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a namespace. */
-  properties?: NamespaceProperties;
+  properties?: NamespaceProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
 }
 /** Properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The resource of private endpoint. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
@@ -6226,19 +6281,19 @@ export interface UpdatePrivateEndpointConnectionRequest {
   /** The name of the private endpoint connection. */
   privateEndpointConnectionName: string;
   /** The properties of a private endpoint connection. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface UpdatePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a private endpoint connection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** The node upgrade image version. */
 export type NodeImageVersionInput = AgentPoolStatusInputProvisioningError;
@@ -6250,21 +6305,21 @@ export interface NodeImageSelectionInput {
   /** The node image upgrade type. */
   type: NodeImageSelectionType | (string & {});
   /** Custom node image versions to upgrade the nodes to. This field is required if node image selection type is Custom. Otherwise, it must be empty. For each node image family (e.g., 'AKSUbuntu-1804gen2containerd'), this field can contain at most one version (e.g., only one of 'AKSUbuntu-1804gen2containerd-2023.01.12' or 'AKSUbuntu-1804gen2containerd-2023.02.12', not both). If the nodes belong to a family without a matching image version in this field, they are not upgraded. */
-  customNodeImageVersions?: NodeImageSelectionInputCustomNodeImageVersionsList;
+  customNodeImageVersions?: NodeImageSelectionInputCustomNodeImageVersionsList | undefined;
 }
 /** The update to be applied to the ManagedClusters. */
 export interface ManagedClusterUpdateInput {
   /** The upgrade to apply to the ManagedClusters. */
   upgrade: ManagedClusterUpgradeSpec;
   /** The node image upgrade to be applied to the target nodes in update run. */
-  nodeImageSelection?: NodeImageSelectionInput;
+  nodeImageSelection?: NodeImageSelectionInput | undefined;
 }
 /** The properties of the UpdateRun. */
 export interface UpdateRunPropertiesInput {
   /** The resource id of the FleetUpdateStrategy resource to reference. When creating a new run, there are three ways to define a strategy for the run: 1. Define a new strategy in place: Set the "strategy" field. 2. Use an existing strategy: Set the "updateStrategyId" field. (since 2023-08-15-preview) 3. Use the default strategy to update all the members one by one: Leave both "updateStrategyId" and "strategy" unset. (since 2023-08-15-preview) Setting both "updateStrategyId" and "strategy" is invalid. UpdateRuns created by "updateStrategyId" snapshot the referenced UpdateStrategy at the time of creation and store it in the "strategy" field. Subsequent changes to the referenced FleetUpdateStrategy resource do not propagate. UpdateRunStrategy changes can be made directly on the "strategy" field before launching the UpdateRun. */
-  updateStrategyId?: string;
+  updateStrategyId?: string | undefined;
   /** The strategy defines the order in which the clusters will be updated. If not set, all members will be updated sequentially. The UpdateRun status will show a single UpdateStage and a single UpdateGroup targeting all members. The strategy of the UpdateRun can be modified until the run is started. */
-  strategy?: UpdateRunStrategy;
+  strategy?: UpdateRunStrategy | undefined;
   /** The update to be applied to all clusters in the UpdateRun. The managedClusterUpdate can be modified until the run is started. */
   managedClusterUpdate: ManagedClusterUpdateInput;
 }
@@ -6278,23 +6333,23 @@ export interface UpdateRunsCreateOrUpdateRequest {
   /** The name of the UpdateRun resource. */
   updateRunName: string;
   /** The resource-specific properties for this resource. */
-  properties?: UpdateRunPropertiesInput;
+  properties?: UpdateRunPropertiesInput | undefined;
 }
 export interface UpdateRunsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: UpdateRunProperties;
+  properties?: UpdateRunProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The target type of a skip request. */
 export type TargetType = "Member" | "Group" | "Stage" | "AfterStageWait";
@@ -6321,21 +6376,21 @@ export interface UpdateRunsSkipRequest {
 }
 export interface UpdateRunsSkipResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: UpdateRunProperties;
+  properties?: UpdateRunProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateSnapshotTagsRequestTagsMap = { [key: string]: string | undefined };
@@ -6347,25 +6402,25 @@ export interface UpdateSnapshotTagsRequest {
   /** The name of the managed cluster resource. */
   resourceName: string;
   /** Resource tags. */
-  tags?: UpdateSnapshotTagsRequestTagsMap;
+  tags?: UpdateSnapshotTagsRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateSnapshotTagsResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateSnapshotTagsResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSnapshotTagsResponseTagsMap;
+  tags?: UpdateSnapshotTagsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Properties of a snapshot. */
-  properties?: SnapshotProperties;
+  properties?: SnapshotProperties | undefined;
 }
 export type AbortAgentPoolLatestOperationError = AzureOpError;
 /** Aborts last operation running on agent pool. Aborts the currently running operation on the agent pool. The Agent Pool will be moved to a Canceling state and eventually to a Canceled state when cancellation finishes. If the operation completes before cancellation can take place, a 409 error code is returned. */
@@ -8248,7 +8303,7 @@ function __c0(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/abort",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "AbortAgentPoolLatestOperationRequest" });
@@ -8279,7 +8334,7 @@ function __c2(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/abort",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "AbortManagedClusterLatestOperationRequest" });
@@ -8370,7 +8425,7 @@ function __c6(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "UpdateManagedClusterTagsRequest" });
@@ -8411,7 +8466,7 @@ function __c7(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "UpdateManagedNamespaceRequest" });
@@ -8439,7 +8494,7 @@ function __c8(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "UpdatePrivateEndpointConnectionRequest" });
@@ -8546,7 +8601,7 @@ function __c11(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "UpdateSnapshotTagsRequest" });
@@ -8662,7 +8717,7 @@ function __c17(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings/{identityBindingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteIdentityBindingRequest" });
@@ -8682,7 +8737,7 @@ function __c18(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteMaintenanceConfigurationRequest" });
@@ -8701,7 +8756,7 @@ function __c19(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteManagedClusterRequest" });
@@ -8721,7 +8776,7 @@ function __c20(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteManagedNamespaceRequest" });
@@ -8777,13 +8832,13 @@ function __c21(j: number): any {
           networkProfile: S.optional(__S(746, __c23, 10)),
           windowsProfile: S.optional(__S(747, __c23, 11)),
           securityProfile: S.optional(__S(748, __c23, 12)),
-          gpuProfile: S.optional(__S(749, __c23, 13)),
-          gatewayProfile: S.optional(__S(750, __c23, 14)),
-          artifactStreamingProfile: S.optional(__S(751, __c23, 15)),
-          virtualMachinesProfile: S.optional(__S(757, __c23, 21)),
-          virtualMachineNodesStatus: S.optional(__S(753, __c23, 17)),
+          gpuProfile: S.optional(__S(750, __c23, 14)),
+          gatewayProfile: S.optional(__S(751, __c23, 15)),
+          artifactStreamingProfile: S.optional(__S(752, __c23, 16)),
+          virtualMachinesProfile: S.optional(__S(758, __c23, 22)),
+          virtualMachineNodesStatus: S.optional(__S(754, __c23, 18)),
           status: S.optional(__S(960, __c30, 0)),
-          localDNSProfile: S.optional(__S(760, __c23, 24)),
+          localDNSProfile: S.optional(__S(761, __c23, 25)),
         }),
       ).annotate({ identifier: "ManagedClusterAgentPoolProfilePropertiesInput" });
     case 1:
@@ -8799,7 +8854,7 @@ function __c21(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "AgentPoolsCreateOrUpdateRequest" });
@@ -8954,31 +9009,38 @@ function __c23(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
+          managementMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NvidiaGPUProfile" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
           driver: S.optional(S.String),
+          nvidia: S.optional(__S(749, __c23, 13)),
         }),
       ).annotate({ identifier: "GPUProfile" });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           publicIPPrefixSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AgentPoolGatewayProfile" });
-    case 15:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AgentPoolArtifactStreamingProfile" });
-    case 16:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           size: S.optional(S.String),
           count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ManualScaleProfile" });
-    case 17:
-      return S.Array(__S(752, __c23, 16));
     case 18:
+      return S.Array(__S(753, __c23, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           size: S.optional(S.String),
@@ -8986,22 +9048,22 @@ function __c23(j: number): any {
           maxCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AutoScaleProfile" });
-    case 19:
-      return S.Array(__S(754, __c23, 18));
     case 20:
-      return S.suspend(() =>
-        S.Struct({
-          manual: S.optional(__S(753, __c23, 17)),
-          autoscale: S.optional(__S(755, __c23, 19)),
-        }),
-      ).annotate({ identifier: "ScaleProfile" });
+      return S.Array(__S(755, __c23, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          scale: S.optional(__S(756, __c23, 20)),
+          manual: S.optional(__S(754, __c23, 18)),
+          autoscale: S.optional(__S(756, __c23, 20)),
+        }),
+      ).annotate({ identifier: "ScaleProfile" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          scale: S.optional(__S(757, __c23, 21)),
         }),
       ).annotate({ identifier: "VirtualMachinesProfile" });
-    case 22:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           queryLogging: S.optional(S.String),
@@ -9014,18 +9076,18 @@ function __c23(j: number): any {
           serveStale: S.optional(S.String),
         }),
       ).annotate({ identifier: "LocalDNSOverride" });
-    case 23:
-      return S.Record(S.String, __S(758, __c23, 22));
     case 24:
+      return S.Record(S.String, __S(759, __c23, 23));
+    case 25:
       return S.suspend(() =>
         S.Struct({
           mode: S.optional(S.String),
           state: S.optional(S.String),
-          vnetDNSOverrides: S.optional(__S(759, __c23, 23)),
-          kubeDNSOverrides: S.optional(__S(759, __c23, 23)),
+          vnetDNSOverrides: S.optional(__S(760, __c23, 24)),
+          kubeDNSOverrides: S.optional(__S(760, __c23, 24)),
         }),
       ).annotate({ identifier: "LocalDNSProfile" });
-    case 25:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           provisioningError: S.optional(__S(901, __c28, 5)),
@@ -9086,13 +9148,13 @@ function __c24(j: number): any {
           networkProfile: S.optional(__S(746, __c23, 10)),
           windowsProfile: S.optional(__S(747, __c23, 11)),
           securityProfile: S.optional(__S(748, __c23, 12)),
-          gpuProfile: S.optional(__S(749, __c23, 13)),
-          gatewayProfile: S.optional(__S(750, __c23, 14)),
-          artifactStreamingProfile: S.optional(__S(751, __c23, 15)),
-          virtualMachinesProfile: S.optional(__S(757, __c23, 21)),
-          virtualMachineNodesStatus: S.optional(__S(753, __c23, 17)),
-          status: S.optional(__S(761, __c23, 25)),
-          localDNSProfile: S.optional(__S(760, __c23, 24)),
+          gpuProfile: S.optional(__S(750, __c23, 14)),
+          gatewayProfile: S.optional(__S(751, __c23, 15)),
+          artifactStreamingProfile: S.optional(__S(752, __c23, 16)),
+          virtualMachinesProfile: S.optional(__S(758, __c23, 22)),
+          virtualMachineNodesStatus: S.optional(__S(754, __c23, 18)),
+          status: S.optional(__S(762, __c23, 26)),
+          localDNSProfile: S.optional(__S(761, __c23, 25)),
         }),
       ).annotate({ identifier: "ManagedClusterAgentPoolProfileProperties" });
   }
@@ -9193,7 +9255,7 @@ function __c31(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "DeletePrivateEndpointConnectionRequest" });
@@ -9219,7 +9281,7 @@ function __c32(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteSnapshotRequest" });
@@ -9239,7 +9301,7 @@ function __c33(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteTrustedAccessRoleBindingRequest" });
@@ -9692,7 +9754,7 @@ function __c46(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetAgentPoolRequest" });
@@ -9725,7 +9787,7 @@ function __c48(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/availableAgentPoolVersions",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetAgentPoolAvailableAgentPoolVersionsRequest" });
@@ -9770,7 +9832,7 @@ function __c49(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/upgradeProfiles/default",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetAgentPoolUpgradeProfileRequest" });
@@ -9833,7 +9895,7 @@ function __c51(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/upgradeNodeImageVersion",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "AgentPoolsUpgradeNodeImageVersionRequest" });
@@ -10129,7 +10191,7 @@ function __c67(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings/{identityBindingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetIdentityBindingRequest" });
@@ -10192,7 +10254,7 @@ function __c70(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/machines/{machineName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetMachineRequest" });
@@ -10249,7 +10311,7 @@ function __c72(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetMaintenanceConfigurationRequest" });
@@ -10395,7 +10457,7 @@ function __c75(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetManagedClusterRequest" });
@@ -10512,13 +10574,13 @@ function __c81(j: number): any {
           networkProfile: S.optional(__S(746, __c23, 10)),
           windowsProfile: S.optional(__S(747, __c23, 11)),
           securityProfile: S.optional(__S(748, __c23, 12)),
-          gpuProfile: S.optional(__S(749, __c23, 13)),
-          gatewayProfile: S.optional(__S(750, __c23, 14)),
-          artifactStreamingProfile: S.optional(__S(751, __c23, 15)),
-          virtualMachinesProfile: S.optional(__S(757, __c23, 21)),
-          virtualMachineNodesStatus: S.optional(__S(753, __c23, 17)),
-          status: S.optional(__S(761, __c23, 25)),
-          localDNSProfile: S.optional(__S(760, __c23, 24)),
+          gpuProfile: S.optional(__S(750, __c23, 14)),
+          gatewayProfile: S.optional(__S(751, __c23, 15)),
+          artifactStreamingProfile: S.optional(__S(752, __c23, 16)),
+          virtualMachinesProfile: S.optional(__S(758, __c23, 22)),
+          virtualMachineNodesStatus: S.optional(__S(754, __c23, 18)),
+          status: S.optional(__S(762, __c23, 26)),
+          localDNSProfile: S.optional(__S(761, __c23, 25)),
           name: S.String,
         }),
       ).annotate({ identifier: "ManagedClusterAgentPoolProfile" });
@@ -10680,7 +10742,7 @@ function __c81(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          observability: S.optional(__S(751, __c23, 15)),
+          observability: S.optional(__S(752, __c23, 16)),
           security: S.optional(__S(2616, __c81, 24)),
           performance: S.optional(__S(2617, __c81, 25)),
         }),
@@ -10762,7 +10824,7 @@ function __c82(j: number): any {
           loadBalancerSku: S.optional(S.String),
           loadBalancerProfile: S.optional(__S(2623, __c81, 31)),
           natGatewayProfile: S.optional(__S(2626, __c82, 2)),
-          staticEgressGatewayProfile: S.optional(__S(751, __c23, 15)),
+          staticEgressGatewayProfile: S.optional(__S(752, __c23, 16)),
           podCidrs: S.optional(__S(864, __c27, 0)),
           serviceCidrs: S.optional(__S(864, __c27, 0)),
           ipFamilies: S.optional(__S(2464, __c77, 0)),
@@ -10894,7 +10956,7 @@ function __c82(j: number): any {
       return S.suspend(() =>
         S.Struct({
           logAnalyticsWorkspaceResourceId: S.optional(S.String),
-          securityMonitoring: S.optional(__S(751, __c23, 15)),
+          securityMonitoring: S.optional(__S(752, __c23, 16)),
           securityGating: S.optional(__S(2638, __c82, 14)),
         }),
       ).annotate({ identifier: "ManagedClusterSecurityProfileDefender" });
@@ -10926,7 +10988,7 @@ function __c82(j: number): any {
           defender: S.optional(__S(2639, __c82, 15)),
           azureKeyVaultKms: S.optional(__S(2640, __c82, 16)),
           kubernetesResourceObjectEncryptionProfile: S.optional(__S(2641, __c82, 17)),
-          workloadIdentity: S.optional(__S(751, __c23, 15)),
+          workloadIdentity: S.optional(__S(752, __c23, 16)),
           imageCleaner: S.optional(__S(2642, __c82, 18)),
           customCATrustCertificates: S.optional(__S(864, __c27, 0)),
         }),
@@ -10934,10 +10996,10 @@ function __c82(j: number): any {
     case 20:
       return S.suspend(() =>
         S.Struct({
-          diskCSIDriver: S.optional(__S(751, __c23, 15)),
-          fileCSIDriver: S.optional(__S(751, __c23, 15)),
-          snapshotController: S.optional(__S(751, __c23, 15)),
-          blobCSIDriver: S.optional(__S(751, __c23, 15)),
+          diskCSIDriver: S.optional(__S(752, __c23, 16)),
+          fileCSIDriver: S.optional(__S(752, __c23, 16)),
+          snapshotController: S.optional(__S(752, __c23, 16)),
+          blobCSIDriver: S.optional(__S(752, __c23, 16)),
         }),
       ).annotate({ identifier: "ManagedClusterStorageProfile" });
     case 21:
@@ -11000,7 +11062,7 @@ function __c82(j: number): any {
         S.Struct({
           enabled: S.Boolean,
           kubeStateMetrics: S.optional(__S(2652, __c82, 28)),
-          controlPlane: S.optional(__S(751, __c23, 15)),
+          controlPlane: S.optional(__S(752, __c23, 16)),
         }),
       ).annotate({ identifier: "ManagedClusterAzureMonitorProfileMetrics" });
     case 30:
@@ -11030,7 +11092,7 @@ function __c83(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          autoInstrumentation: S.optional(__S(751, __c23, 15)),
+          autoInstrumentation: S.optional(__S(752, __c23, 16)),
           openTelemetryMetrics: S.optional(__S(2655, __c82, 31)),
           openTelemetryLogsAndTraces: S.optional(__S(2655, __c82, 31)),
         }),
@@ -11105,7 +11167,7 @@ function __c83(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          costAnalysis: S.optional(__S(751, __c23, 15)),
+          costAnalysis: S.optional(__S(752, __c23, 16)),
         }),
       ).annotate({ identifier: "ManagedClusterMetricsProfile" });
     case 12:
@@ -11189,10 +11251,10 @@ function __c83(j: number): any {
           metricsProfile: S.optional(__S(2667, __c83, 11)),
           nodeProvisioningProfile: S.optional(__S(2668, __c83, 12)),
           bootstrapProfile: S.optional(__S(2669, __c83, 13)),
-          aiToolchainOperatorProfile: S.optional(__S(751, __c23, 15)),
+          aiToolchainOperatorProfile: S.optional(__S(752, __c23, 16)),
           schedulerProfile: S.optional(__S(2671, __c83, 15)),
           hostedSystemProfile: S.optional(__S(2672, __c83, 16)),
-          status: S.optional(__S(761, __c23, 25)),
+          status: S.optional(__S(762, __c23, 26)),
         }),
       ).annotate({ identifier: "ManagedClusterProperties" });
     case 18:
@@ -11246,7 +11308,7 @@ function __c84(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/commandResults/{commandId}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetManagedClusterCommandResultRequest" });
@@ -11289,7 +11351,7 @@ function __c86(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/meshRevisionProfiles/{mode}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetManagedClusterMeshRevisionProfileRequest" });
@@ -11352,7 +11414,7 @@ function __c89(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/meshUpgradeProfiles/{mode}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetManagedClusterMeshUpgradeProfileRequest" });
@@ -11385,7 +11447,7 @@ function __c91(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/upgradeProfiles/default",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetManagedClusterUpgradeProfileRequest" });
@@ -11433,7 +11495,7 @@ function __c92(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetManagedNamespaceRequest" });
@@ -11487,7 +11549,7 @@ function __c95(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetPrivateEndpointConnectionRequest" });
@@ -11535,7 +11597,7 @@ function __c97(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetSnapshotRequest" });
@@ -11584,7 +11646,7 @@ function __c99(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetTrustedAccessRoleBindingRequest" });
@@ -11885,7 +11947,7 @@ function __c107(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings/{identityBindingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "IdentityBindingsCreateOrUpdateRequest" });
@@ -11918,7 +11980,7 @@ function __c108(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListAgentPoolsRequest" });
@@ -12263,7 +12325,7 @@ function __c122(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListIdentityBindingByManagedClusterRequest" });
@@ -12292,7 +12354,7 @@ function __c123(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/machines",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListMachinesRequest" });
@@ -12320,7 +12382,7 @@ function __c124(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListMaintenanceConfigurationByManagedClusterRequest" });
@@ -12347,7 +12409,7 @@ function __c125(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedClusterByResourceGroupRequest" });
@@ -12380,7 +12442,7 @@ function __c127(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterAdminCredential",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedClusterClusterAdminCredentialsRequest" });
@@ -12400,7 +12462,7 @@ function __c128(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterMonitoringUserCredential",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedClusterClusterMonitoringUserCredentialsRequest" });
@@ -12421,7 +12483,7 @@ function __c129(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterUserCredential",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedClusterClusterUserCredentialsRequest" });
@@ -12439,7 +12501,7 @@ function __c130(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/kubernetesVersions",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedClusterKubernetesVersionsRequest" });
@@ -12489,7 +12551,7 @@ function __c131(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/meshRevisionProfiles",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedClusterMeshRevisionProfilesRequest" });
@@ -12583,7 +12645,7 @@ function __c135(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/meshUpgradeProfiles",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedClusterMeshUpgradeProfilesRequest" });
@@ -12611,7 +12673,7 @@ function __c136(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/outboundNetworkDependenciesEndpoints",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedClusterOutboundNetworkDependenciesEndpointsRequest" });
@@ -12664,7 +12726,7 @@ function __c137(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedClustersRequest" });
@@ -12683,7 +12745,7 @@ function __c138(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedNamespaceByManagedClusterRequest" });
@@ -12712,7 +12774,7 @@ function __c139(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}/listCredential",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedNamespaceCredentialRequest" });
@@ -12727,7 +12789,7 @@ function __c140(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.ContainerService/operations",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -12772,7 +12834,7 @@ function __c141(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateEndpointConnections",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionsRequest" });
@@ -12799,7 +12861,7 @@ function __c142(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateLinkResources",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourcesRequest" });
@@ -12823,7 +12885,7 @@ function __c143(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListSnapshotByResourceGroupRequest" });
@@ -12853,7 +12915,7 @@ function __c145(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/snapshots",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListSnapshotsRequest" });
@@ -12876,7 +12938,7 @@ function __c146(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteAgentPoolRequest" });
@@ -12895,7 +12957,7 @@ function __c147(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListTrustedAccessRoleBindingsRequest" });
@@ -12922,7 +12984,7 @@ function __c148(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/trustedAccessRoles",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListTrustedAccessRolesRequest" });
@@ -13002,7 +13064,7 @@ function __c150(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "MaintenanceConfigurationsCreateOrUpdateRequest" });
@@ -13058,13 +13120,13 @@ function __c151(j: number): any {
           networkProfile: S.optional(__S(746, __c23, 10)),
           windowsProfile: S.optional(__S(747, __c23, 11)),
           securityProfile: S.optional(__S(748, __c23, 12)),
-          gpuProfile: S.optional(__S(749, __c23, 13)),
-          gatewayProfile: S.optional(__S(750, __c23, 14)),
-          artifactStreamingProfile: S.optional(__S(751, __c23, 15)),
-          virtualMachinesProfile: S.optional(__S(757, __c23, 21)),
-          virtualMachineNodesStatus: S.optional(__S(753, __c23, 17)),
+          gpuProfile: S.optional(__S(750, __c23, 14)),
+          gatewayProfile: S.optional(__S(751, __c23, 15)),
+          artifactStreamingProfile: S.optional(__S(752, __c23, 16)),
+          virtualMachinesProfile: S.optional(__S(758, __c23, 22)),
+          virtualMachineNodesStatus: S.optional(__S(754, __c23, 18)),
           status: S.optional(__S(960, __c30, 0)),
-          localDNSProfile: S.optional(__S(760, __c23, 24)),
+          localDNSProfile: S.optional(__S(761, __c23, 25)),
           name: S.String,
         }),
       ).annotate({ identifier: "ManagedClusterAgentPoolProfileInput" });
@@ -13128,7 +13190,7 @@ function __c151(j: number): any {
           loadBalancerSku: S.optional(S.String),
           loadBalancerProfile: S.optional(__S(4837, __c151, 5)),
           natGatewayProfile: S.optional(__S(4838, __c151, 6)),
-          staticEgressGatewayProfile: S.optional(__S(751, __c23, 15)),
+          staticEgressGatewayProfile: S.optional(__S(752, __c23, 16)),
           podCidrs: S.optional(__S(864, __c27, 0)),
           serviceCidrs: S.optional(__S(864, __c27, 0)),
           ipFamilies: S.optional(__S(2464, __c77, 0)),
@@ -13158,7 +13220,7 @@ function __c151(j: number): any {
           servicePrincipalProfile: S.optional(__S(2600, __c81, 8)),
           addonProfiles: S.optional(__S(2603, __c81, 11)),
           podIdentityProfile: S.optional(__S(4836, __c151, 4)),
-          oidcIssuerProfile: S.optional(__S(751, __c23, 15)),
+          oidcIssuerProfile: S.optional(__S(752, __c23, 16)),
           nodeResourceGroup: S.optional(S.String),
           nodeResourceGroupProfile: S.optional(__S(2614, __c81, 22)),
           enableRBAC: S.optional(S.Boolean),
@@ -13185,7 +13247,7 @@ function __c151(j: number): any {
           metricsProfile: S.optional(__S(2667, __c83, 11)),
           nodeProvisioningProfile: S.optional(__S(2668, __c83, 12)),
           bootstrapProfile: S.optional(__S(2669, __c83, 13)),
-          aiToolchainOperatorProfile: S.optional(__S(751, __c23, 15)),
+          aiToolchainOperatorProfile: S.optional(__S(752, __c23, 16)),
           schedulerProfile: S.optional(__S(2671, __c83, 15)),
           hostedSystemProfile: S.optional(__S(2672, __c83, 16)),
           status: S.optional(__S(960, __c30, 0)),
@@ -13217,7 +13279,7 @@ function __c151(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ManagedClustersCreateOrUpdateRequest" });
@@ -13270,7 +13332,7 @@ function __c152(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ManagedNamespacesCreateOrUpdateRequest" });
@@ -13309,7 +13371,7 @@ function __c153(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resolvePrivateLinkServiceId",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "PostResolvePrivateLinkServiceIdRequest" });
@@ -13330,7 +13392,7 @@ function __c154(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetServicePrincipalProfile",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ResetManagedClusterServicePrincipalProfileRequest" });
@@ -13349,7 +13411,7 @@ function __c155(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "RotateManagedClusterClusterCertificatesRequest" });
@@ -13368,7 +13430,7 @@ function __c156(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateServiceAccountSigningKeys",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "RotateManagedClusterServiceAccountSigningKeysRequest" });
@@ -13389,7 +13451,7 @@ function __c157(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/deleteMachines",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteAgentPoolMachinesRequest" });
@@ -13411,7 +13473,7 @@ function __c158(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/runCommand",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "RunManagedClusterCommandRequest" });
@@ -13440,7 +13502,7 @@ function __c159(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "SnapshotsCreateOrUpdateRequest" });
@@ -13459,7 +13521,7 @@ function __c160(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/start",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "StartManagedClusterRequest" });
@@ -13515,7 +13577,7 @@ function __c163(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/stop",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "StopManagedClusterRequest" });
@@ -13563,7 +13625,7 @@ function __c165(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "TrustedAccessRoleBindingsCreateOrUpdateRequest" });

@@ -29,36 +29,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 /** The channel where an event originated */
 export type CreateEventRequestActionSource =
@@ -74,69 +102,69 @@ export type CreateEventRequestActionSource =
 /** Tracking and attribution context. */
 export interface CreateEventRequestContext {
   /** Ad campaign ID. */
-  ad_campaign_id?: string | null;
+  ad_campaign_id?: string | null | undefined;
   /** Ad ID. */
-  ad_id?: string | null;
+  ad_id?: string | null | undefined;
   /** Ad set ID. */
-  ad_set_id?: string | null;
+  ad_set_id?: string | null | undefined;
   /** Facebook click cookie (_fbc, format fb.1.{timestamp}.{fbclid}). */
-  fbc?: string | null;
+  fbc?: string | null | undefined;
   /** Facebook click ID. */
-  fbclid?: string | null;
+  fbclid?: string | null | undefined;
   /** Facebook browser pixel ID. */
-  fbp?: string | null;
+  fbp?: string | null | undefined;
   /** Client-side device fingerprint. */
-  fingerprint?: string | null;
+  fingerprint?: string | null | undefined;
   /** Confidence score (0-1) for the device fingerprint. */
-  fingerprint_confidence?: number | null;
+  fingerprint_confidence?: number | null | undefined;
   /** Google Analytics client ID. */
-  ga?: string | null;
+  ga?: string | null | undefined;
   /** Google Ads gbraid click ID (iOS privacy). */
-  gbraid?: string | null;
+  gbraid?: string | null | undefined;
   /** Google click ID. */
-  gclid?: string | null;
+  gclid?: string | null | undefined;
   /** Instagram session ID. */
-  ig_sid?: string | null;
+  ig_sid?: string | null | undefined;
   /** IP address. */
-  ip_address?: string | null;
+  ip_address?: string | null | undefined;
   /** Browser language (e.g. en-US). */
-  language?: string | null;
+  language?: string | null | undefined;
   /** LinkedIn click ID. */
-  li_fat_id?: string | null;
+  li_fat_id?: string | null | undefined;
   /** Microsoft Advertising (Bing) click ID. */
-  msclkid?: string | null;
+  msclkid?: string | null | undefined;
   /** Reddit click ID. */
-  rdt_cid?: string | null;
+  rdt_cid?: string | null | undefined;
   /** Whop SC identifier. */
-  sc?: string | null;
+  sc?: string | null | undefined;
   /** Snapchat click ID. */
-  sccid?: string | null;
+  sccid?: string | null | undefined;
   /** Screen resolution (e.g. 1920x1080). */
-  screen_resolution?: string | null;
+  screen_resolution?: string | null | undefined;
   /** IANA timezone (e.g. America/New_York). */
-  timezone?: string | null;
+  timezone?: string | null | undefined;
   /** TikTok click ID. */
-  ttclid?: string | null;
+  ttclid?: string | null | undefined;
   /** TikTok pixel ID. */
-  ttp?: string | null;
+  ttp?: string | null | undefined;
   /** X (Twitter) click ID. */
-  twclid?: string | null;
+  twclid?: string | null | undefined;
   /** Browser user agent string. */
-  user_agent?: string | null;
+  user_agent?: string | null | undefined;
   /** UTM campaign parameter. */
-  utm_campaign?: string | null;
+  utm_campaign?: string | null | undefined;
   /** UTM content parameter. */
-  utm_content?: string | null;
+  utm_content?: string | null | undefined;
   /** UTM ID parameter. */
-  utm_id?: string | null;
+  utm_id?: string | null | undefined;
   /** UTM medium parameter. */
-  utm_medium?: string | null;
+  utm_medium?: string | null | undefined;
   /** UTM source parameter. */
-  utm_source?: string | null;
+  utm_source?: string | null | undefined;
   /** UTM term parameter. */
-  utm_term?: string | null;
+  utm_term?: string | null | undefined;
   /** Google Ads wbraid click ID (iOS privacy). */
-  wbraid?: string | null;
+  wbraid?: string | null | undefined;
 }
 /** The available currencies on the platform */
 export type CreateEventRequestCurrency =
@@ -235,100 +263,100 @@ export type CreateEventRequestUserGender = "male" | "female";
 /** User identity and profile data. */
 export interface CreateEventRequestUser {
   /** An anonymous identifier for the user. */
-  anonymous_id?: string | null;
+  anonymous_id?: string | null | undefined;
   /** Date of birth (YYYY-MM-DD). */
-  birthdate?: string | null;
+  birthdate?: string | null | undefined;
   /** City. */
-  city?: string | null;
+  city?: string | null | undefined;
   /** Country. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** Email address. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** An external identifier for the user. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** First name. */
-  first_name?: string | null;
+  first_name?: string | null | undefined;
   /** Gender. */
-  gender?: CreateEventRequestUserGender | (string & {}) | null;
+  gender?: CreateEventRequestUserGender | (string & {}) | null | undefined;
   /** Last name. */
-  last_name?: string | null;
+  last_name?: string | null | undefined;
   /** A second anonymous identifier to link to this user (e.g. captured across an iframe boundary). */
-  linked_anonymous_id?: string | null;
+  linked_anonymous_id?: string | null | undefined;
   /** A wuid from a linked frame, captured across an iframe boundary. */
-  linked_wuid?: string | null;
+  linked_wuid?: string | null | undefined;
   /** The Whop member ID. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** The Whop membership ID. */
-  membership_id?: string | null;
+  membership_id?: string | null | undefined;
   /** Full display name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Phone number. */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** Postal code. */
-  postal_code?: string | null;
+  postal_code?: string | null | undefined;
   /** State or region. */
-  state?: string | null;
+  state?: string | null | undefined;
   /** The Whop user ID. */
-  user_id?: string | null;
+  user_id?: string | null | undefined;
   /** Username. */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export interface CreateEventRequest {
   /** The account to associate with this event. */
   account_id: string;
   /** Where the event originated. */
-  action_source?: CreateEventRequestActionSource | (string & {}) | null;
+  action_source?: CreateEventRequestActionSource | (string & {}) | null | undefined;
   /** The build of the hosted app that served the page where the event occurred. */
-  app_build_id?: string | null;
+  app_build_id?: string | null | undefined;
   /** The hosted app that served the page where the event occurred. */
-  app_id?: string | null;
+  app_id?: string | null | undefined;
   /** Tracking and attribution context. */
-  context?: CreateEventRequestContext | null;
+  context?: CreateEventRequestContext | null | undefined;
   /** ISO 4217 currency code. */
-  currency?: CreateEventRequestCurrency | (string & {}) | null;
+  currency?: CreateEventRequestCurrency | (string & {}) | null | undefined;
   /** Custom event name when event_name is 'custom'. Maximum 35 chars for this value. */
-  custom_name?: string | null;
+  custom_name?: string | null | undefined;
   /** For 'leave' events: milliseconds the visitor spent on the page. */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** Client-provided identifier for deduplication. Generated if omitted. */
-  event_id?: string | null;
+  event_id?: string | null | undefined;
   /** The type of event. Use a standard event (lead, submit_application, contact, complete_registration, schedule, view_content, add_to_cart) or pass your own name directly for a custom event. */
   event_name: string;
   /** When the event occurred. Defaults to now. */
-  event_time?: string | null;
+  event_time?: string | null | undefined;
   /** The plan associated with the event. */
-  plan_id?: string | null;
+  plan_id?: string | null | undefined;
   /** The product associated with the event. */
-  product_id?: string | null;
+  product_id?: string | null | undefined;
   /** The referring URL. */
-  referrer_url?: string | null;
+  referrer_url?: string | null | undefined;
   /** For 'page' events: true when the page was restored from the back/forward cache. */
-  resumed?: boolean | null;
+  resumed?: boolean | null | undefined;
   /** For 'identify' events: where the identity was captured (url, form, manual, iframe). */
-  source?: string | null;
+  source?: string | null | undefined;
   /** For 'page' events: the document title. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** The URL where the event occurred. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** User identity and profile data. */
-  user?: CreateEventRequestUser | null;
+  user?: CreateEventRequestUser | null | undefined;
   /** Monetary value associated with the event. */
-  value?: number | null;
+  value?: number | null | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface CreateEventResponse {
   id: string;
 }
 export interface GetPulseRequest {
   /** Filter to one or more types, comma separated -- for example `purchase,card_spend`. These are the item's `type`, not its `event_name`: several types share the `ledger_line.created` event name. Omit for every type in the feed. Values outside the feed's own set are rejected. */
-  event?: string;
+  event?: string | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The underlying event recorded. Every movement on this feed is a ledger line, so switch on `type` rather than this. */
 export type GetPulseResponseDataItemEventName = "ledger_line.created";
@@ -348,9 +376,9 @@ export type GetPulseResponseDataItemType =
 /** Coarse location, shaped like the event `user` block. It belongs to the owner of the wallet the money moved into or out of -- the party the event is about, never their counterparty. Omitted entirely when nothing is known. */
 export interface GetPulseResponseDataItemUser {
   /** City name. Omitted when unknown. */
-  city?: string;
+  city?: string | undefined;
   /** ISO 3166-1 alpha-2 country code. Omitted when unknown. */
-  country?: string;
+  country?: string | undefined;
 }
 export interface GetPulseResponseDataItem {
   /** The underlying event recorded. Every movement on this feed is a ledger line, so switch on `type` rather than this. */
@@ -358,19 +386,19 @@ export interface GetPulseResponseDataItem {
   /** When the event happened, coarsened to the start of the minute. */
   event_time: string;
   /** The USD amount of the event. */
-  total_usd_amount?: number | null;
+  total_usd_amount?: number | null | undefined;
   /** What moved: a purchase, an affiliate commission, Whop card spend, ad spend, app revenue, an off-platform sale, a wallet deposit, a card load, a claimed drop, a transfer between accounts, or a referral bonus. */
   type: GetPulseResponseDataItemType;
   /** Coarse location, shaped like the event `user` block. It belongs to the owner of the wallet the money moved into or out of -- the party the event is about, never their counterparty. Omitted entirely when nothing is known. */
-  user?: GetPulseResponseDataItemUser;
+  user?: GetPulseResponseDataItemUser | undefined;
 }
 /** Recent anonymized money-movement events, newest first. */
 export type GetPulseResponseDataList = Array<GetPulseResponseDataItem>;
 export interface GetPulseResponsePageInfo {
-  end_cursor?: string | null;
+  end_cursor?: string | null | undefined;
   has_next_page: boolean;
   has_previous_page: boolean;
-  start_cursor?: string | null;
+  start_cursor?: string | null | undefined;
 }
 export interface GetPulseResponse {
   /** Recent anonymized money-movement events, newest first. */
@@ -381,43 +409,43 @@ export type ListEventsRequestDirection = "asc" | "desc";
 export type ListEventsRequestAttributionModel = "last_touch" | "first_touch";
 export interface ListEventsRequest {
   /** Any hard identifier of the person: a person ID (prsn_*), user ID, email, phone number, or a tracking cookie value (wuid, anonymous ID, fbp/fbc/ttp/ga). Omit to list recent events for the account. */
-  identifier?: string;
+  identifier?: string | undefined;
   /** Account ID, prefixed `biz_`. Optional for account API keys; required for credentials that can access multiple accounts. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Start of the time range as an ISO 8601 timestamp. Required when identifier is omitted. */
-  from?: string;
+  from?: string | undefined;
   /** End of the time range as an ISO 8601 timestamp. Required when identifier is omitted; otherwise defaults to now. */
-  to?: string;
+  to?: string | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
   /** The order events are returned in by time. Defaults to desc (most recent first); asc reads a journey forwards from where it starts. after and before always page forwards and backwards through that order. */
-  direction?: ListEventsRequestDirection | (string & {});
+  direction?: ListEventsRequestDirection | (string & {}) | undefined;
   /** Full event names to filter by, comma-separated (payment.completed, pixel.lead, pixel.page, pixel.custom:<name>) -- the same vocabulary the events / people metrics use. */
-  event?: string;
+  event?: string | undefined;
   /** Canonical source path, exact or with a trailing :* prefix (whop:<campaign>:*, ext:meta:*, referrer:<domain>, direct, unknown). Selects conversions credited to this source. */
-  source?: string;
+  source?: string | undefined;
   /** Attribution model for the source filter (defaults to last_touch). */
-  attribution_model?: ListEventsRequestAttributionModel | (string & {});
+  attribution_model?: ListEventsRequestAttributionModel | (string & {}) | undefined;
   /** Country codes to filter by, comma-separated. */
-  country?: string;
+  country?: string | undefined;
   /** Cities to filter by, comma-separated. */
-  city?: string;
+  city?: string | undefined;
   /** Device families to filter by, comma-separated (e.g. iPhone, Mac). */
-  device?: string;
+  device?: string | undefined;
   /** Browser families to filter by, comma-separated (e.g. Chrome, Mobile Safari). */
-  browser?: string;
+  browser?: string | undefined;
   /** Operating system families to filter by, comma-separated (e.g. iOS, Windows). */
-  os?: string;
+  os?: string | undefined;
   /** utm_source values to filter by, comma-separated. */
-  utm_source?: string;
+  utm_source?: string | undefined;
   /** Page hostnames to filter by, comma-separated. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Page paths to filter by, comma-separated. */
-  page?: string;
+  page?: string | undefined;
 }
 /** How this event counts as an acquisition touch, using the same rule attribution credits a conversion with. `ad_click` and `lead_form` resolved to a Whop ad; `external_ad_click` is a paid click on a campaign run outside Whop; `referrer` is organic. Null when the event is not a touch. */
 export type ListEventsResponseDataItemContextSourceType =
@@ -426,60 +454,60 @@ export type ListEventsResponseDataItemContextSourceType =
   | "external_ad_click"
   | "referrer";
 export interface ListEventsResponseDataItemContext {
-  ad_campaign_id?: string | null;
+  ad_campaign_id?: string | null | undefined;
   /** Stable identity for the ad click this event belongs to. Every event from one click carries the same value, so events group into clicks without re-deriving them. */
-  ad_click_id?: string | null;
+  ad_click_id?: string | null | undefined;
   /** How the ad click was identified: the network's click-id param (`fbclid`, `ttclid`, `gclid`, `gbraid`, `wbraid`, `twclid`) or `synthetic` when the click carried none. */
-  ad_click_type?: string | null;
-  ad_id?: string | null;
-  ad_set_id?: string | null;
+  ad_click_type?: string | null | undefined;
+  ad_id?: string | null | undefined;
+  ad_set_id?: string | null | undefined;
   /** How this event counts as an acquisition touch, using the same rule attribution credits a conversion with. `ad_click` and `lead_form` resolved to a Whop ad; `external_ad_click` is a paid click on a campaign run outside Whop; `referrer` is organic. Null when the event is not a touch. */
-  source_type?: ListEventsResponseDataItemContextSourceType | null;
-  utm_campaign?: string | null;
-  utm_content?: string | null;
-  utm_medium?: string | null;
-  utm_source?: string | null;
-  utm_term?: string | null;
+  source_type?: ListEventsResponseDataItemContextSourceType | null | undefined;
+  utm_campaign?: string | null | undefined;
+  utm_content?: string | null | undefined;
+  utm_medium?: string | null | undefined;
+  utm_source?: string | null | undefined;
+  utm_term?: string | null | undefined;
 }
 export type ListEventsResponseDataItemQuestionsItemOptionsList = Array<string>;
 export interface ListEventsResponseDataItemQuestionsItem {
-  answer?: string | null;
-  id?: string | null;
-  key?: string | null;
-  options?: ListEventsResponseDataItemQuestionsItemOptionsList | null;
-  question?: string | null;
-  type?: string | null;
+  answer?: string | null | undefined;
+  id?: string | null | undefined;
+  key?: string | null | undefined;
+  options?: ListEventsResponseDataItemQuestionsItemOptionsList | null | undefined;
+  question?: string | null | undefined;
+  type?: string | null | undefined;
 }
 export type ListEventsResponseDataItemQuestionsList =
   Array<ListEventsResponseDataItemQuestionsItem>;
 export interface ListEventsResponseDataItemRelatedAccount {
-  id?: string;
-  logo_url?: string | null;
-  route?: string | null;
-  title?: string | null;
+  id?: string | undefined;
+  logo_url?: string | null | undefined;
+  route?: string | null | undefined;
+  title?: string | null | undefined;
 }
 /** The Whop ad this event's click resolved to. */
 export interface ListEventsResponseDataItemRelatedAd {
-  id?: string;
-  thumbnail_url?: string | null;
-  title?: string | null;
+  id?: string | undefined;
+  thumbnail_url?: string | null | undefined;
+  title?: string | null | undefined;
 }
 /** The Whop ad campaign this event's click resolved to, read from the ad entity tree rather than the click's url params. */
 export interface ListEventsResponseDataItemRelatedAdCampaign {
-  id?: string;
-  platform?: string | null;
-  title?: string | null;
+  id?: string | undefined;
+  platform?: string | null | undefined;
+  title?: string | null | undefined;
 }
 /** The Whop ad group this event's click resolved to. */
 export interface ListEventsResponseDataItemRelatedAdGroup {
-  id?: string;
-  title?: string | null;
+  id?: string | undefined;
+  title?: string | null | undefined;
 }
 export interface ListEventsResponseDataItemRelatedApp {
-  domain_id?: string | null;
-  icon_url?: string | null;
-  id?: string;
-  title?: string | null;
+  domain_id?: string | null | undefined;
+  icon_url?: string | null | undefined;
+  id?: string | undefined;
+  title?: string | null | undefined;
 }
 export type ListEventsResponseDataItemRelatedAudienceAudienceType = "custom" | "lookalike";
 export type ListEventsResponseDataItemRelatedAudienceSourceType =
@@ -488,11 +516,11 @@ export type ListEventsResponseDataItemRelatedAudienceSourceType =
   | "engagement";
 /** The saved audience this event came from. Present on the identify events an audience ingest writes for each of its members. */
 export interface ListEventsResponseDataItemRelatedAudience {
-  audience_type?: ListEventsResponseDataItemRelatedAudienceAudienceType | null;
-  file_name?: string | null;
-  id?: string;
-  source_type?: ListEventsResponseDataItemRelatedAudienceSourceType | null;
-  title?: string | null;
+  audience_type?: ListEventsResponseDataItemRelatedAudienceAudienceType | null | undefined;
+  file_name?: string | null | undefined;
+  id?: string | undefined;
+  source_type?: ListEventsResponseDataItemRelatedAudienceSourceType | null | undefined;
+  title?: string | null | undefined;
 }
 export interface Money {
   /** The amount in major units, as an exact decimal string -- `"10.00"` is ten dollars. A string so no float rounds it in transit. */
@@ -525,76 +553,76 @@ export interface ReceiptLineItem {
 /** Everything this payment charged for, in purchase order, including quantities. Older payments fall back to their original plan. */
 export type ListEventsResponseDataItemRelatedPaymentLineItemsList = Array<ReceiptLineItem>;
 export interface ListEventsResponseDataItemRelatedPayment {
-  card_brand?: string | null;
-  card_last4?: string | null;
-  id?: string;
+  card_brand?: string | null | undefined;
+  card_last4?: string | null | undefined;
+  id?: string | undefined;
   /** Everything this payment charged for, in purchase order, including quantities. Older payments fall back to their original plan. */
-  line_items?: ListEventsResponseDataItemRelatedPaymentLineItemsList;
-  provider?: string | null;
+  line_items?: ListEventsResponseDataItemRelatedPaymentLineItemsList | undefined;
+  provider?: string | null | undefined;
 }
 export interface ListEventsResponseDataItemRelatedPlan {
-  billing_period?: number | null;
-  currency?: string | null;
-  id?: string;
-  initial_price?: number | null;
-  renewal_price?: number | null;
-  title?: string | null;
+  billing_period?: number | null | undefined;
+  currency?: string | null | undefined;
+  id?: string | undefined;
+  initial_price?: number | null | undefined;
+  renewal_price?: number | null | undefined;
+  title?: string | null | undefined;
 }
 export interface ListEventsResponseDataItemRelatedProduct {
-  id?: string;
-  route?: string | null;
-  title?: string | null;
+  id?: string | undefined;
+  route?: string | null | undefined;
+  title?: string | null | undefined;
 }
 export interface ListEventsResponseDataItemRelatedUser {
-  avatar_url?: string | null;
-  id?: string;
-  name?: string | null;
-  username?: string | null;
+  avatar_url?: string | null | undefined;
+  id?: string | undefined;
+  name?: string | null | undefined;
+  username?: string | null | undefined;
 }
 /** Hydrated details for the records this event references. Only present keys resolved. */
 export interface ListEventsResponseDataItemRelated {
-  account?: ListEventsResponseDataItemRelatedAccount | null;
+  account?: ListEventsResponseDataItemRelatedAccount | null | undefined;
   /** The Whop ad this event's click resolved to. */
-  ad?: ListEventsResponseDataItemRelatedAd | null;
+  ad?: ListEventsResponseDataItemRelatedAd | null | undefined;
   /** The Whop ad campaign this event's click resolved to, read from the ad entity tree rather than the click's url params. */
-  ad_campaign?: ListEventsResponseDataItemRelatedAdCampaign | null;
+  ad_campaign?: ListEventsResponseDataItemRelatedAdCampaign | null | undefined;
   /** The Whop ad group this event's click resolved to. */
-  ad_group?: ListEventsResponseDataItemRelatedAdGroup | null;
-  app?: ListEventsResponseDataItemRelatedApp | null;
+  ad_group?: ListEventsResponseDataItemRelatedAdGroup | null | undefined;
+  app?: ListEventsResponseDataItemRelatedApp | null | undefined;
   /** The saved audience this event came from. Present on the identify events an audience ingest writes for each of its members. */
-  audience?: ListEventsResponseDataItemRelatedAudience | null;
-  payment?: ListEventsResponseDataItemRelatedPayment | null;
-  plan?: ListEventsResponseDataItemRelatedPlan | null;
-  product?: ListEventsResponseDataItemRelatedProduct | null;
-  user?: ListEventsResponseDataItemRelatedUser | null;
+  audience?: ListEventsResponseDataItemRelatedAudience | null | undefined;
+  payment?: ListEventsResponseDataItemRelatedPayment | null | undefined;
+  plan?: ListEventsResponseDataItemRelatedPlan | null | undefined;
+  product?: ListEventsResponseDataItemRelatedProduct | null | undefined;
+  user?: ListEventsResponseDataItemRelatedUser | null | undefined;
 }
 export interface ListEventsResponseDataItemUser {
-  city?: string | null;
-  country?: string | null;
-  email?: string | null;
-  first_name?: string | null;
-  last_name?: string | null;
-  name?: string | null;
-  phone?: string | null;
+  city?: string | null | undefined;
+  country?: string | null | undefined;
+  email?: string | null | undefined;
+  first_name?: string | null | undefined;
+  last_name?: string | null | undefined;
+  name?: string | null | undefined;
+  phone?: string | null | undefined;
 }
 export interface ListEventsResponseDataItem {
-  context?: ListEventsResponseDataItemContext | null;
-  currency?: string | null;
-  custom_name?: string | null;
+  context?: ListEventsResponseDataItemContext | null | undefined;
+  currency?: string | null | undefined;
+  custom_name?: string | null | undefined;
   event_id: string;
   event_name: string;
   event_time: string;
   id: string;
-  path?: string | null;
+  path?: string | null | undefined;
   person_id: string;
-  questions?: ListEventsResponseDataItemQuestionsList | null;
-  referrer_url?: string | null;
+  questions?: ListEventsResponseDataItemQuestionsList | null | undefined;
+  referrer_url?: string | null | undefined;
   /** Hydrated details for the records this event references. Only present keys resolved. */
-  related?: ListEventsResponseDataItemRelated | null;
-  total_usd_amount?: number | null;
-  url?: string | null;
-  user?: ListEventsResponseDataItemUser | null;
-  value?: number | null;
+  related?: ListEventsResponseDataItemRelated | null | undefined;
+  total_usd_amount?: number | null | undefined;
+  url?: string | null | undefined;
+  user?: ListEventsResponseDataItemUser | null | undefined;
+  value?: number | null | undefined;
 }
 export type ListEventsResponseDataList = Array<ListEventsResponseDataItem>;
 export type ListEventsResponsePageInfo = GetPulseResponsePageInfo;
@@ -604,11 +632,11 @@ export interface ListEventsResponse {
 }
 export interface ValidatePixelRequest {
   /** Account to check. Defaults to the authenticated account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** A page to read for the pixel, e.g. an ad destination. Omit it to check the account from its events alone. */
-  url?: string;
+  url?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type PixelValidationHostEventsList = Array<string>;
 export type PixelValidationPageEventsList = Array<string>;
@@ -630,6 +658,17 @@ export interface PixelValidation {
   /** The URL that was checked, after normalization. `null` when the request didn't include one. */
   url: string | null;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CreateEventError = Conflict | WhopOpError;
 /** Create Event Tracks a conversion or engagement event for an account. */
 export const createEvent: API.OperationMethod<
@@ -638,8 +677,8 @@ export const createEvent: API.OperationMethod<
   CreateEventError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c0, 2) as any as S.Schema<CreateEventRequest>,
-  output: __S(3, __c0, 3) as any as S.Schema<CreateEventResponse>,
+  input: __S(34, __c1, 2) as any as S.Schema<CreateEventRequest>,
+  output: __S(35, __c1, 3) as any as S.Schema<CreateEventResponse>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -657,8 +696,8 @@ export const getPulse: API.PaginatedOperationMethod<
   GetPulseResponseDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(32, __c1, 0) as any as S.Schema<GetPulseRequest>,
-    output: __S(36, __c1, 4) as any as S.Schema<GetPulseResponse>,
+    input: __S(64, __c2, 0) as any as S.Schema<GetPulseRequest>,
+    output: __S(68, __c2, 4) as any as S.Schema<GetPulseResponse>,
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -686,8 +725,8 @@ export const listEvents: API.PaginatedOperationMethod<
   ListEventsResponseDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(96, __c3, 0) as any as S.Schema<ListEventsRequest>,
-    output: __S(117, __c3, 21) as any as S.Schema<ListEventsResponse>,
+    input: __S(128, __c4, 0) as any as S.Schema<ListEventsRequest>,
+    output: __S(149, __c4, 21) as any as S.Schema<ListEventsResponse>,
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -713,8 +752,8 @@ export const validatePixel: API.OperationMethod<
   ValidatePixelError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<ValidatePixelRequest>,
-  output: __S(161, __c5, 1) as any as S.Schema<PixelValidation>,
+  input: __S(192, __c6, 0) as any as S.Schema<ValidatePixelRequest>,
+  output: __S(193, __c6, 1) as any as S.Schema<PixelValidation>,
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -724,6 +763,24 @@ export const validatePixel: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -793,7 +850,7 @@ function __c0(j: number): any {
           action_source: S.optional(S.NullOr(S.String)),
           app_build_id: S.optional(S.NullOr(S.String)),
           app_id: S.optional(S.NullOr(S.String)),
-          context: S.optional(S.NullOr(__S(0, __c0, 0))),
+          context: S.optional(S.NullOr(__S(32, __c1, 0))),
           currency: S.optional(S.NullOr(S.String)),
           custom_name: S.optional(S.NullOr(S.String)),
           duration: S.optional(S.NullOr(S.Number)),
@@ -807,7 +864,7 @@ function __c0(j: number): any {
           source: S.optional(S.NullOr(S.String)),
           title: S.optional(S.NullOr(S.String)),
           url: S.optional(S.NullOr(S.String)),
-          user: S.optional(S.NullOr(__S(1, __c0, 1))),
+          user: S.optional(S.NullOr(__S(33, __c1, 1))),
           value: S.optional(S.NullOr(S.Number)),
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/events", code: 200 })),
@@ -820,7 +877,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateEventResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -845,21 +902,21 @@ function __c1(j: number): any {
           event_time: S.String,
           total_usd_amount: S.optional(S.NullOr(S.Number)),
           type: S.String,
-          user: S.optional(__S(33, __c1, 1)),
+          user: S.optional(__S(65, __c2, 1)),
         }),
       ).annotate({ identifier: "GetPulseResponseDataItem" });
     case 3:
-      return S.Array(__S(34, __c1, 2));
+      return S.Array(__S(66, __c2, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(35, __c1, 3),
-          page_info: __S(64, __c2, 0),
+          data: __S(67, __c2, 3),
+          page_info: __S(96, __c3, 0),
         }),
       ).annotate({ identifier: "GetPulseResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -872,7 +929,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetPulseResponsePageInfo" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -920,13 +977,13 @@ function __c3(j: number): any {
           answer: S.optional(S.NullOr(S.String)),
           id: S.optional(S.NullOr(S.String)),
           key: S.optional(S.NullOr(S.String)),
-          options: S.optional(S.NullOr(__S(128, __c4, 0))),
+          options: S.optional(S.NullOr(__S(160, __c5, 0))),
           question: S.optional(S.NullOr(S.String)),
           type: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ListEventsResponseDataItemQuestionsItem" });
     case 3:
-      return S.Array(__S(98, __c3, 2));
+      return S.Array(__S(130, __c4, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -997,18 +1054,18 @@ function __c3(j: number): any {
           product_id: S.NullOr(S.String),
           product_title: S.NullOr(S.String),
           quantity: S.Number,
-          subtotal: S.NullOr(__S(106, __c3, 10)),
+          subtotal: S.NullOr(__S(138, __c4, 10)),
         }),
       ).annotate({ identifier: "ReceiptLineItem" });
     case 12:
-      return S.Array(__S(107, __c3, 11));
+      return S.Array(__S(139, __c4, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           card_brand: S.optional(S.NullOr(S.String)),
           card_last4: S.optional(S.NullOr(S.String)),
           id: S.optional(S.String),
-          line_items: S.optional(__S(108, __c3, 12)),
+          line_items: S.optional(__S(140, __c4, 12)),
           provider: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ListEventsResponseDataItemRelatedPayment" });
@@ -1043,16 +1100,16 @@ function __c3(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          account: S.optional(S.NullOr(__S(100, __c3, 4))),
-          ad: S.optional(S.NullOr(__S(101, __c3, 5))),
-          ad_campaign: S.optional(S.NullOr(__S(102, __c3, 6))),
-          ad_group: S.optional(S.NullOr(__S(103, __c3, 7))),
-          app: S.optional(S.NullOr(__S(104, __c3, 8))),
-          audience: S.optional(S.NullOr(__S(105, __c3, 9))),
-          payment: S.optional(S.NullOr(__S(109, __c3, 13))),
-          plan: S.optional(S.NullOr(__S(110, __c3, 14))),
-          product: S.optional(S.NullOr(__S(111, __c3, 15))),
-          user: S.optional(S.NullOr(__S(112, __c3, 16))),
+          account: S.optional(S.NullOr(__S(132, __c4, 4))),
+          ad: S.optional(S.NullOr(__S(133, __c4, 5))),
+          ad_campaign: S.optional(S.NullOr(__S(134, __c4, 6))),
+          ad_group: S.optional(S.NullOr(__S(135, __c4, 7))),
+          app: S.optional(S.NullOr(__S(136, __c4, 8))),
+          audience: S.optional(S.NullOr(__S(137, __c4, 9))),
+          payment: S.optional(S.NullOr(__S(141, __c4, 13))),
+          plan: S.optional(S.NullOr(__S(142, __c4, 14))),
+          product: S.optional(S.NullOr(__S(143, __c4, 15))),
+          user: S.optional(S.NullOr(__S(144, __c4, 16))),
         }),
       ).annotate({ identifier: "ListEventsResponseDataItemRelated" });
     case 18:
@@ -1070,7 +1127,7 @@ function __c3(j: number): any {
     case 19:
       return S.suspend(() =>
         S.Struct({
-          context: S.optional(S.NullOr(__S(97, __c3, 1))),
+          context: S.optional(S.NullOr(__S(129, __c4, 1))),
           currency: S.optional(S.NullOr(S.String)),
           custom_name: S.optional(S.NullOr(S.String)),
           event_id: S.String,
@@ -1079,33 +1136,33 @@ function __c3(j: number): any {
           id: S.String,
           path: S.optional(S.NullOr(S.String)),
           person_id: S.String,
-          questions: S.optional(S.NullOr(__S(99, __c3, 3))),
+          questions: S.optional(S.NullOr(__S(131, __c4, 3))),
           referrer_url: S.optional(S.NullOr(S.String)),
-          related: S.optional(S.NullOr(__S(113, __c3, 17))),
+          related: S.optional(S.NullOr(__S(145, __c4, 17))),
           total_usd_amount: S.optional(S.NullOr(S.Number)),
           url: S.optional(S.NullOr(S.String)),
-          user: S.optional(S.NullOr(__S(114, __c3, 18))),
+          user: S.optional(S.NullOr(__S(146, __c4, 18))),
           value: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "ListEventsResponseDataItem" });
     case 20:
-      return S.Array(__S(115, __c3, 19));
+      return S.Array(__S(147, __c4, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          data: __S(116, __c3, 20),
-          page_info: __S(64, __c2, 0),
+          data: __S(148, __c4, 20),
+          page_info: __S(96, __c3, 0),
         }),
       ).annotate({ identifier: "ListEventsResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1119,12 +1176,12 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           firing_data_ok: S.Boolean,
-          host_events: __S(128, __c4, 0),
+          host_events: __S(160, __c5, 0),
           installed: S.Boolean,
           last_fired_days: S.Unknown,
           last_seen_days: S.NullOr(S.Number),
           native_tracking: S.Boolean,
-          page_events: __S(128, __c4, 0),
+          page_events: __S(160, __c5, 0),
           reachable: S.NullOr(S.Boolean),
           url: S.NullOr(S.String),
         }),

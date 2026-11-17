@@ -28,15 +28,15 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /** Unknown Axiom error -- returned when nothing else matches the failure. */
 export class UnknownAxiomError
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownAxiomError>()("UnknownAxiomError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownAxiomError>()(
+    "UnknownAxiomError",
+    UnknownErrorFields,
+  ) {}
 
 /** Schema parse error wrapper (kept for v0 surface parity). */
 export class AxiomParseError

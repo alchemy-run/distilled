@@ -61,12 +61,12 @@ const azureSpec: SdkSpec = {
       ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
       : undefined,
 
-  // Unions surface as TS type unions over an opaque schema — the protocol
-  // passes union content through verbatim.
-  union: ({ name, caseTargets, tsRef }) => [
-    `export type ${name} = ${caseTargets.map(tsRef).join(" | ") || "unknown"};`,
-    `export const ${name} = S.Unknown as any as S.Schema<${name}>;\n`,
-  ],
+  // Unions are ARM's polymorphic hierarchies (a base with
+  // `discriminator` + `x-ms-discriminator-value` subtypes), which the shared
+  // converter turns into unions of the subtypes. Each arm is a real schema,
+  // so the protocol wraps the sensitive members of every arm (a linked
+  // service password, a storage account key) in Redacted.
+  unionStyle: "untagged",
 
   operationDecl: {
     contextType: "AzureOpContext",

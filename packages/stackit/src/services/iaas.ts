@@ -30,36 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export interface AddNetworkToServerRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -108,7 +136,13 @@ export interface DestinationCIDRv6 {
   /** An CIDRv6 string. */
   value: string;
 }
-export type RouteInputDestination = DestinationCIDRv4 | DestinationCIDRv6;
+export type DestinationPrefixListType = "prefixlist";
+/** Prefix List destination reference object. */
+export interface DestinationPrefixList {
+  type: DestinationPrefixListType;
+  value: string;
+}
+export type RouteInputDestination = DestinationCIDRv4 | DestinationCIDRv6 | DestinationPrefixList;
 export type NexthopIPv4Type = "ipv4";
 /** Object that represents an IPv4 address. */
 export interface NexthopIPv4 {
@@ -137,7 +171,7 @@ export type RouteInputNexthop = NexthopIPv4 | NexthopIPv6 | NexthopInternet | Ne
 /** Object represents a network route. */
 export interface RouteInput {
   destination: RouteInputDestination;
-  labels?: unknown;
+  labels?: unknown | undefined;
   nexthop: RouteInputNexthop;
 }
 /** A list of routes. */
@@ -153,16 +187,16 @@ export interface AddRoutesToRoutingTableRequest {
   routingTableId: string;
   items: RouteListInput;
 }
-export type RouteDestination = DestinationCIDRv4 | DestinationCIDRv6;
+export type RouteDestination = DestinationCIDRv4 | DestinationCIDRv6 | DestinationPrefixList;
 export type RouteNexthop = NexthopIPv4 | NexthopIPv6 | NexthopInternet | NexthopBlackhole;
 /** Object represents a network route. */
 export interface Route {
-  createdAt?: string;
+  createdAt?: string | undefined;
   destination: RouteDestination;
-  id?: string;
-  labels?: unknown;
+  id?: string | undefined;
+  labels?: unknown | undefined;
   nexthop: RouteNexthop;
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** A list of routes. */
 export type RouteList = Array<Route>;
@@ -177,24 +211,24 @@ export interface AddRoutingTableToAreaRequest {
   areaId: string;
   /** The STACKIT Region of the resources. */
   region: string;
-  description?: string;
-  dynamicRoutes?: boolean;
-  labels?: unknown;
+  description?: string | undefined;
+  dynamicRoutes?: boolean | undefined;
+  labels?: unknown | undefined;
   name: string;
-  systemRoutes?: boolean;
+  systemRoutes?: boolean | undefined;
 }
 /** An object representing a routing table. Filterable Fields: `dynamicRoutes`, `systemRoutes`. */
 export interface RoutingTable {
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** This is the default routing table. It can't be deleted and is used if the user does not specify it otherwise. */
-  default?: boolean;
-  description?: string;
-  dynamicRoutes?: boolean;
-  id?: string;
-  labels?: unknown;
+  default?: boolean | undefined;
+  description?: string | undefined;
+  dynamicRoutes?: boolean | undefined;
+  id?: string | undefined;
+  labels?: unknown | undefined;
   name: string;
-  systemRoutes?: boolean;
-  updatedAt?: string;
+  systemRoutes?: boolean | undefined;
+  updatedAt?: string | undefined;
 }
 export interface AddSecurityGroupToServerRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -232,13 +266,13 @@ export interface AddVolumeToServerRequest {
   serverId: string;
   /** The identifier (ID) of a STACKIT Volume. */
   volumeId: string;
-  deleteOnTermination?: boolean;
+  deleteOnTermination?: boolean | undefined;
 }
 /** Object that represents a Volume attachment to a server. */
 export interface VolumeAttachment {
-  deleteOnTermination?: boolean;
-  serverId?: string;
-  volumeId?: string;
+  deleteOnTermination?: boolean | undefined;
+  serverId?: string | undefined;
+  volumeId?: string | undefined;
 }
 export interface CreateAffinityGroupRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -252,9 +286,9 @@ export interface CreateAffinityGroupRequest {
 export type AffinityGroupMembersList = Array<string>;
 /** Definition of an affinity group. */
 export interface AffinityGroup {
-  id?: string;
+  id?: string | undefined;
   /** The servers that are part of the affinity group. */
-  members?: AffinityGroupMembersList;
+  members?: AffinityGroupMembersList | undefined;
   name: string;
   policy: string;
 }
@@ -268,77 +302,77 @@ export interface CreateBackupRequest {
   projectId: string;
   /** The STACKIT Region of the resources. */
   region: string;
-  description?: string;
-  labels?: unknown;
-  name?: string;
+  description?: string | undefined;
+  labels?: unknown | undefined;
+  name?: string | undefined;
   source: BackupSource;
 }
 /** Object that represents a backup. */
 export interface Backup {
-  availabilityZone?: string;
-  createdAt?: string;
-  description?: string;
-  encrypted?: boolean;
-  id?: string;
-  labels?: unknown;
-  name?: string;
-  size?: number;
-  snapshotId?: string;
-  status?: string;
-  updatedAt?: string;
-  volumeId?: string;
+  availabilityZone?: string | undefined;
+  createdAt?: string | undefined;
+  description?: string | undefined;
+  encrypted?: boolean | undefined;
+  id?: string | undefined;
+  labels?: unknown | undefined;
+  name?: string | undefined;
+  size?: number | undefined;
+  snapshotId?: string | undefined;
+  status?: string | undefined;
+  updatedAt?: string | undefined;
+  volumeId?: string | undefined;
 }
 /** Support status and default provioning setting for the STACKIT server agent. */
 export interface ImageAgent {
   /** Default provioning of the STACKIT server agent for new servers. The default for new images is false. Can only be enabled when supported is also true. */
-  provisionByDefault?: boolean;
+  provisionByDefault?: boolean | undefined;
   /** Indicates the STACKIT server agent for the image. The default for new images is false. */
-  supported?: boolean;
+  supported?: boolean | undefined;
 }
 /** Properties to set hardware and scheduling settings for an Image. */
 export interface ImageConfig {
   /** Represents CPU architecture. The default for new images is x86. Possible values: `arm64`, `x86`. */
-  architecture?: string;
+  architecture?: string | undefined;
   /** Enables the BIOS bootmenu. The default for new images is disabled. */
-  bootMenu?: boolean;
+  bootMenu?: boolean | undefined;
   /** Sets CDROM bus controller type. Possible values: `scsi`, `virtio`, `ide`, `usb`. */
-  cdromBus?: string | null;
+  cdromBus?: string | null | undefined;
   /** Sets Disk bus controller type. Possible values: `scsi`, `virtio`, `ide`, `usb`. */
-  diskBus?: string | null;
+  diskBus?: string | null | undefined;
   /** Sets virtual nic model. Possible values: `e1000`, `e1000e`, `ne2k_pci`, `pcnet`, `rtl8139`, `virtio`, `vmxnet3`. */
-  nicModel?: string | null;
+  nicModel?: string | null | undefined;
   /** Enables OS specific optimizations. Possible values: `windows`, `linux`. */
-  operatingSystem?: string;
+  operatingSystem?: string | undefined;
   /** Operating System Distribution. */
-  operatingSystemDistro?: string | null;
+  operatingSystemDistro?: string | null | undefined;
   /** Version of the OS. */
-  operatingSystemVersion?: string | null;
+  operatingSystemVersion?: string | null | undefined;
   /** Sets the device bus when the image is used as a rescue image. Possible values: `sata`, `scsi`, `virtio`, `usb`. */
-  rescueBus?: string | null;
+  rescueBus?: string | null | undefined;
   /** Sets the device when the image is used as a rescue image. Possible values: `cdrom`, `disk`. */
-  rescueDevice?: string | null;
+  rescueDevice?: string | null | undefined;
   /** Enables Secure Boot. The default for new images is disabled. */
-  secureBoot?: boolean;
+  secureBoot?: boolean | undefined;
   /** Configure UEFI boot. The default for new images is enabled. */
-  uefi?: boolean;
+  uefi?: boolean | undefined;
   /** Sets Graphic device model. Possible values: `vga`, `cirrus`, `vmvga`, `qxl`, `virtio`, `none`. */
-  videoModel?: string | null;
+  videoModel?: string | null | undefined;
   /** Enables the use of VirtIO SCSI to provide block device access. By default servers use VirtIO Block. */
-  virtioScsi?: boolean;
+  virtioScsi?: boolean | undefined;
 }
 export interface CreateImageRequest {
   /** The identifier (ID) of a STACKIT Project. */
   projectId: string;
   /** The STACKIT Region of the resources. */
   region: string;
-  agent?: ImageAgent;
-  config?: ImageConfig;
+  agent?: ImageAgent | undefined;
+  config?: ImageConfig | undefined;
   diskFormat: string;
-  labels?: unknown;
-  minDiskSize?: number;
-  minRam?: number;
+  labels?: unknown | undefined;
+  minDiskSize?: number | undefined;
+  minRam?: number | undefined;
   name: string;
-  protected?: boolean;
+  protected?: boolean | undefined;
 }
 /** Image creation response. */
 export interface ImageCreateResponse {
@@ -349,16 +383,16 @@ export interface ImageCreateResponse {
 export type NameserversIPv4 = Array<string>;
 /** The create request for an IPv4 network with a specified prefix. */
 export interface CreateNetworkIPv4WithPrefix {
-  gateway?: string | null;
-  nameservers?: NameserversIPv4;
+  gateway?: string | null | undefined;
+  nameservers?: NameserversIPv4 | undefined;
   prefix: string;
-  vpcNetworkRangeId?: string;
+  vpcNetworkRangeId?: string | undefined;
 }
 /** The create request for an IPv4 network with a wanted prefix length. */
 export interface CreateNetworkIPv4WithPrefixLength {
-  nameservers?: NameserversIPv4;
+  nameservers?: NameserversIPv4 | undefined;
   prefixLength: number;
-  vpcNetworkRangeId?: string;
+  vpcNetworkRangeId?: string | undefined;
 }
 /** The create request for an IPv4 network. */
 export type CreateNetworkIPv4 = CreateNetworkIPv4WithPrefix | CreateNetworkIPv4WithPrefixLength;
@@ -367,73 +401,73 @@ export interface CreateIsolatedNetworkRequest {
   projectId: string;
   /** The STACKIT Region of the resources. */
   region: string;
-  dhcp?: boolean;
-  ipv4?: CreateNetworkIPv4;
-  labels?: unknown;
+  dhcp?: boolean | undefined;
+  ipv4?: CreateNetworkIPv4 | undefined;
+  labels?: unknown | undefined;
   name: string;
 }
 export type NetworkIPv4PrefixesList = Array<string>;
 /** Object that represents the IPv4 part of a network. */
 export interface NetworkIPv4 {
-  gateway?: string | null;
-  nameservers?: NameserversIPv4;
+  gateway?: string | null | undefined;
+  nameservers?: NameserversIPv4 | undefined;
   prefixes: NetworkIPv4PrefixesList;
-  publicIp?: string;
-  vpcNetworkRangeId?: string;
+  publicIp?: string | undefined;
+  vpcNetworkRangeId?: string | undefined;
 }
 /** A list containing DNS Servers/Nameservers for IPv6. */
 export type NameserversIPv6 = Array<string>;
 export type NetworkIPv6PrefixesList = Array<string>;
 /** Object that represents the IPv6 part of a network. */
 export interface NetworkIPv6 {
-  gateway?: string | null;
-  nameservers?: NameserversIPv6;
+  gateway?: string | null | undefined;
+  nameservers?: NameserversIPv6 | undefined;
   prefixes: NetworkIPv6PrefixesList;
-  vpcNetworkRangeId?: string;
+  vpcNetworkRangeId?: string | undefined;
 }
 /** Object that represents a network. If no routing table is specified, the default routing table is used. */
 export interface Network {
-  createdAt?: string;
-  description?: string;
-  dhcp?: boolean;
+  createdAt?: string | undefined;
+  description?: string | undefined;
+  dhcp?: boolean | undefined;
   id: string;
-  ipv4?: NetworkIPv4;
-  ipv6?: NetworkIPv6;
-  labels?: unknown;
+  ipv4?: NetworkIPv4 | undefined;
+  ipv6?: NetworkIPv6 | undefined;
+  labels?: unknown | undefined;
   name: string;
-  routed?: boolean;
-  routingTableId?: string;
+  routed?: boolean | undefined;
+  routingTableId?: string | undefined;
   status: string;
-  updatedAt?: string;
+  updatedAt?: string | undefined;
   /** The identifier (ID) of a STACKIT VPC. */
-  vpcId?: string;
+  vpcId?: string | undefined;
 }
 export interface CreateKeyPairRequest {
-  labels?: unknown;
-  name?: string;
+  labels?: unknown | undefined;
+  name?: string | undefined;
   publicKey: string;
 }
 /** Object that represents the public key of an SSH keypair and its name. */
 export interface Keypair {
-  createdAt?: string;
-  fingerprint?: string;
-  labels?: unknown;
-  name?: string;
+  createdAt?: string | undefined;
+  fingerprint?: string | undefined;
+  labels?: unknown | undefined;
+  name?: string | undefined;
   publicKey: string;
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** The create request for an IPv6 network with a specified prefix. */
 export interface CreateNetworkIPv6WithPrefix {
-  gateway?: string | null;
-  nameservers?: NameserversIPv6;
+  gateway?: string | null | undefined;
+  nameservers?: NameserversIPv6 | undefined;
   prefix: string;
-  vpcNetworkRangeId?: string;
+  vpcNetworkRangeId?: string | undefined;
 }
 /** The create request for an IPv6 network with a wanted prefix length. */
 export interface CreateNetworkIPv6WithPrefixLength {
-  nameservers?: NameserversIPv6;
+  nameservers?: NameserversIPv6 | undefined;
   prefixLength: number;
-  vpcNetworkRangeId?: string;
+  vpcNetworkRangeId?: string | undefined;
 }
 /** The create request for an IPv6 network. */
 export type CreateNetworkIPv6 = CreateNetworkIPv6WithPrefix | CreateNetworkIPv6WithPrefixLength;
@@ -442,31 +476,31 @@ export interface CreateNetworkRequest {
   projectId: string;
   /** The STACKIT Region of the resources. */
   region: string;
-  description?: string;
-  dhcp?: boolean;
-  ipv4?: CreateNetworkIPv4;
-  ipv6?: CreateNetworkIPv6;
-  labels?: unknown;
+  description?: string | undefined;
+  dhcp?: boolean | undefined;
+  ipv4?: CreateNetworkIPv4 | undefined;
+  ipv6?: CreateNetworkIPv6 | undefined;
+  labels?: unknown | undefined;
   name: string;
-  routed?: boolean;
-  routingTableId?: string;
+  routed?: boolean | undefined;
+  routingTableId?: string | undefined;
   /** The identifier (ID) of a STACKIT VPC. */
-  vpcId?: string;
+  vpcId?: string | undefined;
 }
 export interface CreateNetworkAreaRequest {
   /** The identifier (ID) of a STACKIT Organization. */
   organizationId: string;
-  labels?: unknown;
+  labels?: unknown | undefined;
   name: string;
 }
 /** Object that represents a network area. */
 export interface NetworkArea {
-  createdAt?: string;
-  id?: string;
-  labels?: unknown;
+  createdAt?: string | undefined;
+  id?: string | undefined;
+  labels?: unknown | undefined;
   name: string;
-  projectCount?: number;
-  updatedAt?: string;
+  projectCount?: number | undefined;
+  updatedAt?: string | undefined;
 }
 /** Object that represents a network range of a network area. */
 export interface NetworkRangeInput {
@@ -481,14 +515,14 @@ export interface CreateNetworkAreaRangeRequest {
   areaId: string;
   /** The STACKIT Region of the resources. */
   region: string;
-  ipv4?: NetworkRangeListInput;
+  ipv4?: NetworkRangeListInput | undefined;
 }
 /** Object that represents a network range of a network area. */
 export interface NetworkRange {
-  createdAt?: string;
-  id?: string;
+  createdAt?: string | undefined;
+  id?: string | undefined;
   prefix: string;
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** A list of network area network ranges. */
 export type NetworkRangeList = Array<NetworkRange>;
@@ -499,7 +533,7 @@ export interface NetworkRangeListResponse {
 export type RegionalAreaIPv4InputDefaultNameserversList = Array<string>;
 /** The regional IPv4 config of a network area. */
 export interface RegionalAreaIPv4Input {
-  defaultNameservers?: RegionalAreaIPv4InputDefaultNameserversList;
+  defaultNameservers?: RegionalAreaIPv4InputDefaultNameserversList | undefined;
   defaultPrefixLen: number;
   maxPrefixLen: number;
   minPrefixLen: number;
@@ -513,12 +547,12 @@ export interface CreateNetworkAreaRegionRequest {
   areaId: string;
   /** The STACKIT Region of the resources. */
   region: string;
-  ipv4?: RegionalAreaIPv4Input;
+  ipv4?: RegionalAreaIPv4Input | undefined;
 }
 export type RegionalAreaIPv4DefaultNameserversList = Array<string>;
 /** The regional IPv4 config of a network area. */
 export interface RegionalAreaIPv4 {
-  defaultNameservers?: RegionalAreaIPv4DefaultNameserversList;
+  defaultNameservers?: RegionalAreaIPv4DefaultNameserversList | undefined;
   defaultPrefixLen: number;
   maxPrefixLen: number;
   minPrefixLen: number;
@@ -527,8 +561,8 @@ export interface RegionalAreaIPv4 {
 }
 /** The basic properties of a regional network area. */
 export interface RegionalArea {
-  ipv4?: RegionalAreaIPv4;
-  status?: string;
+  ipv4?: RegionalAreaIPv4 | undefined;
+  status?: string | undefined;
 }
 export interface CreateNetworkAreaRouteRequest {
   /** The identifier (ID) of a STACKIT Organization. */
@@ -550,60 +584,64 @@ export interface CreateNicRequest {
   region: string;
   /** The identifier (ID) of a STACKIT Network. */
   networkId: string;
-  allowedAddresses?: AllowedAddresses;
-  description?: string;
-  ipv4?: string;
-  ipv6?: string;
-  labels?: unknown;
-  name?: string;
-  nicSecurity?: boolean;
-  securityGroups?: UUIDList;
+  allowedAddresses?: AllowedAddresses | undefined;
+  description?: string | undefined;
+  ipv4?: string | undefined;
+  ipv6?: string | undefined;
+  labels?: unknown | undefined;
+  name?: string | undefined;
+  nicSecurity?: boolean | undefined;
+  securityGroups?: UUIDList | undefined;
 }
 /** Object that represents a network interface. */
 export interface NIC {
-  allowedAddresses?: AllowedAddresses;
-  description?: string;
-  device?: string;
-  id?: string;
-  ipv4?: string;
-  ipv6?: string;
-  labels?: unknown;
-  mac?: string;
-  name?: string;
-  networkId?: string;
-  nicSecurity?: boolean;
-  securityGroups?: UUIDList;
+  allowedAddresses?: AllowedAddresses | undefined;
+  createdAt?: string | undefined;
+  description?: string | undefined;
+  device?: string | undefined;
+  id?: string | undefined;
+  ipv4?: string | undefined;
+  ipv6?: string | undefined;
+  labels?: unknown | undefined;
+  mac?: string | undefined;
+  name?: string | undefined;
+  networkId?: string | undefined;
+  nicSecurity?: boolean | undefined;
+  securityGroups?: UUIDList | undefined;
   /** Possible values: `ACTIVE`, `DOWN`. */
-  status?: string;
+  status?: string | undefined;
   /** Possible values: `server`, `metadata`, `gateway`, `none`. */
-  type?: string;
+  type?: string | undefined;
+  updatedAt?: string | undefined;
 }
 export interface CreatePublicIPRequest {
   /** The identifier (ID) of a STACKIT Project. */
   projectId: string;
   /** The STACKIT Region of the resources. */
   region: string;
-  labels?: unknown;
+  labels?: unknown | undefined;
   /** Associate the public IP with a network interface (ID). */
-  networkInterface?: string | null;
+  networkInterface?: string | null | undefined;
 }
 /** Object that represents a public IP. */
 export interface PublicIp {
-  id?: string;
-  ip?: string;
-  labels?: unknown;
+  createdAt?: string | undefined;
+  id?: string | undefined;
+  ip?: string | undefined;
+  labels?: unknown | undefined;
   /** Associate the public IP with a network interface (ID). */
-  networkInterface?: string | null;
+  networkInterface?: string | null | undefined;
+  updatedAt?: string | undefined;
 }
 export interface CreateSecurityGroupRequest {
   /** The identifier (ID) of a STACKIT Project. */
   projectId: string;
   /** The STACKIT Region of the resources. */
   region: string;
-  description?: string;
-  labels?: unknown;
+  description?: string | undefined;
+  labels?: unknown | undefined;
   name: string;
-  stateful?: boolean;
+  stateful?: boolean | undefined;
 }
 /** Object that represents ICMP parameters. */
 export interface ICMPParameters {
@@ -621,40 +659,40 @@ export interface PortRange {
 }
 /** The schema for a protocol of a security group rule. */
 export interface Protocol {
-  name?: string;
-  number?: number;
+  name?: string | undefined;
+  number?: number | undefined;
 }
 /** Object that represents a security group rule. */
 export interface SecurityGroupRule {
-  createdAt?: string;
-  description?: string;
+  createdAt?: string | undefined;
+  description?: string | undefined;
   /** The direction of the traffic which the rule should match. Possible values: `ingress`, `egress`. */
   direction: string;
   /** The ethertype which the rule should match. Possible values: `IPv4`, `IPv6`. */
-  ethertype?: string;
-  icmpParameters?: ICMPParameters;
-  id?: string;
+  ethertype?: string | undefined;
+  icmpParameters?: ICMPParameters | undefined;
+  id?: string | undefined;
   /** The remote IP range which the rule should match. */
-  ipRange?: string;
-  portRange?: PortRange;
+  ipRange?: string | undefined;
+  portRange?: PortRange | undefined;
   /** The remote security group which the rule should match. */
-  remoteSecurityGroupId?: string;
-  securityGroupId?: string;
-  updatedAt?: string;
-  protocol?: Protocol;
+  remoteSecurityGroupId?: string | undefined;
+  securityGroupId?: string | undefined;
+  updatedAt?: string | undefined;
+  protocol?: Protocol | undefined;
 }
 /** A list containing security group rule objects. */
 export type SecurityGroupRuleList = Array<SecurityGroupRule>;
 /** Object that represents a security group. */
 export interface SecurityGroup {
-  createdAt?: string;
-  description?: string;
-  id?: string;
-  labels?: unknown;
+  createdAt?: string | undefined;
+  description?: string | undefined;
+  id?: string | undefined;
+  labels?: unknown | undefined;
   name: string;
-  rules?: SecurityGroupRuleList;
-  stateful?: boolean;
-  updatedAt?: string;
+  rules?: SecurityGroupRuleList | undefined;
+  stateful?: boolean | undefined;
+  updatedAt?: string | undefined;
 }
 /** The schema for a protocol when creating a security group rule. */
 export type CreateProtocol = number | string;
@@ -665,58 +703,60 @@ export interface CreateSecurityGroupRuleRequest {
   region: string;
   /** The identifier (ID) of a STACKIT Security Group. */
   securityGroupId: string;
-  description?: string;
+  description?: string | undefined;
   /** The direction of the traffic which the rule should match. Possible values: `ingress`, `egress`. */
   direction: string;
   /** The ethertype which the rule should match. Possible values: `IPv4`, `IPv6`. */
-  ethertype?: string;
-  icmpParameters?: ICMPParameters;
+  ethertype?: string | undefined;
+  icmpParameters?: ICMPParameters | undefined;
   /** The remote IP range which the rule should match. */
-  ipRange?: string;
-  portRange?: PortRange;
+  ipRange?: string | undefined;
+  portRange?: PortRange | undefined;
   /** The remote security group which the rule should match. */
-  remoteSecurityGroupId?: string;
-  protocol?: CreateProtocol;
+  remoteSecurityGroupId?: string | undefined;
+  protocol?: CreateProtocol | undefined;
 }
 export interface CreateSecurityGroupRuleResponse {
-  createdAt?: string;
-  description?: string;
+  createdAt?: string | undefined;
+  description?: string | undefined;
   /** The direction of the traffic which the rule should match. Possible values: `ingress`, `egress`. */
   direction: string;
   /** The ethertype which the rule should match. Possible values: `IPv4`, `IPv6`. */
-  ethertype?: string;
-  icmpParameters?: ICMPParameters;
-  id?: string;
+  ethertype?: string | undefined;
+  icmpParameters?: ICMPParameters | undefined;
+  id?: string | undefined;
   /** The remote IP range which the rule should match. */
-  ipRange?: string;
-  portRange?: PortRange;
+  ipRange?: string | undefined;
+  portRange?: PortRange | undefined;
   /** The remote security group which the rule should match. */
-  remoteSecurityGroupId?: string;
-  securityGroupId?: string;
-  updatedAt?: string;
-  protocol?: Protocol;
+  remoteSecurityGroupId?: string | undefined;
+  securityGroupId?: string | undefined;
+  updatedAt?: string | undefined;
+  protocol?: Protocol | undefined;
 }
 /** STACKIT server agent options for a server. */
 export interface ServerAgent {
-  /** Configure the STACKIT server agent provisioning during the first boot of the server. Only works when booting from an images that supports the STACKIT server agent. When `false` the agent IS NOT installed. When `true` the agent IS installed. When its not set the result depend on the used image and its default provisioning setting. */
-  provisioned?: boolean;
+  /** Configure the STACKIT server agent provisioning during the first boot of the server. When `false`, the agent is not installed. When `true`, the agent is installed. Setting it to `true` when booting from an image requires an image that supports the agent; otherwise, the request is rejected. If omitted when booting from an image, the image default (`provisionByDefault`) applies. */
+  provisioned?: boolean | undefined;
+  /** Configuration property that controls whether active virtual machine monitoring is enabled for a server instance. When `true` it allows the platform to collect metrics, monitor system health, and track guest-level performance on the VM. It operates as a dependent option - meaning `vmMonitoring` cannot be active unless the main server agent is also enabled. */
+  vmMonitoring?: boolean | undefined;
 }
 /** The source object of a boot volume. */
 export type BootVolumeSource = BackupSource;
 /** The boot device for the server. */
 export interface BootVolumeInput {
-  deleteOnTermination?: boolean;
-  performanceClass?: string;
-  size?: number;
-  source?: BackupSource;
+  deleteOnTermination?: boolean | undefined;
+  performanceClass?: string | undefined;
+  size?: number | undefined;
+  source?: BackupSource | undefined;
 }
 /** The initial networking setup for the server creation with a network. */
 export interface CreateServerNetworking {
-  networkId?: string;
+  networkId?: string | undefined;
 }
 /** The initial networking setup for the server creation with a network interface. */
 export interface CreateServerNetworkingWithNics {
-  nicIds?: UUIDList;
+  nicIds?: UUIDList | undefined;
 }
 /** The initial networking setup for the server creation. A network, a nic or nothing can be given. */
 export type CreateServerRequestNetworking = CreateServerNetworking | CreateServerNetworkingWithNics;
@@ -728,39 +768,39 @@ export interface CreateServerRequest {
   /** The STACKIT Region of the resources. */
   region: string;
   /** The affinity group the server is assigned to. */
-  affinityGroup?: string;
-  agent?: ServerAgent;
+  affinityGroup?: string | undefined;
+  agent?: ServerAgent | undefined;
   /** This is the availability zone requested during server creation. If none is provided during the creation request and an existing volume will be used as boot volume it will be set to the same availability zone as the volume. For requests with no volumes involved it will be set to the metro availability zone. */
-  availabilityZone?: string;
-  bootVolume?: BootVolumeInput;
-  configDrive?: boolean;
-  imageId?: string;
+  availabilityZone?: string | undefined;
+  bootVolume?: BootVolumeInput | undefined;
+  configDrive?: boolean | undefined;
+  imageId?: string | undefined;
   /** The SSH keypair used during the server creation. */
-  keypairName?: string;
-  labels?: unknown;
+  keypairName?: string | undefined;
+  labels?: unknown | undefined;
   /** Name of the machine type the server shall belong to. */
   machineType: string;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   name: string;
   /** The initial networking setup for the server creation. A network, a nic or nothing can be given. */
   networking: CreateServerRequestNetworking;
   /** The initial security groups for the server creation. */
-  securityGroups?: GenericNameList;
+  securityGroups?: GenericNameList | undefined;
   /** A list of service account mails. Only shown when detailed information is requested. */
-  serviceAccountMails?: ServiceAccountMailList;
+  serviceAccountMails?: ServiceAccountMailList | undefined;
   /** User Data that is provided to the server. Must be base64 encoded and is passed via cloud-init to the server. Only shown when detailed information is requested. */
-  userData?: string;
+  userData?: string | undefined;
   /** The list of volumes attached to the server. */
-  volumes?: UUIDList;
+  volumes?: UUIDList | undefined;
 }
 /** The boot device for the server. */
 export interface BootVolumeOutput {
-  deleteOnTermination?: boolean;
-  id?: string;
+  deleteOnTermination?: boolean | undefined;
+  id?: string | undefined;
 }
 /** Object that represents the information about the next planned server maintenance window. */
 export interface ServerMaintenance {
-  details?: string;
+  details?: string | undefined;
   /** End of the maintenance window. */
   endsAt: string;
   /** Start of the maintenance window. */
@@ -772,77 +812,80 @@ export interface ServerMaintenance {
 export type ServerOutputNetworking = CreateServerNetworking | CreateServerNetworkingWithNics;
 /** Describes the object that matches servers to its networks. */
 export interface ServerNetwork {
-  allowedAddresses?: AllowedAddresses;
-  ipv4?: string;
-  ipv6?: string;
+  allowedAddresses?: AllowedAddresses | undefined;
+  createdAt?: string | undefined;
+  ipv4?: string | undefined;
+  ipv6?: string | undefined;
   mac: string;
   networkId: string;
   networkName: string;
   nicId: string;
   /** If this is set to false, then no security groups will apply to this server network interface. */
   nicSecurity: boolean;
-  publicIp?: string;
-  securityGroups?: UUIDList;
+  publicIp?: string | undefined;
+  securityGroups?: UUIDList | undefined;
+  updatedAt?: string | undefined;
 }
 /** A list of networks attached to a server. */
 export type ServerNICList = Array<ServerNetwork>;
 /** Representation of a single server object. */
 export interface ServerOutput {
   /** The affinity group the server is assigned to. */
-  affinityGroup?: string;
-  agent?: ServerAgent;
+  affinityGroup?: string | undefined;
+  agent?: ServerAgent | undefined;
   /** This is the availability zone requested during server creation. If none is provided during the creation request and an existing volume will be used as boot volume it will be set to the same availability zone as the volume. For requests with no volumes involved it will be set to the metro availability zone. */
-  availabilityZone?: string;
-  bootVolume?: BootVolumeOutput;
-  configDrive?: boolean;
-  createdAt?: string;
-  errorMessage?: string;
-  id?: string;
-  imageId?: string;
+  availabilityZone?: string | undefined;
+  bootVolume?: BootVolumeOutput | undefined;
+  configDrive?: boolean | undefined;
+  createdAt?: string | undefined;
+  errorMessage?: string | undefined;
+  id?: string | undefined;
+  imageId?: string | undefined;
   /** The SSH keypair used during the server creation. */
-  keypairName?: string;
-  labels?: unknown;
-  launchedAt?: string;
+  keypairName?: string | undefined;
+  labels?: unknown | undefined;
+  launchedAt?: string | undefined;
   /** Name of the machine type the server shall belong to. */
   machineType: string;
-  maintenanceWindow?: ServerMaintenance;
-  metadata?: unknown;
+  maintenanceWindow?: ServerMaintenance | undefined;
+  metadata?: unknown | undefined;
   name: string;
   /** The initial networking setup for the server creation. A network, a nic or nothing can be given. */
-  networking?: ServerOutputNetworking;
+  networking?: ServerOutputNetworking | undefined;
   /** The list of network interfaces (NICs) attached to the server. Only shown when detailed information is requested. */
-  nics?: ServerNICList;
-  powerStatus?: string;
+  nics?: ServerNICList | undefined;
+  powerStatus?: string | undefined;
   /** A list of service account mails. Only shown when detailed information is requested. */
-  serviceAccountMails?: ServiceAccountMailList;
-  status?: string;
-  updatedAt?: string;
+  serviceAccountMails?: ServiceAccountMailList | undefined;
+  status?: string | undefined;
+  updatedAt?: string | undefined;
   /** User Data that is provided to the server. Must be base64 encoded and is passed via cloud-init to the server. Only shown when detailed information is requested. */
-  userData?: string;
+  userData?: string | undefined;
   /** The list of volumes attached to the server. */
-  volumes?: UUIDList;
+  volumes?: UUIDList | undefined;
 }
 export interface CreateSnapshotRequest {
   /** The identifier (ID) of a STACKIT Project. */
   projectId: string;
   /** The STACKIT Region of the resources. */
   region: string;
-  description?: string;
-  labels?: unknown;
-  name?: string;
+  description?: string | undefined;
+  labels?: unknown | undefined;
+  name?: string | undefined;
   volumeId: string;
 }
 /** Object that represents a snapshot. */
 export interface Snapshot {
-  availabilityZone?: string;
-  createdAt?: string;
-  description?: string;
-  id?: string;
-  labels?: unknown;
-  name?: string;
-  size?: number;
-  status?: string;
-  updatedAt?: string;
+  availabilityZone?: string | undefined;
+  createdAt?: string | undefined;
+  description?: string | undefined;
+  encrypted?: boolean | undefined;
+  id?: string | undefined;
+  labels?: unknown | undefined;
+  name?: string | undefined;
+  size?: number | undefined;
+  status?: string | undefined;
+  updatedAt?: string | undefined;
   volumeId: string;
 }
 /** Parameter to connect to a key-encryption-key within the STACKIT-KMS to create encrypted volumes. If no key_payload is set, a random passphrase is generated, which will be encrypted against the STACKIT-KMS. These parameter never leave the backend again. So these parameters are not in the responses. */
@@ -854,9 +897,9 @@ export interface VolumeEncryptionParameter {
   /** UUID of the keyring where the key is located within the STACKTI-KMS. */
   kekKeyringId: string;
   /** Id of the project, where the key in the STACKIT-KMS belongs to, in case the key is located in a different project. By default the same project ID is used, like for the volume itself. Defining a key in a different project is only allowed for privileged internal projects. */
-  kekProjectId?: string;
+  kekProjectId?: string | undefined;
   /** Optional predefined secret, which will be encrypted against the key-encryption-key within the STACKIT-KMS. If not defined, a random secret will be generated by the API and encrypted against the STACKIT-KMS. If a key-payload is provided here, it must be base64 encoded. */
-  keyPayload?: string;
+  keyPayload?: string | undefined;
   /** Service-Account linked to the Key within the STACKIT-KMS. */
   serviceAccount: string;
 }
@@ -868,33 +911,33 @@ export interface CreateVolumeRequest {
   /** The STACKIT Region of the resources. */
   region: string;
   availabilityZone: string;
-  bootable?: boolean;
-  description?: string;
-  encryptionParameters?: VolumeEncryptionParameter;
-  labels?: unknown;
-  name?: string;
-  performanceClass?: string;
-  size?: number;
-  source?: BackupSource;
+  bootable?: boolean | undefined;
+  description?: string | undefined;
+  encryptionParameters?: VolumeEncryptionParameter | undefined;
+  labels?: unknown | undefined;
+  name?: string | undefined;
+  performanceClass?: string | undefined;
+  size?: number | undefined;
+  source?: BackupSource | undefined;
 }
 /** Object that represents a volume and its parameters. Volumes sized up to 16000GB are supported. */
 export interface Volume {
   availabilityZone: string;
-  bootable?: boolean;
-  createdAt?: string;
-  description?: string;
-  encrypted?: boolean;
-  encryptionParameters?: VolumeEncryptionParameter;
-  id?: string;
-  imageConfig?: ImageConfig;
-  labels?: unknown;
-  name?: string;
-  performanceClass?: string;
-  serverId?: string;
-  size?: number;
-  source?: BackupSource;
-  status?: string;
-  updatedAt?: string;
+  bootable?: boolean | undefined;
+  createdAt?: string | undefined;
+  description?: string | undefined;
+  encrypted?: boolean | undefined;
+  encryptionParameters?: VolumeEncryptionParameter | undefined;
+  id?: string | undefined;
+  imageConfig?: ImageConfig | undefined;
+  labels?: unknown | undefined;
+  name?: string | undefined;
+  performanceClass?: string | undefined;
+  serverId?: string | undefined;
+  size?: number | undefined;
+  source?: BackupSource | undefined;
+  status?: string | undefined;
+  updatedAt?: string | undefined;
 }
 export interface DeallocateServerRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -922,7 +965,7 @@ export interface DeleteBackupRequest {
   /** The identifier (ID) of a STACKIT Backup. */
   backupId: string;
   /** Force action. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteBackupResponse {}
 export interface DeleteImageRequest {
@@ -1096,7 +1139,7 @@ export interface DeleteVolumeRequest {
   /** The identifier (ID) of a STACKIT Volume. */
   volumeId: string;
   /** Cascade action. */
-  cascade?: boolean;
+  cascade?: boolean | undefined;
 }
 export interface DeleteVolumeResponse {}
 export interface GetAffinityGroupRequest {
@@ -1142,23 +1185,23 @@ export interface ImageChecksum {
 }
 /** Object that represents an Image and its parameters. Used for Creating and returning (get/list). */
 export interface Image {
-  agent?: ImageAgent;
-  checksum?: ImageChecksum;
-  config?: ImageConfig;
-  createdAt?: string;
+  agent?: ImageAgent | undefined;
+  checksum?: ImageChecksum | undefined;
+  config?: ImageConfig | undefined;
+  createdAt?: string | undefined;
   diskFormat: string;
-  id?: string;
-  importProgress?: number;
-  labels?: unknown;
-  minDiskSize?: number;
-  minRam?: number;
+  id?: string | undefined;
+  importProgress?: number | undefined;
+  labels?: unknown | undefined;
+  minDiskSize?: number | undefined;
+  minRam?: number | undefined;
   name: string;
-  owner?: string;
-  protected?: boolean;
-  scope?: string;
-  size?: number;
-  status?: string;
-  updatedAt?: string;
+  owner?: string | undefined;
+  protected?: boolean | undefined;
+  scope?: string | undefined;
+  size?: number | undefined;
+  status?: string | undefined;
+  updatedAt?: string | undefined;
 }
 export interface GetImageShareRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -1173,9 +1216,9 @@ export type ImageShareProjectsList = Array<string>;
 /** Share details of an Image. For requests ParentOrganization and Projects are mutually exclusive. */
 export interface ImageShare {
   /** Image is shared with all projects inside the image owners organization. */
-  parentOrganization?: boolean;
+  parentOrganization?: boolean | undefined;
   /** List of all projects the Image is shared with. */
-  projects?: ImageShareProjectsList;
+  projects?: ImageShareProjectsList | undefined;
 }
 export interface GetImageShareConsumerRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -1189,10 +1232,10 @@ export interface GetImageShareConsumerRequest {
 }
 /** The details of an Image share consumer. */
 export interface ImageShareConsumer {
-  consumerProjectId?: string;
-  createdAt?: string;
-  imageId?: string;
-  updatedAt?: string;
+  consumerProjectId?: string | undefined;
+  createdAt?: string | undefined;
+  imageId?: string | undefined;
+  updatedAt?: string | undefined;
 }
 export interface GetKeyPairRequest {
   /** The name of an SSH keypair. */
@@ -1208,9 +1251,9 @@ export interface GetMachineTypeRequest {
 }
 /** Machine Type. Filterable Fields: `disk`, `extraSpecs`, `name`, `ram`, `vcpus`. */
 export interface MachineType {
-  description?: string;
+  description?: string | undefined;
   disk: number;
-  extraSpecs?: unknown;
+  extraSpecs?: unknown | undefined;
   name: string;
   ram: number;
   vcpus: number;
@@ -1282,7 +1325,7 @@ export interface RequestResource {
 export type RequestResourcesList = Array<RequestResource>;
 /** Object that represents a request. */
 export interface Request {
-  details?: string;
+  details?: string | undefined;
   requestAction: string;
   requestId: string;
   requestType: string;
@@ -1300,14 +1343,14 @@ export type AreaId = string | StaticAreaID;
 /** Object that represents a STACKIT project. */
 export interface Project {
   areaId: AreaId;
-  createdAt?: string;
+  createdAt?: string | undefined;
   id: string;
-  internetAccess?: boolean;
+  internetAccess?: boolean | undefined;
   /** Possible values: `Schwarz`, `Public`, `SNA`, `VPC`. */
-  projectType?: string;
+  projectType?: string | undefined;
   status: string;
-  updatedAt?: string;
-  vpcId?: string;
+  updatedAt?: string | undefined;
+  vpcId?: string | undefined;
 }
 export interface GetProjectNICRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -1374,22 +1417,22 @@ export interface GetSecurityGroupRuleRequest {
   securityGroupRuleId: string;
 }
 export interface GetSecurityGroupRuleResponse {
-  createdAt?: string;
-  description?: string;
+  createdAt?: string | undefined;
+  description?: string | undefined;
   /** The direction of the traffic which the rule should match. Possible values: `ingress`, `egress`. */
   direction: string;
   /** The ethertype which the rule should match. Possible values: `IPv4`, `IPv6`. */
-  ethertype?: string;
-  icmpParameters?: ICMPParameters;
-  id?: string;
+  ethertype?: string | undefined;
+  icmpParameters?: ICMPParameters | undefined;
+  id?: string | undefined;
   /** The remote IP range which the rule should match. */
-  ipRange?: string;
-  portRange?: PortRange;
+  ipRange?: string | undefined;
+  portRange?: PortRange | undefined;
   /** The remote security group which the rule should match. */
-  remoteSecurityGroupId?: string;
-  securityGroupId?: string;
-  updatedAt?: string;
-  protocol?: Protocol;
+  remoteSecurityGroupId?: string | undefined;
+  securityGroupId?: string | undefined;
+  updatedAt?: string | undefined;
+  protocol?: Protocol | undefined;
 }
 export interface GetServerRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -1399,7 +1442,7 @@ export interface GetServerRequest {
   /** The identifier (ID) of a STACKIT Server. */
   serverId: string;
   /** Show detailed information about server. */
-  details?: boolean;
+  details?: boolean | undefined;
 }
 export interface GetServerConsoleRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -1421,10 +1464,10 @@ export interface GetServerLogRequest {
   /** The identifier (ID) of a STACKIT Server. */
   serverId: string;
   /** Request the server log. By default the length is limited to 2000 lines. Set to 0 to retrieve the complete log. */
-  length?: number;
+  length?: number | undefined;
 }
 export interface GetServerLogResponse {
-  output?: string;
+  output?: string | undefined;
 }
 export interface GetSnapshotRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -1452,11 +1495,11 @@ export interface GetVolumePerformanceClassRequest {
 }
 /** Object that represents a Volume performance class. */
 export interface VolumePerformanceClass {
-  description?: string;
-  iops?: number;
-  labels?: unknown;
+  description?: string | undefined;
+  iops?: number | undefined;
+  labels?: unknown | undefined;
   name: string;
-  throughput?: number;
+  throughput?: number | undefined;
 }
 export interface ImageFromVolumeRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -1466,9 +1509,9 @@ export interface ImageFromVolumeRequest {
   /** The identifier (ID) of a STACKIT Volume. */
   volumeId: string;
   diskFormat: string;
-  force?: boolean;
+  force?: boolean | undefined;
   name: string;
-  protected?: boolean;
+  protected?: boolean | undefined;
 }
 export interface ListAffinityGroupsRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -1512,7 +1555,7 @@ export interface ListBackupsRequest {
   /** The STACKIT Region of the resources. */
   region: string;
   /** Filter resources by labels. */
-  label_selector?: string;
+  label_selector?: string | undefined;
 }
 /** A list containing backup objects. */
 export type BackupList = Array<Backup>;
@@ -1526,9 +1569,9 @@ export interface ListImagesRequest {
   /** The STACKIT Region of the resources. */
   region: string;
   /** List all Images. */
-  all?: boolean;
+  all?: boolean | undefined;
   /** Filter resources by labels. */
-  label_selector?: string;
+  label_selector?: string | undefined;
 }
 /** A list containing image objects. */
 export type ImageList = Array<Image>;
@@ -1538,7 +1581,7 @@ export interface ImageListResponse {
 }
 export interface ListKeyPairsRequest {
   /** Filter resources by labels. */
-  label_selector?: string;
+  label_selector?: string | undefined;
 }
 /** A list of SSH keypairs. */
 export type KeyPairList = Array<Keypair>;
@@ -1552,7 +1595,7 @@ export interface ListMachineTypesRequest {
   /** The STACKIT Region of the resources. */
   region: string;
   /** Filter resources by fields. A subset of expr-lang is supported. See https://expr-lang.org/docs/language-definition for usage details. */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** Machine type list. */
 export type MachineTypeList = Array<MachineType>;
@@ -1599,13 +1642,13 @@ export interface ListNetworkAreaRoutesRequest {
   /** The STACKIT Region of the resources. */
   region: string;
   /** Filter resources by labels. */
-  label_selector?: string;
+  label_selector?: string | undefined;
 }
 export interface ListNetworkAreasRequest {
   /** The identifier (ID) of a STACKIT Organization. */
   organizationId: string;
   /** Filter resources by labels. */
-  label_selector?: string;
+  label_selector?: string | undefined;
 }
 /** A list of network areas. */
 export type NetworkAreaList = Array<NetworkArea>;
@@ -1619,7 +1662,7 @@ export interface ListNetworksRequest {
   /** The STACKIT Region of the resources. */
   region: string;
   /** Filter resources by labels. */
-  label_selector?: string;
+  label_selector?: string | undefined;
 }
 /** A list of networks. */
 export type NetworkList = Array<Network>;
@@ -1635,7 +1678,7 @@ export interface ListNicsRequest {
   /** The identifier (ID) of a STACKIT Network. */
   networkId: string;
   /** Filter resources by labels. */
-  label_selector?: string;
+  label_selector?: string | undefined;
 }
 /** A list of network interfaces. */
 export type NICList = Array<NIC>;
@@ -1649,7 +1692,7 @@ export interface ListProjectNICsRequest {
   /** The STACKIT Region of the resources. */
   region: string;
   /** Filter resources by labels. */
-  label_selector?: string;
+  label_selector?: string | undefined;
 }
 export interface ListPublicIPRangesRequest {}
 /** Public network. */
@@ -1669,7 +1712,7 @@ export interface ListPublicIPsRequest {
   /** The STACKIT Region of the resources. */
   region: string;
   /** Filter resources by labels. */
-  label_selector?: string;
+  label_selector?: string | undefined;
 }
 /** A list of public IPs. */
 export type PublicIpList = Array<PublicIp>;
@@ -1729,7 +1772,7 @@ export interface ListRoutesOfRoutingTableRequest {
   /** The identifier (ID) of a STACKIT Routing Table. */
   routingTableId: string;
   /** Filter resources by labels. */
-  label_selector?: string;
+  label_selector?: string | undefined;
 }
 export interface ListRoutingTablesOfAreaRequest {
   /** The identifier (ID) of a STACKIT Organization. */
@@ -1739,7 +1782,7 @@ export interface ListRoutingTablesOfAreaRequest {
   /** The STACKIT Region of the resources. */
   region: string;
   /** Filter resources by labels. */
-  label_selector?: string;
+  label_selector?: string | undefined;
 }
 /** A list of routing tables. */
 export type RoutingTablesList = Array<RoutingTable>;
@@ -1765,7 +1808,7 @@ export interface ListSecurityGroupsRequest {
   /** The STACKIT Region of the resources. */
   region: string;
   /** Filter resources by labels. */
-  label_selector?: string;
+  label_selector?: string | undefined;
 }
 /** A list containing security group objects. */
 export type SecurityGroupList = Array<SecurityGroup>;
@@ -1787,9 +1830,9 @@ export interface ListServersRequest {
   /** The STACKIT Region of the resources. */
   region: string;
   /** Show detailed information about server. */
-  details?: boolean;
+  details?: boolean | undefined;
   /** Filter resources by labels. */
-  label_selector?: string;
+  label_selector?: string | undefined;
 }
 /** A list of servers. */
 export type ServerListOutput = Array<ServerOutput>;
@@ -1811,7 +1854,7 @@ export interface ListSnapshotsInProjectRequest {
   /** The STACKIT Region of the resources. */
   region: string;
   /** Filter resources by labels. */
-  label_selector?: string;
+  label_selector?: string | undefined;
 }
 /** A list containing snapshot objects. */
 export type SnapshotList = Array<Snapshot>;
@@ -1825,7 +1868,7 @@ export interface ListVolumePerformanceClassesRequest {
   /** The STACKIT Region of the resources. */
   region: string;
   /** Filter resources by labels. */
-  label_selector?: string;
+  label_selector?: string | undefined;
 }
 /** A list containing Volume performance classes. */
 export type VolumePerformanceClassList = Array<VolumePerformanceClass>;
@@ -1839,7 +1882,7 @@ export interface ListVolumesRequest {
   /** The STACKIT Region of the resources. */
   region: string;
   /** Filter resources by labels. */
-  label_selector?: string;
+  label_selector?: string | undefined;
 }
 /** A list containing volume objects. */
 export type VolumeList = Array<Volume>;
@@ -1849,13 +1892,13 @@ export interface VolumeListResponse {
 }
 /** The config object for a IPv4 network update. */
 export interface UpdateNetworkIPv4Body {
-  gateway?: string | null;
-  nameservers?: NameserversIPv4;
+  gateway?: string | null | undefined;
+  nameservers?: NameserversIPv4 | undefined;
 }
 /** The config object for a IPv6 network update. */
 export interface UpdateNetworkIPv6Body {
-  gateway?: string | null;
-  nameservers?: NameserversIPv6;
+  gateway?: string | null | undefined;
+  nameservers?: NameserversIPv6 | undefined;
 }
 export interface PartialUpdateNetworkRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -1864,14 +1907,14 @@ export interface PartialUpdateNetworkRequest {
   region: string;
   /** The identifier (ID) of a STACKIT Network. */
   networkId: string;
-  description?: string;
-  dhcp?: boolean;
-  ipv4?: UpdateNetworkIPv4Body;
-  ipv6?: UpdateNetworkIPv6Body;
-  labels?: unknown;
-  name?: string;
-  routed?: boolean;
-  routingTableId?: string;
+  description?: string | undefined;
+  dhcp?: boolean | undefined;
+  ipv4?: UpdateNetworkIPv4Body | undefined;
+  ipv6?: UpdateNetworkIPv6Body | undefined;
+  labels?: unknown | undefined;
+  name?: string | undefined;
+  routed?: boolean | undefined;
+  routingTableId?: string | undefined;
 }
 export interface PartialUpdateNetworkResponse {}
 export interface PartialUpdateNetworkAreaRequest {
@@ -1879,8 +1922,8 @@ export interface PartialUpdateNetworkAreaRequest {
   organizationId: string;
   /** The identifier (ID) of a STACKIT Network Area. */
   areaId: string;
-  labels?: unknown;
-  name?: string;
+  labels?: unknown | undefined;
+  name?: string | undefined;
 }
 export interface RebootServerRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -1890,7 +1933,7 @@ export interface RebootServerRequest {
   /** The identifier (ID) of a STACKIT Server. */
   serverId: string;
   /** Defines if it is a soft or a hard reboot. */
-  action?: string;
+  action?: string | undefined;
 }
 export interface RebootServerResponse {}
 export interface RemoveNetworkFromServerRequest {
@@ -2007,9 +2050,9 @@ export interface SetImageShareRequest {
   /** The identifier (ID) of a STACKIT Image. */
   imageId: string;
   /** Image is shared with all projects inside the image owners organization. */
-  parentOrganization?: boolean;
+  parentOrganization?: boolean | undefined;
   /** List of all projects the Image is shared with. */
-  projects?: SetImageShareRequestProjectsList;
+  projects?: SetImageShareRequestProjectsList | undefined;
 }
 export interface StartServerRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -2047,7 +2090,7 @@ export interface UpdateAttachedVolumeRequest {
   serverId: string;
   /** The identifier (ID) of a STACKIT Volume. */
   volumeId: string;
-  deleteOnTermination?: boolean;
+  deleteOnTermination?: boolean | undefined;
 }
 export interface UpdateBackupRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -2056,9 +2099,9 @@ export interface UpdateBackupRequest {
   region: string;
   /** The identifier (ID) of a STACKIT Backup. */
   backupId: string;
-  description?: string;
-  labels?: unknown;
-  name?: string;
+  description?: string | undefined;
+  labels?: unknown | undefined;
+  name?: string | undefined;
 }
 export interface UpdateImageRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -2067,14 +2110,14 @@ export interface UpdateImageRequest {
   region: string;
   /** The identifier (ID) of a STACKIT Image. */
   imageId: string;
-  agent?: ImageAgent;
-  config?: ImageConfig;
-  diskFormat?: string;
-  labels?: unknown;
-  minDiskSize?: number;
-  minRam?: number;
-  name?: string;
-  protected?: boolean;
+  agent?: ImageAgent | undefined;
+  config?: ImageConfig | undefined;
+  diskFormat?: string | undefined;
+  labels?: unknown | undefined;
+  minDiskSize?: number | undefined;
+  minRam?: number | undefined;
+  name?: string | undefined;
+  protected?: boolean | undefined;
 }
 /** List of all projects the Image is shared with. */
 export type UpdateImageShareRequestProjectsList = Array<string>;
@@ -2086,22 +2129,22 @@ export interface UpdateImageShareRequest {
   /** The identifier (ID) of a STACKIT Image. */
   imageId: string;
   /** Image is shared with all projects inside the image owners organization. */
-  parentOrganization?: boolean;
+  parentOrganization?: boolean | undefined;
   /** List of all projects the Image is shared with. */
-  projects?: UpdateImageShareRequestProjectsList;
+  projects?: UpdateImageShareRequestProjectsList | undefined;
 }
 export interface UpdateKeyPairRequest {
   /** The name of an SSH keypair. */
   keypairName: string;
-  labels?: unknown;
+  labels?: unknown | undefined;
 }
 export type UpdateRegionalAreaIPv4DefaultNameserversList = Array<string>;
 /** Object that represents the request body for a regional network area IPv4 configuration update. */
 export interface UpdateRegionalAreaIPv4 {
-  defaultNameservers?: UpdateRegionalAreaIPv4DefaultNameserversList;
-  defaultPrefixLen?: number;
-  maxPrefixLen?: number;
-  minPrefixLen?: number;
+  defaultNameservers?: UpdateRegionalAreaIPv4DefaultNameserversList | undefined;
+  defaultPrefixLen?: number | undefined;
+  maxPrefixLen?: number | undefined;
+  minPrefixLen?: number | undefined;
 }
 export interface UpdateNetworkAreaRegionRequest {
   /** The identifier (ID) of a STACKIT Organization. */
@@ -2110,7 +2153,7 @@ export interface UpdateNetworkAreaRegionRequest {
   areaId: string;
   /** The STACKIT Region of the resources. */
   region: string;
-  ipv4?: UpdateRegionalAreaIPv4;
+  ipv4?: UpdateRegionalAreaIPv4 | undefined;
 }
 export interface UpdateNetworkAreaRouteRequest {
   /** The identifier (ID) of a STACKIT Organization. */
@@ -2121,7 +2164,7 @@ export interface UpdateNetworkAreaRouteRequest {
   region: string;
   /** The identifier (ID) of a STACKIT Route. */
   routeId: string;
-  labels?: unknown;
+  labels?: unknown | undefined;
 }
 export interface UpdateNicRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -2132,12 +2175,12 @@ export interface UpdateNicRequest {
   networkId: string;
   /** The identifier (ID) of a network interface. */
   nicId: string;
-  allowedAddresses?: AllowedAddresses;
-  description?: string;
-  labels?: unknown;
-  name?: string;
-  nicSecurity?: boolean;
-  securityGroups?: UUIDList;
+  allowedAddresses?: AllowedAddresses | undefined;
+  description?: string | undefined;
+  labels?: unknown | undefined;
+  name?: string | undefined;
+  nicSecurity?: boolean | undefined;
+  securityGroups?: UUIDList | undefined;
 }
 export interface UpdatePublicIPRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -2146,9 +2189,9 @@ export interface UpdatePublicIPRequest {
   region: string;
   /** The identifier (ID) of a Public IP. */
   publicIpId: string;
-  labels?: unknown;
+  labels?: unknown | undefined;
   /** Associate the public IP with a network interface (ID). */
-  networkInterface?: string | null;
+  networkInterface?: string | null | undefined;
 }
 export interface UpdateRouteOfRoutingTableRequest {
   /** The identifier (ID) of a STACKIT Organization. */
@@ -2161,7 +2204,7 @@ export interface UpdateRouteOfRoutingTableRequest {
   routingTableId: string;
   /** The identifier (ID) of a STACKIT Route. */
   routeId: string;
-  labels?: unknown;
+  labels?: unknown | undefined;
 }
 export interface UpdateRoutingTableOfAreaRequest {
   /** The identifier (ID) of a STACKIT Organization. */
@@ -2172,11 +2215,11 @@ export interface UpdateRoutingTableOfAreaRequest {
   region: string;
   /** The identifier (ID) of a STACKIT Routing Table. */
   routingTableId: string;
-  description?: string;
-  dynamicRoutes?: boolean;
-  labels?: unknown;
-  name?: string;
-  systemRoutes?: boolean;
+  description?: string | undefined;
+  dynamicRoutes?: boolean | undefined;
+  labels?: unknown | undefined;
+  name?: string | undefined;
+  systemRoutes?: boolean | undefined;
 }
 export interface UpdateSecurityGroupRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -2185,9 +2228,9 @@ export interface UpdateSecurityGroupRequest {
   region: string;
   /** The identifier (ID) of a STACKIT Security Group. */
   securityGroupId: string;
-  description?: string;
-  labels?: unknown;
-  name?: string;
+  description?: string | undefined;
+  labels?: unknown | undefined;
+  name?: string | undefined;
 }
 export interface UpdateServerRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -2196,9 +2239,9 @@ export interface UpdateServerRequest {
   region: string;
   /** The identifier (ID) of a STACKIT Server. */
   serverId: string;
-  labels?: unknown;
-  metadata?: unknown;
-  name?: string;
+  labels?: unknown | undefined;
+  metadata?: unknown | undefined;
+  name?: string | undefined;
 }
 export interface UpdateSnapshotRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -2207,9 +2250,9 @@ export interface UpdateSnapshotRequest {
   region: string;
   /** The identifier (ID) of a STACKIT Snapshot. */
   snapshotId: string;
-  description?: string;
-  labels?: unknown;
-  name?: string;
+  description?: string | undefined;
+  labels?: unknown | undefined;
+  name?: string | undefined;
 }
 export interface UpdateVolumeRequest {
   /** The identifier (ID) of a STACKIT Project. */
@@ -2218,11 +2261,16 @@ export interface UpdateVolumeRequest {
   region: string;
   /** The identifier (ID) of a STACKIT Volume. */
   volumeId: string;
-  bootable?: boolean;
-  description?: string;
-  imageConfig?: ImageConfig;
-  labels?: unknown;
-  name?: string;
+  bootable?: boolean | undefined;
+  description?: string | undefined;
+  imageConfig?: ImageConfig | undefined;
+  labels?: unknown | undefined;
+  name?: string | undefined;
+}
+/** Error with HTTP error code and an error message. */
+export interface Error {
+  code: number;
+  msg: string;
 }
 export type AddNetworkToServerError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Create and attach a network interface from the specified network. Create and attach a network interface from the specified network to the server. */
@@ -2232,8 +2280,8 @@ export const addNetworkToServer: API.OperationMethod<
   AddNetworkToServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c94, 0) as any as S.Schema<AddNetworkToServerRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<AddNetworkToServerResponse>,
+  input: __S(760, __c95, 0) as any as S.Schema<AddNetworkToServerRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<AddNetworkToServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2249,8 +2297,8 @@ export const addNicToServer: API.OperationMethod<
   AddNicToServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c106, 0) as any as S.Schema<AddNicToServerRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<AddNicToServerResponse>,
+  input: __S(856, __c107, 0) as any as S.Schema<AddNicToServerRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<AddNicToServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2271,8 +2319,8 @@ export const addPublicIpToServer: API.OperationMethod<
   AddPublicIpToServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c120, 0) as any as S.Schema<AddPublicIpToServerRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<AddPublicIpToServerResponse>,
+  input: __S(968, __c121, 0) as any as S.Schema<AddPublicIpToServerRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<AddPublicIpToServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2293,8 +2341,8 @@ export const addRoutesToRoutingTable: API.OperationMethod<
   AddRoutesToRoutingTableError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c132, 0) as any as S.Schema<AddRoutesToRoutingTableRequest>,
-  output: __S(1081, __c135, 1) as any as S.Schema<RouteListResponse>,
+  input: __S(1064, __c133, 0) as any as S.Schema<AddRoutesToRoutingTableRequest>,
+  output: __S(1089, __c136, 1) as any as S.Schema<RouteListResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2315,8 +2363,8 @@ export const addRoutingTableToArea: API.OperationMethod<
   AddRoutingTableToAreaError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1176, __c147, 0) as any as S.Schema<AddRoutingTableToAreaRequest>,
-  output: __S(1184, __c148, 0) as any as S.Schema<RoutingTable>,
+  input: __S(1184, __c148, 0) as any as S.Schema<AddRoutingTableToAreaRequest>,
+  output: __S(1192, __c149, 0) as any as S.Schema<RoutingTable>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2337,8 +2385,8 @@ export const addSecurityGroupToServer: API.OperationMethod<
   AddSecurityGroupToServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1272, __c159, 0) as any as S.Schema<AddSecurityGroupToServerRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<AddSecurityGroupToServerResponse>,
+  input: __S(1280, __c160, 0) as any as S.Schema<AddSecurityGroupToServerRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<AddSecurityGroupToServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2359,8 +2407,8 @@ export const addServiceAccountToServer: API.OperationMethod<
   AddServiceAccountToServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AddServiceAccountToServerRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<ServiceAccountMailListResponse>,
+  input: __S(8, __c1, 0) as any as S.Schema<AddServiceAccountToServerRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<ServiceAccountMailListResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2376,8 +2424,8 @@ export const addVolumeToServer: API.OperationMethod<
   AddVolumeToServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<AddVolumeToServerRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<VolumeAttachment>,
+  input: __S(112, __c14, 0) as any as S.Schema<AddVolumeToServerRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<VolumeAttachment>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2393,8 +2441,8 @@ export const createAffinityGroup: API.OperationMethod<
   CreateAffinityGroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<CreateAffinityGroupRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<AffinityGroup>,
+  input: __S(208, __c26, 0) as any as S.Schema<CreateAffinityGroupRequest>,
+  output: __S(216, __c27, 0) as any as S.Schema<AffinityGroup>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2410,8 +2458,8 @@ export const createBackup: API.OperationMethod<
   CreateBackupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<CreateBackupRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<Backup>,
+  input: __S(304, __c38, 0) as any as S.Schema<CreateBackupRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<Backup>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2427,8 +2475,8 @@ export const createImage: API.OperationMethod<
   CreateImageError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<CreateImageRequest>,
-  output: __S(401, __c50, 1) as any as S.Schema<ImageCreateResponse>,
+  input: __S(408, __c51, 0) as any as S.Schema<CreateImageRequest>,
+  output: __S(409, __c51, 1) as any as S.Schema<ImageCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2449,8 +2497,8 @@ export const createIsolatedNetwork: API.OperationMethod<
   CreateIsolatedNetworkError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(424, __c53, 0) as any as S.Schema<CreateIsolatedNetworkRequest>,
-  output: __S(434, __c54, 2) as any as S.Schema<Network>,
+  input: __S(432, __c54, 0) as any as S.Schema<CreateIsolatedNetworkRequest>,
+  output: __S(442, __c55, 2) as any as S.Schema<Network>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2466,8 +2514,8 @@ export const createKeyPair: API.OperationMethod<
   CreateKeyPairError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<CreateKeyPairRequest>,
-  output: __S(448, __c56, 0) as any as S.Schema<Keypair>,
+  input: __S(448, __c56, 0) as any as S.Schema<CreateKeyPairRequest>,
+  output: __S(456, __c57, 0) as any as S.Schema<Keypair>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2483,8 +2531,8 @@ export const createNetwork: API.OperationMethod<
   CreateNetworkError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(456, __c57, 0) as any as S.Schema<CreateNetworkRequest>,
-  output: __S(434, __c54, 2) as any as S.Schema<Network>,
+  input: __S(464, __c58, 0) as any as S.Schema<CreateNetworkRequest>,
+  output: __S(442, __c55, 2) as any as S.Schema<Network>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2500,8 +2548,8 @@ export const createNetworkArea: API.OperationMethod<
   CreateNetworkAreaError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c58, 0) as any as S.Schema<CreateNetworkAreaRequest>,
-  output: __S(472, __c59, 0) as any as S.Schema<NetworkArea>,
+  input: __S(472, __c59, 0) as any as S.Schema<CreateNetworkAreaRequest>,
+  output: __S(480, __c60, 0) as any as S.Schema<NetworkArea>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2522,8 +2570,8 @@ export const createNetworkAreaRange: API.OperationMethod<
   CreateNetworkAreaRangeError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c60, 0) as any as S.Schema<CreateNetworkAreaRangeRequest>,
-  output: __S(512, __c64, 0) as any as S.Schema<NetworkRangeListResponse>,
+  input: __S(488, __c61, 0) as any as S.Schema<CreateNetworkAreaRangeRequest>,
+  output: __S(520, __c65, 0) as any as S.Schema<NetworkRangeListResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2544,8 +2592,8 @@ export const createNetworkAreaRegion: API.OperationMethod<
   CreateNetworkAreaRegionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(521, __c65, 1) as any as S.Schema<CreateNetworkAreaRegionRequest>,
-  output: __S(529, __c66, 1) as any as S.Schema<RegionalArea>,
+  input: __S(529, __c66, 1) as any as S.Schema<CreateNetworkAreaRegionRequest>,
+  output: __S(537, __c67, 1) as any as S.Schema<RegionalArea>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2566,8 +2614,8 @@ export const createNetworkAreaRoute: API.OperationMethod<
   CreateNetworkAreaRouteError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(536, __c67, 0) as any as S.Schema<CreateNetworkAreaRouteRequest>,
-  output: __S(1081, __c135, 1) as any as S.Schema<RouteListResponse>,
+  input: __S(544, __c68, 0) as any as S.Schema<CreateNetworkAreaRouteRequest>,
+  output: __S(1089, __c136, 1) as any as S.Schema<RouteListResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2583,8 +2631,8 @@ export const createNic: API.OperationMethod<
   CreateNicError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c68, 0) as any as S.Schema<CreateNicRequest>,
-  output: __S(552, __c69, 0) as any as S.Schema<NIC>,
+  input: __S(552, __c69, 0) as any as S.Schema<CreateNicRequest>,
+  output: __S(560, __c70, 0) as any as S.Schema<NIC>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2600,8 +2648,8 @@ export const createPublicIP: API.OperationMethod<
   CreatePublicIPError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c70, 0) as any as S.Schema<CreatePublicIPRequest>,
-  output: __S(568, __c71, 0) as any as S.Schema<PublicIp>,
+  input: __S(568, __c71, 0) as any as S.Schema<CreatePublicIPRequest>,
+  output: __S(576, __c72, 0) as any as S.Schema<PublicIp>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2617,8 +2665,8 @@ export const createSecurityGroup: API.OperationMethod<
   CreateSecurityGroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c72, 0) as any as S.Schema<CreateSecurityGroupRequest>,
-  output: __S(600, __c75, 0) as any as S.Schema<SecurityGroup>,
+  input: __S(584, __c73, 0) as any as S.Schema<CreateSecurityGroupRequest>,
+  output: __S(608, __c76, 0) as any as S.Schema<SecurityGroup>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2634,8 +2682,8 @@ export const createSecurityGroupRule: API.OperationMethod<
   CreateSecurityGroupRuleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c76, 0) as any as S.Schema<CreateSecurityGroupRuleRequest>,
-  output: __S(587, __c73, 3) as any as S.Schema<CreateSecurityGroupRuleResponse>,
+  input: __S(616, __c77, 0) as any as S.Schema<CreateSecurityGroupRuleRequest>,
+  output: __S(595, __c74, 3) as any as S.Schema<CreateSecurityGroupRuleResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2651,8 +2699,8 @@ export const createServer: API.OperationMethod<
   CreateServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(617, __c77, 1) as any as S.Schema<CreateServerRequest>,
-  output: __S(629, __c78, 5) as any as S.Schema<ServerOutput>,
+  input: __S(625, __c78, 1) as any as S.Schema<CreateServerRequest>,
+  output: __S(637, __c79, 5) as any as S.Schema<ServerOutput>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2668,8 +2716,8 @@ export const createSnapshot: API.OperationMethod<
   CreateSnapshotError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(632, __c79, 0) as any as S.Schema<CreateSnapshotRequest>,
-  output: __S(640, __c80, 0) as any as S.Schema<Snapshot>,
+  input: __S(640, __c80, 0) as any as S.Schema<CreateSnapshotRequest>,
+  output: __S(648, __c81, 0) as any as S.Schema<Snapshot>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2685,8 +2733,8 @@ export const createVolume: API.OperationMethod<
   CreateVolumeError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(648, __c81, 0) as any as S.Schema<CreateVolumeRequest>,
-  output: __S(657, __c82, 1) as any as S.Schema<Volume>,
+  input: __S(656, __c82, 0) as any as S.Schema<CreateVolumeRequest>,
+  output: __S(665, __c83, 1) as any as S.Schema<Volume>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2702,8 +2750,8 @@ export const deallocateServer: API.OperationMethod<
   DeallocateServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(664, __c83, 0) as any as S.Schema<DeallocateServerRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<DeallocateServerResponse>,
+  input: __S(672, __c84, 0) as any as S.Schema<DeallocateServerRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeallocateServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2719,8 +2767,8 @@ export const deleteAffinityGroup: API.OperationMethod<
   DeleteAffinityGroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c84, 0) as any as S.Schema<DeleteAffinityGroupRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<DeleteAffinityGroupResponse>,
+  input: __S(680, __c85, 0) as any as S.Schema<DeleteAffinityGroupRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeleteAffinityGroupResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2736,8 +2784,8 @@ export const deleteBackup: API.OperationMethod<
   DeleteBackupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(680, __c85, 0) as any as S.Schema<DeleteBackupRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<DeleteBackupResponse>,
+  input: __S(688, __c86, 0) as any as S.Schema<DeleteBackupRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeleteBackupResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2753,8 +2801,8 @@ export const deleteImage: API.OperationMethod<
   DeleteImageError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c86, 0) as any as S.Schema<DeleteImageRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<DeleteImageResponse>,
+  input: __S(696, __c87, 0) as any as S.Schema<DeleteImageRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeleteImageResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2770,8 +2818,8 @@ export const deleteImageShare: API.OperationMethod<
   DeleteImageShareError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(696, __c87, 0) as any as S.Schema<DeleteImageShareRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<DeleteImageShareResponse>,
+  input: __S(704, __c88, 0) as any as S.Schema<DeleteImageShareRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeleteImageShareResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2787,8 +2835,8 @@ export const deleteImageShareConsumer: API.OperationMethod<
   DeleteImageShareConsumerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c88, 0) as any as S.Schema<DeleteImageShareConsumerRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<DeleteImageShareConsumerResponse>,
+  input: __S(712, __c89, 0) as any as S.Schema<DeleteImageShareConsumerRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeleteImageShareConsumerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2804,8 +2852,8 @@ export const deleteKeyPair: API.OperationMethod<
   DeleteKeyPairError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(712, __c89, 0) as any as S.Schema<DeleteKeyPairRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<DeleteKeyPairResponse>,
+  input: __S(720, __c90, 0) as any as S.Schema<DeleteKeyPairRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeleteKeyPairResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2821,8 +2869,8 @@ export const deleteNetwork: API.OperationMethod<
   DeleteNetworkError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c90, 0) as any as S.Schema<DeleteNetworkRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<DeleteNetworkResponse>,
+  input: __S(728, __c91, 0) as any as S.Schema<DeleteNetworkRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeleteNetworkResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2838,8 +2886,8 @@ export const deleteNetworkArea: API.OperationMethod<
   DeleteNetworkAreaError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(728, __c91, 0) as any as S.Schema<DeleteNetworkAreaRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<DeleteNetworkAreaResponse>,
+  input: __S(736, __c92, 0) as any as S.Schema<DeleteNetworkAreaRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeleteNetworkAreaResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2860,8 +2908,8 @@ export const deleteNetworkAreaRange: API.OperationMethod<
   DeleteNetworkAreaRangeError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c92, 0) as any as S.Schema<DeleteNetworkAreaRangeRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<DeleteNetworkAreaRangeResponse>,
+  input: __S(744, __c93, 0) as any as S.Schema<DeleteNetworkAreaRangeRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeleteNetworkAreaRangeResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2882,8 +2930,8 @@ export const deleteNetworkAreaRegion: API.OperationMethod<
   DeleteNetworkAreaRegionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(744, __c93, 0) as any as S.Schema<DeleteNetworkAreaRegionRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<DeleteNetworkAreaRegionResponse>,
+  input: __S(752, __c94, 0) as any as S.Schema<DeleteNetworkAreaRegionRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeleteNetworkAreaRegionResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2899,8 +2947,8 @@ export const deleteNetworkAreaRoute: API.OperationMethod<
   DeleteNetworkAreaRouteError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c96, 0) as any as S.Schema<DeleteNetworkAreaRouteRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<DeleteNetworkAreaRouteResponse>,
+  input: __S(776, __c97, 0) as any as S.Schema<DeleteNetworkAreaRouteRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeleteNetworkAreaRouteResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2916,8 +2964,8 @@ export const deleteNic: API.OperationMethod<
   DeleteNicError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(776, __c97, 0) as any as S.Schema<DeleteNicRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<DeleteNicResponse>,
+  input: __S(784, __c98, 0) as any as S.Schema<DeleteNicRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeleteNicResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2933,8 +2981,8 @@ export const deletePublicIP: API.OperationMethod<
   DeletePublicIPError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c98, 0) as any as S.Schema<DeletePublicIPRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<DeletePublicIPResponse>,
+  input: __S(792, __c99, 0) as any as S.Schema<DeletePublicIPRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeletePublicIPResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2950,8 +2998,8 @@ export const deleteRouteFromRoutingTable: API.OperationMethod<
   DeleteRouteFromRoutingTableError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(792, __c99, 0) as any as S.Schema<DeleteRouteFromRoutingTableRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<DeleteRouteFromRoutingTableResponse>,
+  input: __S(800, __c100, 0) as any as S.Schema<DeleteRouteFromRoutingTableRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeleteRouteFromRoutingTableResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2967,8 +3015,8 @@ export const deleteRoutingTableFromArea: API.OperationMethod<
   DeleteRoutingTableFromAreaError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c100, 0) as any as S.Schema<DeleteRoutingTableFromAreaRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<DeleteRoutingTableFromAreaResponse>,
+  input: __S(808, __c101, 0) as any as S.Schema<DeleteRoutingTableFromAreaRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeleteRoutingTableFromAreaResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -2989,8 +3037,8 @@ export const deleteSecurityGroup: API.OperationMethod<
   DeleteSecurityGroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(808, __c101, 0) as any as S.Schema<DeleteSecurityGroupRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<DeleteSecurityGroupResponse>,
+  input: __S(816, __c102, 0) as any as S.Schema<DeleteSecurityGroupRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeleteSecurityGroupResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3006,8 +3054,8 @@ export const deleteSecurityGroupRule: API.OperationMethod<
   DeleteSecurityGroupRuleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c102, 0) as any as S.Schema<DeleteSecurityGroupRuleRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<DeleteSecurityGroupRuleResponse>,
+  input: __S(824, __c103, 0) as any as S.Schema<DeleteSecurityGroupRuleRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeleteSecurityGroupRuleResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3023,8 +3071,8 @@ export const deleteServer: API.OperationMethod<
   DeleteServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(824, __c103, 0) as any as S.Schema<DeleteServerRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<DeleteServerResponse>,
+  input: __S(832, __c104, 0) as any as S.Schema<DeleteServerRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeleteServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3040,8 +3088,8 @@ export const deleteSnapshot: API.OperationMethod<
   DeleteSnapshotError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c104, 0) as any as S.Schema<DeleteSnapshotRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<DeleteSnapshotResponse>,
+  input: __S(840, __c105, 0) as any as S.Schema<DeleteSnapshotRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeleteSnapshotResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3057,8 +3105,8 @@ export const deleteVolume: API.OperationMethod<
   DeleteVolumeError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(840, __c105, 0) as any as S.Schema<DeleteVolumeRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<DeleteVolumeResponse>,
+  input: __S(848, __c106, 0) as any as S.Schema<DeleteVolumeRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<DeleteVolumeResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3074,8 +3122,8 @@ export const getAffinityGroup: API.OperationMethod<
   GetAffinityGroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(856, __c107, 0) as any as S.Schema<GetAffinityGroupRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<AffinityGroup>,
+  input: __S(864, __c108, 0) as any as S.Schema<GetAffinityGroupRequest>,
+  output: __S(216, __c27, 0) as any as S.Schema<AffinityGroup>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3091,8 +3139,8 @@ export const getAttachedVolume: API.OperationMethod<
   GetAttachedVolumeError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c108, 0) as any as S.Schema<GetAttachedVolumeRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<VolumeAttachment>,
+  input: __S(872, __c109, 0) as any as S.Schema<GetAttachedVolumeRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<VolumeAttachment>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3108,8 +3156,8 @@ export const getBackup: API.OperationMethod<
   GetBackupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(872, __c109, 0) as any as S.Schema<GetBackupRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<Backup>,
+  input: __S(880, __c110, 0) as any as S.Schema<GetBackupRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<Backup>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3125,8 +3173,8 @@ export const getImage: API.OperationMethod<
   GetImageError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c110, 0) as any as S.Schema<GetImageRequest>,
-  output: __S(889, __c111, 1) as any as S.Schema<Image>,
+  input: __S(888, __c111, 0) as any as S.Schema<GetImageRequest>,
+  output: __S(897, __c112, 1) as any as S.Schema<Image>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3142,8 +3190,8 @@ export const getImageShare: API.OperationMethod<
   GetImageShareError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c112, 0) as any as S.Schema<GetImageShareRequest>,
-  output: __S(904, __c113, 0) as any as S.Schema<ImageShare>,
+  input: __S(904, __c113, 0) as any as S.Schema<GetImageShareRequest>,
+  output: __S(912, __c114, 0) as any as S.Schema<ImageShare>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3159,8 +3207,8 @@ export const getImageShareConsumer: API.OperationMethod<
   GetImageShareConsumerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c114, 0) as any as S.Schema<GetImageShareConsumerRequest>,
-  output: __S(913, __c114, 1) as any as S.Schema<ImageShareConsumer>,
+  input: __S(920, __c115, 0) as any as S.Schema<GetImageShareConsumerRequest>,
+  output: __S(921, __c115, 1) as any as S.Schema<ImageShareConsumer>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3176,8 +3224,8 @@ export const getKeyPair: API.OperationMethod<
   GetKeyPairError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(920, __c115, 0) as any as S.Schema<GetKeyPairRequest>,
-  output: __S(448, __c56, 0) as any as S.Schema<Keypair>,
+  input: __S(928, __c116, 0) as any as S.Schema<GetKeyPairRequest>,
+  output: __S(456, __c57, 0) as any as S.Schema<Keypair>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3193,8 +3241,8 @@ export const getMachineType: API.OperationMethod<
   GetMachineTypeError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c116, 0) as any as S.Schema<GetMachineTypeRequest>,
-  output: __S(936, __c117, 0) as any as S.Schema<MachineType>,
+  input: __S(936, __c117, 0) as any as S.Schema<GetMachineTypeRequest>,
+  output: __S(944, __c118, 0) as any as S.Schema<MachineType>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3210,8 +3258,8 @@ export const getNetwork: API.OperationMethod<
   GetNetworkError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c118, 0) as any as S.Schema<GetNetworkRequest>,
-  output: __S(434, __c54, 2) as any as S.Schema<Network>,
+  input: __S(952, __c119, 0) as any as S.Schema<GetNetworkRequest>,
+  output: __S(442, __c55, 2) as any as S.Schema<Network>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3227,8 +3275,8 @@ export const getNetworkArea: API.OperationMethod<
   GetNetworkAreaError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(952, __c119, 0) as any as S.Schema<GetNetworkAreaRequest>,
-  output: __S(472, __c59, 0) as any as S.Schema<NetworkArea>,
+  input: __S(960, __c120, 0) as any as S.Schema<GetNetworkAreaRequest>,
+  output: __S(480, __c60, 0) as any as S.Schema<NetworkArea>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3244,8 +3292,8 @@ export const getNetworkAreaRange: API.OperationMethod<
   GetNetworkAreaRangeError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(968, __c121, 0) as any as S.Schema<GetNetworkAreaRangeRequest>,
-  output: __S(496, __c62, 0) as any as S.Schema<NetworkRange>,
+  input: __S(976, __c122, 0) as any as S.Schema<GetNetworkAreaRangeRequest>,
+  output: __S(504, __c63, 0) as any as S.Schema<NetworkRange>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3261,8 +3309,8 @@ export const getNetworkAreaRegion: API.OperationMethod<
   GetNetworkAreaRegionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c122, 0) as any as S.Schema<GetNetworkAreaRegionRequest>,
-  output: __S(529, __c66, 1) as any as S.Schema<RegionalArea>,
+  input: __S(984, __c123, 0) as any as S.Schema<GetNetworkAreaRegionRequest>,
+  output: __S(537, __c67, 1) as any as S.Schema<RegionalArea>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3278,8 +3326,8 @@ export const getNetworkAreaRoute: API.OperationMethod<
   GetNetworkAreaRouteError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(984, __c123, 0) as any as S.Schema<GetNetworkAreaRouteRequest>,
-  output: __S(1072, __c134, 0) as any as S.Schema<Route>,
+  input: __S(992, __c124, 0) as any as S.Schema<GetNetworkAreaRouteRequest>,
+  output: __S(1080, __c135, 0) as any as S.Schema<Route>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3291,8 +3339,8 @@ export type GetNicError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Get details about a network interface. Get details about a network interface inside a network. */
 export const getNic: API.OperationMethod<GetNicRequest, NIC, GetNicError, StackitOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(992, __c124, 0) as any as S.Schema<GetNicRequest>,
-    output: __S(552, __c69, 0) as any as S.Schema<NIC>,
+    input: __S(1000, __c125, 0) as any as S.Schema<GetNicRequest>,
+    output: __S(560, __c70, 0) as any as S.Schema<NIC>,
     errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
     protocol: StackitProtocol,
     retry: Retry.Retry,
@@ -3308,8 +3356,8 @@ export const getOrganizationRequest: API.OperationMethod<
   GetOrganizationRequestError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1000, __c125, 0) as any as S.Schema<GetOrganizationRequestRequest>,
-  output: __S(1010, __c126, 2) as any as S.Schema<Request>,
+  input: __S(1008, __c126, 0) as any as S.Schema<GetOrganizationRequestRequest>,
+  output: __S(1018, __c127, 2) as any as S.Schema<Request>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3325,8 +3373,8 @@ export const getProjectDetails: API.OperationMethod<
   GetProjectDetailsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1016, __c127, 0) as any as S.Schema<GetProjectDetailsRequest>,
-  output: __S(1017, __c127, 1) as any as S.Schema<Project>,
+  input: __S(1024, __c128, 0) as any as S.Schema<GetProjectDetailsRequest>,
+  output: __S(1025, __c128, 1) as any as S.Schema<Project>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3342,8 +3390,8 @@ export const getProjectNIC: API.OperationMethod<
   GetProjectNICError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c128, 0) as any as S.Schema<GetProjectNICRequest>,
-  output: __S(552, __c69, 0) as any as S.Schema<NIC>,
+  input: __S(1032, __c129, 0) as any as S.Schema<GetProjectNICRequest>,
+  output: __S(560, __c70, 0) as any as S.Schema<NIC>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3359,8 +3407,8 @@ export const getProjectRequest: API.OperationMethod<
   GetProjectRequestError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1032, __c129, 0) as any as S.Schema<GetProjectRequestRequest>,
-  output: __S(1010, __c126, 2) as any as S.Schema<Request>,
+  input: __S(1040, __c130, 0) as any as S.Schema<GetProjectRequestRequest>,
+  output: __S(1018, __c127, 2) as any as S.Schema<Request>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3376,8 +3424,8 @@ export const getPublicIP: API.OperationMethod<
   GetPublicIPError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c130, 0) as any as S.Schema<GetPublicIPRequest>,
-  output: __S(568, __c71, 0) as any as S.Schema<PublicIp>,
+  input: __S(1048, __c131, 0) as any as S.Schema<GetPublicIPRequest>,
+  output: __S(576, __c72, 0) as any as S.Schema<PublicIp>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3393,8 +3441,8 @@ export const getRouteOfRoutingTable: API.OperationMethod<
   GetRouteOfRoutingTableError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1048, __c131, 0) as any as S.Schema<GetRouteOfRoutingTableRequest>,
-  output: __S(1072, __c134, 0) as any as S.Schema<Route>,
+  input: __S(1056, __c132, 0) as any as S.Schema<GetRouteOfRoutingTableRequest>,
+  output: __S(1080, __c135, 0) as any as S.Schema<Route>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3410,8 +3458,8 @@ export const getRoutingTableOfArea: API.OperationMethod<
   GetRoutingTableOfAreaError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c136, 0) as any as S.Schema<GetRoutingTableOfAreaRequest>,
-  output: __S(1184, __c148, 0) as any as S.Schema<RoutingTable>,
+  input: __S(1096, __c137, 0) as any as S.Schema<GetRoutingTableOfAreaRequest>,
+  output: __S(1192, __c149, 0) as any as S.Schema<RoutingTable>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3427,8 +3475,8 @@ export const getSecurityGroup: API.OperationMethod<
   GetSecurityGroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1096, __c137, 0) as any as S.Schema<GetSecurityGroupRequest>,
-  output: __S(600, __c75, 0) as any as S.Schema<SecurityGroup>,
+  input: __S(1104, __c138, 0) as any as S.Schema<GetSecurityGroupRequest>,
+  output: __S(608, __c76, 0) as any as S.Schema<SecurityGroup>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3444,8 +3492,8 @@ export const getSecurityGroupRule: API.OperationMethod<
   GetSecurityGroupRuleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c138, 0) as any as S.Schema<GetSecurityGroupRuleRequest>,
-  output: __S(587, __c73, 3) as any as S.Schema<GetSecurityGroupRuleResponse>,
+  input: __S(1112, __c139, 0) as any as S.Schema<GetSecurityGroupRuleRequest>,
+  output: __S(595, __c74, 3) as any as S.Schema<GetSecurityGroupRuleResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3461,8 +3509,8 @@ export const getServer: API.OperationMethod<
   GetServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1112, __c139, 0) as any as S.Schema<GetServerRequest>,
-  output: __S(629, __c78, 5) as any as S.Schema<ServerOutput>,
+  input: __S(1120, __c140, 0) as any as S.Schema<GetServerRequest>,
+  output: __S(637, __c79, 5) as any as S.Schema<ServerOutput>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3478,8 +3526,8 @@ export const getServerConsole: API.OperationMethod<
   GetServerConsoleError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c140, 0) as any as S.Schema<GetServerConsoleRequest>,
-  output: __S(1121, __c140, 1) as any as S.Schema<ServerConsoleUrl>,
+  input: __S(1128, __c141, 0) as any as S.Schema<GetServerConsoleRequest>,
+  output: __S(1129, __c141, 1) as any as S.Schema<ServerConsoleUrl>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3495,8 +3543,8 @@ export const getServerLog: API.OperationMethod<
   GetServerLogError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1128, __c141, 0) as any as S.Schema<GetServerLogRequest>,
-  output: __S(1129, __c141, 1) as any as S.Schema<GetServerLogResponse>,
+  input: __S(1136, __c142, 0) as any as S.Schema<GetServerLogRequest>,
+  output: __S(1137, __c142, 1) as any as S.Schema<GetServerLogResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3512,8 +3560,8 @@ export const getSnapshot: API.OperationMethod<
   GetSnapshotError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c142, 0) as any as S.Schema<GetSnapshotRequest>,
-  output: __S(640, __c80, 0) as any as S.Schema<Snapshot>,
+  input: __S(1144, __c143, 0) as any as S.Schema<GetSnapshotRequest>,
+  output: __S(648, __c81, 0) as any as S.Schema<Snapshot>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3529,8 +3577,8 @@ export const getVolume: API.OperationMethod<
   GetVolumeError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1144, __c143, 0) as any as S.Schema<GetVolumeRequest>,
-  output: __S(657, __c82, 1) as any as S.Schema<Volume>,
+  input: __S(1152, __c144, 0) as any as S.Schema<GetVolumeRequest>,
+  output: __S(665, __c83, 1) as any as S.Schema<Volume>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3546,8 +3594,8 @@ export const getVolumePerformanceClass: API.OperationMethod<
   GetVolumePerformanceClassError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c144, 0) as any as S.Schema<GetVolumePerformanceClassRequest>,
-  output: __S(1160, __c145, 0) as any as S.Schema<VolumePerformanceClass>,
+  input: __S(1160, __c145, 0) as any as S.Schema<GetVolumePerformanceClassRequest>,
+  output: __S(1168, __c146, 0) as any as S.Schema<VolumePerformanceClass>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3563,8 +3611,8 @@ export const imageFromVolume: API.OperationMethod<
   ImageFromVolumeError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c146, 0) as any as S.Schema<ImageFromVolumeRequest>,
-  output: __S(889, __c111, 1) as any as S.Schema<Image>,
+  input: __S(1176, __c147, 0) as any as S.Schema<ImageFromVolumeRequest>,
+  output: __S(897, __c112, 1) as any as S.Schema<Image>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3580,8 +3628,8 @@ export const listAffinityGroups: API.OperationMethod<
   ListAffinityGroupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1192, __c149, 0) as any as S.Schema<ListAffinityGroupsRequest>,
-  output: __S(1194, __c149, 2) as any as S.Schema<AffinityGroupListResponse>,
+  input: __S(1200, __c150, 0) as any as S.Schema<ListAffinityGroupsRequest>,
+  output: __S(1202, __c150, 2) as any as S.Schema<AffinityGroupListResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3597,8 +3645,8 @@ export const listAttachedVolumes: API.OperationMethod<
   ListAttachedVolumesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c150, 0) as any as S.Schema<ListAttachedVolumesRequest>,
-  output: __S(1202, __c150, 2) as any as S.Schema<VolumeAttachmentListResponse>,
+  input: __S(1208, __c151, 0) as any as S.Schema<ListAttachedVolumesRequest>,
+  output: __S(1210, __c151, 2) as any as S.Schema<VolumeAttachmentListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3614,8 +3662,8 @@ export const listAvailabilityZones: API.OperationMethod<
   ListAvailabilityZonesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1208, __c151, 0) as any as S.Schema<ListAvailabilityZonesRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<AvailabilityZoneListResponse>,
+  input: __S(1216, __c152, 0) as any as S.Schema<ListAvailabilityZonesRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<AvailabilityZoneListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3631,8 +3679,8 @@ export const listBackups: API.OperationMethod<
   ListBackupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c152, 0) as any as S.Schema<ListBackupsRequest>,
-  output: __S(1218, __c152, 2) as any as S.Schema<BackupListResponse>,
+  input: __S(1224, __c153, 0) as any as S.Schema<ListBackupsRequest>,
+  output: __S(1226, __c153, 2) as any as S.Schema<BackupListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3648,8 +3696,8 @@ export const listImages: API.OperationMethod<
   ListImagesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1224, __c153, 0) as any as S.Schema<ListImagesRequest>,
-  output: __S(1226, __c153, 2) as any as S.Schema<ImageListResponse>,
+  input: __S(1232, __c154, 0) as any as S.Schema<ListImagesRequest>,
+  output: __S(1234, __c154, 2) as any as S.Schema<ImageListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3665,8 +3713,8 @@ export const listKeyPairs: API.OperationMethod<
   ListKeyPairsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c154, 0) as any as S.Schema<ListKeyPairsRequest>,
-  output: __S(1234, __c154, 2) as any as S.Schema<KeyPairListResponse>,
+  input: __S(1240, __c155, 0) as any as S.Schema<ListKeyPairsRequest>,
+  output: __S(1242, __c155, 2) as any as S.Schema<KeyPairListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3682,8 +3730,8 @@ export const listMachineTypes: API.OperationMethod<
   ListMachineTypesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1240, __c155, 0) as any as S.Schema<ListMachineTypesRequest>,
-  output: __S(1242, __c155, 2) as any as S.Schema<MachineTypeListResponse>,
+  input: __S(1248, __c156, 0) as any as S.Schema<ListMachineTypesRequest>,
+  output: __S(1250, __c156, 2) as any as S.Schema<MachineTypeListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3699,8 +3747,8 @@ export const listNetworkAreaProjects: API.OperationMethod<
   ListNetworkAreaProjectsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c156, 0) as any as S.Schema<ListNetworkAreaProjectsRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<ProjectListResponse>,
+  input: __S(1256, __c157, 0) as any as S.Schema<ListNetworkAreaProjectsRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<ProjectListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3716,8 +3764,8 @@ export const listNetworkAreaRanges: API.OperationMethod<
   ListNetworkAreaRangesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1256, __c157, 0) as any as S.Schema<ListNetworkAreaRangesRequest>,
-  output: __S(512, __c64, 0) as any as S.Schema<NetworkRangeListResponse>,
+  input: __S(1264, __c158, 0) as any as S.Schema<ListNetworkAreaRangesRequest>,
+  output: __S(520, __c65, 0) as any as S.Schema<NetworkRangeListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3733,8 +3781,8 @@ export const listNetworkAreaRegions: API.OperationMethod<
   ListNetworkAreaRegionsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c158, 0) as any as S.Schema<ListNetworkAreaRegionsRequest>,
-  output: __S(1266, __c158, 2) as any as S.Schema<RegionalAreaListResponse>,
+  input: __S(1272, __c159, 0) as any as S.Schema<ListNetworkAreaRegionsRequest>,
+  output: __S(1274, __c159, 2) as any as S.Schema<RegionalAreaListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3750,8 +3798,8 @@ export const listNetworkAreaRoutes: API.OperationMethod<
   ListNetworkAreaRoutesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c160, 0) as any as S.Schema<ListNetworkAreaRoutesRequest>,
-  output: __S(1081, __c135, 1) as any as S.Schema<RouteListResponse>,
+  input: __S(1288, __c161, 0) as any as S.Schema<ListNetworkAreaRoutesRequest>,
+  output: __S(1089, __c136, 1) as any as S.Schema<RouteListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3767,8 +3815,8 @@ export const listNetworkAreas: API.OperationMethod<
   ListNetworkAreasError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1288, __c161, 0) as any as S.Schema<ListNetworkAreasRequest>,
-  output: __S(1290, __c161, 2) as any as S.Schema<NetworkAreaListResponse>,
+  input: __S(1296, __c162, 0) as any as S.Schema<ListNetworkAreasRequest>,
+  output: __S(1298, __c162, 2) as any as S.Schema<NetworkAreaListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3784,8 +3832,8 @@ export const listNetworks: API.OperationMethod<
   ListNetworksError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c162, 0) as any as S.Schema<ListNetworksRequest>,
-  output: __S(1298, __c162, 2) as any as S.Schema<NetworkListResponse>,
+  input: __S(1304, __c163, 0) as any as S.Schema<ListNetworksRequest>,
+  output: __S(1306, __c163, 2) as any as S.Schema<NetworkListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3801,8 +3849,8 @@ export const listNics: API.OperationMethod<
   ListNicsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1304, __c163, 0) as any as S.Schema<ListNicsRequest>,
-  output: __S(1313, __c164, 1) as any as S.Schema<NICListResponse>,
+  input: __S(1312, __c164, 0) as any as S.Schema<ListNicsRequest>,
+  output: __S(1321, __c165, 1) as any as S.Schema<NICListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3818,8 +3866,8 @@ export const listProjectNICs: API.OperationMethod<
   ListProjectNICsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1320, __c165, 0) as any as S.Schema<ListProjectNICsRequest>,
-  output: __S(1313, __c164, 1) as any as S.Schema<NICListResponse>,
+  input: __S(1328, __c166, 0) as any as S.Schema<ListProjectNICsRequest>,
+  output: __S(1321, __c165, 1) as any as S.Schema<NICListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3835,8 +3883,8 @@ export const listPublicIPRanges: API.OperationMethod<
   ListPublicIPRangesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c166, 0) as any as S.Schema<ListPublicIPRangesRequest>,
-  output: __S(1331, __c166, 3) as any as S.Schema<PublicNetworkListResponse>,
+  input: __S(1336, __c167, 0) as any as S.Schema<ListPublicIPRangesRequest>,
+  output: __S(1339, __c167, 3) as any as S.Schema<PublicNetworkListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3852,8 +3900,8 @@ export const listPublicIPs: API.OperationMethod<
   ListPublicIPsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1336, __c167, 0) as any as S.Schema<ListPublicIPsRequest>,
-  output: __S(1338, __c167, 2) as any as S.Schema<PublicIpListResponse>,
+  input: __S(1344, __c168, 0) as any as S.Schema<ListPublicIPsRequest>,
+  output: __S(1346, __c168, 2) as any as S.Schema<PublicIpListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3869,8 +3917,8 @@ export const listQuotas: API.OperationMethod<
   ListQuotasError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c168, 0) as any as S.Schema<ListQuotasRequest>,
-  output: __S(1347, __c168, 3) as any as S.Schema<QuotaListResponse>,
+  input: __S(1352, __c169, 0) as any as S.Schema<ListQuotasRequest>,
+  output: __S(1355, __c169, 3) as any as S.Schema<QuotaListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3886,8 +3934,8 @@ export const listRoutesOfRoutingTable: API.OperationMethod<
   ListRoutesOfRoutingTableError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1352, __c169, 0) as any as S.Schema<ListRoutesOfRoutingTableRequest>,
-  output: __S(1081, __c135, 1) as any as S.Schema<RouteListResponse>,
+  input: __S(1360, __c170, 0) as any as S.Schema<ListRoutesOfRoutingTableRequest>,
+  output: __S(1089, __c136, 1) as any as S.Schema<RouteListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3903,8 +3951,8 @@ export const listRoutingTablesOfArea: API.OperationMethod<
   ListRoutingTablesOfAreaError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c170, 0) as any as S.Schema<ListRoutingTablesOfAreaRequest>,
-  output: __S(1362, __c170, 2) as any as S.Schema<RoutingTableListResponse>,
+  input: __S(1368, __c171, 0) as any as S.Schema<ListRoutingTablesOfAreaRequest>,
+  output: __S(1370, __c171, 2) as any as S.Schema<RoutingTableListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3920,8 +3968,8 @@ export const listSecurityGroupRules: API.OperationMethod<
   ListSecurityGroupRulesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<ListSecurityGroupRulesRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<SecurityGroupRuleListResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<ListSecurityGroupRulesRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<SecurityGroupRuleListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3937,8 +3985,8 @@ export const listSecurityGroups: API.OperationMethod<
   ListSecurityGroupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<ListSecurityGroupsRequest>,
-  output: __S(34, __c4, 2) as any as S.Schema<SecurityGroupListResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<ListSecurityGroupsRequest>,
+  output: __S(42, __c5, 2) as any as S.Schema<SecurityGroupListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3954,8 +4002,8 @@ export const listServerNICs: API.OperationMethod<
   ListServerNICsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ListServerNICsRequest>,
-  output: __S(1313, __c164, 1) as any as S.Schema<NICListResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<ListServerNICsRequest>,
+  output: __S(1321, __c165, 1) as any as S.Schema<NICListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3971,8 +4019,8 @@ export const listServers: API.OperationMethod<
   ListServersError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ListServersRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<ServerListResponseOutput>,
+  input: __S(56, __c7, 0) as any as S.Schema<ListServersRequest>,
+  output: __S(58, __c7, 2) as any as S.Schema<ServerListResponseOutput>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -3988,8 +4036,8 @@ export const listServerServiceAccounts: API.OperationMethod<
   ListServerServiceAccountsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<ListServerServiceAccountsRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<ServiceAccountMailListResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<ListServerServiceAccountsRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<ServiceAccountMailListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4005,8 +4053,8 @@ export const listSnapshotsInProject: API.OperationMethod<
   ListSnapshotsInProjectError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<ListSnapshotsInProjectRequest>,
-  output: __S(66, __c8, 2) as any as S.Schema<SnapshotListResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<ListSnapshotsInProjectRequest>,
+  output: __S(74, __c9, 2) as any as S.Schema<SnapshotListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4022,8 +4070,8 @@ export const listVolumePerformanceClasses: API.OperationMethod<
   ListVolumePerformanceClassesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<ListVolumePerformanceClassesRequest>,
-  output: __S(74, __c9, 2) as any as S.Schema<VolumePerformanceClassListResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<ListVolumePerformanceClassesRequest>,
+  output: __S(82, __c10, 2) as any as S.Schema<VolumePerformanceClassListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4039,8 +4087,8 @@ export const listVolumes: API.OperationMethod<
   ListVolumesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<ListVolumesRequest>,
-  output: __S(82, __c10, 2) as any as S.Schema<VolumeListResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<ListVolumesRequest>,
+  output: __S(90, __c11, 2) as any as S.Schema<VolumeListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4056,8 +4104,8 @@ export const partialUpdateNetwork: API.OperationMethod<
   PartialUpdateNetworkError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(89, __c11, 1) as any as S.Schema<PartialUpdateNetworkRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<PartialUpdateNetworkResponse>,
+  input: __S(97, __c12, 1) as any as S.Schema<PartialUpdateNetworkRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<PartialUpdateNetworkResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4073,8 +4121,8 @@ export const partialUpdateNetworkArea: API.OperationMethod<
   PartialUpdateNetworkAreaError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<PartialUpdateNetworkAreaRequest>,
-  output: __S(472, __c59, 0) as any as S.Schema<NetworkArea>,
+  input: __S(104, __c13, 0) as any as S.Schema<PartialUpdateNetworkAreaRequest>,
+  output: __S(480, __c60, 0) as any as S.Schema<NetworkArea>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4090,8 +4138,8 @@ export const rebootServer: API.OperationMethod<
   RebootServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<RebootServerRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<RebootServerResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<RebootServerRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<RebootServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4107,8 +4155,8 @@ export const removeNetworkFromServer: API.OperationMethod<
   RemoveNetworkFromServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<RemoveNetworkFromServerRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<RemoveNetworkFromServerResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<RemoveNetworkFromServerRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<RemoveNetworkFromServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4124,8 +4172,8 @@ export const removeNicFromServer: API.OperationMethod<
   RemoveNicFromServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<RemoveNicFromServerRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<RemoveNicFromServerResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<RemoveNicFromServerRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<RemoveNicFromServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4146,8 +4194,8 @@ export const removePublicIpFromServer: API.OperationMethod<
   RemovePublicIpFromServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<RemovePublicIpFromServerRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<RemovePublicIpFromServerResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<RemovePublicIpFromServerRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<RemovePublicIpFromServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4168,8 +4216,8 @@ export const removeSecurityGroupFromServer: API.OperationMethod<
   RemoveSecurityGroupFromServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<RemoveSecurityGroupFromServerRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<RemoveSecurityGroupFromServerResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<RemoveSecurityGroupFromServerRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<RemoveSecurityGroupFromServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4190,8 +4238,8 @@ export const removeServiceAccountFromServer: API.OperationMethod<
   RemoveServiceAccountFromServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<RemoveServiceAccountFromServerRequest>,
-  output: __S(16, __c2, 0) as any as S.Schema<ServiceAccountMailListResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<RemoveServiceAccountFromServerRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<ServiceAccountMailListResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4212,8 +4260,8 @@ export const removeVolumeFromServer: API.OperationMethod<
   RemoveVolumeFromServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<RemoveVolumeFromServerRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<RemoveVolumeFromServerResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<RemoveVolumeFromServerRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<RemoveVolumeFromServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4229,8 +4277,8 @@ export const rescueServer: API.OperationMethod<
   RescueServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<RescueServerRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<RescueServerResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<RescueServerRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<RescueServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4246,8 +4294,8 @@ export const resizeServer: API.OperationMethod<
   ResizeServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<ResizeServerRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<ResizeServerResponse>,
+  input: __S(192, __c24, 0) as any as S.Schema<ResizeServerRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<ResizeServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4263,8 +4311,8 @@ export const resizeVolume: API.OperationMethod<
   ResizeVolumeError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<ResizeVolumeRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<ResizeVolumeResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<ResizeVolumeRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<ResizeVolumeResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4280,8 +4328,8 @@ export const restoreBackup: API.OperationMethod<
   RestoreBackupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<RestoreBackupRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<RestoreBackupResponse>,
+  input: __S(224, __c28, 0) as any as S.Schema<RestoreBackupRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<RestoreBackupResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4297,8 +4345,8 @@ export const setImageShare: API.OperationMethod<
   SetImageShareError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<SetImageShareRequest>,
-  output: __S(904, __c113, 0) as any as S.Schema<ImageShare>,
+  input: __S(232, __c29, 0) as any as S.Schema<SetImageShareRequest>,
+  output: __S(912, __c114, 0) as any as S.Schema<ImageShare>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4314,8 +4362,8 @@ export const startServer: API.OperationMethod<
   StartServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<StartServerRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<StartServerResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<StartServerRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<StartServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4331,8 +4379,8 @@ export const stopServer: API.OperationMethod<
   StopServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<StopServerRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<StopServerResponse>,
+  input: __S(248, __c31, 0) as any as S.Schema<StopServerRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<StopServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4348,8 +4396,8 @@ export const unrescueServer: API.OperationMethod<
   UnrescueServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<UnrescueServerRequest>,
-  output: __S(760, __c95, 0) as any as S.Schema<UnrescueServerResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<UnrescueServerRequest>,
+  output: __S(768, __c96, 0) as any as S.Schema<UnrescueServerResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4365,8 +4413,8 @@ export const updateAttachedVolume: API.OperationMethod<
   UpdateAttachedVolumeError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<UpdateAttachedVolumeRequest>,
-  output: __S(112, __c14, 0) as any as S.Schema<VolumeAttachment>,
+  input: __S(264, __c33, 0) as any as S.Schema<UpdateAttachedVolumeRequest>,
+  output: __S(120, __c15, 0) as any as S.Schema<VolumeAttachment>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4382,8 +4430,8 @@ export const updateBackup: API.OperationMethod<
   UpdateBackupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<UpdateBackupRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<Backup>,
+  input: __S(272, __c34, 0) as any as S.Schema<UpdateBackupRequest>,
+  output: __S(320, __c40, 0) as any as S.Schema<Backup>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4399,8 +4447,8 @@ export const updateImage: API.OperationMethod<
   UpdateImageError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<UpdateImageRequest>,
-  output: __S(889, __c111, 1) as any as S.Schema<Image>,
+  input: __S(280, __c35, 0) as any as S.Schema<UpdateImageRequest>,
+  output: __S(897, __c112, 1) as any as S.Schema<Image>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4416,8 +4464,8 @@ export const updateImageShare: API.OperationMethod<
   UpdateImageShareError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<UpdateImageShareRequest>,
-  output: __S(904, __c113, 0) as any as S.Schema<ImageShare>,
+  input: __S(288, __c36, 0) as any as S.Schema<UpdateImageShareRequest>,
+  output: __S(912, __c114, 0) as any as S.Schema<ImageShare>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4433,8 +4481,8 @@ export const updateKeyPair: API.OperationMethod<
   UpdateKeyPairError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<UpdateKeyPairRequest>,
-  output: __S(448, __c56, 0) as any as S.Schema<Keypair>,
+  input: __S(296, __c37, 0) as any as S.Schema<UpdateKeyPairRequest>,
+  output: __S(456, __c57, 0) as any as S.Schema<Keypair>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4455,8 +4503,8 @@ export const updateNetworkAreaRegion: API.OperationMethod<
   UpdateNetworkAreaRegionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(321, __c40, 1) as any as S.Schema<UpdateNetworkAreaRegionRequest>,
-  output: __S(529, __c66, 1) as any as S.Schema<RegionalArea>,
+  input: __S(329, __c41, 1) as any as S.Schema<UpdateNetworkAreaRegionRequest>,
+  output: __S(537, __c67, 1) as any as S.Schema<RegionalArea>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4472,8 +4520,8 @@ export const updateNetworkAreaRoute: API.OperationMethod<
   UpdateNetworkAreaRouteError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<UpdateNetworkAreaRouteRequest>,
-  output: __S(1072, __c134, 0) as any as S.Schema<Route>,
+  input: __S(336, __c42, 0) as any as S.Schema<UpdateNetworkAreaRouteRequest>,
+  output: __S(1080, __c135, 0) as any as S.Schema<Route>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4489,8 +4537,8 @@ export const updateNic: API.OperationMethod<
   UpdateNicError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<UpdateNicRequest>,
-  output: __S(552, __c69, 0) as any as S.Schema<NIC>,
+  input: __S(344, __c43, 0) as any as S.Schema<UpdateNicRequest>,
+  output: __S(560, __c70, 0) as any as S.Schema<NIC>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4506,8 +4554,8 @@ export const updatePublicIP: API.OperationMethod<
   UpdatePublicIPError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<UpdatePublicIPRequest>,
-  output: __S(568, __c71, 0) as any as S.Schema<PublicIp>,
+  input: __S(352, __c44, 0) as any as S.Schema<UpdatePublicIPRequest>,
+  output: __S(576, __c72, 0) as any as S.Schema<PublicIp>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4523,8 +4571,8 @@ export const updateRouteOfRoutingTable: API.OperationMethod<
   UpdateRouteOfRoutingTableError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<UpdateRouteOfRoutingTableRequest>,
-  output: __S(1072, __c134, 0) as any as S.Schema<Route>,
+  input: __S(360, __c45, 0) as any as S.Schema<UpdateRouteOfRoutingTableRequest>,
+  output: __S(1080, __c135, 0) as any as S.Schema<Route>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4540,8 +4588,8 @@ export const updateRoutingTableOfArea: API.OperationMethod<
   UpdateRoutingTableOfAreaError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<UpdateRoutingTableOfAreaRequest>,
-  output: __S(1184, __c148, 0) as any as S.Schema<RoutingTable>,
+  input: __S(368, __c46, 0) as any as S.Schema<UpdateRoutingTableOfAreaRequest>,
+  output: __S(1192, __c149, 0) as any as S.Schema<RoutingTable>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4557,8 +4605,8 @@ export const updateSecurityGroup: API.OperationMethod<
   UpdateSecurityGroupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<UpdateSecurityGroupRequest>,
-  output: __S(600, __c75, 0) as any as S.Schema<SecurityGroup>,
+  input: __S(376, __c47, 0) as any as S.Schema<UpdateSecurityGroupRequest>,
+  output: __S(608, __c76, 0) as any as S.Schema<SecurityGroup>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4574,8 +4622,8 @@ export const updateServer: API.OperationMethod<
   UpdateServerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<UpdateServerRequest>,
-  output: __S(629, __c78, 5) as any as S.Schema<ServerOutput>,
+  input: __S(384, __c48, 0) as any as S.Schema<UpdateServerRequest>,
+  output: __S(637, __c79, 5) as any as S.Schema<ServerOutput>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4591,8 +4639,8 @@ export const updateSnapshot: API.OperationMethod<
   UpdateSnapshotError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<UpdateSnapshotRequest>,
-  output: __S(640, __c80, 0) as any as S.Schema<Snapshot>,
+  input: __S(392, __c49, 0) as any as S.Schema<UpdateSnapshotRequest>,
+  output: __S(648, __c81, 0) as any as S.Schema<Snapshot>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4608,8 +4656,8 @@ export const updateVolume: API.OperationMethod<
   UpdateVolumeError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<UpdateVolumeRequest>,
-  output: __S(657, __c82, 1) as any as S.Schema<Volume>,
+  input: __S(400, __c50, 0) as any as S.Schema<UpdateVolumeRequest>,
+  output: __S(665, __c83, 1) as any as S.Schema<Volume>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -4619,6 +4667,17 @@ export const updateVolume: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.Number,
+          msg: S.String,
+        }),
+      ).annotate({ identifier: "Error" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4638,23 +4697,23 @@ function __c0(j: number): any {
       ).annotate({ identifier: "AddServiceAccountToServerRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          items: __S(8, __c1, 0),
+          items: __S(16, __c2, 0),
         }),
       ).annotate({ identifier: "ServiceAccountMailListResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4674,12 +4733,12 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(592, __c74, 0),
+          items: __S(600, __c75, 0),
         }),
       ).annotate({ identifier: "SecurityGroupRuleListResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4697,16 +4756,16 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "ListSecurityGroupsRequest" });
     case 1:
-      return S.Array(__S(600, __c75, 0));
+      return S.Array(__S(608, __c76, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(33, __c4, 1),
+          items: __S(41, __c5, 1),
         }),
       ).annotate({ identifier: "SecurityGroupListResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4725,7 +4784,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ListServerNICsRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4744,16 +4803,16 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "ListServersRequest" });
     case 1:
-      return S.Array(__S(629, __c78, 5));
+      return S.Array(__S(637, __c79, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(49, __c6, 1),
+          items: __S(57, __c7, 1),
         }),
       ).annotate({ identifier: "ServerListResponseOutput" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4772,7 +4831,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ListServerServiceAccountsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4790,16 +4849,16 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "ListSnapshotsInProjectRequest" });
     case 1:
-      return S.Array(__S(640, __c80, 0));
+      return S.Array(__S(648, __c81, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(65, __c8, 1),
+          items: __S(73, __c9, 1),
         }),
       ).annotate({ identifier: "SnapshotListResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4817,16 +4876,16 @@ function __c9(j: number): any {
         ),
       ).annotate({ identifier: "ListVolumePerformanceClassesRequest" });
     case 1:
-      return S.Array(__S(1160, __c145, 0));
+      return S.Array(__S(1168, __c146, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(73, __c9, 1),
+          items: __S(81, __c10, 1),
         }),
       ).annotate({ identifier: "VolumePerformanceClassListResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4844,22 +4903,22 @@ function __c10(j: number): any {
         ),
       ).annotate({ identifier: "ListVolumesRequest" });
     case 1:
-      return S.Array(__S(657, __c82, 1));
+      return S.Array(__S(665, __c83, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(81, __c10, 1),
+          items: __S(89, __c11, 1),
         }),
       ).annotate({ identifier: "VolumeListResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           gateway: S.optional(S.NullOr(S.String)),
-          nameservers: S.optional(__S(8, __c1, 0)),
+          nameservers: S.optional(__S(16, __c2, 0)),
         }),
       ).annotate({ identifier: "UpdateNetworkIPv4Body" });
     case 1:
@@ -4870,8 +4929,8 @@ function __c11(j: number): any {
           networkId: S.String.pipe(T.Label()),
           description: S.optional(S.String),
           dhcp: S.optional(S.Boolean),
-          ipv4: S.optional(__S(88, __c11, 0)),
-          ipv6: S.optional(__S(88, __c11, 0)),
+          ipv4: S.optional(__S(96, __c12, 0)),
+          ipv6: S.optional(__S(96, __c12, 0)),
           labels: S.optional(S.Unknown),
           name: S.optional(S.String),
           routed: S.optional(S.Boolean),
@@ -4887,7 +4946,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "PartialUpdateNetworkRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4907,7 +4966,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "PartialUpdateNetworkAreaRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4928,7 +4987,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "AddVolumeToServerRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4940,7 +4999,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "VolumeAttachment" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4960,7 +5019,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "RebootServerRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4980,7 +5039,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "RemoveNetworkFromServerRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5000,7 +5059,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "RemoveNicFromServerRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5020,7 +5079,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "RemovePublicIpFromServerRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5040,7 +5099,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "RemoveSecurityGroupFromServerRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5060,7 +5119,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "RemoveServiceAccountFromServerRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5080,7 +5139,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "RemoveVolumeFromServerRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5100,7 +5159,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "RescueServerRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5120,7 +5179,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "ResizeServerRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5140,7 +5199,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "ResizeVolumeRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5160,20 +5219,20 @@ function __c25(j: number): any {
       ).annotate({ identifier: "CreateAffinityGroupRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          members: S.optional(__S(8, __c1, 0)),
+          members: S.optional(__S(16, __c2, 0)),
           name: S.String,
           policy: S.String,
         }),
       ).annotate({ identifier: "AffinityGroup" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5192,7 +5251,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "RestoreBackupRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5201,7 +5260,7 @@ function __c28(j: number): any {
           region: S.String.pipe(T.Label()),
           imageId: S.String.pipe(T.Label()),
           parentOrganization: S.optional(S.Boolean),
-          projects: S.optional(__S(8, __c1, 0)),
+          projects: S.optional(__S(16, __c2, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5213,7 +5272,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "SetImageShareRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5232,7 +5291,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "StartServerRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5251,7 +5310,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "StopServerRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5270,7 +5329,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "UnrescueServerRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5291,7 +5350,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "UpdateAttachedVolumeRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5313,7 +5372,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "UpdateBackupRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5321,8 +5380,8 @@ function __c34(j: number): any {
           projectId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
           imageId: S.String.pipe(T.Label()),
-          agent: S.optional(__S(416, __c52, 0)),
-          config: S.optional(__S(408, __c51, 0)),
+          agent: S.optional(__S(424, __c53, 0)),
+          config: S.optional(__S(416, __c52, 0)),
           diskFormat: S.optional(S.String),
           labels: S.optional(S.Unknown),
           minDiskSize: S.optional(S.Number),
@@ -5340,7 +5399,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "UpdateImageRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5349,7 +5408,7 @@ function __c35(j: number): any {
           region: S.String.pipe(T.Label()),
           imageId: S.String.pipe(T.Label()),
           parentOrganization: S.optional(S.Boolean),
-          projects: S.optional(__S(8, __c1, 0)),
+          projects: S.optional(__S(16, __c2, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5361,7 +5420,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "UpdateImageShareRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5379,7 +5438,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "UpdateKeyPairRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5389,7 +5448,7 @@ function __c37(j: number): any {
           description: S.optional(S.String),
           labels: S.optional(S.Unknown),
           name: S.optional(S.String),
-          source: __S(304, __c38, 0),
+          source: __S(312, __c39, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5401,7 +5460,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CreateBackupRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5412,7 +5471,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "BackupSource" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5433,12 +5492,12 @@ function __c39(j: number): any {
       ).annotate({ identifier: "Backup" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          defaultNameservers: S.optional(__S(8, __c1, 0)),
+          defaultNameservers: S.optional(__S(16, __c2, 0)),
           defaultPrefixLen: S.optional(S.Number),
           maxPrefixLen: S.optional(S.Number),
           minPrefixLen: S.optional(S.Number),
@@ -5450,7 +5509,7 @@ function __c40(j: number): any {
           organizationId: S.String.pipe(T.Label()),
           areaId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
-          ipv4: S.optional(__S(320, __c40, 0)),
+          ipv4: S.optional(__S(328, __c41, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5462,7 +5521,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "UpdateNetworkAreaRegionRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5483,7 +5542,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "UpdateNetworkAreaRouteRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5492,12 +5551,12 @@ function __c42(j: number): any {
           region: S.String.pipe(T.Label()),
           networkId: S.String.pipe(T.Label()),
           nicId: S.String.pipe(T.Label()),
-          allowedAddresses: S.optional(__S(8, __c1, 0)),
+          allowedAddresses: S.optional(__S(16, __c2, 0)),
           description: S.optional(S.String),
           labels: S.optional(S.Unknown),
           name: S.optional(S.String),
           nicSecurity: S.optional(S.Boolean),
-          securityGroups: S.optional(__S(8, __c1, 0)),
+          securityGroups: S.optional(__S(16, __c2, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5509,7 +5568,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "UpdateNicRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5530,7 +5589,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "UpdatePublicIPRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5552,7 +5611,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "UpdateRouteOfRoutingTableRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5577,7 +5636,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "UpdateRoutingTableOfAreaRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5599,7 +5658,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "UpdateSecurityGroupRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5621,7 +5680,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "UpdateServerRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5643,7 +5702,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "UpdateSnapshotRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5653,7 +5712,7 @@ function __c49(j: number): any {
           volumeId: S.String.pipe(T.Label()),
           bootable: S.optional(S.Boolean),
           description: S.optional(S.String),
-          imageConfig: S.optional(__S(408, __c51, 0)),
+          imageConfig: S.optional(__S(416, __c52, 0)),
           labels: S.optional(S.Unknown),
           name: S.optional(S.String),
         }).pipe(
@@ -5667,15 +5726,15 @@ function __c49(j: number): any {
       ).annotate({ identifier: "UpdateVolumeRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
-          agent: S.optional(__S(416, __c52, 0)),
-          config: S.optional(__S(408, __c51, 0)),
+          agent: S.optional(__S(424, __c53, 0)),
+          config: S.optional(__S(416, __c52, 0)),
           diskFormat: S.String,
           labels: S.optional(S.Unknown),
           minDiskSize: S.optional(S.Number),
@@ -5700,7 +5759,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ImageCreateResponse" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5723,7 +5782,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "ImageConfig" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5734,7 +5793,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "ImageAgent" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5756,14 +5815,14 @@ function __c53(j: number): any {
       ).annotate({ identifier: "CreateIsolatedNetworkRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           gateway: S.optional(S.NullOr(S.String)),
-          nameservers: S.optional(__S(8, __c1, 0)),
-          prefixes: __S(8, __c1, 0),
+          nameservers: S.optional(__S(16, __c2, 0)),
+          prefixes: __S(16, __c2, 0),
           publicIp: S.optional(S.String),
           vpcNetworkRangeId: S.optional(S.String),
         }),
@@ -5772,8 +5831,8 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           gateway: S.optional(S.NullOr(S.String)),
-          nameservers: S.optional(__S(8, __c1, 0)),
-          prefixes: __S(8, __c1, 0),
+          nameservers: S.optional(__S(16, __c2, 0)),
+          prefixes: __S(16, __c2, 0),
           vpcNetworkRangeId: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkIPv6" });
@@ -5784,8 +5843,8 @@ function __c54(j: number): any {
           description: S.optional(S.String),
           dhcp: S.optional(S.Boolean),
           id: S.String,
-          ipv4: S.optional(__S(432, __c54, 0)),
-          ipv6: S.optional(__S(433, __c54, 1)),
+          ipv4: S.optional(__S(440, __c55, 0)),
+          ipv6: S.optional(__S(441, __c55, 1)),
           labels: S.optional(S.Unknown),
           name: S.String,
           routed: S.optional(S.Boolean),
@@ -5797,7 +5856,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "Network" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5816,7 +5875,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "CreateKeyPairRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5831,7 +5890,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "Keypair" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5858,7 +5917,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "CreateNetworkRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5877,7 +5936,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "CreateNetworkAreaRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5892,7 +5951,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "NetworkArea" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5900,7 +5959,7 @@ function __c60(j: number): any {
           organizationId: S.String.pipe(T.Label()),
           areaId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
-          ipv4: S.optional(__S(489, __c61, 1)),
+          ipv4: S.optional(__S(497, __c62, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5912,7 +5971,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "CreateNetworkAreaRangeRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5921,10 +5980,10 @@ function __c61(j: number): any {
         }),
       ).annotate({ identifier: "NetworkRangeInput" });
     case 1:
-      return S.Array(__S(488, __c61, 0));
+      return S.Array(__S(496, __c62, 0));
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5937,20 +5996,10 @@ function __c62(j: number): any {
       ).annotate({ identifier: "NetworkRange" });
   }
 }
-function __c63(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(496, __c62, 0));
-  }
-}
 function __c64(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          items: __S(504, __c63, 0),
-        }),
-      ).annotate({ identifier: "NetworkRangeListResponse" });
+      return S.Array(__S(504, __c63, 0));
   }
 }
 function __c65(j: number): any {
@@ -5958,11 +6007,21 @@ function __c65(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          defaultNameservers: S.optional(__S(8, __c1, 0)),
+          items: __S(512, __c64, 0),
+        }),
+      ).annotate({ identifier: "NetworkRangeListResponse" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          defaultNameservers: S.optional(__S(16, __c2, 0)),
           defaultPrefixLen: S.Number,
           maxPrefixLen: S.Number,
           minPrefixLen: S.Number,
-          networkRanges: __S(489, __c61, 1),
+          networkRanges: __S(497, __c62, 1),
           transferNetwork: S.String,
         }),
       ).annotate({ identifier: "RegionalAreaIPv4Input" });
@@ -5972,7 +6031,7 @@ function __c65(j: number): any {
           organizationId: S.String.pipe(T.Label()),
           areaId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
-          ipv4: S.optional(__S(520, __c65, 0)),
+          ipv4: S.optional(__S(528, __c66, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5984,29 +6043,29 @@ function __c65(j: number): any {
       ).annotate({ identifier: "CreateNetworkAreaRegionRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          defaultNameservers: S.optional(__S(8, __c1, 0)),
+          defaultNameservers: S.optional(__S(16, __c2, 0)),
           defaultPrefixLen: S.Number,
           maxPrefixLen: S.Number,
           minPrefixLen: S.Number,
-          networkRanges: __S(504, __c63, 0),
+          networkRanges: __S(512, __c64, 0),
           transferNetwork: S.String,
         }),
       ).annotate({ identifier: "RegionalAreaIPv4" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ipv4: S.optional(__S(528, __c66, 0)),
+          ipv4: S.optional(__S(536, __c67, 0)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegionalArea" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6014,7 +6073,7 @@ function __c67(j: number): any {
           organizationId: S.String.pipe(T.Label()),
           areaId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
-          items: __S(1065, __c133, 1),
+          items: __S(1073, __c134, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6026,7 +6085,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "CreateNetworkAreaRouteRequest" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6034,14 +6093,14 @@ function __c68(j: number): any {
           projectId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
           networkId: S.String.pipe(T.Label()),
-          allowedAddresses: S.optional(__S(8, __c1, 0)),
+          allowedAddresses: S.optional(__S(16, __c2, 0)),
           description: S.optional(S.String),
           ipv4: S.optional(S.String),
           ipv6: S.optional(S.String),
           labels: S.optional(S.Unknown),
           name: S.optional(S.String),
           nicSecurity: S.optional(S.Boolean),
-          securityGroups: S.optional(__S(8, __c1, 0)),
+          securityGroups: S.optional(__S(16, __c2, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6053,12 +6112,13 @@ function __c68(j: number): any {
       ).annotate({ identifier: "CreateNicRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          allowedAddresses: S.optional(__S(8, __c1, 0)),
+          allowedAddresses: S.optional(__S(16, __c2, 0)),
+          createdAt: S.optional(S.String),
           description: S.optional(S.String),
           device: S.optional(S.String),
           id: S.optional(S.String),
@@ -6069,14 +6129,15 @@ function __c69(j: number): any {
           name: S.optional(S.String),
           networkId: S.optional(S.String),
           nicSecurity: S.optional(S.Boolean),
-          securityGroups: S.optional(__S(8, __c1, 0)),
+          securityGroups: S.optional(__S(16, __c2, 0)),
           status: S.optional(S.String),
           type: S.optional(S.String),
+          updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "NIC" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6096,20 +6157,22 @@ function __c70(j: number): any {
       ).annotate({ identifier: "CreatePublicIPRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          createdAt: S.optional(S.String),
           id: S.optional(S.String),
           ip: S.optional(S.String),
           labels: S.optional(S.Unknown),
           networkInterface: S.optional(S.NullOr(S.String)),
+          updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "PublicIp" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6131,7 +6194,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "CreateSecurityGroupRequest" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6161,25 +6224,25 @@ function __c73(j: number): any {
           description: S.optional(S.String),
           direction: S.String,
           ethertype: S.optional(S.String),
-          icmpParameters: S.optional(__S(584, __c73, 0)),
+          icmpParameters: S.optional(__S(592, __c74, 0)),
           id: S.optional(S.String),
           ipRange: S.optional(S.String),
-          portRange: S.optional(__S(585, __c73, 1)),
+          portRange: S.optional(__S(593, __c74, 1)),
           remoteSecurityGroupId: S.optional(S.String),
           securityGroupId: S.optional(S.String),
           updatedAt: S.optional(S.String),
-          protocol: S.optional(__S(586, __c73, 2)),
+          protocol: S.optional(__S(594, __c74, 2)),
         }),
       ).annotate({ identifier: "SecurityGroupRule" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(587, __c73, 3));
+      return S.Array(__S(595, __c74, 3));
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6189,14 +6252,14 @@ function __c75(j: number): any {
           id: S.optional(S.String),
           labels: S.optional(S.Unknown),
           name: S.String,
-          rules: S.optional(__S(592, __c74, 0)),
+          rules: S.optional(__S(600, __c75, 0)),
           stateful: S.optional(S.Boolean),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "SecurityGroup" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6207,9 +6270,9 @@ function __c76(j: number): any {
           description: S.optional(S.String),
           direction: S.String,
           ethertype: S.optional(S.String),
-          icmpParameters: S.optional(__S(584, __c73, 0)),
+          icmpParameters: S.optional(__S(592, __c74, 0)),
           ipRange: S.optional(S.String),
-          portRange: S.optional(__S(585, __c73, 1)),
+          portRange: S.optional(__S(593, __c74, 1)),
           remoteSecurityGroupId: S.optional(S.String),
           protocol: S.optional(S.Unknown),
         }).pipe(
@@ -6223,7 +6286,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "CreateSecurityGroupRuleRequest" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6231,7 +6294,7 @@ function __c77(j: number): any {
           deleteOnTermination: S.optional(S.Boolean),
           performanceClass: S.optional(S.String),
           size: S.optional(S.Number),
-          source: S.optional(__S(304, __c38, 0)),
+          source: S.optional(__S(312, __c39, 0)),
         }),
       ).annotate({ identifier: "BootVolumeInput" });
     case 1:
@@ -6240,9 +6303,9 @@ function __c77(j: number): any {
           projectId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
           affinityGroup: S.optional(S.String),
-          agent: S.optional(__S(624, __c78, 0)),
+          agent: S.optional(__S(632, __c79, 0)),
           availabilityZone: S.optional(S.String),
-          bootVolume: S.optional(__S(616, __c77, 0)),
+          bootVolume: S.optional(__S(624, __c78, 0)),
           configDrive: S.optional(S.Boolean),
           imageId: S.optional(S.String),
           keypairName: S.optional(S.String),
@@ -6251,10 +6314,10 @@ function __c77(j: number): any {
           metadata: S.optional(S.Unknown),
           name: S.String,
           networking: S.Unknown,
-          securityGroups: S.optional(__S(8, __c1, 0)),
-          serviceAccountMails: S.optional(__S(8, __c1, 0)),
+          securityGroups: S.optional(__S(16, __c2, 0)),
+          serviceAccountMails: S.optional(__S(16, __c2, 0)),
           userData: S.optional(S.String),
-          volumes: S.optional(__S(8, __c1, 0)),
+          volumes: S.optional(__S(16, __c2, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6266,12 +6329,13 @@ function __c77(j: number): any {
       ).annotate({ identifier: "CreateServerRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           provisioned: S.optional(S.Boolean),
+          vmMonitoring: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ServerAgent" });
     case 1:
@@ -6293,7 +6357,8 @@ function __c78(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          allowedAddresses: S.optional(__S(8, __c1, 0)),
+          allowedAddresses: S.optional(__S(16, __c2, 0)),
+          createdAt: S.optional(S.String),
           ipv4: S.optional(S.String),
           ipv6: S.optional(S.String),
           mac: S.String,
@@ -6302,18 +6367,19 @@ function __c78(j: number): any {
           nicId: S.String,
           nicSecurity: S.Boolean,
           publicIp: S.optional(S.String),
-          securityGroups: S.optional(__S(8, __c1, 0)),
+          securityGroups: S.optional(__S(16, __c2, 0)),
+          updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerNetwork" });
     case 4:
-      return S.Array(__S(627, __c78, 3));
+      return S.Array(__S(635, __c79, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           affinityGroup: S.optional(S.String),
-          agent: S.optional(__S(624, __c78, 0)),
+          agent: S.optional(__S(632, __c79, 0)),
           availabilityZone: S.optional(S.String),
-          bootVolume: S.optional(__S(625, __c78, 1)),
+          bootVolume: S.optional(__S(633, __c79, 1)),
           configDrive: S.optional(S.Boolean),
           createdAt: S.optional(S.String),
           errorMessage: S.optional(S.String),
@@ -6323,22 +6389,22 @@ function __c78(j: number): any {
           labels: S.optional(S.Unknown),
           launchedAt: S.optional(S.String),
           machineType: S.String,
-          maintenanceWindow: S.optional(__S(626, __c78, 2)),
+          maintenanceWindow: S.optional(__S(634, __c79, 2)),
           metadata: S.optional(S.Unknown),
           name: S.String,
           networking: S.optional(S.Unknown),
-          nics: S.optional(__S(628, __c78, 4)),
+          nics: S.optional(__S(636, __c79, 4)),
           powerStatus: S.optional(S.String),
-          serviceAccountMails: S.optional(__S(8, __c1, 0)),
+          serviceAccountMails: S.optional(__S(16, __c2, 0)),
           status: S.optional(S.String),
           updatedAt: S.optional(S.String),
           userData: S.optional(S.String),
-          volumes: S.optional(__S(8, __c1, 0)),
+          volumes: S.optional(__S(16, __c2, 0)),
         }),
       ).annotate({ identifier: "ServerOutput" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6360,7 +6426,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "CreateSnapshotRequest" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6368,6 +6434,7 @@ function __c80(j: number): any {
           availabilityZone: S.optional(S.String),
           createdAt: S.optional(S.String),
           description: S.optional(S.String),
+          encrypted: S.optional(S.Boolean),
           id: S.optional(S.String),
           labels: S.optional(S.Unknown),
           name: S.optional(S.String),
@@ -6379,7 +6446,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "Snapshot" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6389,12 +6456,12 @@ function __c81(j: number): any {
           availabilityZone: S.String,
           bootable: S.optional(S.Boolean),
           description: S.optional(S.String),
-          encryptionParameters: S.optional(__S(656, __c82, 0)),
+          encryptionParameters: S.optional(__S(664, __c83, 0)),
           labels: S.optional(S.Unknown),
           name: S.optional(S.String),
           performanceClass: S.optional(S.String),
           size: S.optional(S.Number),
-          source: S.optional(__S(304, __c38, 0)),
+          source: S.optional(__S(312, __c39, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -6406,7 +6473,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "CreateVolumeRequest" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6427,22 +6494,22 @@ function __c82(j: number): any {
           createdAt: S.optional(S.String),
           description: S.optional(S.String),
           encrypted: S.optional(S.Boolean),
-          encryptionParameters: S.optional(__S(656, __c82, 0)),
+          encryptionParameters: S.optional(__S(664, __c83, 0)),
           id: S.optional(S.String),
-          imageConfig: S.optional(__S(408, __c51, 0)),
+          imageConfig: S.optional(__S(416, __c52, 0)),
           labels: S.optional(S.Unknown),
           name: S.optional(S.String),
           performanceClass: S.optional(S.String),
           serverId: S.optional(S.String),
           size: S.optional(S.Number),
-          source: S.optional(__S(304, __c38, 0)),
+          source: S.optional(__S(312, __c39, 0)),
           status: S.optional(S.String),
           updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "Volume" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6461,7 +6528,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "DeallocateServerRequest" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6480,7 +6547,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "DeleteAffinityGroupRequest" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6500,7 +6567,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "DeleteBackupRequest" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6519,7 +6586,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "DeleteImageRequest" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6538,7 +6605,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "DeleteImageShareRequest" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6558,7 +6625,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "DeleteImageShareConsumerRequest" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6575,7 +6642,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "DeleteKeyPairRequest" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6594,7 +6661,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "DeleteNetworkRequest" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6612,7 +6679,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "DeleteNetworkAreaRequest" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6632,7 +6699,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "DeleteNetworkAreaRangeRequest" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6651,7 +6718,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "DeleteNetworkAreaRegionRequest" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6671,13 +6738,13 @@ function __c94(j: number): any {
       ).annotate({ identifier: "AddNetworkToServerRequest" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "AddNetworkToServerResponse" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6697,7 +6764,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "DeleteNetworkAreaRouteRequest" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6717,7 +6784,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "DeleteNicRequest" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6736,7 +6803,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "DeletePublicIPRequest" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6757,7 +6824,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "DeleteRouteFromRoutingTableRequest" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6777,7 +6844,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "DeleteRoutingTableFromAreaRequest" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6796,7 +6863,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "DeleteSecurityGroupRequest" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6816,7 +6883,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "DeleteSecurityGroupRuleRequest" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6835,7 +6902,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "DeleteServerRequest" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6854,7 +6921,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "DeleteSnapshotRequest" });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6874,7 +6941,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "DeleteVolumeRequest" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6894,7 +6961,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "AddNicToServerRequest" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6913,7 +6980,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "GetAffinityGroupRequest" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6933,7 +7000,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "GetAttachedVolumeRequest" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6952,7 +7019,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "GetBackupRequest" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6971,7 +7038,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "GetImageRequest" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6983,9 +7050,9 @@ function __c111(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          agent: S.optional(__S(416, __c52, 0)),
-          checksum: S.optional(__S(888, __c111, 0)),
-          config: S.optional(__S(408, __c51, 0)),
+          agent: S.optional(__S(424, __c53, 0)),
+          checksum: S.optional(__S(896, __c112, 0)),
+          config: S.optional(__S(416, __c52, 0)),
           createdAt: S.optional(S.String),
           diskFormat: S.String,
           id: S.optional(S.String),
@@ -7004,7 +7071,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "Image" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7023,18 +7090,18 @@ function __c112(j: number): any {
       ).annotate({ identifier: "GetImageShareRequest" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parentOrganization: S.optional(S.Boolean),
-          projects: S.optional(__S(8, __c1, 0)),
+          projects: S.optional(__S(16, __c2, 0)),
         }),
       ).annotate({ identifier: "ImageShare" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7063,7 +7130,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "ImageShareConsumer" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7080,7 +7147,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "GetKeyPairRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7099,7 +7166,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "GetMachineTypeRequest" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7114,7 +7181,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "MachineType" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7133,7 +7200,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "GetNetworkRequest" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7151,7 +7218,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "GetNetworkAreaRequest" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7171,7 +7238,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "AddPublicIpToServerRequest" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7191,7 +7258,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "GetNetworkAreaRangeRequest" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7210,7 +7277,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "GetNetworkAreaRegionRequest" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7230,7 +7297,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "GetNetworkAreaRouteRequest" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7250,7 +7317,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "GetNicRequest" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7268,7 +7335,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "GetOrganizationRequestRequest" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7279,7 +7346,7 @@ function __c126(j: number): any {
         }),
       ).annotate({ identifier: "RequestResource" });
     case 1:
-      return S.Array(__S(1008, __c126, 0));
+      return S.Array(__S(1016, __c127, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7287,13 +7354,13 @@ function __c126(j: number): any {
           requestAction: S.String,
           requestId: S.String,
           requestType: S.String,
-          resources: __S(1009, __c126, 1),
+          resources: __S(1017, __c127, 1),
           status: S.String,
         }),
       ).annotate({ identifier: "Request" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7323,7 +7390,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "Project" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7342,7 +7409,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "GetProjectNICRequest" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7361,7 +7428,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "GetProjectRequestRequest" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7380,7 +7447,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "GetPublicIPRequest" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7401,7 +7468,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "GetRouteOfRoutingTableRequest" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7410,7 +7477,7 @@ function __c132(j: number): any {
           areaId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
           routingTableId: S.String.pipe(T.Label()),
-          items: __S(1065, __c133, 1),
+          items: __S(1073, __c134, 1),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7422,7 +7489,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "AddRoutesToRoutingTableRequest" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7433,10 +7500,10 @@ function __c133(j: number): any {
         }),
       ).annotate({ identifier: "RouteInput" });
     case 1:
-      return S.Array(__S(1064, __c133, 0));
+      return S.Array(__S(1072, __c134, 0));
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7451,19 +7518,19 @@ function __c134(j: number): any {
       ).annotate({ identifier: "Route" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1072, __c134, 0));
+      return S.Array(__S(1080, __c135, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1080, __c135, 0),
+          items: __S(1088, __c136, 0),
         }),
       ).annotate({ identifier: "RouteListResponse" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7483,7 +7550,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "GetRoutingTableOfAreaRequest" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7502,7 +7569,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "GetSecurityGroupRequest" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7522,7 +7589,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "GetSecurityGroupRuleRequest" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7542,7 +7609,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "GetServerRequest" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7567,7 +7634,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "ServerConsoleUrl" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7593,7 +7660,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "GetServerLogResponse" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7612,7 +7679,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "GetSnapshotRequest" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7631,7 +7698,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "GetVolumeRequest" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7650,7 +7717,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "GetVolumePerformanceClassRequest" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7664,7 +7731,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "VolumePerformanceClass" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7687,7 +7754,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "ImageFromVolumeRequest" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7711,7 +7778,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "AddRoutingTableToAreaRequest" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7729,7 +7796,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "RoutingTable" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7746,16 +7813,16 @@ function __c149(j: number): any {
         ),
       ).annotate({ identifier: "ListAffinityGroupsRequest" });
     case 1:
-      return S.Array(__S(208, __c26, 0));
+      return S.Array(__S(216, __c27, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1193, __c149, 1),
+          items: __S(1201, __c150, 1),
         }),
       ).annotate({ identifier: "AffinityGroupListResponse" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7773,16 +7840,16 @@ function __c150(j: number): any {
         ),
       ).annotate({ identifier: "ListAttachedVolumesRequest" });
     case 1:
-      return S.Array(__S(112, __c14, 0));
+      return S.Array(__S(120, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1201, __c150, 1),
+          items: __S(1209, __c151, 1),
         }),
       ).annotate({ identifier: "VolumeAttachmentListResponse" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7799,7 +7866,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "ListAvailabilityZonesRequest" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7817,16 +7884,16 @@ function __c152(j: number): any {
         ),
       ).annotate({ identifier: "ListBackupsRequest" });
     case 1:
-      return S.Array(__S(312, __c39, 0));
+      return S.Array(__S(320, __c40, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1217, __c152, 1),
+          items: __S(1225, __c153, 1),
         }),
       ).annotate({ identifier: "BackupListResponse" });
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7845,16 +7912,16 @@ function __c153(j: number): any {
         ),
       ).annotate({ identifier: "ListImagesRequest" });
     case 1:
-      return S.Array(__S(889, __c111, 1));
+      return S.Array(__S(897, __c112, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1225, __c153, 1),
+          items: __S(1233, __c154, 1),
         }),
       ).annotate({ identifier: "ImageListResponse" });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7870,16 +7937,16 @@ function __c154(j: number): any {
         ),
       ).annotate({ identifier: "ListKeyPairsRequest" });
     case 1:
-      return S.Array(__S(448, __c56, 0));
+      return S.Array(__S(456, __c57, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1233, __c154, 1),
+          items: __S(1241, __c155, 1),
         }),
       ).annotate({ identifier: "KeyPairListResponse" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7897,16 +7964,16 @@ function __c155(j: number): any {
         ),
       ).annotate({ identifier: "ListMachineTypesRequest" });
     case 1:
-      return S.Array(__S(936, __c117, 0));
+      return S.Array(__S(944, __c118, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1241, __c155, 1),
+          items: __S(1249, __c156, 1),
         }),
       ).annotate({ identifier: "MachineTypeListResponse" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7924,7 +7991,7 @@ function __c156(j: number): any {
       ).annotate({ identifier: "ListNetworkAreaProjectsRequest" });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7943,7 +8010,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "ListNetworkAreaRangesRequest" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7960,16 +8027,16 @@ function __c158(j: number): any {
         ),
       ).annotate({ identifier: "ListNetworkAreaRegionsRequest" });
     case 1:
-      return S.Record(S.String, __S(529, __c66, 1));
+      return S.Record(S.String, __S(537, __c67, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          regions: __S(1265, __c158, 1),
+          regions: __S(1273, __c159, 1),
         }),
       ).annotate({ identifier: "RegionalAreaListResponse" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7989,7 +8056,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "AddSecurityGroupToServerRequest" });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8009,7 +8076,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "ListNetworkAreaRoutesRequest" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8026,16 +8093,16 @@ function __c161(j: number): any {
         ),
       ).annotate({ identifier: "ListNetworkAreasRequest" });
     case 1:
-      return S.Array(__S(472, __c59, 0));
+      return S.Array(__S(480, __c60, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1289, __c161, 1),
+          items: __S(1297, __c162, 1),
         }),
       ).annotate({ identifier: "NetworkAreaListResponse" });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8053,16 +8120,16 @@ function __c162(j: number): any {
         ),
       ).annotate({ identifier: "ListNetworksRequest" });
     case 1:
-      return S.Array(__S(434, __c54, 2));
+      return S.Array(__S(442, __c55, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1297, __c162, 1),
+          items: __S(1305, __c163, 1),
         }),
       ).annotate({ identifier: "NetworkListResponse" });
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8082,19 +8149,19 @@ function __c163(j: number): any {
       ).annotate({ identifier: "ListNicsRequest" });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(552, __c69, 0));
+      return S.Array(__S(560, __c70, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1312, __c164, 0),
+          items: __S(1320, __c165, 0),
         }),
       ).annotate({ identifier: "NICListResponse" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8113,7 +8180,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "ListProjectNICsRequest" });
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8134,16 +8201,16 @@ function __c166(j: number): any {
         }),
       ).annotate({ identifier: "PublicNetwork" });
     case 2:
-      return S.Array(__S(1329, __c166, 1));
+      return S.Array(__S(1337, __c167, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1330, __c166, 2),
+          items: __S(1338, __c167, 2),
         }),
       ).annotate({ identifier: "PublicNetworkListResponse" });
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8161,16 +8228,16 @@ function __c167(j: number): any {
         ),
       ).annotate({ identifier: "ListPublicIPsRequest" });
     case 1:
-      return S.Array(__S(568, __c71, 0));
+      return S.Array(__S(576, __c72, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1337, __c167, 1),
+          items: __S(1345, __c168, 1),
         }),
       ).annotate({ identifier: "PublicIpListResponse" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8196,29 +8263,29 @@ function __c168(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          backupGigabytes: __S(1345, __c168, 1),
-          backups: __S(1345, __c168, 1),
-          gigabytes: __S(1345, __c168, 1),
-          networks: __S(1345, __c168, 1),
-          nics: __S(1345, __c168, 1),
-          publicIps: __S(1345, __c168, 1),
-          ram: __S(1345, __c168, 1),
-          securityGroupRules: __S(1345, __c168, 1),
-          securityGroups: __S(1345, __c168, 1),
-          snapshots: __S(1345, __c168, 1),
-          vcpu: __S(1345, __c168, 1),
-          volumes: __S(1345, __c168, 1),
+          backupGigabytes: __S(1353, __c169, 1),
+          backups: __S(1353, __c169, 1),
+          gigabytes: __S(1353, __c169, 1),
+          networks: __S(1353, __c169, 1),
+          nics: __S(1353, __c169, 1),
+          publicIps: __S(1353, __c169, 1),
+          ram: __S(1353, __c169, 1),
+          securityGroupRules: __S(1353, __c169, 1),
+          securityGroups: __S(1353, __c169, 1),
+          snapshots: __S(1353, __c169, 1),
+          vcpu: __S(1353, __c169, 1),
+          volumes: __S(1353, __c169, 1),
         }),
       ).annotate({ identifier: "QuotaList" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          quotas: __S(1346, __c168, 2),
+          quotas: __S(1354, __c169, 2),
         }),
       ).annotate({ identifier: "QuotaListResponse" });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8239,7 +8306,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "ListRoutesOfRoutingTableRequest" });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8258,11 +8325,11 @@ function __c170(j: number): any {
         ),
       ).annotate({ identifier: "ListRoutingTablesOfAreaRequest" });
     case 1:
-      return S.Array(__S(1184, __c148, 0));
+      return S.Array(__S(1192, __c149, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1361, __c170, 1),
+          items: __S(1369, __c171, 1),
         }),
       ).annotate({ identifier: "RoutingTableListResponse" });
   }

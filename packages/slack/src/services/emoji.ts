@@ -26,22 +26,22 @@ const TELEMETRY = {
 
 export interface ListEmojiRequest {
   /** Include a list of categories for Unicode emoji and the emoji in each category */
-  include_categories?: boolean;
+  include_categories?: boolean | undefined;
 }
 export type ListEmojiResponseEmojiMap = { [key: string]: unknown | undefined };
 export type ListEmojiResponseCategoriesItemEmojiNamesList = Array<string>;
 export interface ListEmojiResponseCategoriesItem {
-  name?: string;
-  emoji_names?: ListEmojiResponseCategoriesItemEmojiNamesList;
+  name?: string | undefined;
+  emoji_names?: ListEmojiResponseCategoriesItemEmojiNamesList | undefined;
 }
 export type ListEmojiResponseCategoriesList = Array<ListEmojiResponseCategoriesItem>;
 export interface ListEmojiResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  cache_ts?: string;
+  cache_ts?: string | undefined;
   emoji: ListEmojiResponseEmojiMap;
-  categories_version?: string;
-  categories?: ListEmojiResponseCategoriesList;
+  categories_version?: string | undefined;
+  categories?: ListEmojiResponseCategoriesList | undefined;
 }
 export type ListEmojiError = SlackOpError;
 /** Lists custom emoji for a team. Required scopes -- bot: `emoji:read`; user: `emoji:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_arguments` -- Invalid API arguments provided - `unable_to_fetch_custom_emojis` -- Unable to fetch custom emojis for team. See https://docs.slack.dev/reference/methods/emoji.list */

@@ -29,18 +29,32 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: DesktopFeedbackError | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: DesktopFeedbackError | string;
+}
 
 /** * `Generic (Leave feedback button)` - Leave Feedback * `Visiting PostHog web` - Posthog Web */
 export type DesktopFeedbackSourceEnum = "Generic (Leave feedback button)" | "Visiting PostHog web";
@@ -56,23 +70,23 @@ export interface CreateDesktopFeedbackRequest {
   /** Desktop view that was active when the feedback form opened. */
   feedback_view: string;
   /** Feedback type selected by the user: bug, feature, or general. * `bug` - Bug * `feature` - Feature * `general` - General */
-  feedback_type?: DesktopFeedbackTypeEnum | (string & {});
+  feedback_type?: DesktopFeedbackTypeEnum | (string & {}) | undefined;
   /** Task that was active when the feedback form opened. */
-  feedback_task_id?: string;
+  feedback_task_id?: string | undefined;
   /** Folder that was active when the feedback form opened. */
-  feedback_folder_id?: string;
+  feedback_folder_id?: string | undefined;
   /** Recent Desktop logs that the user chose to include. */
-  feedback_app_logs?: string;
+  feedback_app_logs?: string | undefined;
   /** Version of PostHog Desktop that submitted the feedback. */
-  app_version?: string;
+  app_version?: string | undefined;
   /** PostHog session recording identifier for the Desktop session. */
-  session_id?: string;
+  session_id?: string | undefined;
   /** Screenshot that the user chose to include. */
-  screenshot?: string;
+  screenshot?: string | undefined;
   /** First image that the user attached. */
-  image_1?: string;
+  image_1?: string | undefined;
   /** Second image that the user attached. */
-  image_2?: string;
+  image_2?: string | undefined;
 }
 export interface DesktopFeedbackResponse {
   /** Whether the feedback response was accepted. */
@@ -87,6 +101,16 @@ export interface GetDesktopFeedbackAttachmentRequest {
   media_id: string;
 }
 export interface GetDesktopFeedbackAttachmentResponse {}
+export interface DesktopFeedbackError {
+  /** Error category. */
+  type: string;
+  /** Machine-readable error code. */
+  code: string;
+  /** Human-readable error detail. */
+  detail: string;
+  /** Request field associated with the error, if any. */
+  attr: string | null;
+}
 export type CreateDesktopFeedbackError = BadRequest | PosthogOpError;
 /** Submit Desktop feedback Stores selected attachments and submits one response to the PostHog Desktop feedback survey. */
 export const createDesktopFeedback: API.OperationMethod<
@@ -95,8 +119,8 @@ export const createDesktopFeedback: API.OperationMethod<
   CreateDesktopFeedbackError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateDesktopFeedbackRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<DesktopFeedbackResponse>,
+  input: __S(2, __c1, 0) as any as S.Schema<CreateDesktopFeedbackRequest>,
+  output: __S(3, __c1, 1) as any as S.Schema<DesktopFeedbackResponse>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -112,8 +136,8 @@ export const getDesktopFeedbackAttachment: API.OperationMethod<
   GetDesktopFeedbackAttachmentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c1, 0) as any as S.Schema<GetDesktopFeedbackAttachmentRequest>,
-  output: __S(3, __c1, 1) as any as S.Schema<GetDesktopFeedbackAttachmentResponse>,
+  input: __S(4, __c2, 0) as any as S.Schema<GetDesktopFeedbackAttachmentRequest>,
+  output: __S(5, __c2, 1) as any as S.Schema<GetDesktopFeedbackAttachmentResponse>,
   errors: [NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -123,6 +147,19 @@ export const getDesktopFeedbackAttachment: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          code: S.String,
+          detail: S.String,
+          attr: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "DesktopFeedbackError" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -158,7 +195,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DesktopFeedbackResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

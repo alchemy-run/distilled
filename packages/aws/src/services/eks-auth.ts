@@ -117,7 +117,7 @@ export class InternalServerException
     "InternalServerException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InvalidParameterException
   extends /*@__PURE__*/ S.TaggedError<InvalidParameterException>()(
     "InvalidParameterException",
@@ -147,21 +147,21 @@ export class ServiceUnavailableException
     "ServiceUnavailableException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()(
     "ThrottlingException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(429),
-  ).pipe(C.withThrottlingError) {}
+  ).pipe(C.withThrottlingError, C.withRetryableError) {}
 export type ClusterName = string;
 export type JwtToken = string | redacted.Redacted<string>;
 export interface AssumeRoleForPodIdentityRequest {
   clusterName: string;
   token: string | redacted.Redacted<string>;
-  eksNodeName?: string;
-  instanceId?: string;
-  zone?: string;
+  eksNodeName?: string | undefined;
+  instanceId?: string | undefined;
+  zone?: string | undefined;
 }
 export interface Subject {
   namespace: string;
@@ -187,6 +187,7 @@ export interface AssumeRoleForPodIdentityResponse {
   podIdentityAssociation: PodIdentityAssociation;
   assumedRoleUser: AssumedRoleUser;
   credentials: Credentials;
+  workloadIdentityProviderArn?: string | undefined;
 }
 export type AssumeRoleForPodIdentityError =
   | AccessDeniedException
@@ -281,6 +282,7 @@ function __c0(j: number): any {
           podIdentityAssociation: __S(2, __c0, 2),
           assumedRoleUser: __S(3, __c0, 3),
           credentials: __S(4, __c0, 4),
+          workloadIdentityProviderArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "AssumeRoleForPodIdentityResponse" });
   }

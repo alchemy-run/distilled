@@ -26,6 +26,7 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -129,12 +130,10 @@ export const STRIPE_HTTP_STATUS_MAP = {
 // Unknown Stripe error -- returned when an error type is not recognized
 export class UnknownStripeError
   extends /*@__PURE__*/ Schema.TaggedError<UnknownStripeError>()("UnknownStripeError", {
+    ...UnknownErrorFields,
     type: /*@__PURE__*/ Schema.optional(Schema.String),
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
     param: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  }) {}
 
 // Schema parse error wrapper
 export class StripeParseError

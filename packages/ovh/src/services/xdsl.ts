@@ -38,18 +38,18 @@ export interface AddDHCPStaticAddressRequest {
   /** The MAC address of the device */
   MACAddress: string;
   /** Name of the DHCP static lease */
-  name?: string;
+  name?: string | undefined;
 }
 /** DHCP Static Address */
 export interface XdslDHCPStaticAddress {
   /** IP address (e.g., 192.0.2.0) */
-  IPAddress?: string;
+  IPAddress?: string | undefined;
   /** The MAC address of the device */
-  MACAddress?: string;
+  MACAddress?: string | undefined;
   /** Name of the DHCP Static lease */
-  name?: string | null;
+  name?: string | null | undefined;
   /** ID of the ongoing todo (NULL if none) */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
 }
 /** Frequency between notifications. */
 export type XdslMonitoringNotificationsFrequencyEnum = "1h" | "5m" | "6h" | "once";
@@ -59,38 +59,38 @@ export interface AddMonitoringNotificationRequest {
   /** Service name */
   serviceName: string;
   /** Whether or not to allow notifications concerning generic incidents */
-  allowIncident?: boolean;
+  allowIncident?: boolean | undefined;
   /** The number of seconds the access has to be down to trigger the alert */
-  downThreshold?: number;
+  downThreshold?: number | undefined;
   /** The e-mail address, if type is mail */
-  email?: string;
+  email?: string | undefined;
   /** Frequency between notifications. */
   frequency: XdslMonitoringNotificationsFrequencyEnum | (string & {});
   /** The phone number, if type is sms */
-  phone?: string;
+  phone?: string | undefined;
   /** The SMS account which will be debited for each sent SMS, if the type is sms */
-  smsAccount?: string;
+  smsAccount?: string | undefined;
   /** Type of notification. */
   type: XdslMonitoringNotificationsTypeEnum | (string & {});
 }
 /** Defines where and how the notifications will be sent */
 export interface XdslMonitoringNotification {
   /** Whether or not to allow notifications for generic incidents */
-  allowIncident?: boolean;
+  allowIncident?: boolean | undefined;
   /** The number of seconds the access has to be down to trigger an alert */
-  downThreshold?: number;
+  downThreshold?: number | undefined;
   /** The e-mail address, if type is mail */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Whether to enable or not */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Frequency between notifications. */
-  frequency?: XdslMonitoringNotificationsFrequencyEnum;
-  id?: number;
+  frequency?: XdslMonitoringNotificationsFrequencyEnum | undefined;
+  id?: number | undefined;
   /** The phone number, if type is sms */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** The SMS account which will be debited for each sent SMS, if the type is sms */
-  smsAccount?: string | null;
-  type?: XdslMonitoringNotificationsTypeEnum;
+  smsAccount?: string | null | undefined;
+  type?: XdslMonitoringNotificationsTypeEnum | undefined;
 }
 /** Type of protocol for the Port Mapping */
 export type XdslXdslModemConfigProtocolTypeEnum = "TCP" | "UDP";
@@ -98,11 +98,11 @@ export interface AddPortMappingRequest {
   /** Service name */
   serviceName: string;
   /** IPv4 address (e.g., 192.0.2.0) */
-  allowedRemoteIp?: string;
+  allowedRemoteIp?: string | undefined;
   /** Description of the Port Mapping */
-  description?: string;
+  description?: string | undefined;
   /** The last port of the interval on the External Client that will get the connections */
-  externalPortEnd?: number;
+  externalPortEnd?: number | undefined;
   /** External Port that the modem will listen on */
   externalPortStart: number;
   /** IP address (e.g., 192.0.2.0) */
@@ -110,7 +110,7 @@ export interface AddPortMappingRequest {
   /** The port on the Internal Client that will get the connections */
   internalPort: number;
   /** The last port of the interval on the Internal Client that will get the connections */
-  internalPortEnd?: number;
+  internalPortEnd?: number | undefined;
   /** Name of the port mapping entry */
   name: string;
   /** Type of protocol for the Port Mapping */
@@ -119,27 +119,27 @@ export interface AddPortMappingRequest {
 /** Port Mappings */
 export interface XdslPortMapping {
   /** An ip which will access to the defined rule. Default : no restriction applied */
-  allowedRemoteIp?: string | null;
+  allowedRemoteIp?: string | null | undefined;
   /** Description of the Port Mapping */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The last port of the interval on the External Client that will get the connections */
-  externalPortEnd?: number | null;
+  externalPortEnd?: number | null | undefined;
   /** External Port that the modem will listen on. List of externalPorts not available for now in the API : 8, 21, 68, 5060, 21800-21805, 51005 */
-  externalPortStart?: number;
+  externalPortStart?: number | undefined;
   /** ID of the port mapping entry */
-  id?: number;
+  id?: number | undefined;
   /** IP address (e.g., 192.0.2.0) */
-  internalClient?: string;
+  internalClient?: string | undefined;
   /** The port on the Internal Client that will get the connections */
-  internalPort?: number;
+  internalPort?: number | undefined;
   /** The last port of the interval on the Internal Client that will get the connections */
-  internalPortEnd?: number | null;
+  internalPortEnd?: number | null | undefined;
   /** Name of the port mapping entry */
-  name?: string;
+  name?: string | undefined;
   /** Type of protocol for the Port Mapping */
-  protocol?: XdslXdslModemConfigProtocolTypeEnum;
+  protocol?: XdslXdslModemConfigProtocolTypeEnum | undefined;
   /** ID of the ongoing todo (NULL if none) */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
 }
 export interface ApplyTemplateModemRequest {
   /** Service name */
@@ -151,12 +151,12 @@ export interface ApplyTemplateModemRequest {
 export type XdslTaskStatusEnum = "cancelled" | "doing" | "done" | "error" | "problem" | "todo";
 /** Describes the current status of a task */
 export interface XdslTask {
-  function?: string;
-  id?: number;
-  status?: XdslTaskStatusEnum;
+  function?: string | undefined;
+  id?: number | undefined;
+  status?: XdslTaskStatusEnum | undefined;
   /** Date when the action will start */
-  todoDate?: string;
-  updateDate?: string;
+  todoDate?: string | undefined;
+  updateDate?: string | undefined;
 }
 export interface ArchiveXdslTaskRequest {
   /** Service name */
@@ -192,11 +192,11 @@ export interface ChangeContactRequest {
   /** Service name */
   serviceName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type ChangeContactResponseBodyList = Array<number>;
 export type ChangeContactResponse = ChangeContactResponseBodyList;
@@ -211,13 +211,13 @@ export type XdslEmailProTaskStatusEnum = "cancelled" | "doing" | "done" | "error
 /** Task Struct */
 export interface XdslEmailProTask {
   /** Finished date of the task */
-  finishDate?: string | null;
+  finishDate?: string | null | undefined;
   /** Function of the task */
-  function?: string;
+  function?: string | undefined;
   /** Status of an Email Pro task. */
-  status?: XdslEmailProTaskStatusEnum;
+  status?: XdslEmailProTaskStatusEnum | undefined;
   /** Todo date of the task */
-  todoDate?: string;
+  todoDate?: string | undefined;
 }
 export interface ChangeLineDSLAMProfileRequest {
   /** Service name */
@@ -236,25 +236,25 @@ export interface CreateModemTemplateRequest {
 /** DHCP Configuration for Modem Template */
 export interface XdslTemplateModemDHCP {
   /** IP address (e.g., 192.0.2.0) */
-  defaultGateway?: string;
+  defaultGateway?: string | undefined;
   /** Name of the DHCP */
-  dhcpName?: string;
+  dhcpName?: string | undefined;
   /** Domain name provided to the clients */
-  domainName?: string;
+  domainName?: string | undefined;
   /** IP address (e.g., 192.0.2.0) */
-  endAddress?: string;
+  endAddress?: string | undefined;
   /** Lease time in seconds of client assigned address (-1 means infinite) */
-  leaseTime?: number;
+  leaseTime?: number | undefined;
   /** IP address (e.g., 192.0.2.0) */
-  primaryDNS?: string;
+  primaryDNS?: string | undefined;
   /** Secondary DNS servers to be given to the clients */
-  secondaryDNS?: string | null;
+  secondaryDNS?: string | null | undefined;
   /** State of the DHCP server of the modem */
-  serverEnabled?: boolean;
+  serverEnabled?: boolean | undefined;
   /** IP address (e.g., 192.0.2.0) */
-  startAddress?: string;
+  startAddress?: string | undefined;
   /** IP address (e.g., 192.0.2.0) */
-  subnetMask?: string;
+  subnetMask?: string | undefined;
 }
 /** List of DHCP for this template */
 export type XdslTemplateModemDHCPList = Array<XdslTemplateModemDHCP>;
@@ -263,13 +263,13 @@ export type XdslXdslModemConfigAddressingTypeEnum = "DHCP" | "Static";
 /** LAN Configuration for Modem Template */
 export interface XdslTemplateModemLAN {
   /** IP address (e.g., 192.0.2.0) */
-  IPAddress?: string;
+  IPAddress?: string | undefined;
   /** How the modem gets its LAN IP Address */
-  addressingType?: XdslXdslModemConfigAddressingTypeEnum;
+  addressingType?: XdslXdslModemConfigAddressingTypeEnum | undefined;
   /** Name of the LAN */
-  lanName?: string;
+  lanName?: string | undefined;
   /** IP address (e.g., 192.0.2.0) */
-  subnetMask?: string;
+  subnetMask?: string | undefined;
 }
 /** List of LAN for this template */
 export type XdslTemplateModemLANList = Array<XdslTemplateModemLAN>;
@@ -288,27 +288,27 @@ export type XdslTemplateModemSecurityTypeEnum =
 /** WLAN Configuration for Modem Template */
 export interface XdslTemplateModemWLAN {
   /** Service Set Identifier of the WLAN interface */
-  SSID?: string;
+  SSID?: string | undefined;
   /** Control if Wifi is discoverable or hidden */
-  SSIDAdvertisementEnabled?: boolean;
+  SSIDAdvertisementEnabled?: boolean | undefined;
   /** Indicate if frequencies 2.4GHz and 5GHz are agregated */
-  bandSteering?: boolean;
+  bandSteering?: boolean | undefined;
   /** Channel number (Useless if channelMode is set to Auto) */
-  channel?: number;
+  channel?: number | undefined;
   /** How the WiFi channel is selected */
-  channelMode?: XdslXdslModemConfigChannelModeEnum;
+  channelMode?: XdslXdslModemConfigChannelModeEnum | undefined;
   /** Wifi state */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Modem frequency */
-  frequency?: XdslXdslModemConfigFrequencyEnum;
+  frequency?: XdslXdslModemConfigFrequencyEnum | undefined;
   /** Indicate if it is normal access wifi or guest wifi */
-  guest?: boolean;
+  guest?: boolean | undefined;
   /** Encrypted WLAN passphrase */
-  securityKey?: string;
+  securityKey?: string | undefined;
   /** Type of WLAN security protection */
-  securityType?: XdslTemplateModemSecurityTypeEnum;
+  securityType?: XdslTemplateModemSecurityTypeEnum | undefined;
   /** Wifi Name */
-  wifiName?: string;
+  wifiName?: string | undefined;
 }
 /** List of WLAN for this template */
 export type XdslTemplateModemWLANList = Array<XdslTemplateModemWLAN>;
@@ -321,59 +321,59 @@ export type XdslTemplateModemParametersToIgnorePortMappingListList = Array<strin
 /** Parameters and values to ignore when apply modem template configuration */
 export interface XdslTemplateModemParametersToIgnore {
   /** Ignore LAN and DHCP configurations */
-  LANandDHCP?: boolean | null;
+  LANandDHCP?: boolean | null | undefined;
   /** WLAN names list to ignore. Ignore only listed WLAN */
-  WLANList?: XdslTemplateModemParametersToIgnoreWLANListList | null;
+  WLANList?: XdslTemplateModemParametersToIgnoreWLANListList | null | undefined;
   /** Ignore DMZ configuration */
-  dmzIP?: boolean | null;
+  dmzIP?: boolean | null | undefined;
   /** Ignore MTU Size value */
-  mtuSize?: boolean | null;
+  mtuSize?: boolean | null | undefined;
   /** PortMapping names list to ignore. Ignore only listed portMapping */
-  portMappingList?: XdslTemplateModemParametersToIgnorePortMappingListList | null;
+  portMappingList?: XdslTemplateModemParametersToIgnorePortMappingListList | null | undefined;
 }
 /** PortMapping Configuration for Modem Template */
 export interface XdslTemplateModemPortMapping {
   /** An ip which will access to the defined rule. Default : no restriction applied */
-  allowedRemoteIp?: string | null;
+  allowedRemoteIp?: string | null | undefined;
   /** Description of the Port Mapping */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The last port of the interval on the External Client that will get the connections */
-  externalPortEnd?: number | null;
+  externalPortEnd?: number | null | undefined;
   /** External Port that the modem will listen on. List of externalPorts not available for now in the API : 8, 21, 68, 5060, 21800-21805, 51005 */
-  externalPortStart?: number;
+  externalPortStart?: number | undefined;
   /** IP address (e.g., 192.0.2.0) */
-  internalClient?: string;
+  internalClient?: string | undefined;
   /** The port on the Internal Client that will get the connections */
-  internalPort?: number;
+  internalPort?: number | undefined;
   /** Name of the port mapping entry */
-  name?: string;
+  name?: string | undefined;
   /** Type of protocol for the Port Mapping */
-  protocol?: XdslXdslModemConfigProtocolTypeEnum;
+  protocol?: XdslXdslModemConfigProtocolTypeEnum | undefined;
 }
 /** List of PortMapping for this template */
 export type XdslTemplateModemPortMappingList = Array<XdslTemplateModemPortMapping>;
 /** Modem Template */
 export interface XdslTemplateModem {
   /** List of DHCP for this template */
-  DHCP?: XdslTemplateModemDHCPList;
+  DHCP?: XdslTemplateModemDHCPList | undefined;
   /** List of LAN for this template */
-  LAN?: XdslTemplateModemLANList;
+  LAN?: XdslTemplateModemLANList | undefined;
   /** List of WLAN for this template */
-  WLAN?: XdslTemplateModemWLANList;
+  WLAN?: XdslTemplateModemWLANList | undefined;
   /** Parameters capabilities. Lists what can be applied from this template */
-  capabilities?: string;
+  capabilities?: string | undefined;
   /** Template creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** IP Address of the DMZ */
-  dmzIP?: string | null;
+  dmzIP?: string | null | undefined;
   /** Size of the Maximum Transmission Unit on the modem's interfaces */
-  mtuSize?: XdslXdslModemConfigMTUSizeEnum | null;
+  mtuSize?: XdslXdslModemConfigMTUSizeEnum | null | undefined;
   /** Name of the Modem Template */
-  name?: string;
+  name?: string | undefined;
   /** Do not apply these parameters from template. You can use parametersCapabilities to know availability */
-  parametersToIgnore?: XdslTemplateModemParametersToIgnore | null;
+  parametersToIgnore?: XdslTemplateModemParametersToIgnore | null | undefined;
   /** List of PortMapping for this template */
-  portMapping?: XdslTemplateModemPortMappingList;
+  portMapping?: XdslTemplateModemPortMappingList | undefined;
 }
 export interface CreateXdslAddressMoveExtraIpRangeMoveRequest {
   /** Service name */
@@ -455,24 +455,24 @@ export type OrderCurrencyCodeEnum =
 /** Price with its currency and textual representation */
 export interface OrderPrice {
   /** Currency code */
-  currencyCode?: OrderCurrencyCodeEnum;
+  currencyCode?: OrderCurrencyCodeEnum | undefined;
   /** Price in microcents */
-  priceInUcents?: number | null;
+  priceInUcents?: number | null | undefined;
   /** Textual representation */
-  text?: string;
+  text?: string | undefined;
   /** The effective price */
-  value?: number;
+  value?: number | undefined;
 }
 /** Information about modem exchange */
 export interface XdslModemExchangeInfo {
   /** To know if you can exchange your modem */
-  canExchange?: boolean;
+  canExchange?: boolean | undefined;
   /** Model of the new modem */
-  newModel?: string;
+  newModel?: string | undefined;
   /** Price with it's currency and textual representation */
-  price?: OrderPrice;
+  price?: OrderPrice | undefined;
   /** Price with it's currency and textual representation */
-  priceWithTax?: OrderPrice;
+  priceWithTax?: OrderPrice | undefined;
 }
 export interface GetBlocIPStatusRequest {
   /** Service name */
@@ -585,43 +585,43 @@ export interface GetXdslRequest {
 export type XdslDslTypeEnum = "adsl" | "ftte" | "ftth" | "sdsl" | "vdsl";
 /** All components of an address */
 export interface XdslAddressDetail {
-  building?: string | null;
-  city?: string;
-  door?: string | null;
-  firstName?: string;
-  floor?: string | null;
+  building?: string | null | undefined;
+  city?: string | undefined;
+  door?: string | null | undefined;
+  firstName?: string | undefined;
+  floor?: string | null | undefined;
   /** Identifier of the city */
-  inseeCode?: string;
-  lastName?: string;
-  numberStreet?: string;
-  residence?: string | null;
+  inseeCode?: string | undefined;
+  lastName?: string | undefined;
+  numberStreet?: string | undefined;
+  residence?: string | null | undefined;
   /** Identifier of the street */
-  rivoliCode?: string;
-  stairs?: string | null;
-  street?: string;
-  zipCode?: string;
+  rivoliCode?: string | undefined;
+  stairs?: string | null | undefined;
+  street?: string | undefined;
+  zipCode?: string | undefined;
 }
 /** Describe the capabilities of the Access */
 export interface XdslAccessCapabilities {
-  canApplyLnsRateLimit?: boolean;
-  canChangeDslamProfile?: boolean;
-  canChangeLns?: boolean;
-  canGetRadiusConnectionLogs?: boolean;
-  canResetDslamPort?: boolean;
-  hasDslamPort?: boolean;
+  canApplyLnsRateLimit?: boolean | undefined;
+  canChangeDslamProfile?: boolean | undefined;
+  canChangeLns?: boolean | undefined;
+  canGetRadiusConnectionLogs?: boolean | undefined;
+  canResetDslamPort?: boolean | undefined;
+  hasDslamPort?: boolean | undefined;
 }
 /** Resource tags. Tags that were internally computed are prefixed with ovh: */
 export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Status allowed for mail sending */
 export type XdslMailSendingAccessStatusEnum = "blockedForSpam" | "disabled" | "enabled";
@@ -650,30 +650,30 @@ export type XdslAccessStatusEnum =
   | "upgradeOffer";
 /** XDSL Access */
 export interface XdslAccessWithIAM {
-  accessName?: string;
-  accessType?: XdslDslTypeEnum;
-  address?: XdslAddressDetail;
-  capabilities?: XdslAccessCapabilities;
-  description?: string;
+  accessName?: string | undefined;
+  accessType?: XdslDslTypeEnum | undefined;
+  address?: XdslAddressDetail | undefined;
+  capabilities?: XdslAccessCapabilities | undefined;
+  description?: string | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
-  ipv6Enabled?: boolean;
+  iam?: IamResourceMetadata | null | undefined;
+  ipv6Enabled?: boolean | undefined;
   /** Rate limit on the LNS in kbps - Only available if canApplyLnsRateLimit capability is set to true - Must be a multiple of 64 - Min value 64 / Max value 100032 */
-  lnsRateLimit?: number | null;
+  lnsRateLimit?: number | null | undefined;
   /** Status of mail sending on the Access */
-  mailSending?: XdslMailSendingAccessStatusEnum | null;
+  mailSending?: XdslMailSendingAccessStatusEnum | null | undefined;
   /** Whether or not this access is monitored */
-  monitoring?: boolean;
-  nra?: string;
+  monitoring?: boolean | undefined;
+  nra?: string | undefined;
   /** Pack name, if access is in a pack */
-  packName?: string | null;
-  pairsNumber?: number;
+  packName?: string | null | undefined;
+  pairsNumber?: number | undefined;
   /** The provider */
-  provider?: XdslProviderEnum;
+  provider?: XdslProviderEnum | undefined;
   /** The provider of the infrastructure, if applicable */
-  providerInfra?: string | null;
-  role?: XdslAccessRoleEnum;
-  status?: XdslAccessStatusEnum;
+  providerInfra?: string | null | undefined;
+  role?: XdslAccessRoleEnum | undefined;
+  status?: XdslAccessStatusEnum | undefined;
 }
 export interface GetXdslAddressMoveExtraIpRangeRequest {
   /** Service name */
@@ -682,11 +682,11 @@ export interface GetXdslAddressMoveExtraIpRangeRequest {
 /** Informations about the extra IP range during address move */
 export interface XdslExtraIpRangeMove {
   /** Date of the migration */
-  date?: string;
+  date?: string | undefined;
   /** IPv4 CIDR notation (e.g., 192.0.2.0/24) */
-  ipRange?: string;
+  ipRange?: string | undefined;
   /** Access where the IP range will be moved to */
-  moveTo?: string;
+  moveTo?: string | undefined;
 }
 export interface GetXdslAntiSpamRequest {
   /** Service name */
@@ -699,13 +699,13 @@ export type XdslAntiSpamAntiSpamStatusEnum = "block" | "done" | "new" | "unblock
 /** Spams detected from xdsl access */
 export interface XdslAntiSpam {
   /** Detection date */
-  date?: string;
+  date?: string | undefined;
   /** IP which spam */
-  ip?: string;
+  ip?: string | undefined;
   /** Last spam detection date */
-  lastSpamDetected?: string;
+  lastSpamDetected?: string | undefined;
   /** AntiSpam status */
-  status?: XdslAntiSpamAntiSpamStatusEnum;
+  status?: XdslAntiSpamAntiSpamStatusEnum | undefined;
 }
 export interface GetXdslCanCancelResiliationRequest {
   /** Service name */
@@ -718,13 +718,13 @@ export interface GetXdslDiagnosticRequest {
 }
 /** Describe the capabilities of the access diagnostic */
 export interface XdslAccessDiagnosticCapabilities {
-  incident?: boolean;
-  isActiveOnLns?: boolean;
-  isModemConnected?: boolean;
-  lineTest?: boolean;
-  ping?: boolean;
-  proposedProfileId?: boolean;
-  sync?: boolean;
+  incident?: boolean | undefined;
+  isActiveOnLns?: boolean | undefined;
+  isModemConnected?: boolean | undefined;
+  lineTest?: boolean | undefined;
+  ping?: boolean | undefined;
+  proposedProfileId?: boolean | undefined;
+  sync?: boolean | undefined;
 }
 /** Line tests results */
 export type XdslLineTestEnum =
@@ -735,34 +735,34 @@ export type XdslLineTestEnum =
   | "ovhSideProblem";
 /** Detailed line tests */
 export interface XdslLineDiagnostic {
-  lineTest?: XdslLineTestEnum | null;
-  lineTestTime?: string | null;
-  number?: string;
-  proposedProfileId?: number | null;
-  sync?: boolean;
+  lineTest?: XdslLineTestEnum | null | undefined;
+  lineTestTime?: string | null | undefined;
+  number?: string | undefined;
+  proposedProfileId?: number | null | undefined;
+  sync?: boolean | undefined;
 }
 /** Test details by line */
 export type XdslAccessDiagnosticLineDetailsList = Array<XdslLineDiagnostic>;
 /** Diagnostic of the access */
 export interface XdslAccessDiagnostic {
   /** Available tests for this access */
-  capabilities?: XdslAccessDiagnosticCapabilities;
+  capabilities?: XdslAccessDiagnosticCapabilities | undefined;
   /** Datime of the diagnostic */
-  diagnosticTime?: string;
+  diagnosticTime?: string | undefined;
   /** Is there an ongoing genericIncident on the access ? */
-  incident?: boolean | null;
+  incident?: boolean | null | undefined;
   /** Is the access active on its primary or secondary LNS */
-  isActiveOnLns?: boolean | null;
+  isActiveOnLns?: boolean | null | undefined;
   /** Is the modem connected ? */
-  isModemConnected?: boolean | null;
+  isModemConnected?: boolean | null | undefined;
   /** Test details by line */
-  lineDetails?: XdslAccessDiagnosticLineDetailsList | null;
+  lineDetails?: XdslAccessDiagnosticLineDetailsList | null | undefined;
   /** Is there an ongoing scheduled maintenance by operator on the access ? */
-  maintenance?: boolean | null;
+  maintenance?: boolean | null | undefined;
   /** Does the access ping ? */
-  ping?: boolean | null;
+  ping?: boolean | null | undefined;
   /** Remaining number of diagnostic for this access */
-  remaining?: number;
+  remaining?: number | undefined;
 }
 export interface GetXdslEmailProRequest {
   /** Email */
@@ -770,8 +770,8 @@ export interface GetXdslEmailProRequest {
 }
 /** complexType.UnitAndValue_double */
 export interface ComplexTypeUnitAndValueDouble {
-  unit?: string;
-  value?: number;
+  unit?: string | undefined;
+  value?: number | undefined;
 }
 /** complexType.UnitAndValue_long */
 export type ComplexTypeUnitAndValueLong = ComplexTypeUnitAndValueDouble;
@@ -787,37 +787,37 @@ export type EmailProObjectStateEnum =
 /** XDSL Email Pro */
 export interface XdslXdslEmailProWithIAM {
   /** Mailbox usage */
-  currentUsage?: ComplexTypeUnitAndValueDouble;
+  currentUsage?: ComplexTypeUnitAndValueDouble | undefined;
   /** Account display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Email domain */
-  domain?: string;
+  domain?: string | undefined;
   /** Account first name */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Account id */
-  id?: number;
+  id?: number | undefined;
   /** Account initials */
-  initial?: string | null;
+  initial?: string | null | undefined;
   /** Last logoff */
-  lastLogoffDate?: string | null;
+  lastLogoffDate?: string | null | undefined;
   /** Last logon */
-  lastLogonDate?: string | null;
+  lastLogonDate?: string | null | undefined;
   /** Account last name */
-  lastName?: string | null;
+  lastName?: string | null | undefined;
   /** Account login */
-  login?: string;
+  login?: string | undefined;
   /** Time of account's password last update */
-  passwordLastUpdate?: string | Redacted.Redacted<string> | null;
+  passwordLastUpdate?: string | Redacted.Redacted<string> | null | undefined;
   /** Default email for this mailbox */
-  primaryEmailAddress?: string;
+  primaryEmailAddress?: string | undefined;
   /** Account maximum size */
-  quota?: ComplexTypeUnitAndValueDouble;
+  quota?: ComplexTypeUnitAndValueDouble | undefined;
   /** Account state */
-  state?: EmailProObjectStateEnum;
+  state?: EmailProObjectStateEnum | undefined;
   /** Pending tasks for this account */
-  taskPendingId?: number | null;
+  taskPendingId?: number | null | undefined;
 }
 export interface GetXdslFiberEligibilityRequest {
   /** Service name */
@@ -828,33 +828,33 @@ export interface GetXdslFiberEligibilityRequest {
 /** Copper grid closure trajectory */
 export interface XdslCopperGridClosureTrajectory {
   /** Commercial closure announcement date */
-  commercialClosureAnnouncementDate?: string | null;
+  commercialClosureAnnouncementDate?: string | null | undefined;
   /** Commercial closure date */
-  commercialClosureDate?: string | null;
+  commercialClosureDate?: string | null | undefined;
   /** Commercial closure initial date */
-  commercialClosureInitialDate?: string | null;
+  commercialClosureInitialDate?: string | null | undefined;
   /** Department code */
-  departmentCode?: string;
+  departmentCode?: string | undefined;
   /** Department name */
-  departmentName?: string | null;
+  departmentName?: string | null | undefined;
   /** FTTH zone */
-  ftthZone?: string | null;
+  ftthZone?: string | null | undefined;
   /** INSEE code */
-  inseeCode?: string;
+  inseeCode?: string | undefined;
   /** Lot */
-  lot?: string | null;
+  lot?: string | null | undefined;
   /** Municipality name */
-  municipalityName?: string;
+  municipalityName?: string | undefined;
   /** OI code */
-  oiCode?: string | null;
+  oiCode?: string | null | undefined;
   /** OI name */
-  oiName?: string | null;
+  oiName?: string | null | undefined;
   /** Technical closure announcement date */
-  technicalClosureAnnouncementDate?: string | null;
+  technicalClosureAnnouncementDate?: string | null | undefined;
   /** Technical closure date */
-  technicalClosureDate?: string | null;
+  technicalClosureDate?: string | null | undefined;
   /** Technical closure initial date */
-  technicalClosureInitialDate?: string | null;
+  technicalClosureInitialDate?: string | null | undefined;
 }
 /** GRT option for an access. */
 export type XdslGtrEnum =
@@ -872,16 +872,16 @@ export type XdslFiberEligibilityGrtsList = Array<XdslGtrEnum>;
 /** Details of a provider */
 export interface XdslOffer {
   /** Offer code */
-  code?: string;
+  code?: string | undefined;
   /** Offer name */
-  name?: string;
+  name?: string | undefined;
 }
 /** Details of a provider */
 export interface XdslProvider {
   /** Provider code */
-  code?: string;
+  code?: string | undefined;
   /** Provider name */
-  name?: string;
+  name?: string | undefined;
 }
 /** Status of the fiber eligibility */
 export type XdslFiberEligibilityStatusEnum =
@@ -892,29 +892,29 @@ export type XdslFiberEligibilityStatusEnum =
 /** Fiber eligibility */
 export interface XdslFiberEligibility {
   /** Availability date */
-  availabilityDate?: string | null;
+  availabilityDate?: string | null | undefined;
   /** Building name */
-  buildingName?: string | null;
+  buildingName?: string | null | undefined;
   /** Building reference */
-  buildingReference?: string | null;
+  buildingReference?: string | null | undefined;
   /** Building sequence id */
-  buildingSeqId?: number | null;
+  buildingSeqId?: number | null | undefined;
   /** Copper grid closure trajectory */
-  copperGridClosureTrajectory?: XdslCopperGridClosureTrajectory | null;
+  copperGridClosureTrajectory?: XdslCopperGridClosureTrajectory | null | undefined;
   /** First eligible date */
-  firstEligibleDate?: string | null;
+  firstEligibleDate?: string | null | undefined;
   /** Available GRTs */
-  grts?: XdslFiberEligibilityGrtsList | null;
+  grts?: XdslFiberEligibilityGrtsList | null | undefined;
   /** Identifier */
-  id?: number;
+  id?: number | undefined;
   /** Last update date */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Offer */
-  offer?: XdslOffer | null;
+  offer?: XdslOffer | null | undefined;
   /** Provider */
-  provider?: XdslProvider | null;
+  provider?: XdslProvider | null | undefined;
   /** Status */
-  status?: XdslFiberEligibilityStatusEnum;
+  status?: XdslFiberEligibilityStatusEnum | undefined;
 }
 export interface GetXdslIncidentRequest {
   /** Id */
@@ -930,22 +930,22 @@ export type XdslOperatorTypeEnum = "collect" | "kosc" | "ovh";
 export type XdslIncidentOperatorsList = Array<XdslOperatorTypeEnum>;
 /** Detected incident */
 export interface XdslIncident {
-  comment?: string;
+  comment?: string | undefined;
   /** Estimated start date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Department list */
-  departments?: XdslIncidentDepartmentsList;
+  departments?: XdslIncidentDepartmentsList | undefined;
   /** Estimated end date */
-  endDate?: string | null;
+  endDate?: string | null | undefined;
   /** ID of the incident */
-  id?: number;
+  id?: number | undefined;
   /** NRA list */
-  nra?: XdslIncidentNraList;
+  nra?: XdslIncidentNraList | undefined;
   /** Operator */
-  operators?: XdslIncidentOperatorsList;
+  operators?: XdslIncidentOperatorsList | undefined;
   /** Task ID on travaux.ovh.com */
-  taskId?: number | null;
-  taskReference?: string | null;
+  taskId?: number | null | undefined;
+  taskReference?: string | null | undefined;
 }
 export interface GetXdslIncidentRequest2 {
   /** Service name */
@@ -964,13 +964,13 @@ export type XdslIpStatusEnum = "active" | "close" | "toDelete";
 export type CoreTypesIpVersionEnum = "v4" | "v6";
 /** Informations about an IP address */
 export interface XdslIP {
-  dnsList?: XdslIPDnsListList;
+  dnsList?: XdslIPDnsListList | undefined;
   /** The IP address */
-  ip?: string;
-  range?: number;
+  ip?: string | undefined;
+  range?: number | undefined;
   /** status of the IP */
-  status?: XdslIpStatusEnum;
-  version?: CoreTypesIpVersionEnum;
+  status?: XdslIpStatusEnum | undefined;
+  version?: CoreTypesIpVersionEnum | undefined;
 }
 export interface GetXdslLineRequest {
   /** Service name */
@@ -981,11 +981,11 @@ export interface GetXdslLineRequest {
 /** Infos about a Landline at the concentration point */
 export interface XdslLandlineConcentrationPoint {
   /** Identifier of the head of the cable from the MDF */
-  lineHead?: string;
+  lineHead?: string | undefined;
   /** Identifier of the section at the lineHead */
-  lineInitialSection?: number;
+  lineInitialSection?: number | undefined;
   /** Identifier of the pair at the lineHead's lineInitialSection */
-  lineInitialSectionPair?: number;
+  lineInitialSectionPair?: number | undefined;
 }
 /** Deconsolidation of the line. */
 export type XdslDeconsolidationEnum =
@@ -999,36 +999,36 @@ export type XdslFaultRepairTimeEnum = "10HO" | "4HNO" | "4HO" | "DPLUS1" | "NORM
 /** xdsl.LineSectionLength */
 export interface XdslLineSectionLength {
   /** The diameter of this section in millimeters */
-  diameter?: number;
+  diameter?: number | undefined;
   /** The length of this section in meters */
-  length?: number;
+  length?: number | undefined;
 }
 /** Detailed information about the sections between the DSLAM and the telephone jack */
 export type XdslLineLineSectionsLengthList = Array<XdslLineSectionLength>;
 /** Information about the physical copper line */
 export interface XdslLine {
   /** Data to identify the line at the concentration point */
-  concentrationPoint?: XdslLandlineConcentrationPoint | null;
-  deconsolidation?: XdslDeconsolidationEnum;
+  concentrationPoint?: XdslLandlineConcentrationPoint | null | undefined;
+  deconsolidation?: XdslDeconsolidationEnum | undefined;
   /** True if the line is directly wired on the DSLAM */
-  directDistribution?: boolean | null;
+  directDistribution?: boolean | null | undefined;
   /** Distance in meters from the DSLAM */
-  distance?: number;
-  faultRepairTime?: XdslFaultRepairTimeEnum;
+  distance?: number | undefined;
+  faultRepairTime?: XdslFaultRepairTimeEnum | undefined;
   /** Detailed information about the sections between the DSLAM and the telephone jack */
-  lineSectionsLength?: XdslLineLineSectionsLengthList;
+  lineSectionsLength?: XdslLineLineSectionsLengthList | undefined;
   /** Mitigation of the line in dB */
-  mitigation?: number;
+  mitigation?: number | undefined;
   /** The number of the line */
-  number?: string;
+  number?: string | undefined;
   /** The number used to place the order. Null if the same as the current number. */
-  originalNumber?: string | null;
+  originalNumber?: string | null | undefined;
   /** Whether the line number has been ported to OVH, to be used with VoIP service */
-  portability?: boolean;
+  portability?: boolean | undefined;
   /** The download synchronisation on the DSLAM in Kbps */
-  syncDown?: number | null;
+  syncDown?: number | null | undefined;
   /** The upload synchronisation on the DSLAM in Kbps */
-  syncUp?: number | null;
+  syncUp?: number | null | undefined;
 }
 export interface GetXdslLineDslamPortRequest {
   /** Service name */
@@ -1038,20 +1038,20 @@ export interface GetXdslLineDslamPortRequest {
 }
 /** Profile on the DSLAM */
 export interface XdslDslamLineProfile {
-  id?: number;
-  isCurrent?: boolean;
-  name?: string;
+  id?: number | undefined;
+  isCurrent?: boolean | undefined;
+  name?: string | undefined;
 }
 /** Different states of a DSLAM port */
 export type XdslDslamPortStatusEnum = "activated" | "deactivated" | "outofsync";
 /** Information about the port on the DSLAM */
 export interface XdslDslamPort {
   /** Last time the port lost the synchronization */
-  lastDesyncDate?: string | null;
+  lastDesyncDate?: string | null | undefined;
   /** Last time the port synchronized */
-  lastSyncDate?: string | null;
-  profile?: XdslDslamLineProfile | null;
-  status?: XdslDslamPortStatusEnum;
+  lastSyncDate?: string | null | undefined;
+  profile?: XdslDslamLineProfile | null | undefined;
+  status?: XdslDslamPortStatusEnum | undefined;
 }
 export interface GetXdslModemRequest {
   /** Service name */
@@ -1061,53 +1061,53 @@ export interface GetXdslModemRequest {
 export type XdslXdslModemConfigACSBackendEnum = "beta" | "dev" | "stable";
 /** Describe the capabilities of the Modem */
 export interface XdslModemCapabilities {
-  canBeManagedByOvh?: boolean;
-  canChangeACS?: boolean;
-  canChangeBridgeMode?: boolean;
-  canChangeDHCP?: boolean;
-  canChangeDMZ?: boolean;
-  canChangeEasyFirewallLevel?: boolean;
-  canChangeFirmware?: boolean;
-  canChangeLAN?: boolean;
-  canChangeManagement?: boolean;
-  canChangeMtu?: boolean;
-  canChangePortMapping?: boolean;
-  canChangeWLAN?: boolean;
-  canChangeWifiRadio?: boolean;
-  canChangeWifiSSID?: boolean;
-  canReboot?: boolean;
-  canReconfigureVoip?: boolean;
-  canRefreshConnectedDevices?: boolean;
-  canReset?: boolean;
-  canUseWifiRadio?: boolean;
+  canBeManagedByOvh?: boolean | undefined;
+  canChangeACS?: boolean | undefined;
+  canChangeBridgeMode?: boolean | undefined;
+  canChangeDHCP?: boolean | undefined;
+  canChangeDMZ?: boolean | undefined;
+  canChangeEasyFirewallLevel?: boolean | undefined;
+  canChangeFirmware?: boolean | undefined;
+  canChangeLAN?: boolean | undefined;
+  canChangeManagement?: boolean | undefined;
+  canChangeMtu?: boolean | undefined;
+  canChangePortMapping?: boolean | undefined;
+  canChangeWLAN?: boolean | undefined;
+  canChangeWifiRadio?: boolean | undefined;
+  canChangeWifiSSID?: boolean | undefined;
+  canReboot?: boolean | undefined;
+  canReconfigureVoip?: boolean | undefined;
+  canRefreshConnectedDevices?: boolean | undefined;
+  canReset?: boolean | undefined;
+  canUseWifiRadio?: boolean | undefined;
 }
 /** Level of the Firewall ( BlockAll will block all connections, Normal will block all incoming connections except those in PortMapping and let go all outgoing connections , Disabled will disable all the Firewall and let all incoming or outgoing connections pass through ) */
 export type XdslXdslModemConfigEasyFirewallLevelEnum = "BlockAll" | "Disabled" | "Normal";
 /** Modem */
 export interface XdslModem {
   /** ACS backend used by the modem */
-  acsBackend?: XdslXdslModemConfigACSBackendEnum;
+  acsBackend?: XdslXdslModemConfigACSBackendEnum | undefined;
   /** Version of ACS API used */
-  acsVersion?: string | null;
-  brandName?: string;
-  capabilities?: XdslModemCapabilities;
+  acsVersion?: string | null | undefined;
+  brandName?: string | undefined;
+  capabilities?: XdslModemCapabilities | undefined;
   /** IP Address of the DMZ (To modify or delete the DMZ IP on the modem, a re-configuration of your modem has to be made, your configuration will be maintained, but you will lose your connection a few minutes) */
-  dmzIP?: string | null;
+  dmzIP?: string | null | undefined;
   /** Level of the FireWall on the modem */
-  easyFirewallLevel?: XdslXdslModemConfigEasyFirewallLevelEnum | null;
+  easyFirewallLevel?: XdslXdslModemConfigEasyFirewallLevelEnum | null | undefined;
   /** Whether or not the modem supports IPv6 */
-  ipv6Support?: boolean;
+  ipv6Support?: boolean | undefined;
   /** Whether or not the modem is in bridge mode. To pass from bridge mode to routed mode, a reset is necessary. If the modem is managedByOvh, the bridge state will be kept after a reset */
-  isBridged?: boolean;
+  isBridged?: boolean | undefined;
   /** Last time the modem made a CWMP request to the Auto Configuration Server */
-  lastCwmpRequestDate?: string | null;
-  macAddress?: string;
+  lastCwmpRequestDate?: string | null | undefined;
+  macAddress?: string | undefined;
   /** Whether or not the user can configure his modem via OVH Interface (will lock telnet and local HTTP configuration page) */
-  managedByOvh?: boolean;
-  model?: string;
+  managedByOvh?: boolean | undefined;
+  model?: string | undefined;
   /** Size of the Maximum Transmission Unit on the modem's interfaces */
-  mtuSize?: XdslXdslModemConfigMTUSizeEnum | null;
-  serialNumber?: string;
+  mtuSize?: XdslXdslModemConfigMTUSizeEnum | null | undefined;
+  serialNumber?: string | undefined;
 }
 export interface GetXdslModemConnectedDeviceRequest {
   /** Service name */
@@ -1120,21 +1120,21 @@ export type XdslXdslModemConfigConnectedDeviceAddressSourceEnum = "DHCP" | "Stat
 /** Connected Device */
 export interface XdslConnectedDevice {
   /** The state of this device on the modem */
-  active?: boolean;
+  active?: boolean | undefined;
   /** How did the device got its IP address */
-  addressSource?: XdslXdslModemConfigConnectedDeviceAddressSourceEnum;
+  addressSource?: XdslXdslModemConfigConnectedDeviceAddressSourceEnum | undefined;
   /** Host name given by the device to the modem */
-  hostName?: string;
+  hostName?: string | undefined;
   /** The date time of the last update of thoses information */
-  informationDate?: string;
+  informationDate?: string | undefined;
   /** On which interface is connected the device */
-  interfaceType?: string;
+  interfaceType?: string | undefined;
   /** The IP address of the device */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** The remaining time in seconds of the DHCP lease of this device (-1 means infinite) */
-  leaseTimeRemaining?: number;
+  leaseTimeRemaining?: number | undefined;
   /** MAC address of the device */
-  macAddress?: string;
+  macAddress?: string | undefined;
 }
 export interface GetXdslModemInfoRequest {
   /** Service name */
@@ -1143,75 +1143,75 @@ export interface GetXdslModemInfoRequest {
 /** Describe device information of a Modem */
 export interface XdslDeviceModemInfo {
   /** Modem brand */
-  brand?: string;
+  brand?: string | undefined;
   /** IPv4 address (e.g., 192.0.2.0) */
-  ip?: string;
+  ip?: string | undefined;
   /** Time of last information refresh */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Modem mac address */
-  macAddress?: string;
+  macAddress?: string | undefined;
   /** Modem type of model */
-  model?: string;
+  model?: string | undefined;
   /** Organizational Unique Identifier */
-  oui?: string;
+  oui?: string | undefined;
   /** Protocol used for connection */
-  overEthernet?: string | null;
+  overEthernet?: string | null | undefined;
   /** login used for ppp protocol */
-  pppLogin?: string | null;
+  pppLogin?: string | null | undefined;
   /** Modem serial key */
-  serial?: string;
+  serial?: string | undefined;
   /** Software Version */
-  softVersion?: string;
+  softVersion?: string | undefined;
 }
 /** Describe statistics information of a Modem */
 export interface XdslStatsModemInfo {
   /** Connection uptime */
-  connectionUptime?: number;
+  connectionUptime?: number | undefined;
   /** Amount of CRC error detected */
-  crcError?: number;
+  crcError?: number | undefined;
   /** Modem uptime */
-  deviceUptime?: number;
+  deviceUptime?: number | undefined;
   /** Downstream attenuation */
-  downstreamAttenuation?: number;
+  downstreamAttenuation?: number | undefined;
   /** Downstream margin */
-  downstreamMargin?: number;
+  downstreamMargin?: number | undefined;
   /** Downstream synchronization */
-  downstreamSync?: number;
+  downstreamSync?: number | undefined;
   /** Amount of FEC error detected */
-  fecError?: number;
+  fecError?: number | undefined;
   /** Amount of HEC error detected */
-  hecError?: number;
+  hecError?: number | undefined;
   /** Time of last refresh */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Line modulation used */
-  modulation?: string;
+  modulation?: string | undefined;
   /** Count from last refresh in seconds */
-  quarterHourStart?: number;
+  quarterHourStart?: number | undefined;
   /** Synchronization uptime */
-  syncUptime?: number;
+  syncUptime?: number | undefined;
   /** Upstream attenuation */
-  upstreamAttenuation?: number;
+  upstreamAttenuation?: number | undefined;
   /** Upstream margin */
-  upstreamMargin?: number;
+  upstreamMargin?: number | undefined;
   /** Upstream synchronization */
-  upstreamSync?: number;
+  upstreamSync?: number | undefined;
 }
 /** Describe general information of a Modem */
 export interface XdslModemInfo {
   /** Describe device information of a Modem */
-  device?: XdslDeviceModemInfo;
+  device?: XdslDeviceModemInfo | undefined;
   /** Describe statistics information of a Modem */
-  statistics?: XdslStatsModemInfo;
+  statistics?: XdslStatsModemInfo | undefined;
 }
 /** AsyncTask status */
 export type XdslAsyncTaskStatusEnum = "error" | "ok" | "pending";
 /** xdsl.AsyncTask_xdsl.ModemInfo */
 export interface XdslAsyncTaskXdslModemInfo {
-  error?: string | null;
+  error?: string | null | undefined;
   /** Describe general information of a Modem */
-  result?: XdslModemInfo | null;
+  result?: XdslModemInfo | null | undefined;
   /** AsyncTask status */
-  status?: XdslAsyncTaskStatusEnum;
+  status?: XdslAsyncTaskStatusEnum | undefined;
 }
 export interface GetXdslModemLanRequest {
   /** Service name */
@@ -1222,15 +1222,15 @@ export interface GetXdslModemLanRequest {
 /** LAN Configuration of the Modem */
 export interface XdslLAN {
   /** IP address (e.g., 192.0.2.0) */
-  IPAddress?: string;
+  IPAddress?: string | undefined;
   /** How the modem gets its LAN IP Address */
-  addressingType?: XdslXdslModemConfigAddressingTypeEnum;
+  addressingType?: XdslXdslModemConfigAddressingTypeEnum | undefined;
   /** Name of the LAN */
-  lanName?: string;
+  lanName?: string | undefined;
   /** IP address (e.g., 192.0.2.0) */
-  subnetMask?: string;
+  subnetMask?: string | undefined;
   /** ID of the ongoing todo (NULL if none) */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
 }
 export interface GetXdslModemLanDhcpRequest {
   /** Service name */
@@ -1243,27 +1243,27 @@ export interface GetXdslModemLanDhcpRequest {
 /** DHCP Configuration of the Modem */
 export interface XdslDHCP {
   /** IP address (e.g., 192.0.2.0) */
-  defaultGateway?: string;
+  defaultGateway?: string | undefined;
   /** Name of the DHCP */
-  dhcpName?: string;
+  dhcpName?: string | undefined;
   /** Domain name provided to the clients */
-  domainName?: string;
+  domainName?: string | undefined;
   /** IP address (e.g., 192.0.2.0) */
-  endAddress?: string;
+  endAddress?: string | undefined;
   /** Lease time in seconds of client assigned address (-1 means infinite) */
-  leaseTime?: number;
+  leaseTime?: number | undefined;
   /** IP address (e.g., 192.0.2.0) */
-  primaryDNS?: string;
+  primaryDNS?: string | undefined;
   /** Secondary DNS servers to be given to the clients */
-  secondaryDNS?: string | null;
+  secondaryDNS?: string | null | undefined;
   /** State of the DHCP server of the modem */
-  serverEnabled?: boolean;
+  serverEnabled?: boolean | undefined;
   /** IP address (e.g., 192.0.2.0) */
-  startAddress?: string;
+  startAddress?: string | undefined;
   /** IP address (e.g., 192.0.2.0) */
-  subnetMask?: string;
+  subnetMask?: string | undefined;
   /** ID of the ongoing todo (NULL if none) */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
 }
 export interface GetXdslModemWifiRequest {
   /** Service name */
@@ -1283,29 +1283,29 @@ export type XdslXdslModemConfigSecurityTypeEnum =
 /** WLAN Configuration of the Modem */
 export interface XdslWLAN {
   /** Service Set Identifier of the WLAN interface */
-  SSID?: string;
+  SSID?: string | undefined;
   /** Hide or show the Wifi */
-  SSIDAdvertisementEnabled?: boolean;
+  SSIDAdvertisementEnabled?: boolean | undefined;
   /** Indicate if frequencies 2.4GHz and 5GHz are agregated */
-  bandSteering?: boolean;
+  bandSteering?: boolean | undefined;
   /** Choice of a channel (When chosen, channelMode is set to Manual) */
-  channel?: number;
+  channel?: number | undefined;
   /** How the WiFi channel is selected */
-  channelMode?: XdslXdslModemConfigChannelModeEnum;
+  channelMode?: XdslXdslModemConfigChannelModeEnum | undefined;
   /** Wifi state */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Frequency (2.4GHz | 5GHz) */
-  frequency?: XdslXdslModemConfigFrequencyEnum;
+  frequency?: XdslXdslModemConfigFrequencyEnum | undefined;
   /** Indicate if it is normal access wifi or guest wifi */
-  guest?: boolean;
+  guest?: boolean | undefined;
   /** WiFi security key */
-  securityKey?: string;
+  securityKey?: string | undefined;
   /** Type of WLAN security protection */
-  securityType?: XdslXdslModemConfigSecurityTypeEnum;
+  securityType?: XdslXdslModemConfigSecurityTypeEnum | undefined;
   /** ID of the ongoing todo (NULL if none) */
-  taskId?: number | null;
+  taskId?: number | null | undefined;
   /** Name of the Wifi */
-  wifiName?: string;
+  wifiName?: string | undefined;
 }
 export interface GetXdslModemWifiQrCodeRequest {
   /** Service name */
@@ -1329,29 +1329,29 @@ export type XdslWifiRadioSupportedStandardsList = Array<string>;
 /** Wifi Radio Configuration of the Modem */
 export interface XdslWifiRadio {
   /** Current radio channel */
-  channel?: number;
+  channel?: number | undefined;
   /** Current bandwidth of operating channel */
-  channelBandwidth?: string;
+  channelBandwidth?: string | undefined;
   /** Change channel selection mode (auto | manual) */
-  channelMode?: XdslXdslModemConfigChannelModeEnum;
+  channelMode?: XdslXdslModemConfigChannelModeEnum | undefined;
   /** Wifi Radio state */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Frequency (2.4GHz | 5GHz) */
-  frequency?: XdslXdslModemConfigFrequencyEnum;
+  frequency?: XdslXdslModemConfigFrequencyEnum | undefined;
   /** The maximum bitrate supported by this interface in Mbps */
-  maxBitRate?: number;
+  maxBitRate?: number | undefined;
   /** Name of the Wifi Radio */
-  radioName?: string;
+  radioName?: string | undefined;
   /** Current radio IEEE 802.11 standards */
-  standards?: string;
+  standards?: string | undefined;
   /** Supported channels by this radio */
-  supportedChannels?: XdslWifiRadioSupportedChannelsList;
+  supportedChannels?: XdslWifiRadioSupportedChannelsList | undefined;
   /** Supported transmit power levels as percentage of full power */
-  supportedPowers?: XdslWifiRadioSupportedPowersList;
+  supportedPowers?: XdslWifiRadioSupportedPowersList | undefined;
   /** Supported IEEE 802.11 standards by this radio */
-  supportedStandards?: XdslWifiRadioSupportedStandardsList;
+  supportedStandards?: XdslWifiRadioSupportedStandardsList | undefined;
   /** Current transmit power level */
-  transmitPower?: number;
+  transmitPower?: number | undefined;
 }
 export interface GetXdslOntRequest {
   /** Service name */
@@ -1360,9 +1360,9 @@ export interface GetXdslOntRequest {
 /** Access ONT information */
 export interface XdslOnt {
   /** MAC address of the device */
-  mac?: string;
+  mac?: string | undefined;
   /** Serial of the device */
-  serial?: string;
+  serial?: string | undefined;
 }
 export interface GetXdslPendingActionRequest {
   /** Service name */
@@ -1370,8 +1370,8 @@ export interface GetXdslPendingActionRequest {
 }
 /** Scheduled action before the next renewal of the service */
 export interface XdslPendingAction {
-  action?: string;
-  dateTodo?: string;
+  action?: string | undefined;
+  dateTodo?: string | undefined;
 }
 export interface GetXdslResiliationFollowupRequest {
   /** Service name */
@@ -1380,19 +1380,19 @@ export interface GetXdslResiliationFollowupRequest {
 /** Details about the resiliation */
 export interface XdslResiliationFollowUpDetail {
   /** Date when the resiliation will take effect */
-  dateTodo?: string;
+  dateTodo?: string | undefined;
   /** If the customer needs to return his modem */
-  needModemReturn?: boolean;
+  needModemReturn?: boolean | undefined;
   /** Date when the resiliation was done */
-  registrationDate?: string;
+  registrationDate?: string | undefined;
   /** Status of the resiliation */
-  status?: string;
+  status?: string | undefined;
 }
 export interface GetXdslResiliationTermsRequest {
   /** Service name */
   serviceName: string;
   /** The desired resiliation date */
-  resiliationDate?: string;
+  resiliationDate?: string | undefined;
 }
 /** Reason of a resiliation */
 export type XdslResiliationReasonEnum =
@@ -1409,15 +1409,15 @@ export type XdslResiliationTermsResiliationReasonsList = Array<XdslResiliationRe
 /** Show the resiliation terms */
 export interface XdslResiliationTerms {
   /** Price with it's currency and textual representation */
-  due?: OrderPrice;
+  due?: OrderPrice | undefined;
   /** Date until which the customer is engaged */
-  engageDate?: string | null;
+  engageDate?: string | null | undefined;
   /** Minumum resiliationDate */
-  minResiliationDate?: string;
+  minResiliationDate?: string | undefined;
   /** Date at which the access will be resiliated */
-  resiliationDate?: string;
+  resiliationDate?: string | undefined;
   /** List of available resiliation reasons */
-  resiliationReasons?: XdslResiliationTermsResiliationReasonsList;
+  resiliationReasons?: XdslResiliationTermsResiliationReasonsList | undefined;
 }
 export interface GetXdslRmaRequest {
   /** Service name */
@@ -1694,22 +1694,22 @@ export type CoreTypesCountryEnum =
 /** Contact information structure */
 export interface TelephonyContact {
   /** Contact address */
-  address?: string | null;
+  address?: string | null | undefined;
   /** Contact city */
-  city?: string | null;
+  city?: string | null | undefined;
   /** Contact country */
-  country?: CoreTypesCountryEnum | (string & {}) | null;
-  email?: string | null;
+  country?: CoreTypesCountryEnum | (string & {}) | null | undefined;
+  email?: string | null | undefined;
   /** Contact firstname */
-  firstname?: string | null;
+  firstname?: string | null | undefined;
   /** Contact name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Contact organisation */
-  organisation?: string | null;
+  organisation?: string | null | undefined;
   /** Contact phone */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** Contact zip */
-  zip?: string | null;
+  zip?: string | null | undefined;
 }
 /** Return merchandise authorisation step */
 export type TelephonyRmaStatusEnum = "closed" | "open" | "received";
@@ -1727,15 +1727,15 @@ export type TelephonyRmaStepStatusEnum = "done" | "todo";
 /** Informations related to the current RMA step status */
 export interface TelephonyRmaStep {
   /** A brief description of the step */
-  description?: string;
+  description?: string | undefined;
   /** The date when this step was done */
-  doneDate?: string | null;
+  doneDate?: string | null | undefined;
   /** Additional information about the step */
-  infos?: string | null;
+  infos?: string | null | undefined;
   /** RMA step names */
-  name?: TelephonyRmaStepNameEnum;
+  name?: TelephonyRmaStepNameEnum | undefined;
   /** Status of the RMA step */
-  status?: TelephonyRmaStepStatusEnum;
+  status?: TelephonyRmaStepStatusEnum | undefined;
 }
 /** Indicates the current status of the RMA with a list of steps */
 export type TelephonyRmaStepsList = Array<TelephonyRmaStep>;
@@ -1755,33 +1755,33 @@ export type TelephonyRmaTypeEnum =
 /** Current Return Merchandise Authorisation */
 export interface TelephonyRma {
   /** Is the RMA cancellable? */
-  cancellable?: boolean;
+  cancellable?: boolean | undefined;
   /** Creation datetime of the return merchandise authorisation ticket */
-  creationDatetime?: string;
+  creationDatetime?: string | undefined;
   /** Merchandise reference */
-  equipmentReference?: string;
+  equipmentReference?: string | undefined;
   /** Return merchandise authorisation identifier */
-  id?: string;
+  id?: string | undefined;
   /** New merchandise brand in case of exchange */
-  newMerchandise?: string | null;
+  newMerchandise?: string | null | undefined;
   /** Offer type of the new merchandise in case of exchange */
-  offerTypeNew?: TelephonyRmaOfferTypeEnum | null;
+  offerTypeNew?: TelephonyRmaOfferTypeEnum | null | undefined;
   /** Offer type of the return merchandise */
-  offerTypeOld?: TelephonyRmaOfferTypeEnum;
+  offerTypeOld?: TelephonyRmaOfferTypeEnum | undefined;
   /** Return merchandise authorisation type */
-  process?: TelephonyRmaReplaceTypeEnum;
+  process?: TelephonyRmaReplaceTypeEnum | undefined;
   /** Reception datetime of the return merchandise authorisation ticket */
-  receptionDatetime?: string | null;
+  receptionDatetime?: string | null | undefined;
   /** Contact information structure */
-  shippingContact?: TelephonyContact;
+  shippingContact?: TelephonyContact | undefined;
   /** Return merchandise authorisation step */
-  status?: TelephonyRmaStatusEnum;
+  status?: TelephonyRmaStatusEnum | undefined;
   /** Indicates the current status of the RMA with a list of steps */
-  steps?: TelephonyRmaStepsList;
+  steps?: TelephonyRmaStepsList | undefined;
   /** Termination datetime of the return merchandise authorisation ticket */
-  terminationDatetime?: string | null;
+  terminationDatetime?: string | null | undefined;
   /** Typology process of merchandise return */
-  type?: TelephonyRmaTypeEnum;
+  type?: TelephonyRmaTypeEnum | undefined;
 }
 export interface GetXdslServiceInfosRequest {
   /** Service name */
@@ -1792,15 +1792,15 @@ export type ServicesServicePossibleRenewPeriodList = Array<number>;
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -1822,21 +1822,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetXdslSpareRequest {
   /** Spare */
@@ -1845,11 +1845,11 @@ export interface GetXdslSpareRequest {
 /** Spare properties */
 export interface SpareXdslXdslSpareWithIAM {
   /** Modem brand model */
-  brand?: string;
+  brand?: string | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Mac address */
-  macAddress?: string;
+  macAddress?: string | undefined;
 }
 export interface GetXdslSpareServiceInfosRequest {
   /** Spare */
@@ -1868,11 +1868,11 @@ export interface GetXdslTotalDeconsolidationTermsRequest {
 /** Show the deconsolidation terms */
 export interface XdslDeconsolidationTerms {
   /** Duration of month the access will be engaged */
-  engagement?: number;
+  engagement?: number | undefined;
   /** Price with it's currency and textual representation */
-  monthlyPrice?: OrderPrice;
+  monthlyPrice?: OrderPrice | undefined;
   /** Price with it's currency and textual representation */
-  price?: OrderPrice;
+  price?: OrderPrice | undefined;
 }
 export interface InstallFrimwareRequest {
   /** Service name */
@@ -1880,7 +1880,7 @@ export interface InstallFrimwareRequest {
   /** The firmware version to upgrade to */
   firmware: string;
   /** Date of execution, default is now */
-  todoDate?: string;
+  todoDate?: string | undefined;
 }
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -1890,7 +1890,7 @@ export type ListXdslRequestIamTagsMap = {
 };
 export interface ListXdslRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListXdslRequestIamTagsMap;
+  iamTags?: ListXdslRequestIamTagsMap | undefined;
 }
 export type ListXdslResponseBodyList = Array<string>;
 export type ListXdslResponse = ListXdslResponseBodyList;
@@ -1903,11 +1903,11 @@ export interface ListXdslAntiSpamEvidencesRequest {
 /** detail on evidences stored on PCS */
 export interface XdslAntiSpamEvidencesInfoDetail {
   /** File date on the PCS */
-  date?: string;
+  date?: string | undefined;
   /** File name on the PCS */
-  filename?: string;
+  filename?: string | undefined;
   /** Temporary URL to access file */
-  url?: string;
+  url?: string | undefined;
 }
 /** Table with evidences stored on PCS */
 export type XdslAntiSpamEvidencesInfoResultList = Array<XdslAntiSpamEvidencesInfoDetail>;
@@ -1916,11 +1916,11 @@ export type XdslAntiSpamEvidencesInfoStatusEnum = "error" | "ok" | "pending";
 /** List of evidences */
 export interface XdslAntiSpamEvidencesInfo {
   /** AsyncTask detailed error */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Table with evidences stored on PCS */
-  result?: XdslAntiSpamEvidencesInfoResultList | null;
+  result?: XdslAntiSpamEvidencesInfoResultList | null | undefined;
   /** Evidences AsyncTask status */
-  status?: XdslAntiSpamEvidencesInfoStatusEnum;
+  status?: XdslAntiSpamEvidencesInfoStatusEnum | undefined;
 }
 export interface ListXdslAntiSpamsRequest {
   /** Service name */
@@ -1934,7 +1934,7 @@ export type ListXdslEmailProRequestIamTagsMap = {
 };
 export interface ListXdslEmailProRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListXdslEmailProRequestIamTagsMap;
+  iamTags?: ListXdslEmailProRequestIamTagsMap | undefined;
 }
 export type ListXdslEmailProResponseBodyList = Array<string>;
 export type ListXdslEmailProResponse = ListXdslEmailProResponseBodyList;
@@ -1942,15 +1942,15 @@ export interface ListXdslFiberEligibilitiesRequest {
   /** Service name */
   serviceName: string;
   /** Filter the value of status property (=) */
-  status?: XdslFiberEligibilityStatusEnum | (string & {});
+  status?: XdslFiberEligibilityStatusEnum | (string & {}) | undefined;
 }
 export type ListXdslFiberEligibilitiesResponseBodyList = Array<number>;
 export type ListXdslFiberEligibilitiesResponse = ListXdslFiberEligibilitiesResponseBodyList;
 export interface ListXdslIncidentsRequest {
   /** Filter the value of creationDate property (>) */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Filter the value of endDate property (<) */
-  endDate?: string;
+  endDate?: string | undefined;
 }
 export type ListXdslIncidentsResponseBodyList = Array<number>;
 export type ListXdslIncidentsResponse = ListXdslIncidentsResponseBodyList;
@@ -1978,12 +1978,12 @@ export interface ListXdslLineDslamPortLogsRequest {
 }
 /** A message log from the DSLAM */
 export interface XdslDslamPortLog {
-  date?: string;
+  date?: string | undefined;
   /** The last time this message occured */
-  lastOccurrenceDate?: string;
-  message?: string;
+  lastOccurrenceDate?: string | undefined;
+  message?: string | undefined;
   /** The number of times this message occured between date and lastOccurrenceDate */
-  numberOfOccurrences?: number;
+  numberOfOccurrences?: number | undefined;
 }
 export type ListXdslLineDslamPortLogsResponseBodyList = Array<XdslDslamPortLog>;
 export type ListXdslLineDslamPortLogsResponse = ListXdslLineDslamPortLogsResponseBodyList;
@@ -2016,14 +2016,14 @@ export interface ListXdslLineStatisticsRequest {
 }
 /** A value associated to a timestamp */
 export interface XdslTimestampAndValue {
-  timestamp?: number;
-  value?: number | null;
+  timestamp?: number | undefined;
+  value?: number | null | undefined;
 }
 export type ComplexTypeUnitAndValuesXdslTimestampAndValueValuesList = Array<XdslTimestampAndValue>;
 /** complexType.UnitAndValues_xdsl.TimestampAndValue */
 export interface ComplexTypeUnitAndValuesXdslTimestampAndValue {
-  unit?: string;
-  values?: ComplexTypeUnitAndValuesXdslTimestampAndValueValuesList;
+  unit?: string | undefined;
+  values?: ComplexTypeUnitAndValuesXdslTimestampAndValueValuesList | undefined;
 }
 export interface ListXdslModemAvailableACSBackendRequest {
   /** Service name */
@@ -2110,15 +2110,15 @@ export type XdslOrderFollowupStepStatusEnum =
   | "waitingCustomer";
 /** A step of the order process */
 export interface XdslOrderFollowupStep {
-  comments?: XdslOrderFollowupStepCommentsList;
-  doneDate?: string | null;
+  comments?: XdslOrderFollowupStepCommentsList | undefined;
+  doneDate?: string | null | undefined;
   /** The duration units */
-  durationUnit?: XdslOrderFollowupDurationUnitEnum;
-  expectedDuration?: number;
+  durationUnit?: XdslOrderFollowupDurationUnitEnum | undefined;
+  expectedDuration?: number | undefined;
   /** The status of an order step */
-  name?: XdslOrderFollowupStepNameEnum;
+  name?: XdslOrderFollowupStepNameEnum | undefined;
   /** The status of an order step */
-  status?: XdslOrderFollowupStepStatusEnum;
+  status?: XdslOrderFollowupStepStatusEnum | undefined;
 }
 export type ListXdslOrderFollowupResponseBodyList = Array<XdslOrderFollowupStep>;
 export type ListXdslOrderFollowupResponse = ListXdslOrderFollowupResponseBodyList;
@@ -2128,10 +2128,10 @@ export interface ListXdslRadiusConnectionLogsRequest {
 }
 /** Log entry of an auth attempt to the radius server */
 export interface XdslRadiusConnectionLog {
-  date?: string;
-  login?: string;
-  message?: string;
-  state?: string;
+  date?: string | undefined;
+  login?: string | undefined;
+  message?: string | undefined;
+  state?: string | undefined;
 }
 export type ListXdslRadiusConnectionLogsResponseBodyList = Array<XdslRadiusConnectionLog>;
 export type ListXdslRadiusConnectionLogsResponse = ListXdslRadiusConnectionLogsResponseBodyList;
@@ -2147,7 +2147,7 @@ export type ListXdslSpareRequestIamTagsMap = {
 };
 export interface ListXdslSpareRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListXdslSpareRequestIamTagsMap;
+  iamTags?: ListXdslSpareRequestIamTagsMap | undefined;
 }
 export type ListXdslSpareResponseBodyList = Array<string>;
 export type ListXdslSpareResponse = ListXdslSpareResponseBodyList;
@@ -2171,64 +2171,64 @@ export interface ListXdslStatisticsRequest {
 }
 /** An access latency item */
 export interface XdslAccessLatency {
-  loss?: number | null;
-  status?: number | null;
-  timestamp?: number;
-  value?: number | null;
-  verboseStatus?: string | null;
+  loss?: number | null | undefined;
+  status?: number | null | undefined;
+  timestamp?: number | undefined;
+  value?: number | null | undefined;
+  verboseStatus?: string | null | undefined;
 }
 export type ComplexTypeUnitAndValuesXdslAccessLatencyValuesList = Array<XdslAccessLatency>;
 /** complexType.UnitAndValues_xdsl.AccessLatency */
 export interface ComplexTypeUnitAndValuesXdslAccessLatency {
-  unit?: string;
-  values?: ComplexTypeUnitAndValuesXdslAccessLatencyValuesList;
+  unit?: string | undefined;
+  values?: ComplexTypeUnitAndValuesXdslAccessLatencyValuesList | undefined;
 }
 export interface ListXdslTasksRequest {
   /** Service name */
   serviceName: string;
   /** Filter the value of function property (=) */
-  function?: string;
+  function?: string | undefined;
   /** Filter the value of status property (=) */
-  status?: XdslTaskStatusEnum | (string & {});
+  status?: XdslTaskStatusEnum | (string & {}) | undefined;
 }
 export type ListXdslTasksResponseBodyList = Array<number>;
 export type ListXdslTasksResponse = ListXdslTasksResponseBodyList;
 export interface PutXdslRequest {
   /** Service name */
   serviceName: string;
-  description?: string;
+  description?: string | undefined;
   /** Rate limit on the LNS in kbps - Only available if canApplyLnsRateLimit capability is set to true - Must be a multiple of 64 - Min value 64 / Max value 100032 */
-  lnsRateLimit?: number | null;
+  lnsRateLimit?: number | null | undefined;
   /** Whether or not this access is monitored */
-  monitoring?: boolean;
+  monitoring?: boolean | undefined;
 }
 export interface PutXdslResponse {}
 export interface PutXdslEmailProRequest {
   /** Email */
   email: string;
   /** Account display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Account first name */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Account initials */
-  initial?: string | null;
+  initial?: string | null | undefined;
   /** Account last name */
-  lastName?: string | null;
+  lastName?: string | null | undefined;
 }
 export interface PutXdslEmailProResponse {}
 export interface PutXdslModemRequest {
   /** Service name */
   serviceName: string;
   /** ACS backend used by the modem */
-  acsBackend?: XdslXdslModemConfigACSBackendEnum | (string & {});
+  acsBackend?: XdslXdslModemConfigACSBackendEnum | (string & {}) | undefined;
   /** IP Address of the DMZ (To modify or delete the DMZ IP on the modem, a re-configuration of your modem has to be made, your configuration will be maintained, but you will lose your connection a few minutes) */
-  dmzIP?: string | null;
+  dmzIP?: string | null | undefined;
   /** Whether or not the modem is in bridge mode. To pass from bridge mode to routed mode, a reset is necessary. If the modem is managedByOvh, the bridge state will be kept after a reset */
-  isBridged?: boolean;
+  isBridged?: boolean | undefined;
   /** Whether or not the user can configure his modem via OVH Interface (will lock telnet and local HTTP configuration page) */
-  managedByOvh?: boolean;
+  managedByOvh?: boolean | undefined;
   /** Size of the Maximum Transmission Unit on the modem's interfaces */
-  mtuSize?: XdslXdslModemConfigMTUSizeEnum | (number & {}) | null;
+  mtuSize?: XdslXdslModemConfigMTUSizeEnum | (number & {}) | null | undefined;
 }
 export interface PutXdslModemResponse {}
 export interface PutXdslModemLanRequest {
@@ -2237,11 +2237,11 @@ export interface PutXdslModemLanRequest {
   /** Lan name */
   lanName: string;
   /** IP address (e.g., 192.0.2.0) */
-  IPAddress?: string;
+  IPAddress?: string | undefined;
   /** How the modem gets its LAN IP Address */
-  addressingType?: XdslXdslModemConfigAddressingTypeEnum | (string & {});
+  addressingType?: XdslXdslModemConfigAddressingTypeEnum | (string & {}) | undefined;
   /** IP address (e.g., 192.0.2.0) */
-  subnetMask?: string;
+  subnetMask?: string | undefined;
 }
 export interface PutXdslModemLanResponse {}
 export interface PutXdslModemLanDhcpRequest {
@@ -2252,23 +2252,23 @@ export interface PutXdslModemLanDhcpRequest {
   /** Dhcp name */
   dhcpName: string;
   /** IP address (e.g., 192.0.2.0) */
-  defaultGateway?: string;
+  defaultGateway?: string | undefined;
   /** Domain name provided to the clients */
-  domainName?: string;
+  domainName?: string | undefined;
   /** IP address (e.g., 192.0.2.0) */
-  endAddress?: string;
+  endAddress?: string | undefined;
   /** Lease time in seconds of client assigned address (-1 means infinite) */
-  leaseTime?: number;
+  leaseTime?: number | undefined;
   /** IP address (e.g., 192.0.2.0) */
-  primaryDNS?: string;
+  primaryDNS?: string | undefined;
   /** Secondary DNS servers to be given to the clients */
-  secondaryDNS?: string | null;
+  secondaryDNS?: string | null | undefined;
   /** State of the DHCP server of the modem */
-  serverEnabled?: boolean;
+  serverEnabled?: boolean | undefined;
   /** IP address (e.g., 192.0.2.0) */
-  startAddress?: string;
+  startAddress?: string | undefined;
   /** IP address (e.g., 192.0.2.0) */
-  subnetMask?: string;
+  subnetMask?: string | undefined;
 }
 export interface PutXdslModemLanDhcpResponse {}
 export interface PutXdslModemWifiRequest {
@@ -2277,19 +2277,19 @@ export interface PutXdslModemWifiRequest {
   /** Wifi name */
   wifiName: string;
   /** Service Set Identifier of the WLAN interface */
-  SSID?: string;
+  SSID?: string | undefined;
   /** Hide or show the Wifi */
-  SSIDAdvertisementEnabled?: boolean;
+  SSIDAdvertisementEnabled?: boolean | undefined;
   /** Choice of a channel (When chosen, channelMode is set to Manual) */
-  channel?: number;
+  channel?: number | undefined;
   /** How the WiFi channel is selected */
-  channelMode?: XdslXdslModemConfigChannelModeEnum | (string & {});
+  channelMode?: XdslXdslModemConfigChannelModeEnum | (string & {}) | undefined;
   /** Wifi state */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** WiFi security key */
-  securityKey?: string;
+  securityKey?: string | undefined;
   /** Type of WLAN security protection */
-  securityType?: XdslXdslModemConfigSecurityTypeEnum | (string & {});
+  securityType?: XdslXdslModemConfigSecurityTypeEnum | (string & {}) | undefined;
 }
 export interface PutXdslModemWifiResponse {}
 export interface PutXdslModemWifiRadioRequest {
@@ -2298,9 +2298,9 @@ export interface PutXdslModemWifiRadioRequest {
   /** Radio name */
   radioName: string;
   /** Current radio channel */
-  channel?: number;
+  channel?: number | undefined;
   /** Change channel selection mode (auto | manual) */
-  channelMode?: XdslXdslModemConfigChannelModeEnum | (string & {});
+  channelMode?: XdslXdslModemConfigChannelModeEnum | (string & {}) | undefined;
 }
 export interface PutXdslRmaRequest {
   /** Service name */
@@ -2308,30 +2308,30 @@ export interface PutXdslRmaRequest {
   /** Id */
   id: string;
   /** Return merchandise authorisation type */
-  process?: TelephonyRmaReplaceTypeEnum | (string & {});
+  process?: TelephonyRmaReplaceTypeEnum | (string & {}) | undefined;
   /** Contact information structure */
-  shippingContact?: TelephonyContact;
+  shippingContact?: TelephonyContact | undefined;
 }
 export interface PutXdslRmaResponse {}
 export interface PutXdslServiceInfosRequest {
   /** Service name */
   serviceName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutXdslServiceInfosResponse {}
 export interface PutXdslSpareServiceInfosRequest {
   /** Spare */
   spare: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutXdslSpareServiceInfosResponse {}
 export interface RebootModemRequest {
   /** Service name */
   serviceName: string;
   /** Date when the reboot will start */
-  todoDate?: string;
+  todoDate?: string | undefined;
 }
 export interface RefreshXdslModemConnectedDevicesRequest {
   /** Service name */
@@ -2364,16 +2364,16 @@ export interface ReplaceAccessModemRequest {
   /** Service name */
   serviceName: string;
   /** Customer identifier for shipping address. By default Internet access address will be used. Allowed values are nichandle or «/me/contact/xyz» */
-  contactShipping?: string;
+  contactShipping?: string | undefined;
 }
 /** A contract */
 export interface OrderContract {
   /** Terms of the contract */
-  content?: string;
+  content?: string | undefined;
   /** Name of the contract */
-  name?: string;
+  name?: string | undefined;
   /** URL to download the contract */
-  url?: string;
+  url?: string | undefined;
 }
 /** List of contracts related to the order */
 export type OrderOrderContractsList = Array<OrderContract>;
@@ -2406,70 +2406,70 @@ export type OrderReductionTypeEnum = "fixed_amount" | "forced_amount" | "percent
 /** Order detail reduction */
 export interface OrderReduction {
   /** In which context the reduction is applied */
-  context?: OrderReductionContextEnum;
+  context?: OrderReductionContextEnum | undefined;
   /** Promotion description */
-  description?: string;
+  description?: string | undefined;
   /** Reduction price applied with this promotion */
-  price?: OrderPrice;
+  price?: OrderPrice | undefined;
   /** Reduction description */
-  reductionDescription?: string;
+  reductionDescription?: string | undefined;
   /** Reduction effect, price modification */
-  type?: OrderReductionTypeEnum;
+  type?: OrderReductionTypeEnum | undefined;
   /** The reduction value */
-  value?: OrderPrice;
+  value?: OrderPrice | undefined;
 }
 /** List of reductions applied to the detail */
 export type OrderOrderDetailReductionsList = Array<OrderReduction>;
 /** Detail of an order */
 export interface OrderOrderDetail {
   /** Cart Item ID the details is related to */
-  cartItemID?: number | null;
+  cartItemID?: number | null | undefined;
   /** Description of the detail */
-  description?: string;
+  description?: string | undefined;
   /** Type of detail */
-  detailType?: OrderOrderDetailTypeEnum | null;
+  detailType?: OrderOrderDetailTypeEnum | null | undefined;
   /** Service name */
-  domain?: string;
+  domain?: string | undefined;
   /** Original price of the detail before reduction application */
-  originalTotalPrice?: OrderPrice;
+  originalTotalPrice?: OrderPrice | undefined;
   /** Quantity of the service */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Total price of the reduction */
-  reductionTotalPrice?: OrderPrice;
+  reductionTotalPrice?: OrderPrice | undefined;
   /** List of reductions applied to the detail */
-  reductions?: OrderOrderDetailReductionsList;
+  reductions?: OrderOrderDetailReductionsList | undefined;
   /** Price total of the services */
-  totalPrice?: OrderPrice;
+  totalPrice?: OrderPrice | undefined;
   /** Unitary price of the service */
-  unitPrice?: OrderPrice;
+  unitPrice?: OrderPrice | undefined;
 }
 /** Details of the order */
 export type OrderOrderDetailsList = Array<OrderOrderDetail>;
 /** Prices of an order */
 export interface OrderOrderPrices {
   /** Price before reduction application */
-  originalWithoutTax?: OrderPrice | null;
+  originalWithoutTax?: OrderPrice | null | undefined;
   /** Price concerning the reduced amount */
-  reduction?: OrderPrice | null;
+  reduction?: OrderPrice | null | undefined;
   /** Tax amount */
-  tax?: OrderPrice;
+  tax?: OrderPrice | undefined;
   /** Price with tax */
-  withTax?: OrderPrice;
+  withTax?: OrderPrice | undefined;
   /** Price without tax */
-  withoutTax?: OrderPrice;
+  withoutTax?: OrderPrice | undefined;
 }
 /** An order */
 export interface OrderOrder {
   /** List of contracts related to the order */
-  contracts?: OrderOrderContractsList;
+  contracts?: OrderOrderContractsList | undefined;
   /** Details of the order */
-  details?: OrderOrderDetailsList;
+  details?: OrderOrderDetailsList | undefined;
   /** Identifier of the order */
-  orderId?: number | null;
+  orderId?: number | null | undefined;
   /** Prices of the order including with and without taxes */
-  prices?: OrderOrderPrices;
+  prices?: OrderOrderPrices | undefined;
   /** URL to download the order */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface ReplaceModemBySpareRequest {
   /** Spare */
@@ -2482,15 +2482,15 @@ export interface RequestTotalDeconsolidationRequest {
   /** Service name */
   serviceName: string;
   /** Do not port the number */
-  noPortability?: boolean;
+  noPortability?: boolean | undefined;
   /** A token to prove the ownership of the line number, needed to port the number */
-  rio?: string;
+  rio?: string | undefined;
 }
 export interface ResetModemConfigurationRequest {
   /** Service name */
   serviceName: string;
   /** Reset configuration stored in OVH databases */
-  resetOvhConfig?: boolean;
+  resetOvhConfig?: boolean | undefined;
 }
 export interface ResetXdslLinesDslamPortRequest {
   /** Service name */
@@ -2509,7 +2509,7 @@ export interface ResiliateAccessRequest {
   /** Service name */
   serviceName: string;
   /** The desired resiliation date */
-  resiliationDate?: string;
+  resiliationDate?: string | undefined;
   /** Information about the reason for the resiliation */
   resiliationSurvey: IamResourceTagFilterInput;
 }
@@ -2520,20 +2520,20 @@ export interface SearchXdslOrderMeetingsRequest {
 /** Represents meeting booking options */
 export interface ConnectivityEligibilityMeetingCapacities {
   /** Whether or not it is possible to book a meeting online */
-  eRdv?: boolean;
+  eRdv?: boolean | undefined;
   /** Whether or not it is possible to be be called by phone to book a meeting */
-  phoneCall?: boolean;
+  phoneCall?: boolean | undefined;
 }
 /** Represents a time slot for a meeting */
 export interface ConnectivityEligibilityMeetingSlot {
   /** End date */
-  endDate?: string;
+  endDate?: string | undefined;
   /** Represent a meeting id for a fiber collect operator */
-  slotId?: string | null;
+  slotId?: string | null | undefined;
   /** Start date */
-  startDate?: string;
+  startDate?: string | undefined;
   /** An opaque string that represents an intervention unit */
-  uiCode?: string | null;
+  uiCode?: string | null | undefined;
 }
 /** A time slot */
 export type ConnectivityEligibilityMeetingsMeetingSlotsList =
@@ -2541,19 +2541,19 @@ export type ConnectivityEligibilityMeetingsMeetingSlotsList =
 /** List of available meeting time slots */
 export interface ConnectivityEligibilityMeetings {
   /** Whether or not it is possible to book a fake meeting */
-  canBookFakeMeeting?: boolean;
+  canBookFakeMeeting?: boolean | undefined;
   /** Represents meeting booking options */
-  capacities?: ConnectivityEligibilityMeetingCapacities;
+  capacities?: ConnectivityEligibilityMeetingCapacities | undefined;
   /** A time slot */
-  meetingSlots?: ConnectivityEligibilityMeetingsMeetingSlotsList;
+  meetingSlots?: ConnectivityEligibilityMeetingsMeetingSlotsList | undefined;
 }
 /** xdsl.AsyncTask_connectivity.eligibility.Meetings */
 export interface XdslAsyncTaskConnectivityEligibilityMeetings {
-  error?: string | null;
+  error?: string | null | undefined;
   /** List of available meeting time slots */
-  result?: ConnectivityEligibilityMeetings;
+  result?: ConnectivityEligibilityMeetings | undefined;
   /** AsyncTask status */
-  status?: XdslAsyncTaskStatusEnum;
+  status?: XdslAsyncTaskStatusEnum | undefined;
 }
 export interface SendXdslOrderToProviderRequest {
   /** Service name */
@@ -2594,9 +2594,9 @@ export interface UpdateDHCPStaticAddressRequest {
   /** macaddress */
   MACAddress: string;
   /** IP address (e.g., 192.0.2.0) */
-  IPAddress?: string;
+  IPAddress?: string | undefined;
   /** Name of the DHCP Static lease */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface UpdateDHCPStaticAddressResponse {}
 export interface UpdateFTPStatusRequest {
@@ -2650,9 +2650,9 @@ export interface UpdateLineDiagnosticRequest {
   /** Number */
   number: string;
   /** Customer possible actions */
-  actionsDone?: UpdateLineDiagnosticRequestActionsDoneList;
+  actionsDone?: UpdateLineDiagnosticRequestActionsDoneList | undefined;
   /** Customer answers for line diagnostic */
-  answers?: IamResourceTagFilterInput;
+  answers?: IamResourceTagFilterInput | undefined;
   /** Line diagnostic fault type */
   faultType: XdslLineDiagnosticFaultTypeEnum | (string & {});
 }
@@ -2662,9 +2662,9 @@ export type XdslLineDiagnosticDiagnosticDataActionsDoneList =
 /** Customer action to do */
 export interface XdslLineDiagnosticCustomerActionToDo {
   /** action's description */
-  description?: string;
+  description?: string | undefined;
   /** Customer possible actions */
-  name?: XdslLineDiagnosticCustomerActionsEnum;
+  name?: XdslLineDiagnosticCustomerActionsEnum | undefined;
 }
 /** List of actions that must be done by customer */
 export type XdslLineDiagnosticDiagnosticDataActionsToDoList =
@@ -2676,133 +2676,133 @@ export type XdslLineDiagnosticProblemTypeEnum = "lowBandwidth" | "syncLoss";
 /** Customer answers for line diagnostic */
 export interface XdslLineDiagnosticAnswers {
   /** bandwidth unit for proof.ovh.net test values */
-  bandwidthTestUnit?: XdslLineDiagnosticBandwidthTestUnitEnum | null;
+  bandwidthTestUnit?: XdslLineDiagnosticBandwidthTestUnitEnum | null | undefined;
   /** comment will contains all information needed for intervention and about your access problem */
-  comment?: string | null;
+  comment?: string | null | undefined;
   /** customer knows that he can be charged (150 euros HT) if he is responsible for the problem or if tests have not been done correctly ? */
-  conditionsAccepted?: boolean | null;
+  conditionsAccepted?: boolean | null | undefined;
   /** customer's phone number */
-  contactPhone?: string | null;
+  contactPhone?: string | null | undefined;
   /** approximative datetime of problem happening */
-  datetimeOfAppearance?: string | null;
+  datetimeOfAppearance?: string | null | undefined;
   /** bandwidth download value on proof.ovh.net test */
-  downloadBandwidthTest?: number | null;
+  downloadBandwidthTest?: number | null | undefined;
   /** afternoon closing information or time for the site */
-  endAfternoonHours?: string | null;
+  endAfternoonHours?: string | null | undefined;
   /** morning closing information or time for the site */
-  endMorningHours?: string | null;
+  endMorningHours?: string | null | undefined;
   /** indicate if customer wants to be informed by sms */
-  followBySms?: boolean | null;
+  followBySms?: boolean | null | undefined;
   /** Has modem kept his synchronization during line port reset ? */
-  hasModemKeptSynchronization?: boolean | null;
+  hasModemKeptSynchronization?: boolean | null | undefined;
   /** id of appointment chosen ("possibleValues" contains choices list with id) */
-  idAppointment?: number | null;
+  idAppointment?: number | null | undefined;
   /** is non-professional site ? */
-  individualSite?: boolean | null;
+  individualSite?: boolean | null | undefined;
   /** Is modem synchronized ? (whatever internet connection) */
-  modemIsSynchronized?: boolean | null;
+  modemIsSynchronized?: boolean | null | undefined;
   /** modem mac address */
-  modemMac?: string | null;
+  modemMac?: string | null | undefined;
   /** Modem still synchronized ? Please check once again. */
-  modemStillSynchronized?: boolean | null;
+  modemStillSynchronized?: boolean | null | undefined;
   /** modem brand and reference */
-  modemType?: string | null;
+  modemType?: string | null | undefined;
   /** Ovh ticket name or ticket ID, only if a ticket is already opened for this problem */
-  ovhTicket?: string | null;
+  ovhTicket?: string | null | undefined;
   /** Problem Type on DSL connection */
-  problemType?: XdslLineDiagnosticProblemTypeEnum | null;
+  problemType?: XdslLineDiagnosticProblemTypeEnum | null | undefined;
   /** is access problem solved ? */
-  resolvedAfterTests?: boolean | null;
+  resolvedAfterTests?: boolean | null | undefined;
   /** is secure site ? */
-  secureSite?: boolean | null;
+  secureSite?: boolean | null | undefined;
   /** Has customer several internal connections ? (on the same place) */
-  severalInternetConnections?: boolean | null;
+  severalInternetConnections?: boolean | null | undefined;
   /** days or period where site access is not possible */
-  siteClosedDays?: string | null;
+  siteClosedDays?: string | null | undefined;
   /** digicode for site entrance */
-  siteDigicode?: string | null;
+  siteDigicode?: string | null | undefined;
   /** site opening hours or information */
-  siteOpening?: string | null;
+  siteOpening?: string | null | undefined;
   /** afternoon opening information or time for the site */
-  startAfternoonHours?: string | null;
+  startAfternoonHours?: string | null | undefined;
   /** morning opening information or time for the site */
-  startMorningHours?: string | null;
+  startMorningHours?: string | null | undefined;
   /** bandwidth upload value on proof.ovh.net test */
-  uploadBandwidthTest?: number | null;
+  uploadBandwidthTest?: number | null | undefined;
 }
 /** Informations directly get on DSLAM or Modem */
 export interface XdslLineDiagnosticConnectionInformations {
   /** Amount of CRC error detected */
-  crcError?: number | null;
+  crcError?: number | null | undefined;
   /** Downstream attenuation */
-  downstreamAttenuation?: number | null;
+  downstreamAttenuation?: number | null | undefined;
   /** Downstream margin */
-  downstreamMargin?: number | null;
+  downstreamMargin?: number | null | undefined;
   /** Downstream synchronization */
-  downstreamSync?: number | null;
+  downstreamSync?: number | null | undefined;
   /** Modem interface name */
-  ifName?: string | null;
+  ifName?: string | null | undefined;
   /** Profile on the DSLAM */
-  profile?: string | null;
+  profile?: string | null | undefined;
   /** Upstream attenuation */
-  upstreamAttenuation?: number | null;
+  upstreamAttenuation?: number | null | undefined;
   /** Upstream margin */
-  upstreamMargin?: number | null;
+  upstreamMargin?: number | null | undefined;
   /** Upstream synchronization */
-  upstreamSync?: number | null;
+  upstreamSync?: number | null | undefined;
 }
 /** Theoretical line capabilities */
 export interface XdslLineDiagnosticLineCapabilities {
   /** Theoretical Downstream synchronization */
-  down?: number | null;
+  down?: number | null | undefined;
   /** Theoretical line mitigation */
-  mitigation?: string | null;
+  mitigation?: string | null | undefined;
   /** Theoretical ping */
-  ping?: number | null;
+  ping?: number | null | undefined;
   /** Theoretical Upstream synchronization */
-  up?: number | null;
+  up?: number | null | undefined;
 }
 /** Cables section details */
 export interface XdslLineDiagnosticSection {
   /** cables length in meters */
-  length?: number;
+  length?: number | undefined;
   /** cables section in millimeters */
-  section?: number;
+  section?: number | undefined;
 }
 /** cables sections details */
 export type XdslLineDiagnosticLineDetailsSectionsList = Array<XdslLineDiagnosticSection>;
 /** Line information */
 export interface XdslLineDiagnosticLineDetails {
   /** access name */
-  accessName?: string;
+  accessName?: string | undefined;
   /** Access IP ping or not */
-  accessPing?: boolean | null;
+  accessPing?: boolean | null | undefined;
   /** address of the access */
-  address?: string | null;
+  address?: string | null | undefined;
   /** information directly get on DSLAM or Modem */
-  connectionInfo?: XdslLineDiagnosticConnectionInformations | null;
+  connectionInfo?: XdslLineDiagnosticConnectionInformations | null | undefined;
   /** customer phone number for contact */
-  contactPhone?: string | null;
+  contactPhone?: string | null | undefined;
   /** custom access description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** DSLAM is synchronized or not */
-  dslamIsSynchronized?: boolean | null;
+  dslamIsSynchronized?: boolean | null | undefined;
   /** is GTR access or not */
-  gtr?: boolean;
+  gtr?: boolean | undefined;
   /** Line length in meters */
-  length?: number;
+  length?: number | undefined;
   /** Theoretical line capabilities */
-  lineCapabilities?: XdslLineDiagnosticLineCapabilities | null;
+  lineCapabilities?: XdslLineDiagnosticLineCapabilities | null | undefined;
   /** Possible DSL technologies */
-  lineType?: XdslDslTypeEnum;
+  lineType?: XdslDslTypeEnum | undefined;
   /** NRA name */
-  nra?: string | null;
+  nra?: string | null | undefined;
   /** line number */
-  number?: string;
+  number?: string | undefined;
   /** The providers */
-  operator?: XdslProviderEnum;
+  operator?: XdslProviderEnum | undefined;
   /** cables sections details */
-  sections?: XdslLineDiagnosticLineDetailsSectionsList | null;
+  sections?: XdslLineDiagnosticLineDetailsSectionsList | null | undefined;
 }
 /** Diagnostic robot possible actions */
 export type XdslLineDiagnosticRobotActionsEnum =
@@ -2838,15 +2838,15 @@ export type XdslLineDiagnosticSeltStatusEnum = "failed" | "notAvailable" | "ok";
 /** Customer answers for line diagnostic */
 export interface XdslLineDiagnosticSeltResult {
   /** SELT test running date */
-  date?: string | null;
+  date?: string | null | undefined;
   /** Distance of the problem identified on the line (by SELT test), from NRA to customer */
-  distance?: number | null;
+  distance?: number | null | undefined;
   /** Prelocalization of the problem */
-  preloc?: XdslLineDiagnosticSeltPrelocEnum | null;
+  preloc?: XdslLineDiagnosticSeltPrelocEnum | null | undefined;
   /** Problem type identified by SELT test */
-  state?: XdslLineDiagnosticSeltStateEnum | null;
+  state?: XdslLineDiagnosticSeltStateEnum | null | undefined;
   /** SELT test status */
-  status?: XdslLineDiagnosticSeltStatusEnum | null;
+  status?: XdslLineDiagnosticSeltStatusEnum | null | undefined;
 }
 /** available values for enum */
 export type XdslLineDiagnosticQuestionEnumValuesList = Array<string>;
@@ -2882,61 +2882,61 @@ export type XdslLineDiagnosticQuestionsEnum =
 /** possible value for specific answer */
 export interface XdslLineDiagnosticPossibleValue {
   /** answer id */
-  id?: number | null;
+  id?: number | null | undefined;
   /** answer choice string */
-  label?: string | null;
+  label?: string | null | undefined;
   /** answer choice value */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 /** list of possible values */
 export type XdslLineDiagnosticQuestionPossibleValuesList = Array<XdslLineDiagnosticPossibleValue>;
 /** Question to customer */
 export interface XdslLineDiagnosticQuestion {
   /** question description */
-  defaultValue?: string | null;
+  defaultValue?: string | null | undefined;
   /** question description */
-  description?: string;
+  description?: string | undefined;
   /** available values for enum */
-  enumValues?: XdslLineDiagnosticQuestionEnumValuesList | null;
+  enumValues?: XdslLineDiagnosticQuestionEnumValuesList | null | undefined;
   /** Possible customer questions */
-  name?: XdslLineDiagnosticQuestionsEnum;
+  name?: XdslLineDiagnosticQuestionsEnum | undefined;
   /** list of possible values */
-  possibleValues?: XdslLineDiagnosticQuestionPossibleValuesList | null;
+  possibleValues?: XdslLineDiagnosticQuestionPossibleValuesList | null | undefined;
   /** is a required question */
-  required?: boolean | null;
+  required?: boolean | null | undefined;
   /** answer type */
-  type?: string;
+  type?: string | undefined;
 }
 /** List of questions that must be answered by customer */
 export type XdslLineDiagnosticDiagnosticDataToAnswerList = Array<XdslLineDiagnosticQuestion>;
 /** Diagnostic data and information */
 export interface XdslLineDiagnosticDiagnosticData {
   /** List of actions already done by customer */
-  actionsDone?: XdslLineDiagnosticDiagnosticDataActionsDoneList;
+  actionsDone?: XdslLineDiagnosticDiagnosticDataActionsDoneList | undefined;
   /** List of actions that must be done by customer */
-  actionsToDo?: XdslLineDiagnosticDiagnosticDataActionsToDoList;
+  actionsToDo?: XdslLineDiagnosticDiagnosticDataActionsToDoList | undefined;
   /** Customer answers for line diagnostic */
-  answers?: XdslLineDiagnosticAnswers;
+  answers?: XdslLineDiagnosticAnswers | undefined;
   /** Diagnostic comment. Can be update during any diagnostic step */
-  comment?: string | null;
+  comment?: string | null | undefined;
   /** Diagnostic creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** End of diagnostic date. Will be null until problem totally identified */
-  diagnosticDoneDate?: string | null;
+  diagnosticDoneDate?: string | null | undefined;
   /** Error message */
-  error?: string;
+  error?: string | undefined;
   /** Last diagnostic update date */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Line information */
-  lineDetails?: XdslLineDiagnosticLineDetails;
+  lineDetails?: XdslLineDiagnosticLineDetails | undefined;
   /** Current or last robot action */
-  robotAction?: XdslLineDiagnosticRobotActionsEnum | null;
+  robotAction?: XdslLineDiagnosticRobotActionsEnum | null | undefined;
   /** Customer answers for line diagnostic */
-  seltTest?: XdslLineDiagnosticSeltResult;
+  seltTest?: XdslLineDiagnosticSeltResult | undefined;
   /** Diagnostic timeout in minutes. Any action restart timeout */
-  timeout?: number;
+  timeout?: number | undefined;
   /** List of questions that must be answered by customer */
-  toAnswer?: XdslLineDiagnosticDiagnosticDataToAnswerList;
+  toAnswer?: XdslLineDiagnosticDiagnosticDataToAnswerList | undefined;
 }
 /** Diagnostic status possible values */
 export type XdslLineDiagnosticDiagnosticStatusEnum =
@@ -2959,13 +2959,13 @@ export type XdslLineDiagnosticDiagnosticStatusEnum =
 /** Diagnostic status and information */
 export interface XdslLineDiagnosticDiagnostic {
   /** Diagnostic data and information */
-  data?: XdslLineDiagnosticDiagnosticData;
+  data?: XdslLineDiagnosticDiagnosticData | undefined;
   /** Line diagnostic fault type */
-  faultType?: XdslLineDiagnosticFaultTypeEnum;
+  faultType?: XdslLineDiagnosticFaultTypeEnum | undefined;
   /** Diagnostic id */
-  id?: number;
+  id?: number | undefined;
   /** Diagnostic status possible values */
-  status?: XdslLineDiagnosticDiagnosticStatusEnum;
+  status?: XdslLineDiagnosticDiagnosticStatusEnum | undefined;
 }
 /** Status allowed for mail sending */
 export type XdslMailSendingStatusEnum = "disabled" | "enabled";
@@ -2985,7 +2985,7 @@ export interface UpdateModemTemplateRequest {
   /** Name */
   name: string;
   /** Do not apply these parameters from template. You can use parametersCapabilities to know availability */
-  parametersToIgnore?: XdslTemplateModemParametersToIgnore | null;
+  parametersToIgnore?: XdslTemplateModemParametersToIgnore | null | undefined;
 }
 export interface UpdateModemTemplateResponse {}
 export interface UpdateMonitoringNotificationRequest {
@@ -2994,17 +2994,17 @@ export interface UpdateMonitoringNotificationRequest {
   /** Id */
   id: number;
   /** Whether or not to allow notifications for generic incidents */
-  allowIncident?: boolean;
+  allowIncident?: boolean | undefined;
   /** The number of seconds the access has to be down to trigger an alert */
-  downThreshold?: number;
+  downThreshold?: number | undefined;
   /** The e-mail address, if type is mail */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Whether to enable or not */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Frequency between notifications. */
-  frequency?: XdslMonitoringNotificationsFrequencyEnum | (string & {});
+  frequency?: XdslMonitoringNotificationsFrequencyEnum | (string & {}) | undefined;
   /** The phone number, if type is sms */
-  phone?: string | null;
+  phone?: string | null | undefined;
 }
 export interface UpdateMonitoringNotificationResponse {}
 export interface UpdatePortMappingRequest {
@@ -3013,21 +3013,21 @@ export interface UpdatePortMappingRequest {
   /** Name */
   name: string;
   /** An ip which will access to the defined rule. Default : no restriction applied */
-  allowedRemoteIp?: string | null;
+  allowedRemoteIp?: string | null | undefined;
   /** Description of the Port Mapping */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The last port of the interval on the External Client that will get the connections */
-  externalPortEnd?: number | null;
+  externalPortEnd?: number | null | undefined;
   /** External Port that the modem will listen on. List of externalPorts not available for now in the API : 8, 21, 68, 5060, 21800-21805, 51005 */
-  externalPortStart?: number;
+  externalPortStart?: number | undefined;
   /** IP address (e.g., 192.0.2.0) */
-  internalClient?: string;
+  internalClient?: string | undefined;
   /** The port on the Internal Client that will get the connections */
-  internalPort?: number;
+  internalPort?: number | undefined;
   /** The last port of the interval on the Internal Client that will get the connections */
-  internalPortEnd?: number | null;
+  internalPortEnd?: number | null | undefined;
   /** Type of protocol for the Port Mapping */
-  protocol?: XdslXdslModemConfigProtocolTypeEnum | (string & {});
+  protocol?: XdslXdslModemConfigProtocolTypeEnum | (string & {}) | undefined;
 }
 export interface UpdatePortMappingResponse {}
 export interface UpdateRIORequest {
@@ -3036,7 +3036,7 @@ export interface UpdateRIORequest {
   /** Do not set RIO, and relaunch order without portability */
   relaunchWithoutPortability: boolean;
   /** RIO number for portability */
-  rio?: string;
+  rio?: string | undefined;
 }
 export interface UpdateRIOResponse {}
 /** Types of return merchandise authorisation you can change to */

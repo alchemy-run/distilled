@@ -30,51 +30,79 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 /** Buyer billing address used for tax calculation. Provide either `address.country` or `ip_address`; include state and postal code when available for more accurate results. */
 export interface CalculatePlanTaxRequestAddress {
   /** City name. */
-  city?: string | null;
+  city?: string | null | undefined;
   /** ISO 3166-1 alpha-2 country code, such as `US`, `DE`, or `GB`. */
   country: string;
   /** First line of the street address. */
-  line1?: string | null;
+  line1?: string | null | undefined;
   /** Second line of the street address. */
-  line2?: string | null;
+  line2?: string | null | undefined;
   /** Postal or ZIP code. */
-  postal_code?: string | null;
+  postal_code?: string | null | undefined;
   /** State, province, or region code, such as `CA`. */
-  state?: string | null;
+  state?: string | null | undefined;
 }
 /** Tax ID type, such as `eu_vat` for an EU VAT number. */
 export type CalculatePlanTaxRequestTaxIdsItemType =
@@ -191,9 +219,9 @@ export type CalculatePlanTaxRequestTaxIdsItemType =
   | "sr_fin";
 export interface CalculatePlanTaxRequestTaxIdsItem {
   /** Tax ID type, such as `eu_vat` for an EU VAT number. */
-  type?: CalculatePlanTaxRequestTaxIdsItemType | (string & {});
+  type?: CalculatePlanTaxRequestTaxIdsItemType | (string & {}) | undefined;
   /** Tax ID value, for example `DE123456789`. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Optional buyer tax ID for B2B exemptions. At most one entry is supported. */
 export type CalculatePlanTaxRequestTaxIdsList = Array<CalculatePlanTaxRequestTaxIdsItem>;
@@ -201,13 +229,13 @@ export interface CalculatePlanTaxRequest {
   /** Plan ID, prefixed `plan_`. */
   id: string;
   /** Buyer billing address used for tax calculation. Provide either `address.country` or `ip_address`; include state and postal code when available for more accurate results. */
-  address?: CalculatePlanTaxRequestAddress | null;
+  address?: CalculatePlanTaxRequestAddress | null | undefined;
   /** Buyer IP address used to infer location when no billing address is provided. */
-  ip_address?: string;
+  ip_address?: string | undefined;
   /** Optional buyer tax ID for B2B exemptions. At most one entry is supported. */
-  tax_ids?: CalculatePlanTaxRequestTaxIdsList | null;
+  tax_ids?: CalculatePlanTaxRequestTaxIdsList | null | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Whether Whop calculated tax for this preview. `not_calculated` means no tax could be determined, so `tax_amount` is 0 and `total` equals `subtotal`. */
 export type CalculatePlanTaxResponseStatus = "calculated" | "not_calculated";
@@ -231,24 +259,24 @@ export interface CalculatePlanTaxResponse {
 export type CreatePlanRequestCustomFieldsItemFieldType = "text";
 export interface CreatePlanRequestCustomFieldsItem {
   /** The type of the custom field. */
-  field_type?: CreatePlanRequestCustomFieldsItemFieldType | (string & {});
+  field_type?: CreatePlanRequestCustomFieldsItemFieldType | (string & {}) | undefined;
   /** The ID of the custom field (if being updated). */
-  id?: string;
+  id?: string | undefined;
   /** The name of the custom field. */
-  name?: string;
+  name?: string | undefined;
   /** The order of the field. */
-  order?: number;
+  order?: number | undefined;
   /** An example response displayed in the input field. */
-  placeholder?: string | null;
+  placeholder?: string | null | undefined;
   /** Whether or not the field is required. */
-  required?: boolean;
+  required?: boolean | undefined;
 }
 /** An array of custom field definitions to collect from customers at checkout. Omitting this field clears existing custom fields. */
 export type CreatePlanRequestCustomFieldsList = Array<CreatePlanRequestCustomFieldsItem>;
 /** An image displayed on the product page to represent this plan. */
 export interface CreatePlanRequestImage {
-  direct_upload_id?: string;
-  id?: string;
+  direct_upload_id?: string | undefined;
+  id?: string | undefined;
 }
 /** The different types of payment methods that can be used. */
 export type PaymentMethodTypes =
@@ -392,10 +420,10 @@ export type CreatePlanRequestPaymentMethodConfigurationEnabledList = Array<
 /** Explicit payment method configuration for the plan. When not provided, the account's defaults apply. Send at least one of `enabled` or `disabled`; an omitted one is empty. */
 export interface CreatePlanRequestPaymentMethodConfiguration {
   /** Payment method types explicitly disabled for this plan -- the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
-  disabled?: CreatePlanRequestPaymentMethodConfigurationDisabledList;
+  disabled?: CreatePlanRequestPaymentMethodConfigurationDisabledList | undefined;
   /** Payment method types explicitly enabled for this plan -- the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
-  enabled?: CreatePlanRequestPaymentMethodConfigurationEnabledList;
-  include_platform_defaults?: boolean;
+  enabled?: CreatePlanRequestPaymentMethodConfigurationEnabledList | undefined;
+  include_platform_defaults?: boolean | undefined;
 }
 /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Send `null` to inherit the account default. */
 export type CreatePlanRequestThreeDsLevel =
@@ -404,61 +432,61 @@ export type CreatePlanRequestThreeDsLevel =
   | "frictionless_if_required";
 export interface CreatePlanRequest {
   /** The unique identifier of the account to create this plan for. Required when authenticating as a user; an account API key supplies its own account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Whether this plan accepts local currency payments via adaptive pricing. */
-  adaptive_pricing_enabled?: boolean | null;
+  adaptive_pricing_enabled?: boolean | null | undefined;
   /** Attribute values that make this plan one variant of its product, as a map of attribute name to value, e.g. `{"size": "Large", "color": "Blue"}`. Names are normalized to snake_case identifiers (`Ring Size` becomes `ring_size`) and come back in alphabetical order. Every variant plan on a product must carry the same attribute names and a distinct set of values. Send `null` to make the plan an ordinary pricing option again. */
-  attributes?: unknown | null;
+  attributes?: unknown | null | undefined;
   /** Recurring billing interval in days, such as 30 for monthly or 365 for annual. */
-  billing_period?: number | null;
+  billing_period?: number | null | undefined;
   /** Checkout styling overrides for this plan. */
-  checkout_styling?: unknown | null;
+  checkout_styling?: unknown | null | undefined;
   /** The three-letter ISO currency code for the plan's pricing. Defaults to USD. */
-  currency?: string;
+  currency?: string | undefined;
   /** An array of custom field definitions to collect from customers at checkout. Omitting this field clears existing custom fields. */
-  custom_fields?: CreatePlanRequestCustomFieldsList | null;
+  custom_fields?: CreatePlanRequestCustomFieldsList | null | undefined;
   /** A text description of the plan displayed to customers on the product page. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Access duration in days before the membership expires. */
-  expiration_days?: number | null;
+  expiration_days?: number | null | undefined;
   /** An image displayed on the product page to represent this plan. */
-  image?: CreatePlanRequestImage | null;
+  image?: CreatePlanRequestImage | null | undefined;
   /** Initial amount charged in the plan's currency, e.g. 10.43 for $10.43. A paid fiat plan charges at least 1.00 in its currency; use 0 for free. */
-  initial_price?: number | null;
+  initial_price?: number | null | undefined;
   /** Private notes visible only to the account owner. Not shown to customers. */
-  internal_notes?: string | null;
+  internal_notes?: string | null | undefined;
   /** Custom key-value pairs to store on the plan. Included in webhook payloads for payment and membership events. Max 50 keys, 100 chars per key, 500 chars per string value. The reserved keys `custom_cta` (a checkout call-to-action button label -- one of the product custom CTA values, e.g. `subscribe`, `get_offer`) and `custom_cta_url` (a URL the button links to; web or `tel:`) override the product's call to action for this plan and are validated on save. */
-  metadata?: unknown | null;
+  metadata?: unknown | null | undefined;
   /** Override the default tax classification for this specific plan. */
-  override_tax_type?: string;
+  override_tax_type?: string | undefined;
   /** Explicit payment method configuration for the plan. When not provided, the account's defaults apply. Send at least one of `enabled` or `disabled`; an omitted one is empty. */
-  payment_method_configuration?: CreatePlanRequestPaymentMethodConfiguration | null;
+  payment_method_configuration?: CreatePlanRequestPaymentMethodConfiguration | null | undefined;
   /** Plan billing type, such as `one_time` or `renewal`. */
-  plan_type?: string;
+  plan_type?: string | undefined;
   /** The unique identifier of the product to attach this plan to. */
-  product_id?: string;
+  product_id?: string | undefined;
   /** Sales method for this plan. */
-  release_method?: string;
+  release_method?: string | undefined;
   /** The amount charged each billing period for recurring plans, in the plan's currency. A paid fiat plan charges at least 1.00 in its currency. */
-  renewal_price?: number | null;
+  renewal_price?: number | null | undefined;
   /** Stock keeping unit for this plan. Maximum 100 characters. Free text, not enforced unique. */
-  sku?: string | null;
+  sku?: string | null | undefined;
   /** Installment payments required before the subscription pauses. */
-  split_pay_required_payments?: number | null;
+  split_pay_required_payments?: number | null | undefined;
   /** The maximum number of units available for purchase. Ignored when unlimited_stock is true. */
-  stock?: number | null;
+  stock?: number | null | undefined;
   /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Send `null` to inherit the account default. */
-  three_ds_level?: CreatePlanRequestThreeDsLevel | (string & {}) | null;
+  three_ds_level?: CreatePlanRequestThreeDsLevel | (string & {}) | null | undefined;
   /** The display name of the plan shown to customers on the product page. Maximum 30 characters. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Free trial duration before the first recurring charge. */
-  trial_period_days?: number | null;
+  trial_period_days?: number | null | undefined;
   /** Whether the plan has unlimited stock. When true, the stock field is ignored. */
-  unlimited_stock?: boolean | null;
+  unlimited_stock?: boolean | null | undefined;
   /** Whether the plan is visible to customers or hidden from public view. */
-  visibility?: string;
+  visibility?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface AccountSummary {
   /** Account ID, prefixed `biz_`. */
@@ -722,31 +750,31 @@ export type ListPlansRequestPlanTypesList = Array<string>;
 export type ListPlansRequestProductIdsList = Array<string>;
 export interface ListPlansRequest {
   /** The unique identifier of the account to list plans for. Required unless `product_ids` is provided for a public product-plan read. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The sort direction for results. Defaults to descending. */
-  direction?: ListPlansRequestDirection | (string & {});
+  direction?: ListPlansRequestDirection | (string & {}) | undefined;
   /** The field to sort results by. Defaults to created_at. */
-  order?: ListPlansRequestOrder | (string & {});
+  order?: ListPlansRequestOrder | (string & {}) | undefined;
   /** Filter to only plans matching these release methods. */
-  release_methods?: ListPlansRequestReleaseMethodsList;
+  release_methods?: ListPlansRequestReleaseMethodsList | undefined;
   /** Filter to only plans matching these visibility states. */
-  visibilities?: ListPlansRequestVisibilitiesList;
+  visibilities?: ListPlansRequestVisibilitiesList | undefined;
   /** Filter to only plans matching these billing types. */
-  plan_types?: ListPlansRequestPlanTypesList;
+  plan_types?: ListPlansRequestPlanTypesList | undefined;
   /** Filter to only plans belonging to these product identifiers. When `account_id` is omitted, this is required and the response is publicly readable: only visible, non-invoice plans are returned. */
-  product_ids?: ListPlansRequestProductIdsList;
+  product_ids?: ListPlansRequestProductIdsList | undefined;
   /** Only return plans created before this timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only return plans created after this timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 /** Attribute values that make this plan one variant of its product, as a map of attribute name to value, e.g. `{"color": "Blue", "size": "Large"}`. Names are snake_case identifiers and come back in alphabetical order. Every variant plan on a product carries the same attribute names and a distinct set of values; the product lists the full option set as `variant_attributes`. `null` for a plan that is not a variant. */
 export type PlanListItemAttributesMap = { [key: string]: string | undefined };
@@ -856,17 +884,17 @@ export interface ListPlansResponse {
 export type UpdatePlanRequestCustomFieldsItemFieldType = "text";
 export interface UpdatePlanRequestCustomFieldsItem {
   /** The type of the custom field. */
-  field_type?: UpdatePlanRequestCustomFieldsItemFieldType | (string & {});
+  field_type?: UpdatePlanRequestCustomFieldsItemFieldType | (string & {}) | undefined;
   /** The ID of the custom field (if being updated). */
-  id?: string;
+  id?: string | undefined;
   /** The name of the custom field. */
-  name?: string;
+  name?: string | undefined;
   /** The order of the field. */
-  order?: number;
+  order?: number | undefined;
   /** An example response displayed in the input field. */
-  placeholder?: string | null;
+  placeholder?: string | null | undefined;
   /** Whether or not the field is required. */
-  required?: boolean;
+  required?: boolean | undefined;
 }
 /** An array of custom field definitions to collect from customers at checkout. Omitting this field clears existing custom fields. */
 export type UpdatePlanRequestCustomFieldsList = Array<UpdatePlanRequestCustomFieldsItem>;
@@ -883,10 +911,10 @@ export type UpdatePlanRequestPaymentMethodConfigurationEnabledList = Array<
 /** Explicit payment method configuration for the plan. When not provided, the account's defaults apply. Send at least one of `enabled` or `disabled`; an omitted one is empty. */
 export interface UpdatePlanRequestPaymentMethodConfiguration {
   /** Payment method types explicitly disabled for this plan -- the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
-  disabled?: UpdatePlanRequestPaymentMethodConfigurationDisabledList;
+  disabled?: UpdatePlanRequestPaymentMethodConfigurationDisabledList | undefined;
   /** Payment method types explicitly enabled for this plan -- the `type` values from the payment method types catalogue. Types Whop no longer offers, and the read-only `unknown` placeholder, are dropped. */
-  enabled?: UpdatePlanRequestPaymentMethodConfigurationEnabledList;
-  include_platform_defaults?: boolean;
+  enabled?: UpdatePlanRequestPaymentMethodConfigurationEnabledList | undefined;
+  include_platform_defaults?: boolean | undefined;
 }
 /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Send `null` to inherit the account default. */
 export type UpdatePlanRequestThreeDsLevel =
@@ -897,61 +925,72 @@ export interface UpdatePlanRequest {
   /** Plan ID, prefixed `plan_`. */
   id: string;
   /** Whether this plan accepts local currency payments via adaptive pricing. */
-  adaptive_pricing_enabled?: boolean | null;
+  adaptive_pricing_enabled?: boolean | null | undefined;
   /** Attribute values that make this plan one variant of its product, as a map of attribute name to value, e.g. `{"size": "Large", "color": "Blue"}`. Names are normalized to snake_case identifiers (`Ring Size` becomes `ring_size`) and come back in alphabetical order. Every variant plan on a product must carry the same attribute names and a distinct set of values. Send `null` to make the plan an ordinary pricing option again. */
-  attributes?: unknown | null;
+  attributes?: unknown | null | undefined;
   /** Recurring billing interval in days, such as 30 for monthly or 365 for annual. */
-  billing_period?: number | null;
+  billing_period?: number | null | undefined;
   /** How many renewals the retention discount applies to. Required when `offer_cancel_discount` is true. */
-  cancel_discount_intervals?: number | null;
+  cancel_discount_intervals?: number | null | undefined;
   /** Percentage taken off each discounted renewal. Required when `offer_cancel_discount` is true. */
-  cancel_discount_percentage?: number | null;
+  cancel_discount_percentage?: number | null | undefined;
   /** Checkout styling overrides for this plan. */
-  checkout_styling?: unknown | null;
+  checkout_styling?: unknown | null | undefined;
   /** The three-letter ISO currency code for the plan's pricing. Defaults to USD. */
-  currency?: string;
+  currency?: string | undefined;
   /** An array of custom field definitions to collect from customers at checkout. Omitting this field clears existing custom fields. */
-  custom_fields?: UpdatePlanRequestCustomFieldsList | null;
+  custom_fields?: UpdatePlanRequestCustomFieldsList | null | undefined;
   /** A text description of the plan displayed to customers on the product page. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Access duration in days before the membership expires. */
-  expiration_days?: number | null;
+  expiration_days?: number | null | undefined;
   /** An image displayed on the product page to represent this plan. */
-  image?: CreatePlanRequestImage | null;
+  image?: CreatePlanRequestImage | null | undefined;
   /** Initial amount charged in the plan's currency, e.g. 10.43 for $10.43. A paid fiat plan charges at least 1.00 in its currency; use 0 for free. */
-  initial_price?: number | null;
+  initial_price?: number | null | undefined;
   /** Private notes visible only to the account owner. Not shown to customers. */
-  internal_notes?: string | null;
+  internal_notes?: string | null | undefined;
   /** Custom key-value pairs to store on the plan. Included in webhook payloads for payment and membership events. Max 50 keys, 100 chars per key, 500 chars per string value. The reserved keys `custom_cta` (a checkout call-to-action button label -- one of the product custom CTA values, e.g. `subscribe`, `get_offer`) and `custom_cta_url` (a URL the button links to; web or `tel:`) override the product's call to action for this plan and are validated on save. */
-  metadata?: unknown | null;
+  metadata?: unknown | null | undefined;
   /** Whether to offer a retention discount when a customer attempts to cancel. */
-  offer_cancel_discount?: boolean | null;
+  offer_cancel_discount?: boolean | null | undefined;
   /** Override the default tax classification for this specific plan. */
-  override_tax_type?: string;
+  override_tax_type?: string | undefined;
   /** Explicit payment method configuration for the plan. When not provided, the account's defaults apply. Send at least one of `enabled` or `disabled`; an omitted one is empty. */
-  payment_method_configuration?: UpdatePlanRequestPaymentMethodConfiguration | null;
+  payment_method_configuration?: UpdatePlanRequestPaymentMethodConfiguration | null | undefined;
   /** Sales method for this plan. */
-  release_method?: string;
+  release_method?: string | undefined;
   /** The amount charged each billing period for recurring plans, in the plan's currency. A paid fiat plan charges at least 1.00 in its currency. */
-  renewal_price?: number | null;
+  renewal_price?: number | null | undefined;
   /** Stock keeping unit for this plan. Maximum 100 characters. Free text, not enforced unique. */
-  sku?: string | null;
+  sku?: string | null | undefined;
   /** The maximum number of units available for purchase. Ignored when unlimited_stock is true. */
-  stock?: number | null;
+  stock?: number | null | undefined;
   /** A comparison price displayed with a strikethrough for the initial price. */
-  strike_through_initial_price?: number | null;
+  strike_through_initial_price?: number | null | undefined;
   /** A comparison price displayed with a strikethrough for the renewal price. */
-  strike_through_renewal_price?: number | null;
+  strike_through_renewal_price?: number | null | undefined;
   /** 3D Secure behavior for supported on-session card payments. `mandate_challenge` requires a 3DS challenge before payment processing; `mandate_if_required` mandates a challenge only when the payment processor requires it; `frictionless_if_required` uses the regular frictionless 3DS flow. Payments of $1,000 or more use `mandate_if_required` unless `mandate_challenge` is selected. Risk and authentication recovery requirements can override the preference. Send `null` to inherit the account default. */
-  three_ds_level?: UpdatePlanRequestThreeDsLevel | (string & {}) | null;
+  three_ds_level?: UpdatePlanRequestThreeDsLevel | (string & {}) | null | undefined;
   /** The display name of the plan shown to customers on the product page. Maximum 30 characters. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Free trial duration before the first recurring charge. */
-  trial_period_days?: number | null;
+  trial_period_days?: number | null | undefined;
   /** Whether the plan has unlimited stock. When true, the stock field is ignored. */
-  unlimited_stock?: boolean | null;
+  unlimited_stock?: boolean | null | undefined;
   /** Whether the plan is visible to customers or hidden from public view. */
-  visibility?: string;
+  visibility?: string | undefined;
+}
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
 }
 export type CalculatePlanTaxError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
 /** Calculate Tax Previews tax for a plan before checkout, based on the buyer's location. */
@@ -961,8 +1000,8 @@ export const calculatePlanTax: API.OperationMethod<
   CalculatePlanTaxError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3, __c0, 3) as any as S.Schema<CalculatePlanTaxRequest>,
-  output: __S(4, __c0, 4) as any as S.Schema<CalculatePlanTaxResponse>,
+  input: __S(11, __c1, 3) as any as S.Schema<CalculatePlanTaxRequest>,
+  output: __S(12, __c1, 4) as any as S.Schema<CalculatePlanTaxResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -978,8 +1017,8 @@ export const createPlan: API.OperationMethod<
   CreatePlanError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<CreatePlanRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<Plan>,
+  input: __S(16, __c2, 0) as any as S.Schema<CreatePlanRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<Plan>,
   errors: [BadRequest, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -995,8 +1034,8 @@ export const deletePlan: API.OperationMethod<
   DeletePlanError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<DeletePlanRequest>,
-  output: __S(41, __c5, 1) as any as S.Schema<DeletePlanResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<DeletePlanRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<DeletePlanResponse>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1008,8 +1047,8 @@ export type GetPlanError = NotFound | WhopOpError;
 /** Retrieve Plan Retrieves the details of an existing plan. */
 export const getPlan: API.OperationMethod<GetPlanRequest, Plan, GetPlanError, WhopOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(48, __c6, 0) as any as S.Schema<GetPlanRequest>,
-    output: __S(25, __c3, 1) as any as S.Schema<Plan>,
+    input: __S(56, __c7, 0) as any as S.Schema<GetPlanRequest>,
+    output: __S(33, __c4, 1) as any as S.Schema<Plan>,
     errors: [NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -1027,8 +1066,8 @@ export const listPlans: API.PaginatedOperationMethod<
   PlanListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(56, __c7, 0) as any as S.Schema<ListPlansRequest>,
-    output: __S(60, __c7, 4) as any as S.Schema<ListPlansResponse>,
+    input: __S(64, __c8, 0) as any as S.Schema<ListPlansRequest>,
+    output: __S(68, __c8, 4) as any as S.Schema<ListPlansResponse>,
     errors: [BadRequest],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -1054,8 +1093,8 @@ export const updatePlan: API.OperationMethod<
   UpdatePlanError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<UpdatePlanRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<Plan>,
+  input: __S(72, __c9, 0) as any as S.Schema<UpdatePlanRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<Plan>,
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1065,6 +1104,24 @@ export const updatePlan: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1085,14 +1142,14 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "CalculatePlanTaxRequestTaxIdsItem" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(9, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          address: S.optional(S.NullOr(__S(0, __c0, 0))),
+          address: S.optional(S.NullOr(__S(8, __c1, 0))),
           ip_address: S.optional(S.String),
-          tax_ids: S.optional(S.NullOr(__S(2, __c0, 2))),
+          tax_ids: S.optional(S.NullOr(__S(10, __c1, 2))),
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/plans/{id}/calculate_tax", code: 200 })),
       ).annotate({ identifier: "CalculatePlanTaxRequest" });
@@ -1109,7 +1166,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CalculatePlanTaxResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1120,15 +1177,15 @@ function __c1(j: number): any {
           billing_period: S.optional(S.NullOr(S.Number)),
           checkout_styling: S.optional(S.NullOr(S.Unknown)),
           currency: S.optional(S.String),
-          custom_fields: S.optional(S.NullOr(__S(33, __c4, 1))),
+          custom_fields: S.optional(S.NullOr(__S(41, __c5, 1))),
           description: S.optional(S.NullOr(S.String)),
           expiration_days: S.optional(S.NullOr(S.Number)),
-          image: S.optional(S.NullOr(__S(34, __c4, 2))),
+          image: S.optional(S.NullOr(__S(42, __c5, 2))),
           initial_price: S.optional(S.NullOr(S.Number)),
           internal_notes: S.optional(S.NullOr(S.String)),
           metadata: S.optional(S.NullOr(S.Unknown)),
           override_tax_type: S.optional(S.String),
-          payment_method_configuration: S.optional(S.NullOr(__S(36, __c4, 4))),
+          payment_method_configuration: S.optional(S.NullOr(__S(44, __c5, 4))),
           plan_type: S.optional(S.String),
           product_id: S.optional(S.String),
           release_method: S.optional(S.String),
@@ -1146,7 +1203,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreatePlanRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1169,7 +1226,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "PlanCustomField" });
     case 3:
-      return S.Array(__S(18, __c2, 2));
+      return S.Array(__S(26, __c3, 2));
     case 4:
       return S.Array(S.String);
     case 5:
@@ -1183,22 +1240,22 @@ function __c2(j: number): any {
       ).annotate({ identifier: "Money" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          disabled: __S(20, __c2, 4),
-          enabled: __S(20, __c2, 4),
+          disabled: __S(28, __c3, 4),
+          enabled: __S(28, __c3, 4),
           include_platform_defaults: S.Boolean,
         }),
       ).annotate({ identifier: "CheckoutSessionPaymentMethodConfiguration" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          account: S.NullOr(__S(16, __c2, 0)),
+          account: S.NullOr(__S(24, __c3, 0)),
           adaptive_pricing_enabled: S.Boolean,
-          attributes: S.NullOr(__S(17, __c2, 1)),
+          attributes: S.NullOr(__S(25, __c3, 1)),
           billing_period: S.NullOr(S.Number),
           cancel_discount_intervals: S.NullOr(S.Number),
           cancel_discount_percentage: S.NullOr(S.Number),
@@ -1206,16 +1263,16 @@ function __c3(j: number): any {
           collect_tax: S.Boolean,
           created_at: S.String,
           currency: S.String,
-          custom_fields: __S(19, __c2, 3),
+          custom_fields: __S(27, __c3, 3),
           deletable: S.NullOr(S.Boolean),
           description: S.NullOr(S.String),
-          effective_payment_method_configuration: S.NullOr(__S(24, __c3, 0)),
+          effective_payment_method_configuration: S.NullOr(__S(32, __c4, 0)),
           expiration_days: S.NullOr(S.Number),
           formatted_price: S.String,
           id: S.String,
           image: S.NullOr(S.Unknown),
           initial_price: S.Number,
-          initial_price_due: __S(21, __c2, 5),
+          initial_price_due: __S(29, __c3, 5),
           internal_notes: S.NullOr(S.String),
           invoice: S.NullOr(S.Unknown),
           member_count: S.NullOr(S.Number),
@@ -1243,7 +1300,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "Plan" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1257,7 +1314,7 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "CreatePlanRequestCustomFieldsItem" });
     case 1:
-      return S.Array(__S(32, __c4, 0));
+      return S.Array(__S(40, __c5, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1270,14 +1327,14 @@ function __c4(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          disabled: S.optional(__S(35, __c4, 3)),
-          enabled: S.optional(__S(35, __c4, 3)),
+          disabled: S.optional(__S(43, __c5, 3)),
+          enabled: S.optional(__S(43, __c5, 3)),
           include_platform_defaults: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreatePlanRequestPaymentMethodConfiguration" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1294,7 +1351,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DeletePlanResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1304,7 +1361,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetPlanRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1312,10 +1369,10 @@ function __c7(j: number): any {
           account_id: S.optional(S.String.pipe(T.Query())),
           direction: S.optional(S.String.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
-          release_methods: S.optional(__S(20, __c2, 4).pipe(T.Query())),
-          visibilities: S.optional(__S(20, __c2, 4).pipe(T.Query())),
-          plan_types: S.optional(__S(20, __c2, 4).pipe(T.Query())),
-          product_ids: S.optional(__S(20, __c2, 4).pipe(T.Query())),
+          release_methods: S.optional(__S(28, __c3, 4).pipe(T.Query())),
+          visibilities: S.optional(__S(28, __c3, 4).pipe(T.Query())),
+          plan_types: S.optional(__S(28, __c3, 4).pipe(T.Query())),
+          product_ids: S.optional(__S(28, __c3, 4).pipe(T.Query())),
           created_before: S.optional(S.String.pipe(T.Query())),
           created_after: S.optional(S.String.pipe(T.Query())),
           first: S.optional(S.Number.pipe(T.Query())),
@@ -1327,23 +1384,23 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          account: S.NullOr(__S(16, __c2, 0)),
+          account: S.NullOr(__S(24, __c3, 0)),
           adaptive_pricing_enabled: S.Boolean,
-          attributes: S.NullOr(__S(17, __c2, 1)),
+          attributes: S.NullOr(__S(25, __c3, 1)),
           billing_period: S.NullOr(S.Number),
           cancel_discount_intervals: S.NullOr(S.Number),
           cancel_discount_percentage: S.NullOr(S.Number),
           checkout_styling: S.NullOr(S.Unknown),
           created_at: S.String,
           currency: S.String,
-          custom_fields: __S(19, __c2, 3),
+          custom_fields: __S(27, __c3, 3),
           description: S.NullOr(S.String),
           expiration_days: S.NullOr(S.Number),
           formatted_price: S.String,
           id: S.String,
           image: S.NullOr(S.Unknown),
           initial_price: S.Number,
-          initial_price_due: __S(21, __c2, 5),
+          initial_price_due: __S(29, __c3, 5),
           internal_notes: S.NullOr(S.String),
           invoice: S.NullOr(S.Unknown),
           member_count: S.NullOr(S.Number),
@@ -1369,7 +1426,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "PlanListItem" });
     case 2:
-      return S.Array(__S(57, __c7, 1));
+      return S.Array(__S(65, __c8, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1382,13 +1439,13 @@ function __c7(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(58, __c7, 2),
-          page_info: __S(59, __c7, 3),
+          data: __S(66, __c8, 2),
+          page_info: __S(67, __c8, 3),
         }),
       ).annotate({ identifier: "ListPlansResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1401,16 +1458,16 @@ function __c8(j: number): any {
           cancel_discount_percentage: S.optional(S.NullOr(S.Number)),
           checkout_styling: S.optional(S.NullOr(S.Unknown)),
           currency: S.optional(S.String),
-          custom_fields: S.optional(S.NullOr(__S(33, __c4, 1))),
+          custom_fields: S.optional(S.NullOr(__S(41, __c5, 1))),
           description: S.optional(S.NullOr(S.String)),
           expiration_days: S.optional(S.NullOr(S.Number)),
-          image: S.optional(S.NullOr(__S(34, __c4, 2))),
+          image: S.optional(S.NullOr(__S(42, __c5, 2))),
           initial_price: S.optional(S.NullOr(S.Number)),
           internal_notes: S.optional(S.NullOr(S.String)),
           metadata: S.optional(S.NullOr(S.Unknown)),
           offer_cancel_discount: S.optional(S.NullOr(S.Boolean)),
           override_tax_type: S.optional(S.String),
-          payment_method_configuration: S.optional(S.NullOr(__S(36, __c4, 4))),
+          payment_method_configuration: S.optional(S.NullOr(__S(44, __c5, 4))),
           release_method: S.optional(S.String),
           renewal_price: S.optional(S.NullOr(S.Number)),
           sku: S.optional(S.NullOr(S.String)),

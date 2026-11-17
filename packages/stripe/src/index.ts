@@ -13,14 +13,8 @@
 export * from "./credentials.ts";
 export * from "./errors.ts";
 export * as T from "./traits.ts";
-export {
-  StripeProtocol,
-  RequestOptions,
-  withRequestOptions,
-  type StripeRequestOptions,
-  type StripeOpError,
-  type StripeOpContext,
-} from "./protocol.ts";
+export * as ApiVersion from "./api-version.ts";
+export { StripeProtocol, type StripeOpError, type StripeOpContext } from "./protocol.ts";
 export { stripeSearchPaginate } from "./pagination.ts";
 export * as Retry from "./retry.ts";
 export * as Webhooks from "./webhooks.ts";

@@ -1,6 +1,9 @@
+import * as AWS from "@alchemy.run/aws";
 import * as Cloudflare from "@alchemy.run/cloudflare";
 import * as GitHub from "@alchemy.run/github";
 import * as Alchemy from "alchemy";
+import { adopt } from "alchemy/AdoptPolicy";
+import * as Output from "alchemy/Output";
 import * as RemovalPolicy from "alchemy/RemovalPolicy";
 import * as Config from "effect/Config";
 import * as Effect from "effect/Effect";
@@ -32,6 +35,12 @@ import * as Redacted from "effect/Redacted";
  * `stacks/distilled-submodules` on every commit to `main`, and
  * `.github/workflows/website.yml` can deploy the site on the same account.
  *
+ * One credential goes to a mirror rather than to this repository:
+ * `spec-mirror-aws` reads the EventBridge schema registry, an AWS API, so the
+ * stack mints an AWS access key that can only read schemas and writes it into
+ * that mirror's Actions secrets. The deploying profile therefore needs AWS
+ * credentials too.
+ *
  * NEVER deployed from CI. It mints credentials, so it needs privileges no CI
  * run should hold — see the admin-profile warning in the docs above. Deploy
  * it manually, with whichever externally-sourced credentials you hold in the
@@ -52,9 +61,9 @@ import * as Redacted from "effect/Redacted";
  * value you no longer hold has to be rotated at its source and passed in
  * fresh.
  *
- * The org PAT is the exception, because GitHub has no endpoint for creating
- * PATs at all. It is read from `DISTILLED_REPOS_PAT` when set, otherwise the
- * deploying profile's own signed-in GitHub token is stored.
+ * The org PAT behind `ALCHEMY_GITHUB_TOKEN` follows the same rule: it is
+ * written only when `DISTILLED_REPOS_PAT` is set, so a deploy for an
+ * unrelated change never replaces the token CI uses.
  */
 
 /** The repository this stack manages, and where the secrets are written. */
@@ -70,10 +79,15 @@ const ReposOwner = Config.String("DISTILLED_REPOS_OWNER").pipe(
 );
 
 /**
+ * The mirror whose fetch script reads the EventBridge `aws.events` schema
+ * registry (`stacks/distilled-submodules/spec-repos/aws/fetch-specs.ts`).
+ */
+const AWS_MIRROR = "spec-mirror-aws";
+
+/**
  * Fine-grained PAT owned by the mirror org: All repositories, with
- * Administration / Contents / Workflows read-write. Optional — falls back to
- * the deploying profile's own token, which is correct when that profile was
- * signed in as the org.
+ * Administration / Contents / Workflows read-write. Optional: without it the
+ * repository keeps the `ALCHEMY_GITHUB_TOKEN` it already has.
  */
 const ReposPat = Config.Redacted("DISTILLED_REPOS_PAT").pipe(Config.option);
 
@@ -84,6 +98,36 @@ const ReposPat = Config.Redacted("DISTILLED_REPOS_PAT").pipe(Config.option);
  * `actions/create-github-app-token` reads it next to the private key.
  */
 const BotAppId = Config.String("ALCHEMY_VERSION_BOT_ID").pipe(Config.withDefault("3107227"));
+
+/** The GitHub Actions app, the only app allowed to report a required check. */
+const GITHUB_ACTIONS_APP_ID = 15368;
+
+/**
+ * The checks a pull request must pass before it can enter main's merge
+ * queue, and again on the queue's merge commit before it lands: every job of
+ * `ci.yml`, plus the benchmark. A job of a reusable workflow reports as
+ * `<caller job name> / <job name>` (ci.yml's `compat` job runs
+ * compat-tests.yml). Preview packages (`pkg.yml`) and the website
+ * preview deploy are not required. Each name is a job's `name:` in its
+ * workflow; rename a job there and here together, or the queue waits for a
+ * check that never reports.
+ */
+const REQUIRED_CHECKS = [
+  "Typecheck (all packages, generated code included)",
+  "Test",
+  "Bundlers",
+  "Lint",
+  "Typecheck (deployment stacks)",
+  "Website (typecheck & static build)",
+  "Check formatting",
+  "Compatibility / Effect (lowest in the peer range)",
+  "Compatibility / Node 22.19.0",
+  "Compatibility / Node 22",
+  "Compatibility / Node 26",
+  "Compatibility / Bun (core tests)",
+  "Compatibility / workerd (the published SDKs in a Worker)",
+  "Benchmarks (PR vs main)",
+] as const;
 
 /**
  * The credentials no API can mint for us. Each is read as an option: a value
@@ -110,7 +154,7 @@ const ExternalSecrets = Effect.forEach(EXTERNAL_SECRETS, (name) =>
 export default Alchemy.Stack(
   "distilled-monorepo",
   {
-    providers: Layer.mergeAll(Cloudflare.providers(), GitHub.providers()),
+    providers: Layer.mergeAll(Cloudflare.providers(), GitHub.providers(), AWS.providers()),
     state: Cloudflare.state(),
   },
   Effect.gen(function* () {
@@ -171,6 +215,45 @@ export default Alchemy.Stack(
       // No `autoInit`: it only applies at create time, and this repository
       // has ten thousand commits of history.
     });
+
+    // main's merge queue. Adopted: the ruleset was created in the GitHub UI,
+    // and every value except `requiredStatusChecks` and `maxEntriesToBuild`
+    // mirrors it as it was.
+    // Without required checks the queue merged a PR about a minute after it
+    // was queued, whatever its CI said: on 2026-11-13 it merged #1167 while
+    // its Test job still ran, and Test then failed on main.
+    yield* GitHub.Ruleset("merge-queue", {
+      owner: OWNER,
+      repository: NAME,
+      name: "Merge Queue",
+      target: "branch",
+      enforcement: "active",
+      conditions: { include: ["~DEFAULT_BRANCH"], exclude: [] },
+      bypassActors: [
+        { actorType: "OrganizationAdmin", bypassMode: "always" },
+        { actorType: "RepositoryRole", actorId: 5, bypassMode: "always" }, // admin
+        { actorType: "Integration", actorId: Number(yield* BotAppId), bypassMode: "always" },
+      ],
+      deletion: true,
+      nonFastForward: true,
+      mergeQueue: {
+        mergeMethod: "SQUASH",
+        groupingStrategy: "ALLGREEN",
+        maxEntriesToBuild: 100,
+        minEntriesToMerge: 1,
+        maxEntriesToMerge: 8,
+        minEntriesToMergeWaitMinutes: 5,
+        checkResponseTimeoutMinutes: 119,
+      },
+      requiredStatusChecks: {
+        checks: REQUIRED_CHECKS.map((context) => ({
+          context,
+          integrationId: GITHUB_ACTIONS_APP_ID,
+        })),
+        // The queue tests each PR on top of main already.
+        strictRequiredStatusChecksPolicy: false,
+      },
+    }).pipe(adopt(true));
 
     const { accountId } = yield* yield* Cloudflare.CloudflareEnvironment;
 
@@ -245,26 +328,84 @@ export default Alchemy.Stack(
       value: Redacted.make(accountId),
     });
 
-    const patOverride = yield* ReposPat;
-    const reposPat = Option.isSome(patOverride)
-      ? patOverride.value
-      : // The deploying profile's own signed-in GitHub token, provided at
-        // runtime by `GitHub.providers()`. Its distilled `ConfigError` is not
-        // one `Stack` accepts, and a missing profile token is not recoverable.
-        (yield* Effect.orDie(yield* GitHub.Credentials)).token;
+    // Retained like the external secrets above, so a deploy without the PAT
+    // drops only the state row and the repository keeps its token.
+    const reposPat = yield* ReposPat;
+    if (Option.isSome(reposPat)) {
+      yield* GitHub.Secret("repos-pat", {
+        owner: OWNER,
+        repository: NAME,
+        name: "ALCHEMY_GITHUB_TOKEN",
+        value: reposPat.value,
+      }).pipe(RemovalPolicy.retain());
+    } else {
+      unchanged.push("ALCHEMY_GITHUB_TOKEN");
+    }
 
-    yield* GitHub.Secret("repos-pat", {
-      owner: OWNER,
-      repository: NAME,
-      name: "ALCHEMY_GITHUB_TOKEN",
-      value: reposPat,
-    });
+    const reposOwner = yield* ReposOwner;
 
     yield* GitHub.Variable("repos-owner", {
       owner: OWNER,
       repository: NAME,
       name: "DISTILLED_REPOS_OWNER",
-      value: yield* ReposOwner,
+      value: reposOwner,
+    });
+
+    // The EventBridge schema registry signs every request, so the AWS
+    // mirror's nightly workflow needs AWS credentials to refresh the event
+    // schemas (an SES bounce or complaint, for example). This user can list
+    // and read the AWS-managed `aws.events` registry and nothing else.
+    const schemaReader = yield* AWS.IAM.User("spec-mirror-aws-reader", {
+      userName: "distilled-spec-mirror-aws",
+      inlinePolicies: {
+        ReadAwsEventSchemas: {
+          Version: "2012-10-17",
+          Statement: [
+            {
+              Effect: "Allow",
+              Action: ["schemas:ListSchemas", "schemas:DescribeSchema"],
+              Resource: [
+                "arn:aws:schemas:*:*:registry/aws.events",
+                // ListSchemas is authorized on the registry's schema prefix.
+                "arn:aws:schemas:*:*:schema/aws.events",
+                "arn:aws:schemas:*:*:schema/aws.events/*",
+              ],
+            },
+          ],
+        },
+      },
+      tags: { "managed-by": "alchemy-run/distilled stacks/distilled-monorepo" },
+    });
+
+    const schemaReaderKey = yield* AWS.IAM.AccessKey("spec-mirror-aws-key", {
+      userName: schemaReader.userName,
+    });
+
+    yield* GitHub.Secret("spec-mirror-aws-key-id", {
+      owner: reposOwner,
+      repository: AWS_MIRROR,
+      name: "AWS_ACCESS_KEY_ID",
+      value: Output.map(schemaReaderKey.accessKeyId, (id) => Redacted.make(id)),
+    });
+
+    // AWS returns the secret only when the key is created, and this stack
+    // created it, so a missing value is a corrupt state row, not a condition
+    // to handle.
+    yield* GitHub.Secret("spec-mirror-aws-secret", {
+      owner: reposOwner,
+      repository: AWS_MIRROR,
+      name: "AWS_SECRET_ACCESS_KEY",
+      value: schemaReaderKey.secretAccessKey.pipe(
+        Output.mapEffect((secret) =>
+          secret === undefined
+            ? Effect.die(
+                new Error(
+                  "AWS.IAM.AccessKey spec-mirror-aws-key has no secret in state; replace the key",
+                ),
+              )
+            : Effect.succeed(secret),
+        ),
+      ),
     });
 
     // `actions/create-github-app-token` in release.yml and website.yml reads

@@ -36,9 +36,9 @@ export interface CreatePosthogConnectionsForwardRequest {
   /** Relative target API path with no host or scheme, e.g. `api/projects/2/insights/`. */
   path: string;
   /** Query parameters to send to the target. */
-  query?: CreatePosthogConnectionsForwardRequestQueryMap;
+  query?: CreatePosthogConnectionsForwardRequestQueryMap | undefined;
   /** JSON request body for write methods. */
-  data?: unknown;
+  data?: unknown | undefined;
 }
 export interface PostHogConnectionForwardResponse {
   /** HTTP status the target project returned. */

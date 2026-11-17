@@ -29,253 +29,267 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(16, __c1, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: APINotFound | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(32, __c2, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIValidationError | string;
+}
 
 export interface GetActionsRunRequest {}
 /** ExternalTracker represents settings for external tracker */
 export interface ExternalTracker {
   /** External Issue Tracker URL Format. Use the placeholders {user}, {repo} and {index} for the username, repository name and issue index. */
-  external_tracker_format?: string;
+  external_tracker_format?: string | undefined;
   /** External Issue Tracker issue regular expression */
-  external_tracker_regexp_pattern?: string;
+  external_tracker_regexp_pattern?: string | undefined;
   /** External Issue Tracker Number Format, either `numeric`, `alphanumeric`, or `regexp` */
-  external_tracker_style?: string;
+  external_tracker_style?: string | undefined;
   /** URL of external issue tracker. */
-  external_tracker_url?: string;
+  external_tracker_url?: string | undefined;
 }
 /** ExternalWiki represents setting for external wiki */
 export interface ExternalWiki {
   /** URL of external wiki. */
-  external_wiki_url?: string;
+  external_wiki_url?: string | undefined;
 }
 /** InternalTracker represents settings for internal tracker */
 export interface InternalTracker {
   /** Let only contributors track time (Built-in issue tracker) */
-  allow_only_contributors_to_track_time?: boolean;
+  allow_only_contributors_to_track_time?: boolean | undefined;
   /** Enable dependencies for issues and pull requests (Built-in issue tracker) */
-  enable_issue_dependencies?: boolean;
+  enable_issue_dependencies?: boolean | undefined;
   /** Enable time tracking (Built-in issue tracker) */
-  enable_time_tracker?: boolean;
+  enable_time_tracker?: boolean | undefined;
 }
 /** ObjectFormatName of the underlying git repository */
 export type RepositoryObjectFormatName = "sha1" | "sha256";
 /** User represents a user */
 export interface User {
   /** Is user active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** URL to the user's avatar */
-  avatar_url?: string;
-  created?: string;
+  avatar_url?: string | undefined;
+  created?: string | undefined;
   /** the user's description */
-  description?: string;
-  email?: string;
+  description?: string | undefined;
+  email?: string | undefined;
   /** user counts */
-  followers_count?: number;
-  following_count?: number;
+  followers_count?: number | undefined;
+  following_count?: number | undefined;
   /** the user's full name */
-  full_name?: string;
+  full_name?: string | undefined;
   /** URL to the user's profile page */
-  html_url?: string;
+  html_url?: string | undefined;
   /** the user's id */
   id: number;
   /** Is the user an administrator */
-  is_admin?: boolean;
+  is_admin?: boolean | undefined;
   /** User locale */
-  language?: string;
-  last_login?: string;
+  language?: string | undefined;
+  last_login?: string | undefined;
   /** the user's location */
-  location?: string;
+  location?: string | undefined;
   /** the user's username */
   login: string;
   /** the user's authentication sign-in name. */
-  login_name?: string;
+  login_name?: string | undefined;
   /** Is user login prohibited */
-  prohibit_login?: boolean;
+  prohibit_login?: boolean | undefined;
   /** the user's pronouns */
-  pronouns?: string;
+  pronouns?: string | undefined;
   /** Is user restricted */
-  restricted?: boolean;
+  restricted?: boolean | undefined;
   /** The ID of the user's Authentication Source */
-  source_id?: number;
-  starred_repos_count?: number;
+  source_id?: number | undefined;
+  starred_repos_count?: number | undefined;
   /** User visibility level option: public, limited, private */
-  visibility?: string;
+  visibility?: string | undefined;
   /** the user's website */
-  website?: string;
+  website?: string | undefined;
 }
 /** Permission represents a set of permissions */
 export interface Permission {
-  admin?: boolean;
-  pull?: boolean;
-  push?: boolean;
+  admin?: boolean | undefined;
+  pull?: boolean | undefined;
+  push?: boolean | undefined;
 }
 /** Organization represents an organization */
 export interface Organization {
-  avatar_url?: string;
-  created?: string;
-  description?: string;
-  email?: string;
-  full_name?: string;
+  avatar_url?: string | undefined;
+  created?: string | undefined;
+  description?: string | undefined;
+  email?: string | undefined;
+  full_name?: string | undefined;
   id: number;
-  location?: string;
-  name?: string;
-  repo_admin_change_team_access?: boolean;
+  location?: string | undefined;
+  name?: string | undefined;
+  repo_admin_change_team_access?: boolean | undefined;
   /** deprecated */
   username: string;
-  visibility?: string;
-  website?: string;
+  visibility?: string | undefined;
+  website?: string | undefined;
 }
 export type TeamPermission = "none" | "read" | "write" | "admin" | "owner";
 export type TeamUnitsList = Array<string>;
 export type TeamUnitsMapMap = { [key: string]: string | undefined };
 /** Team represents a team in an organization */
 export interface Team {
-  can_create_org_repo?: boolean;
-  description?: string;
+  can_create_org_repo?: boolean | undefined;
+  description?: string | undefined;
   id: number;
-  includes_all_repositories?: boolean;
+  includes_all_repositories?: boolean | undefined;
   name: string;
-  organization?: Organization;
-  permission?: TeamPermission;
-  units?: TeamUnitsList;
-  units_map?: TeamUnitsMapMap;
+  organization?: Organization | undefined;
+  permission?: TeamPermission | undefined;
+  units?: TeamUnitsList | undefined;
+  units_map?: TeamUnitsMapMap | undefined;
 }
 export type RepoTransferTeamsList = Array<Team>;
 /** RepoTransfer represents a pending repo transfer */
 export interface RepoTransfer {
-  doer?: User;
-  recipient?: User;
-  teams?: RepoTransferTeamsList;
+  doer?: User | undefined;
+  recipient?: User | undefined;
+  teams?: RepoTransferTeamsList | undefined;
 }
 export type RepositoryTopicsList = Array<string>;
 /** Repository represents a repository */
 export interface Repository {
-  allow_fast_forward_only_merge?: boolean;
-  allow_merge_commits?: boolean;
-  allow_rebase?: boolean;
-  allow_rebase_explicit?: boolean;
-  allow_rebase_update?: boolean;
-  allow_squash_merge?: boolean;
-  archived?: boolean;
-  archived_at?: string;
-  avatar_url?: string;
+  allow_fast_forward_only_merge?: boolean | undefined;
+  allow_merge_commits?: boolean | undefined;
+  allow_rebase?: boolean | undefined;
+  allow_rebase_explicit?: boolean | undefined;
+  allow_rebase_update?: boolean | undefined;
+  allow_squash_merge?: boolean | undefined;
+  archived?: boolean | undefined;
+  archived_at?: string | undefined;
+  avatar_url?: string | undefined;
   clone_url: string;
   created_at: string;
-  default_allow_maintainer_edit?: boolean;
+  default_allow_maintainer_edit?: boolean | undefined;
   default_branch: string;
-  default_delete_branch_after_merge?: boolean;
-  default_merge_style?: string;
-  default_update_style?: string;
-  description?: string;
-  empty?: boolean;
-  external_tracker?: ExternalTracker;
-  external_wiki?: ExternalWiki;
-  fork?: boolean;
-  forks_count?: number;
+  default_delete_branch_after_merge?: boolean | undefined;
+  default_merge_style?: string | undefined;
+  default_update_style?: string | undefined;
+  description?: string | undefined;
+  empty?: boolean | undefined;
+  external_tracker?: ExternalTracker | undefined;
+  external_wiki?: ExternalWiki | undefined;
+  fork?: boolean | undefined;
+  forks_count?: number | undefined;
   full_name: string;
-  globally_editable_wiki?: boolean;
-  has_actions?: boolean;
-  has_issues?: boolean;
-  has_packages?: boolean;
-  has_projects?: boolean;
-  has_pull_requests?: boolean;
-  has_releases?: boolean;
+  globally_editable_wiki?: boolean | undefined;
+  has_actions?: boolean | undefined;
+  has_issues?: boolean | undefined;
+  has_packages?: boolean | undefined;
+  has_projects?: boolean | undefined;
+  has_pull_requests?: boolean | undefined;
+  has_releases?: boolean | undefined;
   /** is the wiki enabled */
-  has_wiki?: boolean;
+  has_wiki?: boolean | undefined;
   /** have wiki pages ever been created */
-  has_wiki_contents?: boolean;
+  has_wiki_contents?: boolean | undefined;
   html_url: string;
   id: number;
-  ignore_whitespace_conflicts?: boolean;
-  internal?: boolean;
-  internal_tracker?: InternalTracker;
-  language?: string;
-  languages_url?: string;
-  link?: string;
-  mirror?: boolean;
-  mirror_interval?: string;
-  mirror_updated?: string;
+  ignore_whitespace_conflicts?: boolean | undefined;
+  internal?: boolean | undefined;
+  internal_tracker?: InternalTracker | undefined;
+  language?: string | undefined;
+  languages_url?: string | undefined;
+  link?: string | undefined;
+  mirror?: boolean | undefined;
+  mirror_interval?: string | undefined;
+  mirror_updated?: string | undefined;
   name: string;
   /** ObjectFormatName of the underlying git repository */
-  object_format_name?: RepositoryObjectFormatName;
-  open_issues_count?: number;
-  open_pr_counter?: number;
-  original_url?: string;
+  object_format_name?: RepositoryObjectFormatName | undefined;
+  open_issues_count?: number | undefined;
+  open_pr_counter?: number | undefined;
+  original_url?: string | undefined;
   owner: User;
-  parent?: Repository;
-  permissions?: Permission;
-  private?: boolean;
-  release_counter?: number;
-  repo_transfer?: RepoTransfer;
-  size?: number;
+  parent?: Repository | undefined;
+  permissions?: Permission | undefined;
+  private?: boolean | undefined;
+  release_counter?: number | undefined;
+  repo_transfer?: RepoTransfer | undefined;
+  size?: number | undefined;
   ssh_url: string;
-  stars_count?: number;
-  template?: boolean;
-  topics?: RepositoryTopicsList;
+  stars_count?: number | undefined;
+  template?: boolean | undefined;
+  topics?: RepositoryTopicsList | undefined;
   updated_at: string;
-  url?: string;
-  watchers_count?: number;
-  website?: string;
-  wiki_branch?: string;
-  wiki_clone_url?: string;
-  wiki_ssh_url?: string;
+  url?: string | undefined;
+  watchers_count?: number | undefined;
+  website?: string | undefined;
+  wiki_branch?: string | undefined;
+  wiki_clone_url?: string | undefined;
+  wiki_ssh_url?: string | undefined;
 }
 /** ActionRun represents an action run */
 export interface ActionRun {
   /** the cron id for the schedule trigger */
-  ScheduleID?: number;
+  ScheduleID?: number | undefined;
   /** who approved this action run */
-  approved_by?: number;
+  approved_by?: number | undefined;
   /** the commit sha the action run ran on */
-  commit_sha?: string;
+  commit_sha?: string | undefined;
   /** when the action run was created */
-  created?: string;
-  duration?: number;
+  created?: string | undefined;
+  duration?: number | undefined;
   /** the webhook event that causes the workflow to run */
-  event?: string;
+  event?: string | undefined;
   /** the payload of the webhook event that causes the workflow to run */
-  event_payload?: string;
+  event_payload?: string | undefined;
   /** the url of this action run */
-  html_url?: string;
+  html_url?: string | undefined;
   /** the action run id */
-  id?: number;
+  id?: number | undefined;
   /** a unique number for each run of a repository */
-  index_in_repo?: number;
+  index_in_repo?: number | undefined;
   /** If this is triggered by a PR from a forked repository or an untrusted user, we need to check if it is approved and limit permissions when running the workflow. */
-  is_fork_pull_request?: boolean;
+  is_fork_pull_request?: boolean | undefined;
   /** has the commit/tag/... the action run ran on been deleted */
-  is_ref_deleted?: boolean;
+  is_ref_deleted?: boolean | undefined;
   /** may need approval if it's a fork pull request */
-  need_approval?: boolean;
+  need_approval?: boolean | undefined;
   /** the commit/tag/... the action run ran on */
-  prettyref?: string;
-  repository?: Repository;
+  prettyref?: string | undefined;
+  repository?: Repository | undefined;
   /** when the action run was started */
-  started?: string;
+  started?: string | undefined;
   /** the current status of this run */
-  status?: string;
+  status?: string | undefined;
   /** when the action run was stopped */
-  stopped?: string;
+  stopped?: string | undefined;
   /** the action run's title */
-  title?: string;
+  title?: string | undefined;
   /** the trigger event defined in the `on` configuration of the triggered workflow */
-  trigger_event?: string;
-  trigger_user?: User;
+  trigger_event?: string | undefined;
+  trigger_user?: User | undefined;
   /** when the action run was last updated */
-  updated?: string;
+  updated?: string | undefined;
   /** the name of workflow file */
-  workflow_id?: string;
+  workflow_id?: string | undefined;
 }
 export interface GetGitignoreTemplateInfoRequest {
   /** name of the template */
@@ -283,8 +297,8 @@ export interface GetGitignoreTemplateInfoRequest {
 }
 /** GitignoreTemplateInfo name and text of a gitignore template */
 export interface GitignoreTemplateInfo {
-  name?: string;
-  source?: string;
+  name?: string | undefined;
+  source?: string | undefined;
 }
 export interface GetLabelTemplateInfoRequest {
   /** name of the template */
@@ -292,10 +306,10 @@ export interface GetLabelTemplateInfoRequest {
 }
 /** LabelTemplate info of a Label template */
 export interface LabelTemplate {
-  color?: string;
-  description?: string;
-  exclusive?: boolean;
-  name?: string;
+  color?: string | undefined;
+  description?: string | undefined;
+  exclusive?: boolean | undefined;
+  name?: string | undefined;
 }
 export type GetLabelTemplateInfoResponseBodyList = Array<LabelTemplate>;
 export type GetLabelTemplateInfoResponse = GetLabelTemplateInfoResponseBodyList;
@@ -305,11 +319,11 @@ export interface GetLicenseTemplateInfoRequest {
 }
 /** LicensesInfo contains information about a License */
 export interface LicenseTemplateInfo {
-  body?: string;
-  implementation?: string;
-  key?: string;
-  name?: string;
-  url?: string;
+  body?: string | undefined;
+  implementation?: string | undefined;
+  key?: string | undefined;
+  name?: string | undefined;
+  url?: string | undefined;
 }
 export interface GetNodeInfoRequest {}
 export type NodeInfoProtocolsList = Array<string>;
@@ -317,37 +331,37 @@ export type NodeInfoServicesInboundList = Array<string>;
 export type NodeInfoServicesOutboundList = Array<string>;
 /** NodeInfoServices contains the third party sites this server can connect to via their application API */
 export interface NodeInfoServices {
-  inbound?: NodeInfoServicesInboundList;
-  outbound?: NodeInfoServicesOutboundList;
+  inbound?: NodeInfoServicesInboundList | undefined;
+  outbound?: NodeInfoServicesOutboundList | undefined;
 }
 /** NodeInfoSoftware contains Metadata about server software in use */
 export interface NodeInfoSoftware {
-  homepage?: string;
-  name?: string;
-  repository?: string;
-  version?: string;
+  homepage?: string | undefined;
+  name?: string | undefined;
+  repository?: string | undefined;
+  version?: string | undefined;
 }
 /** NodeInfoUsageUsers contains statistics about the users of this server */
 export interface NodeInfoUsageUsers {
-  activeHalfyear?: number;
-  activeMonth?: number;
-  total?: number;
+  activeHalfyear?: number | undefined;
+  activeMonth?: number | undefined;
+  total?: number | undefined;
 }
 /** NodeInfoUsage contains usage statistics for this server */
 export interface NodeInfoUsage {
-  localComments?: number;
-  localPosts?: number;
-  users?: NodeInfoUsageUsers;
+  localComments?: number | undefined;
+  localPosts?: number | undefined;
+  users?: NodeInfoUsageUsers | undefined;
 }
 /** NodeInfo contains standardized way of exposing metadata about a server running one of the distributed social networks */
 export interface NodeInfo {
-  metadata?: unknown;
-  openRegistrations?: boolean;
-  protocols?: NodeInfoProtocolsList;
-  services?: NodeInfoServices;
-  software?: NodeInfoSoftware;
-  usage?: NodeInfoUsage;
-  version?: string;
+  metadata?: unknown | undefined;
+  openRegistrations?: boolean | undefined;
+  protocols?: NodeInfoProtocolsList | undefined;
+  services?: NodeInfoServices | undefined;
+  software?: NodeInfoSoftware | undefined;
+  usage?: NodeInfoUsage | undefined;
+  version?: string | undefined;
 }
 export interface GetSigningKeyRequest {}
 export type GetSigningKeyResponse = string;
@@ -356,7 +370,7 @@ export type GetSSHSigningKeyResponse = string;
 export interface GetVersionRequest {}
 /** ServerVersion wraps the version of the server */
 export interface ServerVersion {
-  version?: string;
+  version?: string | undefined;
 }
 export interface ListGitignoresTemplatesRequest {}
 export type ListGitignoresTemplatesResponseBodyList = Array<string>;
@@ -367,21 +381,21 @@ export type ListLabelTemplatesResponse = ListLabelTemplatesResponseBodyList;
 export interface ListLicenseTemplatesRequest {}
 /** LicensesListEntry is used for the API */
 export interface LicensesTemplateListEntry {
-  key?: string;
-  name?: string;
-  url?: string;
+  key?: string | undefined;
+  name?: string | undefined;
+  url?: string | undefined;
 }
 export type ListLicenseTemplatesResponseBodyList = Array<LicensesTemplateListEntry>;
 export type ListLicenseTemplatesResponse = ListLicenseTemplatesResponseBodyList;
 export interface RenderMarkdownRequest {
   /** Context to render */
-  Context?: string;
+  Context?: string | undefined;
   /** Mode to render (comment, gfm, markdown) */
-  Mode?: string;
+  Mode?: string | undefined;
   /** Text markdown to render */
-  Text?: string;
+  Text?: string | undefined;
   /** Is it a wiki page ? */
-  Wiki?: boolean;
+  Wiki?: boolean | undefined;
 }
 export type RenderMarkdownResponse = string;
 export interface RenderMarkdownRawRequest {
@@ -390,19 +404,29 @@ export interface RenderMarkdownRawRequest {
 export type RenderMarkdownRawResponse = string;
 export interface RenderMarkupRequest {
   /** The current branch path where the form gets posted */
-  BranchPath?: string;
+  BranchPath?: string | undefined;
   /** Context to render */
-  Context?: string;
+  Context?: string | undefined;
   /** File path for detecting extension in file mode */
-  FilePath?: string;
+  FilePath?: string | undefined;
   /** Mode to render (comment, gfm, markdown, file) */
-  Mode?: string;
+  Mode?: string | undefined;
   /** Text markup to render */
-  Text?: string;
+  Text?: string | undefined;
   /** Is it a wiki page ? */
-  Wiki?: boolean;
+  Wiki?: boolean | undefined;
 }
 export type RenderMarkupResponse = string;
+export type APINotFoundErrorsList = Array<string>;
+export interface APINotFound {
+  errors?: APINotFoundErrorsList | undefined;
+  message?: string | undefined;
+  url?: string | undefined;
+}
+export interface APIValidationError {
+  message?: string | undefined;
+  url?: string | undefined;
+}
 export type GetActionsRunError = ForgejoOpError;
 /** Get a workflow run associated with a token The automatic actions token must be used as the authentication mechanism (<code>Authorization: Bearer $&#x7b;&#x7b; forgejo.token &#x7d;&#x7d;</code>); other types of tokens cannot be used. The token is associated with the job, which must be still running for the request to this endpoint to succeed. */
 export const getActionsRun: API.OperationMethod<
@@ -411,8 +435,8 @@ export const getActionsRun: API.OperationMethod<
   GetActionsRunError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<GetActionsRunRequest>,
-  output: __S(124, __c7, 12) as any as S.Schema<ActionRun>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetActionsRunRequest>,
+  output: __S(172, __c10, 12) as any as S.Schema<ActionRun>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -428,8 +452,8 @@ export const getGitignoreTemplateInfo: API.OperationMethod<
   GetGitignoreTemplateInfoError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetGitignoreTemplateInfoRequest>,
-  output: __S(145, __c9, 1) as any as S.Schema<GitignoreTemplateInfo>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetGitignoreTemplateInfoRequest>,
+  output: __S(177, __c11, 1) as any as S.Schema<GitignoreTemplateInfo>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -445,8 +469,8 @@ export const getLabelTemplateInfo: API.OperationMethod<
   GetLabelTemplateInfoError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<GetLabelTemplateInfoRequest>,
-  output: __S(163, __c10, 3) as any as S.Schema<GetLabelTemplateInfoResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetLabelTemplateInfoRequest>,
+  output: __S(195, __c12, 3) as any as S.Schema<GetLabelTemplateInfoResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -462,8 +486,8 @@ export const getLicenseTemplateInfo: API.OperationMethod<
   GetLicenseTemplateInfoError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetLicenseTemplateInfoRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<LicenseTemplateInfo>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetLicenseTemplateInfoRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<LicenseTemplateInfo>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -479,8 +503,8 @@ export const getNodeInfo: API.OperationMethod<
   GetNodeInfoError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetNodeInfoRequest>,
-  output: __S(197, __c12, 5) as any as S.Schema<NodeInfo>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetNodeInfoRequest>,
+  output: __S(229, __c14, 5) as any as S.Schema<NodeInfo>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -496,8 +520,8 @@ export const getSigningKey: API.OperationMethod<
   GetSigningKeyError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetSigningKeyRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<GetSigningKeyResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetSigningKeyRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<GetSigningKeyResponse>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -513,8 +537,8 @@ export const getSSHSigningKey: API.OperationMethod<
   GetSSHSigningKeyError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetSSHSigningKeyRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<GetSSHSigningKeyResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetSSHSigningKeyRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<GetSSHSigningKeyResponse>,
   errors: [NotFound],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -530,8 +554,8 @@ export const getVersion: API.OperationMethod<
   GetVersionError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetVersionRequest>,
-  output: __S(257, __c16, 1) as any as S.Schema<ServerVersion>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetVersionRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<ServerVersion>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -547,8 +571,8 @@ export const listGitignoresTemplates: API.OperationMethod<
   ListGitignoresTemplatesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ListGitignoresTemplatesRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<ListGitignoresTemplatesResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<ListGitignoresTemplatesRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<ListGitignoresTemplatesResponse>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -564,8 +588,8 @@ export const listLabelTemplates: API.OperationMethod<
   ListLabelTemplatesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<ListLabelTemplatesRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<ListLabelTemplatesResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<ListLabelTemplatesRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<ListLabelTemplatesResponse>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -581,8 +605,8 @@ export const listLicenseTemplates: API.OperationMethod<
   ListLicenseTemplatesError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<ListLicenseTemplatesRequest>,
-  output: __S(51, __c3, 3) as any as S.Schema<ListLicenseTemplatesResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<ListLicenseTemplatesRequest>,
+  output: __S(99, __c6, 3) as any as S.Schema<ListLicenseTemplatesResponse>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -598,8 +622,8 @@ export const renderMarkdown: API.OperationMethod<
   RenderMarkdownError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<RenderMarkdownRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<RenderMarkdownResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<RenderMarkdownRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<RenderMarkdownResponse>,
   errors: [UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -615,8 +639,8 @@ export const renderMarkdownRaw: API.OperationMethod<
   RenderMarkdownRawError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<RenderMarkdownRawRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<RenderMarkdownRawResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<RenderMarkdownRawRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<RenderMarkdownRawResponse>,
   errors: [UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -632,8 +656,8 @@ export const renderMarkup: API.OperationMethod<
   RenderMarkupError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<RenderMarkupRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<RenderMarkupResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<RenderMarkupRequest>,
+  output: __S(256, __c16, 0) as any as S.Schema<RenderMarkupResponse>,
   errors: [UnprocessableEntity],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -645,20 +669,49 @@ export const renderMarkup: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/gitignore/templates", code: 200 })),
-      ).annotate({ identifier: "ListGitignoresTemplatesRequest" });
+      return S.Array(S.String);
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(128, __c8, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() =>
+        S.Struct({
+          errors: S.optional(__S(0, __c0, 0)),
+          message: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "APINotFound" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "APIValidationError" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/gitignore/templates", code: 200 })),
+      ).annotate({ identifier: "ListGitignoresTemplatesRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(0, __c0, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGitignoresTemplatesResponse",
       });
   }
 }
-function __c2(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -666,7 +719,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ListLabelTemplatesRequest" });
   }
 }
-function __c3(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -681,14 +734,14 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "LicensesTemplateListEntry" });
     case 2:
-      return S.Array(__S(49, __c3, 1));
+      return S.Array(__S(97, __c6, 1));
     case 3:
-      return S.suspend(() => __S(50, __c3, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(98, __c6, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListLicenseTemplatesResponse",
       });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -701,7 +754,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "RenderMarkdownRequest" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -711,7 +764,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "RenderMarkdownRawRequest" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -726,7 +779,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "RenderMarkupRequest" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -818,20 +871,20 @@ function __c7(j: number): any {
           id: S.Number,
           includes_all_repositories: S.optional(S.Boolean),
           name: S.String,
-          organization: S.optional(__S(118, __c7, 6)),
+          organization: S.optional(__S(166, __c10, 6)),
           permission: S.optional(S.String),
-          units: S.optional(__S(128, __c8, 0)),
-          units_map: S.optional(__S(119, __c7, 7)),
+          units: S.optional(__S(0, __c0, 0)),
+          units_map: S.optional(__S(167, __c10, 7)),
         }),
       ).annotate({ identifier: "Team" });
     case 9:
-      return S.Array(__S(120, __c7, 8));
+      return S.Array(__S(168, __c10, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          doer: S.optional(__S(116, __c7, 4)),
-          recipient: S.optional(__S(116, __c7, 4)),
-          teams: S.optional(__S(121, __c7, 9)),
+          doer: S.optional(__S(164, __c10, 4)),
+          recipient: S.optional(__S(164, __c10, 4)),
+          teams: S.optional(__S(169, __c10, 9)),
         }),
       ).annotate({ identifier: "RepoTransfer" });
     case 11:
@@ -855,8 +908,8 @@ function __c7(j: number): any {
           default_update_style: S.optional(S.String),
           description: S.optional(S.String),
           empty: S.optional(S.Boolean),
-          external_tracker: S.optional(__S(113, __c7, 1)),
-          external_wiki: S.optional(__S(114, __c7, 2)),
+          external_tracker: S.optional(__S(161, __c10, 1)),
+          external_wiki: S.optional(__S(162, __c10, 2)),
           fork: S.optional(S.Boolean),
           forks_count: S.optional(S.Number),
           full_name: S.String,
@@ -873,7 +926,7 @@ function __c7(j: number): any {
           id: S.Number,
           ignore_whitespace_conflicts: S.optional(S.Boolean),
           internal: S.optional(S.Boolean),
-          internal_tracker: S.optional(__S(115, __c7, 3)),
+          internal_tracker: S.optional(__S(163, __c10, 3)),
           language: S.optional(S.String),
           languages_url: S.optional(S.String),
           link: S.optional(S.String),
@@ -885,17 +938,17 @@ function __c7(j: number): any {
           open_issues_count: S.optional(S.Number),
           open_pr_counter: S.optional(S.Number),
           original_url: S.optional(S.String),
-          owner: __S(116, __c7, 4),
-          parent: S.optional(__S(123, __c7, 11)),
-          permissions: S.optional(__S(117, __c7, 5)),
+          owner: __S(164, __c10, 4),
+          parent: S.optional(__S(171, __c10, 11)),
+          permissions: S.optional(__S(165, __c10, 5)),
           private: S.optional(S.Boolean),
           release_counter: S.optional(S.Number),
-          repo_transfer: S.optional(__S(122, __c7, 10)),
+          repo_transfer: S.optional(__S(170, __c10, 10)),
           size: S.optional(S.Number),
           ssh_url: S.String,
           stars_count: S.optional(S.Number),
           template: S.optional(S.Boolean),
-          topics: S.optional(__S(128, __c8, 0)),
+          topics: S.optional(__S(0, __c0, 0)),
           updated_at: S.String,
           url: S.optional(S.String),
           watchers_count: S.optional(S.Number),
@@ -922,26 +975,20 @@ function __c7(j: number): any {
           is_ref_deleted: S.optional(S.Boolean),
           need_approval: S.optional(S.Boolean),
           prettyref: S.optional(S.String),
-          repository: S.optional(__S(123, __c7, 11)),
+          repository: S.optional(__S(171, __c10, 11)),
           started: S.optional(S.String),
           status: S.optional(S.String),
           stopped: S.optional(S.String),
           title: S.optional(S.String),
           trigger_event: S.optional(S.String),
-          trigger_user: S.optional(__S(116, __c7, 4)),
+          trigger_user: S.optional(__S(164, __c10, 4)),
           updated: S.optional(S.String),
           workflow_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "ActionRun" });
   }
 }
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -958,7 +1005,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GitignoreTemplateInfo" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -976,14 +1023,14 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "LabelTemplate" });
     case 2:
-      return S.Array(__S(161, __c10, 1));
+      return S.Array(__S(193, __c12, 1));
     case 3:
-      return S.suspend(() => __S(162, __c10, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(194, __c12, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetLabelTemplateInfoResponse",
       });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1003,7 +1050,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "LicenseTemplateInfo" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1012,8 +1059,8 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          inbound: S.optional(__S(128, __c8, 0)),
-          outbound: S.optional(__S(128, __c8, 0)),
+          inbound: S.optional(__S(0, __c0, 0)),
+          outbound: S.optional(__S(0, __c0, 0)),
         }),
       ).annotate({ identifier: "NodeInfoServices" });
     case 2:
@@ -1038,7 +1085,7 @@ function __c12(j: number): any {
         S.Struct({
           localComments: S.optional(S.Number),
           localPosts: S.optional(S.Number),
-          users: S.optional(__S(195, __c12, 3)),
+          users: S.optional(__S(227, __c14, 3)),
         }),
       ).annotate({ identifier: "NodeInfoUsage" });
     case 5:
@@ -1046,16 +1093,16 @@ function __c12(j: number): any {
         S.Struct({
           metadata: S.optional(S.Unknown),
           openRegistrations: S.optional(S.Boolean),
-          protocols: S.optional(__S(128, __c8, 0)),
-          services: S.optional(__S(193, __c12, 1)),
-          software: S.optional(__S(194, __c12, 2)),
-          usage: S.optional(__S(196, __c12, 4)),
+          protocols: S.optional(__S(0, __c0, 0)),
+          services: S.optional(__S(225, __c14, 1)),
+          software: S.optional(__S(226, __c14, 2)),
+          usage: S.optional(__S(228, __c14, 4)),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "NodeInfo" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1063,7 +1110,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetSigningKeyRequest" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.String.pipe(T.RawResponseRoot())).annotate({
@@ -1071,7 +1118,7 @@ function __c14(j: number): any {
       });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1079,7 +1126,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetSSHSigningKeyRequest" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

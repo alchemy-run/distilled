@@ -1,0 +1,52 @@
+{
+  "description": "Action Gateway: toolbelt and MCP server creates and reads always return their object, with a toolbelt's name, version, reference and status (live: `{ toolbelt: { name, version: \"1\", tools: [\"slack_add_bookmark@1\"], status: \"active\", reference: \"probe-belt@1\", ... } }`) and a server's serverRef and endpoint.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#ToolbeltResponse/members/toolbelt/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#Toolbelt/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#Toolbelt/members/version/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#Toolbelt/members/reference/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#Toolbelt/members/status/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#McpServerResponse/members/mcpServer/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#McpServer/members/serverRef/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#McpServer/members/endpoint/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#GetToolbeltResponse/members/toolbelt/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    }
+  ]
+}

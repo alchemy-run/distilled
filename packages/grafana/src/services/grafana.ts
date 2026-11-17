@@ -31,85 +31,133 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(33, __c1, 1)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponseBody | PublicError2 | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponseBody | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(33, __c1, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(4193, __c131, 1)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponseBody | PublicError2 | ForbiddenError | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(33, __c1, 1)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponseBody | PublicError2 | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponseBody | string;
+}
 
 export type AddDataSourceRequestSecureJsonDataMap = { [key: string]: string | undefined };
 export interface AddDataSourceRequest {
-  access?: string;
-  basicAuth?: boolean;
-  basicAuthUser?: string;
-  database?: string;
-  isDefault?: boolean;
-  jsonData?: unknown;
-  name?: string;
-  secureJsonData?: AddDataSourceRequestSecureJsonDataMap;
-  type?: string;
-  uid?: string;
-  url?: string;
-  user?: string;
-  withCredentials?: boolean;
+  access?: string | undefined;
+  basicAuth?: boolean | undefined;
+  basicAuthUser?: string | undefined;
+  database?: string | undefined;
+  isDefault?: boolean | undefined;
+  jsonData?: unknown | undefined;
+  name?: string | undefined;
+  secureJsonData?: AddDataSourceRequestSecureJsonDataMap | undefined;
+  type?: string | undefined;
+  uid?: string | undefined;
+  url?: string | undefined;
+  user?: string | undefined;
+  withCredentials?: boolean | undefined;
 }
 /** Metadata contains user accesses for a given resource Ex: map[string]bool{"create":true, "delete": true} */
 export type Metadata = { [key: string]: boolean | undefined };
 export type DataSourceSecureJsonFieldsMap = { [key: string]: boolean | undefined };
 export interface DataSource {
-  access?: string;
-  accessControl?: Metadata;
-  basicAuth?: boolean;
-  basicAuthUser?: string;
-  database?: string;
-  id?: number;
-  isDefault?: boolean;
-  jsonData?: unknown;
-  name?: string;
-  orgId?: number;
-  readOnly?: boolean;
-  secureJsonFields?: DataSourceSecureJsonFieldsMap;
-  type?: string;
-  typeLogoUrl?: string;
-  uid?: string;
-  url?: string;
-  user?: string;
-  version?: number;
-  withCredentials?: boolean;
+  access?: string | undefined;
+  accessControl?: Metadata | undefined;
+  basicAuth?: boolean | undefined;
+  basicAuthUser?: string | undefined;
+  database?: string | undefined;
+  id?: number | undefined;
+  isDefault?: boolean | undefined;
+  jsonData?: unknown | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  readOnly?: boolean | undefined;
+  secureJsonFields?: DataSourceSecureJsonFieldsMap | undefined;
+  type?: string | undefined;
+  typeLogoUrl?: string | undefined;
+  uid?: string | undefined;
+  url?: string | undefined;
+  user?: string | undefined;
+  version?: number | undefined;
+  withCredentials?: boolean | undefined;
 }
 export interface AddDataSourceResponse {
   datasource: DataSource;
@@ -122,28 +170,28 @@ export interface AddDataSourceResponse {
 }
 export type AddOrgInviteRequestRole = "None" | "Viewer" | "Editor" | "Admin";
 export interface AddOrgInviteRequest {
-  loginOrEmail?: string;
-  name?: string;
-  role?: AddOrgInviteRequestRole | (string & {});
-  sendEmail?: boolean;
+  loginOrEmail?: string | undefined;
+  name?: string | undefined;
+  role?: AddOrgInviteRequestRole | (string & {}) | undefined;
+  sendEmail?: boolean | undefined;
 }
 export interface SuccessResponseBody {
-  message?: string;
+  message?: string | undefined;
 }
 export type AddOrgUserRequestRole = "None" | "Viewer" | "Editor" | "Admin";
 export interface AddOrgUserRequest {
   org_id: number;
-  loginOrEmail?: string;
-  role?: AddOrgUserRequestRole | (string & {});
+  loginOrEmail?: string | undefined;
+  role?: AddOrgUserRequestRole | (string & {}) | undefined;
 }
 export type AddOrgUserToCurrentOrgRequestRole = "None" | "Viewer" | "Editor" | "Admin";
 export interface AddOrgUserToCurrentOrgRequest {
-  loginOrEmail?: string;
-  role?: AddOrgUserToCurrentOrgRequestRole | (string & {});
+  loginOrEmail?: string | undefined;
+  role?: AddOrgUserToCurrentOrgRequestRole | (string & {}) | undefined;
 }
 export interface AddTeamGroupApiRequest {
   teamId: string;
-  groupId?: string;
+  groupId?: string | undefined;
 }
 export interface AddTeamMemberRequest {
   team_id: string;
@@ -151,24 +199,24 @@ export interface AddTeamMemberRequest {
 }
 export interface AddTeamRoleRequest {
   teamId: number;
-  roleUid?: string;
+  roleUid?: string | undefined;
 }
 export interface AddUserRoleRequest {
   userId: number;
-  global?: boolean;
-  roleUid?: string;
+  global?: boolean | undefined;
+  roleUid?: string | undefined;
 }
 export interface AdminCreateUserRequest {
-  email?: string;
-  login?: string;
-  name?: string;
-  orgId?: number;
-  password?: string | Redacted.Redacted<string>;
+  email?: string | undefined;
+  login?: string | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 export interface AdminCreateUserResponse {
-  id?: number;
-  message?: string;
-  uid?: string;
+  id?: number | undefined;
+  message?: string | undefined;
+  uid?: string | undefined;
 }
 export interface AdminDeleteUserRequest {
   user_id: number;
@@ -185,50 +233,50 @@ export type SettingsBag = { [key: string]: SettingsBagValueMap | undefined };
 export type AdminGetSettingsResponse = SettingsBag;
 export interface AdminGetStatsRequest {}
 export interface AdminStats {
-  activeAdmins?: number;
-  activeDevices?: number;
-  activeEditors?: number;
-  activeSessions?: number;
-  activeUsers?: number;
-  activeViewers?: number;
-  admins?: number;
-  alerts?: number;
-  dailyActiveAdmins?: number;
-  dailyActiveEditors?: number;
-  dailyActiveSessions?: number;
-  dailyActiveUsers?: number;
-  dailyActiveViewers?: number;
-  dashboards?: number;
-  datasources?: number;
-  editors?: number;
-  monthlyActiveUsers?: number;
-  orgs?: number;
-  playlists?: number;
-  snapshots?: number;
-  stars?: number;
-  tags?: number;
-  users?: number;
-  viewers?: number;
+  activeAdmins?: number | undefined;
+  activeDevices?: number | undefined;
+  activeEditors?: number | undefined;
+  activeSessions?: number | undefined;
+  activeUsers?: number | undefined;
+  activeViewers?: number | undefined;
+  admins?: number | undefined;
+  alerts?: number | undefined;
+  dailyActiveAdmins?: number | undefined;
+  dailyActiveEditors?: number | undefined;
+  dailyActiveSessions?: number | undefined;
+  dailyActiveUsers?: number | undefined;
+  dailyActiveViewers?: number | undefined;
+  dashboards?: number | undefined;
+  datasources?: number | undefined;
+  editors?: number | undefined;
+  monthlyActiveUsers?: number | undefined;
+  orgs?: number | undefined;
+  playlists?: number | undefined;
+  snapshots?: number | undefined;
+  stars?: number | undefined;
+  tags?: number | undefined;
+  users?: number | undefined;
+  viewers?: number | undefined;
 }
 export interface AdminGetUserAuthTokensRequest {
   user_id: number;
 }
 /** UserToken represents a user token */
 export interface UserToken {
-  AuthToken?: string;
-  AuthTokenSeen?: boolean;
-  ClientIp?: string;
-  CreatedAt?: number;
-  ExternalSessionId?: number;
-  Id?: number;
-  PrevAuthToken?: string;
-  RevokedAt?: number;
-  RotatedAt?: number;
-  SeenAt?: number;
-  UnhashedToken?: string;
-  UpdatedAt?: number;
-  UserAgent?: string;
-  UserId?: number;
+  AuthToken?: string | undefined;
+  AuthTokenSeen?: boolean | undefined;
+  ClientIp?: string | undefined;
+  CreatedAt?: number | undefined;
+  ExternalSessionId?: number | undefined;
+  Id?: number | undefined;
+  PrevAuthToken?: string | undefined;
+  RevokedAt?: number | undefined;
+  RotatedAt?: number | undefined;
+  SeenAt?: number | undefined;
+  UnhashedToken?: string | undefined;
+  UpdatedAt?: number | undefined;
+  UserAgent?: string | undefined;
+  UserId?: number | undefined;
 }
 export type AdminGetUserAuthTokensResponseBodyList = Array<UserToken>;
 export type AdminGetUserAuthTokensResponse = AdminGetUserAuthTokensResponseBodyList;
@@ -242,15 +290,15 @@ export interface AdminProvisioningReloadDatasourcesRequest {}
 export interface AdminProvisioningReloadPluginsRequest {}
 export interface AdminRevokeUserAuthTokenRequest {
   user_id: number;
-  authTokenId?: number;
+  authTokenId?: number | undefined;
 }
 export interface AdminUpdateUserPasswordRequest {
   user_id: number;
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 export interface AdminUpdateUserPermissionsRequest {
   user_id: number;
-  isGrafanaAdmin?: boolean;
+  isGrafanaAdmin?: boolean | undefined;
 }
 export interface CallDatasourceResourceWithUIDRequest {
   uid: string;
@@ -264,8 +312,8 @@ export interface CancelSnapshotRequest {
 }
 export interface CancelSnapshotResponse {}
 export interface ChangeUserPasswordRequest {
-  newPassword?: string | Redacted.Redacted<string>;
-  oldPassword?: string | Redacted.Redacted<string>;
+  newPassword?: string | Redacted.Redacted<string> | undefined;
+  oldPassword?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CheckDatasourceHealthWithUIDRequest {
   uid: string;
@@ -274,31 +322,31 @@ export interface CleanDataSourceCacheRequest {
   dataSourceUID: string;
 }
 export interface CacheConfigResponse {
-  created?: string;
+  created?: string | undefined;
   /** Fields that can be set by the API caller - read/write */
-  dataSourceID?: number;
-  dataSourceUID?: string;
+  dataSourceID?: number | undefined;
+  dataSourceUID?: string | undefined;
   /** These are returned by the HTTP API, but are managed internally - read-only Note: 'created' and 'updated' are special properties managed automatically by xorm, but we are setting them manually */
-  defaultTTLMs?: number;
-  enabled?: boolean;
-  message?: string;
+  defaultTTLMs?: number | undefined;
+  enabled?: boolean | undefined;
+  message?: string | undefined;
   /** TTL MS, or "time to live", is how long a cached item will stay in the cache before it is removed (in milliseconds) */
-  ttlQueriesMs?: number;
-  ttlResourcesMs?: number;
-  updated?: string;
+  ttlQueriesMs?: number | undefined;
+  ttlResourcesMs?: number | undefined;
+  updated?: string | undefined;
   /** If UseDefaultTTL is enabled, then the TTLQueriesMS and TTLResourcesMS in this object is always sent as the default TTL located in grafana.ini */
-  useDefaultTTL?: boolean;
+  useDefaultTTL?: boolean | undefined;
 }
 export type CreateAnnotationRequestTagsList = Array<string>;
 export interface CreateAnnotationRequest {
-  dashboardId?: number;
-  dashboardUID?: string;
-  data?: unknown;
-  panelId?: number;
-  tags?: CreateAnnotationRequestTagsList;
+  dashboardId?: number | undefined;
+  dashboardUID?: string | undefined;
+  data?: unknown | undefined;
+  panelId?: number | undefined;
+  tags?: CreateAnnotationRequestTagsList | undefined;
   text: string;
-  time?: number;
-  timeEnd?: number;
+  time?: number | undefined;
+  timeEnd?: number | undefined;
 }
 export interface CreateAnnotationResponse {
   /** ID Identifier of the created annotation. */
@@ -308,16 +356,16 @@ export interface CreateAnnotationResponse {
 }
 export interface CreateCloudMigrationTokenRequest {}
 export interface CreateAccessTokenResponseDTO {
-  token?: string;
+  token?: string | undefined;
 }
 /** Target data query */
 export type CorrelationConfigTargetMap = { [key: string]: unknown | undefined };
 export type TransformationType = "regex" | "logfmt";
 export interface Transformation {
-  expression?: string;
-  field?: string;
-  mapValue?: string;
-  type?: TransformationType | (string & {});
+  expression?: string | undefined;
+  field?: string | undefined;
+  mapValue?: string | undefined;
+  type?: TransformationType | (string & {}) | undefined;
 }
 export type Transformations = Array<Transformation>;
 export interface CorrelationConfig {
@@ -325,130 +373,130 @@ export interface CorrelationConfig {
   field: string;
   /** Target data query */
   target: CorrelationConfigTargetMap;
-  transformations?: Transformations;
-  type?: string;
+  transformations?: Transformations | undefined;
+  type?: string | undefined;
 }
 export interface CreateCorrelationRequest {
   sourceUID: string;
-  config?: CorrelationConfig;
+  config?: CorrelationConfig | undefined;
   /** Optional description of the correlation */
-  description?: string;
+  description?: string | undefined;
   /** Optional label identifying the correlation */
-  label?: string;
+  label?: string | undefined;
   /** True if correlation was created with provisioning. This makes it read-only. */
-  provisioned?: boolean;
+  provisioned?: boolean | undefined;
   /** Target data source UID to which the correlation is created. required if type = query */
-  targetUID?: string;
-  type?: string;
+  targetUID?: string | undefined;
+  type?: string | undefined;
 }
 /** Correlation is the model for correlations definitions */
 export interface Correlation {
-  config?: CorrelationConfig;
+  config?: CorrelationConfig | undefined;
   /** Description of the correlation */
-  description?: string;
+  description?: string | undefined;
   /** Label identifying the correlation */
-  label?: string;
+  label?: string | undefined;
   /** OrgID of the data source the correlation originates from */
-  orgId?: number;
+  orgId?: number | undefined;
   /** Provisioned True if the correlation was created during provisioning */
-  provisioned?: boolean;
+  provisioned?: boolean | undefined;
   /** UID of the data source the correlation originates from */
-  sourceUID?: string;
+  sourceUID?: string | undefined;
   /** UID of the data source the correlation points to */
-  targetUID?: string;
-  type?: string;
+  targetUID?: string | undefined;
+  type?: string | undefined;
   /** Unique identifier of the correlation */
-  uid?: string;
+  uid?: string | undefined;
 }
 /** CreateCorrelationResponse is the response struct for CreateCorrelationCommand */
 export interface CreateCorrelationResponseBody {
-  message?: string;
-  result?: Correlation;
+  message?: string | undefined;
+  result?: Correlation | undefined;
 }
 /** Object is a JSON compatible map with string, float, int, bool, []any, or map[string]any children. */
 export type UnstructuredObjectMap = { [key: string]: unknown | undefined };
 /** Unstructured allows objects that do not have Golang structs registered to be manipulated generically. */
 export interface Unstructured {
   /** Object is a JSON compatible map with string, float, int, bool, []any, or map[string]any children. */
-  Object?: UnstructuredObjectMap;
+  Object?: UnstructuredObjectMap | undefined;
 }
 export interface CreateDashboardSnapshotRequest {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   dashboard: Unstructured;
   /** Unique key used to delete the snapshot. It is different from the `key` so that only the creator can delete the snapshot. Required if `external` is `true`. */
-  deleteKey?: string;
+  deleteKey?: string | undefined;
   /** When the snapshot should expire in seconds in seconds. Default is never to expire. */
-  expires?: number;
+  expires?: number | undefined;
   /** these are passed when storing an external snapshot ref Save the snapshot on an external server rather than locally. */
-  external?: boolean;
+  external?: boolean | undefined;
   /** Define the unique key. Required if `external` is `true`. */
-  key?: string;
+  key?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Snapshot name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateDashboardSnapshotResponse {
   /** Unique key used to delete the snapshot. It is different from the key so that only the creator can delete the snapshot. */
-  deleteKey?: string;
-  deleteUrl?: string;
+  deleteKey?: string | undefined;
+  deleteUrl?: string | undefined;
   /** Snapshot id */
-  id?: number;
+  id?: number | undefined;
   /** Unique key */
-  key?: string;
-  url?: string;
+  key?: string | undefined;
+  url?: string | undefined;
 }
 /** Kind of element to create, Use 1 for library panels or 2 for c. Description: - 1 - library panels */
 export type CreateLibraryElementRequestKind = 1;
 export interface CreateLibraryElementRequest {
   /** ID of the folder where the library element is stored. Deprecated: use FolderUID instead */
-  folderId?: number;
+  folderId?: number | undefined;
   /** UID of the folder where the library element is stored. */
-  folderUid?: string;
+  folderUid?: string | undefined;
   /** Kind of element to create, Use 1 for library panels or 2 for c. Description: - 1 - library panels */
-  kind?: CreateLibraryElementRequestKind | (number & {});
+  kind?: CreateLibraryElementRequestKind | (number & {}) | undefined;
   /** The JSON model for the library element. */
-  model?: unknown;
+  model?: unknown | undefined;
   /** Name of the library element. */
-  name?: string;
-  uid?: string;
+  name?: string | undefined;
+  uid?: string | undefined;
 }
 export interface LibraryElementDTOMetaUser {
-  avatarUrl?: string;
-  id?: number;
-  name?: string;
+  avatarUrl?: string | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
 }
 export interface LibraryElementDTOMeta {
-  connectedDashboards?: number;
-  created?: string;
-  createdBy?: LibraryElementDTOMetaUser;
-  folderName?: string;
-  folderUid?: string;
-  updated?: string;
-  updatedBy?: LibraryElementDTOMetaUser;
+  connectedDashboards?: number | undefined;
+  created?: string | undefined;
+  createdBy?: LibraryElementDTOMetaUser | undefined;
+  folderName?: string | undefined;
+  folderUid?: string | undefined;
+  updated?: string | undefined;
+  updatedBy?: LibraryElementDTOMetaUser | undefined;
 }
 export interface LibraryElementDTO {
-  description?: string;
+  description?: string | undefined;
   /** Deprecated: use FolderUID instead */
-  folderId?: number;
-  folderUid?: string;
-  id?: number;
-  kind?: number;
-  meta?: LibraryElementDTOMeta;
-  model?: unknown;
-  name?: string;
-  orgId?: number;
-  schemaVersion?: number;
-  type?: string;
-  uid?: string;
-  version?: number;
+  folderId?: number | undefined;
+  folderUid?: string | undefined;
+  id?: number | undefined;
+  kind?: number | undefined;
+  meta?: LibraryElementDTOMeta | undefined;
+  model?: unknown | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  schemaVersion?: number | undefined;
+  type?: string | undefined;
+  uid?: string | undefined;
+  version?: number | undefined;
 }
 export interface LibraryElementResponse {
-  result?: LibraryElementDTO;
+  result?: LibraryElementDTO | undefined;
 }
 export interface CreateOrgRequest {
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateOrgResponse {
   /** Message Message of the created org. */
@@ -458,212 +506,212 @@ export interface CreateOrgResponse {
 }
 export interface CreatePublicDashboardRequest {
   dashboardUid: string;
-  accessToken?: string | Redacted.Redacted<string>;
-  annotationsEnabled?: boolean;
-  isEnabled?: boolean;
-  share?: string;
-  timeSelectionEnabled?: boolean;
-  uid?: string;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
+  annotationsEnabled?: boolean | undefined;
+  isEnabled?: boolean | undefined;
+  share?: string | undefined;
+  timeSelectionEnabled?: boolean | undefined;
+  uid?: string | undefined;
 }
 export interface EmailDTO {
-  recipient?: string;
-  uid?: string;
+  recipient?: string | undefined;
+  uid?: string | undefined;
 }
 export type PublicDashboardRecipientsList = Array<EmailDTO>;
 export interface PublicDashboard {
-  accessToken?: string | Redacted.Redacted<string>;
-  annotationsEnabled?: boolean;
-  createdAt?: string;
-  createdBy?: number;
-  dashboardUid?: string;
-  isEnabled?: boolean;
-  recipients?: PublicDashboardRecipientsList;
-  share?: string;
-  timeSelectionEnabled?: boolean;
-  uid?: string;
-  updatedAt?: string;
-  updatedBy?: number;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
+  annotationsEnabled?: boolean | undefined;
+  createdAt?: string | undefined;
+  createdBy?: number | undefined;
+  dashboardUid?: string | undefined;
+  isEnabled?: boolean | undefined;
+  recipients?: PublicDashboardRecipientsList | undefined;
+  share?: string | undefined;
+  timeSelectionEnabled?: boolean | undefined;
+  uid?: string | undefined;
+  updatedAt?: string | undefined;
+  updatedBy?: number | undefined;
 }
 export interface CreateQueryRequest {
   /** UID of the data source for which are queries stored. */
-  datasourceUid?: string;
+  datasourceUid?: string | undefined;
   queries: unknown;
 }
 export interface QueryHistoryDTO {
-  comment?: string;
-  createdAt?: number;
-  createdBy?: number;
-  datasourceUid?: string;
-  queries?: unknown;
-  starred?: boolean;
-  uid?: string;
+  comment?: string | undefined;
+  createdAt?: number | undefined;
+  createdBy?: number | undefined;
+  datasourceUid?: string | undefined;
+  queries?: unknown | undefined;
+  starred?: boolean | undefined;
+  uid?: string | undefined;
 }
 /** QueryHistoryResponse is a response struct for QueryHistoryDTO */
 export interface QueryHistoryResponse {
-  result?: QueryHistoryDTO;
+  result?: QueryHistoryDTO | undefined;
 }
 export type CreateRecordingRuleRequestQueriesItemMap = { [key: string]: unknown | undefined };
 export type CreateRecordingRuleRequestQueriesList = Array<CreateRecordingRuleRequestQueriesItemMap>;
 export interface CreateRecordingRuleRequest {
-  active?: boolean;
-  count?: boolean;
-  description?: string;
-  dest_data_source_uid?: string;
-  id?: string;
-  interval?: number;
-  name?: string;
-  prom_name?: string;
-  queries?: CreateRecordingRuleRequestQueriesList;
-  range?: number;
-  target_ref_id?: string;
+  active?: boolean | undefined;
+  count?: boolean | undefined;
+  description?: string | undefined;
+  dest_data_source_uid?: string | undefined;
+  id?: string | undefined;
+  interval?: number | undefined;
+  name?: string | undefined;
+  prom_name?: string | undefined;
+  queries?: CreateRecordingRuleRequestQueriesList | undefined;
+  range?: number | undefined;
+  target_ref_id?: string | undefined;
 }
 export type RecordingRuleJSONQueriesItemMap = { [key: string]: unknown | undefined };
 export type RecordingRuleJSONQueriesList = Array<RecordingRuleJSONQueriesItemMap>;
 /** RecordingRuleJSON is the external representation of a recording rule */
 export interface RecordingRuleJSON {
-  active?: boolean;
-  count?: boolean;
-  description?: string;
-  dest_data_source_uid?: string;
-  id?: string;
-  interval?: number;
-  name?: string;
-  prom_name?: string;
-  queries?: RecordingRuleJSONQueriesList;
-  range?: number;
-  target_ref_id?: string;
+  active?: boolean | undefined;
+  count?: boolean | undefined;
+  description?: string | undefined;
+  dest_data_source_uid?: string | undefined;
+  id?: string | undefined;
+  interval?: number | undefined;
+  name?: string | undefined;
+  prom_name?: string | undefined;
+  queries?: RecordingRuleJSONQueriesList | undefined;
+  range?: number | undefined;
+  target_ref_id?: string | undefined;
 }
 export interface CreateRecordingRuleWriteTargetRequest {
-  data_source_uid?: string;
-  id?: string;
-  remote_write_path?: string;
+  data_source_uid?: string | undefined;
+  id?: string | undefined;
+  remote_write_path?: string | undefined;
 }
 export interface PrometheusRemoteWriteTargetJSON {
-  data_source_uid?: string;
-  id?: string;
-  remote_write_path?: string;
+  data_source_uid?: string | undefined;
+  id?: string | undefined;
+  remote_write_path?: string | undefined;
 }
 export interface ReportDashboardID {
-  id?: number;
-  name?: string;
-  uid?: string;
+  id?: number | undefined;
+  name?: string | undefined;
+  uid?: string | undefined;
 }
 export interface ReportTimeRange {
-  from?: string;
-  to?: string;
+  from?: string | undefined;
+  to?: string | undefined;
 }
 export interface ReportDashboard {
-  dashboard?: ReportDashboardID;
-  reportVariables?: unknown;
-  timeRange?: ReportTimeRange;
+  dashboard?: ReportDashboardID | undefined;
+  reportVariables?: unknown | undefined;
+  timeRange?: ReportTimeRange | undefined;
 }
 export type CreateReportRequestDashboardsList = Array<ReportDashboard>;
 export type CreateReportRequestFormatsList = Array<string>;
 export interface ReportOptions {
-  csvEncoding?: string;
-  layout?: string;
-  orientation?: string;
-  pdfCombineOneFile?: boolean;
-  pdfShowTemplateVariables?: boolean;
-  timeRange?: ReportTimeRange;
+  csvEncoding?: string | undefined;
+  layout?: string | undefined;
+  orientation?: string | undefined;
+  pdfCombineOneFile?: boolean | undefined;
+  pdfShowTemplateVariables?: boolean | undefined;
+  timeRange?: ReportTimeRange | undefined;
 }
 export interface ReportSchedule {
-  dayOfMonth?: string;
-  endDate?: string;
-  frequency?: string;
-  intervalAmount?: number;
-  intervalFrequency?: string;
-  startDate?: string;
-  timeZone?: string;
-  workdaysOnly?: boolean;
+  dayOfMonth?: string | undefined;
+  endDate?: string | undefined;
+  frequency?: string | undefined;
+  intervalAmount?: number | undefined;
+  intervalFrequency?: string | undefined;
+  startDate?: string | undefined;
+  timeZone?: string | undefined;
+  workdaysOnly?: boolean | undefined;
 }
 export interface ReportURLItem {
-  title?: string;
-  url?: string;
+  title?: string | undefined;
+  url?: string | undefined;
 }
 export type CreateReportRequestUrlsList = Array<ReportURLItem>;
 export interface CreateReportRequest {
-  dashboards?: CreateReportRequestDashboardsList;
-  enableCsv?: boolean;
-  enableDashboardUrl?: boolean;
-  formats?: CreateReportRequestFormatsList;
-  message?: string;
-  name?: string;
-  options?: ReportOptions;
-  recipients?: string;
-  replyTo?: string;
-  scaleFactor?: number;
-  schedule?: ReportSchedule;
-  state?: string;
-  subject?: string;
-  urls?: CreateReportRequestUrlsList;
+  dashboards?: CreateReportRequestDashboardsList | undefined;
+  enableCsv?: boolean | undefined;
+  enableDashboardUrl?: boolean | undefined;
+  formats?: CreateReportRequestFormatsList | undefined;
+  message?: string | undefined;
+  name?: string | undefined;
+  options?: ReportOptions | undefined;
+  recipients?: string | undefined;
+  replyTo?: string | undefined;
+  scaleFactor?: number | undefined;
+  schedule?: ReportSchedule | undefined;
+  state?: string | undefined;
+  subject?: string | undefined;
+  urls?: CreateReportRequestUrlsList | undefined;
 }
 export interface CreateReportResponse {
-  id?: number;
-  message?: string;
+  id?: number | undefined;
+  message?: string | undefined;
 }
 /** Permission is the model for access control permissions */
 export interface Permission {
-  action?: string;
-  created?: string;
-  scope?: string;
-  updated?: string;
+  action?: string | undefined;
+  created?: string | undefined;
+  scope?: string | undefined;
+  updated?: string | undefined;
 }
 export type CreateRoleRequestPermissionsList = Array<Permission>;
 export interface CreateRoleRequest {
-  description?: string;
-  displayName?: string;
-  global?: boolean;
-  group?: string;
-  hidden?: boolean;
-  name?: string;
-  permissions?: CreateRoleRequestPermissionsList;
-  uid?: string;
+  description?: string | undefined;
+  displayName?: string | undefined;
+  global?: boolean | undefined;
+  group?: string | undefined;
+  hidden?: boolean | undefined;
+  name?: string | undefined;
+  permissions?: CreateRoleRequestPermissionsList | undefined;
+  uid?: string | undefined;
 }
 export type RoleDTOPermissionsList = Array<Permission>;
 export interface RoleDTO {
   created: string;
-  delegatable?: boolean;
+  delegatable?: boolean | undefined;
   description: string;
   displayName: string;
-  global?: boolean;
+  global?: boolean | undefined;
   group: string;
-  hidden?: boolean;
-  mapped?: boolean;
+  hidden?: boolean | undefined;
+  mapped?: boolean | undefined;
   name: string;
-  permissions?: RoleDTOPermissionsList;
+  permissions?: RoleDTOPermissionsList | undefined;
   uid: string;
   updated: string;
   version: number;
 }
 export type CreateServiceAccountRequestRole = "None" | "Viewer" | "Editor" | "Admin";
 export interface CreateServiceAccountRequest {
-  isDisabled?: boolean;
-  name?: string;
-  role?: CreateServiceAccountRequestRole | (string & {});
+  isDisabled?: boolean | undefined;
+  name?: string | undefined;
+  role?: CreateServiceAccountRequestRole | (string & {}) | undefined;
 }
 export type ServiceAccountDTOAccessControlMap = { [key: string]: boolean | undefined };
 export interface ServiceAccountDTO {
-  accessControl?: ServiceAccountDTOAccessControlMap;
-  avatarUrl?: string;
-  id?: number;
-  isDisabled?: boolean;
-  isExternal?: boolean;
-  login?: string;
-  name?: string;
-  orgId?: number;
-  role?: string;
-  tokens?: number;
-  uid?: string;
+  accessControl?: ServiceAccountDTOAccessControlMap | undefined;
+  avatarUrl?: string | undefined;
+  id?: number | undefined;
+  isDisabled?: boolean | undefined;
+  isExternal?: boolean | undefined;
+  login?: string | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  role?: string | undefined;
+  tokens?: number | undefined;
+  uid?: string | undefined;
 }
 export interface CreateSessionRequest {
-  authToken?: string;
+  authToken?: string | undefined;
 }
 export interface CloudMigrationSessionResponseDTO {
-  created?: string;
-  slug?: string;
-  uid?: string;
-  updated?: string;
+  created?: string | undefined;
+  slug?: string | undefined;
+  uid?: string | undefined;
+  updated?: string | undefined;
 }
 export type CreateSnapshotRequestResourceTypesItem =
   | "DASHBOARD"
@@ -683,29 +731,29 @@ export type CreateSnapshotRequestResourceTypesList = Array<
 export interface CreateSnapshotRequest {
   /** UID of a session */
   uid: string;
-  resourceTypes?: CreateSnapshotRequestResourceTypesList;
+  resourceTypes?: CreateSnapshotRequestResourceTypesList | undefined;
 }
 export interface CreateSnapshotResponseDTO {
-  uid?: string;
+  uid?: string | undefined;
 }
 export interface CreateTeamRequest {
-  email?: string;
+  email?: string | undefined;
   name: string;
 }
 export interface CreateTeamResponse {
-  message?: string;
-  teamId?: number;
-  uid?: string;
+  message?: string | undefined;
+  teamId?: number | undefined;
+  uid?: string | undefined;
 }
 export interface CreateTokenRequest {
   serviceAccountId: number;
-  name?: string;
-  secondsToLive?: number;
+  name?: string | undefined;
+  secondsToLive?: number | undefined;
 }
 export interface NewApiKeyResult {
-  id?: number;
-  key?: string;
-  name?: string;
+  id?: number | undefined;
+  key?: string | undefined;
+  name?: string | undefined;
 }
 export interface DatasourceProxyDELETEByUIDcallsRequest {
   uid: string;
@@ -735,7 +783,7 @@ export interface DeleteCorrelationRequest {
   correlationUID: string;
 }
 export interface DeleteCorrelationResponseBody {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteDashboardSnapshotRequest {
   key: string;
@@ -750,7 +798,7 @@ export interface DeleteLibraryElementByUIDRequest {
   library_element_uid: string;
 }
 export interface DeleteLicenseTokenRequest {
-  instance?: string;
+  instance?: string | undefined;
 }
 export interface DeleteLicenseTokenResponse {}
 export interface DeleteOrgRequest {
@@ -765,8 +813,8 @@ export interface DeleteQueryRequest {
 }
 /** QueryHistoryDeleteQueryResponse is the response struct for deleting a query from query history */
 export interface QueryHistoryDeleteQueryResponse {
-  id?: number;
-  message?: string;
+  id?: number | undefined;
+  message?: string | undefined;
 }
 export interface DeleteRecordingRuleRequest {
   recordingRuleID: number;
@@ -774,8 +822,8 @@ export interface DeleteRecordingRuleRequest {
 export interface DeleteRecordingRuleWriteTargetRequest {}
 export interface DeleteRoleRequest {
   roleUID: string;
-  force?: boolean;
-  global?: boolean;
+  force?: boolean | undefined;
+  global?: boolean | undefined;
 }
 export interface DeleteServiceAccountRequest {
   serviceAccountId: number;
@@ -795,101 +843,101 @@ export interface DeleteTokenRequest {
 export interface DisableDataSourceCacheRequest {
   dataSourceUID: string;
   /** Optional datasource type used to disambiguate datasource UID lookups. */
-  dataSourceType?: string;
+  dataSourceType?: string | undefined;
 }
 export interface EnableDataSourceCacheRequest {
   dataSourceUID: string;
   /** Optional datasource type used to disambiguate datasource UID lookups. */
-  dataSourceType?: string;
+  dataSourceType?: string | undefined;
 }
 export interface GetAccessControlStatusRequest {}
 export interface AccessControlStatus {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface GetAnnotationRequest {
   annotation_id: string;
 }
 export type AnnotationTagsList = Array<string>;
 export interface Annotation {
-  alertId?: number;
-  alertName?: string;
-  avatarUrl?: string;
-  created?: number;
+  /** Deprecated. Use alertUID instead. */
+  alertId?: number | undefined;
+  alertName?: string | undefined;
+  alertUID?: string | undefined;
+  avatarUrl?: string | undefined;
+  created?: number | undefined;
   /** Deprecated: Use DashboardUID and OrgID instead */
-  dashboardId?: number;
-  dashboardUID?: string;
-  data?: unknown;
-  email?: string;
-  id?: number;
-  login?: string;
-  newState?: string;
-  panelId?: number;
-  prevState?: string;
-  tags?: AnnotationTagsList;
-  text?: string;
-  time?: number;
-  timeEnd?: number;
-  updated?: number;
-  userId?: number;
-  userUID?: string;
+  dashboardId?: number | undefined;
+  dashboardUID?: string | undefined;
+  data?: unknown | undefined;
+  email?: string | undefined;
+  id?: number | undefined;
+  login?: string | undefined;
+  newState?: string | undefined;
+  panelId?: number | undefined;
+  prevState?: string | undefined;
+  tags?: AnnotationTagsList | undefined;
+  text?: string | undefined;
+  time?: number | undefined;
+  timeEnd?: number | undefined;
+  updated?: number | undefined;
+  userId?: number | undefined;
+  userUID?: string | undefined;
 }
 export type GetAnnotationsRequestTagsList = Array<string>;
 export type GetAnnotationsRequestType = "alert" | "annotation";
 export interface GetAnnotationsRequest {
   /** Find annotations created after specific epoch datetime in milliseconds. */
-  from?: number;
+  from?: number | undefined;
   /** Find annotations created before specific epoch datetime in milliseconds. */
-  to?: number;
+  to?: number | undefined;
   /** Limit response to annotations created by specific user. */
-  userId?: number;
+  userId?: number | undefined;
   /** Limit response to annotations created by a specific user, identified by UID. */
-  userUID?: string;
-  /** Find annotations for a specified alert rule by its ID. deprecated: AlertID is deprecated and will be removed in future versions. Please use AlertUID instead. */
-  alertId?: number;
+  userUID?: string | undefined;
   /** Find annotations for a specified alert rule by its UID. */
-  alertUID?: string;
+  alertUID?: string | undefined;
   /** Find annotations that are scoped to a specific dashboard */
-  dashboardId?: number;
+  dashboardId?: number | undefined;
   /** Find annotations that are scoped to a specific dashboard */
-  dashboardUID?: string;
+  dashboardUID?: string | undefined;
   /** Find annotations that are scoped to a specific panel */
-  panelId?: number;
+  panelId?: number | undefined;
   /** Max limit for results returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Use this to filter organization annotations. Organization annotations are annotations from an annotation data source that are not connected specifically to a dashboard or panel. You can filter by multiple tags. */
-  tags?: GetAnnotationsRequestTagsList;
+  tags?: GetAnnotationsRequestTagsList | undefined;
   /** Return alerts or user created annotations Description: - `alert` - `annotation` */
-  type?: GetAnnotationsRequestType | (string & {});
+  type?: GetAnnotationsRequestType | (string & {}) | undefined;
   /** Match any or all tags */
-  matchAny?: boolean;
+  matchAny?: boolean | undefined;
 }
 export type GetAnnotationsResponseBodyList = Array<Annotation>;
 export type GetAnnotationsResponse = GetAnnotationsResponseBodyList;
 export interface GetAnnotationTagsRequest {
   /** Tag is a string that you can use to filter tags. */
-  tag?: string;
+  tag?: string | undefined;
   /** Max limit for results returned. */
-  limit?: string;
+  limit?: string | undefined;
 }
 export interface TagsDTO {
-  count?: number;
-  tag?: string;
+  count?: number | undefined;
+  tag?: string | undefined;
 }
 export type FindTagsResultTagsList = Array<TagsDTO>;
 export interface FindTagsResult {
-  tags?: FindTagsResultTagsList;
+  tags?: FindTagsResultTagsList | undefined;
 }
 export interface GetAnnotationTagsResponse {
-  result?: FindTagsResult;
+  result?: FindTagsResult | undefined;
 }
 export interface GetCloudMigrationTokenRequest {}
 export interface GetAccessTokenResponseDTO {
-  createdAt?: string;
-  displayName?: string;
-  expiresAt?: string;
-  firstUsedAt?: string;
-  id?: string;
-  lastUsedAt?: string;
+  createdAt?: string | undefined;
+  displayName?: string | undefined;
+  expiresAt?: string | undefined;
+  firstUsedAt?: string | undefined;
+  id?: string | undefined;
+  lastUsedAt?: string | undefined;
 }
 export interface GetCorrelationRequest {
   sourceUID: string;
@@ -898,11 +946,11 @@ export interface GetCorrelationRequest {
 export type GetCorrelationsRequestSourceUIDList = Array<string>;
 export interface GetCorrelationsRequest {
   /** Limit the maximum number of correlations to return per page */
-  limit?: number;
+  limit?: number | undefined;
   /** Page index for starting fetching correlations */
-  page?: number;
+  page?: number | undefined;
   /** Source datasource UID filter to be applied to correlations */
-  sourceUID?: GetCorrelationsRequestSourceUIDList;
+  sourceUID?: GetCorrelationsRequestSourceUIDList | undefined;
 }
 export type GetCorrelationsResponseBodyList = Array<Correlation>;
 export type GetCorrelationsResponse = GetCorrelationsResponseBodyList;
@@ -913,25 +961,25 @@ export type GetCorrelationsBySourceUIDResponseBodyList = Array<Correlation>;
 export type GetCorrelationsBySourceUIDResponse = GetCorrelationsBySourceUIDResponseBodyList;
 export interface GetCurrentOrgRequest {}
 export interface Address {
-  address1?: string;
-  address2?: string;
-  city?: string;
-  country?: string;
-  state?: string;
-  zipCode?: string;
+  address1?: string | undefined;
+  address2?: string | undefined;
+  city?: string | undefined;
+  country?: string | undefined;
+  state?: string | undefined;
+  zipCode?: string | undefined;
 }
 export interface OrgDetailsDTO {
-  address?: Address;
-  id?: number;
-  name?: string;
+  address?: Address | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
 }
 export interface GetCurrentOrgQuotaRequest {}
 export interface QuotaDTO {
-  limit?: number;
-  org_id?: number;
-  target?: string;
-  used?: number;
-  user_id?: number;
+  limit?: number | undefined;
+  org_id?: number | undefined;
+  target?: string | undefined;
+  used?: number | undefined;
+  user_id?: number | undefined;
 }
 export type GetCurrentOrgQuotaResponseBodyList = Array<QuotaDTO>;
 export type GetCurrentOrgQuotaResponse = GetCurrentOrgQuotaResponseBodyList;
@@ -939,45 +987,45 @@ export interface GetDashboardSnapshotRequest {
   key: string;
 }
 export interface AnnotationActions {
-  canAdd?: boolean;
-  canDelete?: boolean;
-  canEdit?: boolean;
+  canAdd?: boolean | undefined;
+  canDelete?: boolean | undefined;
+  canEdit?: boolean | undefined;
 }
 export interface AnnotationPermission {
-  dashboard?: AnnotationActions;
+  dashboard?: AnnotationActions | undefined;
 }
 export interface DashboardMeta {
-  annotationsPermissions?: AnnotationPermission;
-  apiVersion?: string;
-  canAdmin?: boolean;
-  canDelete?: boolean;
-  canEdit?: boolean;
-  canSave?: boolean;
-  canStar?: boolean;
-  created?: string;
-  createdBy?: string;
-  expires?: string;
+  annotationsPermissions?: AnnotationPermission | undefined;
+  apiVersion?: string | undefined;
+  canAdmin?: boolean | undefined;
+  canDelete?: boolean | undefined;
+  canEdit?: boolean | undefined;
+  canSave?: boolean | undefined;
+  canStar?: boolean | undefined;
+  created?: string | undefined;
+  createdBy?: string | undefined;
+  expires?: string | undefined;
   /** Deprecated: use FolderUID instead */
-  folderId?: number;
-  folderTitle?: string;
-  folderUid?: string;
-  folderUrl?: string;
-  hasAcl?: boolean;
-  isFolder?: boolean;
-  isSnapshot?: boolean;
-  provisioned?: boolean;
-  provisionedExternalId?: string;
-  publicDashboardEnabled?: boolean;
-  slug?: string;
-  type?: string;
-  updated?: string;
-  updatedBy?: string;
-  url?: string;
-  version?: number;
+  folderId?: number | undefined;
+  folderTitle?: string | undefined;
+  folderUid?: string | undefined;
+  folderUrl?: string | undefined;
+  hasAcl?: boolean | undefined;
+  isFolder?: boolean | undefined;
+  isSnapshot?: boolean | undefined;
+  provisioned?: boolean | undefined;
+  provisionedExternalId?: string | undefined;
+  publicDashboardEnabled?: boolean | undefined;
+  slug?: string | undefined;
+  type?: string | undefined;
+  updated?: string | undefined;
+  updatedBy?: string | undefined;
+  url?: string | undefined;
+  version?: number | undefined;
 }
 export interface DashboardFullWithMeta {
-  dashboard?: unknown;
-  meta?: DashboardMeta;
+  dashboard?: unknown | undefined;
+  meta?: DashboardMeta | undefined;
 }
 export interface GetDataSourceByUIDRequest {
   uid: string;
@@ -985,35 +1033,35 @@ export interface GetDataSourceByUIDRequest {
 export interface GetDataSourceCacheConfigRequest {
   dataSourceUID: string;
   /** Optional datasource type used to disambiguate datasource UID lookups. */
-  dataSourceType?: string;
+  dataSourceType?: string | undefined;
 }
 export interface GetDataSourcesRequest {}
 export interface DataSourceListItemDTO {
-  access?: string;
-  basicAuth?: boolean;
-  database?: string;
-  id?: number;
-  isDefault?: boolean;
-  jsonData?: unknown;
-  name?: string;
-  orgId?: number;
-  readOnly?: boolean;
-  type?: string;
-  typeLogoUrl?: string;
-  typeName?: string;
-  uid?: string;
-  url?: string;
-  user?: string;
+  access?: string | undefined;
+  basicAuth?: boolean | undefined;
+  database?: string | undefined;
+  id?: number | undefined;
+  isDefault?: boolean | undefined;
+  jsonData?: unknown | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  readOnly?: boolean | undefined;
+  type?: string | undefined;
+  typeLogoUrl?: string | undefined;
+  typeName?: string | undefined;
+  uid?: string | undefined;
+  url?: string | undefined;
+  user?: string | undefined;
 }
 export type DataSourceList = Array<DataSourceListItemDTO>;
 export type GetDataSourcesResponse = DataSourceList;
 export interface GetHealthRequest {}
 export interface HealthResponse {
-  apiserver?: string;
-  commit?: string;
-  database?: string;
-  enterpriseCommit?: string;
-  version?: string;
+  apiserver?: string | undefined;
+  commit?: string | undefined;
+  database?: string | undefined;
+  enterpriseCommit?: string | undefined;
+  version?: string | undefined;
 }
 export interface GetJWKSRequest {}
 /** X.509 certificate thumbprint (SHA-1), parsed from `x5t` header. */
@@ -1031,8 +1079,8 @@ export type CertificateExcludedEmailAddressesList = Array<string>;
 /** See type [IPNet] and func [ParseCIDR] for details. */
 export type IPMask = Array<number>;
 export interface IPNet {
-  IP?: string;
-  Mask?: IPMask;
+  IP?: string | undefined;
+  Mask?: IPMask | undefined;
 }
 export type CertificateExcludedIPRangesList = Array<IPNet>;
 export type CertificateExcludedURIDomainsList = Array<string>;
@@ -1041,9 +1089,9 @@ export type ObjectIdentifier = Array<number>;
 export type ExtensionValueList = Array<number>;
 /** Extension represents the ASN.1 structure of the same name. See RFC 5280, section 4.2. */
 export interface Extension {
-  Critical?: boolean;
-  Id?: ObjectIdentifier;
-  Value?: ExtensionValueList;
+  Critical?: boolean | undefined;
+  Id?: ObjectIdentifier | undefined;
+  Value?: ExtensionValueList | undefined;
 }
 /** Extensions contains raw X.509 extensions. When parsing certificates, this can be used to extract non-critical extensions that are not parsed by this package. When marshaling certificates, the Extensions field is ignored, see ExtraExtensions. */
 export type CertificateExtensionsList = Array<Extension>;
@@ -1053,8 +1101,8 @@ export type CertificateIPAddressesList = Array<string>;
 export type NameCountryList = Array<string>;
 /** When parsed as part of a pkix.Name structure in a crypto/x509 type, the Value will be - a string if the ASN.1 type is PrintableString, IA5String, NumericString, BMPString, T61String, or UTF8String; - an int64 if the ASN.1 type is INTEGER; - an asn1.BitString if the ASN.1 type is BIT STRING; - a []byte if the ASN.1 type is OCTET STRING; - an asn1.ObjectIdentifier if the ASN.1 type is OBJECT IDENTIFIER; - a time.Time if the ASN.1 type is UTCTIME or GENERALIZEDTIME; - a bool if the ASN.1 type is BOOLEAN; - nil if the ASN.1 type is NULL; - an asn1.RawValue otherwise. */
 export interface AttributeTypeAndValue {
-  Type?: ObjectIdentifier;
-  Value?: unknown;
+  Type?: ObjectIdentifier | undefined;
+  Value?: unknown | undefined;
 }
 /** ExtraNames contains attributes to be copied, raw, into any marshaled distinguished names. Values override any attributes with the same OID. The ExtraNames field is not populated when parsing, see Names. */
 export type NameExtraNamesList = Array<AttributeTypeAndValue>;
@@ -1068,19 +1116,19 @@ export type NameProvinceList = Array<string>;
 export type NameStreetAddressList = Array<string>;
 /** Name represents an X.509 distinguished name. This only includes the common elements of a DN. Note that Name is only an approximation of the X.509 structure. If an accurate representation is needed, asn1.Unmarshal the raw subject or issuer as an [RDNSequence]. */
 export interface Name {
-  CommonName?: string;
-  Country?: NameCountryList;
+  CommonName?: string | undefined;
+  Country?: NameCountryList | undefined;
   /** ExtraNames contains attributes to be copied, raw, into any marshaled distinguished names. Values override any attributes with the same OID. The ExtraNames field is not populated when parsing, see Names. */
-  ExtraNames?: NameExtraNamesList;
-  Locality?: NameLocalityList;
+  ExtraNames?: NameExtraNamesList | undefined;
+  Locality?: NameLocalityList | undefined;
   /** Names contains all parsed attributes. When parsing distinguished names, this can be used to extract non-standard attributes that are not parsed by this package. When marshaling to RDNSequences, the Names field is ignored, see ExtraNames. */
-  Names?: NameNamesList;
-  Organization?: NameOrganizationList;
-  OrganizationalUnit?: NameOrganizationalUnitList;
-  PostalCode?: NamePostalCodeList;
-  Province?: NameProvinceList;
-  SerialNumber?: string;
-  StreetAddress?: NameStreetAddressList;
+  Names?: NameNamesList | undefined;
+  Organization?: NameOrganizationList | undefined;
+  OrganizationalUnit?: NameOrganizationalUnitList | undefined;
+  PostalCode?: NamePostalCodeList | undefined;
+  Province?: NameProvinceList | undefined;
+  SerialNumber?: string | undefined;
+  StreetAddress?: NameStreetAddressList | undefined;
 }
 export type CertificateIssuingCertificateURLList = Array<string>;
 /** RFC 5280, 4.2.2.1 (Authority Information Access) */
@@ -1095,9 +1143,9 @@ export type CertificatePoliciesList = Array<string>;
 export type CertificatePolicyIdentifiersList = Array<ObjectIdentifier>;
 export interface PolicyMapping {
   /** IssuerDomainPolicy contains a policy OID the issuing certificate considers equivalent to SubjectDomainPolicy in the subject certificate. */
-  IssuerDomainPolicy?: string;
+  IssuerDomainPolicy?: string | undefined;
   /** SubjectDomainPolicy contains a OID the issuing certificate considers equivalent to IssuerDomainPolicy in the subject certificate. */
-  SubjectDomainPolicy?: string;
+  SubjectDomainPolicy?: string | undefined;
 }
 /** PolicyMappings contains a list of policy mappings included in the certificate. */
 export type CertificatePolicyMappingsList = Array<PolicyMapping>;
@@ -1114,102 +1162,102 @@ export type CertificateURIsList = Array<string>;
 export type CertificateUnhandledCriticalExtensionsList = Array<ObjectIdentifier>;
 export type CertificateUnknownExtKeyUsageList = Array<ObjectIdentifier>;
 export interface Certificate {
-  AuthorityKeyId?: CertificateAuthorityKeyIdList;
+  AuthorityKeyId?: CertificateAuthorityKeyIdList | undefined;
   /** BasicConstraintsValid indicates whether IsCA, MaxPathLen, and MaxPathLenZero are valid. */
-  BasicConstraintsValid?: boolean;
+  BasicConstraintsValid?: boolean | undefined;
   /** CRL Distribution Points */
-  CRLDistributionPoints?: CertificateCRLDistributionPointsList;
+  CRLDistributionPoints?: CertificateCRLDistributionPointsList | undefined;
   /** Subject Alternate Name values. (Note that these values may not be valid if invalid values were contained within a parsed certificate. For example, an element of DNSNames may not be a valid DNS domain name.) */
-  DNSNames?: CertificateDNSNamesList;
-  EmailAddresses?: CertificateEmailAddressesList;
-  ExcludedDNSDomains?: CertificateExcludedDNSDomainsList;
-  ExcludedEmailAddresses?: CertificateExcludedEmailAddressesList;
-  ExcludedIPRanges?: CertificateExcludedIPRangesList;
-  ExcludedURIDomains?: CertificateExcludedURIDomainsList;
-  ExtKeyUsage?: CertificateExtKeyUsageList;
+  DNSNames?: CertificateDNSNamesList | undefined;
+  EmailAddresses?: CertificateEmailAddressesList | undefined;
+  ExcludedDNSDomains?: CertificateExcludedDNSDomainsList | undefined;
+  ExcludedEmailAddresses?: CertificateExcludedEmailAddressesList | undefined;
+  ExcludedIPRanges?: CertificateExcludedIPRangesList | undefined;
+  ExcludedURIDomains?: CertificateExcludedURIDomainsList | undefined;
+  ExtKeyUsage?: CertificateExtKeyUsageList | undefined;
   /** Extensions contains raw X.509 extensions. When parsing certificates, this can be used to extract non-critical extensions that are not parsed by this package. When marshaling certificates, the Extensions field is ignored, see ExtraExtensions. */
-  Extensions?: CertificateExtensionsList;
+  Extensions?: CertificateExtensionsList | undefined;
   /** ExtraExtensions contains extensions to be copied, raw, into any marshaled certificates. Values override any extensions that would otherwise be produced based on the other fields. The ExtraExtensions field is not populated when parsing certificates, see Extensions. */
-  ExtraExtensions?: CertificateExtraExtensionsList;
-  IPAddresses?: CertificateIPAddressesList;
+  ExtraExtensions?: CertificateExtraExtensionsList | undefined;
+  IPAddresses?: CertificateIPAddressesList | undefined;
   /** InhibitAnyPolicy and InhibitAnyPolicyZero indicate the presence and value of the inhibitAnyPolicy extension. The value of InhibitAnyPolicy indicates the number of additional certificates in the path after this certificate that may use the anyPolicy policy OID to indicate a match with any other policy. When parsing a certificate, a positive non-zero InhibitAnyPolicy means that the field was specified, -1 means it was unset, and InhibitAnyPolicyZero being true mean that the field was explicitly set to zero. The case of InhibitAnyPolicy==0 with InhibitAnyPolicyZero==false should be treated equivalent to -1 (unset). */
-  InhibitAnyPolicy?: number;
+  InhibitAnyPolicy?: number | undefined;
   /** InhibitAnyPolicyZero indicates that InhibitAnyPolicy==0 should be interpreted as an actual maximum path length of zero. Otherwise, that combination is interpreted as InhibitAnyPolicy not being set. */
-  InhibitAnyPolicyZero?: boolean;
+  InhibitAnyPolicyZero?: boolean | undefined;
   /** InhibitPolicyMapping and InhibitPolicyMappingZero indicate the presence and value of the inhibitPolicyMapping field of the policyConstraints extension. The value of InhibitPolicyMapping indicates the number of additional certificates in the path after this certificate that may use policy mapping. When parsing a certificate, a positive non-zero InhibitPolicyMapping means that the field was specified, -1 means it was unset, and InhibitPolicyMappingZero being true mean that the field was explicitly set to zero. The case of InhibitPolicyMapping==0 with InhibitPolicyMappingZero==false should be treated equivalent to -1 (unset). */
-  InhibitPolicyMapping?: number;
+  InhibitPolicyMapping?: number | undefined;
   /** InhibitPolicyMappingZero indicates that InhibitPolicyMapping==0 should be interpreted as an actual maximum path length of zero. Otherwise, that combination is interpreted as InhibitAnyPolicy not being set. */
-  InhibitPolicyMappingZero?: boolean;
-  IsCA?: boolean;
-  Issuer?: Name;
-  IssuingCertificateURL?: CertificateIssuingCertificateURLList;
-  KeyUsage?: number;
+  InhibitPolicyMappingZero?: boolean | undefined;
+  IsCA?: boolean | undefined;
+  Issuer?: Name | undefined;
+  IssuingCertificateURL?: CertificateIssuingCertificateURLList | undefined;
+  KeyUsage?: number | undefined;
   /** MaxPathLen and MaxPathLenZero indicate the presence and value of the BasicConstraints' "pathLenConstraint". When parsing a certificate, a positive non-zero MaxPathLen means that the field was specified, -1 means it was unset, and MaxPathLenZero being true mean that the field was explicitly set to zero. The case of MaxPathLen==0 with MaxPathLenZero==false should be treated equivalent to -1 (unset). When generating a certificate, an unset pathLenConstraint can be requested with either MaxPathLen == -1 or using the zero value for both MaxPathLen and MaxPathLenZero. */
-  MaxPathLen?: number;
+  MaxPathLen?: number | undefined;
   /** MaxPathLenZero indicates that BasicConstraintsValid==true and MaxPathLen==0 should be interpreted as an actual maximum path length of zero. Otherwise, that combination is interpreted as MaxPathLen not being set. */
-  MaxPathLenZero?: boolean;
-  NotAfter?: string;
-  NotBefore?: string;
+  MaxPathLenZero?: boolean | undefined;
+  NotAfter?: string | undefined;
+  NotBefore?: string | undefined;
   /** RFC 5280, 4.2.2.1 (Authority Information Access) */
-  OCSPServer?: CertificateOCSPServerList;
-  PermittedDNSDomains?: CertificatePermittedDNSDomainsList;
+  OCSPServer?: CertificateOCSPServerList | undefined;
+  PermittedDNSDomains?: CertificatePermittedDNSDomainsList | undefined;
   /** Name constraints */
-  PermittedDNSDomainsCritical?: boolean;
-  PermittedEmailAddresses?: CertificatePermittedEmailAddressesList;
-  PermittedIPRanges?: CertificatePermittedIPRangesList;
-  PermittedURIDomains?: CertificatePermittedURIDomainsList;
+  PermittedDNSDomainsCritical?: boolean | undefined;
+  PermittedEmailAddresses?: CertificatePermittedEmailAddressesList | undefined;
+  PermittedIPRanges?: CertificatePermittedIPRangesList | undefined;
+  PermittedURIDomains?: CertificatePermittedURIDomainsList | undefined;
   /** Policies contains all policy identifiers included in the certificate. See CreateCertificate for context about how this field and the PolicyIdentifiers field interact. In Go 1.22, encoding/gob cannot handle and ignores this field. */
-  Policies?: CertificatePoliciesList;
+  Policies?: CertificatePoliciesList | undefined;
   /** PolicyIdentifiers contains asn1.ObjectIdentifiers, the components of which are limited to int32. If a certificate contains a policy which cannot be represented by asn1.ObjectIdentifier, it will not be included in PolicyIdentifiers, but will be present in Policies, which contains all parsed policy OIDs. See CreateCertificate for context about how this field and the Policies field interact. */
-  PolicyIdentifiers?: CertificatePolicyIdentifiersList;
+  PolicyIdentifiers?: CertificatePolicyIdentifiersList | undefined;
   /** PolicyMappings contains a list of policy mappings included in the certificate. */
-  PolicyMappings?: CertificatePolicyMappingsList;
-  PublicKey?: unknown;
-  PublicKeyAlgorithm?: number;
-  Raw?: CertificateRawList;
-  RawIssuer?: CertificateRawIssuerList;
-  RawSignatureAlgorithm?: CertificateRawSignatureAlgorithmList;
-  RawSubject?: CertificateRawSubjectList;
-  RawSubjectPublicKeyInfo?: CertificateRawSubjectPublicKeyInfoList;
-  RawTBSCertificate?: CertificateRawTBSCertificateList;
+  PolicyMappings?: CertificatePolicyMappingsList | undefined;
+  PublicKey?: unknown | undefined;
+  PublicKeyAlgorithm?: number | undefined;
+  Raw?: CertificateRawList | undefined;
+  RawIssuer?: CertificateRawIssuerList | undefined;
+  RawSignatureAlgorithm?: CertificateRawSignatureAlgorithmList | undefined;
+  RawSubject?: CertificateRawSubjectList | undefined;
+  RawSubjectPublicKeyInfo?: CertificateRawSubjectPublicKeyInfoList | undefined;
+  RawTBSCertificate?: CertificateRawTBSCertificateList | undefined;
   /** RequireExplicitPolicy and RequireExplicitPolicyZero indicate the presence and value of the requireExplicitPolicy field of the policyConstraints extension. The value of RequireExplicitPolicy indicates the number of additional certificates in the path after this certificate before an explicit policy is required for the rest of the path. When an explicit policy is required, each subsequent certificate in the path must contain a required policy OID, or a policy OID which has been declared as equivalent through the policy mapping extension. When parsing a certificate, a positive non-zero RequireExplicitPolicy means that the field was specified, -1 means it was unset, and RequireExplicitPolicyZero being true mean that the field was explicitly set to zero. The case of RequireExplicitPolicy==0 with RequireExplicitPolicyZero==false should be treated equivalent to -1 (unset). */
-  RequireExplicitPolicy?: number;
+  RequireExplicitPolicy?: number | undefined;
   /** RequireExplicitPolicyZero indicates that RequireExplicitPolicy==0 should be interpreted as an actual maximum path length of zero. Otherwise, that combination is interpreted as InhibitAnyPolicy not being set. */
-  RequireExplicitPolicyZero?: boolean;
-  SerialNumber?: number;
-  Signature?: CertificateSignatureList;
-  SignatureAlgorithm?: number;
-  Subject?: Name;
-  SubjectKeyId?: CertificateSubjectKeyIdList;
-  URIs?: CertificateURIsList;
+  RequireExplicitPolicyZero?: boolean | undefined;
+  SerialNumber?: number | undefined;
+  Signature?: CertificateSignatureList | undefined;
+  SignatureAlgorithm?: number | undefined;
+  Subject?: Name | undefined;
+  SubjectKeyId?: CertificateSubjectKeyIdList | undefined;
+  URIs?: CertificateURIsList | undefined;
   /** UnhandledCriticalExtensions contains a list of extension IDs that were not (fully) processed when parsing. Verify will fail if this slice is non-empty, unless verification is delegated to an OS library which understands all the critical extensions. Users can access these extensions using Extensions and can remove elements from this slice if they believe that they have been handled. */
-  UnhandledCriticalExtensions?: CertificateUnhandledCriticalExtensionsList;
-  UnknownExtKeyUsage?: CertificateUnknownExtKeyUsageList;
-  Version?: number;
+  UnhandledCriticalExtensions?: CertificateUnhandledCriticalExtensionsList | undefined;
+  UnknownExtKeyUsage?: CertificateUnknownExtKeyUsageList | undefined;
+  Version?: number | undefined;
 }
 /** X.509 certificate chain, parsed from `x5c` header. */
 export type JSONWebKeyCertificatesList = Array<Certificate>;
 /** JSONWebKey represents a public or private key in JWK format. It can be marshaled into JSON and unmarshaled from JSON. */
 export interface JSONWebKey {
   /** Key algorithm, parsed from `alg` header. */
-  Algorithm?: string;
+  Algorithm?: string | undefined;
   /** X.509 certificate thumbprint (SHA-1), parsed from `x5t` header. */
-  CertificateThumbprintSHA1?: JSONWebKeyCertificateThumbprintSHA1List;
+  CertificateThumbprintSHA1?: JSONWebKeyCertificateThumbprintSHA1List | undefined;
   /** X.509 certificate thumbprint (SHA-256), parsed from `x5t#S256` header. */
-  CertificateThumbprintSHA256?: JSONWebKeyCertificateThumbprintSHA256List;
+  CertificateThumbprintSHA256?: JSONWebKeyCertificateThumbprintSHA256List | undefined;
   /** X.509 certificate chain, parsed from `x5c` header. */
-  Certificates?: JSONWebKeyCertificatesList;
-  CertificatesURL?: string;
+  Certificates?: JSONWebKeyCertificatesList | undefined;
+  CertificatesURL?: string | undefined;
   /** Key is the Go in-memory representation of this key. It must have one of these types: - ed25519.PublicKey - ed25519.PrivateKey - *ecdsa.PublicKey - *ecdsa.PrivateKey - *rsa.PublicKey - *rsa.PrivateKey - []byte (a symmetric key) When marshaling this JSONWebKey into JSON, the "kty" header parameter will be automatically set based on the type of this field. */
-  Key?: unknown;
+  Key?: unknown | undefined;
   /** Key identifier, parsed from `kid` header. */
-  KeyID?: string;
+  KeyID?: string | undefined;
   /** Key use, parsed from `use` header. */
-  Use?: string;
+  Use?: string | undefined;
 }
 export type GetJWKSResponseKeysList = Array<JSONWebKey>;
 export interface GetJWKSResponse {
-  keys?: GetJWKSResponseKeysList;
+  keys?: GetJWKSResponseKeysList | undefined;
 }
 export interface GetLDAPStatusRequest {}
 export interface GetLibraryElementByNameRequest {
@@ -1217,7 +1265,7 @@ export interface GetLibraryElementByNameRequest {
 }
 export type LibraryElementArrayResponseResultList = Array<LibraryElementDTO>;
 export interface LibraryElementArrayResponse {
-  result?: LibraryElementArrayResponseResultList;
+  result?: LibraryElementArrayResponseResultList | undefined;
 }
 export interface GetLibraryElementByUIDRequest {
   library_element_uid: string;
@@ -1226,78 +1274,78 @@ export interface GetLibraryElementConnectionsRequest {
   library_element_uid: string;
 }
 export interface LibraryElementConnectionDTO {
-  connectionId?: number;
-  connectionUid?: string;
-  created?: string;
-  createdBy?: LibraryElementDTOMetaUser;
-  elementId?: number;
+  connectionId?: number | undefined;
+  connectionUid?: string | undefined;
+  created?: string | undefined;
+  createdBy?: LibraryElementDTOMetaUser | undefined;
+  elementId?: number | undefined;
   /** Deprecated: this field will be removed in the future */
-  id?: number;
-  kind?: number;
+  id?: number | undefined;
+  kind?: number | undefined;
 }
 export type LibraryElementConnectionsResponseResultList = Array<LibraryElementConnectionDTO>;
 export interface LibraryElementConnectionsResponse {
-  result?: LibraryElementConnectionsResponseResultList;
+  result?: LibraryElementConnectionsResponseResultList | undefined;
 }
 export type GetLibraryElementsRequestKind = 1;
 export type GetLibraryElementsRequestSortDirection = "alpha-asc" | "alpha-desc";
 export interface GetLibraryElementsRequest {
   /** Part of the name or description searched for. */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Kind of element to search for. Description: - 1 - library panels */
-  kind?: GetLibraryElementsRequestKind | (number & {});
+  kind?: GetLibraryElementsRequestKind | (number & {}) | undefined;
   /** Sort order of elements. Description: - alpha-asc: ascending - alpha-desc: descending */
-  sortDirection?: GetLibraryElementsRequestSortDirection | (string & {});
+  sortDirection?: GetLibraryElementsRequestSortDirection | (string & {}) | undefined;
   /** A comma separated list of types to filter the elements by */
-  typeFilter?: string;
+  typeFilter?: string | undefined;
   /** Element UID to exclude from search results. */
-  excludeUid?: string;
+  excludeUid?: string | undefined;
   /** A comma separated list of folder ID(s) to filter the elements by. Deprecated: Use FolderFilterUIDs instead. */
-  folderFilter?: string;
+  folderFilter?: string | undefined;
   /** A comma separated list of folder UID(s) to filter the elements by. */
-  folderFilterUIDs?: string;
+  folderFilterUIDs?: string | undefined;
   /** The number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** The page for a set of records, given that only perPage records are returned at a time. Numbering starts at 1. */
-  page?: number;
+  page?: number | undefined;
 }
 export type LibraryElementSearchResultElementsList = Array<LibraryElementDTO>;
 export interface LibraryElementSearchResult {
-  elements?: LibraryElementSearchResultElementsList;
-  page?: number;
-  perPage?: number;
-  totalCount?: number;
+  elements?: LibraryElementSearchResultElementsList | undefined;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  totalCount?: number | undefined;
 }
 export interface LibraryElementSearchResponse {
-  result?: LibraryElementSearchResult;
+  result?: LibraryElementSearchResult | undefined;
 }
 export interface GetLicenseTokenRequest {}
 export type TokenProdList = Array<string>;
 export interface Token {
-  account?: string;
-  anonymousRatio?: number;
-  company?: string;
-  details_url?: string;
-  exp?: number;
-  iat?: number;
-  included_users?: number;
-  iss?: string;
-  jti?: string;
-  lexp?: number;
-  lic_exp_warn_days?: number;
-  lid?: string;
-  limit_by?: string;
-  max_concurrent_user_sessions?: number;
-  nbf?: number;
-  prod?: TokenProdList;
-  slug?: string;
-  status?: number;
-  sub?: string;
-  tok_exp_warn_days?: number;
-  trial?: boolean;
-  trial_exp?: number;
-  update_days?: number;
-  usage_billing?: boolean;
+  account?: string | undefined;
+  anonymousRatio?: number | undefined;
+  company?: string | undefined;
+  details_url?: string | undefined;
+  exp?: number | undefined;
+  iat?: number | undefined;
+  included_users?: number | undefined;
+  iss?: string | undefined;
+  jti?: string | undefined;
+  lexp?: number | undefined;
+  lic_exp_warn_days?: number | undefined;
+  lid?: string | undefined;
+  limit_by?: string | undefined;
+  max_concurrent_user_sessions?: number | undefined;
+  nbf?: number | undefined;
+  prod?: TokenProdList | undefined;
+  slug?: string | undefined;
+  status?: number | undefined;
+  sub?: string | undefined;
+  tok_exp_warn_days?: number | undefined;
+  trial?: boolean | undefined;
+  trial_exp?: number | undefined;
+  update_days?: number | undefined;
+  usage_billing?: boolean | undefined;
 }
 export interface GetMetadataRequest {}
 export type GetMetadataResponseBodyList = Array<number>;
@@ -1319,60 +1367,60 @@ export interface GetOrgUsersRequest {
 export type OrgUserDTOAccessControlMap = { [key: string]: boolean | undefined };
 export type OrgUserDTOAuthLabelsList = Array<string>;
 export interface OrgUserDTO {
-  accessControl?: OrgUserDTOAccessControlMap;
-  authLabels?: OrgUserDTOAuthLabelsList;
-  avatarUrl?: string;
-  created?: string;
-  email?: string;
-  isDisabled?: boolean;
-  isExternallySynced?: boolean;
-  isProvisioned?: boolean;
-  lastSeenAt?: string;
-  lastSeenAtAge?: string;
-  login?: string;
-  name?: string;
-  orgId?: number;
-  role?: string;
-  uid?: string;
-  userId?: number;
+  accessControl?: OrgUserDTOAccessControlMap | undefined;
+  authLabels?: OrgUserDTOAuthLabelsList | undefined;
+  avatarUrl?: string | undefined;
+  created?: string | undefined;
+  email?: string | undefined;
+  isDisabled?: boolean | undefined;
+  isExternallySynced?: boolean | undefined;
+  isProvisioned?: boolean | undefined;
+  lastSeenAt?: string | undefined;
+  lastSeenAtAge?: string | undefined;
+  login?: string | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  role?: string | undefined;
+  uid?: string | undefined;
+  userId?: number | undefined;
 }
 export type GetOrgUsersResponseBodyList = Array<OrgUserDTO>;
 export type GetOrgUsersResponse = GetOrgUsersResponseBodyList;
 export interface GetOrgUsersForCurrentOrgRequest {
-  query?: string;
-  limit?: number;
+  query?: string | undefined;
+  limit?: number | undefined;
 }
 export type GetOrgUsersForCurrentOrgResponseBodyList = Array<OrgUserDTO>;
 export type GetOrgUsersForCurrentOrgResponse = GetOrgUsersForCurrentOrgResponseBodyList;
 export interface GetOrgUsersForCurrentOrgLookupRequest {
-  query?: string;
-  limit?: number;
+  query?: string | undefined;
+  limit?: number | undefined;
 }
 export interface UserLookupDTO {
-  avatarUrl?: string;
-  login?: string;
-  uid?: string;
-  userId?: number;
+  avatarUrl?: string | undefined;
+  login?: string | undefined;
+  uid?: string | undefined;
+  userId?: number | undefined;
 }
 export type GetOrgUsersForCurrentOrgLookupResponseBodyList = Array<UserLookupDTO>;
 export type GetOrgUsersForCurrentOrgLookupResponse = GetOrgUsersForCurrentOrgLookupResponseBodyList;
 export interface GetPendingOrgInvitesRequest {}
 export type TempUserDTORole = "None" | "Viewer" | "Editor" | "Admin";
 export interface TempUserDTO {
-  code?: string;
-  createdOn?: string;
-  email?: string;
-  emailSent?: boolean;
-  emailSentOn?: string;
-  id?: number;
-  invitedByEmail?: string;
-  invitedByLogin?: string;
-  invitedByName?: string;
-  name?: string;
-  orgId?: number;
-  role?: TempUserDTORole;
-  status?: string;
-  url?: string;
+  code?: string | undefined;
+  createdOn?: string | undefined;
+  email?: string | undefined;
+  emailSent?: boolean | undefined;
+  emailSentOn?: string | undefined;
+  id?: number | undefined;
+  invitedByEmail?: string | undefined;
+  invitedByLogin?: string | undefined;
+  invitedByName?: string | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  role?: TempUserDTORole | undefined;
+  status?: string | undefined;
+  url?: string | undefined;
 }
 export type GetPendingOrgInvitesResponseBodyList = Array<TempUserDTO>;
 export type GetPendingOrgInvitesResponse = GetPendingOrgInvitesResponseBodyList;
@@ -1381,10 +1429,10 @@ export interface GetProviderSettingsRequest {
 }
 export type GetProviderSettingsResponseSettingsMap = { [key: string]: unknown | undefined };
 export interface GetProviderSettingsResponse {
-  id?: string;
-  provider?: string;
-  settings?: GetProviderSettingsResponseSettingsMap;
-  source?: string;
+  id?: string | undefined;
+  provider?: string | undefined;
+  settings?: GetProviderSettingsResponseSettingsMap | undefined;
+  source?: string | undefined;
 }
 export interface GetPublicAnnotationsRequest {
   accessToken: string;
@@ -1392,64 +1440,64 @@ export interface GetPublicAnnotationsRequest {
 /** Ref to a DataSource instance */
 export interface DataSourceRef {
   /** The plugin type-id */
-  type?: string;
+  type?: string | undefined;
   /** Specific datasource instance */
-  uid?: string;
+  uid?: string | undefined;
 }
 /** Panel IDs that should be included or excluded */
 export type AnnotationPanelFilterIdsList = Array<number>;
 export interface AnnotationPanelFilter {
   /** Should the specified panels be included or excluded */
-  exclude?: boolean;
+  exclude?: boolean | undefined;
   /** Panel IDs that should be included or excluded */
-  ids?: AnnotationPanelFilterIdsList;
+  ids?: AnnotationPanelFilterIdsList | undefined;
 }
 /** Only required/valid for the grafana datasource... but code+tests is already depending on it so hard to change */
 export type AnnotationTargetTagsList = Array<string>;
 /** TODO: this should be a regular DataQuery that depends on the selected dashboard these match the properties of the "grafana" datasouce that is default in most dashboards */
 export interface AnnotationTarget {
   /** Only required/valid for the grafana datasource... but code+tests is already depending on it so hard to change */
-  limit?: number;
+  limit?: number | undefined;
   /** Only required/valid for the grafana datasource... but code+tests is already depending on it so hard to change */
-  matchAny?: boolean;
+  matchAny?: boolean | undefined;
   /** Only required/valid for the grafana datasource... but code+tests is already depending on it so hard to change */
-  tags?: AnnotationTargetTagsList;
+  tags?: AnnotationTargetTagsList | undefined;
   /** Only required/valid for the grafana datasource... but code+tests is already depending on it so hard to change */
-  type?: string;
+  type?: string | undefined;
 }
 /** TODO docs FROM: AnnotationQuery in grafana-data/src/types/annotations.ts */
 export interface AnnotationQuery {
   /** Set to 1 for the standard annotation query all dashboards have by default. */
-  builtIn?: number;
-  datasource?: DataSourceRef;
+  builtIn?: number | undefined;
+  datasource?: DataSourceRef | undefined;
   /** When enabled the annotation query is issued with every dashboard refresh */
-  enable?: boolean;
-  filter?: AnnotationPanelFilter;
+  enable?: boolean | undefined;
+  filter?: AnnotationPanelFilter | undefined;
   /** Annotation queries can be toggled on or off at the top of the dashboard. When hide is true, the toggle is not shown in the dashboard. */
-  hide?: boolean;
+  hide?: boolean | undefined;
   /** Color to use for the annotation event markers */
-  iconColor?: string;
+  iconColor?: string | undefined;
   /** Name of annotation. */
-  name?: string;
+  name?: string | undefined;
   /** Placement can be used to display the annotation query somewhere else on the dashboard other than the default location. */
-  placement?: string;
-  target?: AnnotationTarget;
+  placement?: string | undefined;
+  target?: AnnotationTarget | undefined;
   /** TODO -- this should not exist here, it is based on the --grafana-- datasource */
-  type?: string;
+  type?: string | undefined;
 }
 export type AnnotationEventTagsList = Array<string>;
 export interface AnnotationEvent {
-  color?: string;
-  dashboardId?: number;
-  dashboardUID?: string;
-  id?: number;
-  isRegion?: boolean;
-  panelId?: number;
-  source?: AnnotationQuery;
-  tags?: AnnotationEventTagsList;
-  text?: string;
-  time?: number;
-  timeEnd?: number;
+  color?: string | undefined;
+  dashboardId?: number | undefined;
+  dashboardUID?: string | undefined;
+  id?: number | undefined;
+  isRegion?: boolean | undefined;
+  panelId?: number | undefined;
+  source?: AnnotationQuery | undefined;
+  tags?: AnnotationEventTagsList | undefined;
+  text?: string | undefined;
+  time?: number | undefined;
+  timeEnd?: number | undefined;
 }
 export type GetPublicAnnotationsResponseBodyList = Array<AnnotationEvent>;
 export type GetPublicAnnotationsResponse = GetPublicAnnotationsResponseBodyList;
@@ -1462,26 +1510,26 @@ export type ReportDashboardsList = Array<ReportDashboard>;
 export type ReportFormatsList = Array<string>;
 export type ReportUrlsList = Array<ReportURLItem>;
 export interface Report {
-  created?: string;
-  dashboards?: ReportDashboardsList;
-  enableCsv?: boolean;
-  enableDashboardUrl?: boolean;
-  formats?: ReportFormatsList;
-  id?: number;
-  message?: string;
-  name?: string;
-  options?: ReportOptions;
-  orgId?: number;
-  recipients?: string;
-  replyTo?: string;
-  scaleFactor?: number;
-  schedule?: ReportSchedule;
-  state?: string;
-  subject?: string;
-  uid?: string;
-  updated?: string;
-  urls?: ReportUrlsList;
-  userId?: number;
+  created?: string | undefined;
+  dashboards?: ReportDashboardsList | undefined;
+  enableCsv?: boolean | undefined;
+  enableDashboardUrl?: boolean | undefined;
+  formats?: ReportFormatsList | undefined;
+  id?: number | undefined;
+  message?: string | undefined;
+  name?: string | undefined;
+  options?: ReportOptions | undefined;
+  orgId?: number | undefined;
+  recipients?: string | undefined;
+  replyTo?: string | undefined;
+  scaleFactor?: number | undefined;
+  schedule?: ReportSchedule | undefined;
+  state?: string | undefined;
+  subject?: string | undefined;
+  uid?: string | undefined;
+  updated?: string | undefined;
+  urls?: ReportUrlsList | undefined;
+  userId?: number | undefined;
 }
 export type GetReportsResponseBodyList = Array<Report>;
 export type GetReportsResponse = GetReportsResponseBodyList;
@@ -1492,33 +1540,33 @@ export type GetReportsByDashboardUIDResponseBodyList = Array<Report>;
 export type GetReportsByDashboardUIDResponse = GetReportsByDashboardUIDResponseBodyList;
 export interface GetReportSettingsRequest {}
 export interface ReportBrandingOptions {
-  emailFooterLink?: string;
-  emailFooterMode?: string;
-  emailFooterText?: string;
-  emailLogoUrl?: string;
-  reportLogoUrl?: string;
+  emailFooterLink?: string | undefined;
+  emailFooterMode?: string | undefined;
+  emailFooterText?: string | undefined;
+  emailLogoUrl?: string | undefined;
+  reportLogoUrl?: string | undefined;
 }
 export interface FooterItem {
-  color?: string;
-  fontSize?: string;
-  fontStyle?: string;
-  fontWeight?: string;
-  type?: string;
-  value?: string;
+  color?: string | undefined;
+  fontSize?: string | undefined;
+  fontStyle?: string | undefined;
+  fontWeight?: string | undefined;
+  type?: string | undefined;
+  value?: string | undefined;
 }
 export type ReportSettingsFooterItemsList = Array<FooterItem>;
 export interface ReportSettings {
-  branding?: ReportBrandingOptions;
-  embeddedImageTheme?: string;
-  footerFontFamily?: string;
-  footerItems?: ReportSettingsFooterItemsList;
-  id?: number;
-  orgId?: number;
-  pdfDashboardTitleEnabled?: boolean;
-  pdfHeaderEnabled?: boolean;
-  pdfTheme?: string;
-  pdfTimeRangeEnabled?: boolean;
-  userId?: number;
+  branding?: ReportBrandingOptions | undefined;
+  embeddedImageTheme?: string | undefined;
+  footerFontFamily?: string | undefined;
+  footerItems?: ReportSettingsFooterItemsList | undefined;
+  id?: number | undefined;
+  orgId?: number | undefined;
+  pdfDashboardTitleEnabled?: boolean | undefined;
+  pdfHeaderEnabled?: boolean | undefined;
+  pdfTheme?: string | undefined;
+  pdfTimeRangeEnabled?: boolean | undefined;
+  userId?: number | undefined;
 }
 export interface GetResourceDependenciesRequest {}
 export type ResourceDependencyDTODependenciesItem =
@@ -1547,26 +1595,26 @@ export type ResourceDependencyDTOResourceType =
   | "MUTE_TIMING"
   | "PLUGIN";
 export interface ResourceDependencyDTO {
-  dependencies?: ResourceDependencyDTODependenciesList;
-  resourceType?: ResourceDependencyDTOResourceType;
+  dependencies?: ResourceDependencyDTODependenciesList | undefined;
+  resourceType?: ResourceDependencyDTOResourceType | undefined;
 }
 export type ResourceDependenciesResponseDTOResourceDependenciesList = Array<ResourceDependencyDTO>;
 export interface ResourceDependenciesResponseDTO {
-  resourceDependencies?: ResourceDependenciesResponseDTOResourceDependenciesList;
+  resourceDependencies?: ResourceDependenciesResponseDTOResourceDependenciesList | undefined;
 }
 export interface GetResourceDescriptionRequest {
   resource: string;
 }
 export interface Assignments {
-  builtInRoles?: boolean;
-  serviceAccounts?: boolean;
-  teams?: boolean;
-  users?: boolean;
+  builtInRoles?: boolean | undefined;
+  serviceAccounts?: boolean | undefined;
+  teams?: boolean | undefined;
+  users?: boolean | undefined;
 }
 export type DescriptionPermissionsList = Array<string>;
 export interface Description {
-  assignments?: Assignments;
-  permissions?: DescriptionPermissionsList;
+  assignments?: Assignments | undefined;
+  permissions?: DescriptionPermissionsList | undefined;
 }
 export interface GetResourcePermissionsRequest {
   resource: string;
@@ -1574,22 +1622,22 @@ export interface GetResourcePermissionsRequest {
 }
 export type ResourcePermissionDTOActionsList = Array<string>;
 export interface ResourcePermissionDTO {
-  actions?: ResourcePermissionDTOActionsList;
-  builtInRole?: string;
-  id?: number;
-  isInherited?: boolean;
-  isManaged?: boolean;
-  isServiceAccount?: boolean;
-  permission?: string;
-  roleName?: string;
-  team?: string;
-  teamAvatarUrl?: string;
-  teamId?: number;
-  teamUid?: string;
-  userAvatarUrl?: string;
-  userId?: number;
-  userLogin?: string;
-  userUid?: string;
+  actions?: ResourcePermissionDTOActionsList | undefined;
+  builtInRole?: string | undefined;
+  id?: number | undefined;
+  isInherited?: boolean | undefined;
+  isManaged?: boolean | undefined;
+  isServiceAccount?: boolean | undefined;
+  permission?: string | undefined;
+  roleName?: string | undefined;
+  team?: string | undefined;
+  teamAvatarUrl?: string | undefined;
+  teamId?: number | undefined;
+  teamUid?: string | undefined;
+  userAvatarUrl?: string | undefined;
+  userId?: number | undefined;
+  userLogin?: string | undefined;
+  userUid?: string | undefined;
 }
 export type GetResourcePermissionsResponseBodyList = Array<ResourcePermissionDTO>;
 export type GetResourcePermissionsResponse = GetResourcePermissionsResponseBodyList;
@@ -1603,10 +1651,10 @@ export type RoleAssignmentsDTOServiceAccountsList = Array<number>;
 export type RoleAssignmentsDTOTeamsList = Array<number>;
 export type RoleAssignmentsDTOUsersList = Array<number>;
 export interface RoleAssignmentsDTO {
-  role_uid?: string;
-  service_accounts?: RoleAssignmentsDTOServiceAccountsList;
-  teams?: RoleAssignmentsDTOTeamsList;
-  users?: RoleAssignmentsDTOUsersList;
+  role_uid?: string | undefined;
+  service_accounts?: RoleAssignmentsDTOServiceAccountsList | undefined;
+  teams?: RoleAssignmentsDTOTeamsList | undefined;
+  users?: RoleAssignmentsDTOUsersList | undefined;
 }
 export interface GetSAMLLogoutRequest {}
 export interface GetSAMLLogoutResponse {}
@@ -1621,7 +1669,7 @@ export interface GetSessionListRequest {}
 export type CloudMigrationSessionListResponseDTOSessionsList =
   Array<CloudMigrationSessionResponseDTO>;
 export interface CloudMigrationSessionListResponseDTO {
-  sessions?: CloudMigrationSessionListResponseDTOSessionsList;
+  sessions?: CloudMigrationSessionListResponseDTOSessionsList | undefined;
 }
 export interface GetSettingsImageRequest {}
 export type GetSettingsImageResponseBodyList = Array<number>;
@@ -1630,11 +1678,11 @@ export interface GetShapshotListRequest {
   /** Session UID of a session */
   uid: string;
   /** Page is used for pagination with limit */
-  page?: number;
+  page?: number | undefined;
   /** Max limit for results returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sort with value latest to return results sorted in descending order. */
-  sort?: string;
+  sort?: string | undefined;
 }
 export type SnapshotDTOStatus =
   | "INITIALIZING"
@@ -1649,68 +1697,68 @@ export type SnapshotDTOStatus =
   | "UNKNOWN";
 /** Base snapshot without results */
 export interface SnapshotDTO {
-  created?: string;
-  finished?: string;
-  sessionUid?: string;
-  status?: SnapshotDTOStatus;
-  uid?: string;
+  created?: string | undefined;
+  finished?: string | undefined;
+  sessionUid?: string | undefined;
+  status?: SnapshotDTOStatus | undefined;
+  uid?: string | undefined;
 }
 export type SnapshotListResponseDTOSnapshotsList = Array<SnapshotDTO>;
 export interface SnapshotListResponseDTO {
-  snapshots?: SnapshotListResponseDTOSnapshotsList;
+  snapshots?: SnapshotListResponseDTOSnapshotsList | undefined;
 }
 export interface GetSharingOptionsRequest {}
 export interface GetSharingOptionsResponse {
-  externalEnabled?: boolean;
-  externalSnapshotName?: string;
-  externalSnapshotURL?: string;
+  externalEnabled?: boolean | undefined;
+  externalSnapshotName?: string | undefined;
+  externalSnapshotURL?: string | undefined;
 }
 export interface GetSignedInUserRequest {}
 export type UserProfileDTOAccessControlMap = { [key: string]: boolean | undefined };
 export type UserProfileDTOAuthLabelsList = Array<string>;
 export interface UserProfileDTO {
-  accessControl?: UserProfileDTOAccessControlMap;
-  authLabels?: UserProfileDTOAuthLabelsList;
-  avatarUrl?: string;
-  createdAt?: string;
-  email?: string;
-  id?: number;
-  isDisabled?: boolean;
-  isExternal?: boolean;
-  isExternallySynced?: boolean;
-  isGrafanaAdmin?: boolean;
-  isGrafanaAdminExternallySynced?: boolean;
-  isProvisioned?: boolean;
-  login?: string;
-  name?: string;
-  orgId?: number;
-  theme?: string;
-  uid?: string;
-  updatedAt?: string;
+  accessControl?: UserProfileDTOAccessControlMap | undefined;
+  authLabels?: UserProfileDTOAuthLabelsList | undefined;
+  avatarUrl?: string | undefined;
+  createdAt?: string | undefined;
+  email?: string | undefined;
+  id?: number | undefined;
+  isDisabled?: boolean | undefined;
+  isExternal?: boolean | undefined;
+  isExternallySynced?: boolean | undefined;
+  isGrafanaAdmin?: boolean | undefined;
+  isGrafanaAdminExternallySynced?: boolean | undefined;
+  isProvisioned?: boolean | undefined;
+  login?: string | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  theme?: string | undefined;
+  uid?: string | undefined;
+  updatedAt?: string | undefined;
 }
 export interface GetSignedInUserOrgListRequest {}
 export type UserOrgDTORole = "None" | "Viewer" | "Editor" | "Admin";
 export interface UserOrgDTO {
-  name?: string;
-  orgId?: number;
-  role?: UserOrgDTORole;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  role?: UserOrgDTORole | undefined;
 }
 export type GetSignedInUserOrgListResponseBodyList = Array<UserOrgDTO>;
 export type GetSignedInUserOrgListResponse = GetSignedInUserOrgListResponseBodyList;
 export interface GetSignedInUserTeamListRequest {}
 export type TeamDTOAccessControlMap = { [key: string]: boolean | undefined };
 export interface TeamDTO {
-  accessControl?: TeamDTOAccessControlMap;
-  avatarUrl?: string;
-  email?: string;
-  externalUID?: string;
+  accessControl?: TeamDTOAccessControlMap | undefined;
+  avatarUrl?: string | undefined;
+  email?: string | undefined;
+  externalUID?: string | undefined;
   /** @deprecated Use UID instead */
   id: number;
   isProvisioned: boolean;
   memberCount: number;
   name: string;
   orgId: number;
-  permission?: number;
+  permission?: number | undefined;
   uid: string;
 }
 export type GetSignedInUserTeamListResponseBodyList = Array<TeamDTO>;
@@ -1723,15 +1771,15 @@ export interface GetSnapshotRequest {
   /** UID of a snapshot */
   snapshotUid: string;
   /** ResultPage is used for pagination with ResultLimit */
-  resultPage?: number;
+  resultPage?: number | undefined;
   /** Max limit for snapshot results returned. */
-  resultLimit?: number;
+  resultLimit?: number | undefined;
   /** ResultSortColumn can be used to override the default system sort. Valid values are "name", "resource_type", and "status". */
-  resultSortColumn?: string;
+  resultSortColumn?: string | undefined;
   /** ResultSortOrder is used with ResultSortColumn. Valid values are ASC and DESC. */
-  resultSortOrder?: string;
+  resultSortOrder?: string | undefined;
   /** ErrorsOnly is used to only return resources with error statuses */
-  errorsOnly?: boolean;
+  errorsOnly?: boolean | undefined;
 }
 export type MigrateDataResponseItemDTOErrorCode =
   | "ALERT_RULES_QUOTA_REACHED"
@@ -1761,10 +1809,10 @@ export type MigrateDataResponseItemDTOType =
   | "MUTE_TIMING"
   | "PLUGIN";
 export interface MigrateDataResponseItemDTO {
-  errorCode?: MigrateDataResponseItemDTOErrorCode;
-  message?: string;
-  name?: string;
-  parentName?: string;
+  errorCode?: MigrateDataResponseItemDTOErrorCode | undefined;
+  message?: string | undefined;
+  name?: string | undefined;
+  parentName?: string | undefined;
   refId: string;
   status: MigrateDataResponseItemDTOStatus;
   type: MigrateDataResponseItemDTOType;
@@ -1773,9 +1821,9 @@ export type GetSnapshotResponseDTOResultsList = Array<MigrateDataResponseItemDTO
 export type SnapshotResourceStatsStatusesMap = { [key: string]: number | undefined };
 export type SnapshotResourceStatsTypesMap = { [key: string]: number | undefined };
 export interface SnapshotResourceStats {
-  statuses?: SnapshotResourceStatsStatusesMap;
-  total?: number;
-  types?: SnapshotResourceStatsTypesMap;
+  statuses?: SnapshotResourceStatsStatusesMap | undefined;
+  total?: number | undefined;
+  types?: SnapshotResourceStatsTypesMap | undefined;
 }
 export type GetSnapshotResponseDTOStatus =
   | "INITIALIZING"
@@ -1789,53 +1837,53 @@ export type GetSnapshotResponseDTOStatus =
   | "ERROR"
   | "UNKNOWN";
 export interface GetSnapshotResponseDTO {
-  created?: string;
-  finished?: string;
-  results?: GetSnapshotResponseDTOResultsList;
-  sessionUid?: string;
-  stats?: SnapshotResourceStats;
-  status?: GetSnapshotResponseDTOStatus;
-  uid?: string;
+  created?: string | undefined;
+  finished?: string | undefined;
+  results?: GetSnapshotResponseDTOResultsList | undefined;
+  sessionUid?: string | undefined;
+  stats?: SnapshotResourceStats | undefined;
+  status?: GetSnapshotResponseDTOStatus | undefined;
+  uid?: string | undefined;
 }
 export interface GetStatusRequest {}
 export type GetStatusResponse = boolean;
 export interface GetSyncStatusRequest {}
 /** FailedUser holds the information of an user that failed */
 export interface FailedUser {
-  Error?: string;
-  Login?: string;
+  Error?: string | undefined;
+  Login?: string | undefined;
 }
 export type SyncResultFailedUsersList = Array<FailedUser>;
 export type SyncResultMissingUserIdsList = Array<number>;
 export type SyncResultUpdatedUserIdsList = Array<number>;
 export interface SyncResult {
-  Elapsed?: number;
-  FailedUsers?: SyncResultFailedUsersList;
-  MissingUserIds?: SyncResultMissingUserIdsList;
-  Started?: string;
-  UpdatedUserIds?: SyncResultUpdatedUserIdsList;
+  Elapsed?: number | undefined;
+  FailedUsers?: SyncResultFailedUsersList | undefined;
+  MissingUserIds?: SyncResultMissingUserIdsList | undefined;
+  Started?: string | undefined;
+  UpdatedUserIds?: SyncResultUpdatedUserIdsList | undefined;
 }
 /** ActiveSyncStatusDTO holds the information for LDAP background Sync */
 export interface ActiveSyncStatusDTO {
-  enabled?: boolean;
-  nextSync?: string;
-  prevSync?: SyncResult;
-  schedule?: string;
+  enabled?: boolean | undefined;
+  nextSync?: string | undefined;
+  prevSync?: SyncResult | undefined;
+  schedule?: string | undefined;
 }
 export interface GetTeamRequest {
   team_id: string;
-  accesscontrol?: boolean;
+  accesscontrol?: boolean | undefined;
 }
 export interface GetTeamGroupsApiRequest {
   teamId: string;
 }
 export interface TeamGroupDTO {
-  groupId?: string;
-  orgId?: number;
-  teamId?: number;
-  teamUid?: string;
+  groupId?: string | undefined;
+  orgId?: number | undefined;
+  teamId?: number | undefined;
+  teamUid?: string | undefined;
   /** Deprecated: always empty; no per-entry id. */
-  uid?: string;
+  uid?: string | undefined;
 }
 export type GetTeamGroupsApiResponseBodyList = Array<TeamGroupDTO>;
 export type GetTeamGroupsApiResponse = GetTeamGroupsApiResponseBodyList;
@@ -1844,32 +1892,32 @@ export interface GetTeamLBACRulesApiRequest {
 }
 export type TeamLBACRuleRulesList = Array<string>;
 export interface TeamLBACRule {
-  rules?: TeamLBACRuleRulesList;
-  teamId?: string;
-  teamUid?: string;
+  rules?: TeamLBACRuleRulesList | undefined;
+  teamId?: string | undefined;
+  teamUid?: string | undefined;
 }
 export type TeamLBACRulesRulesList = Array<TeamLBACRule>;
 export interface TeamLBACRules {
-  rules?: TeamLBACRulesRulesList;
+  rules?: TeamLBACRulesRulesList | undefined;
 }
 export interface GetTeamMembersRequest {
   team_id: string;
 }
 export type TeamMemberDTOLabelsList = Array<string>;
 export interface TeamMemberDTO {
-  auth_module?: string;
-  avatarUrl?: string;
-  email?: string;
-  labels?: TeamMemberDTOLabelsList;
-  login?: string;
-  name?: string;
-  orgId?: number;
-  permission?: number;
-  teamId?: number;
-  teamUID?: string;
-  uid?: string;
-  userId?: number;
-  userUID?: string;
+  auth_module?: string | undefined;
+  avatarUrl?: string | undefined;
+  email?: string | undefined;
+  labels?: TeamMemberDTOLabelsList | undefined;
+  login?: string | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  permission?: number | undefined;
+  teamId?: number | undefined;
+  teamUID?: string | undefined;
+  uid?: string | undefined;
+  userId?: number | undefined;
+  userUID?: string | undefined;
 }
 export type GetTeamMembersResponseBodyList = Array<TeamMemberDTO>;
 export type GetTeamMembersResponse = GetTeamMembersResponseBodyList;
@@ -1878,27 +1926,27 @@ export interface GetTeamPreferencesRequest {
 }
 export type PreferencesNavbarPreferenceBookmarkUrlsList = Array<string>;
 export interface PreferencesNavbarPreference {
-  bookmarkUrls?: PreferencesNavbarPreferenceBookmarkUrlsList;
+  bookmarkUrls?: PreferencesNavbarPreferenceBookmarkUrlsList | undefined;
 }
 export interface PreferencesQueryHistoryPreference {
   /** one of: '' | 'query' | 'starred'; */
-  homeTab?: string;
+  homeTab?: string | undefined;
 }
 export interface PreferencesSpec {
-  /** UID for the home dashboard */
-  homeDashboardUID?: string;
+  /** UID for the home dashboard. The reserved value "global-home" is not a dashboard UID: it selects the instance default home (home_page, the configured home dashboard file, or the built-in home page) instead of falling through to lower-precedence preferences. */
+  homeDashboardUID?: string | undefined;
   /** Explicit home URL (NOTE: this can only be modified in the system settings) */
-  homeURL?: string;
+  homeURL?: string | undefined;
   /** Selected language */
-  language?: string;
-  navbar?: PreferencesNavbarPreference;
-  queryHistory?: PreferencesQueryHistoryPreference;
+  language?: string | undefined;
+  navbar?: PreferencesNavbarPreference | undefined;
+  queryHistory?: PreferencesQueryHistoryPreference | undefined;
   /** user interface theme */
-  theme?: string;
+  theme?: string | undefined;
   /** The timezone selection */
-  timezone?: string;
+  timezone?: string | undefined;
   /** day of the week (sunday, monday, etc) */
-  weekStart?: string;
+  weekStart?: string | undefined;
 }
 export interface GetUserRequest {
   user_id: number;
@@ -1932,39 +1980,39 @@ export interface GetUserTeamsRequest {
 export type GetUserTeamsResponseBodyList = Array<TeamDTO>;
 export type GetUserTeamsResponse = GetUserTeamsResponseBodyList;
 export interface ImportDashboardInput {
-  name?: string;
-  pluginId?: string;
-  type?: string;
-  value?: string;
+  name?: string | undefined;
+  pluginId?: string | undefined;
+  type?: string | undefined;
+  value?: string | undefined;
 }
 export type ImportDashboardRequestInputsList = Array<ImportDashboardInput>;
 export interface ImportDashboardRequest {
-  dashboard?: unknown;
+  dashboard?: unknown | undefined;
   /** Deprecated: use FolderUID instead */
-  folderId?: number;
-  folderUid?: string;
-  inputs?: ImportDashboardRequestInputsList;
-  overwrite?: boolean;
-  path?: string;
-  pluginId?: string;
+  folderId?: number | undefined;
+  folderUid?: string | undefined;
+  inputs?: ImportDashboardRequestInputsList | undefined;
+  overwrite?: boolean | undefined;
+  path?: string | undefined;
+  pluginId?: string | undefined;
 }
 export interface ImportDashboardResponse {
-  dashboardId?: number;
-  description?: string;
+  dashboardId?: number | undefined;
+  description?: string | undefined;
   /** Deprecated: use FolderUID instead */
-  folderId?: number;
-  folderUid?: string;
-  imported?: boolean;
-  importedRevision?: number;
-  importedUri?: string;
-  importedUrl?: string;
-  path?: string;
-  pluginId?: string;
-  removed?: boolean;
-  revision?: number;
-  slug?: string;
-  title?: string;
-  uid?: string;
+  folderId?: number | undefined;
+  folderUid?: string | undefined;
+  imported?: boolean | undefined;
+  importedRevision?: number | undefined;
+  importedUri?: string | undefined;
+  importedUrl?: string | undefined;
+  path?: string | undefined;
+  pluginId?: string | undefined;
+  removed?: boolean | undefined;
+  revision?: number | undefined;
+  slug?: string | undefined;
+  title?: string | undefined;
+  uid?: string | undefined;
 }
 export interface InterpolateDashboardRequest {}
 export type InterpolateDashboardResponse = unknown;
@@ -1973,71 +2021,71 @@ export type ListAllProvidersSettingsResponseBodyItemSettingsMap = {
   [key: string]: unknown | undefined;
 };
 export interface ListAllProvidersSettingsResponseBodyItem {
-  id?: string;
-  provider?: string;
-  settings?: ListAllProvidersSettingsResponseBodyItemSettingsMap;
-  source?: string;
+  id?: string | undefined;
+  provider?: string | undefined;
+  settings?: ListAllProvidersSettingsResponseBodyItemSettingsMap | undefined;
+  source?: string | undefined;
 }
 export type ListAllProvidersSettingsResponseBodyList =
   Array<ListAllProvidersSettingsResponseBodyItem>;
 export type ListAllProvidersSettingsResponse = ListAllProvidersSettingsResponseBodyList;
 export interface ListDevicesRequest {}
 export interface DeviceDTO {
-  avatarUrl?: string;
-  clientIp?: string;
-  createdAt?: string;
-  deviceId?: string;
-  lastSeenAt?: string;
-  updatedAt?: string;
-  userAgent?: string;
+  avatarUrl?: string | undefined;
+  clientIp?: string | undefined;
+  createdAt?: string | undefined;
+  deviceId?: string | undefined;
+  lastSeenAt?: string | undefined;
+  updatedAt?: string | undefined;
+  userAgent?: string | undefined;
 }
 export type ListDevicesResponseBodyList = Array<DeviceDTO>;
 export type ListDevicesResponse = ListDevicesResponseBodyList;
 export interface ListPublicDashboardsRequest {}
 export interface PublicDashboardListResponse {
-  accessToken?: string | Redacted.Redacted<string>;
-  dashboardUid?: string;
-  isEnabled?: boolean;
-  slug?: string;
-  title?: string;
-  uid?: string;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
+  dashboardUid?: string | undefined;
+  isEnabled?: boolean | undefined;
+  slug?: string | undefined;
+  title?: string | undefined;
+  uid?: string | undefined;
 }
 export type PublicDashboardListResponseWithPaginationPublicDashboardsList =
   Array<PublicDashboardListResponse>;
 export interface PublicDashboardListResponseWithPagination {
-  page?: number;
-  perPage?: number;
-  publicDashboards?: PublicDashboardListResponseWithPaginationPublicDashboardsList;
-  totalCount?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  publicDashboards?: PublicDashboardListResponseWithPaginationPublicDashboardsList | undefined;
+  totalCount?: number | undefined;
 }
 export interface ListRecordingRulesRequest {}
 export type ListRecordingRulesResponseBodyList = Array<RecordingRuleJSON>;
 export type ListRecordingRulesResponse = ListRecordingRulesResponseBodyList;
 export interface ListRolesRequest {
-  delegatable?: boolean;
-  includeHidden?: boolean;
-  targetOrgId?: number;
+  delegatable?: boolean | undefined;
+  includeHidden?: boolean | undefined;
+  targetOrgId?: number | undefined;
 }
 export type ListRolesResponseBodyList = Array<RoleDTO>;
 export type ListRolesResponse = ListRolesResponseBodyList;
 export interface ListSortOptionsRequest {}
 export interface ListSortOptionsResponse {
-  description?: string;
-  displayName?: string;
-  meta?: string;
-  name?: string;
+  description?: string | undefined;
+  displayName?: string | undefined;
+  meta?: string | undefined;
+  name?: string | undefined;
 }
 export interface ListTeamRolesRequest {
   teamId: number;
-  targetOrgId?: number;
+  targetOrgId?: number | undefined;
 }
 export type ListTeamsRolesRequestTeamIdsList = Array<number>;
 export type ListTeamsRolesRequestUserIdsList = Array<number>;
 export interface ListTeamsRolesRequest {
-  includeHidden?: boolean;
-  orgId?: number;
-  teamIds?: ListTeamsRolesRequestTeamIdsList;
-  userIds?: ListTeamsRolesRequestUserIdsList;
+  includeHidden?: boolean | undefined;
+  orgId?: number | undefined;
+  teamIds?: ListTeamsRolesRequestTeamIdsList | undefined;
+  userIds?: ListTeamsRolesRequestUserIdsList | undefined;
 }
 export type ListTeamsRolesResponseBodyValueList = Array<RoleDTO>;
 export type ListTeamsRolesResponseBodyMap = {
@@ -2048,31 +2096,31 @@ export interface ListTokensRequest {
   serviceAccountId: number;
 }
 export interface TokenDTO {
-  created?: string;
-  expiration?: string;
-  hasExpired?: boolean;
-  id?: number;
-  isRevoked?: boolean;
-  lastUsedAt?: string;
-  name?: string;
-  secondsUntilExpiration?: number;
+  created?: string | undefined;
+  expiration?: string | undefined;
+  hasExpired?: boolean | undefined;
+  id?: number | undefined;
+  isRevoked?: boolean | undefined;
+  lastUsedAt?: string | undefined;
+  name?: string | undefined;
+  secondsUntilExpiration?: number | undefined;
 }
 export type ListTokensResponseBodyList = Array<TokenDTO>;
 export type ListTokensResponse = ListTokensResponseBodyList;
 export interface ListUserRolesRequest {
   userId: number;
-  includeHidden?: boolean;
-  targetOrgId?: number;
+  includeHidden?: boolean | undefined;
+  targetOrgId?: number | undefined;
 }
 export type ListUserRolesResponseBodyList = Array<RoleDTO>;
 export type ListUserRolesResponse = ListUserRolesResponseBodyList;
 export type ListUsersRolesRequestTeamIdsList = Array<number>;
 export type ListUsersRolesRequestUserIdsList = Array<number>;
 export interface ListUsersRolesRequest {
-  includeHidden?: boolean;
-  orgId?: number;
-  teamIds?: ListUsersRolesRequestTeamIdsList;
-  userIds?: ListUsersRolesRequestUserIdsList;
+  includeHidden?: boolean | undefined;
+  orgId?: number | undefined;
+  teamIds?: ListUsersRolesRequestTeamIdsList | undefined;
+  userIds?: ListUsersRolesRequestUserIdsList | undefined;
 }
 export type ListUsersRolesResponseBodyValueList = Array<RoleDTO>;
 export type ListUsersRolesResponseBodyMap = {
@@ -2080,30 +2128,30 @@ export type ListUsersRolesResponseBodyMap = {
 };
 export type ListUsersRolesResponse = ListUsersRolesResponseBodyMap;
 export interface MassDeleteAnnotationsRequest {
-  annotationId?: number;
-  dashboardId?: number;
-  dashboardUID?: string;
-  panelId?: number;
+  annotationId?: number | undefined;
+  dashboardId?: number | undefined;
+  dashboardUID?: string | undefined;
+  panelId?: number | undefined;
 }
 export type PatchProviderSettingsRequestSettingsMap = { [key: string]: unknown | undefined };
 export interface PatchProviderSettingsRequest {
   key: string;
-  settings?: PatchProviderSettingsRequestSettingsMap;
+  settings?: PatchProviderSettingsRequestSettingsMap | undefined;
 }
 export interface PatchQueryCommentRequest {
   query_history_uid: string;
   /** Updated comment */
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface PostACSRequest {
-  RelayState?: string;
+  RelayState?: string | undefined;
 }
 export interface PostACSResponse {}
 export interface PostGraphiteAnnotationRequest {
-  data?: string;
-  tags?: unknown;
-  what?: string;
-  when?: number;
+  data?: string | undefined;
+  tags?: unknown | undefined;
+  what?: string | undefined;
+  when?: number | undefined;
 }
 export interface PostGraphiteAnnotationResponse {
   /** ID Identifier of the created annotation. */
@@ -2112,13 +2160,13 @@ export interface PostGraphiteAnnotationResponse {
   message: string;
 }
 export interface PostLicenseTokenRequest {
-  instance?: string;
+  instance?: string | undefined;
 }
 export interface PostRenewLicenseTokenRequest {}
 export type PostRenewLicenseTokenResponse = boolean;
 export interface PostSLORequest {
-  SAMLRequest?: string;
-  SAMLResponse?: string;
+  SAMLRequest?: string | undefined;
+  SAMLResponse?: string | undefined;
 }
 export interface PostSLOResponse {}
 export interface PostSyncUserWithLDAPRequest {
@@ -2127,7 +2175,7 @@ export interface PostSyncUserWithLDAPRequest {
 /** queries.refId - Specifies an identifier of the query. Is optional and default to "A". queries.datasourceId - Specifies the data source to be queried. Each query in the request must have an unique datasourceId. queries.maxDataPoints - Species maximum amount of data points that dashboard panel can render. Is optional and default to 100. queries.intervalMs - Specifies the time interval in milliseconds of time series. Is optional and defaults to 1000. */
 export type QueryMetricsWithExpressionsRequestQueriesList = Array<unknown>;
 export interface QueryMetricsWithExpressionsRequest {
-  debug?: boolean;
+  debug?: boolean | undefined;
   /** From Start time in epoch timestamps in milliseconds or relative using Grafana time units. */
   from: string;
   /** queries.refId - Specifies an identifier of the query. Is optional and default to "A". queries.datasourceId - Specifies the data source to be queried. Each query in the request must have an unique datasourceId. queries.maxDataPoints - Species maximum amount of data points that dashboard panel can render. Is optional and default to 100. queries.intervalMs - Specifies the time interval in milliseconds of time series. Is optional and defaults to 1000. */
@@ -2142,44 +2190,44 @@ export type FieldConfigCustomMap = { [key: string]: unknown | undefined };
 /** Redefining this to avoid an import cycle */
 export type TimeRange = ReportTimeRange;
 export interface LinkTransformationConfig {
-  expression?: string;
-  field?: string;
-  mapValue?: string;
-  type?: string;
+  expression?: string | undefined;
+  field?: string | undefined;
+  mapValue?: string | undefined;
+  type?: string | undefined;
 }
 export type InternalDataLinkTransformationsList = Array<LinkTransformationConfig>;
 /** InternalDataLink definition to allow Explore links to be constructed in the backend */
 export interface InternalDataLink {
-  datasourceName?: string;
-  datasourceUid?: string;
-  panelsState?: unknown;
-  query?: unknown;
-  timeRange?: ReportTimeRange;
-  transformations?: InternalDataLinkTransformationsList;
+  datasourceName?: string | undefined;
+  datasourceUid?: string | undefined;
+  panelsState?: unknown | undefined;
+  query?: unknown | undefined;
+  timeRange?: ReportTimeRange | undefined;
+  transformations?: InternalDataLinkTransformationsList | undefined;
 }
 /** DataLink define what */
 export interface DataLink {
-  internal?: InternalDataLink;
-  targetBlank?: boolean;
-  title?: string;
-  url?: string;
+  internal?: InternalDataLink | undefined;
+  targetBlank?: boolean | undefined;
+  title?: string | undefined;
+  url?: string | undefined;
 }
 /** The behavior when clicking on a result */
 export type FieldConfigLinksList = Array<DataLink>;
 export type ValueMappings = Array<unknown>;
 /** Threshold a single step on the threshold list */
 export interface Threshold {
-  color?: string;
-  state?: string;
-  value?: number;
+  color?: string | undefined;
+  state?: string | undefined;
+  value?: number | undefined;
 }
 /** Must be sorted by 'value', first value is always -Infinity */
 export type ThresholdsConfigStepsList = Array<Threshold>;
 /** ThresholdsConfig setup thresholds */
 export interface ThresholdsConfig {
-  mode?: string;
+  mode?: string | undefined;
   /** Must be sorted by 'value', first value is always -Infinity */
-  steps?: ThresholdsConfigStepsList;
+  steps?: ThresholdsConfigStepsList | undefined;
 }
 /** Color is the color value for a given index (empty is undefined) */
 export type EnumFieldConfigColorList = Array<string>;
@@ -2192,68 +2240,68 @@ export type EnumFieldConfigTextList = Array<string>;
 /** Enum field config Vector values are used as lookup keys into the enum fields */
 export interface EnumFieldConfig {
   /** Color is the color value for a given index (empty is undefined) */
-  color?: EnumFieldConfigColorList;
+  color?: EnumFieldConfigColorList | undefined;
   /** Description of the enum state */
-  description?: EnumFieldConfigDescriptionList;
+  description?: EnumFieldConfigDescriptionList | undefined;
   /** Icon supports setting an icon for a given index value */
-  icon?: EnumFieldConfigIconList;
+  icon?: EnumFieldConfigIconList | undefined;
   /** Value is the string display value for a given index */
-  text?: EnumFieldConfigTextList;
+  text?: EnumFieldConfigTextList | undefined;
 }
 /** FieldTypeConfig has type specific configs, only one should be active at a time */
 export interface FieldTypeConfig {
-  enum?: EnumFieldConfig;
+  enum?: EnumFieldConfig | undefined;
 }
 export interface FieldConfig {
   /** Map values to a display color NOTE: this interface is under development in the frontend... so simple map for now */
-  color?: FieldConfigColorMap;
+  color?: FieldConfigColorMap | undefined;
   /** Panel Specific Values */
-  custom?: FieldConfigCustomMap;
-  decimals?: number;
+  custom?: FieldConfigCustomMap | undefined;
+  decimals?: number | undefined;
   /** Description is human readable field metadata */
-  description?: string;
+  description?: string | undefined;
   /** DisplayName overrides Grafana default naming, should not be used from a data source */
-  displayName?: string;
+  displayName?: string | undefined;
   /** DisplayNameFromDS overrides Grafana default naming strategy. */
-  displayNameFromDS?: string;
+  displayNameFromDS?: string | undefined;
   /** Filterable indicates if the Field's data can be filtered by additional calls. */
-  filterable?: boolean;
+  filterable?: boolean | undefined;
   /** Interval indicates the expected regular step between values in the series. When an interval exists, consumers can identify "missing" values when the expected value is not present. The grafana timeseries visualization will render disconnected values when missing values are found it the time field. The interval uses the same units as the values. For time.Time, this is defined in milliseconds. */
-  interval?: number;
+  interval?: number | undefined;
   /** The behavior when clicking on a result */
-  links?: FieldConfigLinksList;
-  mappings?: ValueMappings;
-  max?: number;
-  min?: number;
+  links?: FieldConfigLinksList | undefined;
+  mappings?: ValueMappings | undefined;
+  max?: number | undefined;
+  min?: number | undefined;
   /** Alternative to empty string */
-  noValue?: string;
+  noValue?: string | undefined;
   /** Path is an explicit path to the field in the datasource. When the frame meta includes a path, this will default to `${frame.meta.path}/${field.name} When defined, this value can be used as an identifier within the datasource scope, and may be used as an identifier to update values in a subsequent request */
-  path?: string;
-  thresholds?: ThresholdsConfig;
-  type?: FieldTypeConfig;
+  path?: string | undefined;
+  thresholds?: ThresholdsConfig | undefined;
+  type?: FieldTypeConfig | undefined;
   /** Numeric Options */
-  unit?: string;
+  unit?: string | undefined;
   /** Writeable indicates that the datasource knows how to update this value */
-  writeable?: boolean;
+  writeable?: boolean | undefined;
 }
 /** Labels are used to add metadata to an object. The JSON will always be sorted keys */
 export type FrameLabels = { [key: string]: string | undefined };
 /** A Field is essentially a slice of various types with extra properties and methods. See NewField() for supported types. The slice data in the Field is a not exported, so methods on the Field are used to to manipulate its data. */
 export interface Field {
-  config?: FieldConfig;
-  labels?: FrameLabels;
+  config?: FieldConfig | undefined;
+  labels?: FrameLabels | undefined;
   /** Name is default identifier of the field. The name does not have to be unique, but the combination of name and Labels should be unique for proper behavior in all situations. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Fields are the columns of a frame. All Fields must be of the same the length when marshalling the Frame for transmission. There should be no `nil` entries in the Fields slice (making them pointers was a mistake). */
 export type FrameFieldsList = Array<Field>;
 export interface Notice {
-  inspect?: number;
+  inspect?: number | undefined;
   /** Link is an optional link for display in the user interface and can be an absolute URL or a path relative to Grafana's root url. */
-  link?: string;
-  severity?: number;
+  link?: string | undefined;
+  severity?: number | undefined;
   /** Text is freeform descriptive text for the notice. */
-  text?: string;
+  text?: string | undefined;
 }
 /** Notices provide additional information about the data in the Frame that Grafana can display to the user in the user interface. */
 export type FrameMetaNoticesList = Array<Notice>;
@@ -2266,36 +2314,36 @@ export type QueryStatLinksList = Array<DataLink>;
 /** The embedded FieldConfig's display name must be set. It corresponds to the QueryResultMetaStat on the frontend (https://github.com/grafana/grafana/blob/master/packages/grafana-data/src/types/data.ts#L53). */
 export interface QueryStat {
   /** Map values to a display color NOTE: this interface is under development in the frontend... so simple map for now */
-  color?: QueryStatColorMap;
+  color?: QueryStatColorMap | undefined;
   /** Panel Specific Values */
-  custom?: QueryStatCustomMap;
-  decimals?: number;
+  custom?: QueryStatCustomMap | undefined;
+  decimals?: number | undefined;
   /** Description is human readable field metadata */
-  description?: string;
+  description?: string | undefined;
   /** DisplayName overrides Grafana default naming, should not be used from a data source */
-  displayName?: string;
+  displayName?: string | undefined;
   /** DisplayNameFromDS overrides Grafana default naming strategy. */
-  displayNameFromDS?: string;
+  displayNameFromDS?: string | undefined;
   /** Filterable indicates if the Field's data can be filtered by additional calls. */
-  filterable?: boolean;
+  filterable?: boolean | undefined;
   /** Interval indicates the expected regular step between values in the series. When an interval exists, consumers can identify "missing" values when the expected value is not present. The grafana timeseries visualization will render disconnected values when missing values are found it the time field. The interval uses the same units as the values. For time.Time, this is defined in milliseconds. */
-  interval?: number;
+  interval?: number | undefined;
   /** The behavior when clicking on a result */
-  links?: QueryStatLinksList;
-  mappings?: ValueMappings;
-  max?: number;
-  min?: number;
+  links?: QueryStatLinksList | undefined;
+  mappings?: ValueMappings | undefined;
+  max?: number | undefined;
+  min?: number | undefined;
   /** Alternative to empty string */
-  noValue?: string;
+  noValue?: string | undefined;
   /** Path is an explicit path to the field in the datasource. When the frame meta includes a path, this will default to `${frame.meta.path}/${field.name} When defined, this value can be used as an identifier within the datasource scope, and may be used as an identifier to update values in a subsequent request */
-  path?: string;
-  thresholds?: ThresholdsConfig;
-  type?: FieldTypeConfig;
+  path?: string | undefined;
+  thresholds?: ThresholdsConfig | undefined;
+  type?: FieldTypeConfig | undefined;
   /** Numeric Options */
-  unit?: string;
-  value?: number;
+  unit?: string | undefined;
+  value?: number | undefined;
   /** Writeable indicates that the datasource knows how to update this value */
-  writeable?: boolean;
+  writeable?: boolean | undefined;
 }
 /** Stats is an array of query result statistics. */
 export type FrameMetaStatsList = Array<QueryStat>;
@@ -2305,53 +2353,53 @@ export type FrameMetaUniqueRowIdFieldsList = Array<number>;
 /** https://github.com/grafana/grafana/blob/master/packages/grafana-data/src/types/data.ts#L11 NOTE -- in javascript this can accept any `[key: string]: any;` however this interface only exposes the values we want to be exposed */
 export interface FrameMeta {
   /** Channel is the path to a stream in grafana live that has real-time updates for this data. */
-  channel?: string;
+  channel?: string | undefined;
   /** Custom datasource specific values. */
-  custom?: unknown;
-  dataTopic?: string;
+  custom?: unknown | undefined;
+  dataTopic?: string | undefined;
   /** ExecutedQueryString is the raw query sent to the underlying system. All macros and templating have been applied. When metadata contains this value, it will be shown in the query inspector. */
-  executedQueryString?: string;
+  executedQueryString?: string | undefined;
   /** Notices provide additional information about the data in the Frame that Grafana can display to the user in the user interface. */
-  notices?: FrameMetaNoticesList;
+  notices?: FrameMetaNoticesList | undefined;
   /** Path is a browsable path on the datasource. */
-  path?: string;
+  path?: string | undefined;
   /** PathSeparator defines the separator pattern to decode a hierarchy. The default separator is '/'. */
-  pathSeparator?: string;
+  pathSeparator?: string | undefined;
   /** PreferredVisualizationPluginId sets the panel plugin id to use to render the data when using Explore. If the plugin cannot be found will fall back to PreferredVisualization. */
-  preferredVisualisationPluginId?: string;
-  preferredVisualisationType?: string;
+  preferredVisualisationPluginId?: string | undefined;
+  preferredVisualisationType?: string | undefined;
   /** Stats is an array of query result statistics. */
-  stats?: FrameMetaStatsList;
-  type?: string;
-  typeVersion?: FrameTypeVersion;
+  stats?: FrameMetaStatsList | undefined;
+  type?: string | undefined;
+  typeVersion?: FrameTypeVersion | undefined;
   /** Array of field indices which values create a unique id for each row. Ideally this should be globally unique ID but that isn't guarantied. Should help with keeping track and deduplicating rows in visualizations, especially with streaming data with frequent updates. */
-  uniqueRowIdFields?: FrameMetaUniqueRowIdFieldsList;
+  uniqueRowIdFields?: FrameMetaUniqueRowIdFieldsList | undefined;
 }
 /** Each Field is well typed by its FieldType and supports optional Labels. A Frame is a general data container for Grafana. A Frame can be table data or time series data depending on its content and field types. */
 export interface Frame {
   /** Fields are the columns of a frame. All Fields must be of the same the length when marshalling the Frame for transmission. There should be no `nil` entries in the Fields slice (making them pointers was a mistake). */
-  Fields?: FrameFieldsList;
-  Meta?: FrameMeta;
+  Fields?: FrameFieldsList | undefined;
+  Meta?: FrameMeta | undefined;
   /** Name is used in some Grafana visualizations. */
-  Name?: string;
+  Name?: string | undefined;
   /** RefID is a property that can be set to match a Frame to its originating query. */
-  RefID?: string;
+  RefID?: string | undefined;
 }
 /** It is the main data container within a backend.DataResponse. There should be no `nil` entries in the Frames slice (making them pointers was a mistake). */
 export type Frames = Array<Frame>;
 /** A map of RefIDs (unique query identifiers) to this type makes up the Responses property of a QueryDataResponse. The Error property is used to allow for partial success responses from the containing QueryDataResponse. */
 export interface DataResponse {
   /** Error is a property to be set if the corresponding DataQuery has an error. */
-  Error?: string;
-  ErrorSource?: string;
-  Frames?: Frames;
-  Status?: number;
+  Error?: string | undefined;
+  ErrorSource?: string | undefined;
+  Frames?: Frames | undefined;
+  Status?: number | undefined;
 }
 /** The QueryData method the QueryDataHandler method will set the RefId property on the DataResponses' frames based on these RefIDs. */
 export type Responses = { [key: string]: DataResponse | undefined };
 /** It is the return type of a QueryData call. */
 export interface QueryDataResponse {
-  results?: Responses;
+  results?: Responses | undefined;
 }
 export interface QueryPublicDashboardRequest {
   accessToken: string;
@@ -2359,10 +2407,10 @@ export interface QueryPublicDashboardRequest {
 }
 export interface RefreshLicenseStatsRequest {}
 export interface ActiveUserStats {
-  active_admins_and_editors?: number;
-  active_anonymous_devices?: number;
-  active_users?: number;
-  active_viewers?: number;
+  active_admins_and_editors?: number | undefined;
+  active_anonymous_devices?: number | undefined;
+  active_users?: number | undefined;
+  active_viewers?: number | undefined;
 }
 export interface ReloadLDAPCfgRequest {}
 export interface ReloadLDAPCfgResponse {}
@@ -2378,7 +2426,7 @@ export interface RemoveProviderSettingsRequest {
 }
 export interface RemoveTeamGroupApiQueryRequest {
   teamId: string;
-  groupId?: string;
+  groupId?: string | undefined;
 }
 export interface RemoveTeamMemberRequest {
   team_id: string;
@@ -2392,21 +2440,21 @@ export interface RemoveUserRoleRequest {
   userId: number;
   roleUID: string;
   /** A flag indicating if the assignment is global or not. If set to false, the default org ID of the authenticated user will be used from the request to remove assignment. */
-  global?: boolean;
+  global?: boolean | undefined;
 }
 export interface RenderReportCSVsRequest {
-  dashboards?: string;
-  title?: string;
+  dashboards?: string | undefined;
+  title?: string | undefined;
 }
 export type RenderReportCSVsResponseBodyList = Array<number>;
 export type RenderReportCSVsResponse = RenderReportCSVsResponseBodyList;
 export interface RenderReportPDFsRequest {
-  dashboards?: string;
-  orientation?: string;
-  layout?: string;
-  title?: string;
-  scaleFactor?: string;
-  includeTables?: string;
+  dashboards?: string | undefined;
+  orientation?: string | undefined;
+  layout?: string | undefined;
+  title?: string | undefined;
+  scaleFactor?: string | undefined;
+  includeTables?: string | undefined;
 }
 export type RenderReportPDFsResponseBodyList = Array<number>;
 export type RenderReportPDFsResponse = RenderReportPDFsResponseBodyList;
@@ -2414,7 +2462,7 @@ export interface RevokeInviteRequest {
   invitation_code: string;
 }
 export interface RevokeUserAuthTokenRequest {
-  authTokenId?: number;
+  authTokenId?: number | undefined;
 }
 export interface RouteConvertPrometheusCortexDeleteNamespaceRequest {
   NamespaceTitle: string;
@@ -2473,35 +2521,35 @@ export interface RouteExportMuteTimingRequest {
   /** Mute timing name */
   name: string;
   /** Whether to initiate a download of the file or not. */
-  download?: boolean;
+  download?: boolean | undefined;
   /** Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence. */
-  format?: RouteExportMuteTimingRequestFormat | (string & {});
+  format?: RouteExportMuteTimingRequestFormat | (string & {}) | undefined;
 }
 export interface ReceiverExport {
-  disableResolveMessage?: boolean;
-  settings?: unknown;
-  type?: string;
-  uid?: string;
+  disableResolveMessage?: boolean | undefined;
+  settings?: unknown | undefined;
+  type?: string | undefined;
+  uid?: string | undefined;
 }
 export type ContactPointExportReceiversList = Array<ReceiverExport>;
 export interface ContactPointExport {
-  name?: string;
-  orgId?: number;
-  receivers?: ContactPointExportReceiversList;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  receivers?: ContactPointExportReceiversList | undefined;
 }
 export type AlertingFileExportContactPointsList = Array<ContactPointExport>;
 export type AlertRuleExportAnnotationsMap = { [key: string]: string | undefined };
 export type AlertQueryExportModelMap = { [key: string]: unknown | undefined };
 export interface RelativeTimeRangeExport {
-  from?: number;
-  to?: number;
+  from?: number | undefined;
+  to?: number | undefined;
 }
 export interface AlertQueryExport {
-  datasourceUid?: string;
-  model?: AlertQueryExportModelMap;
-  queryType?: string;
-  refId?: string;
-  relativeTimeRange?: RelativeTimeRangeExport;
+  datasourceUid?: string | undefined;
+  model?: AlertQueryExportModelMap | undefined;
+  queryType?: string | undefined;
+  refId?: string | undefined;
+  relativeTimeRange?: RelativeTimeRangeExport | undefined;
 }
 export type AlertRuleExportDataList = Array<AlertQueryExport>;
 export type AlertRuleExportExecErrState = "OK" | "Alerting" | "Error";
@@ -2511,56 +2559,56 @@ export type AlertRuleNotificationSettingsExportActiveTimeIntervalsList = Array<s
 export type AlertRuleNotificationSettingsExportGroupByList = Array<string>;
 export type AlertRuleNotificationSettingsExportMuteTimeIntervalsList = Array<string>;
 export interface AlertRuleNotificationSettingsExport {
-  active_time_intervals?: AlertRuleNotificationSettingsExportActiveTimeIntervalsList;
-  group_by?: AlertRuleNotificationSettingsExportGroupByList;
-  group_interval?: string;
-  group_wait?: string;
-  mute_time_intervals?: AlertRuleNotificationSettingsExportMuteTimeIntervalsList;
-  receiver?: string;
-  repeat_interval?: string;
+  active_time_intervals?: AlertRuleNotificationSettingsExportActiveTimeIntervalsList | undefined;
+  group_by?: AlertRuleNotificationSettingsExportGroupByList | undefined;
+  group_interval?: string | undefined;
+  group_wait?: string | undefined;
+  mute_time_intervals?: AlertRuleNotificationSettingsExportMuteTimeIntervalsList | undefined;
+  receiver?: string | undefined;
+  repeat_interval?: string | undefined;
 }
 export interface AlertRuleRecordExport {
-  from?: string;
-  metric?: string;
-  targetDatasourceUid?: string;
+  from?: string | undefined;
+  metric?: string | undefined;
+  targetDatasourceUid?: string | undefined;
 }
 export interface AlertRuleExport {
-  annotations?: AlertRuleExportAnnotationsMap;
-  condition?: string;
-  dashboardUid?: string;
-  data?: AlertRuleExportDataList;
-  execErrState?: AlertRuleExportExecErrState;
-  for?: number;
-  isPaused?: boolean;
-  keepFiringFor?: number;
-  labels?: AlertRuleExportLabelsMap;
-  missing_series_evals_to_resolve?: number;
-  noDataState?: AlertRuleExportNoDataState;
-  notification_settings?: AlertRuleNotificationSettingsExport;
-  panelId?: number;
-  record?: AlertRuleRecordExport;
-  title?: string;
-  uid?: string;
+  annotations?: AlertRuleExportAnnotationsMap | undefined;
+  condition?: string | undefined;
+  dashboardUid?: string | undefined;
+  data?: AlertRuleExportDataList | undefined;
+  execErrState?: AlertRuleExportExecErrState | undefined;
+  for?: number | undefined;
+  isPaused?: boolean | undefined;
+  keepFiringFor?: number | undefined;
+  labels?: AlertRuleExportLabelsMap | undefined;
+  missing_series_evals_to_resolve?: number | undefined;
+  noDataState?: AlertRuleExportNoDataState | undefined;
+  notification_settings?: AlertRuleNotificationSettingsExport | undefined;
+  panelId?: number | undefined;
+  record?: AlertRuleRecordExport | undefined;
+  title?: string | undefined;
+  uid?: string | undefined;
 }
 export type AlertRuleGroupExportRulesList = Array<AlertRuleExport>;
 export interface AlertRuleGroupExport {
-  folder?: string;
-  interval?: number;
-  name?: string;
-  orgId?: number;
-  rules?: AlertRuleGroupExportRulesList;
+  folder?: string | undefined;
+  interval?: number | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  rules?: AlertRuleGroupExportRulesList | undefined;
 }
 export type AlertingFileExportGroupsList = Array<AlertRuleGroupExport>;
 export type TimeIntervalTimeIntervalsList = Array<TimeInterval>;
 export interface TimeInterval {
-  name?: string;
-  time_intervals?: TimeIntervalTimeIntervalsList;
+  name?: string | undefined;
+  time_intervals?: TimeIntervalTimeIntervalsList | undefined;
 }
 export type MuteTimeIntervalExportTimeIntervalsList = Array<TimeInterval>;
 export interface MuteTimeIntervalExport {
-  name?: string;
-  orgId?: number;
-  time_intervals?: MuteTimeIntervalExportTimeIntervalsList;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  time_intervals?: MuteTimeIntervalExportTimeIntervalsList | undefined;
 }
 export type AlertingFileExportMuteTimesList = Array<MuteTimeIntervalExport>;
 export type NotificationPolicyExportActiveTimeIntervalsList = Array<string>;
@@ -2569,9 +2617,9 @@ export type NotificationPolicyExportGroupByList = Array<string>;
 export type NotificationPolicyExportMatchMap = { [key: string]: string | undefined };
 export type MatchRegexps = { [key: string]: string | undefined };
 export interface Matcher {
-  Name?: string;
-  Type?: number;
-  Value?: string;
+  Name?: string | undefined;
+  Type?: number | undefined;
+  Value?: string | undefined;
 }
 /** Matchers is a slice of Matchers that is sortable, implements Stringer, and provides a Matches method to match a LabelSet against all Matchers in the slice. Note that some users of Matchers might require it to be sorted. */
 export type Matchers = Array<Matcher>;
@@ -2586,111 +2634,111 @@ export type RouteExportMuteTimeIntervalsList = Array<string>;
 export type RouteExportRoutesList = Array<RouteExport>;
 /** RouteExport is the provisioned file export of definitions.Route. This is needed to hide fields that aren't useable in provisioning file format. An alternative would be to define a custom MarshalJSON and MarshalYAML that excludes them. */
 export interface RouteExport {
-  active_time_intervals?: RouteExportActiveTimeIntervalsList;
-  continue?: boolean;
-  group_by?: RouteExportGroupByList;
-  group_interval?: string;
-  group_wait?: string;
+  active_time_intervals?: RouteExportActiveTimeIntervalsList | undefined;
+  continue?: boolean | undefined;
+  group_by?: RouteExportGroupByList | undefined;
+  group_interval?: string | undefined;
+  group_wait?: string | undefined;
   /** Deprecated. Remove before v1.0 release. */
-  match?: RouteExportMatchMap;
-  match_re?: MatchRegexps;
-  matchers?: Matchers;
-  mute_time_intervals?: RouteExportMuteTimeIntervalsList;
-  object_matchers?: ObjectMatchers;
-  receiver?: string;
-  repeat_interval?: string;
-  routes?: RouteExportRoutesList;
+  match?: RouteExportMatchMap | undefined;
+  match_re?: MatchRegexps | undefined;
+  matchers?: Matchers | undefined;
+  mute_time_intervals?: RouteExportMuteTimeIntervalsList | undefined;
+  object_matchers?: ObjectMatchers | undefined;
+  receiver?: string | undefined;
+  repeat_interval?: string | undefined;
+  routes?: RouteExportRoutesList | undefined;
 }
 export type NotificationPolicyExportRoutesList = Array<RouteExport>;
 export interface NotificationPolicyExport {
-  active_time_intervals?: NotificationPolicyExportActiveTimeIntervalsList;
-  continue?: boolean;
-  group_by?: NotificationPolicyExportGroupByList;
-  group_interval?: string;
-  group_wait?: string;
+  active_time_intervals?: NotificationPolicyExportActiveTimeIntervalsList | undefined;
+  continue?: boolean | undefined;
+  group_by?: NotificationPolicyExportGroupByList | undefined;
+  group_interval?: string | undefined;
+  group_wait?: string | undefined;
   /** Deprecated. Remove before v1.0 release. */
-  match?: NotificationPolicyExportMatchMap;
-  match_re?: MatchRegexps;
-  matchers?: Matchers;
-  mute_time_intervals?: NotificationPolicyExportMuteTimeIntervalsList;
-  object_matchers?: ObjectMatchers;
-  orgId?: number;
-  receiver?: string;
-  repeat_interval?: string;
-  routes?: NotificationPolicyExportRoutesList;
+  match?: NotificationPolicyExportMatchMap | undefined;
+  match_re?: MatchRegexps | undefined;
+  matchers?: Matchers | undefined;
+  mute_time_intervals?: NotificationPolicyExportMuteTimeIntervalsList | undefined;
+  object_matchers?: ObjectMatchers | undefined;
+  orgId?: number | undefined;
+  receiver?: string | undefined;
+  repeat_interval?: string | undefined;
+  routes?: NotificationPolicyExportRoutesList | undefined;
 }
 export type AlertingFileExportPoliciesList = Array<NotificationPolicyExport>;
 export interface AlertingFileExport {
-  apiVersion?: number;
-  contactPoints?: AlertingFileExportContactPointsList;
-  groups?: AlertingFileExportGroupsList;
-  muteTimes?: AlertingFileExportMuteTimesList;
-  policies?: AlertingFileExportPoliciesList;
+  apiVersion?: number | undefined;
+  contactPoints?: AlertingFileExportContactPointsList | undefined;
+  groups?: AlertingFileExportGroupsList | undefined;
+  muteTimes?: AlertingFileExportMuteTimesList | undefined;
+  policies?: AlertingFileExportPoliciesList | undefined;
 }
 export type RouteExportMuteTimingsRequestFormat = "yaml" | "json" | "hcl";
 export interface RouteExportMuteTimingsRequest {
   /** Whether to initiate a download of the file or not. */
-  download?: boolean;
+  download?: boolean | undefined;
   /** Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence. */
-  format?: RouteExportMuteTimingsRequestFormat | (string & {});
+  format?: RouteExportMuteTimingsRequestFormat | (string & {}) | undefined;
 }
 export type RouteGetAlertRuleExportRequestFormat = "yaml" | "json" | "hcl";
 export interface RouteGetAlertRuleExportRequest {
   /** Alert rule UID */
   UID: string;
   /** Whether to initiate a download of the file or not. */
-  download?: boolean;
+  download?: boolean | undefined;
   /** Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence. */
-  format?: RouteGetAlertRuleExportRequestFormat | (string & {});
+  format?: RouteGetAlertRuleExportRequestFormat | (string & {}) | undefined;
 }
 export type RouteGetAlertRuleGroupExportRequestFormat = "yaml" | "json" | "hcl";
 export interface RouteGetAlertRuleGroupExportRequest {
   FolderUID: string;
   Group: string;
   /** Whether to initiate a download of the file or not. */
-  download?: boolean;
+  download?: boolean | undefined;
   /** Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence. */
-  format?: RouteGetAlertRuleGroupExportRequestFormat | (string & {});
+  format?: RouteGetAlertRuleGroupExportRequestFormat | (string & {}) | undefined;
 }
 export type RouteGetAlertRulesExportRequestFormat = "yaml" | "json" | "hcl";
 export type RouteGetAlertRulesExportRequestFolderUidList = Array<string>;
 export interface RouteGetAlertRulesExportRequest {
   /** Whether to initiate a download of the file or not. */
-  download?: boolean;
+  download?: boolean | undefined;
   /** Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence. */
-  format?: RouteGetAlertRulesExportRequestFormat | (string & {});
+  format?: RouteGetAlertRulesExportRequestFormat | (string & {}) | undefined;
   /** UIDs of folders from which to export rules */
-  folderUid?: RouteGetAlertRulesExportRequestFolderUidList;
+  folderUid?: RouteGetAlertRulesExportRequestFolderUidList | undefined;
   /** Name of group of rules to export. Must be specified only together with a single folder UID */
-  group?: string;
+  group?: string | undefined;
   /** UID of alert rule to export. If specified, parameters folderUid and group must be empty. */
-  ruleUid?: string;
+  ruleUid?: string | undefined;
 }
 export type RouteGetContactpointsExportRequestFormat = "yaml" | "json" | "hcl";
 export interface RouteGetContactpointsExportRequest {
   /** Whether to initiate a download of the file or not. */
-  download?: boolean;
+  download?: boolean | undefined;
   /** Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence. */
-  format?: RouteGetContactpointsExportRequestFormat | (string & {});
+  format?: RouteGetContactpointsExportRequestFormat | (string & {}) | undefined;
   /** Whether any contained secure settings should be decrypted or left redacted. Redacted settings will contain RedactedValue instead. Currently, only org admin can view decrypted secure settings. */
-  decrypt?: boolean;
+  decrypt?: boolean | undefined;
   /** Filter by name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface RouteGetPolicyTreeExportRequest {}
 export type SaveReportSettingsRequestFooterItemsList = Array<FooterItem>;
 export interface SaveReportSettingsRequest {
-  branding?: ReportBrandingOptions;
-  embeddedImageTheme?: string;
-  footerFontFamily?: string;
-  footerItems?: SaveReportSettingsRequestFooterItemsList;
-  id?: number;
-  orgId?: number;
-  pdfDashboardTitleEnabled?: boolean;
-  pdfHeaderEnabled?: boolean;
-  pdfTheme?: string;
-  pdfTimeRangeEnabled?: boolean;
-  userId?: number;
+  branding?: ReportBrandingOptions | undefined;
+  embeddedImageTheme?: string | undefined;
+  footerFontFamily?: string | undefined;
+  footerItems?: SaveReportSettingsRequestFooterItemsList | undefined;
+  id?: number | undefined;
+  orgId?: number | undefined;
+  pdfDashboardTitleEnabled?: boolean | undefined;
+  pdfHeaderEnabled?: boolean | undefined;
+  pdfTheme?: string | undefined;
+  pdfTimeRangeEnabled?: boolean | undefined;
+  userId?: number | undefined;
 }
 export type SearchRequestTagList = Array<string>;
 export type SearchRequestType = "dash-folder" | "dash-db";
@@ -2702,332 +2750,334 @@ export type SearchRequestPermission = "Edit" | "View";
 export type SearchRequestSort = "alpha-asc" | "alpha-desc";
 export interface SearchRequest {
   /** Search Query */
-  query?: string;
+  query?: string | undefined;
   /** List of tags to search for */
-  tag?: SearchRequestTagList;
+  tag?: SearchRequestTagList | undefined;
   /** Type to search for, dash-folder or dash-db Description: - `dash-folder` - Search for folder - `dash-db` - Seatch for dashboard */
-  type?: SearchRequestType | (string & {});
+  type?: SearchRequestType | (string & {}) | undefined;
   /** List of dashboard id's to search for This is deprecated: users should use the `dashboardUIDs` query parameter instead */
-  dashboardIds?: SearchRequestDashboardIdsList;
+  dashboardIds?: SearchRequestDashboardIdsList | undefined;
   /** List of dashboard uid's to search for */
-  dashboardUIDs?: SearchRequestDashboardUIDsList;
+  dashboardUIDs?: SearchRequestDashboardUIDsList | undefined;
   /** List of folder id's to search in for dashboards If it's `0` then it will query for the top level folders This is deprecated: users should use the `folderUIDs` query parameter instead Deprecated: use FolderUIDs instead */
-  folderIds?: SearchRequestFolderIdsList;
+  folderIds?: SearchRequestFolderIdsList | undefined;
   /** List of folder UID's to search in for dashboards If it's an empty string then it will query for the top level folders */
-  folderUIDs?: SearchRequestFolderUIDsList;
+  folderUIDs?: SearchRequestFolderUIDsList | undefined;
   /** Flag indicating if only starred Dashboards should be returned */
-  starred?: boolean;
+  starred?: boolean | undefined;
   /** Limit the number of returned results (max 5000) */
-  limit?: number;
+  limit?: number | undefined;
   /** Use this parameter to access hits beyond limit. Numbering starts at 1. limit param acts as page size. Only available in Grafana v6.2+. */
-  page?: number;
+  page?: number | undefined;
   /** Set to `Edit` to return dashboards/folders that the user can edit */
-  permission?: SearchRequestPermission | (string & {});
+  permission?: SearchRequestPermission | (string & {}) | undefined;
   /** Sort method; for listing all the possible sort methods use the search sorting endpoint. */
-  sort?: SearchRequestSort | (string & {});
+  sort?: SearchRequestSort | (string & {}) | undefined;
   /** Flag indicating if only soft deleted Dashboards should be returned */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export type HitTagsList = Array<string>;
 export interface Hit {
-  description?: string;
-  folderId?: number;
-  folderTitle?: string;
-  folderUid?: string;
-  folderUrl?: string;
-  id?: number;
-  isDeleted?: boolean;
-  isStarred?: boolean;
-  orgId?: number;
-  permanentlyDeleteDate?: string;
-  slug?: string;
-  sortMeta?: number;
-  sortMetaName?: string;
-  tags?: HitTagsList;
-  title?: string;
-  type?: string;
-  uid?: string;
-  uri?: string;
-  url?: string;
+  description?: string | undefined;
+  folderId?: number | undefined;
+  folderTitle?: string | undefined;
+  folderUid?: string | undefined;
+  folderUrl?: string | undefined;
+  id?: number | undefined;
+  isDeleted?: boolean | undefined;
+  isStarred?: boolean | undefined;
+  orgId?: number | undefined;
+  permanentlyDeleteDate?: string | undefined;
+  slug?: string | undefined;
+  sortMeta?: number | undefined;
+  sortMetaName?: string | undefined;
+  tags?: HitTagsList | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
+  uid?: string | undefined;
+  uri?: string | undefined;
+  url?: string | undefined;
 }
 export type HitList = Array<Hit>;
 export type SearchResponse = HitList;
 export interface SearchDashboardSnapshotsRequest {
   /** Search Query */
-  query?: string;
+  query?: string | undefined;
   /** Limit the number of returned results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** DashboardSnapshotDTO without dashboard map */
 export interface DashboardSnapshotDTO {
-  created?: string;
-  expires?: string;
-  external?: boolean;
-  externalUrl?: string;
-  key?: string;
-  name?: string;
-  updated?: string;
+  created?: string | undefined;
+  expires?: string | undefined;
+  external?: boolean | undefined;
+  externalUrl?: string | undefined;
+  key?: string | undefined;
+  name?: string | undefined;
+  updated?: string | undefined;
 }
 export type SearchDashboardSnapshotsResponseBodyList = Array<DashboardSnapshotDTO>;
 export type SearchDashboardSnapshotsResponse = SearchDashboardSnapshotsResponseBodyList;
 export interface SearchDevicesRequest {}
 export interface DeviceSearchHitDTO {
-  clientIp?: string;
-  createdAt?: string;
-  deviceId?: string;
-  lastSeenAt?: string;
-  updatedAt?: string;
-  userAgent?: string;
+  clientIp?: string | undefined;
+  createdAt?: string | undefined;
+  deviceId?: string | undefined;
+  lastSeenAt?: string | undefined;
+  updatedAt?: string | undefined;
+  userAgent?: string | undefined;
 }
 export type SearchDeviceQueryResultDevicesList = Array<DeviceSearchHitDTO>;
 export interface SearchDeviceQueryResult {
-  devices?: SearchDeviceQueryResultDevicesList;
-  page?: number;
-  perPage?: number;
-  totalCount?: number;
+  devices?: SearchDeviceQueryResultDevicesList | undefined;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  totalCount?: number | undefined;
 }
 export interface SearchOrgsRequest {
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page The totalCount field in the response can be used for pagination list E.g. if totalCount is equal to 100 teams and the perpage parameter is set to 10 then there are 10 pages of teams. */
-  perpage?: number;
-  name?: string;
+  perpage?: number | undefined;
+  name?: string | undefined;
   /** If set it will return results where the query value is contained in the name field. Query values with spaces need to be URL encoded. */
-  query?: string;
+  query?: string | undefined;
 }
 export interface OrgDTO {
-  id?: number;
-  name?: string;
+  id?: number | undefined;
+  name?: string | undefined;
 }
 export type SearchOrgsResponseBodyList = Array<OrgDTO>;
 export type SearchOrgsResponse = SearchOrgsResponseBodyList;
 export interface SearchOrgServiceAccountsWithPagingRequest {
-  Disabled?: boolean;
-  expiredTokens?: boolean;
+  Disabled?: boolean | undefined;
+  expiredTokens?: boolean | undefined;
   /** It will return results where the query value is contained in one of the name. Query values with spaces need to be URL encoded. */
-  query?: string;
+  query?: string | undefined;
   /** The default value is 1000. */
-  perpage?: number;
+  perpage?: number | undefined;
   /** The default value is 1. */
-  page?: number;
+  page?: number | undefined;
 }
 export type SearchOrgServiceAccountsResultServiceAccountsList = Array<ServiceAccountDTO>;
 export interface SearchOrgServiceAccountsResult {
-  page?: number;
-  perPage?: number;
-  serviceAccounts?: SearchOrgServiceAccountsResultServiceAccountsList;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  serviceAccounts?: SearchOrgServiceAccountsResultServiceAccountsList | undefined;
   /** It can be used for pagination of the user list E.g. if totalCount is equal to 100 users and the perpage parameter is set to 10 then there are 10 pages of users. */
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export interface SearchOrgUsersRequest {
   org_id: number;
 }
 export type SearchOrgUsersQueryResultOrgUsersList = Array<OrgUserDTO>;
 export interface SearchOrgUsersQueryResult {
-  orgUsers?: SearchOrgUsersQueryResultOrgUsersList;
-  page?: number;
-  perPage?: number;
-  totalCount?: number;
+  orgUsers?: SearchOrgUsersQueryResultOrgUsersList | undefined;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  totalCount?: number | undefined;
 }
 export type SearchQueriesRequestDatasourceUidList = Array<string>;
 export type SearchQueriesRequestSort = "time-desc" | "time-asc";
 export interface SearchQueriesRequest {
   /** List of data source UIDs to search for */
-  datasourceUid?: SearchQueriesRequestDatasourceUidList;
+  datasourceUid?: SearchQueriesRequestDatasourceUidList | undefined;
   /** Text inside query or comments that is searched for */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Flag indicating if only starred queries should be returned */
-  onlyStarred?: boolean;
+  onlyStarred?: boolean | undefined;
   /** Sort method */
-  sort?: SearchQueriesRequestSort | (string & {});
+  sort?: SearchQueriesRequestSort | (string & {}) | undefined;
   /** Use this parameter to access hits beyond limit. Numbering starts at 1. limit param acts as page size. */
-  page?: number;
+  page?: number | undefined;
   /** Limit the number of returned results */
-  limit?: number;
+  limit?: number | undefined;
   /** From range for the query history search */
-  from?: number;
+  from?: number | undefined;
   /** To range for the query history search */
-  to?: number;
+  to?: number | undefined;
 }
 export type QueryHistorySearchResultQueryHistoryList = Array<QueryHistoryDTO>;
 export interface QueryHistorySearchResult {
-  page?: number;
-  perPage?: number;
-  queryHistory?: QueryHistorySearchResultQueryHistoryList;
-  totalCount?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  queryHistory?: QueryHistorySearchResultQueryHistoryList | undefined;
+  totalCount?: number | undefined;
 }
 export interface QueryHistorySearchResponse {
-  result?: QueryHistorySearchResult;
+  result?: QueryHistorySearchResult | undefined;
 }
 export interface SearchTeamGroupsRequest {
   teamId: number;
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  perpage?: number;
+  perpage?: number | undefined;
   /** If set it will return results where the query value is contained in the name field. Query values with spaces need to be URL encoded. */
-  query?: string;
+  query?: string | undefined;
   /** Filter by exact name match */
-  name?: string;
+  name?: string | undefined;
 }
 export type SearchTeamGroupsQueryResultTeamGroupsList = Array<TeamGroupDTO>;
 export interface SearchTeamGroupsQueryResult {
-  page?: number;
-  perPage?: number;
-  teamGroups?: SearchTeamGroupsQueryResultTeamGroupsList;
-  totalCount?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  teamGroups?: SearchTeamGroupsQueryResultTeamGroupsList | undefined;
+  totalCount?: number | undefined;
 }
 export type SearchTeamGroupsResponseBodyList = Array<SearchTeamGroupsQueryResult>;
 export type SearchTeamGroupsResponse = SearchTeamGroupsResponseBodyList;
 export interface SearchTeamsRequest {
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page The totalCount field in the response can be used for pagination list E.g. if totalCount is equal to 100 teams and the perpage parameter is set to 10 then there are 10 pages of teams. */
-  perpage?: number;
-  name?: string;
+  perpage?: number | undefined;
+  name?: string | undefined;
   /** If set it will return results where the query value is contained in the name field. Query values with spaces need to be URL encoded. */
-  query?: string;
-  accesscontrol?: boolean;
-  sort?: string;
+  query?: string | undefined;
+  accesscontrol?: boolean | undefined;
+  sort?: string | undefined;
 }
 export type SearchTeamQueryResultTeamsList = Array<TeamDTO>;
 export interface SearchTeamQueryResult {
-  page?: number;
-  perPage?: number;
-  teams?: SearchTeamQueryResultTeamsList;
-  totalCount?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  teams?: SearchTeamQueryResultTeamsList | undefined;
+  totalCount?: number | undefined;
 }
 export interface SearchUsersRequest {
   /** Limit the maximum number of users to return per page */
-  perpage?: number;
+  perpage?: number | undefined;
   /** Page index for starting fetching users */
-  page?: number;
+  page?: number | undefined;
 }
 export type UserSearchHitDTOAccessControlMap = { [key: string]: boolean | undefined };
 export type UserSearchHitDTOAuthLabelsList = Array<string>;
 export interface UserSearchHitDTO {
-  accessControl?: UserSearchHitDTOAccessControlMap;
-  authLabels?: UserSearchHitDTOAuthLabelsList;
-  avatarUrl?: string;
-  created?: string;
-  email?: string;
-  id?: number;
-  isAdmin?: boolean;
-  isDisabled?: boolean;
-  isProvisioned?: boolean;
-  lastSeenAt?: string;
-  lastSeenAtAge?: string;
-  login?: string;
-  name?: string;
-  role?: string;
-  uid?: string;
+  accessControl?: UserSearchHitDTOAccessControlMap | undefined;
+  authLabels?: UserSearchHitDTOAuthLabelsList | undefined;
+  avatarUrl?: string | undefined;
+  created?: string | undefined;
+  email?: string | undefined;
+  id?: number | undefined;
+  isAdmin?: boolean | undefined;
+  isDisabled?: boolean | undefined;
+  isProvisioned?: boolean | undefined;
+  lastSeenAt?: string | undefined;
+  lastSeenAtAge?: string | undefined;
+  login?: string | undefined;
+  name?: string | undefined;
+  role?: string | undefined;
+  uid?: string | undefined;
 }
 export type SearchUsersResponseBodyList = Array<UserSearchHitDTO>;
 export type SearchUsersResponse = SearchUsersResponseBodyList;
 export interface SearchUsersWithPagingRequest {}
 export type SearchUserQueryResultUsersList = Array<UserSearchHitDTO>;
 export interface SearchUserQueryResult {
-  page?: number;
-  perPage?: number;
-  totalCount?: number;
-  users?: SearchUserQueryResultUsersList;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  totalCount?: number | undefined;
+  users?: SearchUserQueryResultUsersList | undefined;
 }
 export interface SendReportRequest {
   /** Comma-separated list of emails to which to send the report to. */
-  emails?: string;
+  emails?: string | undefined;
+  /** Numeric ID of the report. Can send either ID or UID. If both are present, UID takes precedence. */
+  id?: string | undefined;
+  /** UID of the report. Can send either ID or UID. If both are present, UID takes precedence. */
+  uid?: string | undefined;
   /** Send the report to the emails specified in the report. Required if emails is not present. */
-  id?: string;
-  /** Send the report to the emails specified in the report. Required if emails is not present. */
-  useEmailsFromReport?: boolean;
+  useEmailsFromReport?: boolean | undefined;
 }
 export type SendTestEmailRequestDashboardsList = Array<ReportDashboard>;
 export type SendTestEmailRequestFormatsList = Array<string>;
 export type SendTestEmailRequestUrlsList = Array<ReportURLItem>;
 export interface SendTestEmailRequest {
-  dashboards?: SendTestEmailRequestDashboardsList;
-  enableCsv?: boolean;
-  enableDashboardUrl?: boolean;
-  formats?: SendTestEmailRequestFormatsList;
-  message?: string;
-  name?: string;
-  options?: ReportOptions;
-  recipients?: string;
-  replyTo?: string;
-  scaleFactor?: number;
-  schedule?: ReportSchedule;
-  state?: string;
-  subject?: string;
-  urls?: SendTestEmailRequestUrlsList;
+  dashboards?: SendTestEmailRequestDashboardsList | undefined;
+  enableCsv?: boolean | undefined;
+  enableDashboardUrl?: boolean | undefined;
+  formats?: SendTestEmailRequestFormatsList | undefined;
+  message?: string | undefined;
+  name?: string | undefined;
+  options?: ReportOptions | undefined;
+  recipients?: string | undefined;
+  replyTo?: string | undefined;
+  scaleFactor?: number | undefined;
+  schedule?: ReportSchedule | undefined;
+  state?: string | undefined;
+  subject?: string | undefined;
+  urls?: SendTestEmailRequestUrlsList | undefined;
 }
 export interface SetDataSourceCacheConfigRequest {
   dataSourceUID: string;
   /** Optional datasource type used to disambiguate datasource UID lookups. */
-  dataSourceType?: string;
-  dataSourceID?: number;
-  enabled?: boolean;
+  dataSourceType?: string | undefined;
+  dataSourceID?: number | undefined;
+  enabled?: boolean | undefined;
   /** TTL MS, or "time to live", is how long a cached item will stay in the cache before it is removed (in milliseconds) */
-  ttlQueriesMs?: number;
-  ttlResourcesMs?: number;
+  ttlQueriesMs?: number | undefined;
+  ttlResourcesMs?: number | undefined;
   /** If UseDefaultTTL is enabled, then the TTLQueriesMS and TTLResourcesMS in this object is always sent as the default TTL located in grafana.ini */
-  useDefaultTTL?: boolean;
+  useDefaultTTL?: boolean | undefined;
 }
 export interface SetResourcePermissionCommand {
-  builtInRole?: string;
-  permission?: string;
-  teamId?: number;
-  userId?: number;
+  builtInRole?: string | undefined;
+  permission?: string | undefined;
+  teamId?: number | undefined;
+  userId?: number | undefined;
 }
 export type SetResourcePermissionsRequestPermissionsList = Array<SetResourcePermissionCommand>;
 export interface SetResourcePermissionsRequest {
   resource: string;
   resourceID: string;
-  permissions?: SetResourcePermissionsRequestPermissionsList;
+  permissions?: SetResourcePermissionsRequestPermissionsList | undefined;
 }
 export interface SetResourcePermissionsForBuiltInRoleRequest {
   resource: string;
   resourceID: string;
   builtInRole: string;
-  permission?: string;
+  permission?: string | undefined;
 }
 export interface SetResourcePermissionsForTeamRequest {
   resource: string;
   resourceID: string;
   teamID: number;
-  permission?: string;
+  permission?: string | undefined;
 }
 export interface SetResourcePermissionsForUserRequest {
   resource: string;
   resourceID: string;
   userID: number;
-  permission?: string;
+  permission?: string | undefined;
 }
 export type SetRoleAssignmentsRequestServiceAccountsList = Array<number>;
 export type SetRoleAssignmentsRequestTeamsList = Array<number>;
 export type SetRoleAssignmentsRequestUsersList = Array<number>;
 export interface SetRoleAssignmentsRequest {
   roleUID: string;
-  service_accounts?: SetRoleAssignmentsRequestServiceAccountsList;
-  teams?: SetRoleAssignmentsRequestTeamsList;
-  users?: SetRoleAssignmentsRequestUsersList;
+  service_accounts?: SetRoleAssignmentsRequestServiceAccountsList | undefined;
+  teams?: SetRoleAssignmentsRequestTeamsList | undefined;
+  users?: SetRoleAssignmentsRequestUsersList | undefined;
 }
 export type SetTeamMembershipsRequestAdminsList = Array<string>;
 export type SetTeamMembershipsRequestMembersList = Array<string>;
 export interface SetTeamMembershipsRequest {
   team_id: string;
-  admins?: SetTeamMembershipsRequestAdminsList;
-  members?: SetTeamMembershipsRequestMembersList;
+  admins?: SetTeamMembershipsRequestAdminsList | undefined;
+  members?: SetTeamMembershipsRequestMembersList | undefined;
 }
 export type SetTeamRolesRequestRoleUidsList = Array<string>;
 export interface SetTeamRolesRequest {
   teamId: number;
-  targetOrgId?: number;
-  includeHidden?: boolean;
-  roleUids?: SetTeamRolesRequestRoleUidsList;
+  targetOrgId?: number | undefined;
+  includeHidden?: boolean | undefined;
+  roleUids?: SetTeamRolesRequestRoleUidsList | undefined;
 }
 export type SetUserRolesRequestRoleUidsList = Array<string>;
 export interface SetUserRolesRequest {
   userId: number;
-  targetOrgId?: number;
-  global?: boolean;
-  includeHidden?: boolean;
-  roleUids?: SetUserRolesRequestRoleUidsList;
+  targetOrgId?: number | undefined;
+  global?: boolean | undefined;
+  includeHidden?: boolean | undefined;
+  roleUids?: SetUserRolesRequestRoleUidsList | undefined;
 }
 export interface StarQueryRequest {
   query_history_uid: string;
@@ -3036,17 +3086,17 @@ export type TestCreateRecordingRuleRequestQueriesItemMap = { [key: string]: unkn
 export type TestCreateRecordingRuleRequestQueriesList =
   Array<TestCreateRecordingRuleRequestQueriesItemMap>;
 export interface TestCreateRecordingRuleRequest {
-  active?: boolean;
-  count?: boolean;
-  description?: string;
-  dest_data_source_uid?: string;
-  id?: string;
-  interval?: number;
-  name?: string;
-  prom_name?: string;
-  queries?: TestCreateRecordingRuleRequestQueriesList;
-  range?: number;
-  target_ref_id?: string;
+  active?: boolean | undefined;
+  count?: boolean | undefined;
+  description?: string | undefined;
+  dest_data_source_uid?: string | undefined;
+  id?: string | undefined;
+  interval?: number | undefined;
+  name?: string | undefined;
+  prom_name?: string | undefined;
+  queries?: TestCreateRecordingRuleRequestQueriesList | undefined;
+  range?: number | undefined;
+  target_ref_id?: string | undefined;
 }
 export interface UnstarQueryRequest {
   query_history_uid: string;
@@ -3054,22 +3104,22 @@ export interface UnstarQueryRequest {
 export type UpdateAnnotationRequestTagsList = Array<string>;
 export interface UpdateAnnotationRequest {
   annotation_id: string;
-  data?: unknown;
-  id?: number;
-  tags?: UpdateAnnotationRequestTagsList;
-  text?: string;
-  time?: number;
-  timeEnd?: number;
+  data?: unknown | undefined;
+  id?: number | undefined;
+  tags?: UpdateAnnotationRequestTagsList | undefined;
+  text?: string | undefined;
+  time?: number | undefined;
+  timeEnd?: number | undefined;
 }
 export type UpdateAnnotationByAnnotationIdRequestTagsList = Array<string>;
 export interface UpdateAnnotationByAnnotationIdRequest {
   annotation_id: string;
-  data?: unknown;
-  id?: number;
-  tags?: UpdateAnnotationByAnnotationIdRequestTagsList;
-  text?: string;
-  time?: number;
-  timeEnd?: number;
+  data?: unknown | undefined;
+  id?: number | undefined;
+  tags?: UpdateAnnotationByAnnotationIdRequestTagsList | undefined;
+  text?: string | undefined;
+  time?: number | undefined;
+  timeEnd?: number | undefined;
 }
 /** Target data query */
 export type CorrelationConfigUpdateDTOTargetMap = { [key: string]: unknown | undefined };
@@ -3077,54 +3127,54 @@ export type CorrelationConfigUpdateDTOTargetMap = { [key: string]: unknown | und
 export type CorrelationConfigUpdateDTOTransformationsList = Array<Transformation>;
 export interface CorrelationConfigUpdateDTO {
   /** Field used to attach the correlation link */
-  field?: string;
+  field?: string | undefined;
   /** Target data query */
-  target?: CorrelationConfigUpdateDTOTargetMap;
+  target?: CorrelationConfigUpdateDTOTargetMap | undefined;
   /** Source data transformations */
-  transformations?: CorrelationConfigUpdateDTOTransformationsList;
+  transformations?: CorrelationConfigUpdateDTOTransformationsList | undefined;
 }
 export interface UpdateCorrelationRequest {
   sourceUID: string;
   correlationUID: string;
-  config?: CorrelationConfigUpdateDTO;
+  config?: CorrelationConfigUpdateDTO | undefined;
   /** Optional description of the correlation */
-  description?: string;
+  description?: string | undefined;
   /** Optional label identifying the correlation */
-  label?: string;
-  type?: string;
+  label?: string | undefined;
+  type?: string | undefined;
 }
 export interface UpdateCorrelationResponseBody {
-  message?: string;
-  result?: Correlation;
+  message?: string | undefined;
+  result?: Correlation | undefined;
 }
 export interface UpdateCurrentOrgRequest {
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateCurrentOrgAddressRequest {
-  address1?: string;
-  address2?: string;
-  city?: string;
-  country?: string;
-  state?: string;
-  zipcode?: string;
+  address1?: string | undefined;
+  address2?: string | undefined;
+  city?: string | undefined;
+  country?: string | undefined;
+  state?: string | undefined;
+  zipcode?: string | undefined;
 }
 export type UpdateDataSourceByUIDRequestSecureJsonDataMap = { [key: string]: string | undefined };
 export interface UpdateDataSourceByUIDRequest {
   uid: string;
-  access?: string;
-  basicAuth?: boolean;
-  basicAuthUser?: string;
-  database?: string;
-  isDefault?: boolean;
-  jsonData?: unknown;
-  name?: string;
-  secureJsonData?: UpdateDataSourceByUIDRequestSecureJsonDataMap;
-  type?: string;
-  url?: string;
-  user?: string;
+  access?: string | undefined;
+  basicAuth?: boolean | undefined;
+  basicAuthUser?: string | undefined;
+  database?: string | undefined;
+  isDefault?: boolean | undefined;
+  jsonData?: unknown | undefined;
+  name?: string | undefined;
+  secureJsonData?: UpdateDataSourceByUIDRequestSecureJsonDataMap | undefined;
+  type?: string | undefined;
+  url?: string | undefined;
+  user?: string | undefined;
   /** The previous version -- used for optimistic locking */
-  version?: number;
-  withCredentials?: boolean;
+  version?: number | undefined;
+  withCredentials?: boolean | undefined;
 }
 export interface UpdateDataSourceByUIDResponse {
   datasource: DataSource;
@@ -3137,202 +3187,202 @@ export interface UpdateDataSourceByUIDResponse {
 }
 export type DashboardACLUpdateItemRole = "None" | "Viewer" | "Editor" | "Admin";
 export interface DashboardACLUpdateItem {
-  permission?: number;
-  role?: DashboardACLUpdateItemRole | (string & {});
-  teamId?: number;
-  userId?: number;
+  permission?: number | undefined;
+  role?: DashboardACLUpdateItemRole | (string & {}) | undefined;
+  teamId?: number | undefined;
+  userId?: number | undefined;
 }
 export type UpdateFolderPermissionsRequestItemsList = Array<DashboardACLUpdateItem>;
 export interface UpdateFolderPermissionsRequest {
   folder_uid: string;
-  items?: UpdateFolderPermissionsRequestItemsList;
+  items?: UpdateFolderPermissionsRequestItemsList | undefined;
 }
 /** Kind of element to create, Use 1 for library panels or 2 for c. Description: - 1 - library panels */
 export type UpdateLibraryElementRequestKind = 1;
 export interface UpdateLibraryElementRequest {
   library_element_uid: string;
   /** ID of the folder where the library element is stored. Deprecated: use FolderUID instead */
-  folderId?: number;
+  folderId?: number | undefined;
   /** UID of the folder where the library element is stored. */
-  folderUid?: string;
+  folderUid?: string | undefined;
   /** Kind of element to create, Use 1 for library panels or 2 for c. Description: - 1 - library panels */
-  kind?: UpdateLibraryElementRequestKind | (number & {});
+  kind?: UpdateLibraryElementRequestKind | (number & {}) | undefined;
   /** The JSON model for the library element. */
-  model?: unknown;
+  model?: unknown | undefined;
   /** Name of the library element. */
-  name?: string;
-  uid?: string;
+  name?: string | undefined;
+  uid?: string | undefined;
   /** Version of the library element you are updating. */
-  version?: number;
+  version?: number | undefined;
 }
 export interface UpdateOrgRequest {
   org_id: number;
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateOrgAddressRequest {
   org_id: number;
-  address1?: string;
-  address2?: string;
-  city?: string;
-  country?: string;
-  state?: string;
-  zipcode?: string;
+  address1?: string | undefined;
+  address2?: string | undefined;
+  city?: string | undefined;
+  country?: string | undefined;
+  state?: string | undefined;
+  zipcode?: string | undefined;
 }
 export interface UpdateOrgQuotaRequest {
   org_id: number;
   quota_target: string;
-  limit?: number;
-  target?: string;
+  limit?: number | undefined;
+  target?: string | undefined;
 }
 export type UpdateOrgUserRequestRole = "None" | "Viewer" | "Editor" | "Admin";
 export interface UpdateOrgUserRequest {
   org_id: number;
   user_id: number;
-  role?: UpdateOrgUserRequestRole | (string & {});
+  role?: UpdateOrgUserRequestRole | (string & {}) | undefined;
 }
 export type UpdateOrgUserForCurrentOrgRequestRole = "None" | "Viewer" | "Editor" | "Admin";
 export interface UpdateOrgUserForCurrentOrgRequest {
   user_id: number;
-  role?: UpdateOrgUserForCurrentOrgRequestRole | (string & {});
+  role?: UpdateOrgUserForCurrentOrgRequestRole | (string & {}) | undefined;
 }
 export type UpdateProviderSettingsRequestSettingsMap = { [key: string]: unknown | undefined };
 export interface UpdateProviderSettingsRequest {
   key: string;
-  id?: string;
-  provider?: string;
-  settings?: UpdateProviderSettingsRequestSettingsMap;
+  id?: string | undefined;
+  provider?: string | undefined;
+  settings?: UpdateProviderSettingsRequestSettingsMap | undefined;
 }
 export interface UpdatePublicDashboardRequest {
   dashboardUid: string;
   uid: string;
-  accessToken?: string | Redacted.Redacted<string>;
-  annotationsEnabled?: boolean;
-  isEnabled?: boolean;
-  share?: string;
-  timeSelectionEnabled?: boolean;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
+  annotationsEnabled?: boolean | undefined;
+  isEnabled?: boolean | undefined;
+  share?: string | undefined;
+  timeSelectionEnabled?: boolean | undefined;
 }
 export type UpdateRecordingRuleRequestQueriesItemMap = { [key: string]: unknown | undefined };
 export type UpdateRecordingRuleRequestQueriesList = Array<UpdateRecordingRuleRequestQueriesItemMap>;
 export interface UpdateRecordingRuleRequest {
-  active?: boolean;
-  count?: boolean;
-  description?: string;
-  dest_data_source_uid?: string;
-  id?: string;
-  interval?: number;
-  name?: string;
-  prom_name?: string;
-  queries?: UpdateRecordingRuleRequestQueriesList;
-  range?: number;
-  target_ref_id?: string;
+  active?: boolean | undefined;
+  count?: boolean | undefined;
+  description?: string | undefined;
+  dest_data_source_uid?: string | undefined;
+  id?: string | undefined;
+  interval?: number | undefined;
+  name?: string | undefined;
+  prom_name?: string | undefined;
+  queries?: UpdateRecordingRuleRequestQueriesList | undefined;
+  range?: number | undefined;
+  target_ref_id?: string | undefined;
 }
 export type UpdateRoleRequestPermissionsList = Array<Permission>;
 export interface UpdateRoleRequest {
   roleUID: string;
   description: string;
   displayName: string;
-  global?: boolean;
+  global?: boolean | undefined;
   group: string;
-  hidden?: boolean;
-  name?: string;
-  permissions?: UpdateRoleRequestPermissionsList;
+  hidden?: boolean | undefined;
+  name?: string | undefined;
+  permissions?: UpdateRoleRequestPermissionsList | undefined;
 }
 export type UpdateServiceAccountRequestRole = "None" | "Viewer" | "Editor" | "Admin";
 export interface UpdateServiceAccountRequest {
   serviceAccountId: number;
-  isDisabled?: boolean;
-  name?: string;
-  role?: UpdateServiceAccountRequestRole | (string & {});
+  isDisabled?: boolean | undefined;
+  name?: string | undefined;
+  role?: UpdateServiceAccountRequestRole | (string & {}) | undefined;
 }
 export type ServiceAccountProfileDTOAccessControlMap = { [key: string]: boolean | undefined };
 export type ServiceAccountProfileDTOTeamsList = Array<string>;
 export interface ServiceAccountProfileDTO {
-  accessControl?: ServiceAccountProfileDTOAccessControlMap;
-  avatarUrl?: string;
-  createdAt?: string;
-  id?: number;
-  isDisabled?: boolean;
-  isExternal?: boolean;
-  login?: string;
-  name?: string;
-  orgId?: number;
-  requiredBy?: string;
-  role?: string;
-  teams?: ServiceAccountProfileDTOTeamsList;
-  tokens?: number;
-  uid?: string;
-  updatedAt?: string;
+  accessControl?: ServiceAccountProfileDTOAccessControlMap | undefined;
+  avatarUrl?: string | undefined;
+  createdAt?: string | undefined;
+  id?: number | undefined;
+  isDisabled?: boolean | undefined;
+  isExternal?: boolean | undefined;
+  login?: string | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  requiredBy?: string | undefined;
+  role?: string | undefined;
+  teams?: ServiceAccountProfileDTOTeamsList | undefined;
+  tokens?: number | undefined;
+  uid?: string | undefined;
+  updatedAt?: string | undefined;
 }
 export interface UpdateServiceAccountResponse {
-  id?: number;
-  message?: string;
-  name?: string;
-  serviceaccount?: ServiceAccountProfileDTO;
+  id?: number | undefined;
+  message?: string | undefined;
+  name?: string | undefined;
+  serviceaccount?: ServiceAccountProfileDTO | undefined;
 }
 export interface UpdateSignedInUserRequest {
-  email?: string;
-  login?: string;
-  name?: string;
-  theme?: string;
+  email?: string | undefined;
+  login?: string | undefined;
+  name?: string | undefined;
+  theme?: string | undefined;
 }
 export interface UpdateTeamRequest {
   team_id: string;
-  email?: string;
-  name?: string;
+  email?: string | undefined;
+  name?: string | undefined;
 }
 export type UpdateTeamLBACRulesApiRequestRulesList = Array<TeamLBACRule>;
 export interface UpdateTeamLBACRulesApiRequest {
   uid: string;
-  rules?: UpdateTeamLBACRulesApiRequestRulesList;
+  rules?: UpdateTeamLBACRulesApiRequestRulesList | undefined;
 }
 export type UpdateTeamLBACRulesApiResponseRulesList = Array<TeamLBACRule>;
 export interface UpdateTeamLBACRulesApiResponse {
-  id?: number;
-  message?: string;
-  name?: string;
-  rules?: UpdateTeamLBACRulesApiResponseRulesList;
-  uid?: string;
+  id?: number | undefined;
+  message?: string | undefined;
+  name?: string | undefined;
+  rules?: UpdateTeamLBACRulesApiResponseRulesList | undefined;
+  uid?: string | undefined;
 }
 export interface UpdateTeamMemberRequest {
   team_id: string;
   user_id: number;
-  permission?: number;
+  permission?: number | undefined;
 }
 export type NavbarPreferenceBookmarkUrlsList = Array<string>;
 export interface NavbarPreference {
-  bookmarkUrls?: NavbarPreferenceBookmarkUrlsList;
+  bookmarkUrls?: NavbarPreferenceBookmarkUrlsList | undefined;
 }
 export interface QueryHistoryPreference {
-  homeTab?: string;
+  homeTab?: string | undefined;
 }
 export type UpdateTeamPreferencesRequestTheme = "light" | "dark" | "system";
 export interface UpdateTeamPreferencesRequest {
   team_id: string;
   /** The numerical :id of a favorited dashboard Deprecated: Use HomeDashboardUID instead */
-  homeDashboardId?: number;
-  homeDashboardUID?: string;
-  language?: string;
-  navbar?: NavbarPreference;
-  queryHistory?: QueryHistoryPreference;
-  theme?: UpdateTeamPreferencesRequestTheme | (string & {});
+  homeDashboardId?: number | undefined;
+  homeDashboardUID?: string | undefined;
+  language?: string | undefined;
+  navbar?: NavbarPreference | undefined;
+  queryHistory?: QueryHistoryPreference | undefined;
+  theme?: UpdateTeamPreferencesRequestTheme | (string & {}) | undefined;
   /** Any IANA timezone string (e.g. America/New_York), 'utc', 'browser', or empty string */
-  timezone?: string;
-  weekStart?: string;
+  timezone?: string | undefined;
+  weekStart?: string | undefined;
 }
 export interface UpdateUserRequest {
   user_id: number;
-  email?: string;
-  login?: string;
-  name?: string;
-  theme?: string;
+  email?: string | undefined;
+  login?: string | undefined;
+  name?: string | undefined;
+  theme?: string | undefined;
 }
 export interface UpdateUserEmailRequest {}
 export interface UpdateUserEmailResponse {}
 export interface UpdateUserQuotaRequest {
   user_id: number;
   quota_target: string;
-  limit?: number;
-  target?: string;
+  limit?: number | undefined;
+  target?: string | undefined;
 }
 export interface UploadSnapshotRequest {
   /** Session UID of a session */
@@ -3347,6 +3397,38 @@ export interface UserSetUsingOrgRequest {
 export interface ViewPublicDashboardRequest {
   accessToken: string;
 }
+export interface ErrorResponseBody {
+  /** Error An optional detailed description of the actual error. Only included if running in developer mode. */
+  error?: string | undefined;
+  /** a human readable version of the error */
+  message: string;
+  /** Status An optional status to denote the cause of the error. For example, a 412 Precondition Failed error may include additional information of why that error happened. */
+  status?: string | undefined;
+}
+/** Extra Additional information about the error */
+export type PublicErrorExtraMap2 = { [key: string]: unknown | undefined };
+/** PublicError is derived from Error and only contains information available to the end user. */
+export interface PublicError2 {
+  /** Extra Additional information about the error */
+  extra?: PublicErrorExtraMap2 | undefined;
+  /** Message A human readable message */
+  message?: string | undefined;
+  /** MessageID A unique identifier for the error */
+  messageId: string;
+  /** StatusCode The HTTP status code returned */
+  statusCode: number;
+}
+export type PublicErrorExtraMap = { [key: string]: unknown | undefined };
+/** PublicError is derived from Error and only contains information available to the end user. */
+export interface PublicError {
+  extra?: PublicErrorExtraMap | undefined;
+  message?: string | undefined;
+  messageId?: string | undefined;
+  statusCode?: number | undefined;
+}
+export interface ForbiddenError {
+  body?: PublicError | undefined;
+}
 export type AddDataSourceError = Forbidden | Conflict | GrafanaOpError;
 /** Create a data source. By defining `password` and `basicAuthPassword` under secureJsonData property Grafana encrypts them securely as an encrypted blob in the database. The response then lists the encrypted fields under secureJsonFields. If you are running Grafana Enterprise and have Fine-grained access control enabled you need to have a permission with action: `datasources:create` */
 export const addDataSource: API.OperationMethod<
@@ -3355,8 +3437,8 @@ export const addDataSource: API.OperationMethod<
   AddDataSourceError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7616, __c238, 0) as any as S.Schema<AddDataSourceRequest>,
-  output: __S(7680, __c240, 0) as any as S.Schema<AddDataSourceResponse>,
+  input: __S(7680, __c240, 0) as any as S.Schema<AddDataSourceRequest>,
+  output: __S(7744, __c242, 0) as any as S.Schema<AddDataSourceResponse>,
   errors: [Forbidden, Conflict, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3372,8 +3454,8 @@ export const addOrgInvite: API.OperationMethod<
   AddOrgInviteError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c253, 0) as any as S.Schema<AddOrgInviteRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8160, __c255, 0) as any as S.Schema<AddOrgInviteRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3389,8 +3471,8 @@ export const addOrgUser: API.OperationMethod<
   AddOrgUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8480, __c265, 0) as any as S.Schema<AddOrgUserRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8544, __c267, 0) as any as S.Schema<AddOrgUserRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3406,8 +3488,8 @@ export const addOrgUserToCurrentOrg: API.OperationMethod<
   AddOrgUserToCurrentOrgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8896, __c278, 0) as any as S.Schema<AddOrgUserToCurrentOrgRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8960, __c280, 0) as any as S.Schema<AddOrgUserToCurrentOrgRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3423,8 +3505,8 @@ export const addTeamGroupApi: API.OperationMethod<
   AddTeamGroupApiError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9376, __c293, 0) as any as S.Schema<AddTeamGroupApiRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(9440, __c295, 0) as any as S.Schema<AddTeamGroupApiRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3440,8 +3522,8 @@ export const addTeamMember: API.OperationMethod<
   AddTeamMemberError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AddTeamMemberRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(64, __c2, 0) as any as S.Schema<AddTeamMemberRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3457,8 +3539,8 @@ export const addTeamRole: API.OperationMethod<
   AddTeamRoleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<AddTeamRoleRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(512, __c16, 0) as any as S.Schema<AddTeamRoleRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3474,8 +3556,8 @@ export const addUserRole: API.OperationMethod<
   AddUserRoleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<AddUserRoleRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(896, __c28, 0) as any as S.Schema<AddUserRoleRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3491,8 +3573,8 @@ export const adminCreateUser: API.OperationMethod<
   AdminCreateUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<AdminCreateUserRequest>,
-  output: __S(1377, __c43, 1) as any as S.Schema<AdminCreateUserResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<AdminCreateUserRequest>,
+  output: __S(1441, __c45, 1) as any as S.Schema<AdminCreateUserResponse>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3508,8 +3590,8 @@ export const adminDeleteUser: API.OperationMethod<
   AdminDeleteUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<AdminDeleteUserRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(1888, __c59, 0) as any as S.Schema<AdminDeleteUserRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3525,8 +3607,8 @@ export const adminDisableUser: API.OperationMethod<
   AdminDisableUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<AdminDisableUserRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(2304, __c72, 0) as any as S.Schema<AdminDisableUserRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3542,8 +3624,8 @@ export const adminEnableUser: API.OperationMethod<
   AdminEnableUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<AdminEnableUserRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(2688, __c84, 0) as any as S.Schema<AdminEnableUserRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3559,8 +3641,8 @@ export const adminGetSettings: API.OperationMethod<
   AdminGetSettingsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<AdminGetSettingsRequest>,
-  output: __S(3010, __c94, 2) as any as S.Schema<AdminGetSettingsResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<AdminGetSettingsRequest>,
+  output: __S(3074, __c96, 2) as any as S.Schema<AdminGetSettingsResponse>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3576,8 +3658,8 @@ export const adminGetStats: API.OperationMethod<
   AdminGetStatsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<AdminGetStatsRequest>,
-  output: __S(3361, __c105, 1) as any as S.Schema<AdminStats>,
+  input: __S(3424, __c107, 0) as any as S.Schema<AdminGetStatsRequest>,
+  output: __S(3425, __c107, 1) as any as S.Schema<AdminStats>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3593,8 +3675,8 @@ export const adminGetUserAuthTokens: API.OperationMethod<
   AdminGetUserAuthTokensError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<AdminGetUserAuthTokensRequest>,
-  output: __S(3746, __c117, 2) as any as S.Schema<AdminGetUserAuthTokensResponse>,
+  input: __S(3776, __c118, 0) as any as S.Schema<AdminGetUserAuthTokensRequest>,
+  output: __S(3810, __c119, 2) as any as S.Schema<AdminGetUserAuthTokensResponse>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3610,8 +3692,8 @@ export const adminLogoutUser: API.OperationMethod<
   AdminLogoutUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<AdminLogoutUserRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(4224, __c132, 0) as any as S.Schema<AdminLogoutUserRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3627,8 +3709,8 @@ export const adminProvisioningReloadAccessControl: API.OperationMethod<
   AdminProvisioningReloadAccessControlError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<AdminProvisioningReloadAccessControlRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<AdminProvisioningReloadAccessControlResponse>,
+  input: __S(4576, __c143, 0) as any as S.Schema<AdminProvisioningReloadAccessControlRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<AdminProvisioningReloadAccessControlResponse>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3644,8 +3726,8 @@ export const adminProvisioningReloadDashboards: API.OperationMethod<
   AdminProvisioningReloadDashboardsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<AdminProvisioningReloadDashboardsRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(4992, __c156, 0) as any as S.Schema<AdminProvisioningReloadDashboardsRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3661,8 +3743,8 @@ export const adminProvisioningReloadDatasources: API.OperationMethod<
   AdminProvisioningReloadDatasourcesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<AdminProvisioningReloadDatasourcesRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5344, __c167, 0) as any as S.Schema<AdminProvisioningReloadDatasourcesRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3678,8 +3760,8 @@ export const adminProvisioningReloadPlugins: API.OperationMethod<
   AdminProvisioningReloadPluginsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<AdminProvisioningReloadPluginsRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5696, __c178, 0) as any as S.Schema<AdminProvisioningReloadPluginsRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3695,8 +3777,8 @@ export const adminRevokeUserAuthToken: API.OperationMethod<
   AdminRevokeUserAuthTokenError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<AdminRevokeUserAuthTokenRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(6048, __c189, 0) as any as S.Schema<AdminRevokeUserAuthTokenRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3712,8 +3794,8 @@ export const adminUpdateUserPassword: API.OperationMethod<
   AdminUpdateUserPasswordError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<AdminUpdateUserPasswordRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(6240, __c195, 0) as any as S.Schema<AdminUpdateUserPasswordRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3729,8 +3811,8 @@ export const adminUpdateUserPermissions: API.OperationMethod<
   AdminUpdateUserPermissionsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<AdminUpdateUserPermissionsRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(6272, __c196, 0) as any as S.Schema<AdminUpdateUserPermissionsRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3746,8 +3828,8 @@ export const callDatasourceResourceWithUID: API.OperationMethod<
   CallDatasourceResourceWithUIDError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<CallDatasourceResourceWithUIDRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(6304, __c197, 0) as any as S.Schema<CallDatasourceResourceWithUIDRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3763,8 +3845,8 @@ export const cancelSnapshot: API.OperationMethod<
   CancelSnapshotError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<CancelSnapshotRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<CancelSnapshotResponse>,
+  input: __S(6336, __c198, 0) as any as S.Schema<CancelSnapshotRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<CancelSnapshotResponse>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3780,8 +3862,8 @@ export const changeUserPassword: API.OperationMethod<
   ChangeUserPasswordError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<ChangeUserPasswordRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(6368, __c199, 0) as any as S.Schema<ChangeUserPasswordRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3797,8 +3879,8 @@ export const checkDatasourceHealthWithUID: API.OperationMethod<
   CheckDatasourceHealthWithUIDError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<CheckDatasourceHealthWithUIDRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(6400, __c200, 0) as any as S.Schema<CheckDatasourceHealthWithUIDRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3814,8 +3896,8 @@ export const cleanDataSourceCache: API.OperationMethod<
   CleanDataSourceCacheError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<CleanDataSourceCacheRequest>,
-  output: __S(6368, __c199, 0) as any as S.Schema<CacheConfigResponse>,
+  input: __S(6432, __c201, 0) as any as S.Schema<CleanDataSourceCacheRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<CacheConfigResponse>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3831,8 +3913,8 @@ export const createAnnotation: API.OperationMethod<
   CreateAnnotationError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<CreateAnnotationRequest>,
-  output: __S(6432, __c201, 0) as any as S.Schema<CreateAnnotationResponse>,
+  input: __S(6496, __c203, 0) as any as S.Schema<CreateAnnotationRequest>,
+  output: __S(6528, __c204, 0) as any as S.Schema<CreateAnnotationResponse>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3848,8 +3930,8 @@ export const createCloudMigrationToken: API.OperationMethod<
   CreateCloudMigrationTokenError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<CreateCloudMigrationTokenRequest>,
-  output: __S(6497, __c203, 1) as any as S.Schema<CreateAccessTokenResponseDTO>,
+  input: __S(6592, __c206, 0) as any as S.Schema<CreateCloudMigrationTokenRequest>,
+  output: __S(6593, __c206, 1) as any as S.Schema<CreateAccessTokenResponseDTO>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3865,8 +3947,8 @@ export const createCorrelation: API.OperationMethod<
   CreateCorrelationError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<CreateCorrelationRequest>,
-  output: __S(6560, __c205, 0) as any as S.Schema<CreateCorrelationResponseBody>,
+  input: __S(6624, __c207, 0) as any as S.Schema<CreateCorrelationRequest>,
+  output: __S(6656, __c208, 0) as any as S.Schema<CreateCorrelationResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3882,8 +3964,8 @@ export const createDashboardSnapshot: API.OperationMethod<
   CreateDashboardSnapshotError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6657, __c208, 1) as any as S.Schema<CreateDashboardSnapshotRequest>,
-  output: __S(6658, __c208, 2) as any as S.Schema<CreateDashboardSnapshotResponse>,
+  input: __S(6721, __c210, 1) as any as S.Schema<CreateDashboardSnapshotRequest>,
+  output: __S(6722, __c210, 2) as any as S.Schema<CreateDashboardSnapshotResponse>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3899,8 +3981,8 @@ export const createLibraryElement: API.OperationMethod<
   CreateLibraryElementError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<CreateLibraryElementRequest>,
-  output: __S(6784, __c212, 0) as any as S.Schema<LibraryElementResponse>,
+  input: __S(6752, __c211, 0) as any as S.Schema<CreateLibraryElementRequest>,
+  output: __S(6848, __c214, 0) as any as S.Schema<LibraryElementResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3916,8 +3998,8 @@ export const createOrg: API.OperationMethod<
   CreateOrgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<CreateOrgRequest>,
-  output: __S(6817, __c213, 1) as any as S.Schema<CreateOrgResponse>,
+  input: __S(6880, __c215, 0) as any as S.Schema<CreateOrgRequest>,
+  output: __S(6881, __c215, 1) as any as S.Schema<CreateOrgResponse>,
   errors: [Forbidden, Conflict, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3933,8 +4015,8 @@ export const createPublicDashboard: API.OperationMethod<
   CreatePublicDashboardError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6848, __c214, 0) as any as S.Schema<CreatePublicDashboardRequest>,
-  output: __S(6882, __c215, 2) as any as S.Schema<PublicDashboard>,
+  input: __S(6912, __c216, 0) as any as S.Schema<CreatePublicDashboardRequest>,
+  output: __S(6946, __c217, 2) as any as S.Schema<PublicDashboard>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3950,8 +4032,8 @@ export const createQuery: API.OperationMethod<
   CreateQueryError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<CreateQueryRequest>,
-  output: __S(6976, __c218, 0) as any as S.Schema<QueryHistoryResponse>,
+  input: __S(6976, __c218, 0) as any as S.Schema<CreateQueryRequest>,
+  output: __S(7040, __c220, 0) as any as S.Schema<QueryHistoryResponse>,
   errors: [BadRequest, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3967,8 +4049,8 @@ export const createRecordingRule: API.OperationMethod<
   CreateRecordingRuleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<CreateRecordingRuleRequest>,
-  output: __S(7072, __c221, 0) as any as S.Schema<RecordingRuleJSON>,
+  input: __S(7072, __c221, 0) as any as S.Schema<CreateRecordingRuleRequest>,
+  output: __S(7136, __c223, 0) as any as S.Schema<RecordingRuleJSON>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -3988,8 +4070,8 @@ export const createRecordingRuleWriteTarget: API.OperationMethod<
   CreateRecordingRuleWriteTargetError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<CreateRecordingRuleWriteTargetRequest>,
-  output: __S(7136, __c223, 0) as any as S.Schema<PrometheusRemoteWriteTargetJSON>,
+  input: __S(7168, __c224, 0) as any as S.Schema<CreateRecordingRuleWriteTargetRequest>,
+  output: __S(7200, __c225, 0) as any as S.Schema<PrometheusRemoteWriteTargetJSON>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4005,8 +4087,8 @@ export const createReport: API.OperationMethod<
   CreateReportError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7168, __c224, 0) as any as S.Schema<CreateReportRequest>,
-  output: __S(7264, __c227, 0) as any as S.Schema<CreateReportResponse>,
+  input: __S(7232, __c226, 0) as any as S.Schema<CreateReportRequest>,
+  output: __S(7328, __c229, 0) as any as S.Schema<CreateReportResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4022,8 +4104,8 @@ export const createRole: API.OperationMethod<
   CreateRoleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7296, __c228, 0) as any as S.Schema<CreateRoleRequest>,
-  output: __S(7330, __c229, 2) as any as S.Schema<RoleDTO>,
+  input: __S(7360, __c230, 0) as any as S.Schema<CreateRoleRequest>,
+  output: __S(7394, __c231, 2) as any as S.Schema<RoleDTO>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4039,8 +4121,8 @@ export const createServiceAccount: API.OperationMethod<
   CreateServiceAccountError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<CreateServiceAccountRequest>,
-  output: __S(7392, __c231, 0) as any as S.Schema<ServiceAccountDTO>,
+  input: __S(7424, __c232, 0) as any as S.Schema<CreateServiceAccountRequest>,
+  output: __S(7456, __c233, 0) as any as S.Schema<ServiceAccountDTO>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4056,8 +4138,8 @@ export const createSession: API.OperationMethod<
   CreateSessionError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7424, __c232, 0) as any as S.Schema<CreateSessionRequest>,
-  output: __S(7456, __c233, 0) as any as S.Schema<CloudMigrationSessionResponseDTO>,
+  input: __S(7488, __c234, 0) as any as S.Schema<CreateSessionRequest>,
+  output: __S(7520, __c235, 0) as any as S.Schema<CloudMigrationSessionResponseDTO>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4073,8 +4155,8 @@ export const createSnapshot: API.OperationMethod<
   CreateSnapshotError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7488, __c234, 0) as any as S.Schema<CreateSnapshotRequest>,
-  output: __S(7489, __c234, 1) as any as S.Schema<CreateSnapshotResponseDTO>,
+  input: __S(7552, __c236, 0) as any as S.Schema<CreateSnapshotRequest>,
+  output: __S(7553, __c236, 1) as any as S.Schema<CreateSnapshotResponseDTO>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4090,8 +4172,8 @@ export const createTeam: API.OperationMethod<
   CreateTeamError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7552, __c236, 0) as any as S.Schema<CreateTeamRequest>,
-  output: __S(7553, __c236, 1) as any as S.Schema<CreateTeamResponse>,
+  input: __S(7616, __c238, 0) as any as S.Schema<CreateTeamRequest>,
+  output: __S(7617, __c238, 1) as any as S.Schema<CreateTeamResponse>,
   errors: [Forbidden, Conflict, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4107,8 +4189,8 @@ export const createToken: API.OperationMethod<
   CreateTokenError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7584, __c237, 0) as any as S.Schema<CreateTokenRequest>,
-  output: __S(7585, __c237, 1) as any as S.Schema<NewApiKeyResult>,
+  input: __S(7648, __c239, 0) as any as S.Schema<CreateTokenRequest>,
+  output: __S(7649, __c239, 1) as any as S.Schema<NewApiKeyResult>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4128,8 +4210,8 @@ export const datasourceProxyDELETEByUIDcalls: API.OperationMethod<
   DatasourceProxyDELETEByUIDcallsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7776, __c243, 0) as any as S.Schema<DatasourceProxyDELETEByUIDcallsRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<DatasourceProxyDELETEByUIDcallsResponse>,
+  input: __S(7840, __c245, 0) as any as S.Schema<DatasourceProxyDELETEByUIDcallsRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<DatasourceProxyDELETEByUIDcallsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4145,8 +4227,8 @@ export const datasourceProxyGETByUIDcalls: API.OperationMethod<
   DatasourceProxyGETByUIDcallsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<DatasourceProxyGETByUIDcallsRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<DatasourceProxyGETByUIDcallsResponse>,
+  input: __S(7872, __c246, 0) as any as S.Schema<DatasourceProxyGETByUIDcallsRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<DatasourceProxyGETByUIDcallsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4162,8 +4244,8 @@ export const datasourceProxyPOSTByUIDcalls: API.OperationMethod<
   DatasourceProxyPOSTByUIDcallsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7840, __c245, 0) as any as S.Schema<DatasourceProxyPOSTByUIDcallsRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<DatasourceProxyPOSTByUIDcallsResponse>,
+  input: __S(7904, __c247, 0) as any as S.Schema<DatasourceProxyPOSTByUIDcallsRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<DatasourceProxyPOSTByUIDcallsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4179,8 +4261,8 @@ export const deleteAnnotation: API.OperationMethod<
   DeleteAnnotationError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7872, __c246, 0) as any as S.Schema<DeleteAnnotationRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(7936, __c248, 0) as any as S.Schema<DeleteAnnotationRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4196,8 +4278,8 @@ export const deleteCloudMigrationToken: API.OperationMethod<
   DeleteCloudMigrationTokenError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7904, __c247, 0) as any as S.Schema<DeleteCloudMigrationTokenRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<DeleteCloudMigrationTokenResponse>,
+  input: __S(7968, __c249, 0) as any as S.Schema<DeleteCloudMigrationTokenRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<DeleteCloudMigrationTokenResponse>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4213,8 +4295,8 @@ export const deleteCorrelation: API.OperationMethod<
   DeleteCorrelationError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7936, __c248, 0) as any as S.Schema<DeleteCorrelationRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<DeleteCorrelationResponseBody>,
+  input: __S(8000, __c250, 0) as any as S.Schema<DeleteCorrelationRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<DeleteCorrelationResponseBody>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4230,8 +4312,8 @@ export const deleteDashboardSnapshot: API.OperationMethod<
   DeleteDashboardSnapshotError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7968, __c249, 0) as any as S.Schema<DeleteDashboardSnapshotRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8032, __c251, 0) as any as S.Schema<DeleteDashboardSnapshotRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4247,8 +4329,8 @@ export const deleteDashboardSnapshotByDeleteKey: API.OperationMethod<
   DeleteDashboardSnapshotByDeleteKeyError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8000, __c250, 0) as any as S.Schema<DeleteDashboardSnapshotByDeleteKeyRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8064, __c252, 0) as any as S.Schema<DeleteDashboardSnapshotByDeleteKeyRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4264,8 +4346,8 @@ export const deleteDataSourceByUID: API.OperationMethod<
   DeleteDataSourceByUIDError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8032, __c251, 0) as any as S.Schema<DeleteDataSourceByUIDRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8096, __c253, 0) as any as S.Schema<DeleteDataSourceByUIDRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4281,8 +4363,8 @@ export const deleteLibraryElementByUID: API.OperationMethod<
   DeleteLibraryElementByUIDError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8064, __c252, 0) as any as S.Schema<DeleteLibraryElementByUIDRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8128, __c254, 0) as any as S.Schema<DeleteLibraryElementByUIDRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4298,8 +4380,8 @@ export const deleteLicenseToken: API.OperationMethod<
   DeleteLicenseTokenError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<DeleteLicenseTokenRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<DeleteLicenseTokenResponse>,
+  input: __S(8224, __c257, 0) as any as S.Schema<DeleteLicenseTokenRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<DeleteLicenseTokenResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4315,8 +4397,8 @@ export const deleteOrg: API.OperationMethod<
   DeleteOrgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8192, __c256, 0) as any as S.Schema<DeleteOrgRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8256, __c258, 0) as any as S.Schema<DeleteOrgRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4332,8 +4414,8 @@ export const deletePublicDashboard: API.OperationMethod<
   DeletePublicDashboardError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8224, __c257, 0) as any as S.Schema<DeletePublicDashboardRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8288, __c259, 0) as any as S.Schema<DeletePublicDashboardRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4349,8 +4431,8 @@ export const deleteQuery: API.OperationMethod<
   DeleteQueryError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8256, __c258, 0) as any as S.Schema<DeleteQueryRequest>,
-  output: __S(7264, __c227, 0) as any as S.Schema<QueryHistoryDeleteQueryResponse>,
+  input: __S(8320, __c260, 0) as any as S.Schema<DeleteQueryRequest>,
+  output: __S(7328, __c229, 0) as any as S.Schema<QueryHistoryDeleteQueryResponse>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4366,8 +4448,8 @@ export const deleteRecordingRule: API.OperationMethod<
   DeleteRecordingRuleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8288, __c259, 0) as any as S.Schema<DeleteRecordingRuleRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8352, __c261, 0) as any as S.Schema<DeleteRecordingRuleRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4383,8 +4465,8 @@ export const deleteRecordingRuleWriteTarget: API.OperationMethod<
   DeleteRecordingRuleWriteTargetError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8320, __c260, 0) as any as S.Schema<DeleteRecordingRuleWriteTargetRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8384, __c262, 0) as any as S.Schema<DeleteRecordingRuleWriteTargetRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4400,8 +4482,8 @@ export const deleteRole: API.OperationMethod<
   DeleteRoleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8352, __c261, 0) as any as S.Schema<DeleteRoleRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8416, __c263, 0) as any as S.Schema<DeleteRoleRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4417,8 +4499,8 @@ export const deleteServiceAccount: API.OperationMethod<
   DeleteServiceAccountError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8384, __c262, 0) as any as S.Schema<DeleteServiceAccountRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8448, __c264, 0) as any as S.Schema<DeleteServiceAccountRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4434,8 +4516,8 @@ export const deleteSession: API.OperationMethod<
   DeleteSessionError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8416, __c263, 0) as any as S.Schema<DeleteSessionRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<DeleteSessionResponse>,
+  input: __S(8480, __c265, 0) as any as S.Schema<DeleteSessionRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<DeleteSessionResponse>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4451,8 +4533,8 @@ export const deleteTeam: API.OperationMethod<
   DeleteTeamError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8448, __c264, 0) as any as S.Schema<DeleteTeamRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8512, __c266, 0) as any as S.Schema<DeleteTeamRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, Conflict, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4468,8 +4550,8 @@ export const deleteToken: API.OperationMethod<
   DeleteTokenError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8512, __c266, 0) as any as S.Schema<DeleteTokenRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(8576, __c268, 0) as any as S.Schema<DeleteTokenRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4485,8 +4567,8 @@ export const disableDataSourceCache: API.OperationMethod<
   DisableDataSourceCacheError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8544, __c267, 0) as any as S.Schema<DisableDataSourceCacheRequest>,
-  output: __S(6368, __c199, 0) as any as S.Schema<CacheConfigResponse>,
+  input: __S(8608, __c269, 0) as any as S.Schema<DisableDataSourceCacheRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<CacheConfigResponse>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4502,8 +4584,8 @@ export const enableDataSourceCache: API.OperationMethod<
   EnableDataSourceCacheError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8576, __c268, 0) as any as S.Schema<EnableDataSourceCacheRequest>,
-  output: __S(6368, __c199, 0) as any as S.Schema<CacheConfigResponse>,
+  input: __S(8640, __c270, 0) as any as S.Schema<EnableDataSourceCacheRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<CacheConfigResponse>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4519,8 +4601,8 @@ export const getAccessControlStatus: API.OperationMethod<
   GetAccessControlStatusError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8608, __c269, 0) as any as S.Schema<GetAccessControlStatusRequest>,
-  output: __S(8609, __c269, 1) as any as S.Schema<AccessControlStatus>,
+  input: __S(8672, __c271, 0) as any as S.Schema<GetAccessControlStatusRequest>,
+  output: __S(8673, __c271, 1) as any as S.Schema<AccessControlStatus>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4536,8 +4618,8 @@ export const getAnnotation: API.OperationMethod<
   GetAnnotationError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8640, __c270, 0) as any as S.Schema<GetAnnotationRequest>,
-  output: __S(8672, __c271, 0) as any as S.Schema<Annotation>,
+  input: __S(8704, __c272, 0) as any as S.Schema<GetAnnotationRequest>,
+  output: __S(8736, __c273, 0) as any as S.Schema<Annotation>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4545,7 +4627,7 @@ export const getAnnotation: API.OperationMethod<
   span: "GetAnnotation",
 }));
 
-export type GetAnnotationsError = GrafanaOpError;
+export type GetAnnotationsError = BadRequest | GrafanaOpError;
 /** Find Annotations. Starting in Grafana v6.4 regions annotations are now returned in one entity that now includes the timeEnd property. */
 export const getAnnotations: API.OperationMethod<
   GetAnnotationsRequest,
@@ -4553,9 +4635,9 @@ export const getAnnotations: API.OperationMethod<
   GetAnnotationsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8704, __c272, 0) as any as S.Schema<GetAnnotationsRequest>,
-  output: __S(8706, __c272, 2) as any as S.Schema<GetAnnotationsResponse>,
-  errors: [UnknownGrafanaError],
+  input: __S(8768, __c274, 0) as any as S.Schema<GetAnnotationsRequest>,
+  output: __S(8770, __c274, 2) as any as S.Schema<GetAnnotationsResponse>,
+  errors: [BadRequest, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4570,8 +4652,8 @@ export const getAnnotationTags: API.OperationMethod<
   GetAnnotationTagsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8736, __c273, 0) as any as S.Schema<GetAnnotationTagsRequest>,
-  output: __S(8740, __c273, 4) as any as S.Schema<GetAnnotationTagsResponse>,
+  input: __S(8800, __c275, 0) as any as S.Schema<GetAnnotationTagsRequest>,
+  output: __S(8804, __c275, 4) as any as S.Schema<GetAnnotationTagsResponse>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4587,8 +4669,8 @@ export const getCloudMigrationToken: API.OperationMethod<
   GetCloudMigrationTokenError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8768, __c274, 0) as any as S.Schema<GetCloudMigrationTokenRequest>,
-  output: __S(8769, __c274, 1) as any as S.Schema<GetAccessTokenResponseDTO>,
+  input: __S(8832, __c276, 0) as any as S.Schema<GetCloudMigrationTokenRequest>,
+  output: __S(8833, __c276, 1) as any as S.Schema<GetAccessTokenResponseDTO>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4604,8 +4686,8 @@ export const getCorrelation: API.OperationMethod<
   GetCorrelationError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8800, __c275, 0) as any as S.Schema<GetCorrelationRequest>,
-  output: __S(6627, __c207, 3) as any as S.Schema<Correlation>,
+  input: __S(8864, __c277, 0) as any as S.Schema<GetCorrelationRequest>,
+  output: __S(6691, __c209, 3) as any as S.Schema<Correlation>,
   errors: [NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4621,8 +4703,8 @@ export const getCorrelations: API.OperationMethod<
   GetCorrelationsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c276, 0) as any as S.Schema<GetCorrelationsRequest>,
-  output: __S(8865, __c277, 1) as any as S.Schema<GetCorrelationsResponse>,
+  input: __S(8896, __c278, 0) as any as S.Schema<GetCorrelationsRequest>,
+  output: __S(8929, __c279, 1) as any as S.Schema<GetCorrelationsResponse>,
   errors: [NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4638,8 +4720,8 @@ export const getCorrelationsBySourceUID: API.OperationMethod<
   GetCorrelationsBySourceUIDError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8928, __c279, 0) as any as S.Schema<GetCorrelationsBySourceUIDRequest>,
-  output: __S(8865, __c277, 1) as any as S.Schema<GetCorrelationsBySourceUIDResponse>,
+  input: __S(8992, __c281, 0) as any as S.Schema<GetCorrelationsBySourceUIDRequest>,
+  output: __S(8929, __c279, 1) as any as S.Schema<GetCorrelationsBySourceUIDResponse>,
   errors: [NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4655,8 +4737,8 @@ export const getCurrentOrg: API.OperationMethod<
   GetCurrentOrgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8960, __c280, 0) as any as S.Schema<GetCurrentOrgRequest>,
-  output: __S(8993, __c281, 1) as any as S.Schema<OrgDetailsDTO>,
+  input: __S(9024, __c282, 0) as any as S.Schema<GetCurrentOrgRequest>,
+  output: __S(9057, __c283, 1) as any as S.Schema<OrgDetailsDTO>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4672,8 +4754,8 @@ export const getCurrentOrgQuota: API.OperationMethod<
   GetCurrentOrgQuotaError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9024, __c282, 0) as any as S.Schema<GetCurrentOrgQuotaRequest>,
-  output: __S(9058, __c283, 2) as any as S.Schema<GetCurrentOrgQuotaResponse>,
+  input: __S(9088, __c284, 0) as any as S.Schema<GetCurrentOrgQuotaRequest>,
+  output: __S(9122, __c285, 2) as any as S.Schema<GetCurrentOrgQuotaResponse>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4689,8 +4771,8 @@ export const getDashboardSnapshot: API.OperationMethod<
   GetDashboardSnapshotError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9088, __c284, 0) as any as S.Schema<GetDashboardSnapshotRequest>,
-  output: __S(9123, __c285, 3) as any as S.Schema<DashboardFullWithMeta>,
+  input: __S(9152, __c286, 0) as any as S.Schema<GetDashboardSnapshotRequest>,
+  output: __S(9187, __c287, 3) as any as S.Schema<DashboardFullWithMeta>,
   errors: [BadRequest, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4706,8 +4788,8 @@ export const getDataSourceByUID: API.OperationMethod<
   GetDataSourceByUIDError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9152, __c286, 0) as any as S.Schema<GetDataSourceByUIDRequest>,
-  output: __S(7744, __c242, 0) as any as S.Schema<DataSource>,
+  input: __S(9216, __c288, 0) as any as S.Schema<GetDataSourceByUIDRequest>,
+  output: __S(7808, __c244, 0) as any as S.Schema<DataSource>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4723,8 +4805,8 @@ export const getDataSourceCacheConfig: API.OperationMethod<
   GetDataSourceCacheConfigError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9184, __c287, 0) as any as S.Schema<GetDataSourceCacheConfigRequest>,
-  output: __S(6368, __c199, 0) as any as S.Schema<CacheConfigResponse>,
+  input: __S(9248, __c289, 0) as any as S.Schema<GetDataSourceCacheConfigRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<CacheConfigResponse>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4740,8 +4822,8 @@ export const getDataSources: API.OperationMethod<
   GetDataSourcesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9216, __c288, 0) as any as S.Schema<GetDataSourcesRequest>,
-  output: __S(9219, __c288, 3) as any as S.Schema<GetDataSourcesResponse>,
+  input: __S(9280, __c290, 0) as any as S.Schema<GetDataSourcesRequest>,
+  output: __S(9283, __c290, 3) as any as S.Schema<GetDataSourcesResponse>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4757,8 +4839,8 @@ export const getHealth: API.OperationMethod<
   GetHealthError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9248, __c289, 0) as any as S.Schema<GetHealthRequest>,
-  output: __S(9249, __c289, 1) as any as S.Schema<HealthResponse>,
+  input: __S(9312, __c291, 0) as any as S.Schema<GetHealthRequest>,
+  output: __S(9313, __c291, 1) as any as S.Schema<HealthResponse>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4774,8 +4856,8 @@ export const getJWKS: API.OperationMethod<
   GetJWKSError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9280, __c290, 0) as any as S.Schema<GetJWKSRequest>,
-  output: __S(9295, __c290, 15) as any as S.Schema<GetJWKSResponse>,
+  input: __S(9344, __c292, 0) as any as S.Schema<GetJWKSRequest>,
+  output: __S(9359, __c292, 15) as any as S.Schema<GetJWKSResponse>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4791,8 +4873,8 @@ export const getLDAPStatus: API.OperationMethod<
   GetLDAPStatusError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9344, __c292, 0) as any as S.Schema<GetLDAPStatusRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(9408, __c294, 0) as any as S.Schema<GetLDAPStatusRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4808,8 +4890,8 @@ export const getLibraryElementByName: API.OperationMethod<
   GetLibraryElementByNameError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9408, __c294, 0) as any as S.Schema<GetLibraryElementByNameRequest>,
-  output: __S(9409, __c294, 1) as any as S.Schema<LibraryElementArrayResponse>,
+  input: __S(9472, __c296, 0) as any as S.Schema<GetLibraryElementByNameRequest>,
+  output: __S(9473, __c296, 1) as any as S.Schema<LibraryElementArrayResponse>,
   errors: [NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4825,8 +4907,8 @@ export const getLibraryElementByUID: API.OperationMethod<
   GetLibraryElementByUIDError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9472, __c296, 0) as any as S.Schema<GetLibraryElementByUIDRequest>,
-  output: __S(6784, __c212, 0) as any as S.Schema<LibraryElementResponse>,
+  input: __S(9536, __c298, 0) as any as S.Schema<GetLibraryElementByUIDRequest>,
+  output: __S(6848, __c214, 0) as any as S.Schema<LibraryElementResponse>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4842,8 +4924,8 @@ export const getLibraryElementConnections: API.OperationMethod<
   GetLibraryElementConnectionsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<GetLibraryElementConnectionsRequest>,
-  output: __S(9507, __c297, 3) as any as S.Schema<LibraryElementConnectionsResponse>,
+  input: __S(9568, __c299, 0) as any as S.Schema<GetLibraryElementConnectionsRequest>,
+  output: __S(9571, __c299, 3) as any as S.Schema<LibraryElementConnectionsResponse>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4859,8 +4941,8 @@ export const getLibraryElements: API.OperationMethod<
   GetLibraryElementsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9536, __c298, 0) as any as S.Schema<GetLibraryElementsRequest>,
-  output: __S(9538, __c298, 2) as any as S.Schema<LibraryElementSearchResponse>,
+  input: __S(9600, __c300, 0) as any as S.Schema<GetLibraryElementsRequest>,
+  output: __S(9602, __c300, 2) as any as S.Schema<LibraryElementSearchResponse>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4876,8 +4958,8 @@ export const getLicenseToken: API.OperationMethod<
   GetLicenseTokenError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9568, __c299, 0) as any as S.Schema<GetLicenseTokenRequest>,
-  output: __S(9600, __c300, 0) as any as S.Schema<Token>,
+  input: __S(9632, __c301, 0) as any as S.Schema<GetLicenseTokenRequest>,
+  output: __S(9664, __c302, 0) as any as S.Schema<Token>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4893,8 +4975,8 @@ export const getMetadata: API.OperationMethod<
   GetMetadataError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9632, __c301, 0) as any as S.Schema<GetMetadataRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<GetMetadataResponse>,
+  input: __S(9696, __c303, 0) as any as S.Schema<GetMetadataRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<GetMetadataResponse>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4910,8 +4992,8 @@ export const getOrg: API.OperationMethod<
   GetOrgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9696, __c303, 0) as any as S.Schema<GetOrgRequest>,
-  output: __S(8993, __c281, 1) as any as S.Schema<OrgDetailsDTO>,
+  input: __S(9760, __c305, 0) as any as S.Schema<GetOrgRequest>,
+  output: __S(9057, __c283, 1) as any as S.Schema<OrgDetailsDTO>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4927,8 +5009,8 @@ export const getOrgByName: API.OperationMethod<
   GetOrgByNameError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9728, __c304, 0) as any as S.Schema<GetOrgByNameRequest>,
-  output: __S(8993, __c281, 1) as any as S.Schema<OrgDetailsDTO>,
+  input: __S(9792, __c306, 0) as any as S.Schema<GetOrgByNameRequest>,
+  output: __S(9057, __c283, 1) as any as S.Schema<OrgDetailsDTO>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4944,8 +5026,8 @@ export const getOrgQuota: API.OperationMethod<
   GetOrgQuotaError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9760, __c305, 0) as any as S.Schema<GetOrgQuotaRequest>,
-  output: __S(9058, __c283, 2) as any as S.Schema<GetOrgQuotaResponse>,
+  input: __S(9824, __c307, 0) as any as S.Schema<GetOrgQuotaRequest>,
+  output: __S(9122, __c285, 2) as any as S.Schema<GetOrgQuotaResponse>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4961,8 +5043,8 @@ export const getOrgUsers: API.OperationMethod<
   GetOrgUsersError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9792, __c306, 0) as any as S.Schema<GetOrgUsersRequest>,
-  output: __S(9824, __c307, 0) as any as S.Schema<GetOrgUsersResponse>,
+  input: __S(9856, __c308, 0) as any as S.Schema<GetOrgUsersRequest>,
+  output: __S(9888, __c309, 0) as any as S.Schema<GetOrgUsersResponse>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4978,8 +5060,8 @@ export const getOrgUsersForCurrentOrg: API.OperationMethod<
   GetOrgUsersForCurrentOrgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c1, 0) as any as S.Schema<GetOrgUsersForCurrentOrgRequest>,
-  output: __S(9824, __c307, 0) as any as S.Schema<GetOrgUsersForCurrentOrgResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<GetOrgUsersForCurrentOrgRequest>,
+  output: __S(9888, __c309, 0) as any as S.Schema<GetOrgUsersForCurrentOrgResponse>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -4995,8 +5077,8 @@ export const getOrgUsersForCurrentOrgLookup: API.OperationMethod<
   GetOrgUsersForCurrentOrgLookupError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<GetOrgUsersForCurrentOrgLookupRequest>,
-  output: __S(67, __c2, 3) as any as S.Schema<GetOrgUsersForCurrentOrgLookupResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<GetOrgUsersForCurrentOrgLookupRequest>,
+  output: __S(131, __c4, 3) as any as S.Schema<GetOrgUsersForCurrentOrgLookupResponse>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5012,8 +5094,8 @@ export const getPendingOrgInvites: API.OperationMethod<
   GetPendingOrgInvitesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<GetPendingOrgInvitesRequest>,
-  output: __S(99, __c3, 3) as any as S.Schema<GetPendingOrgInvitesResponse>,
+  input: __S(160, __c5, 0) as any as S.Schema<GetPendingOrgInvitesRequest>,
+  output: __S(163, __c5, 3) as any as S.Schema<GetPendingOrgInvitesResponse>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5029,8 +5111,8 @@ export const getProviderSettings: API.OperationMethod<
   GetProviderSettingsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<GetProviderSettingsRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<GetProviderSettingsResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<GetProviderSettingsRequest>,
+  output: __S(224, __c7, 0) as any as S.Schema<GetProviderSettingsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5046,8 +5128,8 @@ export const getPublicAnnotations: API.OperationMethod<
   GetPublicAnnotationsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<GetPublicAnnotationsRequest>,
-  output: __S(199, __c6, 7) as any as S.Schema<GetPublicAnnotationsResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<GetPublicAnnotationsRequest>,
+  output: __S(263, __c8, 7) as any as S.Schema<GetPublicAnnotationsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5063,8 +5145,8 @@ export const getPublicDashboard: API.OperationMethod<
   GetPublicDashboardError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<GetPublicDashboardRequest>,
-  output: __S(6882, __c215, 2) as any as S.Schema<PublicDashboard>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetPublicDashboardRequest>,
+  output: __S(6946, __c217, 2) as any as S.Schema<PublicDashboard>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5080,8 +5162,8 @@ export const getRecordingRuleWriteTarget: API.OperationMethod<
   GetRecordingRuleWriteTargetError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<GetRecordingRuleWriteTargetRequest>,
-  output: __S(7136, __c223, 0) as any as S.Schema<PrometheusRemoteWriteTargetJSON>,
+  input: __S(320, __c10, 0) as any as S.Schema<GetRecordingRuleWriteTargetRequest>,
+  output: __S(7200, __c225, 0) as any as S.Schema<PrometheusRemoteWriteTargetJSON>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5097,8 +5179,8 @@ export const getReports: API.OperationMethod<
   GetReportsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<GetReportsRequest>,
-  output: __S(322, __c10, 2) as any as S.Schema<GetReportsResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<GetReportsRequest>,
+  output: __S(386, __c12, 2) as any as S.Schema<GetReportsResponse>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5114,8 +5196,8 @@ export const getReportsByDashboardUID: API.OperationMethod<
   GetReportsByDashboardUIDError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetReportsByDashboardUIDRequest>,
-  output: __S(322, __c10, 2) as any as S.Schema<GetReportsByDashboardUIDResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetReportsByDashboardUIDRequest>,
+  output: __S(386, __c12, 2) as any as S.Schema<GetReportsByDashboardUIDResponse>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5131,8 +5213,8 @@ export const getReportSettings: API.OperationMethod<
   GetReportSettingsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetReportSettingsRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<ReportSettings>,
+  input: __S(448, __c14, 0) as any as S.Schema<GetReportSettingsRequest>,
+  output: __S(449, __c14, 1) as any as S.Schema<ReportSettings>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5148,8 +5230,8 @@ export const getResourceDependencies: API.OperationMethod<
   GetResourceDependenciesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetResourceDependenciesRequest>,
-  output: __S(483, __c15, 3) as any as S.Schema<ResourceDependenciesResponseDTO>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetResourceDependenciesRequest>,
+  output: __S(547, __c17, 3) as any as S.Schema<ResourceDependenciesResponseDTO>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5165,8 +5247,8 @@ export const getResourceDescription: API.OperationMethod<
   GetResourceDescriptionError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetResourceDescriptionRequest>,
-  output: __S(514, __c16, 2) as any as S.Schema<Description>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetResourceDescriptionRequest>,
+  output: __S(578, __c18, 2) as any as S.Schema<Description>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5182,8 +5264,8 @@ export const getResourcePermissions: API.OperationMethod<
   GetResourcePermissionsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetResourcePermissionsRequest>,
-  output: __S(547, __c17, 3) as any as S.Schema<GetResourcePermissionsResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetResourcePermissionsRequest>,
+  output: __S(611, __c19, 3) as any as S.Schema<GetResourcePermissionsResponse>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5195,8 +5277,8 @@ export type GetRoleError = Forbidden | GrafanaOpError;
 /** Get a role. Get a role for the given UID. You need to have a permission with action `roles:read` and scope `roles:*`. */
 export const getRole: API.OperationMethod<GetRoleRequest, RoleDTO, GetRoleError, GrafanaOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(576, __c18, 0) as any as S.Schema<GetRoleRequest>,
-    output: __S(7330, __c229, 2) as any as S.Schema<RoleDTO>,
+    input: __S(640, __c20, 0) as any as S.Schema<GetRoleRequest>,
+    output: __S(7394, __c231, 2) as any as S.Schema<RoleDTO>,
     errors: [Forbidden, UnknownGrafanaError],
     protocol: GrafanaProtocol,
     retry: Retry.Retry,
@@ -5212,8 +5294,8 @@ export const getRoleAssignments: API.OperationMethod<
   GetRoleAssignmentsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<GetRoleAssignmentsRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<RoleAssignmentsDTO>,
+  input: __S(672, __c21, 0) as any as S.Schema<GetRoleAssignmentsRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<RoleAssignmentsDTO>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5229,8 +5311,8 @@ export const getSAMLLogout: API.OperationMethod<
   GetSAMLLogoutError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<GetSAMLLogoutRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<GetSAMLLogoutResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetSAMLLogoutRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<GetSAMLLogoutResponse>,
   errors: [NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5246,8 +5328,8 @@ export const getServiceAccount: API.OperationMethod<
   GetServiceAccountError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<GetServiceAccountRequest>,
-  output: __S(7392, __c231, 0) as any as S.Schema<ServiceAccountDTO>,
+  input: __S(768, __c24, 0) as any as S.Schema<GetServiceAccountRequest>,
+  output: __S(7456, __c233, 0) as any as S.Schema<ServiceAccountDTO>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5263,8 +5345,8 @@ export const getSession: API.OperationMethod<
   GetSessionError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<GetSessionRequest>,
-  output: __S(7456, __c233, 0) as any as S.Schema<CloudMigrationSessionResponseDTO>,
+  input: __S(800, __c25, 0) as any as S.Schema<GetSessionRequest>,
+  output: __S(7520, __c235, 0) as any as S.Schema<CloudMigrationSessionResponseDTO>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5280,8 +5362,8 @@ export const getSessionList: API.OperationMethod<
   GetSessionListError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<GetSessionListRequest>,
-  output: __S(770, __c24, 2) as any as S.Schema<CloudMigrationSessionListResponseDTO>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetSessionListRequest>,
+  output: __S(834, __c26, 2) as any as S.Schema<CloudMigrationSessionListResponseDTO>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5297,8 +5379,8 @@ export const getSettingsImage: API.OperationMethod<
   GetSettingsImageError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetSettingsImageRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<GetSettingsImageResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<GetSettingsImageRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<GetSettingsImageResponse>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5314,8 +5396,8 @@ export const getShapshotList: API.OperationMethod<
   GetShapshotListError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<GetShapshotListRequest>,
-  output: __S(867, __c27, 3) as any as S.Schema<SnapshotListResponseDTO>,
+  input: __S(928, __c29, 0) as any as S.Schema<GetShapshotListRequest>,
+  output: __S(931, __c29, 3) as any as S.Schema<SnapshotListResponseDTO>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5331,8 +5413,8 @@ export const getSharingOptions: API.OperationMethod<
   GetSharingOptionsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<GetSharingOptionsRequest>,
-  output: __S(897, __c28, 1) as any as S.Schema<GetSharingOptionsResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<GetSharingOptionsRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<GetSharingOptionsResponse>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5348,8 +5430,8 @@ export const getSignedInUser: API.OperationMethod<
   GetSignedInUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<GetSignedInUserRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<UserProfileDTO>,
+  input: __S(992, __c31, 0) as any as S.Schema<GetSignedInUserRequest>,
+  output: __S(1024, __c32, 0) as any as S.Schema<UserProfileDTO>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5365,8 +5447,8 @@ export const getSignedInUserOrgList: API.OperationMethod<
   GetSignedInUserOrgListError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<GetSignedInUserOrgListRequest>,
-  output: __S(1026, __c32, 2) as any as S.Schema<GetSignedInUserOrgListResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetSignedInUserOrgListRequest>,
+  output: __S(1090, __c34, 2) as any as S.Schema<GetSignedInUserOrgListResponse>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5382,8 +5464,8 @@ export const getSignedInUserTeamList: API.OperationMethod<
   GetSignedInUserTeamListError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GetSignedInUserTeamListRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<GetSignedInUserTeamListResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<GetSignedInUserTeamListRequest>,
+  output: __S(1184, __c37, 0) as any as S.Schema<GetSignedInUserTeamListResponse>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5399,8 +5481,8 @@ export const getSLO: API.OperationMethod<
   GetSLOError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetSLORequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<GetSLOResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<GetSLORequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<GetSLOResponse>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5416,8 +5498,8 @@ export const getSnapshot: API.OperationMethod<
   GetSnapshotError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<GetSnapshotRequest>,
-  output: __S(1221, __c38, 5) as any as S.Schema<GetSnapshotResponseDTO>,
+  input: __S(1280, __c40, 0) as any as S.Schema<GetSnapshotRequest>,
+  output: __S(1285, __c40, 5) as any as S.Schema<GetSnapshotResponseDTO>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5433,8 +5515,8 @@ export const getStatus: API.OperationMethod<
   GetStatusError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<GetStatusRequest>,
-  output: __S(1280, __c40, 0) as any as S.Schema<GetStatusResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<GetStatusRequest>,
+  output: __S(1344, __c42, 0) as any as S.Schema<GetStatusResponse>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5450,8 +5532,8 @@ export const getSyncStatus: API.OperationMethod<
   GetSyncStatusError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<GetSyncStatusRequest>,
-  output: __S(1316, __c41, 4) as any as S.Schema<ActiveSyncStatusDTO>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetSyncStatusRequest>,
+  output: __S(1380, __c43, 4) as any as S.Schema<ActiveSyncStatusDTO>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5463,8 +5545,8 @@ export type GetTeamError = Forbidden | NotFound | GrafanaOpError;
 /** Get Team By ID. */
 export const getTeam: API.OperationMethod<GetTeamRequest, TeamDTO, GetTeamError, GrafanaOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1344, __c42, 0) as any as S.Schema<GetTeamRequest>,
-    output: __S(1088, __c34, 0) as any as S.Schema<TeamDTO>,
+    input: __S(1408, __c44, 0) as any as S.Schema<GetTeamRequest>,
+    output: __S(1152, __c36, 0) as any as S.Schema<TeamDTO>,
     errors: [Forbidden, NotFound, UnknownGrafanaError],
     protocol: GrafanaProtocol,
     retry: Retry.Retry,
@@ -5480,8 +5562,8 @@ export const getTeamGroupsApi: API.OperationMethod<
   GetTeamGroupsApiError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<GetTeamGroupsApiRequest>,
-  output: __S(1409, __c44, 1) as any as S.Schema<GetTeamGroupsApiResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetTeamGroupsApiRequest>,
+  output: __S(1473, __c46, 1) as any as S.Schema<GetTeamGroupsApiResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5497,8 +5579,8 @@ export const getTeamLBACRulesApi: API.OperationMethod<
   GetTeamLBACRulesApiError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<GetTeamLBACRulesApiRequest>,
-  output: __S(1473, __c46, 1) as any as S.Schema<TeamLBACRules>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetTeamLBACRulesApiRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<TeamLBACRules>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5514,8 +5596,8 @@ export const getTeamMembers: API.OperationMethod<
   GetTeamMembersError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<GetTeamMembersRequest>,
-  output: __S(1539, __c48, 3) as any as S.Schema<GetTeamMembersResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<GetTeamMembersRequest>,
+  output: __S(1603, __c50, 3) as any as S.Schema<GetTeamMembersResponse>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5531,8 +5613,8 @@ export const getTeamPreferences: API.OperationMethod<
   GetTeamPreferencesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<GetTeamPreferencesRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<PreferencesSpec>,
+  input: __S(1632, __c51, 0) as any as S.Schema<GetTeamPreferencesRequest>,
+  output: __S(1633, __c51, 1) as any as S.Schema<PreferencesSpec>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5548,8 +5630,8 @@ export const getUser: API.OperationMethod<
   GetUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<UserProfileDTO>,
+  input: __S(1696, __c53, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(1024, __c32, 0) as any as S.Schema<UserProfileDTO>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5565,8 +5647,8 @@ export const getUserAuthTokens: API.OperationMethod<
   GetUserAuthTokensError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<GetUserAuthTokensRequest>,
-  output: __S(3746, __c117, 2) as any as S.Schema<GetUserAuthTokensResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<GetUserAuthTokensRequest>,
+  output: __S(3810, __c119, 2) as any as S.Schema<GetUserAuthTokensResponse>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5582,8 +5664,8 @@ export const getUserByLoginOrEmail: API.OperationMethod<
   GetUserByLoginOrEmailError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<GetUserByLoginOrEmailRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<UserProfileDTO>,
+  input: __S(1760, __c55, 0) as any as S.Schema<GetUserByLoginOrEmailRequest>,
+  output: __S(1024, __c32, 0) as any as S.Schema<UserProfileDTO>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5599,8 +5681,8 @@ export const getUserFromLDAP: API.OperationMethod<
   GetUserFromLDAPError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<GetUserFromLDAPRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(1792, __c56, 0) as any as S.Schema<GetUserFromLDAPRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5616,8 +5698,8 @@ export const getUserOrgList: API.OperationMethod<
   GetUserOrgListError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<GetUserOrgListRequest>,
-  output: __S(1026, __c32, 2) as any as S.Schema<GetUserOrgListResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<GetUserOrgListRequest>,
+  output: __S(1090, __c34, 2) as any as S.Schema<GetUserOrgListResponse>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5633,8 +5715,8 @@ export const getUserQuota: API.OperationMethod<
   GetUserQuotaError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<GetUserQuotaRequest>,
-  output: __S(9058, __c283, 2) as any as S.Schema<GetUserQuotaResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<GetUserQuotaRequest>,
+  output: __S(9122, __c285, 2) as any as S.Schema<GetUserQuotaResponse>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5650,8 +5732,8 @@ export const getUserQuotas: API.OperationMethod<
   GetUserQuotasError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<GetUserQuotasRequest>,
-  output: __S(9058, __c283, 2) as any as S.Schema<GetUserQuotasResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<GetUserQuotasRequest>,
+  output: __S(9122, __c285, 2) as any as S.Schema<GetUserQuotasResponse>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5667,8 +5749,8 @@ export const getUserTeams: API.OperationMethod<
   GetUserTeamsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<GetUserTeamsRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<GetUserTeamsResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<GetUserTeamsRequest>,
+  output: __S(1184, __c37, 0) as any as S.Schema<GetUserTeamsResponse>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5684,8 +5766,8 @@ export const importDashboard: API.OperationMethod<
   ImportDashboardError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1922, __c60, 2) as any as S.Schema<ImportDashboardRequest>,
-  output: __S(1923, __c60, 3) as any as S.Schema<ImportDashboardResponse>,
+  input: __S(1986, __c62, 2) as any as S.Schema<ImportDashboardRequest>,
+  output: __S(1987, __c62, 3) as any as S.Schema<ImportDashboardResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5701,8 +5783,8 @@ export const interpolateDashboard: API.OperationMethod<
   InterpolateDashboardError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<InterpolateDashboardRequest>,
-  output: __S(1953, __c61, 1) as any as S.Schema<InterpolateDashboardResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<InterpolateDashboardRequest>,
+  output: __S(2017, __c63, 1) as any as S.Schema<InterpolateDashboardResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5718,8 +5800,8 @@ export const listAllProvidersSettings: API.OperationMethod<
   ListAllProvidersSettingsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<ListAllProvidersSettingsRequest>,
-  output: __S(1986, __c62, 2) as any as S.Schema<ListAllProvidersSettingsResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<ListAllProvidersSettingsRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<ListAllProvidersSettingsResponse>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5735,8 +5817,8 @@ export const listDevices: API.OperationMethod<
   ListDevicesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<ListDevicesRequest>,
-  output: __S(2019, __c63, 3) as any as S.Schema<ListDevicesResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<ListDevicesRequest>,
+  output: __S(2083, __c65, 3) as any as S.Schema<ListDevicesResponse>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5752,8 +5834,8 @@ export const listPublicDashboards: API.OperationMethod<
   ListPublicDashboardsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<ListPublicDashboardsRequest>,
-  output: __S(2051, __c64, 3) as any as S.Schema<PublicDashboardListResponseWithPagination>,
+  input: __S(2112, __c66, 0) as any as S.Schema<ListPublicDashboardsRequest>,
+  output: __S(2115, __c66, 3) as any as S.Schema<PublicDashboardListResponseWithPagination>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5769,8 +5851,8 @@ export const listRecordingRules: API.OperationMethod<
   ListRecordingRulesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<ListRecordingRulesRequest>,
-  output: __S(2082, __c65, 2) as any as S.Schema<ListRecordingRulesResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<ListRecordingRulesRequest>,
+  output: __S(2146, __c67, 2) as any as S.Schema<ListRecordingRulesResponse>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5786,8 +5868,8 @@ export const listRoles: API.OperationMethod<
   ListRolesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<ListRolesRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<ListRolesResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<ListRolesRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<ListRolesResponse>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5803,8 +5885,8 @@ export const listSortOptions: API.OperationMethod<
   ListSortOptionsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<ListSortOptionsRequest>,
-  output: __S(2209, __c69, 1) as any as S.Schema<ListSortOptionsResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<ListSortOptionsRequest>,
+  output: __S(2273, __c71, 1) as any as S.Schema<ListSortOptionsResponse>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5820,8 +5902,8 @@ export const listTeamRoles: API.OperationMethod<
   ListTeamRolesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<ListTeamRolesRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(2336, __c73, 0) as any as S.Schema<ListTeamRolesRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5837,8 +5919,8 @@ export const listTeamsRoles: API.OperationMethod<
   ListTeamsRolesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<ListTeamsRolesRequest>,
-  output: __S(2337, __c73, 1) as any as S.Schema<ListTeamsRolesResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<ListTeamsRolesRequest>,
+  output: __S(2401, __c75, 1) as any as S.Schema<ListTeamsRolesResponse>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5854,8 +5936,8 @@ export const listTokens: API.OperationMethod<
   ListTokensError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<ListTokensRequest>,
-  output: __S(2371, __c74, 3) as any as S.Schema<ListTokensResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<ListTokensRequest>,
+  output: __S(2435, __c76, 3) as any as S.Schema<ListTokensResponse>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5871,8 +5953,8 @@ export const listUserRoles: API.OperationMethod<
   ListUserRolesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<ListUserRolesRequest>,
-  output: __S(2176, __c68, 0) as any as S.Schema<ListUserRolesResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<ListUserRolesRequest>,
+  output: __S(2240, __c70, 0) as any as S.Schema<ListUserRolesResponse>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5888,8 +5970,8 @@ export const listUsersRoles: API.OperationMethod<
   ListUsersRolesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<ListUsersRolesRequest>,
-  output: __S(2337, __c73, 1) as any as S.Schema<ListUsersRolesResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ListUsersRolesRequest>,
+  output: __S(2401, __c75, 1) as any as S.Schema<ListUsersRolesResponse>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5905,8 +5987,8 @@ export const massDeleteAnnotations: API.OperationMethod<
   MassDeleteAnnotationsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<MassDeleteAnnotationsRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(2528, __c79, 0) as any as S.Schema<MassDeleteAnnotationsRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5922,8 +6004,8 @@ export const patchProviderSettings: API.OperationMethod<
   PatchProviderSettingsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<PatchProviderSettingsRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(2560, __c80, 0) as any as S.Schema<PatchProviderSettingsRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5939,8 +6021,8 @@ export const patchQueryComment: API.OperationMethod<
   PatchQueryCommentError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<PatchQueryCommentRequest>,
-  output: __S(6976, __c218, 0) as any as S.Schema<QueryHistoryResponse>,
+  input: __S(2592, __c81, 0) as any as S.Schema<PatchQueryCommentRequest>,
+  output: __S(7040, __c220, 0) as any as S.Schema<QueryHistoryResponse>,
   errors: [BadRequest, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5956,8 +6038,8 @@ export const postACS: API.OperationMethod<
   PostACSError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<PostACSRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<PostACSResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<PostACSRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<PostACSResponse>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5973,8 +6055,8 @@ export const postGraphiteAnnotation: API.OperationMethod<
   PostGraphiteAnnotationError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<PostGraphiteAnnotationRequest>,
-  output: __S(6432, __c201, 0) as any as S.Schema<PostGraphiteAnnotationResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<PostGraphiteAnnotationRequest>,
+  output: __S(6528, __c204, 0) as any as S.Schema<PostGraphiteAnnotationResponse>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -5990,8 +6072,8 @@ export const postLicenseToken: API.OperationMethod<
   PostLicenseTokenError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<PostLicenseTokenRequest>,
-  output: __S(9600, __c300, 0) as any as S.Schema<Token>,
+  input: __S(2720, __c85, 0) as any as S.Schema<PostLicenseTokenRequest>,
+  output: __S(9664, __c302, 0) as any as S.Schema<Token>,
   errors: [BadRequest, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6007,8 +6089,8 @@ export const postRenewLicenseToken: API.OperationMethod<
   PostRenewLicenseTokenError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<PostRenewLicenseTokenRequest>,
-  output: __S(1280, __c40, 0) as any as S.Schema<PostRenewLicenseTokenResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<PostRenewLicenseTokenRequest>,
+  output: __S(1344, __c42, 0) as any as S.Schema<PostRenewLicenseTokenResponse>,
   errors: [NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6024,8 +6106,8 @@ export const postSLO: API.OperationMethod<
   PostSLOError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<PostSLORequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<PostSLOResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<PostSLORequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<PostSLOResponse>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6041,8 +6123,8 @@ export const postSyncUserWithLDAP: API.OperationMethod<
   PostSyncUserWithLDAPError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<PostSyncUserWithLDAPRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(2816, __c88, 0) as any as S.Schema<PostSyncUserWithLDAPRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6058,8 +6140,8 @@ export const queryMetricsWithExpressions: API.OperationMethod<
   QueryMetricsWithExpressionsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<QueryMetricsWithExpressionsRequest>,
-  output: __S(2839, __c88, 23) as any as S.Schema<QueryDataResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<QueryMetricsWithExpressionsRequest>,
+  output: __S(2903, __c90, 23) as any as S.Schema<QueryDataResponse>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6075,8 +6157,8 @@ export const queryPublicDashboard: API.OperationMethod<
   QueryPublicDashboardError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<QueryPublicDashboardRequest>,
-  output: __S(2839, __c88, 23) as any as S.Schema<QueryDataResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<QueryPublicDashboardRequest>,
+  output: __S(2903, __c90, 23) as any as S.Schema<QueryDataResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6092,8 +6174,8 @@ export const refreshLicenseStats: API.OperationMethod<
   RefreshLicenseStatsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<RefreshLicenseStatsRequest>,
-  output: __S(2881, __c90, 1) as any as S.Schema<ActiveUserStats>,
+  input: __S(2944, __c92, 0) as any as S.Schema<RefreshLicenseStatsRequest>,
+  output: __S(2945, __c92, 1) as any as S.Schema<ActiveUserStats>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6109,8 +6191,8 @@ export const reloadLDAPCfg: API.OperationMethod<
   ReloadLDAPCfgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<ReloadLDAPCfgRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<ReloadLDAPCfgResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<ReloadLDAPCfgRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<ReloadLDAPCfgResponse>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6126,8 +6208,8 @@ export const removeOrgUser: API.OperationMethod<
   RemoveOrgUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<RemoveOrgUserRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(3008, __c94, 0) as any as S.Schema<RemoveOrgUserRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6143,8 +6225,8 @@ export const removeOrgUserForCurrentOrg: API.OperationMethod<
   RemoveOrgUserForCurrentOrgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<RemoveOrgUserForCurrentOrgRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(3040, __c95, 0) as any as S.Schema<RemoveOrgUserForCurrentOrgRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6160,8 +6242,8 @@ export const removeProviderSettings: API.OperationMethod<
   RemoveProviderSettingsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<RemoveProviderSettingsRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(3104, __c97, 0) as any as S.Schema<RemoveProviderSettingsRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6177,8 +6259,8 @@ export const removeTeamGroupApiQuery: API.OperationMethod<
   RemoveTeamGroupApiQueryError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<RemoveTeamGroupApiQueryRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(3136, __c98, 0) as any as S.Schema<RemoveTeamGroupApiQueryRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6194,8 +6276,8 @@ export const removeTeamMember: API.OperationMethod<
   RemoveTeamMemberError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<RemoveTeamMemberRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(3168, __c99, 0) as any as S.Schema<RemoveTeamMemberRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6211,8 +6293,8 @@ export const removeTeamRole: API.OperationMethod<
   RemoveTeamRoleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<RemoveTeamRoleRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(3200, __c100, 0) as any as S.Schema<RemoveTeamRoleRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6228,8 +6310,8 @@ export const removeUserRole: API.OperationMethod<
   RemoveUserRoleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<RemoveUserRoleRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(3232, __c101, 0) as any as S.Schema<RemoveUserRoleRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6245,8 +6327,8 @@ export const renderReportCSVs: API.OperationMethod<
   RenderReportCSVsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<RenderReportCSVsRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<RenderReportCSVsResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<RenderReportCSVsRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<RenderReportCSVsResponse>,
   errors: [BadRequest, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6262,8 +6344,8 @@ export const renderReportPDFs: API.OperationMethod<
   RenderReportPDFsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<RenderReportPDFsRequest>,
-  output: __S(9664, __c302, 0) as any as S.Schema<RenderReportPDFsResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<RenderReportPDFsRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<RenderReportPDFsResponse>,
   errors: [BadRequest, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6279,8 +6361,8 @@ export const revokeInvite: API.OperationMethod<
   RevokeInviteError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<RevokeInviteRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(3328, __c104, 0) as any as S.Schema<RevokeInviteRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6296,8 +6378,8 @@ export const revokeUserAuthToken: API.OperationMethod<
   RevokeUserAuthTokenError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<RevokeUserAuthTokenRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(3360, __c105, 0) as any as S.Schema<RevokeUserAuthTokenRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6314,13 +6396,13 @@ export const routeConvertPrometheusCortexDeleteNamespace: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3328,
-    __c104,
+    3392,
+    __c106,
     0,
   ) as any as S.Schema<RouteConvertPrometheusCortexDeleteNamespaceRequest>,
   output: __S(
-    4512,
-    __c141,
+    4608,
+    __c144,
     0,
   ) as any as S.Schema<RouteConvertPrometheusCortexDeleteNamespaceResponse>,
   errors: [Forbidden, UnknownGrafanaError],
@@ -6339,13 +6421,13 @@ export const routeConvertPrometheusCortexDeleteRuleGroup: API.OperationMethod<
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3392,
-    __c106,
+    3456,
+    __c108,
     0,
   ) as any as S.Schema<RouteConvertPrometheusCortexDeleteRuleGroupRequest>,
   output: __S(
-    4512,
-    __c141,
+    4608,
+    __c144,
     0,
   ) as any as S.Schema<RouteConvertPrometheusCortexDeleteRuleGroupResponse>,
   errors: [Forbidden, UnknownGrafanaError],
@@ -6363,8 +6445,8 @@ export const routeConvertPrometheusCortexGetNamespace: API.OperationMethod<
   RouteConvertPrometheusCortexGetNamespaceError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<RouteConvertPrometheusCortexGetNamespaceRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<RouteConvertPrometheusCortexGetNamespaceResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<RouteConvertPrometheusCortexGetNamespaceRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusCortexGetNamespaceResponse>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6380,8 +6462,8 @@ export const routeConvertPrometheusCortexGetRuleGroup: API.OperationMethod<
   RouteConvertPrometheusCortexGetRuleGroupError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<RouteConvertPrometheusCortexGetRuleGroupRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<RouteConvertPrometheusCortexGetRuleGroupResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<RouteConvertPrometheusCortexGetRuleGroupRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusCortexGetRuleGroupResponse>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6397,8 +6479,8 @@ export const routeConvertPrometheusCortexGetRules: API.OperationMethod<
   RouteConvertPrometheusCortexGetRulesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<RouteConvertPrometheusCortexGetRulesRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<RouteConvertPrometheusCortexGetRulesResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<RouteConvertPrometheusCortexGetRulesRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusCortexGetRulesResponse>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6414,10 +6496,10 @@ export const routeConvertPrometheusCortexPostRuleGroup: API.OperationMethod<
   RouteConvertPrometheusCortexPostRuleGroupError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<RouteConvertPrometheusCortexPostRuleGroupRequest>,
+  input: __S(3584, __c112, 0) as any as S.Schema<RouteConvertPrometheusCortexPostRuleGroupRequest>,
   output: __S(
-    4512,
-    __c141,
+    4608,
+    __c144,
     0,
   ) as any as S.Schema<RouteConvertPrometheusCortexPostRuleGroupResponse>,
   errors: [Forbidden, UnknownGrafanaError],
@@ -6435,10 +6517,10 @@ export const routeConvertPrometheusCortexPostRuleGroups: API.OperationMethod<
   RouteConvertPrometheusCortexPostRuleGroupsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<RouteConvertPrometheusCortexPostRuleGroupsRequest>,
+  input: __S(3616, __c113, 0) as any as S.Schema<RouteConvertPrometheusCortexPostRuleGroupsRequest>,
   output: __S(
-    4512,
-    __c141,
+    4608,
+    __c144,
     0,
   ) as any as S.Schema<RouteConvertPrometheusCortexPostRuleGroupsResponse>,
   errors: [Forbidden, UnknownGrafanaError],
@@ -6456,8 +6538,8 @@ export const routeConvertPrometheusDeleteNamespace: API.OperationMethod<
   RouteConvertPrometheusDeleteNamespaceError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<RouteConvertPrometheusDeleteNamespaceRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<RouteConvertPrometheusDeleteNamespaceResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<RouteConvertPrometheusDeleteNamespaceRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusDeleteNamespaceResponse>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6473,8 +6555,8 @@ export const routeConvertPrometheusDeleteRuleGroup: API.OperationMethod<
   RouteConvertPrometheusDeleteRuleGroupError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<RouteConvertPrometheusDeleteRuleGroupRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<RouteConvertPrometheusDeleteRuleGroupResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<RouteConvertPrometheusDeleteRuleGroupRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusDeleteRuleGroupResponse>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6490,8 +6572,8 @@ export const routeConvertPrometheusGetNamespace: API.OperationMethod<
   RouteConvertPrometheusGetNamespaceError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<RouteConvertPrometheusGetNamespaceRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<RouteConvertPrometheusGetNamespaceResponse>,
+  input: __S(3712, __c116, 0) as any as S.Schema<RouteConvertPrometheusGetNamespaceRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusGetNamespaceResponse>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6507,8 +6589,8 @@ export const routeConvertPrometheusGetRuleGroup: API.OperationMethod<
   RouteConvertPrometheusGetRuleGroupError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<RouteConvertPrometheusGetRuleGroupRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<RouteConvertPrometheusGetRuleGroupResponse>,
+  input: __S(3744, __c117, 0) as any as S.Schema<RouteConvertPrometheusGetRuleGroupRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusGetRuleGroupResponse>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6524,8 +6606,8 @@ export const routeConvertPrometheusGetRules: API.OperationMethod<
   RouteConvertPrometheusGetRulesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<RouteConvertPrometheusGetRulesRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<RouteConvertPrometheusGetRulesResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<RouteConvertPrometheusGetRulesRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusGetRulesResponse>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6541,8 +6623,8 @@ export const routeConvertPrometheusPostRuleGroup: API.OperationMethod<
   RouteConvertPrometheusPostRuleGroupError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<RouteConvertPrometheusPostRuleGroupRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<RouteConvertPrometheusPostRuleGroupResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<RouteConvertPrometheusPostRuleGroupRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusPostRuleGroupResponse>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6558,8 +6640,8 @@ export const routeConvertPrometheusPostRuleGroups: API.OperationMethod<
   RouteConvertPrometheusPostRuleGroupsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<RouteConvertPrometheusPostRuleGroupsRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<RouteConvertPrometheusPostRuleGroupsResponse>,
+  input: __S(3904, __c122, 0) as any as S.Schema<RouteConvertPrometheusPostRuleGroupsRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusPostRuleGroupsResponse>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6575,8 +6657,8 @@ export const routeExportMuteTiming: API.OperationMethod<
   RouteExportMuteTimingError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<RouteExportMuteTimingRequest>,
-  output: __S(3930, __c122, 26) as any as S.Schema<AlertingFileExport>,
+  input: __S(3936, __c123, 0) as any as S.Schema<RouteExportMuteTimingRequest>,
+  output: __S(3994, __c124, 26) as any as S.Schema<AlertingFileExport>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6592,8 +6674,8 @@ export const routeExportMuteTimings: API.OperationMethod<
   RouteExportMuteTimingsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<RouteExportMuteTimingsRequest>,
-  output: __S(3930, __c122, 26) as any as S.Schema<AlertingFileExport>,
+  input: __S(4000, __c125, 0) as any as S.Schema<RouteExportMuteTimingsRequest>,
+  output: __S(3994, __c124, 26) as any as S.Schema<AlertingFileExport>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6609,8 +6691,8 @@ export const routeGetAlertRuleExport: API.OperationMethod<
   RouteGetAlertRuleExportError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<RouteGetAlertRuleExportRequest>,
-  output: __S(3930, __c122, 26) as any as S.Schema<AlertingFileExport>,
+  input: __S(4032, __c126, 0) as any as S.Schema<RouteGetAlertRuleExportRequest>,
+  output: __S(3994, __c124, 26) as any as S.Schema<AlertingFileExport>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6626,8 +6708,8 @@ export const routeGetAlertRuleGroupExport: API.OperationMethod<
   RouteGetAlertRuleGroupExportError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<RouteGetAlertRuleGroupExportRequest>,
-  output: __S(3930, __c122, 26) as any as S.Schema<AlertingFileExport>,
+  input: __S(4064, __c127, 0) as any as S.Schema<RouteGetAlertRuleGroupExportRequest>,
+  output: __S(3994, __c124, 26) as any as S.Schema<AlertingFileExport>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6643,8 +6725,8 @@ export const routeGetAlertRulesExport: API.OperationMethod<
   RouteGetAlertRulesExportError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<RouteGetAlertRulesExportRequest>,
-  output: __S(3930, __c122, 26) as any as S.Schema<AlertingFileExport>,
+  input: __S(4096, __c128, 0) as any as S.Schema<RouteGetAlertRulesExportRequest>,
+  output: __S(3994, __c124, 26) as any as S.Schema<AlertingFileExport>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6660,8 +6742,8 @@ export const routeGetContactpointsExport: API.OperationMethod<
   RouteGetContactpointsExportError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<RouteGetContactpointsExportRequest>,
-  output: __S(3930, __c122, 26) as any as S.Schema<AlertingFileExport>,
+  input: __S(4128, __c129, 0) as any as S.Schema<RouteGetContactpointsExportRequest>,
+  output: __S(3994, __c124, 26) as any as S.Schema<AlertingFileExport>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6677,8 +6759,8 @@ export const routeGetPolicyTreeExport: API.OperationMethod<
   RouteGetPolicyTreeExportError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<RouteGetPolicyTreeExportRequest>,
-  output: __S(3930, __c122, 26) as any as S.Schema<AlertingFileExport>,
+  input: __S(4160, __c130, 0) as any as S.Schema<RouteGetPolicyTreeExportRequest>,
+  output: __S(3994, __c124, 26) as any as S.Schema<AlertingFileExport>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6694,8 +6776,8 @@ export const saveReportSettings: API.OperationMethod<
   SaveReportSettingsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<SaveReportSettingsRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(4256, __c133, 0) as any as S.Schema<SaveReportSettingsRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6710,8 +6792,8 @@ export const search: API.OperationMethod<
   SearchError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<SearchRequest>,
-  output: __S(4195, __c131, 3) as any as S.Schema<SearchResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<SearchRequest>,
+  output: __S(4291, __c134, 3) as any as S.Schema<SearchResponse>,
   errors: [UnprocessableEntity, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6727,8 +6809,8 @@ export const searchDashboardSnapshots: API.OperationMethod<
   SearchDashboardSnapshotsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<SearchDashboardSnapshotsRequest>,
-  output: __S(4227, __c132, 3) as any as S.Schema<SearchDashboardSnapshotsResponse>,
+  input: __S(4320, __c135, 0) as any as S.Schema<SearchDashboardSnapshotsRequest>,
+  output: __S(4323, __c135, 3) as any as S.Schema<SearchDashboardSnapshotsResponse>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6744,8 +6826,8 @@ export const searchDevices: API.OperationMethod<
   SearchDevicesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<SearchDevicesRequest>,
-  output: __S(4259, __c133, 3) as any as S.Schema<SearchDeviceQueryResult>,
+  input: __S(4352, __c136, 0) as any as S.Schema<SearchDevicesRequest>,
+  output: __S(4355, __c136, 3) as any as S.Schema<SearchDeviceQueryResult>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6761,8 +6843,8 @@ export const searchOrgs: API.OperationMethod<
   SearchOrgsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<SearchOrgsRequest>,
-  output: __S(4291, __c134, 3) as any as S.Schema<SearchOrgsResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<SearchOrgsRequest>,
+  output: __S(4387, __c137, 3) as any as S.Schema<SearchOrgsResponse>,
   errors: [Forbidden, Conflict, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6778,8 +6860,8 @@ export const searchOrgServiceAccountsWithPaging: API.OperationMethod<
   SearchOrgServiceAccountsWithPagingError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<SearchOrgServiceAccountsWithPagingRequest>,
-  output: __S(4322, __c135, 2) as any as S.Schema<SearchOrgServiceAccountsResult>,
+  input: __S(4416, __c138, 0) as any as S.Schema<SearchOrgServiceAccountsWithPagingRequest>,
+  output: __S(4418, __c138, 2) as any as S.Schema<SearchOrgServiceAccountsResult>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6795,8 +6877,8 @@ export const searchOrgUsers: API.OperationMethod<
   SearchOrgUsersError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<SearchOrgUsersRequest>,
-  output: __S(4353, __c136, 1) as any as S.Schema<SearchOrgUsersQueryResult>,
+  input: __S(4448, __c139, 0) as any as S.Schema<SearchOrgUsersRequest>,
+  output: __S(4449, __c139, 1) as any as S.Schema<SearchOrgUsersQueryResult>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6812,8 +6894,8 @@ export const searchQueries: API.OperationMethod<
   SearchQueriesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<SearchQueriesRequest>,
-  output: __S(4387, __c137, 3) as any as S.Schema<QueryHistorySearchResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<SearchQueriesRequest>,
+  output: __S(4483, __c140, 3) as any as S.Schema<QueryHistorySearchResponse>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6829,8 +6911,8 @@ export const searchTeamGroups: API.OperationMethod<
   SearchTeamGroupsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<SearchTeamGroupsRequest>,
-  output: __S(4419, __c138, 3) as any as S.Schema<SearchTeamGroupsResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<SearchTeamGroupsRequest>,
+  output: __S(4515, __c141, 3) as any as S.Schema<SearchTeamGroupsResponse>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6846,8 +6928,8 @@ export const searchTeams: API.OperationMethod<
   SearchTeamsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<SearchTeamsRequest>,
-  output: __S(4449, __c139, 1) as any as S.Schema<SearchTeamQueryResult>,
+  input: __S(4544, __c142, 0) as any as S.Schema<SearchTeamsRequest>,
+  output: __S(4545, __c142, 1) as any as S.Schema<SearchTeamQueryResult>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6863,8 +6945,8 @@ export const searchUsers: API.OperationMethod<
   SearchUsersError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<SearchUsersRequest>,
-  output: __S(4545, __c142, 1) as any as S.Schema<SearchUsersResponse>,
+  input: __S(4640, __c145, 0) as any as S.Schema<SearchUsersRequest>,
+  output: __S(4641, __c145, 1) as any as S.Schema<SearchUsersResponse>,
   errors: [Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6880,8 +6962,8 @@ export const searchUsersWithPaging: API.OperationMethod<
   SearchUsersWithPagingError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<SearchUsersWithPagingRequest>,
-  output: __S(4609, __c144, 1) as any as S.Schema<SearchUserQueryResult>,
+  input: __S(4704, __c147, 0) as any as S.Schema<SearchUsersWithPagingRequest>,
+  output: __S(4705, __c147, 1) as any as S.Schema<SearchUserQueryResult>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6897,8 +6979,8 @@ export const sendReport: API.OperationMethod<
   SendReportError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<SendReportRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(4736, __c148, 0) as any as S.Schema<SendReportRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6914,8 +6996,8 @@ export const sendTestEmail: API.OperationMethod<
   SendTestEmailError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<SendTestEmailRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(4768, __c149, 0) as any as S.Schema<SendTestEmailRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6931,8 +7013,8 @@ export const setDataSourceCacheConfig: API.OperationMethod<
   SetDataSourceCacheConfigError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<SetDataSourceCacheConfigRequest>,
-  output: __S(6368, __c199, 0) as any as S.Schema<CacheConfigResponse>,
+  input: __S(4800, __c150, 0) as any as S.Schema<SetDataSourceCacheConfigRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<CacheConfigResponse>,
   errors: [BadRequest, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6948,8 +7030,8 @@ export const setResourcePermissions: API.OperationMethod<
   SetResourcePermissionsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4738, __c148, 2) as any as S.Schema<SetResourcePermissionsRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(4834, __c151, 2) as any as S.Schema<SetResourcePermissionsRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6969,8 +7051,8 @@ export const setResourcePermissionsForBuiltInRole: API.OperationMethod<
   SetResourcePermissionsForBuiltInRoleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<SetResourcePermissionsForBuiltInRoleRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(4864, __c152, 0) as any as S.Schema<SetResourcePermissionsForBuiltInRoleRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -6986,8 +7068,8 @@ export const setResourcePermissionsForTeam: API.OperationMethod<
   SetResourcePermissionsForTeamError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<SetResourcePermissionsForTeamRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(4896, __c153, 0) as any as S.Schema<SetResourcePermissionsForTeamRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7003,8 +7085,8 @@ export const setResourcePermissionsForUser: API.OperationMethod<
   SetResourcePermissionsForUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<SetResourcePermissionsForUserRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(4928, __c154, 0) as any as S.Schema<SetResourcePermissionsForUserRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7020,8 +7102,8 @@ export const setRoleAssignments: API.OperationMethod<
   SetRoleAssignmentsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<SetRoleAssignmentsRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<RoleAssignmentsDTO>,
+  input: __S(4960, __c155, 0) as any as S.Schema<SetRoleAssignmentsRequest>,
+  output: __S(704, __c22, 0) as any as S.Schema<RoleAssignmentsDTO>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7037,8 +7119,8 @@ export const setTeamMemberships: API.OperationMethod<
   SetTeamMembershipsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<SetTeamMembershipsRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5024, __c157, 0) as any as S.Schema<SetTeamMembershipsRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7054,8 +7136,8 @@ export const setTeamRoles: API.OperationMethod<
   SetTeamRolesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<SetTeamRolesRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5056, __c158, 0) as any as S.Schema<SetTeamRolesRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7071,8 +7153,8 @@ export const setUserRoles: API.OperationMethod<
   SetUserRolesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<SetUserRolesRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5088, __c159, 0) as any as S.Schema<SetUserRolesRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7088,8 +7170,8 @@ export const starQuery: API.OperationMethod<
   StarQueryError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<StarQueryRequest>,
-  output: __S(6976, __c218, 0) as any as S.Schema<QueryHistoryResponse>,
+  input: __S(5120, __c160, 0) as any as S.Schema<StarQueryRequest>,
+  output: __S(7040, __c220, 0) as any as S.Schema<QueryHistoryResponse>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7109,8 +7191,8 @@ export const testCreateRecordingRule: API.OperationMethod<
   TestCreateRecordingRuleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<TestCreateRecordingRuleRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5152, __c161, 0) as any as S.Schema<TestCreateRecordingRuleRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7126,8 +7208,8 @@ export const unstarQuery: API.OperationMethod<
   UnstarQueryError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<UnstarQueryRequest>,
-  output: __S(6976, __c218, 0) as any as S.Schema<QueryHistoryResponse>,
+  input: __S(5184, __c162, 0) as any as S.Schema<UnstarQueryRequest>,
+  output: __S(7040, __c220, 0) as any as S.Schema<QueryHistoryResponse>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7143,8 +7225,8 @@ export const updateAnnotation: API.OperationMethod<
   UpdateAnnotationError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<UpdateAnnotationRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5216, __c163, 0) as any as S.Schema<UpdateAnnotationRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7160,8 +7242,8 @@ export const updateAnnotationByAnnotationId: API.OperationMethod<
   UpdateAnnotationByAnnotationIdError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<UpdateAnnotationByAnnotationIdRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5248, __c164, 0) as any as S.Schema<UpdateAnnotationByAnnotationIdRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7177,8 +7259,8 @@ export const updateCorrelation: API.OperationMethod<
   UpdateCorrelationError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5185, __c162, 1) as any as S.Schema<UpdateCorrelationRequest>,
-  output: __S(6560, __c205, 0) as any as S.Schema<UpdateCorrelationResponseBody>,
+  input: __S(5281, __c165, 1) as any as S.Schema<UpdateCorrelationRequest>,
+  output: __S(6656, __c208, 0) as any as S.Schema<UpdateCorrelationResponseBody>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7194,8 +7276,8 @@ export const updateCurrentOrg: API.OperationMethod<
   UpdateCurrentOrgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<UpdateCurrentOrgRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5312, __c166, 0) as any as S.Schema<UpdateCurrentOrgRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7211,8 +7293,8 @@ export const updateCurrentOrgAddress: API.OperationMethod<
   UpdateCurrentOrgAddressError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<UpdateCurrentOrgAddressRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5376, __c168, 0) as any as S.Schema<UpdateCurrentOrgAddressRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7228,8 +7310,8 @@ export const updateDataSourceByUID: API.OperationMethod<
   UpdateDataSourceByUIDError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<UpdateDataSourceByUIDRequest>,
-  output: __S(7680, __c240, 0) as any as S.Schema<UpdateDataSourceByUIDResponse>,
+  input: __S(5408, __c169, 0) as any as S.Schema<UpdateDataSourceByUIDRequest>,
+  output: __S(7744, __c242, 0) as any as S.Schema<UpdateDataSourceByUIDResponse>,
   errors: [Forbidden, Conflict, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7245,8 +7327,8 @@ export const updateFolderPermissions: API.OperationMethod<
   UpdateFolderPermissionsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5346, __c167, 2) as any as S.Schema<UpdateFolderPermissionsRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5442, __c170, 2) as any as S.Schema<UpdateFolderPermissionsRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7262,8 +7344,8 @@ export const updateLibraryElement: API.OperationMethod<
   UpdateLibraryElementError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<UpdateLibraryElementRequest>,
-  output: __S(6784, __c212, 0) as any as S.Schema<LibraryElementResponse>,
+  input: __S(5472, __c171, 0) as any as S.Schema<UpdateLibraryElementRequest>,
+  output: __S(6848, __c214, 0) as any as S.Schema<LibraryElementResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7279,8 +7361,8 @@ export const updateOrg: API.OperationMethod<
   UpdateOrgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<UpdateOrgRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5504, __c172, 0) as any as S.Schema<UpdateOrgRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7296,8 +7378,8 @@ export const updateOrgAddress: API.OperationMethod<
   UpdateOrgAddressError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<UpdateOrgAddressRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5536, __c173, 0) as any as S.Schema<UpdateOrgAddressRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7313,8 +7395,8 @@ export const updateOrgQuota: API.OperationMethod<
   UpdateOrgQuotaError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<UpdateOrgQuotaRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5568, __c174, 0) as any as S.Schema<UpdateOrgQuotaRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7330,8 +7412,8 @@ export const updateOrgUser: API.OperationMethod<
   UpdateOrgUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<UpdateOrgUserRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5600, __c175, 0) as any as S.Schema<UpdateOrgUserRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7347,8 +7429,8 @@ export const updateOrgUserForCurrentOrg: API.OperationMethod<
   UpdateOrgUserForCurrentOrgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<UpdateOrgUserForCurrentOrgRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5632, __c176, 0) as any as S.Schema<UpdateOrgUserForCurrentOrgRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7364,8 +7446,8 @@ export const updateProviderSettings: API.OperationMethod<
   UpdateProviderSettingsError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<UpdateProviderSettingsRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5664, __c177, 0) as any as S.Schema<UpdateProviderSettingsRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7381,8 +7463,8 @@ export const updatePublicDashboard: API.OperationMethod<
   UpdatePublicDashboardError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<UpdatePublicDashboardRequest>,
-  output: __S(6882, __c215, 2) as any as S.Schema<PublicDashboard>,
+  input: __S(5728, __c179, 0) as any as S.Schema<UpdatePublicDashboardRequest>,
+  output: __S(6946, __c217, 2) as any as S.Schema<PublicDashboard>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7398,8 +7480,8 @@ export const updateRecordingRule: API.OperationMethod<
   UpdateRecordingRuleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<UpdateRecordingRuleRequest>,
-  output: __S(7072, __c221, 0) as any as S.Schema<RecordingRuleJSON>,
+  input: __S(5760, __c180, 0) as any as S.Schema<UpdateRecordingRuleRequest>,
+  output: __S(7136, __c223, 0) as any as S.Schema<RecordingRuleJSON>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7415,8 +7497,8 @@ export const updateRole: API.OperationMethod<
   UpdateRoleError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<UpdateRoleRequest>,
-  output: __S(7330, __c229, 2) as any as S.Schema<RoleDTO>,
+  input: __S(5792, __c181, 0) as any as S.Schema<UpdateRoleRequest>,
+  output: __S(7394, __c231, 2) as any as S.Schema<RoleDTO>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7432,8 +7514,8 @@ export const updateServiceAccount: API.OperationMethod<
   UpdateServiceAccountError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<UpdateServiceAccountRequest>,
-  output: __S(5730, __c179, 2) as any as S.Schema<UpdateServiceAccountResponse>,
+  input: __S(5824, __c182, 0) as any as S.Schema<UpdateServiceAccountRequest>,
+  output: __S(5826, __c182, 2) as any as S.Schema<UpdateServiceAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7449,8 +7531,8 @@ export const updateSignedInUser: API.OperationMethod<
   UpdateSignedInUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<UpdateSignedInUserRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5856, __c183, 0) as any as S.Schema<UpdateSignedInUserRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, Conflict, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7466,8 +7548,8 @@ export const updateTeam: API.OperationMethod<
   UpdateTeamError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<UpdateTeamRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5888, __c184, 0) as any as S.Schema<UpdateTeamRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, Conflict, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7483,8 +7565,8 @@ export const updateTeamLBACRulesApi: API.OperationMethod<
   UpdateTeamLBACRulesApiError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<UpdateTeamLBACRulesApiRequest>,
-  output: __S(5825, __c182, 1) as any as S.Schema<UpdateTeamLBACRulesApiResponse>,
+  input: __S(5920, __c185, 0) as any as S.Schema<UpdateTeamLBACRulesApiRequest>,
+  output: __S(5921, __c185, 1) as any as S.Schema<UpdateTeamLBACRulesApiResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7500,8 +7582,8 @@ export const updateTeamMember: API.OperationMethod<
   UpdateTeamMemberError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<UpdateTeamMemberRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5952, __c186, 0) as any as S.Schema<UpdateTeamMemberRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7517,8 +7599,8 @@ export const updateTeamPreferences: API.OperationMethod<
   UpdateTeamPreferencesError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<UpdateTeamPreferencesRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(5984, __c187, 0) as any as S.Schema<UpdateTeamPreferencesRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7534,8 +7616,8 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<UpdateUserRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(6016, __c188, 0) as any as S.Schema<UpdateUserRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, Conflict, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7551,8 +7633,8 @@ export const updateUserEmail: API.OperationMethod<
   UpdateUserEmailError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<UpdateUserEmailRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<UpdateUserEmailResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<UpdateUserEmailRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<UpdateUserEmailResponse>,
   errors: [UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7568,8 +7650,8 @@ export const updateUserQuota: API.OperationMethod<
   UpdateUserQuotaError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<UpdateUserQuotaRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(6112, __c191, 0) as any as S.Schema<UpdateUserQuotaRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7585,8 +7667,8 @@ export const uploadSnapshot: API.OperationMethod<
   UploadSnapshotError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<UploadSnapshotRequest>,
-  output: __S(4512, __c141, 0) as any as S.Schema<UploadSnapshotResponse>,
+  input: __S(6144, __c192, 0) as any as S.Schema<UploadSnapshotRequest>,
+  output: __S(4608, __c144, 0) as any as S.Schema<UploadSnapshotResponse>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7602,8 +7684,8 @@ export const userSetUsingOrg: API.OperationMethod<
   UserSetUsingOrgError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<UserSetUsingOrgRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<SuccessResponseBody>,
+  input: __S(6176, __c193, 0) as any as S.Schema<UserSetUsingOrgRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
   errors: [BadRequest, Forbidden, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7619,8 +7701,8 @@ export const viewPublicDashboard: API.OperationMethod<
   ViewPublicDashboardError,
   GrafanaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<ViewPublicDashboardRequest>,
-  output: __S(9123, __c285, 3) as any as S.Schema<DashboardFullWithMeta>,
+  input: __S(6208, __c194, 0) as any as S.Schema<ViewPublicDashboardRequest>,
+  output: __S(9187, __c287, 3) as any as S.Schema<DashboardFullWithMeta>,
   errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
@@ -7634,13 +7716,40 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          error: S.optional(S.String),
+          message: S.String,
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorResponseBody" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          extra: S.optional(__S(32, __c1, 0)),
+          message: S.optional(S.String),
+          messageId: S.String,
+          statusCode: S.Number,
+        }),
+      ).annotate({ identifier: "PublicError2" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           team_id: S.String.pipe(T.Label()),
           userId: S.Number,
         }).pipe(T.Http({ method: "POST", uri: "/teams/{team_id}/members", code: 200 })),
       ).annotate({ identifier: "AddTeamMemberRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7651,7 +7760,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetOrgUsersForCurrentOrgRequest" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7670,14 +7779,14 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "UserLookupDTO" });
     case 2:
-      return S.Array(__S(65, __c2, 1));
+      return S.Array(__S(129, __c4, 1));
     case 3:
-      return S.suspend(() => __S(66, __c2, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(130, __c4, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetOrgUsersForCurrentOrgLookupResponse",
       });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7703,14 +7812,14 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "TempUserDTO" });
     case 2:
-      return S.Array(__S(97, __c3, 1));
+      return S.Array(__S(161, __c5, 1));
     case 3:
-      return S.suspend(() => __S(98, __c3, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(162, __c5, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetPendingOrgInvitesResponse",
       });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7720,20 +7829,20 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetProviderSettingsRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           provider: S.optional(S.String),
-          settings: S.optional(__S(6592, __c206, 0)),
+          settings: S.optional(__S(32, __c1, 0)),
           source: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetProviderSettingsResponse" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7754,7 +7863,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           exclude: S.optional(S.Boolean),
-          ids: S.optional(__S(9312, __c291, 0)),
+          ids: S.optional(__S(9376, __c293, 0)),
         }),
       ).annotate({ identifier: "AnnotationPanelFilter" });
     case 3:
@@ -7762,7 +7871,7 @@ function __c6(j: number): any {
         S.Struct({
           limit: S.optional(S.Number),
           matchAny: S.optional(S.Boolean),
-          tags: S.optional(__S(6464, __c202, 0)),
+          tags: S.optional(__S(6560, __c205, 0)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "AnnotationTarget" });
@@ -7770,14 +7879,14 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           builtIn: S.optional(S.Number),
-          datasource: S.optional(__S(193, __c6, 1)),
+          datasource: S.optional(__S(257, __c8, 1)),
           enable: S.optional(S.Boolean),
-          filter: S.optional(__S(194, __c6, 2)),
+          filter: S.optional(__S(258, __c8, 2)),
           hide: S.optional(S.Boolean),
           iconColor: S.optional(S.String),
           name: S.optional(S.String),
           placement: S.optional(S.String),
-          target: S.optional(__S(195, __c6, 3)),
+          target: S.optional(__S(259, __c8, 3)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "AnnotationQuery" });
@@ -7790,22 +7899,22 @@ function __c6(j: number): any {
           id: S.optional(S.Number),
           isRegion: S.optional(S.Boolean),
           panelId: S.optional(S.Number),
-          source: S.optional(__S(196, __c6, 4)),
-          tags: S.optional(__S(6464, __c202, 0)),
+          source: S.optional(__S(260, __c8, 4)),
+          tags: S.optional(__S(6560, __c205, 0)),
           text: S.optional(S.String),
           time: S.optional(S.Number),
           timeEnd: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AnnotationEvent" });
     case 6:
-      return S.Array(__S(197, __c6, 5));
+      return S.Array(__S(261, __c8, 5));
     case 7:
-      return S.suspend(() => __S(198, __c6, 6).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(262, __c8, 6).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetPublicAnnotationsResponse",
       });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7821,7 +7930,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetPublicDashboardRequest" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7829,7 +7938,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetRecordingRuleWriteTargetRequest" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7837,42 +7946,42 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetReportsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           created: S.optional(S.String),
-          dashboards: S.optional(__S(7234, __c226, 2)),
+          dashboards: S.optional(__S(7298, __c228, 2)),
           enableCsv: S.optional(S.Boolean),
           enableDashboardUrl: S.optional(S.Boolean),
-          formats: S.optional(__S(6464, __c202, 0)),
+          formats: S.optional(__S(6560, __c205, 0)),
           id: S.optional(S.Number),
           message: S.optional(S.String),
           name: S.optional(S.String),
-          options: S.optional(__S(7235, __c226, 3)),
+          options: S.optional(__S(7299, __c228, 3)),
           orgId: S.optional(S.Number),
           recipients: S.optional(S.String),
           replyTo: S.optional(S.String),
           scaleFactor: S.optional(S.Number),
-          schedule: S.optional(__S(7236, __c226, 4)),
+          schedule: S.optional(__S(7300, __c228, 4)),
           state: S.optional(S.String),
           subject: S.optional(S.String),
           uid: S.optional(S.String),
           updated: S.optional(S.String),
-          urls: S.optional(__S(7238, __c226, 6)),
+          urls: S.optional(__S(7302, __c228, 6)),
           userId: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Report" });
     case 1:
-      return S.Array(__S(320, __c10, 0));
+      return S.Array(__S(384, __c12, 0));
     case 2:
-      return S.suspend(() => __S(321, __c10, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(385, __c12, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetReportsResponse",
       });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7882,7 +7991,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetReportsByDashboardUIDRequest" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7891,10 +8000,10 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          branding: S.optional(__S(416, __c13, 0)),
+          branding: S.optional(__S(480, __c15, 0)),
           embeddedImageTheme: S.optional(S.String),
           footerFontFamily: S.optional(S.String),
-          footerItems: S.optional(__S(418, __c13, 2)),
+          footerItems: S.optional(__S(482, __c15, 2)),
           id: S.optional(S.Number),
           orgId: S.optional(S.Number),
           pdfDashboardTitleEnabled: S.optional(S.Boolean),
@@ -7906,7 +8015,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ReportSettings" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7930,10 +8039,10 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "FooterItem" });
     case 2:
-      return S.Array(__S(417, __c13, 1));
+      return S.Array(__S(481, __c15, 1));
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7944,7 +8053,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "AddTeamRoleRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7955,21 +8064,21 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dependencies: S.optional(__S(7520, __c235, 0)),
+          dependencies: S.optional(__S(7584, __c237, 0)),
           resourceType: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceDependencyDTO" });
     case 2:
-      return S.Array(__S(481, __c15, 1));
+      return S.Array(__S(545, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          resourceDependencies: S.optional(__S(482, __c15, 2)),
+          resourceDependencies: S.optional(__S(546, __c17, 2)),
         }),
       ).annotate({ identifier: "ResourceDependenciesResponseDTO" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7991,13 +8100,13 @@ function __c16(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          assignments: S.optional(__S(513, __c16, 1)),
-          permissions: S.optional(__S(6464, __c202, 0)),
+          assignments: S.optional(__S(577, __c18, 1)),
+          permissions: S.optional(__S(6560, __c205, 0)),
         }),
       ).annotate({ identifier: "Description" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8011,7 +8120,7 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(6464, __c202, 0)),
+          actions: S.optional(__S(6560, __c205, 0)),
           builtInRole: S.optional(S.String),
           id: S.optional(S.Number),
           isInherited: S.optional(S.Boolean),
@@ -8030,14 +8139,14 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "ResourcePermissionDTO" });
     case 2:
-      return S.Array(__S(545, __c17, 1));
+      return S.Array(__S(609, __c19, 1));
     case 3:
-      return S.suspend(() => __S(546, __c17, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(610, __c19, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetResourcePermissionsResponse",
       });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8047,7 +8156,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetRoleRequest" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8059,20 +8168,20 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetRoleAssignmentsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           role_uid: S.optional(S.String),
-          service_accounts: S.optional(__S(9312, __c291, 0)),
-          teams: S.optional(__S(9312, __c291, 0)),
-          users: S.optional(__S(9312, __c291, 0)),
+          service_accounts: S.optional(__S(9376, __c293, 0)),
+          teams: S.optional(__S(9376, __c293, 0)),
+          users: S.optional(__S(9376, __c293, 0)),
         }),
       ).annotate({ identifier: "RoleAssignmentsDTO" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8080,7 +8189,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetSAMLLogoutRequest" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8090,7 +8199,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetServiceAccountRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8100,23 +8209,23 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetSessionRequest" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/cloudmigration/migration", code: 200 })),
       ).annotate({ identifier: "GetSessionListRequest" });
     case 1:
-      return S.Array(__S(7456, __c233, 0));
+      return S.Array(__S(7520, __c235, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sessions: S.optional(__S(769, __c24, 1)),
+          sessions: S.optional(__S(833, __c26, 1)),
         }),
       ).annotate({ identifier: "CloudMigrationSessionListResponseDTO" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8124,7 +8233,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetSettingsImageRequest" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8136,7 +8245,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "AddUserRoleRequest" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8160,16 +8269,16 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "SnapshotDTO" });
     case 2:
-      return S.Array(__S(865, __c27, 1));
+      return S.Array(__S(929, __c29, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          snapshots: S.optional(__S(866, __c27, 2)),
+          snapshots: S.optional(__S(930, __c29, 2)),
         }),
       ).annotate({ identifier: "SnapshotListResponseDTO" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8185,7 +8294,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetSharingOptionsResponse" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8193,13 +8302,13 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetSignedInUserRequest" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accessControl: S.optional(__S(7712, __c241, 0)),
-          authLabels: S.optional(__S(6464, __c202, 0)),
+          accessControl: S.optional(__S(7776, __c243, 0)),
+          authLabels: S.optional(__S(6560, __c205, 0)),
           avatarUrl: S.optional(S.String),
           createdAt: S.optional(S.String),
           email: S.optional(S.String),
@@ -8220,7 +8329,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "UserProfileDTO" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8228,7 +8337,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetSignedInUserOrgListRequest" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8239,14 +8348,14 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "UserOrgDTO" });
     case 1:
-      return S.Array(__S(1024, __c32, 0));
+      return S.Array(__S(1088, __c34, 0));
     case 2:
-      return S.suspend(() => __S(1025, __c32, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1089, __c34, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSignedInUserOrgListResponse",
       });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8254,12 +8363,12 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetSignedInUserTeamListRequest" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accessControl: S.optional(__S(7712, __c241, 0)),
+          accessControl: S.optional(__S(7776, __c243, 0)),
           avatarUrl: S.optional(S.String),
           email: S.optional(S.String),
           externalUID: S.optional(S.String),
@@ -8274,21 +8383,21 @@ function __c34(j: number): any {
       ).annotate({ identifier: "TeamDTO" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(1152, __c36, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1216, __c38, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSignedInUserTeamListResponse",
       });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1088, __c34, 0));
+      return S.Array(__S(1152, __c36, 0));
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8296,7 +8405,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetSLORequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8329,15 +8438,15 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "MigrateDataResponseItemDTO" });
     case 2:
-      return S.Array(__S(1217, __c38, 1));
+      return S.Array(__S(1281, __c40, 1));
     case 3:
       return S.Record(S.String, S.Number);
     case 4:
       return S.suspend(() =>
         S.Struct({
-          statuses: S.optional(__S(1219, __c38, 3)),
+          statuses: S.optional(__S(1283, __c40, 3)),
           total: S.optional(S.Number),
-          types: S.optional(__S(1219, __c38, 3)),
+          types: S.optional(__S(1283, __c40, 3)),
         }),
       ).annotate({ identifier: "SnapshotResourceStats" });
     case 5:
@@ -8345,16 +8454,16 @@ function __c38(j: number): any {
         S.Struct({
           created: S.optional(S.String),
           finished: S.optional(S.String),
-          results: S.optional(__S(1218, __c38, 2)),
+          results: S.optional(__S(1282, __c40, 2)),
           sessionUid: S.optional(S.String),
-          stats: S.optional(__S(1220, __c38, 4)),
+          stats: S.optional(__S(1284, __c40, 4)),
           status: S.optional(S.String),
           uid: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSnapshotResponseDTO" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8362,7 +8471,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GetStatusRequest" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Boolean.pipe(T.RawResponseRoot())).annotate({
@@ -8370,7 +8479,7 @@ function __c40(j: number): any {
       });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8384,15 +8493,15 @@ function __c41(j: number): any {
         }),
       ).annotate({ identifier: "FailedUser" });
     case 2:
-      return S.Array(__S(1313, __c41, 1));
+      return S.Array(__S(1377, __c43, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Elapsed: S.optional(S.Number),
-          FailedUsers: S.optional(__S(1314, __c41, 2)),
-          MissingUserIds: S.optional(__S(9312, __c291, 0)),
+          FailedUsers: S.optional(__S(1378, __c43, 2)),
+          MissingUserIds: S.optional(__S(9376, __c293, 0)),
           Started: S.optional(S.String),
-          UpdatedUserIds: S.optional(__S(9312, __c291, 0)),
+          UpdatedUserIds: S.optional(__S(9376, __c293, 0)),
         }),
       ).annotate({ identifier: "SyncResult" });
     case 4:
@@ -8400,13 +8509,13 @@ function __c41(j: number): any {
         S.Struct({
           enabled: S.optional(S.Boolean),
           nextSync: S.optional(S.String),
-          prevSync: S.optional(__S(1315, __c41, 3)),
+          prevSync: S.optional(__S(1379, __c43, 3)),
           schedule: S.optional(S.String),
         }),
       ).annotate({ identifier: "ActiveSyncStatusDTO" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8417,7 +8526,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetTeamRequest" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8439,7 +8548,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "AdminCreateUserResponse" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8448,12 +8557,12 @@ function __c44(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/teams/{teamId}/groups", code: 200 })),
       ).annotate({ identifier: "GetTeamGroupsApiRequest" });
     case 1:
-      return S.suspend(() => __S(1441, __c45, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1505, __c47, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetTeamGroupsApiResponse",
       });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8466,10 +8575,10 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "TeamGroupDTO" });
     case 1:
-      return S.Array(__S(1440, __c45, 0));
+      return S.Array(__S(1504, __c47, 0));
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8480,26 +8589,26 @@ function __c46(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(1505, __c47, 1)),
+          rules: S.optional(__S(1569, __c49, 1)),
         }),
       ).annotate({ identifier: "TeamLBACRules" });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(6464, __c202, 0)),
+          rules: S.optional(__S(6560, __c205, 0)),
           teamId: S.optional(S.String),
           teamUid: S.optional(S.String),
         }),
       ).annotate({ identifier: "TeamLBACRule" });
     case 1:
-      return S.Array(__S(1504, __c47, 0));
+      return S.Array(__S(1568, __c49, 0));
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8513,7 +8622,7 @@ function __c48(j: number): any {
           auth_module: S.optional(S.String),
           avatarUrl: S.optional(S.String),
           email: S.optional(S.String),
-          labels: S.optional(__S(6464, __c202, 0)),
+          labels: S.optional(__S(6560, __c205, 0)),
           login: S.optional(S.String),
           name: S.optional(S.String),
           orgId: S.optional(S.Number),
@@ -8526,14 +8635,14 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "TeamMemberDTO" });
     case 2:
-      return S.Array(__S(1537, __c48, 1));
+      return S.Array(__S(1601, __c50, 1));
     case 3:
-      return S.suspend(() => __S(1538, __c48, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1602, __c50, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetTeamMembersResponse",
       });
   }
 }
-function __c49(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8547,8 +8656,8 @@ function __c49(j: number): any {
           homeDashboardUID: S.optional(S.String),
           homeURL: S.optional(S.String),
           language: S.optional(S.String),
-          navbar: S.optional(__S(1600, __c50, 0)),
-          queryHistory: S.optional(__S(1601, __c50, 1)),
+          navbar: S.optional(__S(1664, __c52, 0)),
+          queryHistory: S.optional(__S(1665, __c52, 1)),
           theme: S.optional(S.String),
           timezone: S.optional(S.String),
           weekStart: S.optional(S.String),
@@ -8556,12 +8665,12 @@ function __c49(j: number): any {
       ).annotate({ identifier: "PreferencesSpec" });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          bookmarkUrls: S.optional(__S(6464, __c202, 0)),
+          bookmarkUrls: S.optional(__S(6560, __c205, 0)),
         }),
       ).annotate({ identifier: "PreferencesNavbarPreference" });
     case 1:
@@ -8572,7 +8681,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "PreferencesQueryHistoryPreference" });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8582,7 +8691,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c52(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8590,7 +8699,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "GetUserAuthTokensRequest" });
   }
 }
-function __c53(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8600,7 +8709,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetUserByLoginOrEmailRequest" });
   }
 }
-function __c54(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8610,7 +8719,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "GetUserFromLDAPRequest" });
   }
 }
-function __c55(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8620,7 +8729,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "GetUserOrgListRequest" });
   }
 }
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8630,7 +8739,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GetUserQuotaRequest" });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8640,7 +8749,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "AdminDeleteUserRequest" });
   }
 }
-function __c58(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8648,7 +8757,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GetUserQuotasRequest" });
   }
 }
-function __c59(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8658,7 +8767,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "GetUserTeamsRequest" });
   }
 }
-function __c60(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8670,14 +8779,14 @@ function __c60(j: number): any {
         }),
       ).annotate({ identifier: "ImportDashboardInput" });
     case 1:
-      return S.Array(__S(1920, __c60, 0));
+      return S.Array(__S(1984, __c62, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           dashboard: S.optional(S.Unknown),
           folderId: S.optional(S.Number),
           folderUid: S.optional(S.String),
-          inputs: S.optional(__S(1921, __c60, 1)),
+          inputs: S.optional(__S(1985, __c62, 1)),
           overwrite: S.optional(S.Boolean),
           path: S.optional(S.String),
           pluginId: S.optional(S.String),
@@ -8705,7 +8814,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "ImportDashboardResponse" });
   }
 }
-function __c61(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8717,21 +8826,21 @@ function __c61(j: number): any {
       });
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v1/sso-settings", code: 200 })),
       ).annotate({ identifier: "ListAllProvidersSettingsRequest" });
     case 1:
-      return S.Array(__S(160, __c5, 0));
+      return S.Array(__S(224, __c7, 0));
     case 2:
-      return S.suspend(() => __S(1985, __c62, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2049, __c64, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAllProvidersSettingsResponse",
       });
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8750,14 +8859,14 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "DeviceDTO" });
     case 2:
-      return S.Array(__S(2017, __c63, 1));
+      return S.Array(__S(2081, __c65, 1));
     case 3:
-      return S.suspend(() => __S(2018, __c63, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2082, __c65, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDevicesResponse",
       });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8777,33 +8886,33 @@ function __c64(j: number): any {
         }),
       ).annotate({ identifier: "PublicDashboardListResponse" });
     case 2:
-      return S.Array(__S(2049, __c64, 1));
+      return S.Array(__S(2113, __c66, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           page: S.optional(S.Number),
           perPage: S.optional(S.Number),
-          publicDashboards: S.optional(__S(2050, __c64, 2)),
+          publicDashboards: S.optional(__S(2114, __c66, 2)),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "PublicDashboardListResponseWithPagination" });
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/recording-rules", code: 200 })),
       ).annotate({ identifier: "ListRecordingRulesRequest" });
     case 1:
-      return S.Array(__S(7072, __c221, 0));
+      return S.Array(__S(7136, __c223, 0));
     case 2:
-      return S.suspend(() => __S(2081, __c65, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2145, __c67, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListRecordingRulesResponse",
       });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8815,21 +8924,21 @@ function __c66(j: number): any {
       ).annotate({ identifier: "ListRolesRequest" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7330, __c229, 2));
+      return S.Array(__S(7394, __c231, 2));
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(2144, __c67, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2208, __c69, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListRolesResponse",
       });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8846,7 +8955,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "ListSortOptionsResponse" });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8856,7 +8965,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "AdminDisableUserRequest" });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8867,30 +8976,30 @@ function __c71(j: number): any {
       ).annotate({ identifier: "ListTeamRolesRequest" });
   }
 }
-function __c72(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           includeHidden: S.optional(S.Boolean),
           orgId: S.optional(S.Number),
-          teamIds: S.optional(__S(9312, __c291, 0)),
-          userIds: S.optional(__S(9312, __c291, 0)),
+          teamIds: S.optional(__S(9376, __c293, 0)),
+          userIds: S.optional(__S(9376, __c293, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/access-control/teams/roles/search", code: 200 })),
       ).annotate({ identifier: "ListTeamsRolesRequest" });
   }
 }
-function __c73(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(2144, __c67, 0));
+      return S.Record(S.String, __S(2208, __c69, 0));
     case 1:
-      return S.suspend(() => __S(2336, __c73, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2400, __c75, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListTeamsRolesResponse",
       });
   }
 }
-function __c74(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8914,14 +9023,14 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "TokenDTO" });
     case 2:
-      return S.Array(__S(2369, __c74, 1));
+      return S.Array(__S(2433, __c76, 1));
     case 3:
-      return S.suspend(() => __S(2370, __c74, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2434, __c76, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListTokensResponse",
       });
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8933,20 +9042,20 @@ function __c75(j: number): any {
       ).annotate({ identifier: "ListUserRolesRequest" });
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           includeHidden: S.optional(S.Boolean),
           orgId: S.optional(S.Number),
-          teamIds: S.optional(__S(9312, __c291, 0)),
-          userIds: S.optional(__S(9312, __c291, 0)),
+          teamIds: S.optional(__S(9376, __c293, 0)),
+          userIds: S.optional(__S(9376, __c293, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/access-control/users/roles/search", code: 200 })),
       ).annotate({ identifier: "ListUsersRolesRequest" });
   }
 }
-function __c77(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8959,18 +9068,18 @@ function __c77(j: number): any {
       ).annotate({ identifier: "MassDeleteAnnotationsRequest" });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           key: S.String.pipe(T.Label()),
-          settings: S.optional(__S(6592, __c206, 0)),
+          settings: S.optional(__S(32, __c1, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/sso-settings/{key}", code: 200 })),
       ).annotate({ identifier: "PatchProviderSettingsRequest" });
   }
 }
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8981,7 +9090,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "PatchQueryCommentRequest" });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8991,7 +9100,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "PostACSRequest" });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9004,7 +9113,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "PostGraphiteAnnotationRequest" });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9014,7 +9123,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "AdminEnableUserRequest" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9024,7 +9133,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "PostLicenseTokenRequest" });
   }
 }
-function __c84(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9032,7 +9141,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "PostRenewLicenseTokenRequest" });
   }
 }
-function __c85(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9043,7 +9152,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "PostSLORequest" });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9053,20 +9162,20 @@ function __c86(j: number): any {
       ).annotate({ identifier: "PostSyncUserWithLDAPRequest" });
   }
 }
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           debug: S.optional(S.Boolean),
           from: S.String,
-          queries: __S(2816, __c88, 0),
+          queries: __S(2880, __c90, 0),
           to: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/ds/query", code: 200 })),
       ).annotate({ identifier: "QueryMetricsWithExpressionsRequest" });
   }
 }
-function __c88(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -9080,7 +9189,7 @@ function __c88(j: number): any {
         }),
       ).annotate({ identifier: "LinkTransformationConfig" });
     case 2:
-      return S.Array(__S(2817, __c88, 1));
+      return S.Array(__S(2881, __c90, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9088,21 +9197,21 @@ function __c88(j: number): any {
           datasourceUid: S.optional(S.String),
           panelsState: S.optional(S.Unknown),
           query: S.optional(S.Unknown),
-          timeRange: S.optional(__S(7200, __c225, 0)),
-          transformations: S.optional(__S(2818, __c88, 2)),
+          timeRange: S.optional(__S(7264, __c227, 0)),
+          transformations: S.optional(__S(2882, __c90, 2)),
         }),
       ).annotate({ identifier: "InternalDataLink" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          internal: S.optional(__S(2819, __c88, 3)),
+          internal: S.optional(__S(2883, __c90, 3)),
           targetBlank: S.optional(S.Boolean),
           title: S.optional(S.String),
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataLink" });
     case 5:
-      return S.Array(__S(2820, __c88, 4));
+      return S.Array(__S(2884, __c90, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -9112,48 +9221,48 @@ function __c88(j: number): any {
         }),
       ).annotate({ identifier: "Threshold" });
     case 7:
-      return S.Array(__S(2822, __c88, 6));
+      return S.Array(__S(2886, __c90, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           mode: S.optional(S.String),
-          steps: S.optional(__S(2823, __c88, 7)),
+          steps: S.optional(__S(2887, __c90, 7)),
         }),
       ).annotate({ identifier: "ThresholdsConfig" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          color: S.optional(__S(6464, __c202, 0)),
-          description: S.optional(__S(6464, __c202, 0)),
-          icon: S.optional(__S(6464, __c202, 0)),
-          text: S.optional(__S(6464, __c202, 0)),
+          color: S.optional(__S(6560, __c205, 0)),
+          description: S.optional(__S(6560, __c205, 0)),
+          icon: S.optional(__S(6560, __c205, 0)),
+          text: S.optional(__S(6560, __c205, 0)),
         }),
       ).annotate({ identifier: "EnumFieldConfig" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          enum: S.optional(__S(2825, __c88, 9)),
+          enum: S.optional(__S(2889, __c90, 9)),
         }),
       ).annotate({ identifier: "FieldTypeConfig" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          color: S.optional(__S(6592, __c206, 0)),
-          custom: S.optional(__S(6592, __c206, 0)),
+          color: S.optional(__S(32, __c1, 0)),
+          custom: S.optional(__S(32, __c1, 0)),
           decimals: S.optional(S.Number),
           description: S.optional(S.String),
           displayName: S.optional(S.String),
           displayNameFromDS: S.optional(S.String),
           filterable: S.optional(S.Boolean),
           interval: S.optional(S.Number),
-          links: S.optional(__S(2821, __c88, 5)),
-          mappings: S.optional(__S(2816, __c88, 0)),
+          links: S.optional(__S(2885, __c90, 5)),
+          mappings: S.optional(__S(2880, __c90, 0)),
           max: S.optional(S.Number),
           min: S.optional(S.Number),
           noValue: S.optional(S.String),
           path: S.optional(S.String),
-          thresholds: S.optional(__S(2824, __c88, 8)),
-          type: S.optional(__S(2826, __c88, 10)),
+          thresholds: S.optional(__S(2888, __c90, 8)),
+          type: S.optional(__S(2890, __c90, 10)),
           unit: S.optional(S.String),
           writeable: S.optional(S.Boolean),
         }),
@@ -9161,13 +9270,13 @@ function __c88(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          config: S.optional(__S(2827, __c88, 11)),
-          labels: S.optional(__S(7648, __c239, 0)),
+          config: S.optional(__S(2891, __c90, 11)),
+          labels: S.optional(__S(7712, __c241, 0)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Field" });
     case 13:
-      return S.Array(__S(2828, __c88, 12));
+      return S.Array(__S(2892, __c90, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -9178,33 +9287,33 @@ function __c88(j: number): any {
         }),
       ).annotate({ identifier: "Notice" });
     case 15:
-      return S.Array(__S(2830, __c88, 14));
+      return S.Array(__S(2894, __c90, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          color: S.optional(__S(6592, __c206, 0)),
-          custom: S.optional(__S(6592, __c206, 0)),
+          color: S.optional(__S(32, __c1, 0)),
+          custom: S.optional(__S(32, __c1, 0)),
           decimals: S.optional(S.Number),
           description: S.optional(S.String),
           displayName: S.optional(S.String),
           displayNameFromDS: S.optional(S.String),
           filterable: S.optional(S.Boolean),
           interval: S.optional(S.Number),
-          links: S.optional(__S(2821, __c88, 5)),
-          mappings: S.optional(__S(2816, __c88, 0)),
+          links: S.optional(__S(2885, __c90, 5)),
+          mappings: S.optional(__S(2880, __c90, 0)),
           max: S.optional(S.Number),
           min: S.optional(S.Number),
           noValue: S.optional(S.String),
           path: S.optional(S.String),
-          thresholds: S.optional(__S(2824, __c88, 8)),
-          type: S.optional(__S(2826, __c88, 10)),
+          thresholds: S.optional(__S(2888, __c90, 8)),
+          type: S.optional(__S(2890, __c90, 10)),
           unit: S.optional(S.String),
           value: S.optional(S.Number),
           writeable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "QueryStat" });
     case 17:
-      return S.Array(__S(2832, __c88, 16));
+      return S.Array(__S(2896, __c90, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
@@ -9212,48 +9321,48 @@ function __c88(j: number): any {
           custom: S.optional(S.Unknown),
           dataTopic: S.optional(S.String),
           executedQueryString: S.optional(S.String),
-          notices: S.optional(__S(2831, __c88, 15)),
+          notices: S.optional(__S(2895, __c90, 15)),
           path: S.optional(S.String),
           pathSeparator: S.optional(S.String),
           preferredVisualisationPluginId: S.optional(S.String),
           preferredVisualisationType: S.optional(S.String),
-          stats: S.optional(__S(2833, __c88, 17)),
+          stats: S.optional(__S(2897, __c90, 17)),
           type: S.optional(S.String),
-          typeVersion: S.optional(__S(9312, __c291, 0)),
-          uniqueRowIdFields: S.optional(__S(9312, __c291, 0)),
+          typeVersion: S.optional(__S(9376, __c293, 0)),
+          uniqueRowIdFields: S.optional(__S(9376, __c293, 0)),
         }),
       ).annotate({ identifier: "FrameMeta" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          Fields: S.optional(__S(2829, __c88, 13)),
-          Meta: S.optional(__S(2834, __c88, 18)),
+          Fields: S.optional(__S(2893, __c90, 13)),
+          Meta: S.optional(__S(2898, __c90, 18)),
           Name: S.optional(S.String),
           RefID: S.optional(S.String),
         }),
       ).annotate({ identifier: "Frame" });
     case 20:
-      return S.Array(__S(2835, __c88, 19));
+      return S.Array(__S(2899, __c90, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
           Error: S.optional(S.String),
           ErrorSource: S.optional(S.String),
-          Frames: S.optional(__S(2836, __c88, 20)),
+          Frames: S.optional(__S(2900, __c90, 20)),
           Status: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DataResponse" });
     case 22:
-      return S.Record(S.String, __S(2837, __c88, 21));
+      return S.Record(S.String, __S(2901, __c90, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
-          results: S.optional(__S(2838, __c88, 22)),
+          results: S.optional(__S(2902, __c90, 22)),
         }),
       ).annotate({ identifier: "QueryDataResponse" });
   }
 }
-function __c89(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9270,7 +9379,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "QueryPublicDashboardRequest" });
   }
 }
-function __c90(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9287,7 +9396,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "ActiveUserStats" });
   }
 }
-function __c91(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9295,7 +9404,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "ReloadLDAPCfgRequest" });
   }
 }
-function __c92(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9306,7 +9415,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "RemoveOrgUserRequest" });
   }
 }
-function __c93(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9316,21 +9425,21 @@ function __c93(j: number): any {
       ).annotate({ identifier: "RemoveOrgUserForCurrentOrgRequest" });
   }
 }
-function __c94(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/admin/settings", code: 200 })),
       ).annotate({ identifier: "AdminGetSettingsRequest" });
     case 1:
-      return S.Record(S.String, __S(7648, __c239, 0));
+      return S.Record(S.String, __S(7712, __c241, 0));
     case 2:
-      return S.suspend(() => __S(3009, __c94, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3073, __c96, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "AdminGetSettingsResponse",
       });
   }
 }
-function __c95(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9340,7 +9449,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "RemoveProviderSettingsRequest" });
   }
 }
-function __c96(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9351,7 +9460,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "RemoveTeamGroupApiQueryRequest" });
   }
 }
-function __c97(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9362,7 +9471,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "RemoveTeamMemberRequest" });
   }
 }
-function __c98(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9379,7 +9488,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "RemoveTeamRoleRequest" });
   }
 }
-function __c99(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9397,7 +9506,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "RemoveUserRoleRequest" });
   }
 }
-function __c100(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9408,7 +9517,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "RenderReportCSVsRequest" });
   }
 }
-function __c101(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9423,7 +9532,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "RenderReportPDFsRequest" });
   }
 }
-function __c102(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9435,7 +9544,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "RevokeInviteRequest" });
   }
 }
-function __c103(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9445,7 +9554,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "RevokeUserAuthTokenRequest" });
   }
 }
-function __c104(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9457,7 +9566,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusCortexDeleteNamespaceRequest" });
   }
 }
-function __c105(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9494,7 +9603,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "AdminStats" });
   }
 }
-function __c106(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9511,7 +9620,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusCortexDeleteRuleGroupRequest" });
   }
 }
-function __c107(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9523,7 +9632,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusCortexGetNamespaceRequest" });
   }
 }
-function __c108(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9540,7 +9649,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusCortexGetRuleGroupRequest" });
   }
 }
-function __c109(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9548,7 +9657,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusCortexGetRulesRequest" });
   }
 }
-function __c110(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9560,7 +9669,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusCortexPostRuleGroupRequest" });
   }
 }
-function __c111(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9568,7 +9677,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusCortexPostRuleGroupsRequest" });
   }
 }
-function __c112(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9584,7 +9693,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusDeleteNamespaceRequest" });
   }
 }
-function __c113(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9601,7 +9710,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusDeleteRuleGroupRequest" });
   }
 }
-function __c114(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9617,7 +9726,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusGetNamespaceRequest" });
   }
 }
-function __c115(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9634,7 +9743,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusGetRuleGroupRequest" });
   }
 }
-function __c116(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9644,7 +9753,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "AdminGetUserAuthTokensRequest" });
   }
 }
-function __c117(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9666,14 +9775,14 @@ function __c117(j: number): any {
         }),
       ).annotate({ identifier: "UserToken" });
     case 1:
-      return S.Array(__S(3744, __c117, 0));
+      return S.Array(__S(3808, __c119, 0));
     case 2:
-      return S.suspend(() => __S(3745, __c117, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3809, __c119, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "AdminGetUserAuthTokensResponse",
       });
   }
 }
-function __c118(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9683,7 +9792,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusGetRulesRequest" });
   }
 }
-function __c119(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9699,7 +9808,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusPostRuleGroupRequest" });
   }
 }
-function __c120(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9709,7 +9818,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "RouteConvertPrometheusPostRuleGroupsRequest" });
   }
 }
-function __c121(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9723,7 +9832,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "RouteExportMuteTimingRequest" });
   }
 }
-function __c122(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9735,17 +9844,17 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "ReceiverExport" });
     case 1:
-      return S.Array(__S(3904, __c122, 0));
+      return S.Array(__S(3968, __c124, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           orgId: S.optional(S.Number),
-          receivers: S.optional(__S(3905, __c122, 1)),
+          receivers: S.optional(__S(3969, __c124, 1)),
         }),
       ).annotate({ identifier: "ContactPointExport" });
     case 3:
-      return S.Array(__S(3906, __c122, 2));
+      return S.Array(__S(3970, __c124, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -9757,22 +9866,22 @@ function __c122(j: number): any {
       return S.suspend(() =>
         S.Struct({
           datasourceUid: S.optional(S.String),
-          model: S.optional(__S(6592, __c206, 0)),
+          model: S.optional(__S(32, __c1, 0)),
           queryType: S.optional(S.String),
           refId: S.optional(S.String),
-          relativeTimeRange: S.optional(__S(3908, __c122, 4)),
+          relativeTimeRange: S.optional(__S(3972, __c124, 4)),
         }),
       ).annotate({ identifier: "AlertQueryExport" });
     case 6:
-      return S.Array(__S(3909, __c122, 5));
+      return S.Array(__S(3973, __c124, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          active_time_intervals: S.optional(__S(6464, __c202, 0)),
-          group_by: S.optional(__S(6464, __c202, 0)),
+          active_time_intervals: S.optional(__S(6560, __c205, 0)),
+          group_by: S.optional(__S(6560, __c205, 0)),
           group_interval: S.optional(S.String),
           group_wait: S.optional(S.String),
-          mute_time_intervals: S.optional(__S(6464, __c202, 0)),
+          mute_time_intervals: S.optional(__S(6560, __c205, 0)),
           receiver: S.optional(S.String),
           repeat_interval: S.optional(S.String),
         }),
@@ -9788,26 +9897,26 @@ function __c122(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          annotations: S.optional(__S(7648, __c239, 0)),
+          annotations: S.optional(__S(7712, __c241, 0)),
           condition: S.optional(S.String),
           dashboardUid: S.optional(S.String),
-          data: S.optional(__S(3910, __c122, 6)),
+          data: S.optional(__S(3974, __c124, 6)),
           execErrState: S.optional(S.String),
           for: S.optional(S.Number),
           isPaused: S.optional(S.Boolean),
           keepFiringFor: S.optional(S.Number),
-          labels: S.optional(__S(7648, __c239, 0)),
+          labels: S.optional(__S(7712, __c241, 0)),
           missing_series_evals_to_resolve: S.optional(S.Number),
           noDataState: S.optional(S.String),
-          notification_settings: S.optional(__S(3911, __c122, 7)),
+          notification_settings: S.optional(__S(3975, __c124, 7)),
           panelId: S.optional(S.Number),
-          record: S.optional(__S(3912, __c122, 8)),
+          record: S.optional(__S(3976, __c124, 8)),
           title: S.optional(S.String),
           uid: S.optional(S.String),
         }),
       ).annotate({ identifier: "AlertRuleExport" });
     case 10:
-      return S.Array(__S(3913, __c122, 9));
+      return S.Array(__S(3977, __c124, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -9815,32 +9924,32 @@ function __c122(j: number): any {
           interval: S.optional(S.Number),
           name: S.optional(S.String),
           orgId: S.optional(S.Number),
-          rules: S.optional(__S(3914, __c122, 10)),
+          rules: S.optional(__S(3978, __c124, 10)),
         }),
       ).annotate({ identifier: "AlertRuleGroupExport" });
     case 12:
-      return S.Array(__S(3915, __c122, 11));
+      return S.Array(__S(3979, __c124, 11));
     case 13:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3918, __c122, 14)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3982, __c124, 14)));
     case 14:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          time_intervals: S.optional(__S(3917, __c122, 13)),
+          time_intervals: S.optional(__S(3981, __c124, 13)),
         }),
       ).annotate({ identifier: "TimeInterval" });
     case 15:
-      return S.Array(__S(3918, __c122, 14));
+      return S.Array(__S(3982, __c124, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           orgId: S.optional(S.Number),
-          time_intervals: S.optional(__S(3919, __c122, 15)),
+          time_intervals: S.optional(__S(3983, __c124, 15)),
         }),
       ).annotate({ identifier: "MuteTimeIntervalExport" });
     case 17:
-      return S.Array(__S(3920, __c122, 16));
+      return S.Array(__S(3984, __c124, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
@@ -9850,65 +9959,65 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "Matcher" });
     case 19:
-      return S.Array(__S(3922, __c122, 18));
+      return S.Array(__S(3986, __c124, 18));
     case 20:
-      return S.Array(__S(6464, __c202, 0));
+      return S.Array(__S(6560, __c205, 0));
     case 21:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3926, __c122, 22)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(3990, __c124, 22)));
     case 22:
       return S.suspend(() =>
         S.Struct({
-          active_time_intervals: S.optional(__S(6464, __c202, 0)),
+          active_time_intervals: S.optional(__S(6560, __c205, 0)),
           continue: S.optional(S.Boolean),
-          group_by: S.optional(__S(6464, __c202, 0)),
+          group_by: S.optional(__S(6560, __c205, 0)),
           group_interval: S.optional(S.String),
           group_wait: S.optional(S.String),
-          match: S.optional(__S(7648, __c239, 0)),
-          match_re: S.optional(__S(7648, __c239, 0)),
-          matchers: S.optional(__S(3923, __c122, 19)),
-          mute_time_intervals: S.optional(__S(6464, __c202, 0)),
-          object_matchers: S.optional(__S(3924, __c122, 20)),
+          match: S.optional(__S(7712, __c241, 0)),
+          match_re: S.optional(__S(7712, __c241, 0)),
+          matchers: S.optional(__S(3987, __c124, 19)),
+          mute_time_intervals: S.optional(__S(6560, __c205, 0)),
+          object_matchers: S.optional(__S(3988, __c124, 20)),
           receiver: S.optional(S.String),
           repeat_interval: S.optional(S.String),
-          routes: S.optional(__S(3925, __c122, 21)),
+          routes: S.optional(__S(3989, __c124, 21)),
         }),
       ).annotate({ identifier: "RouteExport" });
     case 23:
-      return S.Array(__S(3926, __c122, 22));
+      return S.Array(__S(3990, __c124, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
-          active_time_intervals: S.optional(__S(6464, __c202, 0)),
+          active_time_intervals: S.optional(__S(6560, __c205, 0)),
           continue: S.optional(S.Boolean),
-          group_by: S.optional(__S(6464, __c202, 0)),
+          group_by: S.optional(__S(6560, __c205, 0)),
           group_interval: S.optional(S.String),
           group_wait: S.optional(S.String),
-          match: S.optional(__S(7648, __c239, 0)),
-          match_re: S.optional(__S(7648, __c239, 0)),
-          matchers: S.optional(__S(3923, __c122, 19)),
-          mute_time_intervals: S.optional(__S(6464, __c202, 0)),
-          object_matchers: S.optional(__S(3924, __c122, 20)),
+          match: S.optional(__S(7712, __c241, 0)),
+          match_re: S.optional(__S(7712, __c241, 0)),
+          matchers: S.optional(__S(3987, __c124, 19)),
+          mute_time_intervals: S.optional(__S(6560, __c205, 0)),
+          object_matchers: S.optional(__S(3988, __c124, 20)),
           orgId: S.optional(S.Number),
           receiver: S.optional(S.String),
           repeat_interval: S.optional(S.String),
-          routes: S.optional(__S(3927, __c122, 23)),
+          routes: S.optional(__S(3991, __c124, 23)),
         }),
       ).annotate({ identifier: "NotificationPolicyExport" });
     case 25:
-      return S.Array(__S(3928, __c122, 24));
+      return S.Array(__S(3992, __c124, 24));
     case 26:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.Number),
-          contactPoints: S.optional(__S(3907, __c122, 3)),
-          groups: S.optional(__S(3916, __c122, 12)),
-          muteTimes: S.optional(__S(3921, __c122, 17)),
-          policies: S.optional(__S(3929, __c122, 25)),
+          contactPoints: S.optional(__S(3971, __c124, 3)),
+          groups: S.optional(__S(3980, __c124, 12)),
+          muteTimes: S.optional(__S(3985, __c124, 17)),
+          policies: S.optional(__S(3993, __c124, 25)),
         }),
       ).annotate({ identifier: "AlertingFileExport" });
   }
 }
-function __c123(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9919,7 +10028,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "RouteExportMuteTimingsRequest" });
   }
 }
-function __c124(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9933,7 +10042,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "RouteGetAlertRuleExportRequest" });
   }
 }
-function __c125(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9952,21 +10061,21 @@ function __c125(j: number): any {
       ).annotate({ identifier: "RouteGetAlertRuleGroupExportRequest" });
   }
 }
-function __c126(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           download: S.optional(S.Boolean.pipe(T.Query())),
           format: S.optional(S.String.pipe(T.Query())),
-          folderUid: S.optional(__S(6464, __c202, 0).pipe(T.Query())),
+          folderUid: S.optional(__S(6560, __c205, 0).pipe(T.Query())),
           group: S.optional(S.String.pipe(T.Query())),
           ruleUid: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v1/provisioning/alert-rules/export", code: 200 })),
       ).annotate({ identifier: "RouteGetAlertRulesExportRequest" });
   }
 }
-function __c127(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9981,7 +10090,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "RouteGetContactpointsExportRequest" });
   }
 }
-function __c128(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9991,7 +10100,26 @@ function __c128(j: number): any {
       ).annotate({ identifier: "RouteGetPolicyTreeExportRequest" });
   }
 }
-function __c129(j: number): any {
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          extra: S.optional(__S(32, __c1, 0)),
+          message: S.optional(S.String),
+          messageId: S.optional(S.String),
+          statusCode: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "PublicError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          body: S.optional(__S(4192, __c131, 0)),
+        }),
+      ).annotate({ identifier: "ForbiddenError" });
+  }
+}
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10001,15 +10129,15 @@ function __c129(j: number): any {
       ).annotate({ identifier: "AdminLogoutUserRequest" });
   }
 }
-function __c130(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          branding: S.optional(__S(416, __c13, 0)),
+          branding: S.optional(__S(480, __c15, 0)),
           embeddedImageTheme: S.optional(S.String),
           footerFontFamily: S.optional(S.String),
-          footerItems: S.optional(__S(418, __c13, 2)),
+          footerItems: S.optional(__S(482, __c15, 2)),
           id: S.optional(S.Number),
           orgId: S.optional(S.Number),
           pdfDashboardTitleEnabled: S.optional(S.Boolean),
@@ -10021,18 +10149,18 @@ function __c130(j: number): any {
       ).annotate({ identifier: "SaveReportSettingsRequest" });
   }
 }
-function __c131(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           query: S.optional(S.String.pipe(T.Query())),
-          tag: S.optional(__S(6464, __c202, 0).pipe(T.Query())),
+          tag: S.optional(__S(6560, __c205, 0).pipe(T.Query())),
           type: S.optional(S.String.pipe(T.Query())),
-          dashboardIds: S.optional(__S(9312, __c291, 0).pipe(T.Query())),
-          dashboardUIDs: S.optional(__S(6464, __c202, 0).pipe(T.Query())),
-          folderIds: S.optional(__S(9312, __c291, 0).pipe(T.Query())),
-          folderUIDs: S.optional(__S(6464, __c202, 0).pipe(T.Query())),
+          dashboardIds: S.optional(__S(9376, __c293, 0).pipe(T.Query())),
+          dashboardUIDs: S.optional(__S(6560, __c205, 0).pipe(T.Query())),
+          folderIds: S.optional(__S(9376, __c293, 0).pipe(T.Query())),
+          folderUIDs: S.optional(__S(6560, __c205, 0).pipe(T.Query())),
           starred: S.optional(S.Boolean.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
@@ -10057,7 +10185,7 @@ function __c131(j: number): any {
           slug: S.optional(S.String),
           sortMeta: S.optional(S.Number),
           sortMetaName: S.optional(S.String),
-          tags: S.optional(__S(6464, __c202, 0)),
+          tags: S.optional(__S(6560, __c205, 0)),
           title: S.optional(S.String),
           type: S.optional(S.String),
           uid: S.optional(S.String),
@@ -10066,14 +10194,14 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "Hit" });
     case 2:
-      return S.Array(__S(4193, __c131, 1));
+      return S.Array(__S(4289, __c134, 1));
     case 3:
-      return S.suspend(() => __S(4194, __c131, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4290, __c134, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "SearchResponse",
       });
   }
 }
-function __c132(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10095,14 +10223,14 @@ function __c132(j: number): any {
         }),
       ).annotate({ identifier: "DashboardSnapshotDTO" });
     case 2:
-      return S.Array(__S(4225, __c132, 1));
+      return S.Array(__S(4321, __c135, 1));
     case 3:
-      return S.suspend(() => __S(4226, __c132, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4322, __c135, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "SearchDashboardSnapshotsResponse",
       });
   }
 }
-function __c133(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10120,11 +10248,11 @@ function __c133(j: number): any {
         }),
       ).annotate({ identifier: "DeviceSearchHitDTO" });
     case 2:
-      return S.Array(__S(4257, __c133, 1));
+      return S.Array(__S(4353, __c136, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          devices: S.optional(__S(4258, __c133, 2)),
+          devices: S.optional(__S(4354, __c136, 2)),
           page: S.optional(S.Number),
           perPage: S.optional(S.Number),
           totalCount: S.optional(S.Number),
@@ -10132,7 +10260,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "SearchDeviceQueryResult" });
   }
 }
-function __c134(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10151,14 +10279,14 @@ function __c134(j: number): any {
         }),
       ).annotate({ identifier: "OrgDTO" });
     case 2:
-      return S.Array(__S(4289, __c134, 1));
+      return S.Array(__S(4385, __c137, 1));
     case 3:
-      return S.suspend(() => __S(4290, __c134, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4386, __c137, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "SearchOrgsResponse",
       });
   }
 }
-function __c135(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10171,19 +10299,19 @@ function __c135(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/serviceaccounts/search", code: 200 })),
       ).annotate({ identifier: "SearchOrgServiceAccountsWithPagingRequest" });
     case 1:
-      return S.Array(__S(7392, __c231, 0));
+      return S.Array(__S(7456, __c233, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           page: S.optional(S.Number),
           perPage: S.optional(S.Number),
-          serviceAccounts: S.optional(__S(4321, __c135, 1)),
+          serviceAccounts: S.optional(__S(4417, __c138, 1)),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SearchOrgServiceAccountsResult" });
   }
 }
-function __c136(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10194,7 +10322,7 @@ function __c136(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          orgUsers: S.optional(__S(9857, __c308, 1)),
+          orgUsers: S.optional(__S(9921, __c310, 1)),
           page: S.optional(S.Number),
           perPage: S.optional(S.Number),
           totalCount: S.optional(S.Number),
@@ -10202,12 +10330,12 @@ function __c136(j: number): any {
       ).annotate({ identifier: "SearchOrgUsersQueryResult" });
   }
 }
-function __c137(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          datasourceUid: S.optional(__S(6464, __c202, 0).pipe(T.Query())),
+          datasourceUid: S.optional(__S(6560, __c205, 0).pipe(T.Query())),
           searchString: S.optional(S.String.pipe(T.Query())),
           onlyStarred: S.optional(S.Boolean.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
@@ -10218,25 +10346,25 @@ function __c137(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/query-history", code: 200 })),
       ).annotate({ identifier: "SearchQueriesRequest" });
     case 1:
-      return S.Array(__S(6944, __c217, 0));
+      return S.Array(__S(7008, __c219, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           page: S.optional(S.Number),
           perPage: S.optional(S.Number),
-          queryHistory: S.optional(__S(4385, __c137, 1)),
+          queryHistory: S.optional(__S(4481, __c140, 1)),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "QueryHistorySearchResult" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(4386, __c137, 2)),
+          result: S.optional(__S(4482, __c140, 2)),
         }),
       ).annotate({ identifier: "QueryHistorySearchResponse" });
   }
 }
-function __c138(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10253,19 +10381,19 @@ function __c138(j: number): any {
         S.Struct({
           page: S.optional(S.Number),
           perPage: S.optional(S.Number),
-          teamGroups: S.optional(__S(1441, __c45, 1)),
+          teamGroups: S.optional(__S(1505, __c47, 1)),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SearchTeamGroupsQueryResult" });
     case 2:
-      return S.Array(__S(4417, __c138, 1));
+      return S.Array(__S(4513, __c141, 1));
     case 3:
-      return S.suspend(() => __S(4418, __c138, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4514, __c141, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "SearchTeamGroupsResponse",
       });
   }
 }
-function __c139(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10283,13 +10411,13 @@ function __c139(j: number): any {
         S.Struct({
           page: S.optional(S.Number),
           perPage: S.optional(S.Number),
-          teams: S.optional(__S(1152, __c36, 0)),
+          teams: S.optional(__S(1216, __c38, 0)),
           totalCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SearchTeamQueryResult" });
   }
 }
-function __c140(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10299,7 +10427,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "AdminProvisioningReloadAccessControlRequest" });
   }
 }
-function __c141(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -10307,7 +10435,7 @@ function __c141(j: number): any {
       });
   }
 }
-function __c142(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10317,18 +10445,18 @@ function __c142(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/users", code: 200 })),
       ).annotate({ identifier: "SearchUsersRequest" });
     case 1:
-      return S.suspend(() => __S(4577, __c143, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4673, __c146, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "SearchUsersResponse",
       });
   }
 }
-function __c143(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accessControl: S.optional(__S(7712, __c241, 0)),
-          authLabels: S.optional(__S(6464, __c202, 0)),
+          accessControl: S.optional(__S(7776, __c243, 0)),
+          authLabels: S.optional(__S(6560, __c205, 0)),
           avatarUrl: S.optional(S.String),
           created: S.optional(S.String),
           email: S.optional(S.String),
@@ -10345,10 +10473,10 @@ function __c143(j: number): any {
         }),
       ).annotate({ identifier: "UserSearchHitDTO" });
     case 1:
-      return S.Array(__S(4576, __c143, 0));
+      return S.Array(__S(4672, __c146, 0));
   }
 }
-function __c144(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10360,47 +10488,48 @@ function __c144(j: number): any {
           page: S.optional(S.Number),
           perPage: S.optional(S.Number),
           totalCount: S.optional(S.Number),
-          users: S.optional(__S(4577, __c143, 1)),
+          users: S.optional(__S(4673, __c146, 1)),
         }),
       ).annotate({ identifier: "SearchUserQueryResult" });
   }
 }
-function __c145(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           emails: S.optional(S.String),
           id: S.optional(S.String),
+          uid: S.optional(S.String),
           useEmailsFromReport: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/reports/email", code: 200 })),
       ).annotate({ identifier: "SendReportRequest" });
   }
 }
-function __c146(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dashboards: S.optional(__S(7234, __c226, 2)),
+          dashboards: S.optional(__S(7298, __c228, 2)),
           enableCsv: S.optional(S.Boolean),
           enableDashboardUrl: S.optional(S.Boolean),
-          formats: S.optional(__S(6464, __c202, 0)),
+          formats: S.optional(__S(6560, __c205, 0)),
           message: S.optional(S.String),
           name: S.optional(S.String),
-          options: S.optional(__S(7235, __c226, 3)),
+          options: S.optional(__S(7299, __c228, 3)),
           recipients: S.optional(S.String),
           replyTo: S.optional(S.String),
           scaleFactor: S.optional(S.Number),
-          schedule: S.optional(__S(7236, __c226, 4)),
+          schedule: S.optional(__S(7300, __c228, 4)),
           state: S.optional(S.String),
           subject: S.optional(S.String),
-          urls: S.optional(__S(7238, __c226, 6)),
+          urls: S.optional(__S(7302, __c228, 6)),
         }).pipe(T.Http({ method: "POST", uri: "/reports/test-email", code: 200 })),
       ).annotate({ identifier: "SendTestEmailRequest" });
   }
 }
-function __c147(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10416,7 +10545,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "SetDataSourceCacheConfigRequest" });
   }
 }
-function __c148(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10428,20 +10557,20 @@ function __c148(j: number): any {
         }),
       ).annotate({ identifier: "SetResourcePermissionCommand" });
     case 1:
-      return S.Array(__S(4736, __c148, 0));
+      return S.Array(__S(4832, __c151, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           resource: S.String.pipe(T.Label()),
           resourceID: S.String.pipe(T.Label()),
-          permissions: S.optional(__S(4737, __c148, 1)),
+          permissions: S.optional(__S(4833, __c151, 1)),
         }).pipe(
           T.Http({ method: "POST", uri: "/access-control/{resource}/{resourceID}", code: 200 }),
         ),
       ).annotate({ identifier: "SetResourcePermissionsRequest" });
   }
 }
-function __c149(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10460,7 +10589,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "SetResourcePermissionsForBuiltInRoleRequest" });
   }
 }
-function __c150(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10479,7 +10608,7 @@ function __c150(j: number): any {
       ).annotate({ identifier: "SetResourcePermissionsForTeamRequest" });
   }
 }
-function __c151(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10498,22 +10627,22 @@ function __c151(j: number): any {
       ).annotate({ identifier: "SetResourcePermissionsForUserRequest" });
   }
 }
-function __c152(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           roleUID: S.String.pipe(T.Label()),
-          service_accounts: S.optional(__S(9312, __c291, 0)),
-          teams: S.optional(__S(9312, __c291, 0)),
-          users: S.optional(__S(9312, __c291, 0)),
+          service_accounts: S.optional(__S(9376, __c293, 0)),
+          teams: S.optional(__S(9376, __c293, 0)),
+          users: S.optional(__S(9376, __c293, 0)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/access-control/roles/{roleUID}/assignments", code: 200 }),
         ),
       ).annotate({ identifier: "SetRoleAssignmentsRequest" });
   }
 }
-function __c153(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10523,19 +10652,19 @@ function __c153(j: number): any {
       ).annotate({ identifier: "AdminProvisioningReloadDashboardsRequest" });
   }
 }
-function __c154(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           team_id: S.String.pipe(T.Label()),
-          admins: S.optional(__S(6464, __c202, 0)),
-          members: S.optional(__S(6464, __c202, 0)),
+          admins: S.optional(__S(6560, __c205, 0)),
+          members: S.optional(__S(6560, __c205, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/teams/{team_id}/members", code: 200 })),
       ).annotate({ identifier: "SetTeamMembershipsRequest" });
   }
 }
-function __c155(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10543,12 +10672,12 @@ function __c155(j: number): any {
           teamId: S.Number.pipe(T.Label()),
           targetOrgId: S.optional(S.Number.pipe(T.Query())),
           includeHidden: S.optional(S.Boolean),
-          roleUids: S.optional(__S(6464, __c202, 0)),
+          roleUids: S.optional(__S(6560, __c205, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/access-control/teams/{teamId}/roles", code: 200 })),
       ).annotate({ identifier: "SetTeamRolesRequest" });
   }
 }
-function __c156(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10557,12 +10686,12 @@ function __c156(j: number): any {
           targetOrgId: S.optional(S.Number.pipe(T.Query())),
           global: S.optional(S.Boolean),
           includeHidden: S.optional(S.Boolean),
-          roleUids: S.optional(__S(6464, __c202, 0)),
+          roleUids: S.optional(__S(6560, __c205, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/access-control/users/{userId}/roles", code: 200 })),
       ).annotate({ identifier: "SetUserRolesRequest" });
   }
 }
-function __c157(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10574,7 +10703,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "StarQueryRequest" });
   }
 }
-function __c158(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10587,14 +10716,14 @@ function __c158(j: number): any {
           interval: S.optional(S.Number),
           name: S.optional(S.String),
           prom_name: S.optional(S.String),
-          queries: S.optional(__S(7040, __c220, 0)),
+          queries: S.optional(__S(7104, __c222, 0)),
           range: S.optional(S.Number),
           target_ref_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/recording-rules/test", code: 200 })),
       ).annotate({ identifier: "TestCreateRecordingRuleRequest" });
   }
 }
-function __c159(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10606,7 +10735,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "UnstarQueryRequest" });
   }
 }
-function __c160(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10614,7 +10743,7 @@ function __c160(j: number): any {
           annotation_id: S.String.pipe(T.Label()),
           data: S.optional(S.Unknown),
           id: S.optional(S.Number),
-          tags: S.optional(__S(6464, __c202, 0)),
+          tags: S.optional(__S(6560, __c205, 0)),
           text: S.optional(S.String),
           time: S.optional(S.Number),
           timeEnd: S.optional(S.Number),
@@ -10622,7 +10751,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "UpdateAnnotationRequest" });
   }
 }
-function __c161(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10630,7 +10759,7 @@ function __c161(j: number): any {
           annotation_id: S.String.pipe(T.Label()),
           data: S.optional(S.Unknown),
           id: S.optional(S.Number),
-          tags: S.optional(__S(6464, __c202, 0)),
+          tags: S.optional(__S(6560, __c205, 0)),
           text: S.optional(S.String),
           time: S.optional(S.Number),
           timeEnd: S.optional(S.Number),
@@ -10638,14 +10767,14 @@ function __c161(j: number): any {
       ).annotate({ identifier: "UpdateAnnotationByAnnotationIdRequest" });
   }
 }
-function __c162(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           field: S.optional(S.String),
-          target: S.optional(__S(6592, __c206, 0)),
-          transformations: S.optional(__S(6625, __c207, 1)),
+          target: S.optional(__S(32, __c1, 0)),
+          transformations: S.optional(__S(6689, __c209, 1)),
         }),
       ).annotate({ identifier: "CorrelationConfigUpdateDTO" });
     case 1:
@@ -10653,7 +10782,7 @@ function __c162(j: number): any {
         S.Struct({
           sourceUID: S.String.pipe(T.Label()),
           correlationUID: S.String.pipe(T.Label()),
-          config: S.optional(__S(5184, __c162, 0)),
+          config: S.optional(__S(5280, __c165, 0)),
           description: S.optional(S.String),
           label: S.optional(S.String),
           type: S.optional(S.String),
@@ -10667,7 +10796,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "UpdateCorrelationRequest" });
   }
 }
-function __c163(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10677,7 +10806,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "UpdateCurrentOrgRequest" });
   }
 }
-function __c164(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10687,7 +10816,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "AdminProvisioningReloadDatasourcesRequest" });
   }
 }
-function __c165(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10702,7 +10831,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "UpdateCurrentOrgAddressRequest" });
   }
 }
-function __c166(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10715,7 +10844,7 @@ function __c166(j: number): any {
           isDefault: S.optional(S.Boolean),
           jsonData: S.optional(S.Unknown),
           name: S.optional(S.String),
-          secureJsonData: S.optional(__S(7648, __c239, 0)),
+          secureJsonData: S.optional(__S(7712, __c241, 0)),
           type: S.optional(S.String),
           url: S.optional(S.String),
           user: S.optional(S.String),
@@ -10725,7 +10854,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "UpdateDataSourceByUIDRequest" });
   }
 }
-function __c167(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10737,17 +10866,17 @@ function __c167(j: number): any {
         }),
       ).annotate({ identifier: "DashboardACLUpdateItem" });
     case 1:
-      return S.Array(__S(5344, __c167, 0));
+      return S.Array(__S(5440, __c170, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           folder_uid: S.String.pipe(T.Label()),
-          items: S.optional(__S(5345, __c167, 1)),
+          items: S.optional(__S(5441, __c170, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/folders/{folder_uid}/permissions", code: 200 })),
       ).annotate({ identifier: "UpdateFolderPermissionsRequest" });
   }
 }
-function __c168(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10766,7 +10895,7 @@ function __c168(j: number): any {
       ).annotate({ identifier: "UpdateLibraryElementRequest" });
   }
 }
-function __c169(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10777,7 +10906,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "UpdateOrgRequest" });
   }
 }
-function __c170(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10793,7 +10922,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "UpdateOrgAddressRequest" });
   }
 }
-function __c171(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10806,7 +10935,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "UpdateOrgQuotaRequest" });
   }
 }
-function __c172(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10818,7 +10947,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "UpdateOrgUserRequest" });
   }
 }
-function __c173(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10829,7 +10958,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "UpdateOrgUserForCurrentOrgRequest" });
   }
 }
-function __c174(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10837,12 +10966,12 @@ function __c174(j: number): any {
           key: S.String.pipe(T.Label()),
           id: S.optional(S.String),
           provider: S.optional(S.String),
-          settings: S.optional(__S(6592, __c206, 0)),
+          settings: S.optional(__S(32, __c1, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/sso-settings/{key}", code: 200 })),
       ).annotate({ identifier: "UpdateProviderSettingsRequest" });
   }
 }
-function __c175(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10852,7 +10981,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "AdminProvisioningReloadPluginsRequest" });
   }
 }
-function __c176(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10874,7 +11003,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "UpdatePublicDashboardRequest" });
   }
 }
-function __c177(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10887,14 +11016,14 @@ function __c177(j: number): any {
           interval: S.optional(S.Number),
           name: S.optional(S.String),
           prom_name: S.optional(S.String),
-          queries: S.optional(__S(7040, __c220, 0)),
+          queries: S.optional(__S(7104, __c222, 0)),
           range: S.optional(S.Number),
           target_ref_id: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/recording-rules", code: 200 })),
       ).annotate({ identifier: "UpdateRecordingRuleRequest" });
   }
 }
-function __c178(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10906,12 +11035,12 @@ function __c178(j: number): any {
           group: S.String,
           hidden: S.optional(S.Boolean),
           name: S.optional(S.String),
-          permissions: S.optional(__S(7329, __c229, 1)),
+          permissions: S.optional(__S(7393, __c231, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/access-control/roles/{roleUID}", code: 200 })),
       ).annotate({ identifier: "UpdateRoleRequest" });
   }
 }
-function __c179(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10925,7 +11054,7 @@ function __c179(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          accessControl: S.optional(__S(7712, __c241, 0)),
+          accessControl: S.optional(__S(7776, __c243, 0)),
           avatarUrl: S.optional(S.String),
           createdAt: S.optional(S.String),
           id: S.optional(S.Number),
@@ -10936,7 +11065,7 @@ function __c179(j: number): any {
           orgId: S.optional(S.Number),
           requiredBy: S.optional(S.String),
           role: S.optional(S.String),
-          teams: S.optional(__S(6464, __c202, 0)),
+          teams: S.optional(__S(6560, __c205, 0)),
           tokens: S.optional(S.Number),
           uid: S.optional(S.String),
           updatedAt: S.optional(S.String),
@@ -10948,12 +11077,12 @@ function __c179(j: number): any {
           id: S.optional(S.Number),
           message: S.optional(S.String),
           name: S.optional(S.String),
-          serviceaccount: S.optional(__S(5729, __c179, 1)),
+          serviceaccount: S.optional(__S(5825, __c182, 1)),
         }),
       ).annotate({ identifier: "UpdateServiceAccountResponse" });
   }
 }
-function __c180(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10966,7 +11095,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "UpdateSignedInUserRequest" });
   }
 }
-function __c181(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10978,13 +11107,13 @@ function __c181(j: number): any {
       ).annotate({ identifier: "UpdateTeamRequest" });
   }
 }
-function __c182(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uid: S.String.pipe(T.Label()),
-          rules: S.optional(__S(1505, __c47, 1)),
+          rules: S.optional(__S(1569, __c49, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/datasources/uid/{uid}/lbac/teams", code: 200 })),
       ).annotate({ identifier: "UpdateTeamLBACRulesApiRequest" });
     case 1:
@@ -10993,13 +11122,13 @@ function __c182(j: number): any {
           id: S.optional(S.Number),
           message: S.optional(S.String),
           name: S.optional(S.String),
-          rules: S.optional(__S(1505, __c47, 1)),
+          rules: S.optional(__S(1569, __c49, 1)),
           uid: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateTeamLBACRulesApiResponse" });
   }
 }
-function __c183(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11011,7 +11140,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "UpdateTeamMemberRequest" });
   }
 }
-function __c184(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11020,8 +11149,8 @@ function __c184(j: number): any {
           homeDashboardId: S.optional(S.Number),
           homeDashboardUID: S.optional(S.String),
           language: S.optional(S.String),
-          navbar: S.optional(__S(1600, __c50, 0)),
-          queryHistory: S.optional(__S(1601, __c50, 1)),
+          navbar: S.optional(__S(1664, __c52, 0)),
+          queryHistory: S.optional(__S(1665, __c52, 1)),
           theme: S.optional(S.String),
           timezone: S.optional(S.String),
           weekStart: S.optional(S.String),
@@ -11029,7 +11158,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "UpdateTeamPreferencesRequest" });
   }
 }
-function __c185(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11043,7 +11172,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "UpdateUserRequest" });
   }
 }
-function __c186(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11056,7 +11185,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "AdminRevokeUserAuthTokenRequest" });
   }
 }
-function __c187(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11064,7 +11193,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "UpdateUserEmailRequest" });
   }
 }
-function __c188(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11079,7 +11208,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "UpdateUserQuotaRequest" });
   }
 }
-function __c189(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11096,7 +11225,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "UploadSnapshotRequest" });
   }
 }
-function __c190(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11106,7 +11235,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "UserSetUsingOrgRequest" });
   }
 }
-function __c191(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11116,7 +11245,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "ViewPublicDashboardRequest" });
   }
 }
-function __c192(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11127,7 +11256,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "AdminUpdateUserPasswordRequest" });
   }
 }
-function __c193(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11138,7 +11267,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "AdminUpdateUserPermissionsRequest" });
   }
 }
-function __c194(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11155,7 +11284,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "CallDatasourceResourceWithUIDRequest" });
   }
 }
-function __c195(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11172,7 +11301,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "CancelSnapshotRequest" });
   }
 }
-function __c196(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11183,7 +11312,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "ChangeUserPasswordRequest" });
   }
 }
-function __c197(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11193,7 +11322,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "CheckDatasourceHealthWithUIDRequest" });
   }
 }
-function __c198(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11205,7 +11334,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "CleanDataSourceCacheRequest" });
   }
 }
-function __c199(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11224,7 +11353,7 @@ function __c199(j: number): any {
       ).annotate({ identifier: "CacheConfigResponse" });
   }
 }
-function __c200(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11233,7 +11362,7 @@ function __c200(j: number): any {
           dashboardUID: S.optional(S.String),
           data: S.optional(S.Unknown),
           panelId: S.optional(S.Number),
-          tags: S.optional(__S(6464, __c202, 0)),
+          tags: S.optional(__S(6560, __c205, 0)),
           text: S.String,
           time: S.optional(S.Number),
           timeEnd: S.optional(S.Number),
@@ -11241,7 +11370,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "CreateAnnotationRequest" });
   }
 }
-function __c201(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11252,13 +11381,13 @@ function __c201(j: number): any {
       ).annotate({ identifier: "CreateAnnotationResponse" });
   }
 }
-function __c202(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c203(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11272,13 +11401,13 @@ function __c203(j: number): any {
       ).annotate({ identifier: "CreateAccessTokenResponseDTO" });
   }
 }
-function __c204(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sourceUID: S.String.pipe(T.Label()),
-          config: S.optional(__S(6626, __c207, 2)),
+          config: S.optional(__S(6690, __c209, 2)),
           description: S.optional(S.String),
           label: S.optional(S.String),
           provisioned: S.optional(S.Boolean),
@@ -11290,24 +11419,18 @@ function __c204(j: number): any {
       ).annotate({ identifier: "CreateCorrelationRequest" });
   }
 }
-function __c205(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          result: S.optional(__S(6627, __c207, 3)),
+          result: S.optional(__S(6691, __c209, 3)),
         }),
       ).annotate({ identifier: "CreateCorrelationResponseBody" });
   }
 }
-function __c206(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c207(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11319,20 +11442,20 @@ function __c207(j: number): any {
         }),
       ).annotate({ identifier: "Transformation" });
     case 1:
-      return S.Array(__S(6624, __c207, 0));
+      return S.Array(__S(6688, __c209, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           field: S.String,
-          target: __S(6592, __c206, 0),
-          transformations: S.optional(__S(6625, __c207, 1)),
+          target: __S(32, __c1, 0),
+          transformations: S.optional(__S(6689, __c209, 1)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "CorrelationConfig" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          config: S.optional(__S(6626, __c207, 2)),
+          config: S.optional(__S(6690, __c209, 2)),
           description: S.optional(S.String),
           label: S.optional(S.String),
           orgId: S.optional(S.Number),
@@ -11345,19 +11468,19 @@ function __c207(j: number): any {
       ).annotate({ identifier: "Correlation" });
   }
 }
-function __c208(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Object: S.optional(__S(6592, __c206, 0)),
+          Object: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "Unstructured" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           apiVersion: S.optional(S.String),
-          dashboard: __S(6656, __c208, 0),
+          dashboard: __S(6720, __c210, 0),
           deleteKey: S.optional(S.String),
           expires: S.optional(S.Number),
           external: S.optional(S.Boolean),
@@ -11378,7 +11501,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "CreateDashboardSnapshotResponse" });
   }
 }
-function __c209(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11393,7 +11516,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "CreateLibraryElementRequest" });
   }
 }
-function __c210(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11405,18 +11528,18 @@ function __c210(j: number): any {
       ).annotate({ identifier: "LibraryElementDTOMetaUser" });
   }
 }
-function __c211(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           connectedDashboards: S.optional(S.Number),
           created: S.optional(S.String),
-          createdBy: S.optional(__S(6720, __c210, 0)),
+          createdBy: S.optional(__S(6784, __c212, 0)),
           folderName: S.optional(S.String),
           folderUid: S.optional(S.String),
           updated: S.optional(S.String),
-          updatedBy: S.optional(__S(6720, __c210, 0)),
+          updatedBy: S.optional(__S(6784, __c212, 0)),
         }),
       ).annotate({ identifier: "LibraryElementDTOMeta" });
     case 1:
@@ -11427,7 +11550,7 @@ function __c211(j: number): any {
           folderUid: S.optional(S.String),
           id: S.optional(S.Number),
           kind: S.optional(S.Number),
-          meta: S.optional(__S(6752, __c211, 0)),
+          meta: S.optional(__S(6816, __c213, 0)),
           model: S.optional(S.Unknown),
           name: S.optional(S.String),
           orgId: S.optional(S.Number),
@@ -11439,17 +11562,17 @@ function __c211(j: number): any {
       ).annotate({ identifier: "LibraryElementDTO" });
   }
 }
-function __c212(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(6753, __c211, 1)),
+          result: S.optional(__S(6817, __c213, 1)),
         }),
       ).annotate({ identifier: "LibraryElementResponse" });
   }
 }
-function __c213(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11466,7 +11589,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "CreateOrgResponse" });
   }
 }
-function __c214(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11488,7 +11611,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "CreatePublicDashboardRequest" });
   }
 }
-function __c215(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11498,7 +11621,7 @@ function __c215(j: number): any {
         }),
       ).annotate({ identifier: "EmailDTO" });
     case 1:
-      return S.Array(__S(6880, __c215, 0));
+      return S.Array(__S(6944, __c217, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -11508,7 +11631,7 @@ function __c215(j: number): any {
           createdBy: S.optional(S.Number),
           dashboardUid: S.optional(S.String),
           isEnabled: S.optional(S.Boolean),
-          recipients: S.optional(__S(6881, __c215, 1)),
+          recipients: S.optional(__S(6945, __c217, 1)),
           share: S.optional(S.String),
           timeSelectionEnabled: S.optional(S.Boolean),
           uid: S.optional(S.String),
@@ -11518,7 +11641,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "PublicDashboard" });
   }
 }
-function __c216(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11529,7 +11652,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "CreateQueryRequest" });
   }
 }
-function __c217(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11545,40 +11668,14 @@ function __c217(j: number): any {
       ).annotate({ identifier: "QueryHistoryDTO" });
   }
 }
-function __c218(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          result: S.optional(__S(6944, __c217, 0)),
-        }),
-      ).annotate({ identifier: "QueryHistoryResponse" });
-  }
-}
-function __c219(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          active: S.optional(S.Boolean),
-          count: S.optional(S.Boolean),
-          description: S.optional(S.String),
-          dest_data_source_uid: S.optional(S.String),
-          id: S.optional(S.String),
-          interval: S.optional(S.Number),
-          name: S.optional(S.String),
-          prom_name: S.optional(S.String),
-          queries: S.optional(__S(7040, __c220, 0)),
-          range: S.optional(S.Number),
-          target_ref_id: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/recording-rules", code: 200 })),
-      ).annotate({ identifier: "CreateRecordingRuleRequest" });
-  }
-}
 function __c220(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6592, __c206, 0));
+      return S.suspend(() =>
+        S.Struct({
+          result: S.optional(__S(7008, __c219, 0)),
+        }),
+      ).annotate({ identifier: "QueryHistoryResponse" });
   }
 }
 function __c221(j: number): any {
@@ -11594,14 +11691,40 @@ function __c221(j: number): any {
           interval: S.optional(S.Number),
           name: S.optional(S.String),
           prom_name: S.optional(S.String),
-          queries: S.optional(__S(7040, __c220, 0)),
+          queries: S.optional(__S(7104, __c222, 0)),
+          range: S.optional(S.Number),
+          target_ref_id: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/recording-rules", code: 200 })),
+      ).annotate({ identifier: "CreateRecordingRuleRequest" });
+  }
+}
+function __c222(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(32, __c1, 0));
+  }
+}
+function __c223(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          active: S.optional(S.Boolean),
+          count: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          dest_data_source_uid: S.optional(S.String),
+          id: S.optional(S.String),
+          interval: S.optional(S.Number),
+          name: S.optional(S.String),
+          prom_name: S.optional(S.String),
+          queries: S.optional(__S(7104, __c222, 0)),
           range: S.optional(S.Number),
           target_ref_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "RecordingRuleJSON" });
   }
 }
-function __c222(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11613,7 +11736,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "CreateRecordingRuleWriteTargetRequest" });
   }
 }
-function __c223(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11625,30 +11748,30 @@ function __c223(j: number): any {
       ).annotate({ identifier: "PrometheusRemoteWriteTargetJSON" });
   }
 }
-function __c224(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dashboards: S.optional(__S(7234, __c226, 2)),
+          dashboards: S.optional(__S(7298, __c228, 2)),
           enableCsv: S.optional(S.Boolean),
           enableDashboardUrl: S.optional(S.Boolean),
-          formats: S.optional(__S(6464, __c202, 0)),
+          formats: S.optional(__S(6560, __c205, 0)),
           message: S.optional(S.String),
           name: S.optional(S.String),
-          options: S.optional(__S(7235, __c226, 3)),
+          options: S.optional(__S(7299, __c228, 3)),
           recipients: S.optional(S.String),
           replyTo: S.optional(S.String),
           scaleFactor: S.optional(S.Number),
-          schedule: S.optional(__S(7236, __c226, 4)),
+          schedule: S.optional(__S(7300, __c228, 4)),
           state: S.optional(S.String),
           subject: S.optional(S.String),
-          urls: S.optional(__S(7238, __c226, 6)),
+          urls: S.optional(__S(7302, __c228, 6)),
         }).pipe(T.Http({ method: "POST", uri: "/reports", code: 200 })),
       ).annotate({ identifier: "CreateReportRequest" });
   }
 }
-function __c225(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11659,7 +11782,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "ReportTimeRange" });
   }
 }
-function __c226(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11672,13 +11795,13 @@ function __c226(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dashboard: S.optional(__S(7232, __c226, 0)),
+          dashboard: S.optional(__S(7296, __c228, 0)),
           reportVariables: S.optional(S.Unknown),
-          timeRange: S.optional(__S(7200, __c225, 0)),
+          timeRange: S.optional(__S(7264, __c227, 0)),
         }),
       ).annotate({ identifier: "ReportDashboard" });
     case 2:
-      return S.Array(__S(7233, __c226, 1));
+      return S.Array(__S(7297, __c228, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11687,7 +11810,7 @@ function __c226(j: number): any {
           orientation: S.optional(S.String),
           pdfCombineOneFile: S.optional(S.Boolean),
           pdfShowTemplateVariables: S.optional(S.Boolean),
-          timeRange: S.optional(__S(7200, __c225, 0)),
+          timeRange: S.optional(__S(7264, __c227, 0)),
         }),
       ).annotate({ identifier: "ReportOptions" });
     case 4:
@@ -11711,10 +11834,10 @@ function __c226(j: number): any {
         }),
       ).annotate({ identifier: "ReportURLItem" });
     case 6:
-      return S.Array(__S(7237, __c226, 5));
+      return S.Array(__S(7301, __c228, 5));
   }
 }
-function __c227(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11725,7 +11848,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "CreateReportResponse" });
   }
 }
-function __c228(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11736,13 +11859,13 @@ function __c228(j: number): any {
           group: S.optional(S.String),
           hidden: S.optional(S.Boolean),
           name: S.optional(S.String),
-          permissions: S.optional(__S(7329, __c229, 1)),
+          permissions: S.optional(__S(7393, __c231, 1)),
           uid: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/access-control/roles", code: 200 })),
       ).annotate({ identifier: "CreateRoleRequest" });
   }
 }
-function __c229(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11754,7 +11877,7 @@ function __c229(j: number): any {
         }),
       ).annotate({ identifier: "Permission" });
     case 1:
-      return S.Array(__S(7328, __c229, 0));
+      return S.Array(__S(7392, __c231, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -11767,7 +11890,7 @@ function __c229(j: number): any {
           hidden: S.optional(S.Boolean),
           mapped: S.optional(S.Boolean),
           name: S.String,
-          permissions: S.optional(__S(7329, __c229, 1)),
+          permissions: S.optional(__S(7393, __c231, 1)),
           uid: S.String,
           updated: S.String,
           version: S.Number,
@@ -11775,7 +11898,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "RoleDTO" });
   }
 }
-function __c230(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11787,12 +11910,12 @@ function __c230(j: number): any {
       ).annotate({ identifier: "CreateServiceAccountRequest" });
   }
 }
-function __c231(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accessControl: S.optional(__S(7712, __c241, 0)),
+          accessControl: S.optional(__S(7776, __c243, 0)),
           avatarUrl: S.optional(S.String),
           id: S.optional(S.Number),
           isDisabled: S.optional(S.Boolean),
@@ -11807,7 +11930,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "ServiceAccountDTO" });
   }
 }
-function __c232(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11817,7 +11940,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "CreateSessionRequest" });
   }
 }
-function __c233(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11830,13 +11953,13 @@ function __c233(j: number): any {
       ).annotate({ identifier: "CloudMigrationSessionResponseDTO" });
   }
 }
-function __c234(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           uid: S.String.pipe(T.Label()),
-          resourceTypes: S.optional(__S(7520, __c235, 0)),
+          resourceTypes: S.optional(__S(7584, __c237, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/cloudmigration/migration/{uid}/snapshot", code: 200 }),
         ),
@@ -11849,13 +11972,13 @@ function __c234(j: number): any {
       ).annotate({ identifier: "CreateSnapshotResponseDTO" });
   }
 }
-function __c235(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c236(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11874,7 +11997,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "CreateTeamResponse" });
   }
 }
-function __c237(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11896,7 +12019,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "NewApiKeyResult" });
   }
 }
-function __c238(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11908,7 +12031,7 @@ function __c238(j: number): any {
           isDefault: S.optional(S.Boolean),
           jsonData: S.optional(S.Unknown),
           name: S.optional(S.String),
-          secureJsonData: S.optional(__S(7648, __c239, 0)),
+          secureJsonData: S.optional(__S(7712, __c241, 0)),
           type: S.optional(S.String),
           uid: S.optional(S.String),
           url: S.optional(S.String),
@@ -11918,29 +12041,10 @@ function __c238(j: number): any {
       ).annotate({ identifier: "AddDataSourceRequest" });
   }
 }
-function __c239(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.String);
-  }
-}
-function __c240(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          datasource: __S(7744, __c242, 0),
-          id: S.Number,
-          message: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "AddDataSourceResponse" });
-  }
-}
 function __c241(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Boolean);
+      return S.Record(S.String, S.String);
   }
 }
 function __c242(j: number): any {
@@ -11948,8 +12052,27 @@ function __c242(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          datasource: __S(7808, __c244, 0),
+          id: S.Number,
+          message: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "AddDataSourceResponse" });
+  }
+}
+function __c243(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Boolean);
+  }
+}
+function __c244(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           access: S.optional(S.String),
-          accessControl: S.optional(__S(7712, __c241, 0)),
+          accessControl: S.optional(__S(7776, __c243, 0)),
           basicAuth: S.optional(S.Boolean),
           basicAuthUser: S.optional(S.String),
           database: S.optional(S.String),
@@ -11959,7 +12082,7 @@ function __c242(j: number): any {
           name: S.optional(S.String),
           orgId: S.optional(S.Number),
           readOnly: S.optional(S.Boolean),
-          secureJsonFields: S.optional(__S(7712, __c241, 0)),
+          secureJsonFields: S.optional(__S(7776, __c243, 0)),
           type: S.optional(S.String),
           typeLogoUrl: S.optional(S.String),
           uid: S.optional(S.String),
@@ -11971,7 +12094,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "DataSource" });
   }
 }
-function __c243(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11988,7 +12111,7 @@ function __c243(j: number): any {
       ).annotate({ identifier: "DatasourceProxyDELETEByUIDcallsRequest" });
   }
 }
-function __c244(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12005,7 +12128,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "DatasourceProxyGETByUIDcallsRequest" });
   }
 }
-function __c245(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12022,7 +12145,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "DatasourceProxyPOSTByUIDcallsRequest" });
   }
 }
-function __c246(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12032,7 +12155,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "DeleteAnnotationRequest" });
   }
 }
-function __c247(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12042,7 +12165,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "DeleteCloudMigrationTokenRequest" });
   }
 }
-function __c248(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12059,7 +12182,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "DeleteCorrelationRequest" });
   }
 }
-function __c249(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12069,7 +12192,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "DeleteDashboardSnapshotRequest" });
   }
 }
-function __c250(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12079,7 +12202,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "DeleteDashboardSnapshotByDeleteKeyRequest" });
   }
 }
-function __c251(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12089,7 +12212,7 @@ function __c251(j: number): any {
       ).annotate({ identifier: "DeleteDataSourceByUIDRequest" });
   }
 }
-function __c252(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12101,7 +12224,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "DeleteLibraryElementByUIDRequest" });
   }
 }
-function __c253(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12114,7 +12237,7 @@ function __c253(j: number): any {
       ).annotate({ identifier: "AddOrgInviteRequest" });
   }
 }
-function __c254(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12124,7 +12247,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "SuccessResponseBody" });
   }
 }
-function __c255(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12134,7 +12257,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "DeleteLicenseTokenRequest" });
   }
 }
-function __c256(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12144,7 +12267,7 @@ function __c256(j: number): any {
       ).annotate({ identifier: "DeleteOrgRequest" });
   }
 }
-function __c257(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12161,7 +12284,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "DeletePublicDashboardRequest" });
   }
 }
-function __c258(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12171,7 +12294,7 @@ function __c258(j: number): any {
       ).annotate({ identifier: "DeleteQueryRequest" });
   }
 }
-function __c259(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12181,7 +12304,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "DeleteRecordingRuleRequest" });
   }
 }
-function __c260(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12189,7 +12312,7 @@ function __c260(j: number): any {
       ).annotate({ identifier: "DeleteRecordingRuleWriteTargetRequest" });
   }
 }
-function __c261(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12201,7 +12324,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "DeleteRoleRequest" });
   }
 }
-function __c262(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12213,7 +12336,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "DeleteServiceAccountRequest" });
   }
 }
-function __c263(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12223,7 +12346,7 @@ function __c263(j: number): any {
       ).annotate({ identifier: "DeleteSessionRequest" });
   }
 }
-function __c264(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12233,7 +12356,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "DeleteTeamRequest" });
   }
 }
-function __c265(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12245,7 +12368,7 @@ function __c265(j: number): any {
       ).annotate({ identifier: "AddOrgUserRequest" });
   }
 }
-function __c266(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12262,7 +12385,7 @@ function __c266(j: number): any {
       ).annotate({ identifier: "DeleteTokenRequest" });
   }
 }
-function __c267(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12275,7 +12398,7 @@ function __c267(j: number): any {
       ).annotate({ identifier: "DisableDataSourceCacheRequest" });
   }
 }
-function __c268(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12288,7 +12411,7 @@ function __c268(j: number): any {
       ).annotate({ identifier: "EnableDataSourceCacheRequest" });
   }
 }
-function __c269(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12302,7 +12425,7 @@ function __c269(j: number): any {
       ).annotate({ identifier: "AccessControlStatus" });
   }
 }
-function __c270(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12312,13 +12435,14 @@ function __c270(j: number): any {
       ).annotate({ identifier: "GetAnnotationRequest" });
   }
 }
-function __c271(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           alertId: S.optional(S.Number),
           alertName: S.optional(S.String),
+          alertUID: S.optional(S.String),
           avatarUrl: S.optional(S.String),
           created: S.optional(S.Number),
           dashboardId: S.optional(S.Number),
@@ -12330,7 +12454,7 @@ function __c271(j: number): any {
           newState: S.optional(S.String),
           panelId: S.optional(S.Number),
           prevState: S.optional(S.String),
-          tags: S.optional(__S(6464, __c202, 0)),
+          tags: S.optional(__S(6560, __c205, 0)),
           text: S.optional(S.String),
           time: S.optional(S.Number),
           timeEnd: S.optional(S.Number),
@@ -12341,7 +12465,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "Annotation" });
   }
 }
-function __c272(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12350,26 +12474,25 @@ function __c272(j: number): any {
           to: S.optional(S.Number.pipe(T.Query())),
           userId: S.optional(S.Number.pipe(T.Query())),
           userUID: S.optional(S.String.pipe(T.Query())),
-          alertId: S.optional(S.Number.pipe(T.Query())),
           alertUID: S.optional(S.String.pipe(T.Query())),
           dashboardId: S.optional(S.Number.pipe(T.Query())),
           dashboardUID: S.optional(S.String.pipe(T.Query())),
           panelId: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          tags: S.optional(__S(6464, __c202, 0).pipe(T.Query())),
+          tags: S.optional(__S(6560, __c205, 0).pipe(T.Query())),
           type: S.optional(S.String.pipe(T.Query())),
           matchAny: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/annotations", code: 200 })),
       ).annotate({ identifier: "GetAnnotationsRequest" });
     case 1:
-      return S.Array(__S(8672, __c271, 0));
+      return S.Array(__S(8736, __c273, 0));
     case 2:
-      return S.suspend(() => __S(8705, __c272, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(8769, __c274, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAnnotationsResponse",
       });
   }
 }
-function __c273(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12386,22 +12509,22 @@ function __c273(j: number): any {
         }),
       ).annotate({ identifier: "TagsDTO" });
     case 2:
-      return S.Array(__S(8737, __c273, 1));
+      return S.Array(__S(8801, __c275, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tags: S.optional(__S(8738, __c273, 2)),
+          tags: S.optional(__S(8802, __c275, 2)),
         }),
       ).annotate({ identifier: "FindTagsResult" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(8739, __c273, 3)),
+          result: S.optional(__S(8803, __c275, 3)),
         }),
       ).annotate({ identifier: "GetAnnotationTagsResponse" });
   }
 }
-function __c274(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12420,7 +12543,7 @@ function __c274(j: number): any {
       ).annotate({ identifier: "GetAccessTokenResponseDTO" });
   }
 }
-function __c275(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12437,29 +12560,29 @@ function __c275(j: number): any {
       ).annotate({ identifier: "GetCorrelationRequest" });
   }
 }
-function __c276(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           limit: S.optional(S.Number.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
-          sourceUID: S.optional(__S(6464, __c202, 0).pipe(T.Query())),
+          sourceUID: S.optional(__S(6560, __c205, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/datasources/correlations", code: 200 })),
       ).annotate({ identifier: "GetCorrelationsRequest" });
   }
 }
-function __c277(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6627, __c207, 3));
+      return S.Array(__S(6691, __c209, 3));
     case 1:
-      return S.suspend(() => __S(8864, __c277, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(8928, __c279, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetCorrelationsResponse",
       });
   }
 }
-function __c278(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12470,7 +12593,7 @@ function __c278(j: number): any {
       ).annotate({ identifier: "AddOrgUserToCurrentOrgRequest" });
   }
 }
-function __c279(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12482,7 +12605,7 @@ function __c279(j: number): any {
       ).annotate({ identifier: "GetCorrelationsBySourceUIDRequest" });
   }
 }
-function __c280(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12490,7 +12613,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "GetCurrentOrgRequest" });
   }
 }
-function __c281(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12506,14 +12629,14 @@ function __c281(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(__S(8992, __c281, 0)),
+          address: S.optional(__S(9056, __c283, 0)),
           id: S.optional(S.Number),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "OrgDetailsDTO" });
   }
 }
-function __c282(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12521,7 +12644,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "GetCurrentOrgQuotaRequest" });
   }
 }
-function __c283(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12534,14 +12657,14 @@ function __c283(j: number): any {
         }),
       ).annotate({ identifier: "QuotaDTO" });
     case 1:
-      return S.Array(__S(9056, __c283, 0));
+      return S.Array(__S(9120, __c285, 0));
     case 2:
-      return S.suspend(() => __S(9057, __c283, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(9121, __c285, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetCurrentOrgQuotaResponse",
       });
   }
 }
-function __c284(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12551,7 +12674,7 @@ function __c284(j: number): any {
       ).annotate({ identifier: "GetDashboardSnapshotRequest" });
   }
 }
-function __c285(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12564,13 +12687,13 @@ function __c285(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dashboard: S.optional(__S(9120, __c285, 0)),
+          dashboard: S.optional(__S(9184, __c287, 0)),
         }),
       ).annotate({ identifier: "AnnotationPermission" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          annotationsPermissions: S.optional(__S(9121, __c285, 1)),
+          annotationsPermissions: S.optional(__S(9185, __c287, 1)),
           apiVersion: S.optional(S.String),
           canAdmin: S.optional(S.Boolean),
           canDelete: S.optional(S.Boolean),
@@ -12602,12 +12725,12 @@ function __c285(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dashboard: S.optional(S.Unknown),
-          meta: S.optional(__S(9122, __c285, 2)),
+          meta: S.optional(__S(9186, __c287, 2)),
         }),
       ).annotate({ identifier: "DashboardFullWithMeta" });
   }
 }
-function __c286(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12617,7 +12740,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "GetDataSourceByUIDRequest" });
   }
 }
-function __c287(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12628,7 +12751,7 @@ function __c287(j: number): any {
       ).annotate({ identifier: "GetDataSourceCacheConfigRequest" });
   }
 }
-function __c288(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12655,14 +12778,14 @@ function __c288(j: number): any {
         }),
       ).annotate({ identifier: "DataSourceListItemDTO" });
     case 2:
-      return S.Array(__S(9217, __c288, 1));
+      return S.Array(__S(9281, __c290, 1));
     case 3:
-      return S.suspend(() => __S(9218, __c288, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(9282, __c290, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetDataSourcesResponse",
       });
   }
 }
-function __c289(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12680,7 +12803,7 @@ function __c289(j: number): any {
       ).annotate({ identifier: "HealthResponse" });
   }
 }
-function __c290(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12690,48 +12813,48 @@ function __c290(j: number): any {
       return S.suspend(() =>
         S.Struct({
           IP: S.optional(S.String),
-          Mask: S.optional(__S(9312, __c291, 0)),
+          Mask: S.optional(__S(9376, __c293, 0)),
         }),
       ).annotate({ identifier: "IPNet" });
     case 2:
-      return S.Array(__S(9281, __c290, 1));
+      return S.Array(__S(9345, __c292, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           Critical: S.optional(S.Boolean),
-          Id: S.optional(__S(9312, __c291, 0)),
-          Value: S.optional(__S(9312, __c291, 0)),
+          Id: S.optional(__S(9376, __c293, 0)),
+          Value: S.optional(__S(9376, __c293, 0)),
         }),
       ).annotate({ identifier: "Extension" });
     case 4:
-      return S.Array(__S(9283, __c290, 3));
+      return S.Array(__S(9347, __c292, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Type: S.optional(__S(9312, __c291, 0)),
+          Type: S.optional(__S(9376, __c293, 0)),
           Value: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "AttributeTypeAndValue" });
     case 6:
-      return S.Array(__S(9285, __c290, 5));
+      return S.Array(__S(9349, __c292, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           CommonName: S.optional(S.String),
-          Country: S.optional(__S(6464, __c202, 0)),
-          ExtraNames: S.optional(__S(9286, __c290, 6)),
-          Locality: S.optional(__S(6464, __c202, 0)),
-          Names: S.optional(__S(9286, __c290, 6)),
-          Organization: S.optional(__S(6464, __c202, 0)),
-          OrganizationalUnit: S.optional(__S(6464, __c202, 0)),
-          PostalCode: S.optional(__S(6464, __c202, 0)),
-          Province: S.optional(__S(6464, __c202, 0)),
+          Country: S.optional(__S(6560, __c205, 0)),
+          ExtraNames: S.optional(__S(9350, __c292, 6)),
+          Locality: S.optional(__S(6560, __c205, 0)),
+          Names: S.optional(__S(9350, __c292, 6)),
+          Organization: S.optional(__S(6560, __c205, 0)),
+          OrganizationalUnit: S.optional(__S(6560, __c205, 0)),
+          PostalCode: S.optional(__S(6560, __c205, 0)),
+          Province: S.optional(__S(6560, __c205, 0)),
           SerialNumber: S.optional(S.String),
-          StreetAddress: S.optional(__S(6464, __c202, 0)),
+          StreetAddress: S.optional(__S(6560, __c205, 0)),
         }),
       ).annotate({ identifier: "Name" });
     case 8:
-      return S.Array(__S(9312, __c291, 0));
+      return S.Array(__S(9376, __c293, 0));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -12740,74 +12863,74 @@ function __c290(j: number): any {
         }),
       ).annotate({ identifier: "PolicyMapping" });
     case 10:
-      return S.Array(__S(9289, __c290, 9));
+      return S.Array(__S(9353, __c292, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          AuthorityKeyId: S.optional(__S(9312, __c291, 0)),
+          AuthorityKeyId: S.optional(__S(9376, __c293, 0)),
           BasicConstraintsValid: S.optional(S.Boolean),
-          CRLDistributionPoints: S.optional(__S(6464, __c202, 0)),
-          DNSNames: S.optional(__S(6464, __c202, 0)),
-          EmailAddresses: S.optional(__S(6464, __c202, 0)),
-          ExcludedDNSDomains: S.optional(__S(6464, __c202, 0)),
-          ExcludedEmailAddresses: S.optional(__S(6464, __c202, 0)),
-          ExcludedIPRanges: S.optional(__S(9282, __c290, 2)),
-          ExcludedURIDomains: S.optional(__S(6464, __c202, 0)),
-          ExtKeyUsage: S.optional(__S(9312, __c291, 0)),
-          Extensions: S.optional(__S(9284, __c290, 4)),
-          ExtraExtensions: S.optional(__S(9284, __c290, 4)),
-          IPAddresses: S.optional(__S(6464, __c202, 0)),
+          CRLDistributionPoints: S.optional(__S(6560, __c205, 0)),
+          DNSNames: S.optional(__S(6560, __c205, 0)),
+          EmailAddresses: S.optional(__S(6560, __c205, 0)),
+          ExcludedDNSDomains: S.optional(__S(6560, __c205, 0)),
+          ExcludedEmailAddresses: S.optional(__S(6560, __c205, 0)),
+          ExcludedIPRanges: S.optional(__S(9346, __c292, 2)),
+          ExcludedURIDomains: S.optional(__S(6560, __c205, 0)),
+          ExtKeyUsage: S.optional(__S(9376, __c293, 0)),
+          Extensions: S.optional(__S(9348, __c292, 4)),
+          ExtraExtensions: S.optional(__S(9348, __c292, 4)),
+          IPAddresses: S.optional(__S(6560, __c205, 0)),
           InhibitAnyPolicy: S.optional(S.Number),
           InhibitAnyPolicyZero: S.optional(S.Boolean),
           InhibitPolicyMapping: S.optional(S.Number),
           InhibitPolicyMappingZero: S.optional(S.Boolean),
           IsCA: S.optional(S.Boolean),
-          Issuer: S.optional(__S(9287, __c290, 7)),
-          IssuingCertificateURL: S.optional(__S(6464, __c202, 0)),
+          Issuer: S.optional(__S(9351, __c292, 7)),
+          IssuingCertificateURL: S.optional(__S(6560, __c205, 0)),
           KeyUsage: S.optional(S.Number),
           MaxPathLen: S.optional(S.Number),
           MaxPathLenZero: S.optional(S.Boolean),
           NotAfter: S.optional(S.String),
           NotBefore: S.optional(S.String),
-          OCSPServer: S.optional(__S(6464, __c202, 0)),
-          PermittedDNSDomains: S.optional(__S(6464, __c202, 0)),
+          OCSPServer: S.optional(__S(6560, __c205, 0)),
+          PermittedDNSDomains: S.optional(__S(6560, __c205, 0)),
           PermittedDNSDomainsCritical: S.optional(S.Boolean),
-          PermittedEmailAddresses: S.optional(__S(6464, __c202, 0)),
-          PermittedIPRanges: S.optional(__S(9282, __c290, 2)),
-          PermittedURIDomains: S.optional(__S(6464, __c202, 0)),
-          Policies: S.optional(__S(6464, __c202, 0)),
-          PolicyIdentifiers: S.optional(__S(9288, __c290, 8)),
-          PolicyMappings: S.optional(__S(9290, __c290, 10)),
+          PermittedEmailAddresses: S.optional(__S(6560, __c205, 0)),
+          PermittedIPRanges: S.optional(__S(9346, __c292, 2)),
+          PermittedURIDomains: S.optional(__S(6560, __c205, 0)),
+          Policies: S.optional(__S(6560, __c205, 0)),
+          PolicyIdentifiers: S.optional(__S(9352, __c292, 8)),
+          PolicyMappings: S.optional(__S(9354, __c292, 10)),
           PublicKey: S.optional(S.Unknown),
           PublicKeyAlgorithm: S.optional(S.Number),
-          Raw: S.optional(__S(9312, __c291, 0)),
-          RawIssuer: S.optional(__S(9312, __c291, 0)),
-          RawSignatureAlgorithm: S.optional(__S(9312, __c291, 0)),
-          RawSubject: S.optional(__S(9312, __c291, 0)),
-          RawSubjectPublicKeyInfo: S.optional(__S(9312, __c291, 0)),
-          RawTBSCertificate: S.optional(__S(9312, __c291, 0)),
+          Raw: S.optional(__S(9376, __c293, 0)),
+          RawIssuer: S.optional(__S(9376, __c293, 0)),
+          RawSignatureAlgorithm: S.optional(__S(9376, __c293, 0)),
+          RawSubject: S.optional(__S(9376, __c293, 0)),
+          RawSubjectPublicKeyInfo: S.optional(__S(9376, __c293, 0)),
+          RawTBSCertificate: S.optional(__S(9376, __c293, 0)),
           RequireExplicitPolicy: S.optional(S.Number),
           RequireExplicitPolicyZero: S.optional(S.Boolean),
           SerialNumber: S.optional(S.Number),
-          Signature: S.optional(__S(9312, __c291, 0)),
+          Signature: S.optional(__S(9376, __c293, 0)),
           SignatureAlgorithm: S.optional(S.Number),
-          Subject: S.optional(__S(9287, __c290, 7)),
-          SubjectKeyId: S.optional(__S(9312, __c291, 0)),
-          URIs: S.optional(__S(6464, __c202, 0)),
-          UnhandledCriticalExtensions: S.optional(__S(9288, __c290, 8)),
-          UnknownExtKeyUsage: S.optional(__S(9288, __c290, 8)),
+          Subject: S.optional(__S(9351, __c292, 7)),
+          SubjectKeyId: S.optional(__S(9376, __c293, 0)),
+          URIs: S.optional(__S(6560, __c205, 0)),
+          UnhandledCriticalExtensions: S.optional(__S(9352, __c292, 8)),
+          UnknownExtKeyUsage: S.optional(__S(9352, __c292, 8)),
           Version: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Certificate" });
     case 12:
-      return S.Array(__S(9291, __c290, 11));
+      return S.Array(__S(9355, __c292, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           Algorithm: S.optional(S.String),
-          CertificateThumbprintSHA1: S.optional(__S(9312, __c291, 0)),
-          CertificateThumbprintSHA256: S.optional(__S(9312, __c291, 0)),
-          Certificates: S.optional(__S(9292, __c290, 12)),
+          CertificateThumbprintSHA1: S.optional(__S(9376, __c293, 0)),
+          CertificateThumbprintSHA256: S.optional(__S(9376, __c293, 0)),
+          Certificates: S.optional(__S(9356, __c292, 12)),
           CertificatesURL: S.optional(S.String),
           Key: S.optional(S.Unknown),
           KeyID: S.optional(S.String),
@@ -12815,22 +12938,22 @@ function __c290(j: number): any {
         }),
       ).annotate({ identifier: "JSONWebKey" });
     case 14:
-      return S.Array(__S(9293, __c290, 13));
+      return S.Array(__S(9357, __c292, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          keys: S.optional(__S(9294, __c290, 14)),
+          keys: S.optional(__S(9358, __c292, 14)),
         }),
       ).annotate({ identifier: "GetJWKSResponse" });
   }
 }
-function __c291(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c292(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12838,7 +12961,7 @@ function __c292(j: number): any {
       ).annotate({ identifier: "GetLDAPStatusRequest" });
   }
 }
-function __c293(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12849,7 +12972,7 @@ function __c293(j: number): any {
       ).annotate({ identifier: "AddTeamGroupApiRequest" });
   }
 }
-function __c294(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12866,18 +12989,18 @@ function __c294(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(9440, __c295, 0)),
+          result: S.optional(__S(9504, __c297, 0)),
         }),
       ).annotate({ identifier: "LibraryElementArrayResponse" });
   }
 }
-function __c295(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6753, __c211, 1));
+      return S.Array(__S(6817, __c213, 1));
   }
 }
-function __c296(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12889,7 +13012,7 @@ function __c296(j: number): any {
       ).annotate({ identifier: "GetLibraryElementByUIDRequest" });
   }
 }
-function __c297(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12909,23 +13032,23 @@ function __c297(j: number): any {
           connectionId: S.optional(S.Number),
           connectionUid: S.optional(S.String),
           created: S.optional(S.String),
-          createdBy: S.optional(__S(6720, __c210, 0)),
+          createdBy: S.optional(__S(6784, __c212, 0)),
           elementId: S.optional(S.Number),
           id: S.optional(S.Number),
           kind: S.optional(S.Number),
         }),
       ).annotate({ identifier: "LibraryElementConnectionDTO" });
     case 2:
-      return S.Array(__S(9505, __c297, 1));
+      return S.Array(__S(9569, __c299, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(9506, __c297, 2)),
+          result: S.optional(__S(9570, __c299, 2)),
         }),
       ).annotate({ identifier: "LibraryElementConnectionsResponse" });
   }
 }
-function __c298(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12944,7 +13067,7 @@ function __c298(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          elements: S.optional(__S(9440, __c295, 0)),
+          elements: S.optional(__S(9504, __c297, 0)),
           page: S.optional(S.Number),
           perPage: S.optional(S.Number),
           totalCount: S.optional(S.Number),
@@ -12953,12 +13076,12 @@ function __c298(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          result: S.optional(__S(9537, __c298, 1)),
+          result: S.optional(__S(9601, __c300, 1)),
         }),
       ).annotate({ identifier: "LibraryElementSearchResponse" });
   }
 }
-function __c299(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12966,7 +13089,7 @@ function __c299(j: number): any {
       ).annotate({ identifier: "GetLicenseTokenRequest" });
   }
 }
-function __c300(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12986,7 +13109,7 @@ function __c300(j: number): any {
           limit_by: S.optional(S.String),
           max_concurrent_user_sessions: S.optional(S.Number),
           nbf: S.optional(S.Number),
-          prod: S.optional(__S(6464, __c202, 0)),
+          prod: S.optional(__S(6560, __c205, 0)),
           slug: S.optional(S.String),
           status: S.optional(S.Number),
           sub: S.optional(S.String),
@@ -12999,7 +13122,7 @@ function __c300(j: number): any {
       ).annotate({ identifier: "Token" });
   }
 }
-function __c301(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13007,15 +13130,15 @@ function __c301(j: number): any {
       ).annotate({ identifier: "GetMetadataRequest" });
   }
 }
-function __c302(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(9312, __c291, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(9376, __c293, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetMetadataResponse",
       });
   }
 }
-function __c303(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13025,7 +13148,7 @@ function __c303(j: number): any {
       ).annotate({ identifier: "GetOrgRequest" });
   }
 }
-function __c304(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13035,7 +13158,7 @@ function __c304(j: number): any {
       ).annotate({ identifier: "GetOrgByNameRequest" });
   }
 }
-function __c305(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13045,7 +13168,7 @@ function __c305(j: number): any {
       ).annotate({ identifier: "GetOrgQuotaRequest" });
   }
 }
-function __c306(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13055,21 +13178,21 @@ function __c306(j: number): any {
       ).annotate({ identifier: "GetOrgUsersRequest" });
   }
 }
-function __c307(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(9857, __c308, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(9921, __c310, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetOrgUsersResponse",
       });
   }
 }
-function __c308(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accessControl: S.optional(__S(7712, __c241, 0)),
-          authLabels: S.optional(__S(6464, __c202, 0)),
+          accessControl: S.optional(__S(7776, __c243, 0)),
+          authLabels: S.optional(__S(6560, __c205, 0)),
           avatarUrl: S.optional(S.String),
           created: S.optional(S.String),
           email: S.optional(S.String),
@@ -13087,7 +13210,7 @@ function __c308(j: number): any {
         }),
       ).annotate({ identifier: "OrgUserDTO" });
     case 1:
-      return S.Array(__S(9856, __c308, 0));
+      return S.Array(__S(9920, __c310, 0));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

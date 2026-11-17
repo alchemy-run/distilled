@@ -30,27 +30,67 @@ export class CommandDeadlineElapsed
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CommandDeadlineElapsed>()("CommandDeadlineElapsed", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
     [{ status: 400, message: { includes: "command deadline elapsed" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 /** The namespace the token is scoped to does not exist (`namespace.not_found`). */
 export class NamespaceNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NamespaceNotFound>()("NamespaceNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, headers: { "x-rivet-error": "namespace.not_found" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
+
+/** The control plane's storage host had no capacity for the command (`command_capacity`; its outcome may be unknown). Retry after a short delay. */
+export class StorageCommandCapacity
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<StorageCommandCapacity>()("StorageCommandCapacity", {
+      message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
+    }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
+    [{ status: 400, message: { includes: "(command_capacity)" } }],
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 /** The control plane's storage refused the command (`depot.overloaded`) -- answered while the storage layer is still starting or under load. Retry after a short delay. */
 export class StorageOverloaded
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<StorageOverloaded>()("StorageOverloaded", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
     [{ status: 400, headers: { "x-rivet-error": "depot.overloaded" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 /** Resource type a grant applies to. */
 export type AuthResourceKind =
@@ -82,9 +122,9 @@ export interface CreateAuthTokenRequest {
   /** Name of the namespace the token is scoped to. It must exist. */
   namespace: string;
   /** Token lifetime in seconds, from 1 to the deployment's maximum. Defaults to the deployment's configured duration. */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** Opaque identifier of the end user, at most 256 UTF-8 bytes. Only used for correlation. */
-  subject?: string | null;
+  subject?: string | null | undefined;
   /** Access the token carries within its namespace. */
   grants: CreateAuthTokenRequestGrantsList;
 }
@@ -111,9 +151,21 @@ export interface AuthTokenInspectResponse {
   /** When the token expires, in Unix milliseconds. */
   expires_ts: number;
 }
+/** A structured error. The response also carries an `x-rivet-error: <group>.<code>` header. */
+export interface ErrorResponse {
+  /** Error group, for example `actor`. */
+  group: string;
+  /** Error code within the group, for example `not_found`. */
+  code: string;
+  /** Human-readable error message. */
+  message: string;
+  /** Extra details. Only present on some errors raised while authenticating or authorizing the request. */
+  metadata?: unknown | undefined;
+}
 export type CreateAuthTokenError =
   | NamespaceNotFound
   | StorageOverloaded
+  | StorageCommandCapacity
   | CommandDeadlineElapsed
   | RivetOpError;
 /** Issues a namespace-scoped JWT. Requires the admin token, even when the deployment allows unauthenticated requests. */
@@ -123,16 +175,26 @@ export const createAuthToken: API.OperationMethod<
   CreateAuthTokenError,
   RivetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateAuthTokenRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<AuthTokenCreateResponse>,
-  errors: [NamespaceNotFound, StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
+  input: __S(4, __c1, 0) as any as S.Schema<CreateAuthTokenRequest>,
+  output: __S(5, __c1, 1) as any as S.Schema<AuthTokenCreateResponse>,
+  errors: [
+    NamespaceNotFound,
+    StorageOverloaded,
+    StorageCommandCapacity,
+    CommandDeadlineElapsed,
+    UnknownRivetError,
+  ],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateAuthToken",
 }));
 
-export type InspectAuthTokenError = StorageOverloaded | CommandDeadlineElapsed | RivetOpError;
+export type InspectAuthTokenError =
+  | StorageOverloaded
+  | StorageCommandCapacity
+  | CommandDeadlineElapsed
+  | RivetOpError;
 /** Returns the namespace, subject, grants and lifetime of the JWT that authenticates the request. */
 export const inspectAuthToken: API.OperationMethod<
   InspectAuthTokenRequest,
@@ -140,9 +202,9 @@ export const inspectAuthToken: API.OperationMethod<
   InspectAuthTokenError,
   RivetOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<InspectAuthTokenRequest>,
-  output: __S(9, __c2, 1) as any as S.Schema<AuthTokenInspectResponse>,
-  errors: [StorageOverloaded, CommandDeadlineElapsed, UnknownRivetError],
+  input: __S(12, __c3, 0) as any as S.Schema<InspectAuthTokenRequest>,
+  output: __S(13, __c3, 1) as any as S.Schema<AuthTokenInspectResponse>,
+  errors: [StorageOverloaded, StorageCommandCapacity, CommandDeadlineElapsed, UnknownRivetError],
   protocol: RivetProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -155,10 +217,23 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          group: S.String,
+          code: S.String,
+          message: S.String,
+          metadata: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           namespace: S.String,
           duration: S.optional(S.NullOr(S.Number)),
           subject: S.optional(S.NullOr(S.String)),
-          grants: __S(6, __c1, 2),
+          grants: __S(10, __c2, 2),
         }).pipe(T.Http({ method: "POST", uri: "/auth/tokens", code: 200 })),
       ).annotate({ identifier: "CreateAuthTokenRequest" });
     case 1:
@@ -171,7 +246,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "AuthTokenCreateResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -180,14 +255,14 @@ function __c1(j: number): any {
         S.Struct({
           resource: S.String,
           target: S.Unknown,
-          operations: __S(4, __c1, 0),
+          operations: __S(8, __c2, 0),
         }),
       ).annotate({ identifier: "AuthTokenGrant" });
     case 2:
-      return S.Array(__S(5, __c1, 1));
+      return S.Array(__S(9, __c2, 1));
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -198,7 +273,7 @@ function __c2(j: number): any {
         S.Struct({
           namespace: S.String,
           subject: S.NullOr(S.String),
-          grants: __S(6, __c1, 2),
+          grants: __S(10, __c2, 2),
           issued_ts: S.Number,
           expires_ts: S.Number,
         }),

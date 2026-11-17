@@ -38,7 +38,7 @@ export interface GetJobsUsageResponseUsageJobDetailsItem {
   totalMinutes: number;
   totalCostMicroUsd: number;
   startedAt: string;
-  completedAt?: string;
+  completedAt?: string | undefined;
 }
 export type GetJobsUsageResponseUsageJobDetailsList =
   Array<GetJobsUsageResponseUsageJobDetailsItem>;
@@ -67,8 +67,8 @@ export interface GetMcpToolsResponse {
   spaceTools: GetMcpToolsResponseSpaceToolsList;
 }
 export interface GetSessionInferenceUsageRequest {
-  startDate?: string;
-  endDate?: string;
+  startDate?: string | undefined;
+  endDate?: string | undefined;
 }
 export interface GetSessionInferenceUsageResponsePeriodsItemSessionsItem {
   id: string;
@@ -91,10 +91,10 @@ export interface GetSocialHandlesRequest {
   username: string;
 }
 export interface GetSocialHandlesResponseSocialHandles {
-  twitter?: string;
-  github?: string;
-  linkedin?: string;
-  bluesky?: string;
+  twitter?: string | undefined;
+  github?: string | undefined;
+  linkedin?: string | undefined;
+  bluesky?: string | undefined;
 }
 export interface GetSocialHandlesResponse {
   _id: string;
@@ -103,7 +103,7 @@ export interface GetSocialHandlesResponse {
 }
 export interface GetUserAvatarRequest {
   username: string;
-  redirect?: string;
+  redirect?: string | undefined;
 }
 export interface GetUserAvatarResponse {
   avatarUrl: string;
@@ -115,7 +115,7 @@ export interface GetUserUsageV2Request {
 export interface GetUserUsageV2Response {}
 export interface ListFollowedOrganizationsRequest {
   username: string;
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ListFollowedOrganizationsResponseBodyItemOrgType =
   | "company"
@@ -131,7 +131,7 @@ export type ListFollowedOrganizationsResponseBodyItemPlan =
   | "academia";
 export interface ListFollowedOrganizationsResponseBodyItemEmailDomainsItem {
   domain: string;
-  verified?: boolean;
+  verified?: boolean | undefined;
 }
 export type ListFollowedOrganizationsResponseBodyItemEmailDomainsList =
   Array<ListFollowedOrganizationsResponseBodyItemEmailDomainsItem>;
@@ -143,20 +143,20 @@ export interface ListFollowedOrganizationsResponseBodyItem {
   fullname: string;
   type: string;
   isHf: boolean;
-  orgType?: ListFollowedOrganizationsResponseBodyItemOrgType;
-  plan?: ListFollowedOrganizationsResponseBodyItemPlan;
-  isFollowing?: boolean;
-  numModels?: number;
-  followerCount?: number;
-  reasonToFollow?: string;
-  emailDomains?: ListFollowedOrganizationsResponseBodyItemEmailDomainsList;
+  orgType?: ListFollowedOrganizationsResponseBodyItemOrgType | undefined;
+  plan?: ListFollowedOrganizationsResponseBodyItemPlan | undefined;
+  isFollowing?: boolean | undefined;
+  numModels?: number | undefined;
+  followerCount?: number | undefined;
+  reasonToFollow?: string | undefined;
+  emailDomains?: ListFollowedOrganizationsResponseBodyItemEmailDomainsList | undefined;
 }
 export type ListFollowedOrganizationsResponseBodyList =
   Array<ListFollowedOrganizationsResponseBodyItem>;
 export type ListFollowedOrganizationsResponse = ListFollowedOrganizationsResponseBodyList;
 export interface ListFollowedUsersRequest {
   username: string;
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface ListFollowedUsersResponseBodyItemOrgsItem {
   id: string;
@@ -172,34 +172,34 @@ export interface ListFollowedUsersResponseBodyItemServiceAccount {
   id: string;
   org: string;
   orgAvatarUrl: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface ListFollowedUsersResponseBodyItem {
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
-  orgs?: ListFollowedUsersResponseBodyItemOrgsList;
+  orgs?: ListFollowedUsersResponseBodyItemOrgsList | undefined;
   avatarUrl: string;
   fullname: string;
   isPro: boolean;
   user: string;
-  numModels?: number;
-  numDatasets?: number;
-  numSpaces?: number;
-  numBuckets?: number;
-  numKernels?: number;
-  numDiscussions?: number;
-  numPapers?: number;
-  numUpvotes?: number;
-  numLikes?: number;
-  numFollowers?: number;
-  numFollowing?: number;
-  numFollowingOrgs?: number;
-  details?: string;
-  isFollowing?: boolean;
-  reasonToFollow?: string;
-  primaryOrgAvatarUrl?: string;
+  numModels?: number | undefined;
+  numDatasets?: number | undefined;
+  numSpaces?: number | undefined;
+  numBuckets?: number | undefined;
+  numKernels?: number | undefined;
+  numDiscussions?: number | undefined;
+  numPapers?: number | undefined;
+  numUpvotes?: number | undefined;
+  numLikes?: number | undefined;
+  numFollowers?: number | undefined;
+  numFollowing?: number | undefined;
+  numFollowingOrgs?: number | undefined;
+  details?: string | undefined;
+  isFollowing?: boolean | undefined;
+  reasonToFollow?: string | undefined;
+  primaryOrgAvatarUrl?: string | undefined;
   /** Set when the user is a service account */
-  serviceAccount?: ListFollowedUsersResponseBodyItemServiceAccount;
+  serviceAccount?: ListFollowedUsersResponseBodyItemServiceAccount | undefined;
   type: string;
 }
 export type ListFollowedUsersResponseBodyList = Array<ListFollowedUsersResponseBodyItem>;
@@ -210,9 +210,9 @@ export type ListUserFollowersRequestExpandList = Array<
 >;
 export interface ListUserFollowersRequest {
   username: string;
-  cursor?: string;
-  limit?: number;
-  expand?: ListUserFollowersRequestExpandList;
+  cursor?: string | undefined;
+  limit?: number | undefined;
+  expand?: ListUserFollowersRequestExpandList | undefined;
 }
 export type ListUserFollowersResponseBodyItemCase0OrgsItem =
   ListFollowedUsersResponseBodyItemOrgsItem;
@@ -224,29 +224,29 @@ export type ListUserFollowersResponseBodyItemCase0ServiceAccount =
 export interface ListUserFollowersResponseBodyItemCase0 {
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
-  orgs?: ListUserFollowersResponseBodyItemCase0OrgsList;
+  orgs?: ListUserFollowersResponseBodyItemCase0OrgsList | undefined;
   avatarUrl: string;
   fullname: string;
   isPro: boolean;
   user: string;
-  numModels?: number;
-  numDatasets?: number;
-  numSpaces?: number;
-  numBuckets?: number;
-  numKernels?: number;
-  numDiscussions?: number;
-  numPapers?: number;
-  numUpvotes?: number;
-  numLikes?: number;
-  numFollowers?: number;
-  numFollowing?: number;
-  numFollowingOrgs?: number;
-  details?: string;
-  isFollowing?: boolean;
-  reasonToFollow?: string;
-  primaryOrgAvatarUrl?: string;
+  numModels?: number | undefined;
+  numDatasets?: number | undefined;
+  numSpaces?: number | undefined;
+  numBuckets?: number | undefined;
+  numKernels?: number | undefined;
+  numDiscussions?: number | undefined;
+  numPapers?: number | undefined;
+  numUpvotes?: number | undefined;
+  numLikes?: number | undefined;
+  numFollowers?: number | undefined;
+  numFollowing?: number | undefined;
+  numFollowingOrgs?: number | undefined;
+  details?: string | undefined;
+  isFollowing?: boolean | undefined;
+  reasonToFollow?: string | undefined;
+  primaryOrgAvatarUrl?: string | undefined;
   /** Set when the user is a service account */
-  serviceAccount?: ListFollowedUsersResponseBodyItemServiceAccount;
+  serviceAccount?: ListFollowedUsersResponseBodyItemServiceAccount | undefined;
   type: string;
 }
 /** Returned when `expand=followedAt` is set */
@@ -262,8 +262,8 @@ export type ListUserFollowersResponseBodyList = Array<ListUserFollowersResponseB
 export type ListUserFollowersResponse = ListUserFollowersResponseBodyList;
 export interface ListUserLikesRequest {
   username: string;
-  limit?: number;
-  cursor?: string;
+  limit?: number | undefined;
+  cursor?: string | undefined;
 }
 export type ListUserLikesResponseBodyItemRepoType =
   | "dataset"
@@ -295,11 +295,11 @@ export type ListUserRepositoriesRequestSort = "storage" | "updatedAt";
 /** Sort direction (default: desc) */
 export type ListUserRepositoriesRequestDirection = "asc" | "desc";
 export interface ListUserRepositoriesRequest {
-  search?: string;
-  type?: ListUserRepositoriesRequestType | (string & {});
-  limit?: number;
-  sort?: ListUserRepositoriesRequestSort | (string & {});
-  direction?: ListUserRepositoriesRequestDirection | (string & {});
+  search?: string | undefined;
+  type?: ListUserRepositoriesRequestType | (string & {}) | undefined;
+  limit?: number | undefined;
+  sort?: ListUserRepositoriesRequestSort | (string & {}) | undefined;
+  direction?: ListUserRepositoriesRequestDirection | (string & {}) | undefined;
 }
 export type ListUserRepositoriesResponseBodyItemType =
   | "dataset"
@@ -343,40 +343,40 @@ export interface UserOverviewResponseHardwareItemsItem {
   mem: number;
   /** Number of units */
   num: number;
-  isPrimary?: boolean;
+  isPrimary?: boolean | undefined;
 }
 /** The user's hardware items, unless the user set them as private */
 export type UserOverviewResponseHardwareItemsList = Array<UserOverviewResponseHardwareItemsItem>;
 export interface UserOverviewResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
-  orgs?: UserOverviewResponseOrgsList;
+  orgs?: UserOverviewResponseOrgsList | undefined;
   avatarUrl: string;
   fullname: string;
   isPro: boolean;
   user: string;
-  numModels?: number;
-  numDatasets?: number;
-  numSpaces?: number;
-  numBuckets?: number;
-  numKernels?: number;
-  numDiscussions?: number;
-  numPapers?: number;
-  numUpvotes?: number;
-  numLikes?: number;
-  numFollowers?: number;
-  numFollowing?: number;
-  numFollowingOrgs?: number;
-  details?: string;
-  isFollowing?: boolean;
-  reasonToFollow?: string;
-  primaryOrgAvatarUrl?: string;
+  numModels?: number | undefined;
+  numDatasets?: number | undefined;
+  numSpaces?: number | undefined;
+  numBuckets?: number | undefined;
+  numKernels?: number | undefined;
+  numDiscussions?: number | undefined;
+  numPapers?: number | undefined;
+  numUpvotes?: number | undefined;
+  numLikes?: number | undefined;
+  numFollowers?: number | undefined;
+  numFollowing?: number | undefined;
+  numFollowingOrgs?: number | undefined;
+  details?: string | undefined;
+  isFollowing?: boolean | undefined;
+  reasonToFollow?: string | undefined;
+  primaryOrgAvatarUrl?: string | undefined;
   /** Set when the user is a service account */
-  serviceAccount?: ListFollowedUsersResponseBodyItemServiceAccount;
+  serviceAccount?: ListFollowedUsersResponseBodyItemServiceAccount | undefined;
   type: string;
   createdAt: string;
   /** The user's hardware items, unless the user set them as private */
-  hardwareItems?: UserOverviewResponseHardwareItemsList;
+  hardwareItems?: UserOverviewResponseHardwareItemsList | undefined;
 }
 export type GetAvatarError = HuggingFaceOpError;
 /** Get avatar Display the avatar for any user or organization. This endpoint redirects to the avatar URL for either a user or an organization */

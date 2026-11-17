@@ -34,29 +34,29 @@ export type FlowConfigReturnUriHttpMethod = "GET" | "POST";
 /** The flow configuration parameters. */
 export interface FlowConfig {
   /** The type of landing page to display on the PayPal site for user checkout. To use the non-PayPal account landing page, set to `Billing`. To use the PayPal account login landing page, set to `Login`. */
-  landing_page_type?: FlowConfigLandingPageType | (string & {});
+  landing_page_type?: FlowConfigLandingPageType | (string & {}) | undefined;
   /** The merchant site URL to display after a bank transfer payment. In Germany, valid only for the Giropay payment method or bank transfer payment method. */
-  bank_txn_pending_url?: string;
+  bank_txn_pending_url?: string | undefined;
   /** Presents either the **Continue** or **Pay Now** checkout flow to the customer.<br/><br/>Default is **Continue**, or `user_action=continue`. When you do not know the final payment amount, accept this default flow, which redirects the customer to the PayPal payment page with the **Continue** button. When the customer clicks **Continue**, the customer can change the payment amount.<br/><br/> When you know the final payment amount, set `user_action=commit` to choose the **Pay Now** flow, which redirects the customer to the PayPal payment page with the **Pay Now** button. When the customer clicks **Pay Now**, the payment is processed immediately. */
-  user_action?: FlowConfigUserAction | (string & {});
+  user_action?: FlowConfigUserAction | (string & {}) | undefined;
   /** The HTTP method to use to redirect the customer to a return URL. Value is `GET` or `POST`. */
-  return_uri_http_method?: FlowConfigReturnUriHttpMethod | (string & {});
+  return_uri_http_method?: FlowConfigReturnUriHttpMethod | (string & {}) | undefined;
 }
 /** The input field customization parameters. */
 export interface InputFields {
   /** Indicates whether PayPal displays shipping address fields on the experience pages. Value is:<ul><li><code>0</code>. Displays the shipping address on the PayPal pages.</li><li><code>1</code>. Redacts shipping address fields from the PayPal pages. For digital goods, this field is required and must be <code>1</code>.</li><li><code>2</code>. Gets the shipping address from the customer's account profile.</li></ul> */
-  no_shipping?: number;
+  no_shipping?: number | undefined;
   /** Indicates whether to display the shipping address that is passed to this call rather than the one on file for this buyer on the PayPal experience pages. Value is:<ul><li><code>0</code>. Displays the shipping address on file.</li><li><code>1</code>. Displays the shipping address specified in this call. the customer cannot edit this shipping address.</li></ul> */
-  address_override?: number;
+  address_override?: number | undefined;
 }
 /** The style and presentation parameters. */
 export interface Presentation {
   /** A label that overrides the business name in the PayPal account on the PayPal pages. Character length and limitations: 127 single-byte alphanumeric characters. */
-  brand_name?: string;
+  brand_name?: string | undefined;
   /** A URL to the logo image. A valid media type is `.gif`, `.jpg`, or `.png`. The image's maximum width is 190 pixels and maximum height is 60 pixels. PayPal crops images that are larger. PayPal places your logo image at the top of the cart review area. PayPal recommends that you store the image on a secure (HTTPS) server. Otherwise, web browsers display a message that checkout pages contain non-secure items. Character length and limitations: 127 single-byte alphanumeric characters. */
-  logo_image?: string;
+  logo_image?: string | undefined;
   /** The locale of pages that the PayPal payment experience displays. A valid value is `AU`, `AT`, `BE`, `BR`, `CA`, `CH`, `CN`, `DE`, `ES`, `GB`, `FR`, `IT`, `NL`, `PL`, `PT`, `RU`, or `US`. A 5-character code is also valid for languages in these countries: `da_DK`, `he_IL`, `id_ID`, `ja_JP`, `no_NO`, `pt_BR`, `ru_RU`, `sv_SE`, `th_TH`, `zh_CN`, `zh_HK`, or `zh_TW`. */
-  locale_code?: string;
+  locale_code?: string | undefined;
 }
 export interface CreateWebProfileRequest {
   /** The server stores keys for three hours. */
@@ -64,22 +64,22 @@ export interface CreateWebProfileRequest {
   /** The web experience profile name. Must be unique for a set of profiles for a merchant. */
   name: string;
   /** Indicates whether the profile persists for three hours or permanently. To persist the profile permanently, set to `false`. To persist the profile for three hours, set to `true`. */
-  temporary?: boolean;
-  flow_config?: FlowConfig;
-  input_fields?: InputFields;
-  presentation?: Presentation;
+  temporary?: boolean | undefined;
+  flow_config?: FlowConfig | undefined;
+  input_fields?: InputFields | undefined;
+  presentation?: Presentation | undefined;
 }
 /** A payment web experience profile. */
 export interface WebProfile {
   /** The ID of the web experience profile. */
-  id?: string;
+  id?: string | undefined;
   /** The web experience profile name. Must be unique for a set of profiles for a merchant. */
   name: string;
   /** Indicates whether the profile persists for three hours or permanently. To persist the profile permanently, set to `false`. To persist the profile for three hours, set to `true`. */
-  temporary?: boolean;
-  flow_config?: FlowConfig;
-  input_fields?: InputFields;
-  presentation?: Presentation;
+  temporary?: boolean | undefined;
+  flow_config?: FlowConfig | undefined;
+  input_fields?: InputFields | undefined;
+  presentation?: Presentation | undefined;
 }
 export interface DeleteWebProfileRequest {
   /** The ID of the profile to delete. */
@@ -96,10 +96,10 @@ export interface UpdateWebProfileRequest {
   /** The web experience profile name. Must be unique for a set of profiles for a merchant. */
   name: string;
   /** Indicates whether the profile persists for three hours or permanently. To persist the profile permanently, set to `false`. To persist the profile for three hours, set to `true`. */
-  temporary?: boolean;
-  flow_config?: FlowConfig;
-  input_fields?: InputFields;
-  presentation?: Presentation;
+  temporary?: boolean | undefined;
+  flow_config?: FlowConfig | undefined;
+  input_fields?: InputFields | undefined;
+  presentation?: Presentation | undefined;
 }
 export interface UpdateWebProfileResponse {}
 /** The operation. */
@@ -109,18 +109,18 @@ export interface Patch {
   /** The operation. */
   op: PatchOp | (string & {});
   /** The <a href="https://tools.ietf.org/html/rfc6901">JSON Pointer</a> to the target document location at which to complete the operation. */
-  path?: string;
+  path?: string | undefined;
   /** The value to apply. The <code>remove</code> operation does not require a value. */
-  value?: unknown | null;
+  value?: unknown | null | undefined;
   /** The <a href="https://tools.ietf.org/html/rfc6901">JSON Pointer</a> to the target document location from which to move the value. Required for the <code>move</code> operation. */
-  from?: string;
+  from?: string | undefined;
 }
 /** An array of JSON patch objects to apply partial updates to resources. */
 export type PatchRequest = Array<Patch>;
 export interface UpdateWebProfilePartialRequest {
   /** The ID of the profile to delete. */
   id: string;
-  body?: PatchRequest;
+  body?: PatchRequest | undefined;
 }
 export interface UpdateWebProfilePartialResponse {}
 export interface WebProfileGetListRequest {}

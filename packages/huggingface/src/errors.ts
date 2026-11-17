@@ -27,6 +27,7 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -34,11 +35,10 @@ import * as Schema from "@distilled.cloud/core/schema-lite-typed";
  * has no mapped error class. Carries the raw body for later cataloging.
  */
 export class UnknownHuggingFaceError
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownHuggingFaceError>()("UnknownHuggingFaceError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownHuggingFaceError>()(
+    "UnknownHuggingFaceError",
+    UnknownErrorFields,
+  ) {}
 
 /** Schema parse error wrapper. */
 export class HuggingFaceParseError

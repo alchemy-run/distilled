@@ -176,7 +176,12 @@ export class TooManyTagsException
   ).pipe(C.withBadRequestError) {}
 export class ValidationException
   extends /*@__PURE__*/ S.TaggedError<ValidationException>()("ValidationException", {
-    message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
+    message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+    fieldList: /*@__PURE__*/ S.optional(
+      /*@__PURE__*/ S.suspend(() => __S(1569, __c49, 1)).annotate({
+        identifier: "ValidationExceptionFieldList",
+      }),
+    ),
   }) {}
 export type PolicyStoreId = string;
 export type PolicyId = string;
@@ -192,7 +197,7 @@ export type PolicyType = "STATIC" | "TEMPLATE_LINKED" | (string & {});
 export type StaticPolicyDescription = string | redacted.Redacted<string>;
 export type PolicyStatement = string | redacted.Redacted<string>;
 export interface StaticPolicyDefinitionDetail {
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   statement: string | redacted.Redacted<string>;
 }
 export type PolicyTemplateId = string;
@@ -204,12 +209,12 @@ export interface EntityIdentifier {
 }
 export interface TemplateLinkedPolicyDefinitionDetail {
   policyTemplateId: string;
-  principal?: EntityIdentifier;
-  resource?: EntityIdentifier;
+  principal?: EntityIdentifier | undefined;
+  resource?: EntityIdentifier | undefined;
 }
 export type PolicyDefinitionDetail =
-  | { static: StaticPolicyDefinitionDetail; templateLinked?: never }
-  | { static?: never; templateLinked: TemplateLinkedPolicyDefinitionDetail };
+  | { static: StaticPolicyDefinitionDetail; templateLinked?: undefined }
+  | { static?: undefined; templateLinked: TemplateLinkedPolicyDefinitionDetail };
 export type TimestampFormat = Date;
 export type PolicyName = string;
 export interface BatchGetPolicyOutputItem {
@@ -219,7 +224,7 @@ export interface BatchGetPolicyOutputItem {
   definition: PolicyDefinitionDetail;
   createdDate: Date;
   lastUpdatedDate: Date;
-  name?: string;
+  name?: string | undefined;
 }
 export type BatchGetPolicyOutputList = BatchGetPolicyOutputItem[];
 export type BatchGetPolicyErrorCode =
@@ -250,122 +255,122 @@ export type Duration = string | redacted.Redacted<string>;
 export type AttributeValue =
   | {
       boolean: boolean;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
+      boolean?: undefined;
       entityIdentifier: EntityIdentifier;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
       long: number;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
       string: string | redacted.Redacted<string>;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
       set: AttributeValue[];
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
       record: { [key: string]: AttributeValue | undefined };
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
       ipaddr: string | redacted.Redacted<string>;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
       decimal: string | redacted.Redacted<string>;
-      datetime?: never;
-      duration?: never;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
       datetime: string | redacted.Redacted<string>;
-      duration?: never;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
       duration: string | redacted.Redacted<string>;
     };
 export type EntityAttributes = { [key: string]: AttributeValue | undefined };
@@ -375,136 +380,136 @@ export type CedarTagRecordAttribute = { [key: string]: CedarTagValue | undefined
 export type CedarTagValue =
   | {
       boolean: boolean;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
+      boolean?: undefined;
       entityIdentifier: EntityIdentifier;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
       long: number;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
       string: string | redacted.Redacted<string>;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
       set: CedarTagValue[];
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
       record: { [key: string]: CedarTagValue | undefined };
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
       ipaddr: string | redacted.Redacted<string>;
-      decimal?: never;
-      datetime?: never;
-      duration?: never;
+      decimal?: undefined;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
       decimal: string | redacted.Redacted<string>;
-      datetime?: never;
-      duration?: never;
+      datetime?: undefined;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
       datetime: string | redacted.Redacted<string>;
-      duration?: never;
+      duration?: undefined;
     }
   | {
-      boolean?: never;
-      entityIdentifier?: never;
-      long?: never;
-      string?: never;
-      set?: never;
-      record?: never;
-      ipaddr?: never;
-      decimal?: never;
-      datetime?: never;
+      boolean?: undefined;
+      entityIdentifier?: undefined;
+      long?: undefined;
+      string?: undefined;
+      set?: undefined;
+      record?: undefined;
+      ipaddr?: undefined;
+      decimal?: undefined;
+      datetime?: undefined;
       duration: string | redacted.Redacted<string>;
     };
 export type EntityCedarTags = { [key: string]: CedarTagValue | undefined };
 export interface EntityItem {
   identifier: EntityIdentifier;
-  attributes?: { [key: string]: AttributeValue | undefined };
-  parents?: EntityIdentifier[];
-  tags?: { [key: string]: CedarTagValue | undefined };
+  attributes?: { [key: string]: AttributeValue | undefined } | undefined;
+  parents?: EntityIdentifier[] | undefined;
+  tags?: { [key: string]: CedarTagValue | undefined } | undefined;
 }
 export type EntityList = EntityItem[];
 export type CedarJson = string | redacted.Redacted<string>;
 export type EntitiesDefinition =
-  | { entityList: EntityItem[]; cedarJson?: never }
-  | { entityList?: never; cedarJson: string | redacted.Redacted<string> };
+  | { entityList: EntityItem[]; cedarJson?: undefined }
+  | { entityList?: undefined; cedarJson: string | redacted.Redacted<string> };
 export type ActionType = string | redacted.Redacted<string>;
 export type ActionId = string | redacted.Redacted<string>;
 export interface ActionIdentifier {
@@ -513,18 +518,18 @@ export interface ActionIdentifier {
 }
 export type ContextMap = { [key: string]: AttributeValue | undefined };
 export type ContextDefinition =
-  | { contextMap: { [key: string]: AttributeValue | undefined }; cedarJson?: never }
-  | { contextMap?: never; cedarJson: string | redacted.Redacted<string> };
+  | { contextMap: { [key: string]: AttributeValue | undefined }; cedarJson?: undefined }
+  | { contextMap?: undefined; cedarJson: string | redacted.Redacted<string> };
 export interface BatchIsAuthorizedInputItem {
-  principal?: EntityIdentifier;
-  action?: ActionIdentifier;
-  resource?: EntityIdentifier;
-  context?: ContextDefinition;
+  principal?: EntityIdentifier | undefined;
+  action?: ActionIdentifier | undefined;
+  resource?: EntityIdentifier | undefined;
+  context?: ContextDefinition | undefined;
 }
 export type BatchIsAuthorizedInputList = BatchIsAuthorizedInputItem[];
 export interface BatchIsAuthorizedInput {
   policyStoreId: string;
-  entities?: EntitiesDefinition;
+  entities?: EntitiesDefinition | undefined;
   requests: BatchIsAuthorizedInputItem[];
 }
 export type Decision = "ALLOW" | "DENY" | (string & {});
@@ -548,16 +553,16 @@ export interface BatchIsAuthorizedOutput {
 }
 export type Token = string | redacted.Redacted<string>;
 export interface BatchIsAuthorizedWithTokenInputItem {
-  action?: ActionIdentifier;
-  resource?: EntityIdentifier;
-  context?: ContextDefinition;
+  action?: ActionIdentifier | undefined;
+  resource?: EntityIdentifier | undefined;
+  context?: ContextDefinition | undefined;
 }
 export type BatchIsAuthorizedWithTokenInputList = BatchIsAuthorizedWithTokenInputItem[];
 export interface BatchIsAuthorizedWithTokenInput {
   policyStoreId: string;
-  identityToken?: string | redacted.Redacted<string>;
-  accessToken?: string | redacted.Redacted<string>;
-  entities?: EntitiesDefinition;
+  identityToken?: string | redacted.Redacted<string> | undefined;
+  accessToken?: string | redacted.Redacted<string> | undefined;
+  entities?: EntitiesDefinition | undefined;
   requests: BatchIsAuthorizedWithTokenInputItem[];
 }
 export interface BatchIsAuthorizedWithTokenOutputItem {
@@ -568,7 +573,7 @@ export interface BatchIsAuthorizedWithTokenOutputItem {
 }
 export type BatchIsAuthorizedWithTokenOutputList = BatchIsAuthorizedWithTokenOutputItem[];
 export interface BatchIsAuthorizedWithTokenOutput {
-  principal?: EntityIdentifier;
+  principal?: EntityIdentifier | undefined;
   results: BatchIsAuthorizedWithTokenOutputItem[];
 }
 export type IdempotencyToken = string;
@@ -581,8 +586,8 @@ export interface CognitoGroupConfiguration {
 }
 export interface CognitoUserPoolConfiguration {
   userPoolArn: string;
-  clientIds?: (string | redacted.Redacted<string>)[];
-  groupConfiguration?: CognitoGroupConfiguration;
+  clientIds?: (string | redacted.Redacted<string>)[] | undefined;
+  groupConfiguration?: CognitoGroupConfiguration | undefined;
 }
 export type Issuer = string;
 export type EntityIdPrefix = string | redacted.Redacted<string>;
@@ -594,37 +599,37 @@ export interface OpenIdConnectGroupConfiguration {
 export type Audience = string;
 export type Audiences = string[];
 export interface OpenIdConnectAccessTokenConfiguration {
-  principalIdClaim?: string | redacted.Redacted<string>;
-  audiences?: string[];
+  principalIdClaim?: string | redacted.Redacted<string> | undefined;
+  audiences?: string[] | undefined;
 }
 export interface OpenIdConnectIdentityTokenConfiguration {
-  principalIdClaim?: string | redacted.Redacted<string>;
-  clientIds?: (string | redacted.Redacted<string>)[];
+  principalIdClaim?: string | redacted.Redacted<string> | undefined;
+  clientIds?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type OpenIdConnectTokenSelection =
-  | { accessTokenOnly: OpenIdConnectAccessTokenConfiguration; identityTokenOnly?: never }
-  | { accessTokenOnly?: never; identityTokenOnly: OpenIdConnectIdentityTokenConfiguration };
+  | { accessTokenOnly: OpenIdConnectAccessTokenConfiguration; identityTokenOnly?: undefined }
+  | { accessTokenOnly?: undefined; identityTokenOnly: OpenIdConnectIdentityTokenConfiguration };
 export interface OpenIdConnectConfiguration {
   issuer: string;
-  entityIdPrefix?: string | redacted.Redacted<string>;
-  groupConfiguration?: OpenIdConnectGroupConfiguration;
+  entityIdPrefix?: string | redacted.Redacted<string> | undefined;
+  groupConfiguration?: OpenIdConnectGroupConfiguration | undefined;
   tokenSelection: OpenIdConnectTokenSelection;
 }
 export type Configuration =
   | {
       cognitoUserPoolConfiguration: CognitoUserPoolConfiguration;
-      openIdConnectConfiguration?: never;
+      openIdConnectConfiguration?: undefined;
     }
   | {
-      cognitoUserPoolConfiguration?: never;
+      cognitoUserPoolConfiguration?: undefined;
       openIdConnectConfiguration: OpenIdConnectConfiguration;
     };
 export type PrincipalEntityType = string | redacted.Redacted<string>;
 export interface CreateIdentitySourceInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   policyStoreId: string;
   configuration: Configuration;
-  principalEntityType?: string | redacted.Redacted<string>;
+  principalEntityType?: string | redacted.Redacted<string> | undefined;
 }
 export type IdentitySourceId = string;
 export interface CreateIdentitySourceOutput {
@@ -634,22 +639,22 @@ export interface CreateIdentitySourceOutput {
   policyStoreId: string;
 }
 export interface StaticPolicyDefinition {
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   statement: string | redacted.Redacted<string>;
 }
 export interface TemplateLinkedPolicyDefinition {
   policyTemplateId: string;
-  principal?: EntityIdentifier;
-  resource?: EntityIdentifier;
+  principal?: EntityIdentifier | undefined;
+  resource?: EntityIdentifier | undefined;
 }
 export type PolicyDefinition =
-  | { static: StaticPolicyDefinition; templateLinked?: never }
-  | { static?: never; templateLinked: TemplateLinkedPolicyDefinition };
+  | { static: StaticPolicyDefinition; templateLinked?: undefined }
+  | { static?: undefined; templateLinked: TemplateLinkedPolicyDefinition };
 export interface CreatePolicyInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   policyStoreId: string;
   definition: PolicyDefinition;
-  name?: string;
+  name?: string | undefined;
 }
 export type ActionIdentifierList = ActionIdentifier[];
 export type PolicyEffect = "Permit" | "Forbid" | (string & {});
@@ -657,12 +662,12 @@ export interface CreatePolicyOutput {
   policyStoreId: string;
   policyId: string;
   policyType: PolicyType;
-  principal?: EntityIdentifier;
-  resource?: EntityIdentifier;
-  actions?: ActionIdentifier[];
+  principal?: EntityIdentifier | undefined;
+  resource?: EntityIdentifier | undefined;
+  actions?: ActionIdentifier[] | undefined;
   createdDate: Date;
   lastUpdatedDate: Date;
-  effect?: PolicyEffect;
+  effect?: PolicyEffect | undefined;
 }
 export type ValidationMode = "OFF" | "STRICT" | (string & {});
 export interface ValidationSettings {
@@ -676,21 +681,21 @@ export type EncryptionContextValue = string;
 export type EncryptionContext = { [key: string]: string | undefined };
 export interface KmsEncryptionSettings {
   key: string;
-  encryptionContext?: { [key: string]: string | undefined };
+  encryptionContext?: { [key: string]: string | undefined } | undefined;
 }
 export type EncryptionSettings =
-  | { kmsEncryptionSettings: KmsEncryptionSettings; default?: never }
-  | { kmsEncryptionSettings?: never; default: Record<string, never> };
+  | { kmsEncryptionSettings: KmsEncryptionSettings; default?: undefined }
+  | { kmsEncryptionSettings?: undefined; default: Record<string, never> };
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreatePolicyStoreInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   validationSettings: ValidationSettings;
-  description?: string | redacted.Redacted<string>;
-  deletionProtection?: DeletionProtection;
-  encryptionSettings?: EncryptionSettings;
-  tags?: { [key: string]: string | undefined };
+  description?: string | redacted.Redacted<string> | undefined;
+  deletionProtection?: DeletionProtection | undefined;
+  encryptionSettings?: EncryptionSettings | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ResourceArn = string;
 export interface CreatePolicyStoreOutput {
@@ -713,11 +718,11 @@ export interface CreatePolicyStoreAliasOutput {
 export type PolicyTemplateDescription = string | redacted.Redacted<string>;
 export type PolicyTemplateName = string;
 export interface CreatePolicyTemplateInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   policyStoreId: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   statement: string | redacted.Redacted<string>;
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreatePolicyTemplateOutput {
   policyStoreId: string;
@@ -742,7 +747,7 @@ export interface DeletePolicyStoreOutput {}
 export type DeletionMode = "SoftDelete" | "HardDelete" | (string & {});
 export interface DeletePolicyStoreAliasInput {
   aliasName: string;
-  deletionMode?: DeletionMode;
+  deletionMode?: DeletionMode | undefined;
 }
 export interface DeletePolicyStoreAliasOutput {}
 export interface DeletePolicyTemplateInput {
@@ -757,58 +762,61 @@ export interface GetIdentitySourceInput {
 export type DiscoveryUrl = string;
 export type OpenIdIssuer = "COGNITO" | (string & {});
 export interface IdentitySourceDetails {
-  clientIds?: (string | redacted.Redacted<string>)[];
-  userPoolArn?: string;
-  discoveryUrl?: string;
-  openIdIssuer?: OpenIdIssuer;
+  clientIds?: (string | redacted.Redacted<string>)[] | undefined;
+  userPoolArn?: string | undefined;
+  discoveryUrl?: string | undefined;
+  openIdIssuer?: OpenIdIssuer | undefined;
 }
 export interface CognitoGroupConfigurationDetail {
-  groupEntityType?: string | redacted.Redacted<string>;
+  groupEntityType?: string | redacted.Redacted<string> | undefined;
 }
 export interface CognitoUserPoolConfigurationDetail {
   userPoolArn: string;
   clientIds: (string | redacted.Redacted<string>)[];
   issuer: string;
-  groupConfiguration?: CognitoGroupConfigurationDetail;
+  groupConfiguration?: CognitoGroupConfigurationDetail | undefined;
 }
 export interface OpenIdConnectGroupConfigurationDetail {
   groupClaim: string | redacted.Redacted<string>;
   groupEntityType: string | redacted.Redacted<string>;
 }
 export interface OpenIdConnectAccessTokenConfigurationDetail {
-  principalIdClaim?: string | redacted.Redacted<string>;
-  audiences?: string[];
+  principalIdClaim?: string | redacted.Redacted<string> | undefined;
+  audiences?: string[] | undefined;
 }
 export interface OpenIdConnectIdentityTokenConfigurationDetail {
-  principalIdClaim?: string | redacted.Redacted<string>;
-  clientIds?: (string | redacted.Redacted<string>)[];
+  principalIdClaim?: string | redacted.Redacted<string> | undefined;
+  clientIds?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type OpenIdConnectTokenSelectionDetail =
-  | { accessTokenOnly: OpenIdConnectAccessTokenConfigurationDetail; identityTokenOnly?: never }
-  | { accessTokenOnly?: never; identityTokenOnly: OpenIdConnectIdentityTokenConfigurationDetail };
+  | { accessTokenOnly: OpenIdConnectAccessTokenConfigurationDetail; identityTokenOnly?: undefined }
+  | {
+      accessTokenOnly?: undefined;
+      identityTokenOnly: OpenIdConnectIdentityTokenConfigurationDetail;
+    };
 export interface OpenIdConnectConfigurationDetail {
   issuer: string;
-  entityIdPrefix?: string | redacted.Redacted<string>;
-  groupConfiguration?: OpenIdConnectGroupConfigurationDetail;
+  entityIdPrefix?: string | redacted.Redacted<string> | undefined;
+  groupConfiguration?: OpenIdConnectGroupConfigurationDetail | undefined;
   tokenSelection: OpenIdConnectTokenSelectionDetail;
 }
 export type ConfigurationDetail =
   | {
       cognitoUserPoolConfiguration: CognitoUserPoolConfigurationDetail;
-      openIdConnectConfiguration?: never;
+      openIdConnectConfiguration?: undefined;
     }
   | {
-      cognitoUserPoolConfiguration?: never;
+      cognitoUserPoolConfiguration?: undefined;
       openIdConnectConfiguration: OpenIdConnectConfigurationDetail;
     };
 export interface GetIdentitySourceOutput {
   createdDate: Date;
-  details?: IdentitySourceDetails;
+  details?: IdentitySourceDetails | undefined;
   identitySourceId: string;
   lastUpdatedDate: Date;
   policyStoreId: string;
   principalEntityType: string | redacted.Redacted<string>;
-  configuration?: ConfigurationDetail;
+  configuration?: ConfigurationDetail | undefined;
 }
 export interface GetPolicyInput {
   policyStoreId: string;
@@ -818,26 +826,26 @@ export interface GetPolicyOutput {
   policyStoreId: string;
   policyId: string;
   policyType: PolicyType;
-  principal?: EntityIdentifier;
-  resource?: EntityIdentifier;
-  actions?: ActionIdentifier[];
+  principal?: EntityIdentifier | undefined;
+  resource?: EntityIdentifier | undefined;
+  actions?: ActionIdentifier[] | undefined;
   definition: PolicyDefinitionDetail;
   createdDate: Date;
   lastUpdatedDate: Date;
-  effect?: PolicyEffect;
-  name?: string;
+  effect?: PolicyEffect | undefined;
+  name?: string | undefined;
 }
 export interface GetPolicyStoreInput {
   policyStoreId: string;
-  tags?: boolean;
+  tags?: boolean | undefined;
 }
 export interface KmsEncryptionState {
   key: string;
   encryptionContext: { [key: string]: string | undefined };
 }
 export type EncryptionState =
-  | { kmsEncryptionState: KmsEncryptionState; default?: never }
-  | { kmsEncryptionState?: never; default: Record<string, never> };
+  | { kmsEncryptionState: KmsEncryptionState; default?: undefined }
+  | { kmsEncryptionState?: undefined; default: Record<string, never> };
 export type CedarVersion = "CEDAR_2" | "CEDAR_4" | (string & {});
 export interface GetPolicyStoreOutput {
   policyStoreId: string;
@@ -845,11 +853,11 @@ export interface GetPolicyStoreOutput {
   validationSettings: ValidationSettings;
   createdDate: Date;
   lastUpdatedDate: Date;
-  description?: string | redacted.Redacted<string>;
-  deletionProtection?: DeletionProtection;
-  encryptionState?: EncryptionState;
-  cedarVersion?: CedarVersion;
-  tags?: { [key: string]: string | undefined };
+  description?: string | redacted.Redacted<string> | undefined;
+  deletionProtection?: DeletionProtection | undefined;
+  encryptionState?: EncryptionState | undefined;
+  cedarVersion?: CedarVersion | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetPolicyStoreAliasInput {
   aliasName: string;
@@ -869,11 +877,11 @@ export interface GetPolicyTemplateInput {
 export interface GetPolicyTemplateOutput {
   policyStoreId: string;
   policyTemplateId: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   statement: string | redacted.Redacted<string>;
   createdDate: Date;
   lastUpdatedDate: Date;
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetSchemaInput {
   policyStoreId: string;
@@ -886,15 +894,15 @@ export interface GetSchemaOutput {
   schema: string | redacted.Redacted<string>;
   createdDate: Date;
   lastUpdatedDate: Date;
-  namespaces?: (string | redacted.Redacted<string>)[];
+  namespaces?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface IsAuthorizedInput {
   policyStoreId: string;
-  principal?: EntityIdentifier;
-  action?: ActionIdentifier;
-  resource?: EntityIdentifier;
-  context?: ContextDefinition;
-  entities?: EntitiesDefinition;
+  principal?: EntityIdentifier | undefined;
+  action?: ActionIdentifier | undefined;
+  resource?: EntityIdentifier | undefined;
+  context?: ContextDefinition | undefined;
+  entities?: EntitiesDefinition | undefined;
 }
 export interface IsAuthorizedOutput {
   decision: Decision;
@@ -903,142 +911,142 @@ export interface IsAuthorizedOutput {
 }
 export interface IsAuthorizedWithTokenInput {
   policyStoreId: string;
-  identityToken?: string | redacted.Redacted<string>;
-  accessToken?: string | redacted.Redacted<string>;
-  action?: ActionIdentifier;
-  resource?: EntityIdentifier;
-  context?: ContextDefinition;
-  entities?: EntitiesDefinition;
+  identityToken?: string | redacted.Redacted<string> | undefined;
+  accessToken?: string | redacted.Redacted<string> | undefined;
+  action?: ActionIdentifier | undefined;
+  resource?: EntityIdentifier | undefined;
+  context?: ContextDefinition | undefined;
+  entities?: EntitiesDefinition | undefined;
 }
 export interface IsAuthorizedWithTokenOutput {
   decision: Decision;
   determiningPolicies: DeterminingPolicyItem[];
   errors: EvaluationErrorItem[];
-  principal?: EntityIdentifier;
+  principal?: EntityIdentifier | undefined;
 }
 export type NextToken = string;
 export type ListIdentitySourcesMaxResults = number;
 export interface IdentitySourceFilter {
-  principalEntityType?: string | redacted.Redacted<string>;
+  principalEntityType?: string | redacted.Redacted<string> | undefined;
 }
 export type IdentitySourceFilters = IdentitySourceFilter[];
 export interface ListIdentitySourcesInput {
   policyStoreId: string;
-  nextToken?: string;
-  maxResults?: number;
-  filters?: IdentitySourceFilter[];
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filters?: IdentitySourceFilter[] | undefined;
 }
 export interface IdentitySourceItemDetails {
-  clientIds?: (string | redacted.Redacted<string>)[];
-  userPoolArn?: string;
-  discoveryUrl?: string;
-  openIdIssuer?: OpenIdIssuer;
+  clientIds?: (string | redacted.Redacted<string>)[] | undefined;
+  userPoolArn?: string | undefined;
+  discoveryUrl?: string | undefined;
+  openIdIssuer?: OpenIdIssuer | undefined;
 }
 export interface CognitoGroupConfigurationItem {
-  groupEntityType?: string | redacted.Redacted<string>;
+  groupEntityType?: string | redacted.Redacted<string> | undefined;
 }
 export interface CognitoUserPoolConfigurationItem {
   userPoolArn: string;
   clientIds: (string | redacted.Redacted<string>)[];
   issuer: string;
-  groupConfiguration?: CognitoGroupConfigurationItem;
+  groupConfiguration?: CognitoGroupConfigurationItem | undefined;
 }
 export interface OpenIdConnectGroupConfigurationItem {
   groupClaim: string | redacted.Redacted<string>;
   groupEntityType: string | redacted.Redacted<string>;
 }
 export interface OpenIdConnectAccessTokenConfigurationItem {
-  principalIdClaim?: string | redacted.Redacted<string>;
-  audiences?: string[];
+  principalIdClaim?: string | redacted.Redacted<string> | undefined;
+  audiences?: string[] | undefined;
 }
 export interface OpenIdConnectIdentityTokenConfigurationItem {
-  principalIdClaim?: string | redacted.Redacted<string>;
-  clientIds?: (string | redacted.Redacted<string>)[];
+  principalIdClaim?: string | redacted.Redacted<string> | undefined;
+  clientIds?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type OpenIdConnectTokenSelectionItem =
-  | { accessTokenOnly: OpenIdConnectAccessTokenConfigurationItem; identityTokenOnly?: never }
-  | { accessTokenOnly?: never; identityTokenOnly: OpenIdConnectIdentityTokenConfigurationItem };
+  | { accessTokenOnly: OpenIdConnectAccessTokenConfigurationItem; identityTokenOnly?: undefined }
+  | { accessTokenOnly?: undefined; identityTokenOnly: OpenIdConnectIdentityTokenConfigurationItem };
 export interface OpenIdConnectConfigurationItem {
   issuer: string;
-  entityIdPrefix?: string | redacted.Redacted<string>;
-  groupConfiguration?: OpenIdConnectGroupConfigurationItem;
+  entityIdPrefix?: string | redacted.Redacted<string> | undefined;
+  groupConfiguration?: OpenIdConnectGroupConfigurationItem | undefined;
   tokenSelection: OpenIdConnectTokenSelectionItem;
 }
 export type ConfigurationItem =
   | {
       cognitoUserPoolConfiguration: CognitoUserPoolConfigurationItem;
-      openIdConnectConfiguration?: never;
+      openIdConnectConfiguration?: undefined;
     }
   | {
-      cognitoUserPoolConfiguration?: never;
+      cognitoUserPoolConfiguration?: undefined;
       openIdConnectConfiguration: OpenIdConnectConfigurationItem;
     };
 export interface IdentitySourceItem {
   createdDate: Date;
-  details?: IdentitySourceItemDetails;
+  details?: IdentitySourceItemDetails | undefined;
   identitySourceId: string;
   lastUpdatedDate: Date;
   policyStoreId: string;
   principalEntityType: string | redacted.Redacted<string>;
-  configuration?: ConfigurationItem;
+  configuration?: ConfigurationItem | undefined;
 }
 export type IdentitySources = IdentitySourceItem[];
 export interface ListIdentitySourcesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   identitySources: IdentitySourceItem[];
 }
 export type MaxResults = number;
 export type EntityReference =
-  | { unspecified: boolean; identifier?: never }
-  | { unspecified?: never; identifier: EntityIdentifier };
+  | { unspecified: boolean; identifier?: undefined }
+  | { unspecified?: undefined; identifier: EntityIdentifier };
 export interface PolicyFilter {
-  principal?: EntityReference;
-  resource?: EntityReference;
-  policyType?: PolicyType;
-  policyTemplateId?: string;
+  principal?: EntityReference | undefined;
+  resource?: EntityReference | undefined;
+  policyType?: PolicyType | undefined;
+  policyTemplateId?: string | undefined;
 }
 export interface ListPoliciesInput {
   policyStoreId: string;
-  nextToken?: string;
-  maxResults?: number;
-  filter?: PolicyFilter;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filter?: PolicyFilter | undefined;
 }
 export interface StaticPolicyDefinitionItem {
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface TemplateLinkedPolicyDefinitionItem {
   policyTemplateId: string;
-  principal?: EntityIdentifier;
-  resource?: EntityIdentifier;
+  principal?: EntityIdentifier | undefined;
+  resource?: EntityIdentifier | undefined;
 }
 export type PolicyDefinitionItem =
-  | { static: StaticPolicyDefinitionItem; templateLinked?: never }
-  | { static?: never; templateLinked: TemplateLinkedPolicyDefinitionItem };
+  | { static: StaticPolicyDefinitionItem; templateLinked?: undefined }
+  | { static?: undefined; templateLinked: TemplateLinkedPolicyDefinitionItem };
 export interface PolicyItem {
   policyStoreId: string;
   policyId: string;
   policyType: PolicyType;
-  principal?: EntityIdentifier;
-  resource?: EntityIdentifier;
-  actions?: ActionIdentifier[];
+  principal?: EntityIdentifier | undefined;
+  resource?: EntityIdentifier | undefined;
+  actions?: ActionIdentifier[] | undefined;
   definition: PolicyDefinitionItem;
   createdDate: Date;
   lastUpdatedDate: Date;
-  effect?: PolicyEffect;
-  name?: string;
+  effect?: PolicyEffect | undefined;
+  name?: string | undefined;
 }
 export type PolicyList = PolicyItem[];
 export interface ListPoliciesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   policies: PolicyItem[];
 }
 export interface PolicyStoreAliasFilter {
-  policyStoreId?: string;
+  policyStoreId?: string | undefined;
 }
 export interface ListPolicyStoreAliasesInput {
-  nextToken?: string;
-  maxResults?: number;
-  filter?: PolicyStoreAliasFilter;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filter?: PolicyStoreAliasFilter | undefined;
 }
 export interface PolicyStoreAliasItem {
   aliasName: string;
@@ -1049,41 +1057,41 @@ export interface PolicyStoreAliasItem {
 }
 export type PolicyStoreAliasList = PolicyStoreAliasItem[];
 export interface ListPolicyStoreAliasesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   policyStoreAliases: PolicyStoreAliasItem[];
 }
 export interface ListPolicyStoresInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface PolicyStoreItem {
   policyStoreId: string;
   arn: string;
   createdDate: Date;
-  lastUpdatedDate?: Date;
-  description?: string | redacted.Redacted<string>;
+  lastUpdatedDate?: Date | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export type PolicyStoreList = PolicyStoreItem[];
 export interface ListPolicyStoresOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   policyStores: PolicyStoreItem[];
 }
 export interface ListPolicyTemplatesInput {
   policyStoreId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface PolicyTemplateItem {
   policyStoreId: string;
   policyTemplateId: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   createdDate: Date;
   lastUpdatedDate: Date;
-  name?: string;
+  name?: string | undefined;
 }
 export type PolicyTemplatesList = PolicyTemplateItem[];
 export interface ListPolicyTemplatesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   policyTemplates: PolicyTemplateItem[];
 }
 export type AmazonResourceName = string;
@@ -1091,7 +1099,7 @@ export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SchemaDefinition = { cedarJson: string | redacted.Redacted<string> };
 export interface PutSchemaInput {
@@ -1120,44 +1128,47 @@ export interface UpdateCognitoGroupConfiguration {
 }
 export interface UpdateCognitoUserPoolConfiguration {
   userPoolArn: string;
-  clientIds?: (string | redacted.Redacted<string>)[];
-  groupConfiguration?: UpdateCognitoGroupConfiguration;
+  clientIds?: (string | redacted.Redacted<string>)[] | undefined;
+  groupConfiguration?: UpdateCognitoGroupConfiguration | undefined;
 }
 export interface UpdateOpenIdConnectGroupConfiguration {
   groupClaim: string | redacted.Redacted<string>;
   groupEntityType: string | redacted.Redacted<string>;
 }
 export interface UpdateOpenIdConnectAccessTokenConfiguration {
-  principalIdClaim?: string | redacted.Redacted<string>;
-  audiences?: string[];
+  principalIdClaim?: string | redacted.Redacted<string> | undefined;
+  audiences?: string[] | undefined;
 }
 export interface UpdateOpenIdConnectIdentityTokenConfiguration {
-  principalIdClaim?: string | redacted.Redacted<string>;
-  clientIds?: (string | redacted.Redacted<string>)[];
+  principalIdClaim?: string | redacted.Redacted<string> | undefined;
+  clientIds?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type UpdateOpenIdConnectTokenSelection =
-  | { accessTokenOnly: UpdateOpenIdConnectAccessTokenConfiguration; identityTokenOnly?: never }
-  | { accessTokenOnly?: never; identityTokenOnly: UpdateOpenIdConnectIdentityTokenConfiguration };
+  | { accessTokenOnly: UpdateOpenIdConnectAccessTokenConfiguration; identityTokenOnly?: undefined }
+  | {
+      accessTokenOnly?: undefined;
+      identityTokenOnly: UpdateOpenIdConnectIdentityTokenConfiguration;
+    };
 export interface UpdateOpenIdConnectConfiguration {
   issuer: string;
-  entityIdPrefix?: string | redacted.Redacted<string>;
-  groupConfiguration?: UpdateOpenIdConnectGroupConfiguration;
+  entityIdPrefix?: string | redacted.Redacted<string> | undefined;
+  groupConfiguration?: UpdateOpenIdConnectGroupConfiguration | undefined;
   tokenSelection: UpdateOpenIdConnectTokenSelection;
 }
 export type UpdateConfiguration =
   | {
       cognitoUserPoolConfiguration: UpdateCognitoUserPoolConfiguration;
-      openIdConnectConfiguration?: never;
+      openIdConnectConfiguration?: undefined;
     }
   | {
-      cognitoUserPoolConfiguration?: never;
+      cognitoUserPoolConfiguration?: undefined;
       openIdConnectConfiguration: UpdateOpenIdConnectConfiguration;
     };
 export interface UpdateIdentitySourceInput {
   policyStoreId: string;
   identitySourceId: string;
   updateConfiguration: UpdateConfiguration;
-  principalEntityType?: string | redacted.Redacted<string>;
+  principalEntityType?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateIdentitySourceOutput {
   createdDate: Date;
@@ -1166,32 +1177,32 @@ export interface UpdateIdentitySourceOutput {
   policyStoreId: string;
 }
 export interface UpdateStaticPolicyDefinition {
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   statement: string | redacted.Redacted<string>;
 }
 export type UpdatePolicyDefinition = { static: UpdateStaticPolicyDefinition };
 export interface UpdatePolicyInput {
   policyStoreId: string;
   policyId: string;
-  definition?: UpdatePolicyDefinition;
-  name?: string;
+  definition?: UpdatePolicyDefinition | undefined;
+  name?: string | undefined;
 }
 export interface UpdatePolicyOutput {
   policyStoreId: string;
   policyId: string;
   policyType: PolicyType;
-  principal?: EntityIdentifier;
-  resource?: EntityIdentifier;
-  actions?: ActionIdentifier[];
+  principal?: EntityIdentifier | undefined;
+  resource?: EntityIdentifier | undefined;
+  actions?: ActionIdentifier[] | undefined;
   createdDate: Date;
   lastUpdatedDate: Date;
-  effect?: PolicyEffect;
+  effect?: PolicyEffect | undefined;
 }
 export interface UpdatePolicyStoreInput {
   policyStoreId: string;
   validationSettings: ValidationSettings;
-  deletionProtection?: DeletionProtection;
-  description?: string | redacted.Redacted<string>;
+  deletionProtection?: DeletionProtection | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdatePolicyStoreOutput {
   policyStoreId: string;
@@ -1202,9 +1213,9 @@ export interface UpdatePolicyStoreOutput {
 export interface UpdatePolicyTemplateInput {
   policyStoreId: string;
   policyTemplateId: string;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   statement: string | redacted.Redacted<string>;
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdatePolicyTemplateOutput {
   policyStoreId: string;
@@ -1212,6 +1223,11 @@ export interface UpdatePolicyTemplateOutput {
   createdDate: Date;
   lastUpdatedDate: Date;
 }
+export interface ValidationExceptionField {
+  path: string;
+  message: string;
+}
+export type ValidationExceptionFieldList = ValidationExceptionField[];
 export type ResourceType =
   | "IDENTITY_SOURCE"
   | "POLICY_STORE"
@@ -1225,7 +1241,12 @@ export interface ResourceConflict {
   resourceType: ResourceType;
 }
 export type ResourceConflictList = ResourceConflict[];
-export type BatchGetPolicyError = ValidationException | CommonErrors;
+export type BatchGetPolicyError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about a group (batch) of policies.
  *
@@ -1237,9 +1258,14 @@ export const batchGetPolicy: API.OperationMethod<
   BatchGetPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1570, __c49, 2) as any as S.Schema<BatchGetPolicyInput>,
-  output: __S(1575, __c49, 7) as any as S.Schema<BatchGetPolicyOutput>,
-  errors: [ValidationException],
+  input: __S(1602, __c50, 2) as any as S.Schema<BatchGetPolicyInput>,
+  output: __S(1607, __c50, 7) as any as S.Schema<BatchGetPolicyOutput>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetPolicy",
@@ -1247,7 +1273,13 @@ export const batchGetPolicy: API.OperationMethod<
   span: "BatchGetPolicy",
 }));
 
-export type BatchIsAuthorizedError = ResourceNotFoundException | ValidationException | CommonErrors;
+export type BatchIsAuthorizedError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Makes a series of decisions about multiple authorization requests for one principal or resource. Each request contains the equivalent content of an `IsAuthorized` request: principal, action, resource, and context. Either the `principal` or the `resource` parameter must be identical across all requests. For example, Verified Permissions won't evaluate a pair of requests where `bob` views `photo1` and `alice` views `photo2`. Authorization of `bob` to view `photo1` and `photo2`, or `bob` and `alice` to view `photo1`, are valid batches.
  *
@@ -1265,7 +1297,13 @@ export const batchIsAuthorized: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(34, __c1, 2) as any as S.Schema<BatchIsAuthorizedInput>,
   output: __S(37, __c1, 5) as any as S.Schema<BatchIsAuthorizedOutput>,
-  errors: [ResourceNotFoundException, ValidationException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchIsAuthorized",
@@ -1275,6 +1313,9 @@ export const batchIsAuthorized: API.OperationMethod<
 
 export type BatchIsAuthorizedWithTokenError =
   | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -1294,7 +1335,13 @@ export const batchIsAuthorizedWithToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(130, __c4, 2) as any as S.Schema<BatchIsAuthorizedWithTokenInput>,
   output: __S(133, __c4, 5) as any as S.Schema<BatchIsAuthorizedWithTokenOutput>,
-  errors: [ResourceNotFoundException, ValidationException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchIsAuthorizedWithToken",
@@ -1306,6 +1353,9 @@ export type CreateIdentitySourceError =
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -1335,6 +1385,9 @@ export const createIdentitySource: API.OperationMethod<
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -1348,6 +1401,9 @@ export type CreatePolicyError =
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -1373,6 +1429,9 @@ export const createPolicy: API.OperationMethod<
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -1385,6 +1444,9 @@ export const createPolicy: API.OperationMethod<
 export type CreatePolicyStoreError =
   | ConflictException
   | ServiceQuotaExceededException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -1402,7 +1464,14 @@ export const createPolicyStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(418, __c13, 2) as any as S.Schema<CreatePolicyStoreInput>,
   output: __S(512, __c16, 0) as any as S.Schema<CreatePolicyStoreOutput>,
-  errors: [ConflictException, ServiceQuotaExceededException, ValidationException],
+  errors: [
+    ConflictException,
+    ServiceQuotaExceededException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicyStore",
@@ -1414,6 +1483,9 @@ export type CreatePolicyStoreAliasError =
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -1435,6 +1507,9 @@ export const createPolicyStoreAlias: API.OperationMethod<
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -1448,6 +1523,9 @@ export type CreatePolicyTemplateError =
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -1467,6 +1545,9 @@ export const createPolicyTemplate: API.OperationMethod<
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -1479,6 +1560,10 @@ export const createPolicyTemplate: API.OperationMethod<
 export type DeleteIdentitySourceError =
   | ConflictException
   | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
   | CommonErrors;
 /**
  * Deletes an identity source that references an identity provider (IdP) such as Amazon Cognito. After you delete the identity source, you can no longer use tokens for identities from that identity source to represent principals in authorization queries made using IsAuthorizedWithToken. operations.
@@ -1491,7 +1576,14 @@ export const deleteIdentitySource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<DeleteIdentitySourceInput>,
   output: __S(672, __c21, 0) as any as S.Schema<DeleteIdentitySourceOutput>,
-  errors: [ConflictException, ResourceNotFoundException],
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentitySource",
@@ -1499,7 +1591,14 @@ export const deleteIdentitySource: API.OperationMethod<
   span: "DeleteIdentitySource",
 }));
 
-export type DeletePolicyError = ConflictException | ResourceNotFoundException | CommonErrors;
+export type DeletePolicyError =
+  | ConflictException
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified policy from the policy store.
  *
@@ -1513,7 +1612,14 @@ export const deletePolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<DeletePolicyInput>,
   output: __S(672, __c21, 0) as any as S.Schema<DeletePolicyOutput>,
-  errors: [ConflictException, ResourceNotFoundException],
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
@@ -1521,7 +1627,13 @@ export const deletePolicy: API.OperationMethod<
   span: "DeletePolicy",
 }));
 
-export type DeletePolicyStoreError = InvalidStateException | CommonErrors;
+export type DeletePolicyStoreError =
+  | InvalidStateException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Deletes the specified policy store.
  *
@@ -1535,7 +1647,13 @@ export const deletePolicyStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<DeletePolicyStoreInput>,
   output: __S(672, __c21, 0) as any as S.Schema<DeletePolicyStoreOutput>,
-  errors: [InvalidStateException],
+  errors: [
+    InvalidStateException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyStore",
@@ -1545,8 +1663,11 @@ export const deletePolicyStore: API.OperationMethod<
 
 export type DeletePolicyStoreAliasError =
   | InvalidStateException
-  | ValidationException
   | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
   | CommonErrors;
 /**
  * Deletes the specified policy store alias.
@@ -1567,7 +1688,14 @@ export const deletePolicyStoreAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<DeletePolicyStoreAliasInput>,
   output: __S(672, __c21, 0) as any as S.Schema<DeletePolicyStoreAliasOutput>,
-  errors: [InvalidStateException, ValidationException, ResourceNotFoundException],
+  errors: [
+    InvalidStateException,
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyStoreAlias",
@@ -1578,6 +1706,10 @@ export const deletePolicyStoreAlias: API.OperationMethod<
 export type DeletePolicyTemplateError =
   | ConflictException
   | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
   | CommonErrors;
 /**
  * Deletes the specified policy template from the policy store.
@@ -1592,7 +1724,14 @@ export const deletePolicyTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<DeletePolicyTemplateInput>,
   output: __S(672, __c21, 0) as any as S.Schema<DeletePolicyTemplateOutput>,
-  errors: [ConflictException, ResourceNotFoundException],
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyTemplate",
@@ -1600,7 +1739,13 @@ export const deletePolicyTemplate: API.OperationMethod<
   span: "DeletePolicyTemplate",
 }));
 
-export type GetIdentitySourceError = ResourceNotFoundException | CommonErrors;
+export type GetIdentitySourceError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves the details about the specified identity source.
  */
@@ -1612,7 +1757,13 @@ export const getIdentitySource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetIdentitySourceInput>,
   output: __S(868, __c27, 4) as any as S.Schema<GetIdentitySourceOutput>,
-  errors: [ResourceNotFoundException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentitySource",
@@ -1620,7 +1771,13 @@ export const getIdentitySource: API.OperationMethod<
   span: "GetIdentitySource",
 }));
 
-export type GetPolicyError = ResourceNotFoundException | ValidationException | CommonErrors;
+export type GetPolicyError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves information about the specified policy.
  */
@@ -1632,7 +1789,13 @@ export const getPolicy: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<GetPolicyInput>,
   output: __S(897, __c28, 1) as any as S.Schema<GetPolicyOutput>,
-  errors: [ResourceNotFoundException, ValidationException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
@@ -1640,7 +1803,13 @@ export const getPolicy: API.OperationMethod<
   span: "GetPolicy",
 }));
 
-export type GetPolicyStoreError = ResourceNotFoundException | ValidationException | CommonErrors;
+export type GetPolicyStoreError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details about a policy store.
  */
@@ -1652,7 +1821,13 @@ export const getPolicyStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<GetPolicyStoreInput>,
   output: __S(931, __c29, 3) as any as S.Schema<GetPolicyStoreOutput>,
-  errors: [ResourceNotFoundException, ValidationException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyStore",
@@ -1660,7 +1835,13 @@ export const getPolicyStore: API.OperationMethod<
   span: "GetPolicyStore",
 }));
 
-export type GetPolicyStoreAliasError = ResourceNotFoundException | CommonErrors;
+export type GetPolicyStoreAliasError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieves details about the specified policy store alias.
  */
@@ -1672,7 +1853,13 @@ export const getPolicyStoreAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetPolicyStoreAliasInput>,
   output: __S(992, __c31, 0) as any as S.Schema<GetPolicyStoreAliasOutput>,
-  errors: [ResourceNotFoundException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyStoreAlias",
@@ -1680,7 +1867,13 @@ export const getPolicyStoreAlias: API.OperationMethod<
   span: "GetPolicyStoreAlias",
 }));
 
-export type GetPolicyTemplateError = ResourceNotFoundException | CommonErrors;
+export type GetPolicyTemplateError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieve the details for the specified policy template in the specified policy store.
  */
@@ -1692,7 +1885,13 @@ export const getPolicyTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetPolicyTemplateInput>,
   output: __S(1025, __c32, 1) as any as S.Schema<GetPolicyTemplateOutput>,
-  errors: [ResourceNotFoundException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyTemplate",
@@ -1700,7 +1899,13 @@ export const getPolicyTemplate: API.OperationMethod<
   span: "GetPolicyTemplate",
 }));
 
-export type GetSchemaError = ResourceNotFoundException | ValidationException | CommonErrors;
+export type GetSchemaError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Retrieve the details for the specified schema in the specified policy store.
  */
@@ -1712,7 +1917,13 @@ export const getSchema: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetSchemaInput>,
   output: __S(1057, __c33, 1) as any as S.Schema<GetSchemaOutput>,
-  errors: [ResourceNotFoundException, ValidationException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchema",
@@ -1720,7 +1931,13 @@ export const getSchema: API.OperationMethod<
   span: "GetSchema",
 }));
 
-export type IsAuthorizedError = ResourceNotFoundException | ValidationException | CommonErrors;
+export type IsAuthorizedError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Makes an authorization decision about a service request described in the parameters. The information in the parameters can also define additional context that Verified Permissions can include in the evaluation. The request is evaluated against all matching policies in the specified policy store. The result of the decision is either `Allow` or `Deny`, along with a list of the policies that resulted in the decision.
  */
@@ -1732,7 +1949,13 @@ export const isAuthorized: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<IsAuthorizedInput>,
   output: __S(1089, __c34, 1) as any as S.Schema<IsAuthorizedOutput>,
-  errors: [ResourceNotFoundException, ValidationException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IsAuthorized",
@@ -1742,6 +1965,9 @@ export const isAuthorized: API.OperationMethod<
 
 export type IsAuthorizedWithTokenError =
   | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -1759,7 +1985,13 @@ export const isAuthorizedWithToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<IsAuthorizedWithTokenInput>,
   output: __S(1121, __c35, 1) as any as S.Schema<IsAuthorizedWithTokenOutput>,
-  errors: [ResourceNotFoundException, ValidationException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IsAuthorizedWithToken",
@@ -1767,7 +1999,13 @@ export const isAuthorizedWithToken: API.OperationMethod<
   span: "IsAuthorizedWithToken",
 }));
 
-export type ListIdentitySourcesError = ResourceNotFoundException | CommonErrors;
+export type ListIdentitySourcesError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a paginated list of all of the identity sources defined in the specified policy store.
  */
@@ -1780,7 +2018,13 @@ export const listIdentitySources: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1154, __c36, 2) as any as S.Schema<ListIdentitySourcesInput>,
   output: __S(1156, __c36, 4) as any as S.Schema<ListIdentitySourcesOutput>,
-  errors: [ResourceNotFoundException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIdentitySources",
@@ -1794,7 +2038,13 @@ export const listIdentitySources: API.PaginatedOperationMethod<
   span: "ListIdentitySources",
 })) as any;
 
-export type ListPoliciesError = ResourceNotFoundException | CommonErrors;
+export type ListPoliciesError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a paginated list of all policies stored in the specified policy store.
  */
@@ -1807,7 +2057,13 @@ export const listPolicies: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1186, __c37, 2) as any as S.Schema<ListPoliciesInput>,
   output: __S(1191, __c37, 7) as any as S.Schema<ListPoliciesOutput>,
-  errors: [ResourceNotFoundException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicies",
@@ -1821,7 +2077,12 @@ export const listPolicies: API.PaginatedOperationMethod<
   span: "ListPolicies",
 })) as any;
 
-export type ListPolicyStoreAliasesError = CommonErrors;
+export type ListPolicyStoreAliasesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a paginated list of all policy store aliases in the calling Amazon Web Services account.
  */
@@ -1834,7 +2095,12 @@ export const listPolicyStoreAliases: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1217, __c38, 1) as any as S.Schema<ListPolicyStoreAliasesInput>,
   output: __S(1219, __c38, 3) as any as S.Schema<ListPolicyStoreAliasesOutput>,
-  errors: [],
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicyStoreAliases",
@@ -1848,7 +2114,12 @@ export const listPolicyStoreAliases: API.PaginatedOperationMethod<
   span: "ListPolicyStoreAliases",
 })) as any;
 
-export type ListPolicyStoresError = CommonErrors;
+export type ListPolicyStoresError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a paginated list of all policy stores in the calling Amazon Web Services account.
  */
@@ -1861,7 +2132,12 @@ export const listPolicyStores: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<ListPolicyStoresInput>,
   output: __S(1251, __c39, 3) as any as S.Schema<ListPolicyStoresOutput>,
-  errors: [],
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicyStores",
@@ -1875,7 +2151,13 @@ export const listPolicyStores: API.PaginatedOperationMethod<
   span: "ListPolicyStores",
 })) as any;
 
-export type ListPolicyTemplatesError = ResourceNotFoundException | CommonErrors;
+export type ListPolicyTemplatesError =
+  | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
 /**
  * Returns a paginated list of all policy templates in the specified policy store.
  */
@@ -1888,7 +2170,13 @@ export const listPolicyTemplates: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<ListPolicyTemplatesInput>,
   output: __S(1283, __c40, 3) as any as S.Schema<ListPolicyTemplatesOutput>,
-  errors: [ResourceNotFoundException],
+  errors: [
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPolicyTemplates",
@@ -1907,6 +2195,7 @@ export type ListTagsForResourceError =
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
+  | ValidationException
   | CommonErrors;
 /**
  * Returns the tags associated with the specified Amazon Verified Permissions resource. In Verified Permissions, policy stores can be tagged.
@@ -1924,6 +2213,7 @@ export const listTagsForResource: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1936,6 +2226,9 @@ export type PutSchemaError =
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -1955,6 +2248,9 @@ export const putSchema: API.OperationMethod<
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -1970,6 +2266,7 @@ export type TagResourceError =
   | ResourceNotFoundException
   | ThrottlingException
   | TooManyTagsException
+  | ValidationException
   | CommonErrors;
 /**
  * Assigns one or more tags (key-value pairs) to the specified Amazon Verified Permissions resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Verified Permissions, policy stores can be tagged.
@@ -1994,6 +2291,7 @@ export const tagResource: API.OperationMethod<
     ResourceNotFoundException,
     ThrottlingException,
     TooManyTagsException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2007,6 +2305,7 @@ export type UntagResourceError =
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
+  | ValidationException
   | CommonErrors;
 /**
  * Removes one or more tags from the specified Amazon Verified Permissions resource. In Verified Permissions, policy stores can be tagged.
@@ -2024,6 +2323,7 @@ export const untagResource: API.OperationMethod<
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2035,6 +2335,9 @@ export const untagResource: API.OperationMethod<
 export type UpdateIdentitySourceError =
   | ConflictException
   | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -2050,7 +2353,14 @@ export const updateIdentitySource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<UpdateIdentitySourceInput>,
   output: __S(291, __c9, 3) as any as S.Schema<UpdateIdentitySourceOutput>,
-  errors: [ConflictException, ResourceNotFoundException, ValidationException],
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentitySource",
@@ -2062,6 +2372,9 @@ export type UpdatePolicyError =
   | ConflictException
   | ResourceNotFoundException
   | ServiceQuotaExceededException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -2101,6 +2414,9 @@ export const updatePolicy: API.OperationMethod<
     ConflictException,
     ResourceNotFoundException,
     ServiceQuotaExceededException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -2113,6 +2429,9 @@ export const updatePolicy: API.OperationMethod<
 export type UpdatePolicyStoreError =
   | ConflictException
   | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -2128,7 +2447,14 @@ export const updatePolicyStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<UpdatePolicyStoreInput>,
   output: __S(512, __c16, 0) as any as S.Schema<UpdatePolicyStoreOutput>,
-  errors: [ConflictException, ResourceNotFoundException, ValidationException],
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicyStore",
@@ -2139,6 +2465,9 @@ export const updatePolicyStore: API.OperationMethod<
 export type UpdatePolicyTemplateError =
   | ConflictException
   | ResourceNotFoundException
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -2156,7 +2485,14 @@ export const updatePolicyTemplate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<UpdatePolicyTemplateInput>,
   output: __S(608, __c19, 0) as any as S.Schema<UpdatePolicyTemplateOutput>,
-  errors: [ConflictException, ResourceNotFoundException, ValidationException],
+  errors: [
+    ConflictException,
+    ResourceNotFoundException,
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicyTemplate",
@@ -2180,9 +2516,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          principal: S.optional(__S(1600, __c50, 0)),
+          principal: S.optional(__S(1632, __c51, 0)),
           action: S.optional(__S(64, __c2, 0)),
-          resource: S.optional(__S(1600, __c50, 0)),
+          resource: S.optional(__S(1632, __c51, 0)),
           context: S.optional(__S(108, __c3, 12)),
         }),
       ).annotate({ identifier: "BatchIsAuthorizedInputItem" });
@@ -2237,7 +2573,7 @@ function __c3(j: number): any {
     case 2:
       return S.Union([
         /*@__PURE__*/ S.Struct({ boolean: S.Boolean }),
-        /*@__PURE__*/ S.Struct({ entityIdentifier: __S(1600, __c50, 0) }),
+        /*@__PURE__*/ S.Struct({ entityIdentifier: __S(1632, __c51, 0) }),
         /*@__PURE__*/ S.Struct({ long: S.Number }),
         /*@__PURE__*/ S.Struct({ string: SensitiveString }),
         /*@__PURE__*/ S.Struct({
@@ -2263,7 +2599,7 @@ function __c3(j: number): any {
           .pipe(S.optional),
       );
     case 4:
-      return S.Array(__S(1600, __c50, 0));
+      return S.Array(__S(1632, __c51, 0));
     case 5:
       return S.Array(
         /*@__PURE__*/ S.suspend(() => __S(103, __c3, 7)).annotate({ identifier: "CedarTagValue" }),
@@ -2278,7 +2614,7 @@ function __c3(j: number): any {
     case 7:
       return S.Union([
         /*@__PURE__*/ S.Struct({ boolean: S.Boolean }),
-        /*@__PURE__*/ S.Struct({ entityIdentifier: __S(1600, __c50, 0) }),
+        /*@__PURE__*/ S.Struct({ entityIdentifier: __S(1632, __c51, 0) }),
         /*@__PURE__*/ S.Struct({ long: S.Number }),
         /*@__PURE__*/ S.Struct({ string: SensitiveString }),
         /*@__PURE__*/ S.Struct({
@@ -2306,7 +2642,7 @@ function __c3(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          identifier: __S(1600, __c50, 0),
+          identifier: __S(1632, __c51, 0),
           attributes: S.optional(__S(99, __c3, 3)),
           parents: S.optional(__S(100, __c3, 4)),
           tags: S.optional(__S(104, __c3, 8)),
@@ -2344,7 +2680,7 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           action: S.optional(__S(64, __c2, 0)),
-          resource: S.optional(__S(1600, __c50, 0)),
+          resource: S.optional(__S(1632, __c51, 0)),
           context: S.optional(__S(108, __c3, 12)),
         }),
       ).annotate({ identifier: "BatchIsAuthorizedWithTokenInputItem" });
@@ -2373,7 +2709,7 @@ function __c4(j: number): any {
       return S.Array(__S(131, __c4, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ principal: S.optional(__S(1600, __c50, 0)), results: __S(132, __c4, 4) }),
+        S.Struct({ principal: S.optional(__S(1632, __c51, 0)), results: __S(132, __c4, 4) }),
       ).annotate({ identifier: "BatchIsAuthorizedWithTokenOutput" });
   }
 }
@@ -2475,7 +2811,7 @@ function __c10(j: number): any {
         S.Struct({
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           policyStoreId: S.String,
-          definition: __S(1632, __c51, 0),
+          definition: __S(1664, __c52, 0),
           name: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreatePolicyInput" });
@@ -2495,8 +2831,8 @@ function __c12(j: number): any {
           policyStoreId: S.String,
           policyId: S.String,
           policyType: S.String,
-          principal: S.optional(__S(1600, __c50, 0)),
-          resource: S.optional(__S(1600, __c50, 0)),
+          principal: S.optional(__S(1632, __c51, 0)),
+          resource: S.optional(__S(1632, __c51, 0)),
           actions: S.optional(__S(352, __c11, 0)),
           createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -2725,10 +3061,10 @@ function __c28(j: number): any {
           policyStoreId: S.String,
           policyId: S.String,
           policyType: S.String,
-          principal: S.optional(__S(1600, __c50, 0)),
-          resource: S.optional(__S(1600, __c50, 0)),
+          principal: S.optional(__S(1632, __c51, 0)),
+          resource: S.optional(__S(1632, __c51, 0)),
           actions: S.optional(__S(352, __c11, 0)),
-          definition: __S(1632, __c51, 0),
+          definition: __S(1664, __c52, 0),
           createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           effect: S.optional(S.String),
@@ -2843,9 +3179,9 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           policyStoreId: S.String,
-          principal: S.optional(__S(1600, __c50, 0)),
+          principal: S.optional(__S(1632, __c51, 0)),
           action: S.optional(__S(64, __c2, 0)),
-          resource: S.optional(__S(1600, __c50, 0)),
+          resource: S.optional(__S(1632, __c51, 0)),
           context: S.optional(__S(108, __c3, 12)),
           entities: S.optional(__S(107, __c3, 11)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -2869,7 +3205,7 @@ function __c35(j: number): any {
           identityToken: S.optional(SensitiveString),
           accessToken: S.optional(SensitiveString),
           action: S.optional(__S(64, __c2, 0)),
-          resource: S.optional(__S(1600, __c50, 0)),
+          resource: S.optional(__S(1632, __c51, 0)),
           context: S.optional(__S(108, __c3, 12)),
           entities: S.optional(__S(107, __c3, 11)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -2880,7 +3216,7 @@ function __c35(j: number): any {
           decision: S.String,
           determiningPolicies: __S(110, __c3, 14),
           errors: __S(112, __c3, 16),
-          principal: S.optional(__S(1600, __c50, 0)),
+          principal: S.optional(__S(1632, __c51, 0)),
         }),
       ).annotate({ identifier: "IsAuthorizedWithTokenOutput" });
   }
@@ -2915,7 +3251,7 @@ function __c37(j: number): any {
     case 0:
       return S.Union([
         /*@__PURE__*/ S.Struct({ unspecified: S.Boolean }),
-        /*@__PURE__*/ S.Struct({ identifier: __S(1600, __c50, 0) }),
+        /*@__PURE__*/ S.Struct({ identifier: __S(1632, __c51, 0) }),
       ]);
     case 1:
       return S.suspend(() =>
@@ -2942,7 +3278,7 @@ function __c37(j: number): any {
     case 4:
       return S.Union([
         /*@__PURE__*/ S.Struct({ static: __S(1187, __c37, 3) }),
-        /*@__PURE__*/ S.Struct({ templateLinked: __S(1664, __c52, 0) }),
+        /*@__PURE__*/ S.Struct({ templateLinked: __S(1696, __c53, 0) }),
       ]);
     case 5:
       return S.suspend(() =>
@@ -2950,8 +3286,8 @@ function __c37(j: number): any {
           policyStoreId: S.String,
           policyId: S.String,
           policyType: S.String,
-          principal: S.optional(__S(1600, __c50, 0)),
-          resource: S.optional(__S(1600, __c50, 0)),
+          principal: S.optional(__S(1632, __c51, 0)),
+          resource: S.optional(__S(1632, __c51, 0)),
           actions: S.optional(__S(352, __c11, 0)),
           definition: __S(1188, __c37, 4),
           createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -3116,7 +3452,7 @@ function __c45(j: number): any {
 function __c46(j: number): any {
   switch (j) {
     case 0:
-      return S.Union([/*@__PURE__*/ S.Struct({ static: __S(1696, __c53, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ static: __S(1728, __c54, 0) })]);
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -3158,14 +3494,24 @@ function __c48(j: number): any {
 function __c49(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => S.Struct({ path: S.String, message: S.String })).annotate({
+        identifier: "ValidationExceptionField",
+      });
+    case 1:
+      return S.Array(__S(1568, __c49, 0));
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() => S.Struct({ policyStoreId: S.String, policyId: S.String })).annotate({
         identifier: "BatchGetPolicyInputItem",
       });
     case 1:
-      return S.Array(__S(1568, __c49, 0));
+      return S.Array(__S(1600, __c50, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ requests: __S(1569, __c49, 1) }).pipe(
+        S.Struct({ requests: __S(1601, __c50, 1) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetPolicyInput" });
@@ -3175,14 +3521,14 @@ function __c49(j: number): any {
           policyStoreId: S.String,
           policyId: S.String,
           policyType: S.String,
-          definition: __S(1632, __c51, 0),
+          definition: __S(1664, __c52, 0),
           createdDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastUpdatedDate: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "BatchGetPolicyOutputItem" });
     case 4:
-      return S.Array(__S(1571, __c49, 3));
+      return S.Array(__S(1603, __c50, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -3193,14 +3539,14 @@ function __c49(j: number): any {
         }),
       ).annotate({ identifier: "BatchGetPolicyErrorItem" });
     case 6:
-      return S.Array(__S(1573, __c49, 5));
+      return S.Array(__S(1605, __c50, 5));
     case 7:
       return S.suspend(() =>
-        S.Struct({ results: __S(1572, __c49, 4), errors: __S(1574, __c49, 6) }),
+        S.Struct({ results: __S(1604, __c50, 4), errors: __S(1606, __c50, 6) }),
       ).annotate({ identifier: "BatchGetPolicyOutput" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3208,28 +3554,28 @@ function __c50(j: number): any {
       ).annotate({ identifier: "EntityIdentifier" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ static: __S(1696, __c53, 0) }),
-        /*@__PURE__*/ S.Struct({ templateLinked: __S(1664, __c52, 0) }),
+        /*@__PURE__*/ S.Struct({ static: __S(1728, __c54, 0) }),
+        /*@__PURE__*/ S.Struct({ templateLinked: __S(1696, __c53, 0) }),
       ]);
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           policyTemplateId: S.String,
-          principal: S.optional(__S(1600, __c50, 0)),
-          resource: S.optional(__S(1600, __c50, 0)),
+          principal: S.optional(__S(1632, __c51, 0)),
+          resource: S.optional(__S(1632, __c51, 0)),
         }),
       ).annotate({ identifier: "TemplateLinkedPolicyDefinitionDetail" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -146,7 +146,7 @@ export interface ListTagsForResourceRequest {
 }
 export type Tags = { [key: string]: string | undefined };
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type Catalog = string;
 export type ResourceId = string;
@@ -165,9 +165,9 @@ export interface PutDeploymentParameterRequest {
   productId: string;
   agreementId: string;
   deploymentParameter: DeploymentParameterInput;
-  tags?: { [key: string]: string | undefined };
-  expirationDate?: Date;
-  clientToken?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  expirationDate?: Date | undefined;
+  clientToken?: string | undefined;
 }
 export type ResourceArn = string;
 export type DeploymentParameterResourceIdentifier = string;
@@ -175,11 +175,11 @@ export interface PutDeploymentParameterResponse {
   resourceArn: string;
   agreementId: string;
   deploymentParameterId: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export type StringList = string[];

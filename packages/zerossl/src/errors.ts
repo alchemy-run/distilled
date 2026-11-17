@@ -31,6 +31,7 @@ import type {
   Forbidden as CoreForbidden,
   NotFound as CoreNotFound,
 } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -40,10 +41,10 @@ import * as Schema from "@distilled.cloud/core/schema-lite-typed";
  */
 export class UnknownZeroSslError
   extends /*@__PURE__*/ Schema.TaggedError<UnknownZeroSslError>()("UnknownZeroSslError", {
+    ...UnknownErrorFields,
+    /** ZeroSSL's numeric error code. */
     code: /*@__PURE__*/ Schema.optional(Schema.Number),
     type: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
   }) {}
 
 /** Schema parse error wrapper. */

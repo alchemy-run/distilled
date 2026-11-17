@@ -36,18 +36,18 @@ const TELEMETRY = {
 /** Describes the properties of a Cluster. */
 export interface ClusterPropertiesInput {
   /** Gets or sets the ARM Id of the vCenter resource in which this cluster resides. */
-  vCenterId?: string;
+  vCenterId?: string | undefined;
   /** Gets or sets the vCenter MoRef (Managed Object Reference) ID for the cluster. */
-  moRefId?: string;
+  moRefId?: string | undefined;
   /** Gets or sets the inventory Item ID for the cluster. */
-  inventoryItemId?: string;
+  inventoryItemId?: string | undefined;
 }
 /** The extended location. */
 export interface ExtendedLocation {
   /** The extended location type. */
-  type?: string;
+  type?: string | undefined;
   /** The extended location name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type CreateClusterRequestTagsMap = { [key: string]: string | undefined };
@@ -63,26 +63,26 @@ export interface CreateClusterRequest {
   /** Gets or sets the location. */
   location: string;
   /** Gets or sets the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Gets or sets the Resource tags. */
-  tags?: CreateClusterRequestTagsMap;
+  tags?: CreateClusterRequestTagsMap | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The resource status information. */
 export interface ResourceStatus {
   /** The type of the condition. */
-  type?: string;
+  type?: string | undefined;
   /** Status of the condition. */
-  status?: string;
+  status?: string | undefined;
   /** The reason for the condition's status. */
-  reason?: string;
+  reason?: string | undefined;
   /** A human readable message indicating details about the status. */
-  message?: string;
+  message?: string | undefined;
   /** Severity with which to treat failures of this type of condition. */
-  severity?: string;
+  severity?: string | undefined;
   /** The last update time for this condition. */
-  lastUpdatedAt?: string;
+  lastUpdatedAt?: string | undefined;
 }
 /** The resource status information. */
 export type ClusterPropertiesStatusesList = Array<ResourceStatus>;
@@ -103,33 +103,33 @@ export type ResourceProvisioningState =
 /** Describes the properties of a Cluster. */
 export interface ClusterProperties {
   /** Gets or sets a unique identifier for this resource. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Gets or sets the ARM Id of the vCenter resource in which this cluster resides. */
-  vCenterId?: string;
+  vCenterId?: string | undefined;
   /** Gets or sets the vCenter MoRef (Managed Object Reference) ID for the cluster. */
-  moRefId?: string;
+  moRefId?: string | undefined;
   /** Gets or sets the inventory Item ID for the cluster. */
-  inventoryItemId?: string;
+  inventoryItemId?: string | undefined;
   /** Gets or sets the vCenter Managed Object name for the cluster. */
-  moName?: string;
+  moName?: string | undefined;
   /** The resource status information. */
-  statuses?: ClusterPropertiesStatusesList;
+  statuses?: ClusterPropertiesStatusesList | undefined;
   /** Gets the name of the corresponding resource in Kubernetes. */
-  customResourceName?: string;
+  customResourceName?: string | undefined;
   /** Gets the used physical memory on the cluster in GB. */
-  usedMemoryGB?: number;
+  usedMemoryGB?: number | undefined;
   /** Gets the total amount of physical memory on the cluster in GB. */
-  totalMemoryGB?: number;
+  totalMemoryGB?: number | undefined;
   /** Gets the used CPU usage across all cores on the cluster in MHz. */
-  usedCpuMHz?: number;
+  usedCpuMHz?: number | undefined;
   /** Gets the max CPU usage across all cores on the cluster in MHz. */
-  totalCpuMHz?: number;
+  totalCpuMHz?: number | undefined;
   /** Gets the datastore ARM ids. */
-  datastoreIds?: ClusterPropertiesDatastoreIdsList;
+  datastoreIds?: ClusterPropertiesDatastoreIdsList | undefined;
   /** Gets the network ARM ids. */
-  networkIds?: ClusterPropertiesNetworkIdsList;
+  networkIds?: ClusterPropertiesNetworkIdsList | undefined;
   /** Gets the provisioning state. */
-  provisioningState?: ResourceProvisioningState;
+  provisioningState?: ResourceProvisioningState | undefined;
 }
 /** The type of identity that created the resource. */
 export type ClusterSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -142,17 +142,17 @@ export type ClusterSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ClusterSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ClusterSystemDataCreatedByType;
+  createdByType?: ClusterSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ClusterSystemDataLastModifiedByType;
+  lastModifiedByType?: ClusterSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type ClusterTagsMap = { [key: string]: string | undefined };
@@ -163,28 +163,28 @@ export interface Cluster {
   /** Gets or sets the location. */
   location: string;
   /** Gets or sets the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ClusterSystemData;
+  systemData?: ClusterSystemData | undefined;
   /** Gets or sets the Resource tags. */
-  tags?: ClusterTagsMap;
+  tags?: ClusterTagsMap | undefined;
   /** Gets or sets the name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the Id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Describes the properties of a Datastore. */
 export interface DatastorePropertiesInput {
   /** Gets or sets the ARM Id of the vCenter resource in which this datastore resides. */
-  vCenterId?: string;
+  vCenterId?: string | undefined;
   /** Gets or sets the vCenter MoRef (Managed Object Reference) ID for the datastore. */
-  moRefId?: string;
+  moRefId?: string | undefined;
   /** Gets or sets the inventory Item ID for the datastore. */
-  inventoryItemId?: string;
+  inventoryItemId?: string | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type CreateDatastoreRequestTagsMap = { [key: string]: string | undefined };
@@ -200,36 +200,36 @@ export interface CreateDatastoreRequest {
   /** Gets or sets the location. */
   location: string;
   /** Gets or sets the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Gets or sets the Resource tags. */
-  tags?: CreateDatastoreRequestTagsMap;
+  tags?: CreateDatastoreRequestTagsMap | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The resource status information. */
 export type DatastorePropertiesStatusesList = Array<ResourceStatus>;
 /** Describes the properties of a Datastore. */
 export interface DatastoreProperties {
   /** Gets or sets a unique identifier for this resource. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Gets or sets the ARM Id of the vCenter resource in which this datastore resides. */
-  vCenterId?: string;
+  vCenterId?: string | undefined;
   /** Gets or sets the vCenter MoRef (Managed Object Reference) ID for the datastore. */
-  moRefId?: string;
+  moRefId?: string | undefined;
   /** Gets or sets the inventory Item ID for the datastore. */
-  inventoryItemId?: string;
+  inventoryItemId?: string | undefined;
   /** Gets or sets the vCenter Managed Object name for the datastore. */
-  moName?: string;
+  moName?: string | undefined;
   /** The resource status information. */
-  statuses?: DatastorePropertiesStatusesList;
+  statuses?: DatastorePropertiesStatusesList | undefined;
   /** Gets the name of the corresponding resource in Kubernetes. */
-  customResourceName?: string;
+  customResourceName?: string | undefined;
   /** Gets or sets Maximum capacity of this datastore in GBs. */
-  capacityGB?: number;
+  capacityGB?: number | undefined;
   /** Gets or sets Available space of this datastore in GBs. */
-  freeSpaceGB?: number;
+  freeSpaceGB?: number | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ResourceProvisioningState;
+  provisioningState?: ResourceProvisioningState | undefined;
 }
 /** The type of identity that created the resource. */
 export type DatastoreSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -242,17 +242,17 @@ export type DatastoreSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface DatastoreSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: DatastoreSystemDataCreatedByType;
+  createdByType?: DatastoreSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DatastoreSystemDataLastModifiedByType;
+  lastModifiedByType?: DatastoreSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type DatastoreTagsMap = { [key: string]: string | undefined };
@@ -263,28 +263,28 @@ export interface Datastore {
   /** Gets or sets the location. */
   location: string;
   /** Gets or sets the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DatastoreSystemData;
+  systemData?: DatastoreSystemData | undefined;
   /** Gets or sets the Resource tags. */
-  tags?: DatastoreTagsMap;
+  tags?: DatastoreTagsMap | undefined;
   /** Gets or sets the name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the Id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Describes the properties of a Host. */
 export interface HostPropertiesInput {
   /** Gets or sets the ARM Id of the vCenter resource in which this host resides. */
-  vCenterId?: string;
+  vCenterId?: string | undefined;
   /** Gets or sets the vCenter MoRef (Managed Object Reference) ID for the host. */
-  moRefId?: string;
+  moRefId?: string | undefined;
   /** Gets or sets the inventory Item ID for the host. */
-  inventoryItemId?: string;
+  inventoryItemId?: string | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type CreateHostRequestTagsMap = { [key: string]: string | undefined };
@@ -300,11 +300,11 @@ export interface CreateHostRequest {
   /** Gets or sets the location. */
   location: string;
   /** Gets or sets the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Gets or sets the Resource tags. */
-  tags?: CreateHostRequestTagsMap;
+  tags?: CreateHostRequestTagsMap | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The resource status information. */
 export type HostPropertiesStatusesList = Array<ResourceStatus>;
@@ -315,33 +315,33 @@ export type HostPropertiesNetworkIdsList = Array<string>;
 /** Describes the properties of a Host. */
 export interface HostProperties {
   /** Gets or sets a unique identifier for this resource. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Gets or sets the ARM Id of the vCenter resource in which this host resides. */
-  vCenterId?: string;
+  vCenterId?: string | undefined;
   /** Gets or sets the vCenter MoRef (Managed Object Reference) ID for the host. */
-  moRefId?: string;
+  moRefId?: string | undefined;
   /** Gets or sets the inventory Item ID for the host. */
-  inventoryItemId?: string;
+  inventoryItemId?: string | undefined;
   /** Gets or sets the vCenter Managed Object name for the host. */
-  moName?: string;
+  moName?: string | undefined;
   /** The resource status information. */
-  statuses?: HostPropertiesStatusesList;
+  statuses?: HostPropertiesStatusesList | undefined;
   /** Gets the name of the corresponding resource in Kubernetes. */
-  customResourceName?: string;
+  customResourceName?: string | undefined;
   /** Gets the used physical memory on the host in GB. */
-  overallMemoryUsageGB?: number;
+  overallMemoryUsageGB?: number | undefined;
   /** Gets the total amount of physical memory on the host in GB. */
-  memorySizeGB?: number;
+  memorySizeGB?: number | undefined;
   /** Gets the used CPU usage across all cores in MHz. */
-  overallCpuUsageMHz?: number;
+  overallCpuUsageMHz?: number | undefined;
   /** Gets the max CPU usage across all cores in MHz. */
-  cpuMhz?: number;
+  cpuMhz?: number | undefined;
   /** Gets the datastore ARM ids. */
-  datastoreIds?: HostPropertiesDatastoreIdsList;
+  datastoreIds?: HostPropertiesDatastoreIdsList | undefined;
   /** Gets the network ARM ids. */
-  networkIds?: HostPropertiesNetworkIdsList;
+  networkIds?: HostPropertiesNetworkIdsList | undefined;
   /** Gets the provisioning state. */
-  provisioningState?: ResourceProvisioningState;
+  provisioningState?: ResourceProvisioningState | undefined;
 }
 /** The type of identity that created the resource. */
 export type HostSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -350,17 +350,17 @@ export type HostSystemDataLastModifiedByType = "User" | "Application" | "Managed
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface HostSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: HostSystemDataCreatedByType;
+  createdByType?: HostSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: HostSystemDataLastModifiedByType;
+  lastModifiedByType?: HostSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type HostTagsMap = { [key: string]: string | undefined };
@@ -371,20 +371,22 @@ export interface Host {
   /** Gets or sets the location. */
   location: string;
   /** Gets or sets the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: HostSystemData;
+  systemData?: HostSystemData | undefined;
   /** Gets or sets the Resource tags. */
-  tags?: HostTagsMap;
+  tags?: HostTagsMap | undefined;
   /** Gets or sets the name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the Id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
 }
+/** They inventory type. */
+export type ResourcePoolInventoryItemInventoryType = "ResourcePool";
 /** The inventory type. */
 export type InventoryType =
   | "ResourcePool"
@@ -394,19 +396,189 @@ export type InventoryType =
   | "Cluster"
   | "Datastore"
   | "Host";
-/** Describes the properties of an Inventory Item. */
-export interface InventoryItemProperties {
-  /** They inventory type. */
-  inventoryType: InventoryType | (string & {});
-  /** Gets or sets the tracked resource id corresponding to the inventory resource. */
-  managedResourceId?: string;
-  /** Gets or sets the MoRef (Managed Object Reference) ID for the inventory item. */
-  moRefId?: string;
-  /** Gets or sets the vCenter Managed Object name for the inventory item. */
-  moName?: string;
-  /** Gets the provisioning state. */
-  provisioningState?: ResourceProvisioningState | (string & {});
+/** Describes the properties of an Inventory Item reference. */
+export interface InventoryItemDetails {
+  /** Gets or sets the inventory Item ID for the resource. */
+  inventoryItemId?: string | undefined;
+  /** Gets or sets the vCenter Managed Object name for the resource. */
+  moName?: string | undefined;
+  /** The inventory type. */
+  inventoryType?: InventoryType | (string & {}) | undefined;
 }
+/** The resource pool inventory item. */
+export interface ResourcePoolInventoryItem {
+  /** They inventory type. */
+  inventoryType: ResourcePoolInventoryItemInventoryType;
+  /** Gets or sets the tracked resource id corresponding to the inventory resource. */
+  managedResourceId?: string | undefined;
+  /** Gets or sets the MoRef (Managed Object Reference) ID for the inventory item. */
+  moRefId?: string | undefined;
+  /** Gets or sets the vCenter Managed Object name for the inventory item. */
+  moName?: string | undefined;
+  /** Gets the provisioning state. */
+  provisioningState?: ResourceProvisioningState | (string & {}) | undefined;
+  /** Parent resourcePool inventory resource details. */
+  parent?: InventoryItemDetails | undefined;
+}
+/** They inventory type. */
+export type VirtualMachineInventoryItemInputInventoryType = "VirtualMachine";
+/** Defines the different types of VM guest operating systems. */
+export type OsType = "Windows" | "Linux" | "Other";
+/** Gets or sets the nic ip addresses. */
+export type VirtualMachineInventoryItemInputIpAddressesList = Array<string>;
+/** Virtual disk model */
+export interface VirtualDiskInventoryInput {
+  /** Gets or sets the name of the virtual disk. */
+  diskName?: string | undefined;
+}
+/** Gets or sets the list of virtual disks associated with the virtual machine. */
+export type StorageProfileInventoryInputDisksList = Array<VirtualDiskInventoryInput>;
+/** Specifies the storage settings for the virtual machine disks. */
+export interface StorageProfileInventoryInput {
+  /** Gets or sets the list of virtual disks associated with the virtual machine. */
+  disks?: StorageProfileInventoryInputDisksList | undefined;
+}
+/** Inventory Network Interface model */
+export interface NetworkInterfaceInventoryInput {}
+/** Gets or sets the list of network interfaces associated with the virtual machine. */
+export type NetworkProfileInventoryInputNetworkInterfacesList =
+  Array<NetworkInterfaceInventoryInput>;
+/** Specifies the network interfaces of the virtual machine. */
+export interface NetworkProfileInventoryInput {
+  /** Gets or sets the list of network interfaces associated with the virtual machine. */
+  networkInterfaces?: NetworkProfileInventoryInputNetworkInterfacesList | undefined;
+}
+/** The VM inventory item. */
+export interface VirtualMachineInventoryItemInput {
+  /** They inventory type. */
+  inventoryType: VirtualMachineInventoryItemInputInventoryType;
+  /** Gets or sets the tracked resource id corresponding to the inventory resource. */
+  managedResourceId?: string | undefined;
+  /** Gets or sets the MoRef (Managed Object Reference) ID for the inventory item. */
+  moRefId?: string | undefined;
+  /** Gets or sets the vCenter Managed Object name for the inventory item. */
+  moName?: string | undefined;
+  /** Gets or sets the type of the os. */
+  osType?: OsType | (string & {}) | undefined;
+  /** Gets or sets os name. */
+  osName?: string | undefined;
+  /** Gets or sets the nic ip addresses. */
+  ipAddresses?: VirtualMachineInventoryItemInputIpAddressesList | undefined;
+  /** Gets or sets the folder path of the vm. */
+  folderPath?: string | undefined;
+  /** Host inventory resource details. */
+  host?: InventoryItemDetails | undefined;
+  /** ResourcePool inventory resource details. */
+  resourcePool?: InventoryItemDetails | undefined;
+  /** Cluster inventory resource details. */
+  cluster?: InventoryItemDetails | undefined;
+  /** Gets or sets the instance uuid of the vm. */
+  instanceUuid?: string | undefined;
+  /** Gets or sets the SMBIOS UUID of the vm. */
+  smbiosUuid?: string | undefined;
+  /** Storage properties. */
+  storageProfile?: StorageProfileInventoryInput | undefined;
+  /** Network properties. */
+  networkProfile?: NetworkProfileInventoryInput | undefined;
+}
+/** They inventory type. */
+export type VirtualMachineTemplateInventoryItemInputInventoryType = "VirtualMachineTemplate";
+/** The VM Template inventory item. */
+export interface VirtualMachineTemplateInventoryItemInput {
+  /** They inventory type. */
+  inventoryType: VirtualMachineTemplateInventoryItemInputInventoryType;
+  /** Gets or sets the tracked resource id corresponding to the inventory resource. */
+  managedResourceId?: string | undefined;
+  /** Gets or sets the MoRef (Managed Object Reference) ID for the inventory item. */
+  moRefId?: string | undefined;
+  /** Gets or sets the vCenter Managed Object name for the inventory item. */
+  moName?: string | undefined;
+  /** Gets or sets memory size in MBs for the template. */
+  memorySizeMB?: number | undefined;
+  /** Gets or sets the number of vCPUs for the template. */
+  numCPUs?: number | undefined;
+  /** Gets or sets the number of cores per socket for the template. Defaults to 1 if unspecified. */
+  numCoresPerSocket?: number | undefined;
+  /** Gets or sets the type of the os. */
+  osType?: OsType | (string & {}) | undefined;
+  /** Gets or sets os name. */
+  osName?: string | undefined;
+  /** Gets or sets the folder path of the template. */
+  folderPath?: string | undefined;
+}
+/** They inventory type. */
+export type VirtualNetworkInventoryItemInventoryType = "VirtualNetwork";
+/** Describes the properties of an Inventory Item. */
+export interface VirtualNetworkInventoryItem {
+  /** They inventory type. */
+  inventoryType: VirtualNetworkInventoryItemInventoryType;
+  /** Gets or sets the tracked resource id corresponding to the inventory resource. */
+  managedResourceId?: string | undefined;
+  /** Gets or sets the MoRef (Managed Object Reference) ID for the inventory item. */
+  moRefId?: string | undefined;
+  /** Gets or sets the vCenter Managed Object name for the inventory item. */
+  moName?: string | undefined;
+  /** Gets the provisioning state. */
+  provisioningState?: ResourceProvisioningState | (string & {}) | undefined;
+}
+/** They inventory type. */
+export type ClusterInventoryItemInventoryType = "Cluster";
+/** Describes the properties of an Inventory Item. */
+export interface ClusterInventoryItem {
+  /** They inventory type. */
+  inventoryType: ClusterInventoryItemInventoryType;
+  /** Gets or sets the tracked resource id corresponding to the inventory resource. */
+  managedResourceId?: string | undefined;
+  /** Gets or sets the MoRef (Managed Object Reference) ID for the inventory item. */
+  moRefId?: string | undefined;
+  /** Gets or sets the vCenter Managed Object name for the inventory item. */
+  moName?: string | undefined;
+  /** Gets the provisioning state. */
+  provisioningState?: ResourceProvisioningState | (string & {}) | undefined;
+}
+/** They inventory type. */
+export type DatastoreInventoryItemInventoryType = "Datastore";
+/** The datastore inventory item. */
+export interface DatastoreInventoryItem {
+  /** They inventory type. */
+  inventoryType: DatastoreInventoryItemInventoryType;
+  /** Gets or sets the tracked resource id corresponding to the inventory resource. */
+  managedResourceId?: string | undefined;
+  /** Gets or sets the MoRef (Managed Object Reference) ID for the inventory item. */
+  moRefId?: string | undefined;
+  /** Gets or sets the vCenter Managed Object name for the inventory item. */
+  moName?: string | undefined;
+  /** Gets the provisioning state. */
+  provisioningState?: ResourceProvisioningState | (string & {}) | undefined;
+  /** Gets or sets Maximum capacity of this datastore, in GBs. */
+  capacityGB?: number | undefined;
+  /** Gets or sets Available space of this datastore, in GBs. */
+  freeSpaceGB?: number | undefined;
+}
+/** They inventory type. */
+export type HostInventoryItemInputInventoryType = "Host";
+/** The host inventory item. */
+export interface HostInventoryItemInput {
+  /** They inventory type. */
+  inventoryType: HostInventoryItemInputInventoryType;
+  /** Gets or sets the tracked resource id corresponding to the inventory resource. */
+  managedResourceId?: string | undefined;
+  /** Gets or sets the MoRef (Managed Object Reference) ID for the inventory item. */
+  moRefId?: string | undefined;
+  /** Gets or sets the vCenter Managed Object name for the inventory item. */
+  moName?: string | undefined;
+  /** Parent host inventory resource details. */
+  parent?: InventoryItemDetails | undefined;
+}
+/** Describes the properties of an Inventory Item. */
+export type InventoryItemPropertiesInput =
+  | ResourcePoolInventoryItem
+  | VirtualMachineInventoryItemInput
+  | VirtualMachineTemplateInventoryItemInput
+  | VirtualNetworkInventoryItem
+  | ClusterInventoryItem
+  | DatastoreInventoryItem
+  | HostInventoryItemInput;
 export interface CreateInventoryItemRequest {
   /** The Subscription ID. */
   subscriptionId: string;
@@ -417,9 +589,9 @@ export interface CreateInventoryItemRequest {
   /** Name of the inventoryItem. */
   inventoryItemName: string;
   /** Resource properties. */
-  properties: InventoryItemProperties;
+  properties: InventoryItemPropertiesInput;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -428,40 +600,253 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
+/** They inventory type. */
+export type VirtualMachineInventoryItemInventoryType = "VirtualMachine";
+/** Gets or sets the nic ip addresses. */
+export type VirtualMachineInventoryItemIpAddressesList = Array<string>;
+/** Firmware type */
+export type FirmwareType = "bios" | "efi";
+/** Defines the different types of disk modes. */
+export type DiskMode = "persistent" | "independent_persistent" | "independent_nonpersistent";
+/** Defines the different types of disks. */
+export type DiskType =
+  | "flat"
+  | "pmem"
+  | "rawphysical"
+  | "rawvirtual"
+  | "sparse"
+  | "sesparse"
+  | "unknown";
+/** Virtual disk model */
+export interface VirtualDiskInventory {
+  /** Gets or sets the name of the virtual disk. */
+  diskName?: string | undefined;
+  /** Gets or sets the label of the virtual disk in vCenter. */
+  label?: string | undefined;
+  /** Gets or sets the disk total size. */
+  diskSizeGB?: number | undefined;
+  /** Gets or sets the device key value. */
+  deviceKey?: number | undefined;
+  /** Gets or sets the disk mode. */
+  diskMode?: DiskMode | undefined;
+  /** Gets or sets the controller id. */
+  controllerKey?: number | undefined;
+  /** Gets or sets the unit number of the disk on the controller. */
+  unitNumber?: number | undefined;
+  /** Gets or sets the device name. */
+  deviceName?: string | undefined;
+  /** Gets or sets the disk file name. */
+  fileName?: string | undefined;
+  /** Gets or sets the disk backing type. */
+  diskType?: DiskType | undefined;
+  /** Gets or sets the eagerly scrub property of disk. */
+  eagerlyScrub?: boolean | undefined;
+  /** Gets or sets the thin provisioning property of disk. */
+  thinProvisioned?: boolean | undefined;
+  /** Gets or sets the controller type. */
+  controllerType?: string | undefined;
+  /** Gets or sets a unique identifier for this resource. */
+  uuid?: string | undefined;
+}
+/** Gets or sets the list of virtual disks associated with the virtual machine. */
+export type StorageProfileInventoryDisksList = Array<VirtualDiskInventory>;
+/** Specifies the storage settings for the virtual machine disks. */
+export interface StorageProfileInventory {
+  /** Gets or sets the list of virtual disks associated with the virtual machine. */
+  disks?: StorageProfileInventoryDisksList | undefined;
+}
+/** Gets or sets the nic ip addresses. */
+export type NetworkInterfaceInventoryIpAddressesList = Array<string>;
+/** NIC type */
+export type NICType = "vmxnet3" | "vmxnet2" | "vmxnet" | "e1000" | "e1000e" | "pcnet32";
+/** Inventory Network Interface model */
+export interface NetworkInterfaceInventory {
+  /** Gets or sets the label of the virtual network in vCenter that the nic is connected to. */
+  label?: string | undefined;
+  /** Gets or sets the nic ip addresses. */
+  ipAddresses?: NetworkInterfaceInventoryIpAddressesList | undefined;
+  /** Gets or sets the NIC MAC address. */
+  macAddress?: string | undefined;
+  /** NIC type */
+  nicType?: NICType | undefined;
+  /** Gets or sets the vCenter MoRef (Managed Object Reference) ID of the virtual network that the nic is connected to. */
+  networkMoRefId?: string | undefined;
+  /** Gets or sets the name of the virtual network in vCenter that the nic is connected to. */
+  networkMoName?: string | undefined;
+  /** Gets or sets the device key value. */
+  deviceKey?: number | undefined;
+}
+/** Gets or sets the list of network interfaces associated with the virtual machine. */
+export type NetworkProfileInventoryNetworkInterfacesList = Array<NetworkInterfaceInventory>;
+/** Specifies the network interfaces of the virtual machine. */
+export interface NetworkProfileInventory {
+  /** Gets or sets the list of network interfaces associated with the virtual machine. */
+  networkInterfaces?: NetworkProfileInventoryNetworkInterfacesList | undefined;
+}
+/** The VM inventory item. */
+export interface VirtualMachineInventoryItem {
+  /** They inventory type. */
+  inventoryType: VirtualMachineInventoryItemInventoryType;
+  /** Gets or sets the tracked resource id corresponding to the inventory resource. */
+  managedResourceId?: string | undefined;
+  /** Gets or sets the MoRef (Managed Object Reference) ID for the inventory item. */
+  moRefId?: string | undefined;
+  /** Gets or sets the vCenter Managed Object name for the inventory item. */
+  moName?: string | undefined;
+  /** Gets the provisioning state. */
+  provisioningState?: ResourceProvisioningState | undefined;
+  /** Gets or sets the type of the os. */
+  osType?: OsType | undefined;
+  /** Gets or sets os name. */
+  osName?: string | undefined;
+  /** Gets or sets the nic ip addresses. */
+  ipAddresses?: VirtualMachineInventoryItemIpAddressesList | undefined;
+  /** Gets or sets the folder path of the vm. */
+  folderPath?: string | undefined;
+  /** Host inventory resource details. */
+  host?: InventoryItemDetails | undefined;
+  /** ResourcePool inventory resource details. */
+  resourcePool?: InventoryItemDetails | undefined;
+  /** Cluster inventory resource details. */
+  cluster?: InventoryItemDetails | undefined;
+  /** Gets or sets the instance uuid of the vm. */
+  instanceUuid?: string | undefined;
+  /** Gets or sets the SMBIOS UUID of the vm. */
+  smbiosUuid?: string | undefined;
+  /** Gets the power state of the virtual machine. */
+  powerState?: string | undefined;
+  /** Gets or sets the current running status of VMware Tools running in the guest operating system. */
+  toolsRunningStatus?: string | undefined;
+  /** Gets or sets the current version status of VMware Tools installed in the guest operating system. */
+  toolsVersionStatus?: string | undefined;
+  /** Gets or sets the current version of VMware Tools. */
+  toolsVersion?: string | undefined;
+  /** Firmware type */
+  firmwareType?: FirmwareType | undefined;
+  /** Gets a value indicating whether change tracking is supported. */
+  changeTrackingSupported?: boolean | undefined;
+  /** Gets a value indicating whether change tracking is enabled. */
+  changeTrackingEnabled?: boolean | undefined;
+  /** Gets a value indicating the maximum possible number of snapshots. */
+  maxSnapshots?: number | undefined;
+  /** Gets a value indicating the number of snapshots on the vm. */
+  numberOfSnapshots?: number | undefined;
+  /** Gets or sets the disk Enabled UUID of the vm. */
+  diskEnabledUuid?: string | undefined;
+  /** Gets the computer name. */
+  computerName?: string | undefined;
+  /** Gets or sets memory size in MBs for the vm. */
+  memorySizeMB?: number | undefined;
+  /** Gets or sets the number of vCPU for the vm. */
+  numCPUs?: number | undefined;
+  /** Storage properties. */
+  storageProfile?: StorageProfileInventory | undefined;
+  /** Network properties. */
+  networkProfile?: NetworkProfileInventory | undefined;
+}
+/** They inventory type. */
+export type VirtualMachineTemplateInventoryItemInventoryType = "VirtualMachineTemplate";
+/** The VM Template inventory item. */
+export interface VirtualMachineTemplateInventoryItem {
+  /** They inventory type. */
+  inventoryType: VirtualMachineTemplateInventoryItemInventoryType;
+  /** Gets or sets the tracked resource id corresponding to the inventory resource. */
+  managedResourceId?: string | undefined;
+  /** Gets or sets the MoRef (Managed Object Reference) ID for the inventory item. */
+  moRefId?: string | undefined;
+  /** Gets or sets the vCenter Managed Object name for the inventory item. */
+  moName?: string | undefined;
+  /** Gets the provisioning state. */
+  provisioningState?: ResourceProvisioningState | undefined;
+  /** Gets or sets memory size in MBs for the template. */
+  memorySizeMB?: number | undefined;
+  /** Gets or sets the number of vCPUs for the template. */
+  numCPUs?: number | undefined;
+  /** Gets or sets the number of cores per socket for the template. Defaults to 1 if unspecified. */
+  numCoresPerSocket?: number | undefined;
+  /** Gets or sets the type of the os. */
+  osType?: OsType | undefined;
+  /** Gets or sets os name. */
+  osName?: string | undefined;
+  /** Gets or sets the current version status of VMware Tools installed in the guest operating system. */
+  toolsVersionStatus?: string | undefined;
+  /** Gets or sets the current version of VMware Tools. */
+  toolsVersion?: string | undefined;
+  /** Gets or sets the folder path of the template. */
+  folderPath?: string | undefined;
+}
+/** They inventory type. */
+export type HostInventoryItemInventoryType = "Host";
+/** The host inventory item. */
+export interface HostInventoryItem {
+  /** They inventory type. */
+  inventoryType: HostInventoryItemInventoryType;
+  /** Gets or sets the tracked resource id corresponding to the inventory resource. */
+  managedResourceId?: string | undefined;
+  /** Gets or sets the MoRef (Managed Object Reference) ID for the inventory item. */
+  moRefId?: string | undefined;
+  /** Gets or sets the vCenter Managed Object name for the inventory item. */
+  moName?: string | undefined;
+  /** Gets the provisioning state. */
+  provisioningState?: ResourceProvisioningState | undefined;
+  /** Parent host inventory resource details. */
+  parent?: InventoryItemDetails | undefined;
+  /** Gets or sets the number of cores per socket on the host. */
+  numCoresPerSocket?: number | undefined;
+  /** Gets or sets the number of sockets on the host. */
+  numSockets?: number | undefined;
+  /** Gets or sets the version of the host. */
+  version?: string | undefined;
+  /** Gets or sets the cpu model of the host. */
+  cpuModel?: string | undefined;
+  /** Gets the total amount of physical memory on the host in GB. */
+  memorySizeGB?: number | undefined;
+  /** Gets or sets the power state of the host. */
+  powerState?: string | undefined;
+}
+/** Describes the properties of an Inventory Item. */
+export type InventoryItemProperties =
+  | ResourcePoolInventoryItem
+  | VirtualMachineInventoryItem
+  | VirtualMachineTemplateInventoryItem
+  | VirtualNetworkInventoryItem
+  | ClusterInventoryItem
+  | DatastoreInventoryItem
+  | HostInventoryItem;
 export interface CreateInventoryItemResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
   properties: InventoryItemProperties;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Describes the properties of a Resource Pool. */
 export interface ResourcePoolPropertiesInput {
   /** Gets or sets the ARM Id of the vCenter resource in which this resource pool resides. */
-  vCenterId?: string;
+  vCenterId?: string | undefined;
   /** Gets or sets the vCenter MoRef (Managed Object Reference) ID for the resource pool. */
-  moRefId?: string;
+  moRefId?: string | undefined;
   /** Gets or sets the inventory Item ID for the resource pool. */
-  inventoryItemId?: string;
+  inventoryItemId?: string | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type CreateResourcePoolRequestTagsMap = { [key: string]: string | undefined };
@@ -477,11 +862,11 @@ export interface CreateResourcePoolRequest {
   /** Gets or sets the location. */
   location: string;
   /** Gets or sets the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Gets or sets the Resource tags. */
-  tags?: CreateResourcePoolRequestTagsMap;
+  tags?: CreateResourcePoolRequestTagsMap | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Gets the datastore ARM ids. */
 export type ResourcePoolPropertiesDatastoreIdsList = Array<string>;
@@ -492,45 +877,45 @@ export type ResourcePoolPropertiesStatusesList = Array<ResourceStatus>;
 /** Describes the properties of a Resource Pool. */
 export interface ResourcePoolProperties {
   /** Gets or sets a unique identifier for this resource. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Gets or sets the ARM Id of the vCenter resource in which this resource pool resides. */
-  vCenterId?: string;
+  vCenterId?: string | undefined;
   /** Gets or sets the vCenter MoRef (Managed Object Reference) ID for the resource pool. */
-  moRefId?: string;
+  moRefId?: string | undefined;
   /** Gets or sets the inventory Item ID for the resource pool. */
-  inventoryItemId?: string;
+  inventoryItemId?: string | undefined;
   /** Gets or sets the vCenter Managed Object name for the resource pool. */
-  moName?: string;
+  moName?: string | undefined;
   /** Gets or sets CPUSharesLevel which specifies the CPU allocation level for this pool. This property is used in relative allocation between resource consumers. */
-  cpuSharesLevel?: string;
+  cpuSharesLevel?: string | undefined;
   /** Gets or sets CPUReservationMHz which specifies the CPU size in MHz that is guaranteed to be available. */
-  cpuReservationMHz?: number;
+  cpuReservationMHz?: number | undefined;
   /** Gets or sets CPULimitMHz which specifies a CPU usage limit in MHz. Utilization will not exceed this limit even if there are available resources. */
-  cpuLimitMHz?: number;
+  cpuLimitMHz?: number | undefined;
   /** Gets or sets CPUSharesLevel which specifies the memory allocation level for this pool. This property is used in relative allocation between resource consumers. */
-  memSharesLevel?: string;
+  memSharesLevel?: string | undefined;
   /** Gets or sets MemReservationMB which specifies the guaranteed available memory in megabytes. */
-  memReservationMB?: number;
+  memReservationMB?: number | undefined;
   /** Gets or sets MemLimitMB specifies a memory usage limit in megabytes. Utilization will not exceed the specified limit even if there are available resources. */
-  memLimitMB?: number;
+  memLimitMB?: number | undefined;
   /** Gets the used physical memory on the pool in GB. */
-  memOverallUsageGB?: number;
+  memOverallUsageGB?: number | undefined;
   /** Gets the total amount of physical memory on the pool in GB. */
-  memCapacityGB?: number;
+  memCapacityGB?: number | undefined;
   /** Gets the used CPU usage across all cores on the pool in MHz. */
-  cpuOverallUsageMHz?: number;
+  cpuOverallUsageMHz?: number | undefined;
   /** Gets the max CPU usage across all cores on the pool in MHz. */
-  cpuCapacityMHz?: number;
+  cpuCapacityMHz?: number | undefined;
   /** Gets the name of the corresponding resource in Kubernetes. */
-  customResourceName?: string;
+  customResourceName?: string | undefined;
   /** Gets the datastore ARM ids. */
-  datastoreIds?: ResourcePoolPropertiesDatastoreIdsList;
+  datastoreIds?: ResourcePoolPropertiesDatastoreIdsList | undefined;
   /** Gets the network ARM ids. */
-  networkIds?: ResourcePoolPropertiesNetworkIdsList;
+  networkIds?: ResourcePoolPropertiesNetworkIdsList | undefined;
   /** The resource status information. */
-  statuses?: ResourcePoolPropertiesStatusesList;
+  statuses?: ResourcePoolPropertiesStatusesList | undefined;
   /** Gets the provisioning state. */
-  provisioningState?: ResourceProvisioningState;
+  provisioningState?: ResourceProvisioningState | undefined;
 }
 /** The type of identity that created the resource. */
 export type ResourcePoolSystemDataCreatedByType =
@@ -547,17 +932,17 @@ export type ResourcePoolSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ResourcePoolSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ResourcePoolSystemDataCreatedByType;
+  createdByType?: ResourcePoolSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ResourcePoolSystemDataLastModifiedByType;
+  lastModifiedByType?: ResourcePoolSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type ResourcePoolTagsMap = { [key: string]: string | undefined };
@@ -568,35 +953,35 @@ export interface ResourcePool {
   /** Gets or sets the location. */
   location: string;
   /** Gets or sets the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ResourcePoolSystemData;
+  systemData?: ResourcePoolSystemData | undefined;
   /** Gets or sets the Resource tags. */
-  tags?: ResourcePoolTagsMap;
+  tags?: ResourcePoolTagsMap | undefined;
   /** Gets or sets the name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the Id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Username / Password Credentials to connect to vcenter. */
 export interface VICredential {
   /** Gets or sets username to connect with the vCenter. */
-  username?: string;
+  username?: string | undefined;
   /** Gets or sets the password to connect with the vCenter. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 /** Describes the properties of a VCenter. */
 export interface VCenterPropertiesInput {
   /** Gets or sets the FQDN/IPAddress of the vCenter. */
   fqdn: string;
   /** Gets or sets the port of the vCenter. */
-  port?: number;
+  port?: number | undefined;
   /** Username / Password Credentials to connect to vcenter. */
-  credentials?: VICredential;
+  credentials?: VICredential | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type CreateVCenterRequestTagsMap = { [key: string]: string | undefined };
@@ -612,36 +997,36 @@ export interface CreateVCenterRequest {
   /** Gets or sets the location. */
   location: string;
   /** Gets or sets the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Gets or sets the Resource tags. */
-  tags?: CreateVCenterRequestTagsMap;
+  tags?: CreateVCenterRequestTagsMap | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The resource status information. */
 export type VCenterPropertiesStatusesList = Array<ResourceStatus>;
 /** Describes the properties of a VCenter. */
 export interface VCenterProperties {
   /** Gets or sets a unique identifier for this resource. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Gets or sets the FQDN/IPAddress of the vCenter. */
   fqdn: string;
   /** Gets or sets the port of the vCenter. */
-  port?: number;
+  port?: number | undefined;
   /** Gets or sets the version of the vCenter. */
-  version?: string;
+  version?: string | undefined;
   /** Gets or sets the instance UUID of the vCenter. */
-  instanceUuid?: string;
+  instanceUuid?: string | undefined;
   /** Gets or sets the connection status to the vCenter. */
-  connectionStatus?: string;
+  connectionStatus?: string | undefined;
   /** Gets the name of the corresponding resource in Kubernetes. */
-  customResourceName?: string;
+  customResourceName?: string | undefined;
   /** Username / Password Credentials to connect to vcenter. */
-  credentials?: VICredential;
+  credentials?: VICredential | undefined;
   /** The resource status information. */
-  statuses?: VCenterPropertiesStatusesList;
+  statuses?: VCenterPropertiesStatusesList | undefined;
   /** Gets the provisioning state. */
-  provisioningState?: ResourceProvisioningState;
+  provisioningState?: ResourceProvisioningState | undefined;
 }
 /** The type of identity that created the resource. */
 export type VCenterSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -654,17 +1039,17 @@ export type VCenterSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface VCenterSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: VCenterSystemDataCreatedByType;
+  createdByType?: VCenterSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: VCenterSystemDataLastModifiedByType;
+  lastModifiedByType?: VCenterSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type VCenterTagsMap = { [key: string]: string | undefined };
@@ -675,28 +1060,28 @@ export interface VCenter {
   /** Gets or sets the location. */
   location: string;
   /** Gets or sets the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: VCenterSystemData;
+  systemData?: VCenterSystemData | undefined;
   /** Gets or sets the Resource tags. */
-  tags?: VCenterTagsMap;
+  tags?: VCenterTagsMap | undefined;
   /** Gets or sets the name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the Id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Describes the properties of a Virtual Machine Template. */
 export interface VirtualMachineTemplatePropertiesInput {
   /** Gets or sets the ARM Id of the vCenter resource in which this template resides. */
-  vCenterId?: string;
+  vCenterId?: string | undefined;
   /** Gets or sets the vCenter MoRef (Managed Object Reference) ID for the virtual machine template. */
-  moRefId?: string;
+  moRefId?: string | undefined;
   /** Gets or sets the inventory Item ID for the virtual machine template. */
-  inventoryItemId?: string;
+  inventoryItemId?: string | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type CreateVirtualMachineTemplateRequestTagsMap = { [key: string]: string | undefined };
@@ -712,18 +1097,14 @@ export interface CreateVirtualMachineTemplateRequest {
   /** Gets or sets the location. */
   location: string;
   /** Gets or sets the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Gets or sets the Resource tags. */
-  tags?: CreateVirtualMachineTemplateRequestTagsMap;
+  tags?: CreateVirtualMachineTemplateRequestTagsMap | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
 }
-/** Defines the different types of VM guest operating systems. */
-export type OsType = "Windows" | "Linux" | "Other";
 /** Gets or sets the nic ip addresses. */
 export type NetworkInterfaceIpAddressesList = Array<string>;
-/** NIC type */
-export type NICType = "vmxnet3" | "vmxnet2" | "vmxnet" | "e1000" | "e1000e" | "pcnet32";
 /** Defines the options for power on boot. */
 export type PowerOnBootOption = "enabled" | "disabled";
 /** IP address allocation method. */
@@ -741,140 +1122,127 @@ export type NicIPSettingsGatewayList = Array<string>;
 /** IP address information for a virtual network adapter reported by the fabric. */
 export interface NicIPAddressSettings {
   /** Gets the ip address allocation method. */
-  allocationMethod?: string;
+  allocationMethod?: string | undefined;
   /** Gets the ip address for the nic. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Gets the mask. */
-  subnetMask?: string;
+  subnetMask?: string | undefined;
 }
 /** Gets or sets the IP address information being reported for this NIC. This contains the same IPv4 information above plus IPV6 information. */
 export type NicIPSettingsIpAddressInfoList = Array<NicIPAddressSettings>;
 /** Defines the network interface ip settings. */
 export interface NicIPSettings {
   /** Gets or sets the nic allocation method. */
-  allocationMethod?: IPAddressAllocationMethod;
+  allocationMethod?: IPAddressAllocationMethod | undefined;
   /** Gets or sets the dns servers. */
-  dnsServers?: NicIPSettingsDnsServersList;
+  dnsServers?: NicIPSettingsDnsServersList | undefined;
   /** Gets or sets the gateway. */
-  gateway?: NicIPSettingsGatewayList;
+  gateway?: NicIPSettingsGatewayList | undefined;
   /** Gets or sets the ip address for the nic. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Gets or sets the mask. */
-  subnetMask?: string;
+  subnetMask?: string | undefined;
   /** Gets or sets the primary server. */
-  primaryWinsServer?: string;
+  primaryWinsServer?: string | undefined;
   /** Gets or sets the secondary server. */
-  secondaryWinsServer?: string;
+  secondaryWinsServer?: string | undefined;
   /** Gets or sets the IP address information being reported for this NIC. This contains the same IPv4 information above plus IPV6 information. */
-  ipAddressInfo?: NicIPSettingsIpAddressInfoList;
+  ipAddressInfo?: NicIPSettingsIpAddressInfoList | undefined;
 }
 /** Network Interface model */
 export interface NetworkInterface {
   /** Gets or sets the name of the network interface. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the label of the virtual network in vCenter that the nic is connected to. */
-  label?: string;
+  label?: string | undefined;
   /** Gets or sets the nic ip addresses. */
-  ipAddresses?: NetworkInterfaceIpAddressesList;
+  ipAddresses?: NetworkInterfaceIpAddressesList | undefined;
   /** Gets or sets the NIC MAC address. */
-  macAddress?: string;
+  macAddress?: string | undefined;
   /** Gets or sets the ARM Id of the network resource to connect the virtual machine. */
-  networkId?: string;
+  networkId?: string | undefined;
   /** NIC type */
-  nicType?: NICType;
+  nicType?: NICType | undefined;
   /** Gets or sets the power on boot. */
-  powerOnBoot?: PowerOnBootOption;
+  powerOnBoot?: PowerOnBootOption | undefined;
   /** Gets or sets the vCenter MoRef (Managed Object Reference) ID of the virtual network that the nic is connected to. */
-  networkMoRefId?: string;
+  networkMoRefId?: string | undefined;
   /** Gets or sets the name of the virtual network in vCenter that the nic is connected to. */
-  networkMoName?: string;
+  networkMoName?: string | undefined;
   /** Gets or sets the device key value. */
-  deviceKey?: number;
+  deviceKey?: number | undefined;
   /** Gets or sets the ipsettings. */
-  ipSettings?: NicIPSettings;
+  ipSettings?: NicIPSettings | undefined;
 }
 /** Gets or sets the network interfaces of the template. */
 export type VirtualMachineTemplatePropertiesNetworkInterfacesList = Array<NetworkInterface>;
-/** Defines the different types of disk modes. */
-export type DiskMode = "persistent" | "independent_persistent" | "independent_nonpersistent";
-/** Defines the different types of disks. */
-export type DiskType =
-  | "flat"
-  | "pmem"
-  | "rawphysical"
-  | "rawvirtual"
-  | "sparse"
-  | "sesparse"
-  | "unknown";
 /** Virtual disk model */
 export interface VirtualDisk {
   /** Gets or sets the name of the virtual disk. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the label of the virtual disk in vCenter. */
-  label?: string;
+  label?: string | undefined;
   /** Gets or sets the disk object id. */
-  diskObjectId?: string;
+  diskObjectId?: string | undefined;
   /** Gets or sets the disk total size. */
-  diskSizeGB?: number;
+  diskSizeGB?: number | undefined;
   /** Gets or sets the device key value. */
-  deviceKey?: number;
+  deviceKey?: number | undefined;
   /** Gets or sets the disk mode. */
-  diskMode?: DiskMode;
+  diskMode?: DiskMode | undefined;
   /** Gets or sets the controller id. */
-  controllerKey?: number;
+  controllerKey?: number | undefined;
   /** Gets or sets the unit number of the disk on the controller. */
-  unitNumber?: number;
+  unitNumber?: number | undefined;
   /** Gets or sets the device name. */
-  deviceName?: string;
+  deviceName?: string | undefined;
   /** Gets or sets the disk backing type. */
-  diskType?: DiskType;
+  diskType?: DiskType | undefined;
 }
 /** Gets or sets the disks the template. */
 export type VirtualMachineTemplatePropertiesDisksList = Array<VirtualDisk>;
-/** Firmware type */
-export type FirmwareType = "bios" | "efi";
 /** The resource status information. */
 export type VirtualMachineTemplatePropertiesStatusesList = Array<ResourceStatus>;
 /** Describes the properties of a Virtual Machine Template. */
 export interface VirtualMachineTemplateProperties {
   /** Gets or sets a unique identifier for this resource. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Gets or sets the ARM Id of the vCenter resource in which this template resides. */
-  vCenterId?: string;
+  vCenterId?: string | undefined;
   /** Gets or sets the vCenter MoRef (Managed Object Reference) ID for the virtual machine template. */
-  moRefId?: string;
+  moRefId?: string | undefined;
   /** Gets or sets the inventory Item ID for the virtual machine template. */
-  inventoryItemId?: string;
+  inventoryItemId?: string | undefined;
   /** Gets or sets the vCenter Managed Object name for the virtual machine template. */
-  moName?: string;
+  moName?: string | undefined;
   /** Gets or sets memory size in MBs for the template. */
-  memorySizeMB?: number;
+  memorySizeMB?: number | undefined;
   /** Gets or sets the number of vCPUs for the template. */
-  numCPUs?: number;
+  numCPUs?: number | undefined;
   /** Gets or sets the number of cores per socket for the template. Defaults to 1 if unspecified. */
-  numCoresPerSocket?: number;
+  numCoresPerSocket?: number | undefined;
   /** Gets or sets the type of the os. */
-  osType?: OsType;
+  osType?: OsType | undefined;
   /** Gets or sets os name. */
-  osName?: string;
+  osName?: string | undefined;
   /** Gets or sets the folder path of the template. */
-  folderPath?: string;
+  folderPath?: string | undefined;
   /** Gets or sets the network interfaces of the template. */
-  networkInterfaces?: VirtualMachineTemplatePropertiesNetworkInterfacesList;
+  networkInterfaces?: VirtualMachineTemplatePropertiesNetworkInterfacesList | undefined;
   /** Gets or sets the disks the template. */
-  disks?: VirtualMachineTemplatePropertiesDisksList;
+  disks?: VirtualMachineTemplatePropertiesDisksList | undefined;
   /** Gets the name of the corresponding resource in Kubernetes. */
-  customResourceName?: string;
+  customResourceName?: string | undefined;
   /** Gets or sets the current version status of VMware Tools installed in the guest operating system. */
-  toolsVersionStatus?: string;
+  toolsVersionStatus?: string | undefined;
   /** Gets or sets the current version of VMware Tools. */
-  toolsVersion?: string;
+  toolsVersion?: string | undefined;
   /** Firmware type */
-  firmwareType?: FirmwareType;
+  firmwareType?: FirmwareType | undefined;
   /** The resource status information. */
-  statuses?: VirtualMachineTemplatePropertiesStatusesList;
+  statuses?: VirtualMachineTemplatePropertiesStatusesList | undefined;
   /** Gets the provisioning state. */
-  provisioningState?: ResourceProvisioningState;
+  provisioningState?: ResourceProvisioningState | undefined;
 }
 /** The type of identity that created the resource. */
 export type VirtualMachineTemplateSystemDataCreatedByType =
@@ -891,17 +1259,17 @@ export type VirtualMachineTemplateSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface VirtualMachineTemplateSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: VirtualMachineTemplateSystemDataCreatedByType;
+  createdByType?: VirtualMachineTemplateSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: VirtualMachineTemplateSystemDataLastModifiedByType;
+  lastModifiedByType?: VirtualMachineTemplateSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type VirtualMachineTemplateTagsMap = { [key: string]: string | undefined };
@@ -912,28 +1280,28 @@ export interface VirtualMachineTemplate {
   /** Gets or sets the location. */
   location: string;
   /** Gets or sets the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: VirtualMachineTemplateSystemData;
+  systemData?: VirtualMachineTemplateSystemData | undefined;
   /** Gets or sets the Resource tags. */
-  tags?: VirtualMachineTemplateTagsMap;
+  tags?: VirtualMachineTemplateTagsMap | undefined;
   /** Gets or sets the name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the Id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Describes the properties of a Virtual Network. */
 export interface VirtualNetworkPropertiesInput {
   /** Gets or sets the ARM Id of the vCenter resource in which this template resides. */
-  vCenterId?: string;
+  vCenterId?: string | undefined;
   /** Gets or sets the vCenter MoRef (Managed Object Reference) ID for the virtual network. */
-  moRefId?: string;
+  moRefId?: string | undefined;
   /** Gets or sets the inventory Item ID for the virtual network. */
-  inventoryItemId?: string;
+  inventoryItemId?: string | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type CreateVirtualNetworkRequestTagsMap = { [key: string]: string | undefined };
@@ -949,32 +1317,32 @@ export interface CreateVirtualNetworkRequest {
   /** Gets or sets the location. */
   location: string;
   /** Gets or sets the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Gets or sets the Resource tags. */
-  tags?: CreateVirtualNetworkRequestTagsMap;
+  tags?: CreateVirtualNetworkRequestTagsMap | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The resource status information. */
 export type VirtualNetworkPropertiesStatusesList = Array<ResourceStatus>;
 /** Describes the properties of a Virtual Network. */
 export interface VirtualNetworkProperties {
   /** Gets or sets a unique identifier for this resource. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Gets or sets the ARM Id of the vCenter resource in which this template resides. */
-  vCenterId?: string;
+  vCenterId?: string | undefined;
   /** Gets or sets the vCenter MoRef (Managed Object Reference) ID for the virtual network. */
-  moRefId?: string;
+  moRefId?: string | undefined;
   /** Gets or sets the inventory Item ID for the virtual network. */
-  inventoryItemId?: string;
+  inventoryItemId?: string | undefined;
   /** Gets or sets the vCenter Managed Object name for the virtual network. */
-  moName?: string;
+  moName?: string | undefined;
   /** Gets the name of the corresponding resource in Kubernetes. */
-  customResourceName?: string;
+  customResourceName?: string | undefined;
   /** The resource status information. */
-  statuses?: VirtualNetworkPropertiesStatusesList;
+  statuses?: VirtualNetworkPropertiesStatusesList | undefined;
   /** Gets the provisioning state. */
-  provisioningState?: ResourceProvisioningState;
+  provisioningState?: ResourceProvisioningState | undefined;
 }
 /** The type of identity that created the resource. */
 export type VirtualNetworkSystemDataCreatedByType =
@@ -991,17 +1359,17 @@ export type VirtualNetworkSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface VirtualNetworkSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: VirtualNetworkSystemDataCreatedByType;
+  createdByType?: VirtualNetworkSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: VirtualNetworkSystemDataLastModifiedByType;
+  lastModifiedByType?: VirtualNetworkSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Gets or sets the Resource tags. */
 export type VirtualNetworkTagsMap = { [key: string]: string | undefined };
@@ -1012,46 +1380,46 @@ export interface VirtualNetwork {
   /** Gets or sets the location. */
   location: string;
   /** Gets or sets the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: VirtualNetworkSystemData;
+  systemData?: VirtualNetworkSystemData | undefined;
   /** Gets or sets the Resource tags. */
-  tags?: VirtualNetworkTagsMap;
+  tags?: VirtualNetworkTagsMap | undefined;
   /** Gets or sets the name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the Id. */
-  id?: string;
+  id?: string | undefined;
   /** Gets or sets the type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Username / Password Credentials to connect to guest. */
 export interface GuestCredential {
   /** Gets or sets username to connect with the guest. */
-  username?: string;
+  username?: string | undefined;
   /** Gets or sets the password to connect with the guest. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Private key used to authenticate to a virtual machine through ssh. */
-  privateKey?: string | Redacted.Redacted<string>;
+  privateKey?: string | Redacted.Redacted<string> | undefined;
 }
 /** HTTP Proxy configuration for the VM. */
 export interface HttpProxyConfiguration {
   /** Gets or sets httpsProxy url. */
-  httpsProxy?: string;
+  httpsProxy?: string | undefined;
 }
 /** Defines the different types of operations for guest agent. */
 export type ProvisioningAction = "install" | "uninstall" | "repair";
 /** Describes the properties of a Virtual Machine Guest Agent. */
 export interface GuestAgentPropertiesInput {
   /** Username / Password Credentials to provision guest agent. */
-  credentials?: GuestCredential;
+  credentials?: GuestCredential | undefined;
   /** The resource id of the private link scope this machine is assigned to, if any. */
-  privateLinkScopeResourceId?: string;
+  privateLinkScopeResourceId?: string | undefined;
   /** HTTP Proxy configuration for the VM. */
-  httpProxyConfig?: HttpProxyConfiguration;
+  httpProxyConfig?: HttpProxyConfiguration | undefined;
   /** Gets or sets the guest agent provisioning action. */
-  provisioningAction?: ProvisioningAction | (string & {});
+  provisioningAction?: ProvisioningAction | (string & {}) | undefined;
 }
 export interface CreateVMInstanceGuestAgentRequest {
   /** The fully qualified Azure Resource manager identifier of the Hybrid Compute machine resource to be extended. */
@@ -1064,33 +1432,33 @@ export type GuestAgentPropertiesStatusesList = Array<ResourceStatus>;
 /** Describes the properties of a Virtual Machine Guest Agent. */
 export interface GuestAgentProperties {
   /** Gets or sets a unique identifier for this resource. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Username / Password Credentials to provision guest agent. */
-  credentials?: GuestCredential;
+  credentials?: GuestCredential | undefined;
   /** The resource id of the private link scope this machine is assigned to, if any. */
-  privateLinkScopeResourceId?: string;
+  privateLinkScopeResourceId?: string | undefined;
   /** HTTP Proxy configuration for the VM. */
-  httpProxyConfig?: HttpProxyConfiguration;
+  httpProxyConfig?: HttpProxyConfiguration | undefined;
   /** Gets or sets the guest agent provisioning action. */
-  provisioningAction?: ProvisioningAction;
+  provisioningAction?: ProvisioningAction | undefined;
   /** Gets or sets the guest agent status. */
-  status?: string;
+  status?: string | undefined;
   /** Gets the name of the corresponding resource in Kubernetes. */
-  customResourceName?: string;
+  customResourceName?: string | undefined;
   /** The resource status information. */
-  statuses?: GuestAgentPropertiesStatusesList;
+  statuses?: GuestAgentPropertiesStatusesList | undefined;
   /** Gets the provisioning state. */
-  provisioningState?: ResourceProvisioningState;
+  provisioningState?: ResourceProvisioningState | undefined;
 }
 export interface CreateVMInstanceGuestAgentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
   properties: GuestAgentProperties;
 }
@@ -1102,10 +1470,10 @@ export interface DeleteClusterRequest {
   /** Name of the cluster. */
   clusterName: string;
   /** Whether force delete was specified. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteClusterResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteDatastoreRequest {
   /** The Subscription ID. */
@@ -1115,10 +1483,10 @@ export interface DeleteDatastoreRequest {
   /** Name of the datastore. */
   datastoreName: string;
   /** Whether force delete was specified. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteDatastoreResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteHostRequest {
   /** The Subscription ID. */
@@ -1128,10 +1496,10 @@ export interface DeleteHostRequest {
   /** Name of the host. */
   hostName: string;
   /** Whether force delete was specified. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteHostResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteInventoryItemRequest {
   /** The Subscription ID. */
@@ -1152,10 +1520,10 @@ export interface DeleteResourcePoolRequest {
   /** Name of the resourcePool. */
   resourcePoolName: string;
   /** Whether force delete was specified. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteResourcePoolResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteVCenterRequest {
   /** The Subscription ID. */
@@ -1165,21 +1533,21 @@ export interface DeleteVCenterRequest {
   /** Name of the vCenter. */
   vcenterName: string;
   /** Whether force delete was specified. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteVCenterResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteVirtualMachineInstanceRequest {
   /** The fully qualified Azure Resource manager identifier of the Hybrid Compute machine resource to be extended. */
   resourceUri: string;
   /** Whether to delete the VM from the vCenter. */
-  deleteFromHost?: boolean;
+  deleteFromHost?: boolean | undefined;
   /** Whether force delete was specified. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteVirtualMachineInstanceResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteVirtualMachineTemplateRequest {
   /** The Subscription ID. */
@@ -1189,10 +1557,10 @@ export interface DeleteVirtualMachineTemplateRequest {
   /** Name of the virtual machine template resource. */
   virtualMachineTemplateName: string;
   /** Whether force delete was specified. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteVirtualMachineTemplateResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteVirtualNetworkRequest {
   /** The Subscription ID. */
@@ -1202,17 +1570,17 @@ export interface DeleteVirtualNetworkRequest {
   /** Name of the virtual network resource. */
   virtualNetworkName: string;
   /** Whether force delete was specified. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteVirtualNetworkResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteVMInstanceGuestAgentRequest {
   /** The fully qualified Azure Resource manager identifier of the Hybrid Compute machine resource to be extended. */
   resourceUri: string;
 }
 export interface DeleteVMInstanceGuestAgentResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetClusterRequest {
   /** The Subscription ID. */
@@ -1250,17 +1618,17 @@ export interface GetInventoryItemRequest {
 }
 export interface GetInventoryItemResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
   properties: InventoryItemProperties;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface GetResourcePoolRequest {
   /** The Subscription ID. */
@@ -1285,85 +1653,85 @@ export interface GetVirtualMachineInstanceRequest {
 /** Specifies the compute and storage placement settings for the virtual machine. */
 export interface PlacementProfile {
   /** Gets or sets the ARM Id of the resourcePool resource on which this virtual machine will deploy. */
-  resourcePoolId?: string;
+  resourcePoolId?: string | undefined;
   /** Gets or sets the ARM Id of the cluster resource on which this virtual machine will deploy. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** Gets or sets the ARM Id of the host resource on which this virtual machine will deploy. */
-  hostId?: string;
+  hostId?: string | undefined;
   /** Gets or sets the ARM Id of the datastore resource on which the data for the virtual machine will be kept. */
-  datastoreId?: string;
+  datastoreId?: string | undefined;
 }
 /** Sets first logon commands */
 export type WindowsConfigurationFirstLogonCommandsList = Array<string>;
 /** Specifies the Windows Configuration settings for the virtual machine. */
 export interface WindowsConfiguration {
   /** Sets full name of the owner of the vm. */
-  fullName?: string;
+  fullName?: string | undefined;
   /** Sets org name to which the owner of the vm belongs. */
-  orgName?: string;
+  orgName?: string | undefined;
   /** Sets domain name that vm should join. */
-  domainName?: string;
+  domainName?: string | undefined;
   /** Sets domain username. */
-  domainUsername?: string;
+  domainUsername?: string | undefined;
   /** Sets domain user password. */
-  domainUserPassword?: string | Redacted.Redacted<string>;
+  domainUserPassword?: string | Redacted.Redacted<string> | undefined;
   /** Sets work group name that vm should join. */
-  workGroupName?: string;
+  workGroupName?: string | undefined;
   /** Sets product id of the vm. */
-  productId?: string;
+  productId?: string | undefined;
   /** Sets a value indicating whether auto logon is enabled. */
-  autoLogon?: boolean;
+  autoLogon?: boolean | undefined;
   /** Sets auto logon count. */
-  autoLogonCount?: number;
+  autoLogonCount?: number | undefined;
   /** Specifies the time zone of the virtual machine. e.g. "Pacific Standard Time". Time zone name correspond to time zones listed at Microsoft Time Zone name values(https://learn.microsoft.com/en-us/previous-versions/windows/embedded/ms912391(v=winembedded.11)). */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Sets first logon commands */
-  firstLogonCommands?: WindowsConfigurationFirstLogonCommandsList;
+  firstLogonCommands?: WindowsConfigurationFirstLogonCommandsList | undefined;
 }
 /** Specifies the operating system settings for the virtual machine. */
 export interface OsProfileForVMInstance {
   /** Gets or sets computer name. */
-  computerName?: string;
+  computerName?: string | undefined;
   /** Gets or sets administrator username. */
-  adminUsername?: string;
+  adminUsername?: string | undefined;
   /** Sets administrator password. */
-  adminPassword?: string | Redacted.Redacted<string>;
+  adminPassword?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the guestId. */
-  guestId?: string;
+  guestId?: string | undefined;
   /** Gets or sets the type of the os. */
-  osType?: OsType;
+  osType?: OsType | undefined;
   /** Gets or sets os sku. */
-  osSku?: string;
+  osSku?: string | undefined;
   /** Gets or sets the current running status of VMware Tools running in the guest operating system. */
-  toolsRunningStatus?: string;
+  toolsRunningStatus?: string | undefined;
   /** Gets or sets the current version status of VMware Tools installed in the guest operating system. */
-  toolsVersionStatus?: string;
+  toolsVersionStatus?: string | undefined;
   /** Gets or sets the current version of VMware Tools. */
-  toolsVersion?: string;
+  toolsVersion?: string | undefined;
   /** Windows Configuration. */
-  windowsConfiguration?: WindowsConfiguration;
+  windowsConfiguration?: WindowsConfiguration | undefined;
 }
 /** Specifies the hardware settings for the virtual machine. */
 export interface HardwareProfile {
   /** Gets or sets memory size in MBs for the vm. */
-  memorySizeMB?: number;
+  memorySizeMB?: number | undefined;
   /** Gets or sets the number of vCPUs for the vm. */
-  numCPUs?: number;
+  numCPUs?: number | undefined;
   /** Gets or sets the number of cores per socket for the vm. Defaults to 1 if unspecified. */
-  numCoresPerSocket?: number;
+  numCoresPerSocket?: number | undefined;
   /** Gets or sets a value indicating whether virtual processors can be added while this virtual machine is running. */
-  cpuHotAddEnabled?: boolean;
+  cpuHotAddEnabled?: boolean | undefined;
   /** Gets or sets a value indicating whether virtual processors can be removed while this virtual machine is running. */
-  cpuHotRemoveEnabled?: boolean;
+  cpuHotRemoveEnabled?: boolean | undefined;
   /** Gets or sets a value indicating whether memory can be added while this virtual machine is running. */
-  memoryHotAddEnabled?: boolean;
+  memoryHotAddEnabled?: boolean | undefined;
 }
 /** Gets or sets the list of network interfaces associated with the virtual machine. */
 export type NetworkProfileNetworkInterfacesList = Array<NetworkInterface>;
 /** Specifies the network interfaces of the virtual machine. */
 export interface NetworkProfile {
   /** Gets or sets the list of network interfaces associated with the virtual machine. */
-  networkInterfaces?: NetworkProfileNetworkInterfacesList;
+  networkInterfaces?: NetworkProfileNetworkInterfacesList | undefined;
 }
 /** Gets or sets the list of virtual disks associated with the virtual machine. */
 export type StorageProfileDisksList = Array<VirtualDisk>;
@@ -1374,98 +1742,98 @@ export type VirtualSCSISharing = "noSharing" | "physicalSharing" | "virtualShari
 /** This data object type contains the properties of a SCSI controller device attached to a virtual machine that is reported by the controller. */
 export interface VirtualSCSIController {
   /** Gets or sets the controller type. */
-  type?: SCSIControllerType;
+  type?: SCSIControllerType | undefined;
   /** Gets or sets the key of the controller. */
-  controllerKey?: number;
+  controllerKey?: number | undefined;
   /** Gets or sets the bus number of the controller. */
-  busNumber?: number;
+  busNumber?: number | undefined;
   /** Gets or sets the SCSI controller unit number. */
-  scsiCtlrUnitNumber?: number;
+  scsiCtlrUnitNumber?: number | undefined;
   /** Gets or sets the sharing mode. */
-  sharing?: VirtualSCSISharing;
+  sharing?: VirtualSCSISharing | undefined;
 }
 /** Gets or sets the list of virtual SCSI controllers associated with the virtual machine. */
 export type StorageProfileScsiControllersList = Array<VirtualSCSIController>;
 /** Specifies the storage settings for the virtual machine disks. */
 export interface StorageProfile {
   /** Gets or sets the list of virtual disks associated with the virtual machine. */
-  disks?: StorageProfileDisksList;
+  disks?: StorageProfileDisksList | undefined;
   /** Gets or sets the list of virtual SCSI controllers associated with the virtual machine. */
-  scsiControllers?: StorageProfileScsiControllersList;
+  scsiControllers?: StorageProfileScsiControllersList | undefined;
 }
 /** Specifies the security settings like secure boot used while creating the virtual machine. */
 export interface UefiSettings {
   /** Specifies whether secure boot should be enabled on the virtual machine. */
-  secureBootEnabled?: boolean;
+  secureBootEnabled?: boolean | undefined;
 }
 /** Specifies the Security profile settings for the virtual machine. */
 export interface SecurityProfile {
   /** Specifies the security settings like secure boot used while creating the virtual machine. */
-  uefiSettings?: UefiSettings;
+  uefiSettings?: UefiSettings | undefined;
 }
 /** Specifies the vCenter infrastructure specific settings for the virtual machine. */
 export interface InfrastructureProfile {
   /** Gets or sets the ARM Id of the template resource to deploy the virtual machine. */
-  templateId?: string;
+  templateId?: string | undefined;
   /** Gets or sets the ARM Id of the vCenter resource in which this resource pool resides. */
-  vCenterId?: string;
+  vCenterId?: string | undefined;
   /** Gets or sets the vCenter MoRef (Managed Object Reference) ID for the virtual machine. */
-  moRefId?: string;
+  moRefId?: string | undefined;
   /** Gets or sets the inventory Item ID for the virtual machine. */
-  inventoryItemId?: string;
+  inventoryItemId?: string | undefined;
   /** Gets or sets the vCenter Managed Object name for the virtual machine. */
-  moName?: string;
+  moName?: string | undefined;
   /** Gets or sets the folder path of the vm. */
-  folderPath?: string;
+  folderPath?: string | undefined;
   /** Gets or sets the instance uuid of the vm. */
-  instanceUuid?: string;
+  instanceUuid?: string | undefined;
   /** Gets or sets the SMBIOS UUID of the vm. */
-  smbiosUuid?: string;
+  smbiosUuid?: string | undefined;
   /** Firmware type */
-  firmwareType?: FirmwareType;
+  firmwareType?: FirmwareType | undefined;
   /** Gets the name of the corresponding resource in Kubernetes. */
-  customResourceName?: string;
+  customResourceName?: string | undefined;
 }
 /** The resource status information. */
 export type VirtualMachineInstancePropertiesStatusesList = Array<ResourceStatus>;
 /** Describes the properties of a Virtual Machine Instance. */
 export interface VirtualMachineInstanceProperties {
   /** Placement properties. */
-  placementProfile?: PlacementProfile;
+  placementProfile?: PlacementProfile | undefined;
   /** OS properties. */
-  osProfile?: OsProfileForVMInstance;
+  osProfile?: OsProfileForVMInstance | undefined;
   /** Hardware properties. */
-  hardwareProfile?: HardwareProfile;
+  hardwareProfile?: HardwareProfile | undefined;
   /** Network properties. */
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
   /** Storage properties. */
-  storageProfile?: StorageProfile;
+  storageProfile?: StorageProfile | undefined;
   /** Gets the security profile. */
-  securityProfile?: SecurityProfile;
+  securityProfile?: SecurityProfile | undefined;
   /** Gets the infrastructure profile. */
-  infrastructureProfile?: InfrastructureProfile;
+  infrastructureProfile?: InfrastructureProfile | undefined;
   /** Gets the power state of the virtual machine. */
-  powerState?: string;
+  powerState?: string | undefined;
   /** The resource status information. */
-  statuses?: VirtualMachineInstancePropertiesStatusesList;
+  statuses?: VirtualMachineInstancePropertiesStatusesList | undefined;
   /** Gets the provisioning state. */
-  provisioningState?: ResourceProvisioningState;
+  provisioningState?: ResourceProvisioningState | undefined;
   /** Gets or sets a unique identifier for the vm resource. */
-  resourceUid?: string;
+  resourceUid?: string | undefined;
 }
 export interface GetVirtualMachineInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
   properties: VirtualMachineInstanceProperties;
   /** Gets or sets the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export interface GetVirtualMachineTemplateRequest {
   /** The Subscription ID. */
@@ -1489,13 +1857,13 @@ export interface GetVMInstanceGuestAgentRequest {
 }
 export interface GetVMInstanceGuestAgentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
   properties: GuestAgentProperties;
 }
@@ -1506,21 +1874,21 @@ export interface GetVmInstanceHybridIdentityMetadataRequest {
 /** Describes the properties of Hybrid Identity Metadata for a Virtual Machine. */
 export interface VmInstanceHybridIdentityMetadataProperties {
   /** The unique identifier for the resource. */
-  resourceUid?: string;
+  resourceUid?: string | undefined;
   /** Gets or sets the Public Key. */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** Gets the provisioning state. */
-  provisioningState?: ResourceProvisioningState;
+  provisioningState?: ResourceProvisioningState | undefined;
 }
 export interface GetVmInstanceHybridIdentityMetadataResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
   properties: VmInstanceHybridIdentityMetadataProperties;
 }
@@ -1535,7 +1903,7 @@ export type ClustersListValueList = Array<Cluster>;
 /** List of Clusters. */
 export interface ClustersList {
   /** Url to follow for getting next page of Clusters. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Array of Clusters */
   value: ClustersListValueList;
 }
@@ -1554,7 +1922,7 @@ export type DatastoresListValueList = Array<Datastore>;
 /** List of Datastores. */
 export interface DatastoresList {
   /** Url to follow for getting next page of Datastores. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Array of Datastores */
   value: DatastoresListValueList;
 }
@@ -1573,7 +1941,7 @@ export type HostsListValueList = Array<Host>;
 /** List of Hosts. */
 export interface HostsList {
   /** Url to follow for getting next page of Hosts. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Array of Hosts */
   value: HostsListValueList;
 }
@@ -1592,24 +1960,24 @@ export interface ListInventoryItemByVCenterRequest {
 /** Defines the inventory item. */
 export interface InventoryItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
   properties: InventoryItemProperties;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Array of InventoryItems */
 export type InventoryItemsListValueList = Array<InventoryItem>;
 /** List of InventoryItems. */
 export interface InventoryItemsList {
   /** Url to follow for getting next page of InventoryItems. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Array of InventoryItems */
   value: InventoryItemsListValueList;
 }
@@ -1617,29 +1985,29 @@ export interface ListOperationsRequest {}
 /** Properties of the operation */
 export interface OperationDisplay {
   /** Provider name */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource name */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation name */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** Operation provided by provider */
 export interface Operation {
   /** Name of the operation */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is data action or not. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Properties of the operation */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** Array of operations */
 export type OperationsListValueList = Array<Operation>;
 /** Lists the operations available. */
 export interface OperationsList {
   /** Url to follow for getting next page of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Array of operations */
   value: OperationsListValueList;
 }
@@ -1654,7 +2022,7 @@ export type ResourcePoolsListValueList = Array<ResourcePool>;
 /** List of ResourcePools. */
 export interface ResourcePoolsList {
   /** Url to follow for getting next page of ResourcePools. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Array of ResourcePools */
   value: ResourcePoolsListValueList;
 }
@@ -1673,7 +2041,7 @@ export type VCentersListValueList = Array<VCenter>;
 /** List of VCenters. */
 export interface VCentersList {
   /** Url to follow for getting next page of VCenters. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Array of VCenters */
   value: VCentersListValueList;
 }
@@ -1688,24 +2056,24 @@ export interface ListVirtualMachineInstancesRequest {
 /** Define the virtualMachineInstance. */
 export interface VirtualMachineInstance {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
   properties: VirtualMachineInstanceProperties;
   /** Gets or sets the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** Array of VirtualMachines */
 export type VirtualMachineInstancesListValueList = Array<VirtualMachineInstance>;
 /** List of VirtualMachineInstances. */
 export interface VirtualMachineInstancesList {
   /** Url to follow for getting next page of VirtualMachines. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Array of VirtualMachines */
   value: VirtualMachineInstancesListValueList;
 }
@@ -1720,7 +2088,7 @@ export type VirtualMachineTemplatesListValueList = Array<VirtualMachineTemplate>
 /** List of VirtualMachineTemplates. */
 export interface VirtualMachineTemplatesList {
   /** Url to follow for getting next page of VirtualMachineTemplates. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Array of VirtualMachineTemplates */
   value: VirtualMachineTemplatesListValueList;
 }
@@ -1739,7 +2107,7 @@ export type VirtualNetworksListValueList = Array<VirtualNetwork>;
 /** List of VirtualNetworks. */
 export interface VirtualNetworksList {
   /** Url to follow for getting next page of VirtualNetworks. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Array of VirtualNetworks */
   value: VirtualNetworksListValueList;
 }
@@ -1754,13 +2122,13 @@ export interface ListVMInstanceGuestAgentsRequest {
 /** Defines the GuestAgent. */
 export interface GuestAgent {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
   properties: GuestAgentProperties;
 }
@@ -1769,7 +2137,7 @@ export type GuestAgentListValueList = Array<GuestAgent>;
 /** List of GuestAgent. */
 export interface GuestAgentList {
   /** Url to follow for getting next page of GuestAgent. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Array of GuestAgent */
   value: GuestAgentListValueList;
 }
@@ -1780,13 +2148,13 @@ export interface ListVmInstanceHybridIdentityMetadataRequest {
 /** Defines the HybridIdentityMetadata. */
 export interface VmInstanceHybridIdentityMetadata {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
   properties: VmInstanceHybridIdentityMetadataProperties;
 }
@@ -1795,7 +2163,7 @@ export type VmInstanceHybridIdentityMetadataListValueList = Array<VmInstanceHybr
 /** List of HybridIdentityMetadata. */
 export interface VmInstanceHybridIdentityMetadataList {
   /** Url to follow for getting next page of HybridIdentityMetadata. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Array of HybridIdentityMetadata */
   value: VmInstanceHybridIdentityMetadataListValueList;
 }
@@ -1804,23 +2172,23 @@ export interface RestartVirtualMachineInstanceRequest {
   resourceUri: string;
 }
 export interface RestartVirtualMachineInstanceResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface StartVirtualMachineInstanceRequest {
   /** The fully qualified Azure Resource manager identifier of the Hybrid Compute machine resource to be extended. */
   resourceUri: string;
 }
 export interface StartVirtualMachineInstanceResponse {
-  location?: string;
+  location?: string | undefined;
 }
 export interface StopVirtualMachineInstanceRequest {
   /** The fully qualified Azure Resource manager identifier of the Hybrid Compute machine resource to be extended. */
   resourceUri: string;
   /** Gets or sets a value indicating whether to request non-graceful VM shutdown. True value for this flag indicates non-graceful shutdown whereas false indicates otherwise. Defaults to false. */
-  skipShutdown?: boolean;
+  skipShutdown?: boolean | undefined;
 }
 export interface StopVirtualMachineInstanceResponse {
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateClusterRequestTagsMap = { [key: string]: string | undefined };
@@ -1832,7 +2200,7 @@ export interface UpdateClusterRequest {
   /** Name of the cluster. */
   clusterName: string;
   /** Resource tags. */
-  tags?: UpdateClusterRequestTagsMap;
+  tags?: UpdateClusterRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateDatastoreRequestTagsMap = { [key: string]: string | undefined };
@@ -1844,7 +2212,7 @@ export interface UpdateDatastoreRequest {
   /** Name of the datastore. */
   datastoreName: string;
   /** Resource tags. */
-  tags?: UpdateDatastoreRequestTagsMap;
+  tags?: UpdateDatastoreRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateHostRequestTagsMap = { [key: string]: string | undefined };
@@ -1856,7 +2224,7 @@ export interface UpdateHostRequest {
   /** Name of the host. */
   hostName: string;
   /** Resource tags. */
-  tags?: UpdateHostRequestTagsMap;
+  tags?: UpdateHostRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateResourcePoolRequestTagsMap = { [key: string]: string | undefined };
@@ -1868,7 +2236,7 @@ export interface UpdateResourcePoolRequest {
   /** Name of the resourcePool. */
   resourcePoolName: string;
   /** Resource tags. */
-  tags?: UpdateResourcePoolRequestTagsMap;
+  tags?: UpdateResourcePoolRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateVCenterRequestTagsMap = { [key: string]: string | undefined };
@@ -1880,89 +2248,89 @@ export interface UpdateVCenterRequest {
   /** Name of the vCenter. */
   vcenterName: string;
   /** Resource tags. */
-  tags?: UpdateVCenterRequestTagsMap;
+  tags?: UpdateVCenterRequestTagsMap | undefined;
 }
 /** Specifies the hardware settings for the virtual machine. */
 export interface HardwareProfileInput {
   /** Gets or sets memory size in MBs for the vm. */
-  memorySizeMB?: number;
+  memorySizeMB?: number | undefined;
   /** Gets or sets the number of vCPUs for the vm. */
-  numCPUs?: number;
+  numCPUs?: number | undefined;
   /** Gets or sets the number of cores per socket for the vm. Defaults to 1 if unspecified. */
-  numCoresPerSocket?: number;
+  numCoresPerSocket?: number | undefined;
 }
 /** Defines the virtual disk update. */
 export interface VirtualDiskUpdate {
   /** Gets or sets the name of the virtual disk. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the disk total size. */
-  diskSizeGB?: number;
+  diskSizeGB?: number | undefined;
   /** Gets or sets the device key value. */
-  deviceKey?: number;
+  deviceKey?: number | undefined;
   /** Gets or sets the disk mode. */
-  diskMode?: DiskMode | (string & {});
+  diskMode?: DiskMode | (string & {}) | undefined;
   /** Gets or sets the controller id. */
-  controllerKey?: number;
+  controllerKey?: number | undefined;
   /** Gets or sets the unit number of the disk on the controller. */
-  unitNumber?: number;
+  unitNumber?: number | undefined;
   /** Gets or sets the device name. */
-  deviceName?: string;
+  deviceName?: string | undefined;
   /** Gets or sets the disk backing type. */
-  diskType?: DiskType | (string & {});
+  diskType?: DiskType | (string & {}) | undefined;
 }
 /** Gets or sets the list of virtual disks associated with the virtual machine. */
 export type StorageProfileUpdateDisksList = Array<VirtualDiskUpdate>;
 /** Specifies the storage settings for the virtual machine disks. */
 export interface StorageProfileUpdate {
   /** Gets or sets the list of virtual disks associated with the virtual machine. */
-  disks?: StorageProfileUpdateDisksList;
+  disks?: StorageProfileUpdateDisksList | undefined;
 }
 /** Defines the network interface update. */
 export interface NetworkInterfaceUpdate {
   /** Gets or sets the name of the network interface. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the ARM Id of the network resource to connect the virtual machine. */
-  networkId?: string;
+  networkId?: string | undefined;
   /** NIC type */
-  nicType?: NICType | (string & {});
+  nicType?: NICType | (string & {}) | undefined;
   /** Gets or sets the power on boot. */
-  powerOnBoot?: PowerOnBootOption | (string & {});
+  powerOnBoot?: PowerOnBootOption | (string & {}) | undefined;
   /** Gets or sets the device key value. */
-  deviceKey?: number;
+  deviceKey?: number | undefined;
 }
 /** Gets or sets the list of network interfaces associated with the virtual machine. */
 export type NetworkProfileUpdateNetworkInterfacesList = Array<NetworkInterfaceUpdate>;
 /** Specifies the network interfaces of the virtual machine. */
 export interface NetworkProfileUpdate {
   /** Gets or sets the list of network interfaces associated with the virtual machine. */
-  networkInterfaces?: NetworkProfileUpdateNetworkInterfacesList;
+  networkInterfaces?: NetworkProfileUpdateNetworkInterfacesList | undefined;
 }
 /** Describes the properties of a Virtual Machine. */
 export interface VirtualMachineInstanceUpdatePropertiesInput {
-  hardwareProfile?: HardwareProfileInput;
-  storageProfile?: StorageProfileUpdate;
-  networkProfile?: NetworkProfileUpdate;
+  hardwareProfile?: HardwareProfileInput | undefined;
+  storageProfile?: StorageProfileUpdate | undefined;
+  networkProfile?: NetworkProfileUpdate | undefined;
 }
 export interface UpdateVirtualMachineInstanceRequest {
   /** The fully qualified Azure Resource manager identifier of the Hybrid Compute machine resource to be extended. */
   resourceUri: string;
   /** Resource properties. */
-  properties?: VirtualMachineInstanceUpdatePropertiesInput;
+  properties?: VirtualMachineInstanceUpdatePropertiesInput | undefined;
 }
 export interface UpdateVirtualMachineInstanceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
   properties: VirtualMachineInstanceProperties;
   /** Gets or sets the extended location. */
-  extendedLocation?: ExtendedLocation;
-  location?: string;
+  extendedLocation?: ExtendedLocation | undefined;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateVirtualMachineTemplateRequestTagsMap = { [key: string]: string | undefined };
@@ -1974,7 +2342,7 @@ export interface UpdateVirtualMachineTemplateRequest {
   /** Name of the virtual machine template resource. */
   virtualMachineTemplateName: string;
   /** Resource tags. */
-  tags?: UpdateVirtualMachineTemplateRequestTagsMap;
+  tags?: UpdateVirtualMachineTemplateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateVirtualNetworkRequestTagsMap = { [key: string]: string | undefined };
@@ -1986,22 +2354,22 @@ export interface UpdateVirtualNetworkRequest {
   /** Name of the virtual network resource. */
   virtualNetworkName: string;
   /** Resource tags. */
-  tags?: UpdateVirtualNetworkRequestTagsMap;
+  tags?: UpdateVirtualNetworkRequestTagsMap | undefined;
 }
 /** Specifies the operating system settings for the virtual machine. */
 export interface OsProfileForVMInstanceInput {
   /** Gets or sets computer name. */
-  computerName?: string;
+  computerName?: string | undefined;
   /** Gets or sets administrator username. */
-  adminUsername?: string;
+  adminUsername?: string | undefined;
   /** Sets administrator password. */
-  adminPassword?: string | Redacted.Redacted<string>;
+  adminPassword?: string | Redacted.Redacted<string> | undefined;
   /** Gets or sets the guestId. */
-  guestId?: string;
+  guestId?: string | undefined;
   /** Gets or sets the type of the os. */
-  osType?: OsType | (string & {});
+  osType?: OsType | (string & {}) | undefined;
   /** Windows Configuration. */
-  windowsConfiguration?: WindowsConfiguration;
+  windowsConfiguration?: WindowsConfiguration | undefined;
 }
 /** Gets or sets the dns servers. */
 export type NicIPSettingsInputDnsServersList = Array<string>;
@@ -2010,37 +2378,37 @@ export type NicIPSettingsInputGatewayList = Array<string>;
 /** Defines the network interface ip settings. */
 export interface NicIPSettingsInput {
   /** Gets or sets the nic allocation method. */
-  allocationMethod?: IPAddressAllocationMethod | (string & {});
+  allocationMethod?: IPAddressAllocationMethod | (string & {}) | undefined;
   /** Gets or sets the dns servers. */
-  dnsServers?: NicIPSettingsInputDnsServersList;
+  dnsServers?: NicIPSettingsInputDnsServersList | undefined;
   /** Gets or sets the gateway. */
-  gateway?: NicIPSettingsInputGatewayList;
+  gateway?: NicIPSettingsInputGatewayList | undefined;
   /** Gets or sets the ip address for the nic. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Gets or sets the mask. */
-  subnetMask?: string;
+  subnetMask?: string | undefined;
 }
 /** Network Interface model */
 export interface NetworkInterfaceInput {
   /** Gets or sets the name of the network interface. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the ARM Id of the network resource to connect the virtual machine. */
-  networkId?: string;
+  networkId?: string | undefined;
   /** NIC type */
-  nicType?: NICType | (string & {});
+  nicType?: NICType | (string & {}) | undefined;
   /** Gets or sets the power on boot. */
-  powerOnBoot?: PowerOnBootOption | (string & {});
+  powerOnBoot?: PowerOnBootOption | (string & {}) | undefined;
   /** Gets or sets the device key value. */
-  deviceKey?: number;
+  deviceKey?: number | undefined;
   /** Gets or sets the ipsettings. */
-  ipSettings?: NicIPSettingsInput;
+  ipSettings?: NicIPSettingsInput | undefined;
 }
 /** Gets or sets the list of network interfaces associated with the virtual machine. */
 export type NetworkProfileInputNetworkInterfacesList = Array<NetworkInterfaceInput>;
 /** Specifies the network interfaces of the virtual machine. */
 export interface NetworkProfileInput {
   /** Gets or sets the list of network interfaces associated with the virtual machine. */
-  networkInterfaces?: NetworkProfileInputNetworkInterfacesList;
+  networkInterfaces?: NetworkProfileInputNetworkInterfacesList | undefined;
 }
 /** Virtual disk model */
 export type VirtualDiskInput = VirtualDiskUpdate;
@@ -2049,37 +2417,37 @@ export type StorageProfileInputDisksList = Array<VirtualDiskUpdate>;
 /** Specifies the storage settings for the virtual machine disks. */
 export interface StorageProfileInput {
   /** Gets or sets the list of virtual disks associated with the virtual machine. */
-  disks?: StorageProfileInputDisksList;
+  disks?: StorageProfileInputDisksList | undefined;
 }
 /** Specifies the vCenter infrastructure specific settings for the virtual machine. */
 export interface InfrastructureProfileInput {
   /** Gets or sets the ARM Id of the template resource to deploy the virtual machine. */
-  templateId?: string;
+  templateId?: string | undefined;
   /** Gets or sets the ARM Id of the vCenter resource in which this resource pool resides. */
-  vCenterId?: string;
+  vCenterId?: string | undefined;
   /** Gets or sets the inventory Item ID for the virtual machine. */
-  inventoryItemId?: string;
+  inventoryItemId?: string | undefined;
   /** Gets or sets the SMBIOS UUID of the vm. */
-  smbiosUuid?: string;
+  smbiosUuid?: string | undefined;
   /** Firmware type */
-  firmwareType?: FirmwareType | (string & {});
+  firmwareType?: FirmwareType | (string & {}) | undefined;
 }
 /** Describes the properties of a Virtual Machine Instance. */
 export interface VirtualMachineInstancePropertiesInput {
   /** Placement properties. */
-  placementProfile?: PlacementProfile;
+  placementProfile?: PlacementProfile | undefined;
   /** OS properties. */
-  osProfile?: OsProfileForVMInstanceInput;
+  osProfile?: OsProfileForVMInstanceInput | undefined;
   /** Hardware properties. */
-  hardwareProfile?: HardwareProfileInput;
+  hardwareProfile?: HardwareProfileInput | undefined;
   /** Network properties. */
-  networkProfile?: NetworkProfileInput;
+  networkProfile?: NetworkProfileInput | undefined;
   /** Storage properties. */
-  storageProfile?: StorageProfileInput;
+  storageProfile?: StorageProfileInput | undefined;
   /** Gets the security profile. */
-  securityProfile?: SecurityProfile;
+  securityProfile?: SecurityProfile | undefined;
   /** Gets the infrastructure profile. */
-  infrastructureProfile?: InfrastructureProfileInput;
+  infrastructureProfile?: InfrastructureProfileInput | undefined;
 }
 export interface VirtualMachineInstancesCreateOrUpdateRequest {
   /** The fully qualified Azure Resource manager identifier of the Hybrid Compute machine resource to be extended. */
@@ -2087,21 +2455,21 @@ export interface VirtualMachineInstancesCreateOrUpdateRequest {
   /** Resource properties. */
   properties: VirtualMachineInstancePropertiesInput;
   /** Gets or sets the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export interface VirtualMachineInstancesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
   properties: VirtualMachineInstanceProperties;
   /** Gets or sets the extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export type CreateClusterError = AzureOpError;
 /** Implements cluster PUT method. Create Or Update cluster. */
@@ -2162,8 +2530,8 @@ export const CreateInventoryItem: API.OperationMethod<
   CreateInventoryItemError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<CreateInventoryItemRequest>,
-  output: __S(577, __c36, 1) as any as S.Schema<CreateInventoryItemResponse>,
+  input: __S(569, __c35, 9) as any as S.Schema<CreateInventoryItemRequest>,
+  output: __S(606, __c37, 14) as any as S.Schema<CreateInventoryItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2179,8 +2547,8 @@ export const CreateResourcePool: API.OperationMethod<
   CreateResourcePoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<CreateResourcePoolRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<ResourcePool>,
+  input: __S(832, __c52, 0) as any as S.Schema<CreateResourcePoolRequest>,
+  output: __S(849, __c53, 1) as any as S.Schema<ResourcePool>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2196,8 +2564,8 @@ export const CreateVCenter: API.OperationMethod<
   CreateVCenterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1057, __c66, 1) as any as S.Schema<CreateVCenterRequest>,
-  output: __S(1074, __c67, 2) as any as S.Schema<VCenter>,
+  input: __S(1073, __c67, 1) as any as S.Schema<CreateVCenterRequest>,
+  output: __S(1090, __c68, 2) as any as S.Schema<VCenter>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2213,8 +2581,8 @@ export const CreateVirtualMachineTemplate: API.OperationMethod<
   CreateVirtualMachineTemplateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<CreateVirtualMachineTemplateRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<VirtualMachineTemplate>,
+  input: __S(1280, __c80, 0) as any as S.Schema<CreateVirtualMachineTemplateRequest>,
+  output: __S(1313, __c82, 1) as any as S.Schema<VirtualMachineTemplate>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2230,8 +2598,8 @@ export const CreateVirtualNetwork: API.OperationMethod<
   CreateVirtualNetworkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<CreateVirtualNetworkRequest>,
-  output: __S(1345, __c84, 1) as any as S.Schema<VirtualNetwork>,
+  input: __S(1344, __c84, 0) as any as S.Schema<CreateVirtualNetworkRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<VirtualNetwork>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2247,8 +2615,8 @@ export const CreateVMInstanceGuestAgent: API.OperationMethod<
   CreateVMInstanceGuestAgentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1361, __c85, 1) as any as S.Schema<CreateVMInstanceGuestAgentRequest>,
-  output: __S(1379, __c86, 3) as any as S.Schema<CreateVMInstanceGuestAgentResponse>,
+  input: __S(1377, __c86, 1) as any as S.Schema<CreateVMInstanceGuestAgentRequest>,
+  output: __S(1395, __c87, 3) as any as S.Schema<CreateVMInstanceGuestAgentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2270,8 +2638,8 @@ export const DeleteCluster: API.OperationMethod<
   DeleteClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<DeleteClusterRequest>,
-  output: __S(1408, __c88, 0) as any as S.Schema<DeleteClusterResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<DeleteClusterRequest>,
+  output: __S(1424, __c89, 0) as any as S.Schema<DeleteClusterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2288,7 +2656,7 @@ export const DeleteDatastore: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<DeleteDatastoreRequest>,
-  output: __S(1408, __c88, 0) as any as S.Schema<DeleteDatastoreResponse>,
+  output: __S(1424, __c89, 0) as any as S.Schema<DeleteDatastoreResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2305,7 +2673,7 @@ export const DeleteHost: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<DeleteHostRequest>,
-  output: __S(1408, __c88, 0) as any as S.Schema<DeleteHostResponse>,
+  output: __S(1424, __c89, 0) as any as S.Schema<DeleteHostResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2322,7 +2690,7 @@ export const DeleteInventoryItem: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<DeleteInventoryItemRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<DeleteInventoryItemResponse>,
+  output: __S(576, __c36, 0) as any as S.Schema<DeleteInventoryItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2339,7 +2707,7 @@ export const DeleteResourcePool: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<DeleteResourcePoolRequest>,
-  output: __S(1408, __c88, 0) as any as S.Schema<DeleteResourcePoolResponse>,
+  output: __S(1424, __c89, 0) as any as S.Schema<DeleteResourcePoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2356,7 +2724,7 @@ export const DeleteVCenter: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<DeleteVCenterRequest>,
-  output: __S(1408, __c88, 0) as any as S.Schema<DeleteVCenterResponse>,
+  output: __S(1424, __c89, 0) as any as S.Schema<DeleteVCenterResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2373,7 +2741,7 @@ export const DeleteVirtualMachineInstance: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<DeleteVirtualMachineInstanceRequest>,
-  output: __S(1408, __c88, 0) as any as S.Schema<DeleteVirtualMachineInstanceResponse>,
+  output: __S(1424, __c89, 0) as any as S.Schema<DeleteVirtualMachineInstanceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2396,7 +2764,7 @@ export const DeleteVirtualMachineTemplate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<DeleteVirtualMachineTemplateRequest>,
-  output: __S(1408, __c88, 0) as any as S.Schema<DeleteVirtualMachineTemplateResponse>,
+  output: __S(1424, __c89, 0) as any as S.Schema<DeleteVirtualMachineTemplateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2413,7 +2781,7 @@ export const DeleteVirtualNetwork: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<DeleteVirtualNetworkRequest>,
-  output: __S(1408, __c88, 0) as any as S.Schema<DeleteVirtualNetworkResponse>,
+  output: __S(1424, __c89, 0) as any as S.Schema<DeleteVirtualNetworkResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2430,7 +2798,7 @@ export const DeleteVMInstanceGuestAgent: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<DeleteVMInstanceGuestAgentRequest>,
-  output: __S(1408, __c88, 0) as any as S.Schema<DeleteVMInstanceGuestAgentResponse>,
+  output: __S(1424, __c89, 0) as any as S.Schema<DeleteVMInstanceGuestAgentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2500,7 +2868,7 @@ export const GetInventoryItem: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetInventoryItemRequest>,
-  output: __S(577, __c36, 1) as any as S.Schema<GetInventoryItemResponse>,
+  output: __S(606, __c37, 14) as any as S.Schema<GetInventoryItemResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2517,7 +2885,7 @@ export const GetResourcePool: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<GetResourcePoolRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<ResourcePool>,
+  output: __S(849, __c53, 1) as any as S.Schema<ResourcePool>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2534,7 +2902,7 @@ export const GetVCenter: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<GetVCenterRequest>,
-  output: __S(1074, __c67, 2) as any as S.Schema<VCenter>,
+  output: __S(1090, __c68, 2) as any as S.Schema<VCenter>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2574,7 +2942,7 @@ export const GetVirtualMachineTemplate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<GetVirtualMachineTemplateRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<VirtualMachineTemplate>,
+  output: __S(1313, __c82, 1) as any as S.Schema<VirtualMachineTemplate>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2591,7 +2959,7 @@ export const GetVirtualNetwork: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<GetVirtualNetworkRequest>,
-  output: __S(1345, __c84, 1) as any as S.Schema<VirtualNetwork>,
+  output: __S(1361, __c85, 1) as any as S.Schema<VirtualNetwork>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2608,7 +2976,7 @@ export const GetVMInstanceGuestAgent: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<GetVMInstanceGuestAgentRequest>,
-  output: __S(1379, __c86, 3) as any as S.Schema<GetVMInstanceGuestAgentResponse>,
+  output: __S(1395, __c87, 3) as any as S.Schema<GetVMInstanceGuestAgentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2653,8 +3021,8 @@ export const ListClusterByResourceGroup: API.OperationMethod<
   ListClusterByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<ListClusterByResourceGroupRequest>,
-  output: __S(609, __c38, 1) as any as S.Schema<ClustersList>,
+  input: __S(608, __c38, 0) as any as S.Schema<ListClusterByResourceGroupRequest>,
+  output: __S(625, __c39, 1) as any as S.Schema<ClustersList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2670,8 +3038,8 @@ export const ListClusters: API.OperationMethod<
   ListClustersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<ListClustersRequest>,
-  output: __S(609, __c38, 1) as any as S.Schema<ClustersList>,
+  input: __S(640, __c40, 0) as any as S.Schema<ListClustersRequest>,
+  output: __S(625, __c39, 1) as any as S.Schema<ClustersList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2687,8 +3055,8 @@ export const ListDatastoreByResourceGroup: API.OperationMethod<
   ListDatastoreByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<ListDatastoreByResourceGroupRequest>,
-  output: __S(657, __c41, 1) as any as S.Schema<DatastoresList>,
+  input: __S(656, __c41, 0) as any as S.Schema<ListDatastoreByResourceGroupRequest>,
+  output: __S(673, __c42, 1) as any as S.Schema<DatastoresList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2704,8 +3072,8 @@ export const ListDatastores: API.OperationMethod<
   ListDatastoresError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<ListDatastoresRequest>,
-  output: __S(657, __c41, 1) as any as S.Schema<DatastoresList>,
+  input: __S(688, __c43, 0) as any as S.Schema<ListDatastoresRequest>,
+  output: __S(673, __c42, 1) as any as S.Schema<DatastoresList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2721,8 +3089,8 @@ export const ListHostByResourceGroup: API.OperationMethod<
   ListHostByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<ListHostByResourceGroupRequest>,
-  output: __S(705, __c44, 1) as any as S.Schema<HostsList>,
+  input: __S(704, __c44, 0) as any as S.Schema<ListHostByResourceGroupRequest>,
+  output: __S(721, __c45, 1) as any as S.Schema<HostsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2738,8 +3106,8 @@ export const ListHosts: API.OperationMethod<
   ListHostsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<ListHostsRequest>,
-  output: __S(705, __c44, 1) as any as S.Schema<HostsList>,
+  input: __S(736, __c46, 0) as any as S.Schema<ListHostsRequest>,
+  output: __S(721, __c45, 1) as any as S.Schema<HostsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2755,8 +3123,8 @@ export const ListInventoryItemByVCenter: API.OperationMethod<
   ListInventoryItemByVCenterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<ListInventoryItemByVCenterRequest>,
-  output: __S(738, __c46, 2) as any as S.Schema<InventoryItemsList>,
+  input: __S(752, __c47, 0) as any as S.Schema<ListInventoryItemByVCenterRequest>,
+  output: __S(754, __c47, 2) as any as S.Schema<InventoryItemsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2772,8 +3140,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(756, __c47, 4) as any as S.Schema<OperationsList>,
+  input: __S(768, __c48, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(772, __c48, 4) as any as S.Schema<OperationsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2789,8 +3157,8 @@ export const ListResourcePoolByResourceGroup: API.OperationMethod<
   ListResourcePoolByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<ListResourcePoolByResourceGroupRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<ResourcePoolsList>,
+  input: __S(784, __c49, 0) as any as S.Schema<ListResourcePoolByResourceGroupRequest>,
+  output: __S(801, __c50, 1) as any as S.Schema<ResourcePoolsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2806,8 +3174,8 @@ export const ListResourcePools: API.OperationMethod<
   ListResourcePoolsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<ListResourcePoolsRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<ResourcePoolsList>,
+  input: __S(816, __c51, 0) as any as S.Schema<ListResourcePoolsRequest>,
+  output: __S(801, __c50, 1) as any as S.Schema<ResourcePoolsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2823,8 +3191,8 @@ export const ListVCenterByResourceGroup: API.OperationMethod<
   ListVCenterByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<ListVCenterByResourceGroupRequest>,
-  output: __S(865, __c54, 1) as any as S.Schema<VCentersList>,
+  input: __S(864, __c54, 0) as any as S.Schema<ListVCenterByResourceGroupRequest>,
+  output: __S(881, __c55, 1) as any as S.Schema<VCentersList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2840,8 +3208,8 @@ export const ListVCenters: API.OperationMethod<
   ListVCentersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<ListVCentersRequest>,
-  output: __S(865, __c54, 1) as any as S.Schema<VCentersList>,
+  input: __S(896, __c56, 0) as any as S.Schema<ListVCentersRequest>,
+  output: __S(881, __c55, 1) as any as S.Schema<VCentersList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2857,8 +3225,8 @@ export const ListVirtualMachineInstances: API.OperationMethod<
   ListVirtualMachineInstancesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<ListVirtualMachineInstancesRequest>,
-  output: __S(898, __c56, 2) as any as S.Schema<VirtualMachineInstancesList>,
+  input: __S(912, __c57, 0) as any as S.Schema<ListVirtualMachineInstancesRequest>,
+  output: __S(914, __c57, 2) as any as S.Schema<VirtualMachineInstancesList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2880,8 +3248,8 @@ export const ListVirtualMachineTemplateByResourceGroup: API.OperationMethod<
   ListVirtualMachineTemplateByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<ListVirtualMachineTemplateByResourceGroupRequest>,
-  output: __S(929, __c58, 1) as any as S.Schema<VirtualMachineTemplatesList>,
+  input: __S(928, __c58, 0) as any as S.Schema<ListVirtualMachineTemplateByResourceGroupRequest>,
+  output: __S(945, __c59, 1) as any as S.Schema<VirtualMachineTemplatesList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2897,8 +3265,8 @@ export const ListVirtualMachineTemplates: API.OperationMethod<
   ListVirtualMachineTemplatesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<ListVirtualMachineTemplatesRequest>,
-  output: __S(929, __c58, 1) as any as S.Schema<VirtualMachineTemplatesList>,
+  input: __S(960, __c60, 0) as any as S.Schema<ListVirtualMachineTemplatesRequest>,
+  output: __S(945, __c59, 1) as any as S.Schema<VirtualMachineTemplatesList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2914,8 +3282,8 @@ export const ListVirtualNetworkByResourceGroup: API.OperationMethod<
   ListVirtualNetworkByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<ListVirtualNetworkByResourceGroupRequest>,
-  output: __S(977, __c61, 1) as any as S.Schema<VirtualNetworksList>,
+  input: __S(976, __c61, 0) as any as S.Schema<ListVirtualNetworkByResourceGroupRequest>,
+  output: __S(993, __c62, 1) as any as S.Schema<VirtualNetworksList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2931,8 +3299,8 @@ export const ListVirtualNetworks: API.OperationMethod<
   ListVirtualNetworksError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<ListVirtualNetworksRequest>,
-  output: __S(977, __c61, 1) as any as S.Schema<VirtualNetworksList>,
+  input: __S(1008, __c63, 0) as any as S.Schema<ListVirtualNetworksRequest>,
+  output: __S(993, __c62, 1) as any as S.Schema<VirtualNetworksList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2948,8 +3316,8 @@ export const ListVMInstanceGuestAgents: API.OperationMethod<
   ListVMInstanceGuestAgentsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<ListVMInstanceGuestAgentsRequest>,
-  output: __S(1010, __c63, 2) as any as S.Schema<GuestAgentList>,
+  input: __S(1024, __c64, 0) as any as S.Schema<ListVMInstanceGuestAgentsRequest>,
+  output: __S(1026, __c64, 2) as any as S.Schema<GuestAgentList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2971,8 +3339,8 @@ export const ListVmInstanceHybridIdentityMetadata: API.OperationMethod<
   ListVmInstanceHybridIdentityMetadataError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<ListVmInstanceHybridIdentityMetadataRequest>,
-  output: __S(1026, __c64, 2) as any as S.Schema<VmInstanceHybridIdentityMetadataList>,
+  input: __S(1040, __c65, 0) as any as S.Schema<ListVmInstanceHybridIdentityMetadataRequest>,
+  output: __S(1042, __c65, 2) as any as S.Schema<VmInstanceHybridIdentityMetadataList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2994,8 +3362,8 @@ export const RestartVirtualMachineInstance: API.OperationMethod<
   RestartVirtualMachineInstanceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<RestartVirtualMachineInstanceRequest>,
-  output: __S(1408, __c88, 0) as any as S.Schema<RestartVirtualMachineInstanceResponse>,
+  input: __S(1056, __c66, 0) as any as S.Schema<RestartVirtualMachineInstanceRequest>,
+  output: __S(1424, __c89, 0) as any as S.Schema<RestartVirtualMachineInstanceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3017,8 +3385,8 @@ export const StartVirtualMachineInstance: API.OperationMethod<
   StartVirtualMachineInstanceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<StartVirtualMachineInstanceRequest>,
-  output: __S(1408, __c88, 0) as any as S.Schema<StartVirtualMachineInstanceResponse>,
+  input: __S(1104, __c69, 0) as any as S.Schema<StartVirtualMachineInstanceRequest>,
+  output: __S(1424, __c89, 0) as any as S.Schema<StartVirtualMachineInstanceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3040,8 +3408,8 @@ export const StopVirtualMachineInstance: API.OperationMethod<
   StopVirtualMachineInstanceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<StopVirtualMachineInstanceRequest>,
-  output: __S(1408, __c88, 0) as any as S.Schema<StopVirtualMachineInstanceResponse>,
+  input: __S(1120, __c70, 0) as any as S.Schema<StopVirtualMachineInstanceRequest>,
+  output: __S(1424, __c89, 0) as any as S.Schema<StopVirtualMachineInstanceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3063,7 +3431,7 @@ export const UpdateCluster: API.OperationMethod<
   UpdateClusterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<UpdateClusterRequest>,
+  input: __S(1136, __c71, 0) as any as S.Schema<UpdateClusterRequest>,
   output: __S(97, __c6, 1) as any as S.Schema<Cluster>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3080,7 +3448,7 @@ export const UpdateDatastore: API.OperationMethod<
   UpdateDatastoreError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<UpdateDatastoreRequest>,
+  input: __S(1152, __c72, 0) as any as S.Schema<UpdateDatastoreRequest>,
   output: __S(145, __c9, 1) as any as S.Schema<Datastore>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3097,7 +3465,7 @@ export const UpdateHost: API.OperationMethod<
   UpdateHostError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<UpdateHostRequest>,
+  input: __S(1168, __c73, 0) as any as S.Schema<UpdateHostRequest>,
   output: __S(337, __c21, 1) as any as S.Schema<Host>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3114,8 +3482,8 @@ export const UpdateResourcePool: API.OperationMethod<
   UpdateResourcePoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<UpdateResourcePoolRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<ResourcePool>,
+  input: __S(1184, __c74, 0) as any as S.Schema<UpdateResourcePoolRequest>,
+  output: __S(849, __c53, 1) as any as S.Schema<ResourcePool>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3131,8 +3499,8 @@ export const UpdateVCenter: API.OperationMethod<
   UpdateVCenterError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<UpdateVCenterRequest>,
-  output: __S(1074, __c67, 2) as any as S.Schema<VCenter>,
+  input: __S(1200, __c75, 0) as any as S.Schema<UpdateVCenterRequest>,
+  output: __S(1090, __c68, 2) as any as S.Schema<VCenter>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3148,8 +3516,8 @@ export const UpdateVirtualMachineInstance: API.OperationMethod<
   UpdateVirtualMachineInstanceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1204, __c75, 4) as any as S.Schema<UpdateVirtualMachineInstanceRequest>,
-  output: __S(1205, __c75, 5) as any as S.Schema<UpdateVirtualMachineInstanceResponse>,
+  input: __S(1220, __c76, 4) as any as S.Schema<UpdateVirtualMachineInstanceRequest>,
+  output: __S(1221, __c76, 5) as any as S.Schema<UpdateVirtualMachineInstanceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3171,8 +3539,8 @@ export const UpdateVirtualMachineTemplate: API.OperationMethod<
   UpdateVirtualMachineTemplateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<UpdateVirtualMachineTemplateRequest>,
-  output: __S(1297, __c81, 1) as any as S.Schema<VirtualMachineTemplate>,
+  input: __S(1248, __c78, 0) as any as S.Schema<UpdateVirtualMachineTemplateRequest>,
+  output: __S(1313, __c82, 1) as any as S.Schema<VirtualMachineTemplate>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3188,8 +3556,8 @@ export const UpdateVirtualNetwork: API.OperationMethod<
   UpdateVirtualNetworkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<UpdateVirtualNetworkRequest>,
-  output: __S(1345, __c84, 1) as any as S.Schema<VirtualNetwork>,
+  input: __S(1264, __c79, 0) as any as S.Schema<UpdateVirtualNetworkRequest>,
+  output: __S(1361, __c85, 1) as any as S.Schema<VirtualNetwork>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3205,7 +3573,7 @@ export const VirtualMachineInstancesCreateOrUpdate: API.OperationMethod<
   VirtualMachineInstancesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1319, __c82, 7) as any as S.Schema<VirtualMachineInstancesCreateOrUpdateRequest>,
+  input: __S(1335, __c83, 7) as any as S.Schema<VirtualMachineInstancesCreateOrUpdateRequest>,
   output: __S(464, __c29, 0) as any as S.Schema<VirtualMachineInstancesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3464,8 +3832,6 @@ function __c12(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DeleteInventoryItemRequest" });
-    case 1:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteInventoryItemResponse" });
   }
 }
 function __c13(j: number): any {
@@ -3833,7 +4199,7 @@ function __c28(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          networkInterfaces: S.optional(__S(1284, __c80, 4)),
+          networkInterfaces: S.optional(__S(1300, __c81, 4)),
         }),
       ).annotate({ identifier: "NetworkProfile" });
     case 5:
@@ -3851,7 +4217,7 @@ function __c28(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          disks: S.optional(__S(1286, __c80, 6)),
+          disks: S.optional(__S(1302, __c81, 6)),
           scsiControllers: S.optional(__S(454, __c28, 6)),
         }),
       ).annotate({ identifier: "StorageProfile" });
@@ -4014,11 +4380,88 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          diskName: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VirtualDiskInventoryInput" });
+    case 1:
+      return S.Array(__S(560, __c35, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          disks: S.optional(__S(561, __c35, 1)),
+        }),
+      ).annotate({ identifier: "StorageProfileInventoryInput" });
+    case 3:
+      return S.Array(__S(576, __c36, 0));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          networkInterfaces: S.optional(__S(563, __c35, 3)),
+        }),
+      ).annotate({ identifier: "NetworkProfileInventoryInput" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          inventoryType: S.String,
+          managedResourceId: S.optional(S.String),
+          moRefId: S.optional(S.String),
+          moName: S.optional(S.String),
+          osType: S.optional(S.String),
+          osName: S.optional(S.String),
+          ipAddresses: S.optional(__S(112, __c7, 0)),
+          folderPath: S.optional(S.String),
+          host: S.optional(__S(592, __c37, 0)),
+          resourcePool: S.optional(__S(592, __c37, 0)),
+          cluster: S.optional(__S(592, __c37, 0)),
+          instanceUuid: S.optional(S.String),
+          smbiosUuid: S.optional(S.String),
+          storageProfile: S.optional(__S(562, __c35, 2)),
+          networkProfile: S.optional(__S(564, __c35, 4)),
+        }),
+      ).annotate({ identifier: "VirtualMachineInventoryItemInput" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          inventoryType: S.String,
+          managedResourceId: S.optional(S.String),
+          moRefId: S.optional(S.String),
+          moName: S.optional(S.String),
+          memorySizeMB: S.optional(S.Number),
+          numCPUs: S.optional(S.Number),
+          numCoresPerSocket: S.optional(S.Number),
+          osType: S.optional(S.String),
+          osName: S.optional(S.String),
+          folderPath: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VirtualMachineTemplateInventoryItemInput" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          inventoryType: S.String,
+          managedResourceId: S.optional(S.String),
+          moRefId: S.optional(S.String),
+          moName: S.optional(S.String),
+          parent: S.optional(__S(592, __c37, 0)),
+        }),
+      ).annotate({ identifier: "HostInventoryItemInput" });
+    case 8:
+      return S.Union([
+        __S(593, __c37, 1),
+        __S(565, __c35, 5),
+        __S(566, __c35, 6),
+        __S(594, __c37, 2),
+        __S(594, __c37, 2),
+        __S(595, __c37, 3),
+        __S(567, __c35, 7),
+      ]);
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vcenterName: S.String.pipe(T.Label()),
           inventoryItemName: S.String.pipe(T.Label()),
-          properties: __S(576, __c36, 0),
+          properties: __S(568, __c35, 8),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -4034,6 +4477,33 @@ function __c35(j: number): any {
 function __c36(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "NetworkInterfaceInventoryInput",
+      });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          inventoryItemId: S.optional(S.String),
+          moName: S.optional(S.String),
+          inventoryType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "InventoryItemDetails" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          inventoryType: S.String,
+          managedResourceId: S.optional(S.String),
+          moRefId: S.optional(S.String),
+          moName: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          parent: S.optional(__S(592, __c37, 0)),
+        }),
+      ).annotate({ identifier: "ResourcePoolInventoryItem" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           inventoryType: S.String,
@@ -4042,21 +4512,159 @@ function __c36(j: number): any {
           moName: S.optional(S.String),
           provisioningState: S.optional(S.String),
         }),
-      ).annotate({ identifier: "InventoryItemProperties" });
-    case 1:
+      ).annotate({ identifier: "VirtualNetworkInventoryItem" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          inventoryType: S.String,
+          managedResourceId: S.optional(S.String),
+          moRefId: S.optional(S.String),
+          moName: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          capacityGB: S.optional(S.Number),
+          freeSpaceGB: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "DatastoreInventoryItem" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          diskName: S.optional(S.String),
+          label: S.optional(S.String),
+          diskSizeGB: S.optional(S.Number),
+          deviceKey: S.optional(S.Number),
+          diskMode: S.optional(S.String),
+          controllerKey: S.optional(S.Number),
+          unitNumber: S.optional(S.Number),
+          deviceName: S.optional(S.String),
+          fileName: S.optional(S.String),
+          diskType: S.optional(S.String),
+          eagerlyScrub: S.optional(S.Boolean),
+          thinProvisioned: S.optional(S.Boolean),
+          controllerType: S.optional(S.String),
+          uuid: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VirtualDiskInventory" });
+    case 5:
+      return S.Array(__S(596, __c37, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          disks: S.optional(__S(597, __c37, 5)),
+        }),
+      ).annotate({ identifier: "StorageProfileInventory" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          label: S.optional(S.String),
+          ipAddresses: S.optional(__S(112, __c7, 0)),
+          macAddress: S.optional(S.String),
+          nicType: S.optional(S.String),
+          networkMoRefId: S.optional(S.String),
+          networkMoName: S.optional(S.String),
+          deviceKey: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "NetworkInterfaceInventory" });
+    case 8:
+      return S.Array(__S(599, __c37, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          networkInterfaces: S.optional(__S(600, __c37, 8)),
+        }),
+      ).annotate({ identifier: "NetworkProfileInventory" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          inventoryType: S.String,
+          managedResourceId: S.optional(S.String),
+          moRefId: S.optional(S.String),
+          moName: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          osType: S.optional(S.String),
+          osName: S.optional(S.String),
+          ipAddresses: S.optional(__S(112, __c7, 0)),
+          folderPath: S.optional(S.String),
+          host: S.optional(__S(592, __c37, 0)),
+          resourcePool: S.optional(__S(592, __c37, 0)),
+          cluster: S.optional(__S(592, __c37, 0)),
+          instanceUuid: S.optional(S.String),
+          smbiosUuid: S.optional(S.String),
+          powerState: S.optional(S.String),
+          toolsRunningStatus: S.optional(S.String),
+          toolsVersionStatus: S.optional(S.String),
+          toolsVersion: S.optional(S.String),
+          firmwareType: S.optional(S.String),
+          changeTrackingSupported: S.optional(S.Boolean),
+          changeTrackingEnabled: S.optional(S.Boolean),
+          maxSnapshots: S.optional(S.Number),
+          numberOfSnapshots: S.optional(S.Number),
+          diskEnabledUuid: S.optional(S.String),
+          computerName: S.optional(S.String),
+          memorySizeMB: S.optional(S.Number),
+          numCPUs: S.optional(S.Number),
+          storageProfile: S.optional(__S(598, __c37, 6)),
+          networkProfile: S.optional(__S(601, __c37, 9)),
+        }),
+      ).annotate({ identifier: "VirtualMachineInventoryItem" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          inventoryType: S.String,
+          managedResourceId: S.optional(S.String),
+          moRefId: S.optional(S.String),
+          moName: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          memorySizeMB: S.optional(S.Number),
+          numCPUs: S.optional(S.Number),
+          numCoresPerSocket: S.optional(S.Number),
+          osType: S.optional(S.String),
+          osName: S.optional(S.String),
+          toolsVersionStatus: S.optional(S.String),
+          toolsVersion: S.optional(S.String),
+          folderPath: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VirtualMachineTemplateInventoryItem" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          inventoryType: S.String,
+          managedResourceId: S.optional(S.String),
+          moRefId: S.optional(S.String),
+          moName: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          parent: S.optional(__S(592, __c37, 0)),
+          numCoresPerSocket: S.optional(S.Number),
+          numSockets: S.optional(S.Number),
+          version: S.optional(S.String),
+          cpuModel: S.optional(S.String),
+          memorySizeGB: S.optional(S.Number),
+          powerState: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HostInventoryItem" });
+    case 13:
+      return S.Union([
+        __S(593, __c37, 1),
+        __S(602, __c37, 10),
+        __S(603, __c37, 11),
+        __S(594, __c37, 2),
+        __S(594, __c37, 2),
+        __S(595, __c37, 3),
+        __S(604, __c37, 12),
+      ]);
+    case 14:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(576, __c36, 0),
+          properties: __S(605, __c37, 13),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateInventoryItemResponse" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4074,7 +4682,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "ListClusterByResourceGroupRequest" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(97, __c6, 1));
@@ -4082,12 +4690,12 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(608, __c38, 0),
+          value: __S(624, __c39, 0),
         }),
       ).annotate({ identifier: "ClustersList" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4104,7 +4712,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "ListClustersRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4122,7 +4730,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "ListDatastoreByResourceGroupRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(145, __c9, 1));
@@ -4130,12 +4738,12 @@ function __c41(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(656, __c41, 0),
+          value: __S(672, __c42, 0),
         }),
       ).annotate({ identifier: "DatastoresList" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4152,7 +4760,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "ListDatastoresRequest" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4170,7 +4778,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "ListHostByResourceGroupRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(337, __c21, 1));
@@ -4178,12 +4786,12 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(704, __c44, 0),
+          value: __S(720, __c45, 0),
         }),
       ).annotate({ identifier: "HostsList" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4200,7 +4808,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "ListHostsRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4218,17 +4826,17 @@ function __c46(j: number): any {
         ),
       ).annotate({ identifier: "ListInventoryItemByVCenterRequest" });
     case 1:
-      return S.Array(__S(577, __c36, 1));
+      return S.Array(__S(606, __c37, 14));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(737, __c46, 1),
+          value: __S(753, __c47, 1),
         }),
       ).annotate({ identifier: "InventoryItemsList" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4255,21 +4863,21 @@ function __c47(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
-          display: S.optional(__S(753, __c47, 1)),
+          display: S.optional(__S(769, __c48, 1)),
         }),
       ).annotate({ identifier: "Operation" });
     case 3:
-      return S.Array(__S(754, __c47, 2));
+      return S.Array(__S(770, __c48, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(755, __c47, 3),
+          value: __S(771, __c48, 3),
         }),
       ).annotate({ identifier: "OperationsList" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4287,20 +4895,20 @@ function __c48(j: number): any {
       ).annotate({ identifier: "ListResourcePoolByResourceGroupRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(833, __c52, 1));
+      return S.Array(__S(849, __c53, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(784, __c49, 0),
+          value: __S(800, __c50, 0),
         }),
       ).annotate({ identifier: "ResourcePoolsList" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4317,7 +4925,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ListResourcePoolsRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4341,7 +4949,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "CreateResourcePoolRequest" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4371,7 +4979,7 @@ function __c52(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(832, __c52, 0),
+          properties: __S(848, __c53, 0),
           location: S.String,
           extendedLocation: S.optional(__S(32, __c2, 0)),
           systemData: S.optional(__S(16, __c1, 0)),
@@ -4384,7 +4992,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "ResourcePool" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4402,20 +5010,20 @@ function __c53(j: number): any {
       ).annotate({ identifier: "ListVCenterByResourceGroupRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1074, __c67, 2));
+      return S.Array(__S(1090, __c68, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(864, __c54, 0),
+          value: __S(880, __c55, 0),
         }),
       ).annotate({ identifier: "VCentersList" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4432,7 +5040,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "ListVCentersRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4453,12 +5061,12 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(897, __c56, 1),
+          value: __S(913, __c57, 1),
         }),
       ).annotate({ identifier: "VirtualMachineInstancesList" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4476,20 +5084,20 @@ function __c57(j: number): any {
       ).annotate({ identifier: "ListVirtualMachineTemplateByResourceGroupRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1297, __c81, 1));
+      return S.Array(__S(1313, __c82, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(928, __c58, 0),
+          value: __S(944, __c59, 0),
         }),
       ).annotate({ identifier: "VirtualMachineTemplatesList" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4506,7 +5114,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "ListVirtualMachineTemplatesRequest" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4524,20 +5132,20 @@ function __c60(j: number): any {
       ).annotate({ identifier: "ListVirtualNetworkByResourceGroupRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1345, __c84, 1));
+      return S.Array(__S(1361, __c85, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(976, __c61, 0),
+          value: __S(992, __c62, 0),
         }),
       ).annotate({ identifier: "VirtualNetworksList" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4554,7 +5162,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "ListVirtualNetworksRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4570,17 +5178,17 @@ function __c63(j: number): any {
         ),
       ).annotate({ identifier: "ListVMInstanceGuestAgentsRequest" });
     case 1:
-      return S.Array(__S(1379, __c86, 3));
+      return S.Array(__S(1395, __c87, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(1009, __c63, 1),
+          value: __S(1025, __c64, 1),
         }),
       ).annotate({ identifier: "GuestAgentList" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4601,12 +5209,12 @@ function __c64(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: __S(1025, __c64, 1),
+          value: __S(1041, __c65, 1),
         }),
       ).annotate({ identifier: "VmInstanceHybridIdentityMetadataList" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4623,14 +5231,14 @@ function __c65(j: number): any {
       ).annotate({ identifier: "RestartVirtualMachineInstanceRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           fqdn: S.String,
           port: S.optional(S.Number),
-          credentials: S.optional(__S(1072, __c67, 0)),
+          credentials: S.optional(__S(1088, __c68, 0)),
         }),
       ).annotate({ identifier: "VCenterPropertiesInput" });
     case 1:
@@ -4639,7 +5247,7 @@ function __c66(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           vcenterName: S.String.pipe(T.Label()),
-          properties: __S(1056, __c66, 0),
+          properties: __S(1072, __c67, 0),
           location: S.String,
           extendedLocation: S.optional(__S(32, __c2, 0)),
           tags: S.optional(__S(48, __c3, 0)),
@@ -4655,7 +5263,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "CreateVCenterRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4674,7 +5282,7 @@ function __c67(j: number): any {
           instanceUuid: S.optional(S.String),
           connectionStatus: S.optional(S.String),
           customResourceName: S.optional(S.String),
-          credentials: S.optional(__S(1072, __c67, 0)),
+          credentials: S.optional(__S(1088, __c68, 0)),
           statuses: S.optional(__S(65, __c4, 1)),
           provisioningState: S.optional(S.String),
         }),
@@ -4682,7 +5290,7 @@ function __c67(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(1073, __c67, 1),
+          properties: __S(1089, __c68, 1),
           location: S.String,
           extendedLocation: S.optional(__S(32, __c2, 0)),
           systemData: S.optional(__S(16, __c1, 0)),
@@ -4695,7 +5303,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "VCenter" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4712,7 +5320,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "StartVirtualMachineInstanceRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4730,7 +5338,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "StopVirtualMachineInstanceRequest" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4750,7 +5358,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "UpdateClusterRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4770,7 +5378,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "UpdateDatastoreRequest" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4790,7 +5398,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "UpdateHostRequest" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4810,7 +5418,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "UpdateResourcePoolRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4830,7 +5438,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "UpdateVCenterRequest" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4843,26 +5451,26 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "NetworkInterfaceUpdate" });
     case 1:
-      return S.Array(__S(1200, __c75, 0));
+      return S.Array(__S(1216, __c76, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          networkInterfaces: S.optional(__S(1201, __c75, 1)),
+          networkInterfaces: S.optional(__S(1217, __c76, 1)),
         }),
       ).annotate({ identifier: "NetworkProfileUpdate" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          hardwareProfile: S.optional(__S(1216, __c76, 0)),
-          storageProfile: S.optional(__S(1219, __c76, 3)),
-          networkProfile: S.optional(__S(1202, __c75, 2)),
+          hardwareProfile: S.optional(__S(1232, __c77, 0)),
+          storageProfile: S.optional(__S(1235, __c77, 3)),
+          networkProfile: S.optional(__S(1218, __c76, 2)),
         }),
       ).annotate({ identifier: "VirtualMachineInstanceUpdatePropertiesInput" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1203, __c75, 3)),
+          properties: S.optional(__S(1219, __c76, 3)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -4886,7 +5494,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "UpdateVirtualMachineInstanceResponse" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4910,16 +5518,16 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "VirtualDiskUpdate" });
     case 2:
-      return S.Array(__S(1217, __c76, 1));
+      return S.Array(__S(1233, __c77, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          disks: S.optional(__S(1218, __c76, 2)),
+          disks: S.optional(__S(1234, __c77, 2)),
         }),
       ).annotate({ identifier: "StorageProfileUpdate" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4939,7 +5547,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "UpdateVirtualMachineTemplateRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4959,7 +5567,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "UpdateVirtualNetworkRequest" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4983,7 +5591,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "CreateVirtualMachineTemplateRequest" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4994,7 +5602,7 @@ function __c80(j: number): any {
         }),
       ).annotate({ identifier: "NicIPAddressSettings" });
     case 1:
-      return S.Array(__S(1280, __c80, 0));
+      return S.Array(__S(1296, __c81, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5005,7 +5613,7 @@ function __c80(j: number): any {
           subnetMask: S.optional(S.String),
           primaryWinsServer: S.optional(S.String),
           secondaryWinsServer: S.optional(S.String),
-          ipAddressInfo: S.optional(__S(1281, __c80, 1)),
+          ipAddressInfo: S.optional(__S(1297, __c81, 1)),
         }),
       ).annotate({ identifier: "NicIPSettings" });
     case 3:
@@ -5021,11 +5629,11 @@ function __c80(j: number): any {
           networkMoRefId: S.optional(S.String),
           networkMoName: S.optional(S.String),
           deviceKey: S.optional(S.Number),
-          ipSettings: S.optional(__S(1282, __c80, 2)),
+          ipSettings: S.optional(__S(1298, __c81, 2)),
         }),
       ).annotate({ identifier: "NetworkInterface" });
     case 4:
-      return S.Array(__S(1283, __c80, 3));
+      return S.Array(__S(1299, __c81, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -5042,10 +5650,10 @@ function __c80(j: number): any {
         }),
       ).annotate({ identifier: "VirtualDisk" });
     case 6:
-      return S.Array(__S(1285, __c80, 5));
+      return S.Array(__S(1301, __c81, 5));
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5061,8 +5669,8 @@ function __c81(j: number): any {
           osType: S.optional(S.String),
           osName: S.optional(S.String),
           folderPath: S.optional(S.String),
-          networkInterfaces: S.optional(__S(1284, __c80, 4)),
-          disks: S.optional(__S(1286, __c80, 6)),
+          networkInterfaces: S.optional(__S(1300, __c81, 4)),
+          disks: S.optional(__S(1302, __c81, 6)),
           customResourceName: S.optional(S.String),
           toolsVersionStatus: S.optional(S.String),
           toolsVersion: S.optional(S.String),
@@ -5074,7 +5682,7 @@ function __c81(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(1296, __c81, 0),
+          properties: __S(1312, __c82, 0),
           location: S.String,
           extendedLocation: S.optional(__S(32, __c2, 0)),
           systemData: S.optional(__S(16, __c1, 0)),
@@ -5087,7 +5695,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "VirtualMachineTemplate" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5118,15 +5726,15 @@ function __c82(j: number): any {
           nicType: S.optional(S.String),
           powerOnBoot: S.optional(S.String),
           deviceKey: S.optional(S.Number),
-          ipSettings: S.optional(__S(1313, __c82, 1)),
+          ipSettings: S.optional(__S(1329, __c83, 1)),
         }),
       ).annotate({ identifier: "NetworkInterfaceInput" });
     case 3:
-      return S.Array(__S(1314, __c82, 2));
+      return S.Array(__S(1330, __c83, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          networkInterfaces: S.optional(__S(1315, __c82, 3)),
+          networkInterfaces: S.optional(__S(1331, __c83, 3)),
         }),
       ).annotate({ identifier: "NetworkProfileInput" });
     case 5:
@@ -5143,19 +5751,19 @@ function __c82(j: number): any {
       return S.suspend(() =>
         S.Struct({
           placementProfile: S.optional(__S(448, __c28, 0)),
-          osProfile: S.optional(__S(1312, __c82, 0)),
-          hardwareProfile: S.optional(__S(1216, __c76, 0)),
-          networkProfile: S.optional(__S(1316, __c82, 4)),
-          storageProfile: S.optional(__S(1219, __c76, 3)),
+          osProfile: S.optional(__S(1328, __c83, 0)),
+          hardwareProfile: S.optional(__S(1232, __c77, 0)),
+          networkProfile: S.optional(__S(1332, __c83, 4)),
+          storageProfile: S.optional(__S(1235, __c77, 3)),
           securityProfile: S.optional(__S(457, __c28, 9)),
-          infrastructureProfile: S.optional(__S(1317, __c82, 5)),
+          infrastructureProfile: S.optional(__S(1333, __c83, 5)),
         }),
       ).annotate({ identifier: "VirtualMachineInstancePropertiesInput" });
     case 7:
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
-          properties: __S(1318, __c82, 6),
+          properties: __S(1334, __c83, 6),
           extendedLocation: S.optional(__S(32, __c2, 0)),
         }).pipe(
           T.Http({
@@ -5168,7 +5776,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "VirtualMachineInstancesCreateOrUpdateRequest" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5192,7 +5800,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "CreateVirtualNetworkRequest" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5210,7 +5818,7 @@ function __c84(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(1344, __c84, 0),
+          properties: __S(1360, __c85, 0),
           location: S.String,
           extendedLocation: S.optional(__S(32, __c2, 0)),
           systemData: S.optional(__S(16, __c1, 0)),
@@ -5223,14 +5831,14 @@ function __c84(j: number): any {
       ).annotate({ identifier: "VirtualNetwork" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          credentials: S.optional(__S(1376, __c86, 0)),
+          credentials: S.optional(__S(1392, __c87, 0)),
           privateLinkScopeResourceId: S.optional(S.String),
-          httpProxyConfig: S.optional(__S(1377, __c86, 1)),
+          httpProxyConfig: S.optional(__S(1393, __c87, 1)),
           provisioningAction: S.optional(S.String),
         }),
       ).annotate({ identifier: "GuestAgentPropertiesInput" });
@@ -5238,7 +5846,7 @@ function __c85(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
-          properties: __S(1360, __c85, 0),
+          properties: __S(1376, __c86, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5250,7 +5858,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "CreateVMInstanceGuestAgentRequest" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5270,9 +5878,9 @@ function __c86(j: number): any {
       return S.suspend(() =>
         S.Struct({
           uuid: S.optional(S.String),
-          credentials: S.optional(__S(1376, __c86, 0)),
+          credentials: S.optional(__S(1392, __c87, 0)),
           privateLinkScopeResourceId: S.optional(S.String),
-          httpProxyConfig: S.optional(__S(1377, __c86, 1)),
+          httpProxyConfig: S.optional(__S(1393, __c87, 1)),
           provisioningAction: S.optional(S.String),
           status: S.optional(S.String),
           customResourceName: S.optional(S.String),
@@ -5287,12 +5895,12 @@ function __c86(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(1378, __c86, 2),
+          properties: __S(1394, __c87, 2),
         }),
       ).annotate({ identifier: "CreateVMInstanceGuestAgentResponse" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5312,7 +5920,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "DeleteClusterRequest" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -1,9 +1,0 @@
-{
-  "structures": {
-    "AuthenticateOidcActionConfig": {
-      "members": {
-        "ClientSecret": { "sensitive": true }
-      }
-    }
-  }
-}

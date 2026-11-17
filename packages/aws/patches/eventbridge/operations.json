@@ -1,0 +1,54 @@
+{
+  "description": "EventBridge: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eventbridge#DeleteEventBus/errors/-",
+      "value": {
+        "target": "com.amazonaws.eventbridge#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eventbridge#DeleteEventBus/errors/-",
+      "value": {
+        "target": "com.amazonaws.eventbridge#EventBusHasRules"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eventbridge#TagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.eventbridge#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eventbridge#UntagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.eventbridge#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eventbridge#ListTagsForResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.eventbridge#ThrottlingException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eventbridge#CreateEndpoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.eventbridge#EndpointRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eventbridge#UpdateEndpoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.eventbridge#EndpointRoleNotAssumable"
+      }
+    }
+  ]
+}

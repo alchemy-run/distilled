@@ -1,0 +1,121 @@
+{
+  "description": "GetClusterKubeConfig, GetUserData: Scaleway answers the file itself when the request adds `?dl=1` (scaleway-sdk-js sends it for these downloads; the Go SDK and CLI read the JSON `scaleway.std.File` instead). Each gets a `…Raw` twin that sends `dl=1` (the `rawDownload` flag on its http trait) and returns the body as bytes.",
+  "patches": [
+    {
+      "op": "copy",
+      "from": "/shapes/com.scaleway.k8s_v1#GetClusterKubeConfigRequest",
+      "path": "/shapes/com.scaleway.k8s_v1#GetClusterKubeConfigRawRequest"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.k8s_v1#GetClusterKubeConfigRawResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#Blob",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {},
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.scaleway.k8s_v1#GetClusterKubeConfig",
+      "path": "/shapes/com.scaleway.k8s_v1#GetClusterKubeConfigRaw"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.scaleway.k8s_v1#GetClusterKubeConfigRaw/input",
+      "value": {
+        "target": "com.scaleway.k8s_v1#GetClusterKubeConfigRawRequest"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.scaleway.k8s_v1#GetClusterKubeConfigRaw/output",
+      "value": {
+        "target": "com.scaleway.k8s_v1#GetClusterKubeConfigRawResponse"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.k8s_v1#GetClusterKubeConfigRaw/traits/smithy.api#http/rawDownload",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.k8s_v1#GetClusterKubeConfigRaw/traits/smithy.api#documentation",
+      "value": "The file `getClusterKubeConfig` returns, as bytes (`?dl=1`), rather than the JSON file object."
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.k8s_v1#K8sV1/operations/-",
+      "value": {
+        "target": "com.scaleway.k8s_v1#GetClusterKubeConfigRaw"
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.scaleway.k8s_v1#GetUserDataRequest",
+      "path": "/shapes/com.scaleway.k8s_v1#GetUserDataRawRequest"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.k8s_v1#GetUserDataRawResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#Blob",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {},
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.scaleway.k8s_v1#GetUserData",
+      "path": "/shapes/com.scaleway.k8s_v1#GetUserDataRaw"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.scaleway.k8s_v1#GetUserDataRaw/input",
+      "value": {
+        "target": "com.scaleway.k8s_v1#GetUserDataRawRequest"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.scaleway.k8s_v1#GetUserDataRaw/output",
+      "value": {
+        "target": "com.scaleway.k8s_v1#GetUserDataRawResponse"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.k8s_v1#GetUserDataRaw/traits/smithy.api#http/rawDownload",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.k8s_v1#GetUserDataRaw/traits/smithy.api#documentation",
+      "value": "The file `getUserData` returns, as bytes (`?dl=1`), rather than the JSON file object."
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.k8s_v1#K8sV1/operations/-",
+      "value": {
+        "target": "com.scaleway.k8s_v1#GetUserDataRaw"
+      }
+    }
+  ]
+}

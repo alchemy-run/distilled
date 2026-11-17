@@ -31,43 +31,71 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 /** This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details. */
 export interface CreatePaymentTokenRequestCustomer {
   /** The unique ID for a customer in merchant's or partner's system of records. */
-  id?: string;
+  id?: string | undefined;
   /** Merchants and partners may already have a data-store where their customer information is persisted. Use merchant_customer_id to associate the PayPal-generated customer.id to your representation of a customer. */
-  merchant_customer_id?: string;
+  merchant_customer_id?: string | undefined;
 }
 /** The card network or brand. Applies to credit, debit, gift, and payment cards. */
 export type CardBrand =
@@ -99,32 +127,32 @@ export type CardBrand =
 /** The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute). */
 export interface DefinitionsPaymentSourceCardBillingAddress {
   /** The first line of the address, such as number and street, for example, `173 Drury Lane`. Needed for data entry, and Compliance and Risk checks. This field needs to pass the full address. */
-  address_line_1?: string;
+  address_line_1?: string | undefined;
   /** The second line of the address, for example, a suite or apartment number. */
-  address_line_2?: string;
+  address_line_2?: string | undefined;
   /** A city, town, or village. Smaller than `admin_area_level_1`. */
-  admin_area_2?: string;
+  admin_area_2?: string | undefined;
   /** The highest-level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. This data is formatted for postal delivery, for example, `CA` and not `California`. Value, by country, is:<ul><li>UK. A county.</li><li>US. A state.</li><li>Canada. A province.</li><li>Japan. A prefecture.</li><li>Switzerland. A *kanton*.</li></ul> */
-  admin_area_1?: string;
+  admin_area_1?: string | undefined;
   /** The postal code, which is the ZIP code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code). */
-  postal_code?: string;
+  postal_code?: string | undefined;
   country_code: string;
 }
 /** A Resource representing a request to vault a Card. */
 export interface DefinitionsPaymentSourceCard {
   /** The card holder's name as it appears on the card. */
-  name?: string;
+  name?: string | undefined;
   /** The primary account number (PAN) for the payment card. */
-  number?: string;
+  number?: string | undefined;
   /** The card expiration year and month, in [Internet date format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  expiry?: string;
+  expiry?: string | undefined;
   /** The three- or four-digit security code of the card. Also known as the CVV, CVC, CVN, CVE, or CID. This parameter cannot be present in the request when `payment_initiator=MERCHANT`. */
-  security_code?: string;
+  security_code?: string | undefined;
   /** The card brand or network. Typically used in the response. */
-  brand?: CardBrand | (string & {});
+  brand?: CardBrand | (string & {}) | undefined;
   /** The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute). */
-  billing_address?: DefinitionsPaymentSourceCardBillingAddress;
-  network_transaction_reference?: unknown;
+  billing_address?: DefinitionsPaymentSourceCardBillingAddress | undefined;
+  network_transaction_reference?: unknown | undefined;
 }
 /** The tokenization method that generated the ID. */
 export type TokenIdRequestType = "SETUP_TOKEN";
@@ -138,14 +166,14 @@ export interface TokenIdRequest {
 /** The payment method to vault with the instrument details. */
 export interface DefinitionsPaymentSource {
   /** A Resource representing a request to vault a Card. */
-  card?: DefinitionsPaymentSourceCard;
-  token?: TokenIdRequest;
+  card?: DefinitionsPaymentSourceCard | undefined;
+  token?: TokenIdRequest | undefined;
 }
 export interface CreatePaymentTokenRequest {
   /** The server stores keys for 3 hours. */
-  payPalRequestId?: string;
+  payPalRequestId?: string | undefined;
   /** This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details. */
-  customer?: CreatePaymentTokenRequestCustomer;
+  customer?: CreatePaymentTokenRequestCustomer | undefined;
   payment_source: DefinitionsPaymentSource;
 }
 /** This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details. */
@@ -153,18 +181,18 @@ export type Customer = CreatePaymentTokenRequestCustomer;
 /** Address request details. */
 export interface CardResponseBillingAddress {
   /** The first line of the address, such as number and street, for example, `173 Drury Lane`. Needed for data entry, and Compliance and Risk checks. This field needs to pass the full address. */
-  address_line_1?: string;
+  address_line_1?: string | undefined;
   /** The second line of the address, for example, a suite or apartment number. */
-  address_line_2?: string;
+  address_line_2?: string | undefined;
   /** A city, town, or village. Smaller than `admin_area_level_1`. */
-  admin_area_2?: string;
+  admin_area_2?: string | undefined;
   /** The highest-level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. This data is formatted for postal delivery, for example, `CA` and not `California`. Value, by country, is:<ul><li>UK. A county.</li><li>US. A state.</li><li>Canada. A province.</li><li>Japan. A prefecture.</li><li>Switzerland. A *kanton*.</li></ul> */
-  admin_area_1?: string;
+  admin_area_1?: string | undefined;
   /** The postal code, which is the ZIP code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code). */
-  postal_code?: string;
+  postal_code?: string | undefined;
   country_code: string;
   /** The resource ID of the address. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Verification status of Card. */
 export type CardVerificationStatus = "VERIFIED" | "FAILED";
@@ -219,37 +247,37 @@ export type CardVerificationDetailsProcessorResponseCvvCode =
 /** The processor response information for payment requests, such as direct credit card transactions. */
 export interface CardVerificationDetailsProcessorResponse {
   /** The address verification code for Visa, Discover, Mastercard, or American Express transactions. */
-  avs_code?: CardVerificationDetailsProcessorResponseAvsCode;
+  avs_code?: CardVerificationDetailsProcessorResponseAvsCode | undefined;
   /** The card verification value code for for Visa, Discover, Mastercard, or American Express. */
-  cvv_code?: CardVerificationDetailsProcessorResponseCvvCode;
+  cvv_code?: CardVerificationDetailsProcessorResponseCvvCode | undefined;
 }
 /** Card Verification details including the authorization details and 3D SECURE details. */
 export interface CardVerificationDetails {
   /** DEPRECATED. This field is DEPRECATED. Please find the network transaction id data in the 'id' field under the 'network_transaction_reference' object instead of the 'verification' object. */
-  network_transaction_id?: string;
+  network_transaction_id?: string | undefined;
   /** DEPRECATED. This field is DEPRECATED. Please find the date data in the 'date' field under the 'network_transaction_reference' object instead of the 'verification' object. */
-  date?: string;
+  date?: string | undefined;
   /** DEPRECATED. This field is DEPRECATED. Please find the network data in the 'network' field under the 'network_transaction_reference' object instead of the 'verification' object. */
-  network?: CardBrand;
+  network?: CardBrand | undefined;
   /** DEPRECATED. This field is DEPRECATED. Please find the time data in the 'time' field under the 'network_transaction_reference' object instead of the 'verification' object. */
-  time?: string;
+  time?: string | undefined;
   /** The amount used for card verification. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The processor response information for payment requests, such as direct credit card transactions. */
-  processor_response?: CardVerificationDetailsProcessorResponse;
+  processor_response?: CardVerificationDetailsProcessorResponse | undefined;
   /** DEPRECATED. This field is DEPRECATED. Please find the 3D secure authentication data in the 'three_d_secure' object under the 'authentication_result' object instead of the 'verification' object. */
-  three_d_secure?: unknown;
+  three_d_secure?: unknown | undefined;
 }
 /** Previous network transaction reference including id and network. */
 export interface NetworkTransactionReferenceEntity {
   /** Transaction reference id returned by the scheme. For Visa and Amex, this is the "Tran id" field in response. For MasterCard, this is the "BankNet reference id" field in response. For Discover, this is the "NRID" field in response. The pattern we expect for this field from Visa/Amex/CB/Discover is numeric, Mastercard/BNPP is alphanumeric and Paysecure is alphanumeric with special character -. */
   id: string;
   /** The date that the transaction was authorized by the scheme. This field may not be returned for all networks. MasterCard refers to this field as "BankNet reference date. */
-  date?: string;
+  date?: string | undefined;
   /** Name of the card network through which the transaction was routed. */
-  network?: CardBrand;
+  network?: CardBrand | undefined;
   /** The date and time when the instrument was verified. */
-  time?: string;
+  time?: string | undefined;
 }
 /** Transactions status result identifier. The outcome of the issuer's authentication. */
 export type ParesStatus = "Y" | "N" | "U" | "A" | "C" | "R" | "D" | "I";
@@ -258,53 +286,53 @@ export type Enrolled = "Y" | "N" | "U" | "B";
 /** Results of 3D Secure Authentication. */
 export interface ThreeDSecureAuthenticationResponse2 {
   /** The outcome of the issuer's authentication. */
-  authentication_status?: ParesStatus;
+  authentication_status?: ParesStatus | undefined;
   /** Status of authentication eligibility. */
-  enrollment_status?: Enrolled;
+  enrollment_status?: Enrolled | undefined;
   /** The externally received 3ds authentication id, to be returned in card detokenization response. */
-  authentication_id?: string;
+  authentication_id?: string | undefined;
 }
 /** Results of Authentication such as 3D Secure. */
 export interface CardResponseAuthenticationResult {
-  three_d_secure?: ThreeDSecureAuthenticationResponse2;
+  three_d_secure?: ThreeDSecureAuthenticationResponse2 | undefined;
 }
 /** The type of card product assigned to the BIN by the issuer. These values are defined by the issuer and may change over time. Some examples include: PREPAID_GIFT, CONSUMER, CORPORATE. */
 export type ProductsList = Array<string>;
 /** Bank Identification Number (BIN) details used to fund a payment. */
 export interface BinDetails {
   /** The Bank Identification Number (BIN) signifies the number that is being used to identify the granular level details (except the PII information) of the card. */
-  bin?: string;
+  bin?: string | undefined;
   /** The issuer of the card instrument. */
-  issuing_bank?: string;
+  issuing_bank?: string | undefined;
   /** The [two-character ISO-3166-1 country code](/docs/integration/direct/rest/country-codes/) of the bank. */
-  bin_country_code?: string;
-  products?: ProductsList;
+  bin_country_code?: string | undefined;
+  products?: ProductsList | undefined;
 }
 /** Type of card. i.e Credit, Debit and so on. */
 export type CardType = "CREDIT" | "DEBIT" | "PREPAID" | "STORE" | "UNKNOWN";
 /** Full representation of a Card Payment Token including network token. */
 export interface CardResponse {
   /** The card holder's name as it appears on the card. */
-  name?: string;
+  name?: string | undefined;
   /** The last digits of the payment card. */
-  last_digits?: string;
+  last_digits?: string | undefined;
   /** The card brand or network. Typically used in the response. */
-  brand?: CardBrand;
+  brand?: CardBrand | undefined;
   /** The card expiration year and month, in [Internet date format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  expiry?: string;
+  expiry?: string | undefined;
   /** Address request details. */
-  billing_address?: CardResponseBillingAddress;
+  billing_address?: CardResponseBillingAddress | undefined;
   /** Card Verification status. */
-  verification_status?: CardVerificationStatus;
-  verification?: CardVerificationDetails;
-  network_transaction_reference?: NetworkTransactionReferenceEntity;
+  verification_status?: CardVerificationStatus | undefined;
+  verification?: CardVerificationDetails | undefined;
+  network_transaction_reference?: NetworkTransactionReferenceEntity | undefined;
   /** Results of Authentication such as 3D Secure. */
-  authentication_result?: CardResponseAuthenticationResult;
+  authentication_result?: CardResponseAuthenticationResult | undefined;
   /** Bank Identification Number (BIN) details used to fund a payment. */
-  bin_details?: BinDetails;
+  bin_details?: BinDetails | undefined;
   /** The payment card type. */
-  type?: CardType;
-  network_token?: unknown;
+  type?: CardType | undefined;
+  network_token?: unknown | undefined;
 }
 /** Expected business/charge model for the billing agreement. */
 export type PaypalWalletResponseUsagePattern =
@@ -323,7 +351,7 @@ export type PaypalWalletResponseUsagePattern =
 /** The name of the party. */
 export interface PaypalWalletResponseShippingName {
   /** When the party is a person, the party's full name. */
-  full_name?: string;
+  full_name?: string | undefined;
 }
 /** The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). */
 export interface PaypalWalletResponseShippingPhoneNumber {
@@ -343,13 +371,13 @@ export type PaypalWalletResponseShippingAddress = DefinitionsPaymentSourceCardBi
 /** The shipping details. */
 export interface PaypalWalletResponseShipping {
   /** The name of the party. */
-  name?: PaypalWalletResponseShippingName;
+  name?: PaypalWalletResponseShippingName | undefined;
   /** The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). */
-  phone_number?: PaypalWalletResponseShippingPhoneNumber;
+  phone_number?: PaypalWalletResponseShippingPhoneNumber | undefined;
   /** A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both. */
-  type?: PaypalWalletResponseShippingType;
+  type?: PaypalWalletResponseShippingType | undefined;
   /** The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute). */
-  address?: DefinitionsPaymentSourceCardBillingAddress;
+  address?: DefinitionsPaymentSourceCardBillingAddress | undefined;
 }
 /** The usage type associated with a digital wallet payment token. */
 export type PaypalWalletResponseUsageType = "MERCHANT" | "PLATFORM";
@@ -358,9 +386,9 @@ export type PaypalWalletResponseCustomerType = "CONSUMER" | "BUSINESS";
 /** The name of the party. */
 export interface PaypalWalletResponseName {
   /** When the party is a person, the party's given, or first, name. */
-  given_name?: string;
+  given_name?: string | undefined;
   /** When the party is a person, the party's surname or family name. Also known as the last name. Required when the party is a person. Use also to store multiple surnames including the matronymic, or mother's, surname. */
-  surname?: string;
+  surname?: string | undefined;
 }
 /** The phone type. */
 export type PhoneType = "FAX" | "HOME" | "MOBILE" | "OTHER" | "PAGER";
@@ -371,7 +399,7 @@ export interface PhoneWithTypePhoneNumber {
 }
 /** The phone information. */
 export interface PhoneWithType {
-  phone_type?: PhoneType;
+  phone_type?: PhoneType | undefined;
   /** The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). */
   phone_number: PhoneWithTypePhoneNumber;
 }
@@ -384,35 +412,35 @@ export interface Phone {
   /** The national number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). The combined length of the country calling code (CC) and the national number must not be greater than 15 digits. The national number consists of a national destination code (NDC) and subscriber number (SN). */
   national_number: string;
   /** The extension number. */
-  extension_number?: string;
+  extension_number?: string | undefined;
 }
 export interface PaypalWalletResponse {
   /** The description displayed to the consumer on the approval flow for a digital wallet, as well as on the merchant view of the payment token management experience. exp: PayPal.com. */
-  description?: string;
+  description?: string | undefined;
   /** Expected business/charge model for the billing agreement. */
-  usage_pattern?: PaypalWalletResponseUsagePattern;
+  usage_pattern?: PaypalWalletResponseUsagePattern | undefined;
   /** The shipping details. */
-  shipping?: PaypalWalletResponseShipping;
+  shipping?: PaypalWalletResponseShipping | undefined;
   /** Create multiple payment tokens for the same payer, merchant/platform combination. Use this when the customer has not logged in at merchant/platform. The payment token thus generated, can then also be used to create the customer account at merchant/platform. Use this also when multiple payment tokens are required for the same payer, different customer at merchant/platform. This helps to identify customers distinctly even though they may share the same PayPal account. This only applies to PayPal payment source. */
-  permit_multiple_payment_tokens?: boolean;
+  permit_multiple_payment_tokens?: boolean | undefined;
   /** The usage type associated with a digital wallet payment token. */
-  usage_type?: PaypalWalletResponseUsageType;
+  usage_type?: PaypalWalletResponseUsageType | undefined;
   /** The customer type associated with a digital wallet payment token. This is to indicate whether the customer acting on the merchant / platform is either a business or a consumer. */
-  customer_type?: PaypalWalletResponseCustomerType;
+  customer_type?: PaypalWalletResponseCustomerType | undefined;
   /** The email address of the payer. */
-  email_address?: string;
+  email_address?: string | undefined;
   /** The PayPal-assigned ID for the payer. */
-  payer_id?: string;
+  payer_id?: string | undefined;
   /** The name of the party. */
-  name?: PaypalWalletResponseName;
+  name?: PaypalWalletResponseName | undefined;
   /** The phone number of the customer. Available only when you enable the **Contact Telephone Number** option in the <a href="https://www.paypal.com/cgi-bin/customerprofileweb?cmd=_profile-website-payments">**Profile & Settings**</a> for the merchant's PayPal account. The `phone.phone_number` supports only `national_number`. */
-  phone?: PhoneWithType;
+  phone?: PhoneWithType | undefined;
   /** The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute). */
-  address?: DefinitionsPaymentSourceCardBillingAddress;
+  address?: DefinitionsPaymentSourceCardBillingAddress | undefined;
   /** The account identifier for a PayPal account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). */
-  phone_number?: Phone;
+  phone_number?: Phone | undefined;
 }
 /** Expected business/charge model for the billing agreement. */
 export type VenmoResponseUsagePattern =
@@ -443,13 +471,13 @@ export type VenmoResponseShippingAddress = DefinitionsPaymentSourceCardBillingAd
 /** The shipping details. */
 export interface VenmoResponseShipping {
   /** The name of the party. */
-  name?: PaypalWalletResponseShippingName;
+  name?: PaypalWalletResponseShippingName | undefined;
   /** The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). */
-  phone_number?: PaypalWalletResponseShippingPhoneNumber;
+  phone_number?: PaypalWalletResponseShippingPhoneNumber | undefined;
   /** A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both. */
-  type?: VenmoResponseShippingType;
+  type?: VenmoResponseShippingType | undefined;
   /** The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute). */
-  address?: DefinitionsPaymentSourceCardBillingAddress;
+  address?: DefinitionsPaymentSourceCardBillingAddress | undefined;
 }
 /** The usage type associated with a digital wallet payment token. */
 export type VenmoResponseUsageType = "MERCHANT" | "PLATFORM";
@@ -461,29 +489,29 @@ export type VenmoResponseName = PaypalWalletResponseName;
 export type VenmoResponseAddress = DefinitionsPaymentSourceCardBillingAddress;
 export interface VenmoResponse {
   /** The description displayed to the consumer on the approval flow for a digital wallet, as well as on the merchant view of the payment token management experience. exp: PayPal.com. */
-  description?: string;
+  description?: string | undefined;
   /** Expected business/charge model for the billing agreement. */
-  usage_pattern?: VenmoResponseUsagePattern;
+  usage_pattern?: VenmoResponseUsagePattern | undefined;
   /** The shipping details. */
-  shipping?: VenmoResponseShipping;
+  shipping?: VenmoResponseShipping | undefined;
   /** Create multiple payment tokens for the same payer, merchant/platform combination. Use this when the customer has not logged in at merchant/platform. The payment token thus generated, can then also be used to create the customer account at merchant/platform. Use this also when multiple payment tokens are required for the same payer, different customer at merchant/platform. This helps to identify customers distinctly even though they may share the same PayPal account. This only applies to PayPal payment source. */
-  permit_multiple_payment_tokens?: boolean;
+  permit_multiple_payment_tokens?: boolean | undefined;
   /** The usage type associated with a digital wallet payment token. */
-  usage_type?: VenmoResponseUsageType;
+  usage_type?: VenmoResponseUsageType | undefined;
   /** The customer type associated with a digital wallet payment token. This is to indicate whether the customer acting on the merchant / platform is either a business or a consumer. */
-  customer_type?: VenmoResponseCustomerType;
+  customer_type?: VenmoResponseCustomerType | undefined;
   /** The email address of the payer. */
-  email_address?: string;
+  email_address?: string | undefined;
   /** The PayPal-assigned ID for the payer. */
-  payer_id?: string;
+  payer_id?: string | undefined;
   /** The name of the party. */
-  name?: PaypalWalletResponseName;
+  name?: PaypalWalletResponseName | undefined;
   /** The phone number of the customer. Available only when you enable the **Contact Telephone Number** option in the <a href="https://www.paypal.com/cgi-bin/customerprofileweb?cmd=_profile-website-payments">**Profile & Settings**</a> for the merchant's PayPal account. The `phone.phone_number` supports only `national_number`. */
-  phone?: PhoneWithType;
+  phone?: PhoneWithType | undefined;
   /** The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute). */
-  address?: DefinitionsPaymentSourceCardBillingAddress;
+  address?: DefinitionsPaymentSourceCardBillingAddress | undefined;
   /** The Venmo username, as chosen by the user. */
-  user_name?: string;
+  user_name?: string | undefined;
 }
 /** The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute). */
 export type ApplePayPaymentTokenResponseCardBillingAddress =
@@ -491,27 +519,27 @@ export type ApplePayPaymentTokenResponseCardBillingAddress =
 /** The payment card to be used to fund a payment. Can be a credit or debit card. */
 export interface ApplePayPaymentTokenResponseCard {
   /** The card holder's name as it appears on the card. */
-  name?: string;
+  name?: string | undefined;
   /** The last digits of the payment card. */
-  last_digits?: string;
+  last_digits?: string | undefined;
   /** The payment card type. */
-  type?: CardType;
+  type?: CardType | undefined;
   /** The card brand or network. Typically used in the response. */
-  brand?: CardBrand;
+  brand?: CardBrand | undefined;
   /** The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute). */
-  billing_address?: DefinitionsPaymentSourceCardBillingAddress;
+  billing_address?: DefinitionsPaymentSourceCardBillingAddress | undefined;
 }
 /** A resource representing a response for Apple Pay. */
 export interface ApplePayPaymentTokenResponse {
   /** The payment card to be used to fund a payment. Can be a credit or debit card. */
-  card?: ApplePayPaymentTokenResponseCard;
+  card?: ApplePayPaymentTokenResponseCard | undefined;
 }
 /** The vaulted payment method details. */
 export interface PaymentSource {
-  card?: CardResponse;
-  paypal?: PaypalWalletResponse;
-  venmo?: VenmoResponse;
-  apple_pay?: ApplePayPaymentTokenResponse;
+  card?: CardResponse | undefined;
+  paypal?: PaypalWalletResponse | undefined;
+  venmo?: VenmoResponse | undefined;
+  apple_pay?: ApplePayPaymentTokenResponse | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type LinkDescriptionMethod =
@@ -530,18 +558,18 @@ export interface LinkDescription {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: LinkDescriptionMethod;
+  method?: LinkDescriptionMethod | undefined;
 }
 /** An array of related [HATEOAS links](/api/rest/responses/#hateoas). */
 export type LinkDescriptionList = Array<LinkDescription>;
 /** Full representation of a saved payment token. */
 export interface PaymentTokenResponse {
   /** The PayPal-generated ID for the vault token. */
-  id?: string;
+  id?: string | undefined;
   /** Customer in merchant's or partner's system of records. */
-  customer?: CreatePaymentTokenRequestCustomer;
-  payment_source?: PaymentSource;
-  links?: LinkDescriptionList;
+  customer?: CreatePaymentTokenRequestCustomer | undefined;
+  payment_source?: PaymentSource | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 /** This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details. */
 export type CreateSetupTokenRequestCustomer = CreatePaymentTokenRequestCustomer;
@@ -555,35 +583,35 @@ export type VaultInstruction = "ON_CREATE_PAYMENT_TOKENS" | "ON_PAYER_APPROVAL";
 /** Customizes the Vault creation flow experience for your customers. */
 export interface CreateSetupTokenRequestPaymentSourceCardExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
+  brand_name?: string | undefined;
   /** The BCP 47-formatted locale of pages that the PayPal vaulting experience shows. PayPal supports a five-character code. For example, `DA-DK`, `HE-IL`, `ID-ID`, `JA-JP`, `NO-NO`, `PT-BR`, `RU-RU`, `SV-SE`, `TH-TH`, `ZH-CN`, `ZH-HK`, or `ZH-TW`. */
-  locale?: string;
+  locale?: string | undefined;
   /** The URL where the customer is redirected after customer approves leaves the flow. It is a required field for contingency flows like PayPal wallet, 3DS. */
-  return_url?: string;
+  return_url?: string | undefined;
   /** The URL where the customer is redirected after customer cancels or leaves the flow. It is a required field for contingency flows like PayPal wallet, 3DS. */
-  cancel_url?: string;
+  cancel_url?: string | undefined;
   /** Vault Instruction on action to be performed after a successful payer approval. */
-  vault_instruction?: VaultInstruction | (string & {});
+  vault_instruction?: VaultInstruction | (string & {}) | undefined;
 }
 /** A Resource representing a request to vault a Card. */
 export interface CreateSetupTokenRequestPaymentSourceCard {
   /** The card holder's name as it appears on the card. */
-  name?: string;
+  name?: string | undefined;
   /** The primary account number (PAN) for the payment card. */
-  number?: string;
+  number?: string | undefined;
   /** The card expiration year and month, in [Internet date format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  expiry?: string;
+  expiry?: string | undefined;
   /** The three- or four-digit security code of the card. Also known as the CVV, CVC, CVN, CVE, or CID. This parameter cannot be present in the request when `payment_initiator=MERCHANT`. */
-  security_code?: string;
+  security_code?: string | undefined;
   /** The card brand or network. Typically used in the response. */
-  brand?: CardBrand | (string & {});
+  brand?: CardBrand | (string & {}) | undefined;
   /** The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute). */
-  billing_address?: DefinitionsPaymentSourceCardBillingAddress;
+  billing_address?: DefinitionsPaymentSourceCardBillingAddress | undefined;
   /** The API caller can opt in to verify the payment token through PayPal offered verification services (e.g. Smart Dollar Auth, 3DS). */
-  verification_method?: CardVerificationMethod | (string & {});
+  verification_method?: CardVerificationMethod | (string & {}) | undefined;
   /** Customizes the Vault creation flow experience for your customers. */
-  experience_context?: CreateSetupTokenRequestPaymentSourceCardExperienceContext;
-  network_transaction_reference?: unknown;
+  experience_context?: CreateSetupTokenRequestPaymentSourceCardExperienceContext | undefined;
+  network_transaction_reference?: unknown | undefined;
 }
 /** Expected business/charge model for the billing agreement. */
 export type PaypalWalletRequestUsagePattern =
@@ -614,13 +642,13 @@ export type PaypalWalletRequestShippingAddress = DefinitionsPaymentSourceCardBil
 /** The shipping details. */
 export interface PaypalWalletRequestShipping {
   /** The name of the party. */
-  name?: PaypalWalletResponseShippingName;
+  name?: PaypalWalletResponseShippingName | undefined;
   /** The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). */
-  phone_number?: PaypalWalletResponseShippingPhoneNumber;
+  phone_number?: PaypalWalletResponseShippingPhoneNumber | undefined;
   /** A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both. */
-  type?: PaypalWalletRequestShippingType | (string & {});
+  type?: PaypalWalletRequestShippingType | (string & {}) | undefined;
   /** The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute). */
-  address?: DefinitionsPaymentSourceCardBillingAddress;
+  address?: DefinitionsPaymentSourceCardBillingAddress | undefined;
 }
 /** The usage type associated with a digital wallet payment token. */
 export type PaypalWalletRequestUsageType = "MERCHANT" | "PLATFORM";
@@ -633,39 +661,39 @@ export type PricingSchemePricingModel = "FIXED" | "VARIABLE" | "AUTO_RELOAD";
 /** The pricing scheme details. */
 export interface PricingScheme {
   /** The price the customer will be charged based on the pricing model */
-  price?: Money;
+  price?: Money | undefined;
   /** The pricing model for the billing cycle. */
   pricing_model: PricingSchemePricingModel | (string & {});
   /** The threshold amount on which the reload charge would be triggered. This will be associated with the account-balance where if the account-balance goes below this amount then customer would incur reload charge. */
-  reload_threshold_amount?: Money;
+  reload_threshold_amount?: Money | undefined;
 }
 /** The billing cycle providing details of the billing frequency, amount, duration and if the billing cycle is a free, discounted or regular billing cycle. The sequence of the billing cycle will be in the following order - free trial billing cycle(s), discounted trial billing cycle(s), regular billing cycle(s). */
 export interface BillingCycle {
   /** The tenure type of the billing cycle identifies if the billing cycle is a trial(free or discounted) or regular billing cycle. */
   tenure_type: BillingCycleTenureType | (string & {});
   /** The active pricing scheme for this billing cycle. A free trial billing cycle does not require a pricing scheme. */
-  pricing_scheme?: PricingScheme;
+  pricing_scheme?: PricingScheme | undefined;
   /** The frequency details for this billing cycle. */
-  frequency?: unknown;
+  frequency?: unknown | undefined;
   /** The number of times this billing cycle gets executed. Trial billing cycles can only be executed a finite number of times (value between <code>1</code> and <code>999</code> for <code>total_cycles</code>). Regular billing cycles can be executed infinite times (value of <code>0</code> for <code>total_cycles</code>) or a finite number of times (value between <code>1</code> and <code>999</code> for <code>total_cycles</code>). */
-  total_cycles?: number;
+  total_cycles?: number | undefined;
   /** The order in which this cycle is to run among other billing cycles. For example, a trial billing cycle has a `sequence` of `1` while a regular billing cycle has a `sequence` of `2`, so that trial cycle runs before the regular cycle. */
-  sequence?: number;
+  sequence?: number | undefined;
   /** The start date for the billing cycle, in YYYY-MM-DD. This field should be not be provided if the billing cycle starts at the time of checkout. When this field is not provided, the billing cycle amount will be included in any data validations confirming that the total provided by the merchant match the sum of individual items due at the time of checkout. Only one billing cycle (with sequence equal to 1) can have a no start date. */
-  start_date?: string;
+  start_date?: string | undefined;
 }
 /** An array of billing cycles for trial billing and regular billing. A plan can have at most two trial cycles and only one regular cycle. */
 export type BillingCycleList = Array<BillingCycle>;
 /** The one-time charge info at the time of checkout. */
 export interface OneTimeCharges {
   /** The setup fee for the recurring plan. */
-  setup_fee?: Money;
+  setup_fee?: Money | undefined;
   /** The shipping amount due at the time of checkout. */
-  shipping_amount?: Money;
+  shipping_amount?: Money | undefined;
   /** The taxes due at the time of checkout. */
-  taxes?: Money;
+  taxes?: Money | undefined;
   /** The product price for any one-time product purchased at the time of checkout. */
-  product_price?: Money;
+  product_price?: Money | undefined;
   /** The total amount at the time of checkout. This is calculated by using the formula x + y + z where x is subtotal, y is shipping-amount and z is taxes. */
   total_amount: Money;
 }
@@ -673,11 +701,11 @@ export interface OneTimeCharges {
 export interface Plan {
   billing_cycles: BillingCycleList;
   /** Product details associated with any one-time product purchase. */
-  product?: unknown;
+  product?: unknown | undefined;
   /** Price and currency for any one-time charges due at plan signup. */
   one_time_charges: OneTimeCharges;
   /** Name of the recurring plan. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The shipping preference. This only applies to PayPal payment source. */
 export type ExperienceContextShippingPreference =
@@ -687,34 +715,34 @@ export type ExperienceContextShippingPreference =
 /** Customizes the Vault creation flow experience for your customers. */
 export interface ExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
+  brand_name?: string | undefined;
   /** The BCP 47-formatted locale of pages that the PayPal vaulting experience shows. PayPal supports a five-character code. For example, `DA-DK`, `HE-IL`, `ID-ID`, `JA-JP`, `NO-NO`, `PT-BR`, `RU-RU`, `SV-SE`, `TH-TH`, `ZH-CN`, `ZH-HK`, or `ZH-TW`. */
-  locale?: string;
+  locale?: string | undefined;
   /** The URL where the customer is redirected after customer approves leaves the flow. It is a required field for contingency flows like PayPal wallet, 3DS. */
-  return_url?: string;
+  return_url?: string | undefined;
   /** The URL where the customer is redirected after customer cancels or leaves the flow. It is a required field for contingency flows like PayPal wallet, 3DS. */
-  cancel_url?: string;
+  cancel_url?: string | undefined;
   /** The shipping preference. This only applies to PayPal payment source. */
-  shipping_preference?: ExperienceContextShippingPreference | (string & {});
+  shipping_preference?: ExperienceContextShippingPreference | (string & {}) | undefined;
   /** Vault Instruction on action to be performed after a successful payer approval. */
-  vault_instruction?: VaultInstruction | (string & {});
+  vault_instruction?: VaultInstruction | (string & {}) | undefined;
 }
 /** A resource representing a request to vault PayPal Wallet. */
 export interface PaypalWalletRequest {
   /** The description displayed to the consumer on the approval flow for a digital wallet, as well as on the merchant view of the payment token management experience. exp: PayPal.com. */
-  description?: string;
+  description?: string | undefined;
   /** Expected business/charge model for the billing agreement. */
-  usage_pattern?: PaypalWalletRequestUsagePattern | (string & {});
+  usage_pattern?: PaypalWalletRequestUsagePattern | (string & {}) | undefined;
   /** The shipping details. */
-  shipping?: PaypalWalletRequestShipping;
+  shipping?: PaypalWalletRequestShipping | undefined;
   /** Create multiple payment tokens for the same payer, merchant/platform combination. Use this when the customer has not logged in at merchant/platform. The payment token thus generated, can then also be used to create the customer account at merchant/platform. Use this also when multiple payment tokens are required for the same payer, different customer at merchant/platform. This helps to identify customers distinctly even though they may share the same PayPal account. This only applies to PayPal payment source. */
-  permit_multiple_payment_tokens?: boolean;
+  permit_multiple_payment_tokens?: boolean | undefined;
   /** The usage type associated with a digital wallet payment token. */
-  usage_type?: PaypalWalletRequestUsageType | (string & {});
+  usage_type?: PaypalWalletRequestUsageType | (string & {}) | undefined;
   /** The customer type associated with a digital wallet payment token. This is to indicate whether the customer acting on the merchant / platform is either a business or a consumer. */
-  customer_type?: PaypalWalletRequestCustomerType | (string & {});
-  billing_plan?: Plan;
-  experience_context?: ExperienceContext;
+  customer_type?: PaypalWalletRequestCustomerType | (string & {}) | undefined;
+  billing_plan?: Plan | undefined;
+  experience_context?: ExperienceContext | undefined;
 }
 /** Expected business/charge model for the billing agreement. */
 export type VenmoRequestUsagePattern =
@@ -745,13 +773,13 @@ export type VenmoRequestShippingAddress = DefinitionsPaymentSourceCardBillingAdd
 /** The shipping details. */
 export interface VenmoRequestShipping {
   /** The name of the party. */
-  name?: PaypalWalletResponseShippingName;
+  name?: PaypalWalletResponseShippingName | undefined;
   /** The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). */
-  phone_number?: PaypalWalletResponseShippingPhoneNumber;
+  phone_number?: PaypalWalletResponseShippingPhoneNumber | undefined;
   /** A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both. */
-  type?: VenmoRequestShippingType | (string & {});
+  type?: VenmoRequestShippingType | (string & {}) | undefined;
   /** The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute). */
-  address?: DefinitionsPaymentSourceCardBillingAddress;
+  address?: DefinitionsPaymentSourceCardBillingAddress | undefined;
 }
 /** The usage type associated with a digital wallet payment token. */
 export type VenmoRequestUsageType = "MERCHANT" | "PLATFORM";
@@ -765,41 +793,41 @@ export type VenmoRequestExperienceContextShippingPreference =
 /** Customizes the Vault creation flow experience for your customers. */
 export interface VenmoRequestExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
+  brand_name?: string | undefined;
   /** The shipping preference. This only applies to PayPal payment source. */
-  shipping_preference?: VenmoRequestExperienceContextShippingPreference | (string & {});
+  shipping_preference?: VenmoRequestExperienceContextShippingPreference | (string & {}) | undefined;
   /** Vault Instruction on action to be performed after a successful payer approval. */
-  vault_instruction?: VaultInstruction | (string & {});
+  vault_instruction?: VaultInstruction | (string & {}) | undefined;
 }
 export interface VenmoRequest {
   /** The description displayed to the consumer on the approval flow for a digital wallet, as well as on the merchant view of the payment token management experience. exp: PayPal.com. */
-  description?: string;
+  description?: string | undefined;
   /** Expected business/charge model for the billing agreement. */
-  usage_pattern?: VenmoRequestUsagePattern | (string & {});
+  usage_pattern?: VenmoRequestUsagePattern | (string & {}) | undefined;
   /** The shipping details. */
-  shipping?: VenmoRequestShipping;
+  shipping?: VenmoRequestShipping | undefined;
   /** Create multiple payment tokens for the same payer, merchant/platform combination. Use this when the customer has not logged in at merchant/platform. The payment token thus generated, can then also be used to create the customer account at merchant/platform. Use this also when multiple payment tokens are required for the same payer, different customer at merchant/platform. This helps to identify customers distinctly even though they may share the same PayPal account. This only applies to PayPal payment source. */
-  permit_multiple_payment_tokens?: boolean;
+  permit_multiple_payment_tokens?: boolean | undefined;
   /** The usage type associated with a digital wallet payment token. */
-  usage_type?: VenmoRequestUsageType | (string & {});
+  usage_type?: VenmoRequestUsageType | (string & {}) | undefined;
   /** The customer type associated with a digital wallet payment token. This is to indicate whether the customer acting on the merchant / platform is either a business or a consumer. */
-  customer_type?: VenmoRequestCustomerType | (string & {});
+  customer_type?: VenmoRequestCustomerType | (string & {}) | undefined;
   /** Customizes the Vault creation flow experience for your customers. */
-  experience_context?: VenmoRequestExperienceContext;
+  experience_context?: VenmoRequestExperienceContext | undefined;
 }
 /** The payment method to vault with the instrument details. */
 export interface CreateSetupTokenRequestPaymentSource {
   /** A Resource representing a request to vault a Card. */
-  card?: CreateSetupTokenRequestPaymentSourceCard;
-  paypal?: PaypalWalletRequest;
-  venmo?: VenmoRequest;
-  token?: TokenIdRequest;
+  card?: CreateSetupTokenRequestPaymentSourceCard | undefined;
+  paypal?: PaypalWalletRequest | undefined;
+  venmo?: VenmoRequest | undefined;
+  token?: TokenIdRequest | undefined;
 }
 export interface CreateSetupTokenRequest {
   /** The server stores keys for 3 hours. */
-  payPalRequestId?: string;
+  payPalRequestId?: string | undefined;
   /** This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details. */
-  customer?: CreatePaymentTokenRequestCustomer;
+  customer?: CreatePaymentTokenRequestCustomer | undefined;
   /** The payment method to vault with the instrument details. */
   payment_source: CreateSetupTokenRequestPaymentSource;
 }
@@ -819,43 +847,43 @@ export type SetupTokenResponsePaymentSourceCardAuthenticationResult =
   CardResponseAuthenticationResult;
 export interface SetupTokenResponsePaymentSourceCard {
   /** The card holder's name as it appears on the card. */
-  name?: string;
+  name?: string | undefined;
   /** The last digits of the payment card. */
-  last_digits?: string;
+  last_digits?: string | undefined;
   /** The card brand or network. Typically used in the response. */
-  brand?: CardBrand;
+  brand?: CardBrand | undefined;
   /** The card expiration year and month, in [Internet date format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  expiry?: string;
+  expiry?: string | undefined;
   /** Address request details. */
-  billing_address?: CardResponseBillingAddress;
+  billing_address?: CardResponseBillingAddress | undefined;
   /** Card Verification status. */
-  verification_status?: CardVerificationStatus;
-  verification?: CardVerificationDetails;
-  network_transaction_reference?: NetworkTransactionReferenceEntity;
+  verification_status?: CardVerificationStatus | undefined;
+  verification?: CardVerificationDetails | undefined;
+  network_transaction_reference?: NetworkTransactionReferenceEntity | undefined;
   /** Results of Authentication such as 3D Secure. */
-  authentication_result?: CardResponseAuthenticationResult;
+  authentication_result?: CardResponseAuthenticationResult | undefined;
   /** Bank Identification Number (BIN) details used to fund a payment. */
-  bin_details?: BinDetails;
+  bin_details?: BinDetails | undefined;
   /** The payment card type. */
-  type?: CardType;
+  type?: CardType | undefined;
 }
 /** The setup payment method details. */
 export interface SetupTokenResponsePaymentSource {
-  card?: SetupTokenResponsePaymentSourceCard;
-  paypal?: PaypalWalletResponse;
-  venmo?: VenmoResponse;
+  card?: SetupTokenResponsePaymentSourceCard | undefined;
+  paypal?: PaypalWalletResponse | undefined;
+  venmo?: VenmoResponse | undefined;
 }
 /** Minimal representation of a cached setup token. */
 export interface SetupTokenResponse {
   /** The PayPal-generated ID for the vault token. */
-  id?: string;
+  id?: string | undefined;
   /** This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details. */
-  customer?: CreatePaymentTokenRequestCustomer;
+  customer?: CreatePaymentTokenRequestCustomer | undefined;
   /** The status of the payment token. */
-  status?: PaymentTokenStatus;
+  status?: PaymentTokenStatus | undefined;
   /** The setup payment method details. */
-  payment_source?: SetupTokenResponsePaymentSource;
-  links?: LinkDescriptionList;
+  payment_source?: SetupTokenResponsePaymentSource | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 export interface DeletePaymentTokenRequest {
   /** ID of the setup token. */
@@ -866,11 +894,11 @@ export interface GetCustomerPaymentTokenRequest {
   /** A unique identifier representing a specific customer in merchant's/partner's system or records. */
   customer_id: string;
   /** A non-negative, non-zero integer indicating the maximum number of results to return at one time. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** A non-negative, non-zero integer representing the page of the results. */
-  page?: number;
+  page?: number | undefined;
   /** A boolean indicating total number of items (total_items) and pages (total_pages) are expected to be returned in the response. */
-  total_required?: boolean;
+  total_required?: boolean | undefined;
 }
 /** This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details. */
 export type CustomerVaultPaymentTokensResponseCustomer = CreatePaymentTokenRequestCustomer;
@@ -878,13 +906,13 @@ export type PaymentTokenResponseList = Array<PaymentTokenResponse>;
 /** Collection of payment tokens saved for a given customer. */
 export interface CustomerVaultPaymentTokensResponse {
   /** Total number of items. */
-  total_items?: number;
+  total_items?: number | undefined;
   /** Total number of pages. */
-  total_pages?: number;
+  total_pages?: number | undefined;
   /** This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details. */
-  customer?: CreatePaymentTokenRequestCustomer;
-  payment_tokens?: PaymentTokenResponseList;
-  links?: LinkDescriptionList;
+  customer?: CreatePaymentTokenRequestCustomer | undefined;
+  payment_tokens?: PaymentTokenResponseList | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 export interface GetPaymentTokenRequest {
   /** ID of the setup token. */
@@ -893,6 +921,37 @@ export interface GetPaymentTokenRequest {
 export interface GetSetupTokenRequest {
   /** ID of the setup token. */
   id: string;
+}
+/** An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links) that are either relevant to the issue by providing additional information or offering potential resolutions. */
+export type DefinitionsLinkDescriptionList = Array<LinkDescription>;
+/** The error details. Required for client-side `4XX` errors. */
+export interface ErrorDetails2 {
+  /** The field that caused the error. If this field is in the body, set this value to the field's JSON pointer value. Required for client-side errors. */
+  field?: string | undefined;
+  /** The value of the field that caused the error. */
+  value?: string | undefined;
+  /** The location of the field that caused the error. Value is `body`, `path`, or `query`. */
+  location?: string | undefined;
+  /** The unique, fine-grained application-level error code. */
+  issue: string;
+  links?: DefinitionsLinkDescriptionList | undefined;
+  /** The human-readable description for an issue. The description can change over the lifetime of an API, so clients must not depend on this value. */
+  description?: string | undefined;
+}
+/** An array of additional details about the error. */
+export type ErrorDetailsList = Array<ErrorDetails2>;
+/** An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links). */
+export type ErrorDefinitionsLinkDescriptionList = Array<LinkDescription>;
+/** The error details. */
+export interface Error {
+  /** The human-readable, unique name of the error. */
+  name: string;
+  /** The message that describes the error. */
+  message: string;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id: string;
+  details?: ErrorDetailsList | undefined;
+  links?: ErrorDefinitionsLinkDescriptionList | undefined;
 }
 export type CreatePaymentTokenError =
   | BadRequest
@@ -907,8 +966,8 @@ export const createPaymentToken: API.OperationMethod<
   CreatePaymentTokenError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c0, 2) as any as S.Schema<CreatePaymentTokenRequest>,
-  output: __S(100, __c3, 4) as any as S.Schema<PaymentTokenResponse>,
+  input: __S(34, __c1, 2) as any as S.Schema<CreatePaymentTokenRequest>,
+  output: __S(132, __c4, 4) as any as S.Schema<PaymentTokenResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -924,8 +983,8 @@ export const createSetupToken: API.OperationMethod<
   CreateSetupTokenError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(140, __c4, 12) as any as S.Schema<CreateSetupTokenRequest>,
-  output: __S(162, __c5, 2) as any as S.Schema<SetupTokenResponse>,
+  input: __S(172, __c5, 12) as any as S.Schema<CreateSetupTokenRequest>,
+  output: __S(194, __c6, 2) as any as S.Schema<SetupTokenResponse>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -941,8 +1000,8 @@ export const deletePaymentToken: API.OperationMethod<
   DeletePaymentTokenError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<DeletePaymentTokenRequest>,
-  output: __S(193, __c6, 1) as any as S.Schema<DeletePaymentTokenResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<DeletePaymentTokenRequest>,
+  output: __S(225, __c7, 1) as any as S.Schema<DeletePaymentTokenResponse>,
   errors: [BadRequest, Forbidden, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -958,8 +1017,8 @@ export const getCustomerPaymentToken: API.OperationMethod<
   GetCustomerPaymentTokenError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<GetCustomerPaymentTokenRequest>,
-  output: __S(226, __c7, 2) as any as S.Schema<CustomerVaultPaymentTokensResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<GetCustomerPaymentTokenRequest>,
+  output: __S(258, __c8, 2) as any as S.Schema<CustomerVaultPaymentTokensResponse>,
   errors: [BadRequest, Forbidden, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -975,8 +1034,8 @@ export const getPaymentToken: API.OperationMethod<
   GetPaymentTokenError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<GetPaymentTokenRequest>,
-  output: __S(100, __c3, 4) as any as S.Schema<PaymentTokenResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetPaymentTokenRequest>,
+  output: __S(132, __c4, 4) as any as S.Schema<PaymentTokenResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -992,8 +1051,8 @@ export const getSetupToken: API.OperationMethod<
   GetSetupTokenError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<GetSetupTokenRequest>,
-  output: __S(162, __c5, 2) as any as S.Schema<SetupTokenResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<GetSetupTokenRequest>,
+  output: __S(194, __c6, 2) as any as S.Schema<SetupTokenResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -1007,33 +1066,70 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          href: S.String,
+          rel: S.String,
+          method: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LinkDescription" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          value: S.optional(S.String),
+          location: S.optional(S.String),
+          issue: S.String,
+          links: S.optional(__S(1, __c0, 1)),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorDetails2" });
+    case 3:
+      return S.Array(__S(2, __c0, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          message: S.String,
+          debug_id: S.String,
+          details: S.optional(__S(3, __c0, 3)),
+          links: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "Error" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           name: S.optional(S.String),
           number: S.optional(S.String),
           expiry: S.optional(S.String),
           security_code: S.optional(S.String),
           brand: S.optional(S.String),
-          billing_address: S.optional(__S(65, __c2, 1)),
+          billing_address: S.optional(__S(97, __c3, 1)),
           network_transaction_reference: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "DefinitionsPaymentSourceCard" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          card: S.optional(__S(0, __c0, 0)),
-          token: S.optional(__S(32, __c1, 0)),
+          card: S.optional(__S(32, __c1, 0)),
+          token: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "DefinitionsPaymentSource" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           payPalRequestId: S.optional(S.String.pipe(T.Header("PayPal-Request-Id"))),
-          customer: S.optional(__S(64, __c2, 0)),
-          payment_source: __S(1, __c0, 1),
+          customer: S.optional(__S(96, __c3, 0)),
+          payment_source: __S(33, __c1, 1),
         }).pipe(T.Http({ method: "POST", uri: "/v3/vault/payment-tokens", code: 200 })),
       ).annotate({ identifier: "CreatePaymentTokenRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1044,7 +1140,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "TokenIdRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1097,8 +1193,8 @@ function __c2(j: number): any {
           date: S.optional(S.String),
           network: S.optional(S.String),
           time: S.optional(S.String),
-          amount: S.optional(__S(67, __c2, 3)),
-          processor_response: S.optional(__S(68, __c2, 4)),
+          amount: S.optional(__S(99, __c3, 3)),
+          processor_response: S.optional(__S(100, __c3, 4)),
           three_d_secure: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "CardVerificationDetails" });
@@ -1122,7 +1218,7 @@ function __c2(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          three_d_secure: S.optional(__S(71, __c2, 7)),
+          three_d_secure: S.optional(__S(103, __c3, 7)),
         }),
       ).annotate({ identifier: "CardResponseAuthenticationResult" });
     case 9:
@@ -1133,7 +1229,7 @@ function __c2(j: number): any {
           bin: S.optional(S.String),
           issuing_bank: S.optional(S.String),
           bin_country_code: S.optional(S.String),
-          products: S.optional(__S(73, __c2, 9)),
+          products: S.optional(__S(105, __c3, 9)),
         }),
       ).annotate({ identifier: "BinDetails" });
     case 11:
@@ -1152,10 +1248,10 @@ function __c2(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(__S(75, __c2, 11)),
-          phone_number: S.optional(__S(76, __c2, 12)),
+          name: S.optional(__S(107, __c3, 11)),
+          phone_number: S.optional(__S(108, __c3, 12)),
           type: S.optional(S.String),
-          address: S.optional(__S(65, __c2, 1)),
+          address: S.optional(__S(97, __c3, 1)),
         }),
       ).annotate({ identifier: "PaypalWalletResponseShipping" });
     case 14:
@@ -1175,7 +1271,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           phone_type: S.optional(S.String),
-          phone_number: __S(79, __c2, 15),
+          phone_number: __S(111, __c3, 15),
         }),
       ).annotate({ identifier: "PhoneWithType" });
     case 17:
@@ -1191,17 +1287,17 @@ function __c2(j: number): any {
         S.Struct({
           description: S.optional(S.String),
           usage_pattern: S.optional(S.String),
-          shipping: S.optional(__S(77, __c2, 13)),
+          shipping: S.optional(__S(109, __c3, 13)),
           permit_multiple_payment_tokens: S.optional(S.Boolean),
           usage_type: S.optional(S.String),
           customer_type: S.optional(S.String),
           email_address: S.optional(S.String),
           payer_id: S.optional(S.String),
-          name: S.optional(__S(78, __c2, 14)),
-          phone: S.optional(__S(80, __c2, 16)),
-          address: S.optional(__S(65, __c2, 1)),
+          name: S.optional(__S(110, __c3, 14)),
+          phone: S.optional(__S(112, __c3, 16)),
+          address: S.optional(__S(97, __c3, 1)),
           account_id: S.optional(S.String),
-          phone_number: S.optional(__S(81, __c2, 17)),
+          phone_number: S.optional(__S(113, __c3, 17)),
         }),
       ).annotate({ identifier: "PaypalWalletResponse" });
     case 19:
@@ -1209,31 +1305,21 @@ function __c2(j: number): any {
         S.Struct({
           description: S.optional(S.String),
           usage_pattern: S.optional(S.String),
-          shipping: S.optional(__S(77, __c2, 13)),
+          shipping: S.optional(__S(109, __c3, 13)),
           permit_multiple_payment_tokens: S.optional(S.Boolean),
           usage_type: S.optional(S.String),
           customer_type: S.optional(S.String),
           email_address: S.optional(S.String),
           payer_id: S.optional(S.String),
-          name: S.optional(__S(78, __c2, 14)),
-          phone: S.optional(__S(80, __c2, 16)),
-          address: S.optional(__S(65, __c2, 1)),
+          name: S.optional(__S(110, __c3, 14)),
+          phone: S.optional(__S(112, __c3, 16)),
+          address: S.optional(__S(97, __c3, 1)),
           user_name: S.optional(S.String),
         }),
       ).annotate({ identifier: "VenmoResponse" });
-    case 20:
-      return S.suspend(() =>
-        S.Struct({
-          href: S.String,
-          rel: S.String,
-          method: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LinkDescription" });
-    case 21:
-      return S.Array(__S(84, __c2, 20));
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1242,12 +1328,12 @@ function __c3(j: number): any {
           last_digits: S.optional(S.String),
           brand: S.optional(S.String),
           expiry: S.optional(S.String),
-          billing_address: S.optional(__S(66, __c2, 2)),
+          billing_address: S.optional(__S(98, __c3, 2)),
           verification_status: S.optional(S.String),
-          verification: S.optional(__S(69, __c2, 5)),
-          network_transaction_reference: S.optional(__S(70, __c2, 6)),
-          authentication_result: S.optional(__S(72, __c2, 8)),
-          bin_details: S.optional(__S(74, __c2, 10)),
+          verification: S.optional(__S(101, __c3, 5)),
+          network_transaction_reference: S.optional(__S(102, __c3, 6)),
+          authentication_result: S.optional(__S(104, __c3, 8)),
+          bin_details: S.optional(__S(106, __c3, 10)),
           type: S.optional(S.String),
           network_token: S.optional(S.Unknown),
         }),
@@ -1259,36 +1345,36 @@ function __c3(j: number): any {
           last_digits: S.optional(S.String),
           type: S.optional(S.String),
           brand: S.optional(S.String),
-          billing_address: S.optional(__S(65, __c2, 1)),
+          billing_address: S.optional(__S(97, __c3, 1)),
         }),
       ).annotate({ identifier: "ApplePayPaymentTokenResponseCard" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          card: S.optional(__S(97, __c3, 1)),
+          card: S.optional(__S(129, __c4, 1)),
         }),
       ).annotate({ identifier: "ApplePayPaymentTokenResponse" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          card: S.optional(__S(96, __c3, 0)),
-          paypal: S.optional(__S(82, __c2, 18)),
-          venmo: S.optional(__S(83, __c2, 19)),
-          apple_pay: S.optional(__S(98, __c3, 2)),
+          card: S.optional(__S(128, __c4, 0)),
+          paypal: S.optional(__S(114, __c3, 18)),
+          venmo: S.optional(__S(115, __c3, 19)),
+          apple_pay: S.optional(__S(130, __c4, 2)),
         }),
       ).annotate({ identifier: "PaymentSource" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          customer: S.optional(__S(64, __c2, 0)),
-          payment_source: S.optional(__S(99, __c3, 3)),
-          links: S.optional(__S(85, __c2, 21)),
+          customer: S.optional(__S(96, __c3, 0)),
+          payment_source: S.optional(__S(131, __c4, 3)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "PaymentTokenResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1308,25 +1394,25 @@ function __c4(j: number): any {
           expiry: S.optional(S.String),
           security_code: S.optional(S.String),
           brand: S.optional(S.String),
-          billing_address: S.optional(__S(65, __c2, 1)),
+          billing_address: S.optional(__S(97, __c3, 1)),
           verification_method: S.optional(S.String),
-          experience_context: S.optional(__S(128, __c4, 0)),
+          experience_context: S.optional(__S(160, __c5, 0)),
           network_transaction_reference: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "CreateSetupTokenRequestPaymentSourceCard" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          price: S.optional(__S(67, __c2, 3)),
+          price: S.optional(__S(99, __c3, 3)),
           pricing_model: S.String,
-          reload_threshold_amount: S.optional(__S(67, __c2, 3)),
+          reload_threshold_amount: S.optional(__S(99, __c3, 3)),
         }),
       ).annotate({ identifier: "PricingScheme" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           tenure_type: S.String,
-          pricing_scheme: S.optional(__S(130, __c4, 2)),
+          pricing_scheme: S.optional(__S(162, __c5, 2)),
           frequency: S.optional(S.Unknown),
           total_cycles: S.optional(S.Number),
           sequence: S.optional(S.Number),
@@ -1334,23 +1420,23 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "BillingCycle" });
     case 4:
-      return S.Array(__S(131, __c4, 3));
+      return S.Array(__S(163, __c5, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          setup_fee: S.optional(__S(67, __c2, 3)),
-          shipping_amount: S.optional(__S(67, __c2, 3)),
-          taxes: S.optional(__S(67, __c2, 3)),
-          product_price: S.optional(__S(67, __c2, 3)),
-          total_amount: __S(67, __c2, 3),
+          setup_fee: S.optional(__S(99, __c3, 3)),
+          shipping_amount: S.optional(__S(99, __c3, 3)),
+          taxes: S.optional(__S(99, __c3, 3)),
+          product_price: S.optional(__S(99, __c3, 3)),
+          total_amount: __S(99, __c3, 3),
         }),
       ).annotate({ identifier: "OneTimeCharges" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          billing_cycles: __S(132, __c4, 4),
+          billing_cycles: __S(164, __c5, 4),
           product: S.optional(S.Unknown),
-          one_time_charges: __S(133, __c4, 5),
+          one_time_charges: __S(165, __c5, 5),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Plan" });
@@ -1370,12 +1456,12 @@ function __c4(j: number): any {
         S.Struct({
           description: S.optional(S.String),
           usage_pattern: S.optional(S.String),
-          shipping: S.optional(__S(77, __c2, 13)),
+          shipping: S.optional(__S(109, __c3, 13)),
           permit_multiple_payment_tokens: S.optional(S.Boolean),
           usage_type: S.optional(S.String),
           customer_type: S.optional(S.String),
-          billing_plan: S.optional(__S(134, __c4, 6)),
-          experience_context: S.optional(__S(135, __c4, 7)),
+          billing_plan: S.optional(__S(166, __c5, 6)),
+          experience_context: S.optional(__S(167, __c5, 7)),
         }),
       ).annotate({ identifier: "PaypalWalletRequest" });
     case 9:
@@ -1391,33 +1477,33 @@ function __c4(j: number): any {
         S.Struct({
           description: S.optional(S.String),
           usage_pattern: S.optional(S.String),
-          shipping: S.optional(__S(77, __c2, 13)),
+          shipping: S.optional(__S(109, __c3, 13)),
           permit_multiple_payment_tokens: S.optional(S.Boolean),
           usage_type: S.optional(S.String),
           customer_type: S.optional(S.String),
-          experience_context: S.optional(__S(137, __c4, 9)),
+          experience_context: S.optional(__S(169, __c5, 9)),
         }),
       ).annotate({ identifier: "VenmoRequest" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          card: S.optional(__S(129, __c4, 1)),
-          paypal: S.optional(__S(136, __c4, 8)),
-          venmo: S.optional(__S(138, __c4, 10)),
-          token: S.optional(__S(32, __c1, 0)),
+          card: S.optional(__S(161, __c5, 1)),
+          paypal: S.optional(__S(168, __c5, 8)),
+          venmo: S.optional(__S(170, __c5, 10)),
+          token: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "CreateSetupTokenRequestPaymentSource" });
     case 12:
       return S.suspend(() =>
         S.Struct({
           payPalRequestId: S.optional(S.String.pipe(T.Header("PayPal-Request-Id"))),
-          customer: S.optional(__S(64, __c2, 0)),
-          payment_source: __S(139, __c4, 11),
+          customer: S.optional(__S(96, __c3, 0)),
+          payment_source: __S(171, __c5, 11),
         }).pipe(T.Http({ method: "POST", uri: "/v3/vault/setup-tokens", code: 200 })),
       ).annotate({ identifier: "CreateSetupTokenRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1426,36 +1512,36 @@ function __c5(j: number): any {
           last_digits: S.optional(S.String),
           brand: S.optional(S.String),
           expiry: S.optional(S.String),
-          billing_address: S.optional(__S(66, __c2, 2)),
+          billing_address: S.optional(__S(98, __c3, 2)),
           verification_status: S.optional(S.String),
-          verification: S.optional(__S(69, __c2, 5)),
-          network_transaction_reference: S.optional(__S(70, __c2, 6)),
-          authentication_result: S.optional(__S(72, __c2, 8)),
-          bin_details: S.optional(__S(74, __c2, 10)),
+          verification: S.optional(__S(101, __c3, 5)),
+          network_transaction_reference: S.optional(__S(102, __c3, 6)),
+          authentication_result: S.optional(__S(104, __c3, 8)),
+          bin_details: S.optional(__S(106, __c3, 10)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "SetupTokenResponsePaymentSourceCard" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          card: S.optional(__S(160, __c5, 0)),
-          paypal: S.optional(__S(82, __c2, 18)),
-          venmo: S.optional(__S(83, __c2, 19)),
+          card: S.optional(__S(192, __c6, 0)),
+          paypal: S.optional(__S(114, __c3, 18)),
+          venmo: S.optional(__S(115, __c3, 19)),
         }),
       ).annotate({ identifier: "SetupTokenResponsePaymentSource" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          customer: S.optional(__S(64, __c2, 0)),
+          customer: S.optional(__S(96, __c3, 0)),
           status: S.optional(S.String),
-          payment_source: S.optional(__S(161, __c5, 1)),
-          links: S.optional(__S(85, __c2, 21)),
+          payment_source: S.optional(__S(193, __c6, 1)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "SetupTokenResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1467,7 +1553,7 @@ function __c6(j: number): any {
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeletePaymentTokenResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1479,20 +1565,20 @@ function __c7(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v3/vault/payment-tokens", code: 200 })),
       ).annotate({ identifier: "GetCustomerPaymentTokenRequest" });
     case 1:
-      return S.Array(__S(100, __c3, 4));
+      return S.Array(__S(132, __c4, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
           total_items: S.optional(S.Number),
           total_pages: S.optional(S.Number),
-          customer: S.optional(__S(64, __c2, 0)),
-          payment_tokens: S.optional(__S(225, __c7, 1)),
-          links: S.optional(__S(85, __c2, 21)),
+          customer: S.optional(__S(96, __c3, 0)),
+          payment_tokens: S.optional(__S(257, __c8, 1)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "CustomerVaultPaymentTokensResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1502,7 +1588,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetPaymentTokenRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

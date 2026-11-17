@@ -49,7 +49,7 @@ export interface GetWorkbookRequest {
   /** The name of the workbook resource. The value must be an UUID. */
   resourceName: string;
   /** Flag indicating whether or not to return the full content for each applicable workbook. If false, only return summary content for workbooks. */
-  canFetchContent?: boolean;
+  canFetchContent?: boolean | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -58,17 +58,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type GetWorkbookResponseTagsMap = { [key: string]: string | undefined };
@@ -81,23 +81,23 @@ export interface WorkbookProperties {
   /** Configuration of this particular workbook. Configuration data is a string containing valid JSON */
   serializedData: string | null;
   /** Workbook schema version format, like 'Notebook/1.0', which should match the workbook in serializedData */
-  version?: string;
+  version?: string | undefined;
   /** Date and time in UTC of the last modification that was made to this workbook definition. */
-  timeModified?: string;
+  timeModified?: string | undefined;
   /** Workbook category, as defined by the user at creation time. */
   category: string;
   /** Being deprecated, please use the other tags field */
-  tags?: WorkbookPropertiesTagsList;
+  tags?: WorkbookPropertiesTagsList | undefined;
   /** Unique user id of the specific user that owns this workbook. */
-  userId?: string;
+  userId?: string | undefined;
   /** ResourceId for a source resource. */
-  sourceId?: string;
+  sourceId?: string | undefined;
   /** The resourceId to the storage account when bring your own storage is used */
-  storageUri?: string | null;
+  storageUri?: string | null | undefined;
   /** The description of the workbook. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The unique revision id for this workbook definition */
-  revision?: string | null;
+  revision?: string | null | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -108,44 +108,44 @@ export type ManagedServiceIdentityType =
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface WorkbookResourceIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 /** The kind of workbook. Only valid value is shared. */
 export type ApplicationInsightsCommonTypesWorkbookSharedTypeKind = "shared";
 export interface GetWorkbookResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetWorkbookResponseTagsMap;
+  tags?: GetWorkbookResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Metadata describing a workbook for an Azure resource. */
-  properties?: WorkbookProperties;
+  properties?: WorkbookProperties | undefined;
   /** Identity used for BYOS */
-  identity?: WorkbookResourceIdentity;
+  identity?: WorkbookResourceIdentity | undefined;
   /** The kind of workbook. Only valid value is shared. */
-  kind?: ApplicationInsightsCommonTypesWorkbookSharedTypeKind;
+  kind?: ApplicationInsightsCommonTypesWorkbookSharedTypeKind | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetWorkbooksRevisionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -161,25 +161,25 @@ export interface GetWorkbooksRevisionRequest {
 export type GetWorkbooksRevisionResponseTagsMap = { [key: string]: string | undefined };
 export interface GetWorkbooksRevisionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetWorkbooksRevisionResponseTagsMap;
+  tags?: GetWorkbooksRevisionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Metadata describing a workbook for an Azure resource. */
-  properties?: WorkbookProperties;
+  properties?: WorkbookProperties | undefined;
   /** Identity used for BYOS */
-  identity?: WorkbookResourceIdentity;
+  identity?: WorkbookResourceIdentity | undefined;
   /** The kind of workbook. Only valid value is shared. */
-  kind?: ApplicationInsightsCommonTypesWorkbookSharedTypeKind;
+  kind?: ApplicationInsightsCommonTypesWorkbookSharedTypeKind | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
 }
 export type ListWorkbookByResourceGroupRequestCategory =
   | "workbook"
@@ -195,45 +195,45 @@ export interface ListWorkbookByResourceGroupRequest {
   /** Category of workbook to return. */
   category: ListWorkbookByResourceGroupRequestCategory | (string & {});
   /** Tags presents on each workbook returned. */
-  tags?: ListWorkbookByResourceGroupRequestTagsList;
+  tags?: ListWorkbookByResourceGroupRequestTagsList | undefined;
   /** Azure Resource Id that will fetch all linked workbooks. */
-  sourceId?: string;
+  sourceId?: string | undefined;
   /** Flag indicating whether or not to return the full content for each applicable workbook. If false, only return summary content for workbooks. */
-  canFetchContent?: boolean;
+  canFetchContent?: boolean | undefined;
 }
 /** Resource tags. */
 export type WorkbookTagsMap = { [key: string]: string | undefined };
 /** A workbook definition. */
 export interface Workbook {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: WorkbookTagsMap;
+  tags?: WorkbookTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Metadata describing a workbook for an Azure resource. */
-  properties?: WorkbookProperties;
+  properties?: WorkbookProperties | undefined;
   /** Identity used for BYOS */
-  identity?: WorkbookResourceIdentity;
+  identity?: WorkbookResourceIdentity | undefined;
   /** The kind of workbook. Only valid value is shared. */
-  kind?: ApplicationInsightsCommonTypesWorkbookSharedTypeKind;
+  kind?: ApplicationInsightsCommonTypesWorkbookSharedTypeKind | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** An array of workbooks. */
 export type WorkbooksListResultValueList = Array<Workbook>;
 /** Workbook list result. */
 export interface WorkbooksListResult {
   /** An array of workbooks. */
-  value?: WorkbooksListResultValueList;
+  value?: WorkbooksListResultValueList | undefined;
   /** The link to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListWorkbookBySubscriptionRequestCategory =
   | "workbook"
@@ -247,9 +247,9 @@ export interface ListWorkbookBySubscriptionRequest {
   /** Category of workbook to return. */
   category: ListWorkbookBySubscriptionRequestCategory | (string & {});
   /** Tags presents on each workbook returned. */
-  tags?: ListWorkbookBySubscriptionRequestTagsList;
+  tags?: ListWorkbookBySubscriptionRequestTagsList | undefined;
   /** Flag indicating whether or not to return the full content for each applicable workbook. If false, only return summary content for workbooks. */
-  canFetchContent?: boolean;
+  canFetchContent?: boolean | undefined;
 }
 export interface ListWorkbooksRevisionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -268,17 +268,17 @@ export type WorkbookPropertiesUpdateParametersTagsList = Array<string>;
 /** Properties that contain a workbook for PATCH operation. */
 export interface WorkbookPropertiesUpdateParameters {
   /** The user-defined name (display name) of the workbook. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Configuration of this particular workbook. Configuration data is a string containing valid JSON */
-  serializedData?: string;
+  serializedData?: string | undefined;
   /** Workbook category, as defined by the user at creation time. */
-  category?: string;
+  category?: string | undefined;
   /** A list of 0 or more tags that are associated with this workbook definition */
-  tags?: WorkbookPropertiesUpdateParametersTagsList;
+  tags?: WorkbookPropertiesUpdateParametersTagsList | undefined;
   /** The description of the workbook. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The unique revision id for this workbook definition */
-  revision?: string | null;
+  revision?: string | null | undefined;
 }
 export interface UpdateWorkbookRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -288,37 +288,37 @@ export interface UpdateWorkbookRequest {
   /** The name of the workbook resource. The value must be an UUID. */
   resourceName: string;
   /** Azure Resource Id that will fetch all linked workbooks. */
-  sourceId?: string;
+  sourceId?: string | undefined;
   /** The kind of workbook. Only valid value is shared. */
-  kind?: WorkbookUpdateSharedTypeKind | (string & {});
+  kind?: WorkbookUpdateSharedTypeKind | (string & {}) | undefined;
   /** Resource tags. */
-  tags?: UpdateWorkbookRequestTagsMap;
+  tags?: UpdateWorkbookRequestTagsMap | undefined;
   /** Metadata describing a workbook for an Azure resource. */
-  properties?: WorkbookPropertiesUpdateParameters;
+  properties?: WorkbookPropertiesUpdateParameters | undefined;
 }
 /** Resource tags. */
 export type UpdateWorkbookResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateWorkbookResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateWorkbookResponseTagsMap;
+  tags?: UpdateWorkbookResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Metadata describing a workbook for an Azure resource. */
-  properties?: WorkbookProperties;
+  properties?: WorkbookProperties | undefined;
   /** Identity used for BYOS */
-  identity?: WorkbookResourceIdentity;
+  identity?: WorkbookResourceIdentity | undefined;
   /** The kind of workbook. Only valid value is shared. */
-  kind?: ApplicationInsightsCommonTypesWorkbookSharedTypeKind;
+  kind?: ApplicationInsightsCommonTypesWorkbookSharedTypeKind | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Resource tags. */
 export type WorkbooksCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -331,17 +331,17 @@ export interface WorkbookPropertiesInput {
   /** Configuration of this particular workbook. Configuration data is a string containing valid JSON */
   serializedData: string | null;
   /** Workbook schema version format, like 'Notebook/1.0', which should match the workbook in serializedData */
-  version?: string;
+  version?: string | undefined;
   /** Workbook category, as defined by the user at creation time. */
   category: string;
   /** Being deprecated, please use the other tags field */
-  tags?: WorkbookPropertiesInputTagsList;
+  tags?: WorkbookPropertiesInputTagsList | undefined;
   /** ResourceId for a source resource. */
-  sourceId?: string;
+  sourceId?: string | undefined;
   /** The resourceId to the storage account when bring your own storage is used */
-  storageUri?: string | null;
+  storageUri?: string | null | undefined;
   /** The description of the workbook. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentityInput {}
@@ -352,7 +352,7 @@ export type UserAssignedIdentitiesInput = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface WorkbookResourceIdentityInput {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 export interface WorkbooksCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -362,43 +362,43 @@ export interface WorkbooksCreateOrUpdateRequest {
   /** The name of the workbook resource. The value must be an UUID. */
   resourceName: string;
   /** Azure Resource Id that will fetch all linked workbooks. */
-  sourceId?: string;
+  sourceId?: string | undefined;
   /** Resource tags. */
-  tags?: WorkbooksCreateOrUpdateRequestTagsMap;
+  tags?: WorkbooksCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Metadata describing a workbook for an Azure resource. */
-  properties?: WorkbookPropertiesInput;
+  properties?: WorkbookPropertiesInput | undefined;
   /** Identity used for BYOS */
-  identity?: WorkbookResourceIdentityInput;
+  identity?: WorkbookResourceIdentityInput | undefined;
   /** The kind of workbook. Only valid value is shared. */
-  kind?: ApplicationInsightsCommonTypesWorkbookSharedTypeKind | (string & {});
+  kind?: ApplicationInsightsCommonTypesWorkbookSharedTypeKind | (string & {}) | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** Resource tags. */
 export type WorkbooksCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface WorkbooksCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: WorkbooksCreateOrUpdateResponseTagsMap;
+  tags?: WorkbooksCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Metadata describing a workbook for an Azure resource. */
-  properties?: WorkbookProperties;
+  properties?: WorkbookProperties | undefined;
   /** Identity used for BYOS */
-  identity?: WorkbookResourceIdentity;
+  identity?: WorkbookResourceIdentity | undefined;
   /** The kind of workbook. Only valid value is shared. */
-  kind?: ApplicationInsightsCommonTypesWorkbookSharedTypeKind;
+  kind?: ApplicationInsightsCommonTypesWorkbookSharedTypeKind | undefined;
   /** Resource etag */
-  etag?: string;
+  etag?: string | undefined;
 }
 export type DeleteWorkbookError = AzureOpError;
 /** Delete a workbook. */

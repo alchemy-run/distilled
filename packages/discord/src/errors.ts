@@ -24,6 +24,7 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -36,11 +37,11 @@ import * as Schema from "@distilled.cloud/core/schema-lite-typed";
  */
 export class UnknownDiscordError
   extends /*@__PURE__*/ Schema.TaggedError<UnknownDiscordError>()("UnknownDiscordError", {
+    ...UnknownErrorFields,
+    /** Discord's numeric JSON error code. */
     code: /*@__PURE__*/ Schema.optional(Schema.Number),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
     errors: /*@__PURE__*/ Schema.optional(Schema.Unknown),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  }) {}
 
 /** Schema parse error wrapper. */
 export class DiscordParseError

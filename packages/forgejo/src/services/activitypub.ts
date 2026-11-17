@@ -29,14 +29,21 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: APIForbiddenError | string;
+}
 
 export interface ActivitypubInstanceActorRequest {}
 /** ActivityPub type */
 export interface ActivityPub {
-  _context?: string;
+  _context?: string | undefined;
 }
 export interface ActivitypubInstanceActorInboxRequest {}
 export interface ActivitypubInstanceActorInboxResponse {}
@@ -82,6 +89,10 @@ export interface ActivitypubRepositoryOutboxRequest {
   repository_id: number;
 }
 export type ActivitypubRepositoryOutboxResponse = unknown;
+export interface APIForbiddenError {
+  message?: string | undefined;
+  url?: string | undefined;
+}
 export type ActivitypubInstanceActorError = ForgejoOpError;
 /** Returns the instance's Actor */
 export const activitypubInstanceActor: API.OperationMethod<
@@ -90,8 +101,8 @@ export const activitypubInstanceActor: API.OperationMethod<
   ActivitypubInstanceActorError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ActivitypubInstanceActorRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<ActivityPub>,
+  input: __S(2, __c1, 0) as any as S.Schema<ActivitypubInstanceActorRequest>,
+  output: __S(4, __c2, 0) as any as S.Schema<ActivityPub>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -107,8 +118,8 @@ export const activitypubInstanceActorInbox: API.OperationMethod<
   ActivitypubInstanceActorInboxError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c4, 0) as any as S.Schema<ActivitypubInstanceActorInboxRequest>,
-  output: __S(10, __c5, 0) as any as S.Schema<ActivitypubInstanceActorInboxResponse>,
+  input: __S(10, __c5, 0) as any as S.Schema<ActivitypubInstanceActorInboxRequest>,
+  output: __S(12, __c6, 0) as any as S.Schema<ActivitypubInstanceActorInboxResponse>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -124,8 +135,8 @@ export const activitypubInstanceActorOutbox: API.OperationMethod<
   ActivitypubInstanceActorOutboxError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c6, 0) as any as S.Schema<ActivitypubInstanceActorOutboxRequest>,
-  output: __S(14, __c7, 0) as any as S.Schema<ActivitypubInstanceActorOutboxResponse>,
+  input: __S(14, __c7, 0) as any as S.Schema<ActivitypubInstanceActorOutboxRequest>,
+  output: __S(16, __c8, 0) as any as S.Schema<ActivitypubInstanceActorOutboxResponse>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -141,8 +152,8 @@ export const activitypubPerson: API.OperationMethod<
   ActivitypubPersonError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c8, 0) as any as S.Schema<ActivitypubPersonRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<ActivityPub>,
+  input: __S(18, __c9, 0) as any as S.Schema<ActivitypubPersonRequest>,
+  output: __S(4, __c2, 0) as any as S.Schema<ActivityPub>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -158,8 +169,8 @@ export const activitypubPersonActivity: API.OperationMethod<
   ActivitypubPersonActivityError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18, __c9, 0) as any as S.Schema<ActivitypubPersonActivityRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<ActivityPub>,
+  input: __S(20, __c10, 0) as any as S.Schema<ActivitypubPersonActivityRequest>,
+  output: __S(4, __c2, 0) as any as S.Schema<ActivityPub>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -175,8 +186,8 @@ export const activitypubPersonActivityNote: API.OperationMethod<
   ActivitypubPersonActivityNoteError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c10, 0) as any as S.Schema<ActivitypubPersonActivityNoteRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<ActivityPub>,
+  input: __S(22, __c11, 0) as any as S.Schema<ActivitypubPersonActivityNoteRequest>,
+  output: __S(4, __c2, 0) as any as S.Schema<ActivityPub>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -192,8 +203,8 @@ export const activitypubPersonFeed: API.OperationMethod<
   ActivitypubPersonFeedError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22, __c11, 0) as any as S.Schema<ActivitypubPersonFeedRequest>,
-  output: __S(14, __c7, 0) as any as S.Schema<ActivitypubPersonFeedResponse>,
+  input: __S(24, __c12, 0) as any as S.Schema<ActivitypubPersonFeedRequest>,
+  output: __S(16, __c8, 0) as any as S.Schema<ActivitypubPersonFeedResponse>,
   errors: [Forbidden],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -209,8 +220,8 @@ export const activitypubPersonInbox: API.OperationMethod<
   ActivitypubPersonInboxError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c12, 0) as any as S.Schema<ActivitypubPersonInboxRequest>,
-  output: __S(10, __c5, 0) as any as S.Schema<ActivitypubPersonInboxResponse>,
+  input: __S(26, __c13, 0) as any as S.Schema<ActivitypubPersonInboxRequest>,
+  output: __S(12, __c6, 0) as any as S.Schema<ActivitypubPersonInboxResponse>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -226,8 +237,8 @@ export const activitypubRepository: API.OperationMethod<
   ActivitypubRepositoryError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26, __c13, 0) as any as S.Schema<ActivitypubRepositoryRequest>,
-  output: __S(2, __c1, 0) as any as S.Schema<ActivityPub>,
+  input: __S(28, __c14, 0) as any as S.Schema<ActivitypubRepositoryRequest>,
+  output: __S(4, __c2, 0) as any as S.Schema<ActivityPub>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -243,8 +254,8 @@ export const activitypubRepositoryInbox: API.OperationMethod<
   ActivitypubRepositoryInboxError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c2, 0) as any as S.Schema<ActivitypubRepositoryInboxRequest>,
-  output: __S(10, __c5, 0) as any as S.Schema<ActivitypubRepositoryInboxResponse>,
+  input: __S(6, __c3, 0) as any as S.Schema<ActivitypubRepositoryInboxRequest>,
+  output: __S(12, __c6, 0) as any as S.Schema<ActivitypubRepositoryInboxResponse>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -260,8 +271,8 @@ export const activitypubRepositoryOutbox: API.OperationMethod<
   ActivitypubRepositoryOutboxError,
   ForgejoOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6, __c3, 0) as any as S.Schema<ActivitypubRepositoryOutboxRequest>,
-  output: __S(14, __c7, 0) as any as S.Schema<ActivitypubRepositoryOutboxResponse>,
+  input: __S(8, __c4, 0) as any as S.Schema<ActivitypubRepositoryOutboxRequest>,
+  output: __S(16, __c8, 0) as any as S.Schema<ActivitypubRepositoryOutboxResponse>,
   errors: [],
   protocol: ForgejoProtocol,
   retry: Retry.Retry,
@@ -274,11 +285,22 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "APIForbiddenError" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/activitypub/actor", code: 200 })),
       ).annotate({ identifier: "ActivitypubInstanceActorRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -288,7 +310,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ActivityPub" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -304,7 +326,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ActivitypubRepositoryInboxRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -320,7 +342,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ActivitypubRepositoryOutboxRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -328,7 +350,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ActivitypubInstanceActorInboxRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -336,7 +358,7 @@ function __c5(j: number): any {
       });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -344,7 +366,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "ActivitypubInstanceActorOutboxRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -352,7 +374,7 @@ function __c7(j: number): any {
       });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -362,7 +384,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ActivitypubPersonRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -379,7 +401,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ActivitypubPersonActivityRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -396,7 +418,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ActivitypubPersonActivityNoteRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -406,7 +428,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "ActivitypubPersonFeedRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -416,7 +438,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "ActivitypubPersonInboxRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

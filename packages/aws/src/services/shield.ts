@@ -233,8 +233,8 @@ export type PhoneNumber = string;
 export type ContactNotes = string;
 export interface EmergencyContact {
   EmailAddress: string;
-  PhoneNumber?: string;
-  ContactNotes?: string;
+  PhoneNumber?: string | undefined;
+  ContactNotes?: string | undefined;
 }
 export type EmergencyContactList = EmergencyContact[];
 export interface AssociateProactiveEngagementDetailsRequest {
@@ -246,17 +246,17 @@ export type ResourceArn = string;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface CreateProtectionRequest {
   Name: string;
   ResourceArn: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateProtectionResponse {
-  ProtectionId?: string;
+  ProtectionId?: string | undefined;
 }
 export type ProtectionGroupId = string;
 export type ProtectionGroupAggregation = "SUM" | "MEAN" | "MAX" | (string & {});
@@ -274,9 +274,9 @@ export interface CreateProtectionGroupRequest {
   ProtectionGroupId: string;
   Aggregation: ProtectionGroupAggregation;
   Pattern: ProtectionGroupPattern;
-  ResourceType?: ProtectedResourceType;
-  Members?: string[];
-  Tags?: Tag[];
+  ResourceType?: ProtectedResourceType | undefined;
+  Members?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateProtectionGroupResponse {}
 export interface CreateSubscriptionRequest {}
@@ -297,24 +297,24 @@ export interface DescribeAttackRequest {
 }
 export type SubResourceType = "IP" | "URL" | (string & {});
 export interface SummarizedCounter {
-  Name?: string;
-  Max?: number;
-  Average?: number;
-  Sum?: number;
-  N?: number;
-  Unit?: string;
+  Name?: string | undefined;
+  Max?: number | undefined;
+  Average?: number | undefined;
+  Sum?: number | undefined;
+  N?: number | undefined;
+  Unit?: string | undefined;
 }
 export type SummarizedCounterList = SummarizedCounter[];
 export interface SummarizedAttackVector {
   VectorType: string;
-  VectorCounters?: SummarizedCounter[];
+  VectorCounters?: SummarizedCounter[] | undefined;
 }
 export type SummarizedAttackVectorList = SummarizedAttackVector[];
 export interface SubResourceSummary {
-  Type?: SubResourceType;
-  Id?: string;
-  AttackVectors?: SummarizedAttackVector[];
-  Counters?: SummarizedCounter[];
+  Type?: SubResourceType | undefined;
+  Id?: string | undefined;
+  AttackVectors?: SummarizedAttackVector[] | undefined;
+  Counters?: SummarizedCounter[] | undefined;
 }
 export type SubResourceSummaryList = SubResourceSummary[];
 export type AttackTimestamp = Date;
@@ -330,51 +330,51 @@ export type AttackPropertyIdentifier =
   | "WORDPRESS_PINGBACK_SOURCE"
   | (string & {});
 export interface Contributor {
-  Name?: string;
-  Value?: number;
+  Name?: string | undefined;
+  Value?: number | undefined;
 }
 export type TopContributors = Contributor[];
 export type Unit = "BITS" | "BYTES" | "PACKETS" | "REQUESTS" | (string & {});
 export interface AttackProperty {
-  AttackLayer?: AttackLayer;
-  AttackPropertyIdentifier?: AttackPropertyIdentifier;
-  TopContributors?: Contributor[];
-  Unit?: Unit;
-  Total?: number;
+  AttackLayer?: AttackLayer | undefined;
+  AttackPropertyIdentifier?: AttackPropertyIdentifier | undefined;
+  TopContributors?: Contributor[] | undefined;
+  Unit?: Unit | undefined;
+  Total?: number | undefined;
 }
 export type AttackProperties = AttackProperty[];
 export interface Mitigation {
-  MitigationName?: string;
+  MitigationName?: string | undefined;
 }
 export type MitigationList = Mitigation[];
 export interface AttackDetail {
-  AttackId?: string;
-  ResourceArn?: string;
-  SubResources?: SubResourceSummary[];
-  StartTime?: Date;
-  EndTime?: Date;
-  AttackCounters?: SummarizedCounter[];
-  AttackProperties?: AttackProperty[];
-  Mitigations?: Mitigation[];
+  AttackId?: string | undefined;
+  ResourceArn?: string | undefined;
+  SubResources?: SubResourceSummary[] | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  AttackCounters?: SummarizedCounter[] | undefined;
+  AttackProperties?: AttackProperty[] | undefined;
+  Mitigations?: Mitigation[] | undefined;
 }
 export interface DescribeAttackResponse {
-  Attack?: AttackDetail;
+  Attack?: AttackDetail | undefined;
 }
 export interface DescribeAttackStatisticsRequest {}
 export interface TimeRange {
-  FromInclusive?: Date;
-  ToExclusive?: Date;
+  FromInclusive?: Date | undefined;
+  ToExclusive?: Date | undefined;
 }
 export interface AttackVolumeStatistics {
   Max: number;
 }
 export interface AttackVolume {
-  BitsPerSecond?: AttackVolumeStatistics;
-  PacketsPerSecond?: AttackVolumeStatistics;
-  RequestsPerSecond?: AttackVolumeStatistics;
+  BitsPerSecond?: AttackVolumeStatistics | undefined;
+  PacketsPerSecond?: AttackVolumeStatistics | undefined;
+  RequestsPerSecond?: AttackVolumeStatistics | undefined;
 }
 export interface AttackStatisticsDataItem {
-  AttackVolume?: AttackVolume;
+  AttackVolume?: AttackVolume | undefined;
   AttackCount: number;
 }
 export type AttackStatisticsDataList = AttackStatisticsDataItem[];
@@ -385,16 +385,16 @@ export interface DescribeAttackStatisticsResponse {
 export interface DescribeDRTAccessRequest {}
 export type LogBucketList = string[];
 export interface DescribeDRTAccessResponse {
-  RoleArn?: string;
-  LogBucketList?: string[];
+  RoleArn?: string | undefined;
+  LogBucketList?: string[] | undefined;
 }
 export interface DescribeEmergencyContactSettingsRequest {}
 export interface DescribeEmergencyContactSettingsResponse {
-  EmergencyContactList?: EmergencyContact[];
+  EmergencyContactList?: EmergencyContact[] | undefined;
 }
 export interface DescribeProtectionRequest {
-  ProtectionId?: string;
-  ResourceArn?: string;
+  ProtectionId?: string | undefined;
+  ResourceArn?: string | undefined;
 }
 export type HealthCheckId = string;
 export type HealthCheckIds = string[];
@@ -402,23 +402,25 @@ export type ApplicationLayerAutomaticResponseStatus = "ENABLED" | "DISABLED" | (
 export interface BlockAction {}
 export interface CountAction {}
 export interface ResponseAction {
-  Block?: BlockAction;
-  Count?: CountAction;
+  Block?: BlockAction | undefined;
+  Count?: CountAction | undefined;
 }
 export interface ApplicationLayerAutomaticResponseConfiguration {
   Status: ApplicationLayerAutomaticResponseStatus;
   Action: ResponseAction;
 }
 export interface Protection {
-  Id?: string;
-  Name?: string;
-  ResourceArn?: string;
-  HealthCheckIds?: string[];
-  ProtectionArn?: string;
-  ApplicationLayerAutomaticResponseConfiguration?: ApplicationLayerAutomaticResponseConfiguration;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  ResourceArn?: string | undefined;
+  HealthCheckIds?: string[] | undefined;
+  ProtectionArn?: string | undefined;
+  ApplicationLayerAutomaticResponseConfiguration?:
+    | ApplicationLayerAutomaticResponseConfiguration
+    | undefined;
 }
 export interface DescribeProtectionResponse {
-  Protection?: Protection;
+  Protection?: Protection | undefined;
 }
 export interface DescribeProtectionGroupRequest {
   ProtectionGroupId: string;
@@ -427,9 +429,9 @@ export interface ProtectionGroup {
   ProtectionGroupId: string;
   Aggregation: ProtectionGroupAggregation;
   Pattern: ProtectionGroupPattern;
-  ResourceType?: ProtectedResourceType;
+  ResourceType?: ProtectedResourceType | undefined;
   Members: string[];
-  ProtectionGroupArn?: string;
+  ProtectionGroupArn?: string | undefined;
 }
 export interface DescribeProtectionGroupResponse {
   ProtectionGroup: ProtectionGroup;
@@ -438,8 +440,8 @@ export interface DescribeSubscriptionRequest {}
 export type DurationInSeconds = number;
 export type AutoRenew = "ENABLED" | "DISABLED" | (string & {});
 export interface Limit {
-  Type?: string;
-  Max?: number;
+  Type?: string | undefined;
+  Max?: number | undefined;
 }
 export type Limits = Limit[];
 export type ProactiveEngagementStatus = "ENABLED" | "DISABLED" | "PENDING" | (string & {});
@@ -461,17 +463,17 @@ export interface SubscriptionLimits {
   ProtectionGroupLimits: ProtectionGroupLimits;
 }
 export interface Subscription {
-  StartTime?: Date;
-  EndTime?: Date;
-  TimeCommitmentInSeconds?: number;
-  AutoRenew?: AutoRenew;
-  Limits?: Limit[];
-  ProactiveEngagementStatus?: ProactiveEngagementStatus;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  TimeCommitmentInSeconds?: number | undefined;
+  AutoRenew?: AutoRenew | undefined;
+  Limits?: Limit[] | undefined;
+  ProactiveEngagementStatus?: ProactiveEngagementStatus | undefined;
   SubscriptionLimits: SubscriptionLimits;
-  SubscriptionArn?: string;
+  SubscriptionArn?: string | undefined;
 }
 export interface DescribeSubscriptionResponse {
-  Subscription?: Subscription;
+  Subscription?: Subscription | undefined;
 }
 export interface DisableApplicationLayerAutomaticResponseRequest {
   ResourceArn: string;
@@ -506,80 +508,80 @@ export type ResourceArnFilterList = string[];
 export type Token = string;
 export type MaxResults = number;
 export interface ListAttacksRequest {
-  ResourceArns?: string[];
-  StartTime?: TimeRange;
-  EndTime?: TimeRange;
-  NextToken?: string;
-  MaxResults?: number;
+  ResourceArns?: string[] | undefined;
+  StartTime?: TimeRange | undefined;
+  EndTime?: TimeRange | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface AttackVectorDescription {
   VectorType: string;
 }
 export type AttackVectorDescriptionList = AttackVectorDescription[];
 export interface AttackSummary {
-  AttackId?: string;
-  ResourceArn?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  AttackVectors?: AttackVectorDescription[];
+  AttackId?: string | undefined;
+  ResourceArn?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  AttackVectors?: AttackVectorDescription[] | undefined;
 }
 export type AttackSummaries = AttackSummary[];
 export interface ListAttacksResponse {
-  AttackSummaries?: AttackSummary[];
-  NextToken?: string;
+  AttackSummaries?: AttackSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ProtectionGroupIdFilters = string[];
 export type ProtectionGroupPatternFilters = ProtectionGroupPattern[];
 export type ProtectedResourceTypeFilters = ProtectedResourceType[];
 export type ProtectionGroupAggregationFilters = ProtectionGroupAggregation[];
 export interface InclusionProtectionGroupFilters {
-  ProtectionGroupIds?: string[];
-  Patterns?: ProtectionGroupPattern[];
-  ResourceTypes?: ProtectedResourceType[];
-  Aggregations?: ProtectionGroupAggregation[];
+  ProtectionGroupIds?: string[] | undefined;
+  Patterns?: ProtectionGroupPattern[] | undefined;
+  ResourceTypes?: ProtectedResourceType[] | undefined;
+  Aggregations?: ProtectionGroupAggregation[] | undefined;
 }
 export interface ListProtectionGroupsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  InclusionFilters?: InclusionProtectionGroupFilters;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  InclusionFilters?: InclusionProtectionGroupFilters | undefined;
 }
 export type ProtectionGroups = ProtectionGroup[];
 export interface ListProtectionGroupsResponse {
   ProtectionGroups: ProtectionGroup[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ResourceArnFilters = string[];
 export type ProtectionNameFilters = string[];
 export interface InclusionProtectionFilters {
-  ResourceArns?: string[];
-  ProtectionNames?: string[];
-  ResourceTypes?: ProtectedResourceType[];
+  ResourceArns?: string[] | undefined;
+  ProtectionNames?: string[] | undefined;
+  ResourceTypes?: ProtectedResourceType[] | undefined;
 }
 export interface ListProtectionsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  InclusionFilters?: InclusionProtectionFilters;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  InclusionFilters?: InclusionProtectionFilters | undefined;
 }
 export type Protections = Protection[];
 export interface ListProtectionsResponse {
-  Protections?: Protection[];
-  NextToken?: string;
+  Protections?: Protection[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListResourcesInProtectionGroupRequest {
   ProtectionGroupId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ResourceArnList = string[];
 export interface ListResourcesInProtectionGroupResponse {
   ResourceArns: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -598,19 +600,19 @@ export interface UpdateApplicationLayerAutomaticResponseRequest {
 }
 export interface UpdateApplicationLayerAutomaticResponseResponse {}
 export interface UpdateEmergencyContactSettingsRequest {
-  EmergencyContactList?: EmergencyContact[];
+  EmergencyContactList?: EmergencyContact[] | undefined;
 }
 export interface UpdateEmergencyContactSettingsResponse {}
 export interface UpdateProtectionGroupRequest {
   ProtectionGroupId: string;
   Aggregation: ProtectionGroupAggregation;
   Pattern: ProtectionGroupPattern;
-  ResourceType?: ProtectedResourceType;
-  Members?: string[];
+  ResourceType?: ProtectedResourceType | undefined;
+  Members?: string[] | undefined;
 }
 export interface UpdateProtectionGroupResponse {}
 export interface UpdateSubscriptionRequest {
-  AutoRenew?: AutoRenew;
+  AutoRenew?: AutoRenew | undefined;
 }
 export interface UpdateSubscriptionResponse {}
 export type ErrorMessage = string;

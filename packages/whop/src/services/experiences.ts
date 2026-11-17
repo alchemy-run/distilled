@@ -30,36 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export interface AttachExperienceRequest {
   /** The unique identifier of the experience to attach. */
@@ -135,15 +163,15 @@ export interface CreateExperienceRequest {
   /** The unique identifier of the app that powers this experience. */
   app_id: string;
   /** Whether the experience is publicly accessible without a membership. */
-  is_public?: boolean | null;
+  is_public?: boolean | null | undefined;
   /** A logo image displayed alongside the experience name. */
-  logo?: CreateExperienceRequestLogo | null;
+  logo?: CreateExperienceRequestLogo | null | undefined;
   /** The display name of the experience. Defaults to the app's name if not provided. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Whether Whop app notifications are enabled for this experience. Webhooks still fire. */
-  notifications_enabled?: boolean | null;
+  notifications_enabled?: boolean | null | undefined;
   /** The unique identifier of the section to place the experience in. */
-  section_id?: string | null;
+  section_id?: string | null | undefined;
 }
 export interface DeleteExperienceRequest {
   /** The unique identifier of the experience to delete. */
@@ -160,21 +188,21 @@ export interface DuplicateExperienceRequest {
   /** The unique identifier of the experience to duplicate. */
   id: string;
   /** The display name for the duplicated experience. Defaults to the original experience's name. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface GetExperienceRequest {
   /** The unique identifier of the experience. */
   id: string;
 }
 export interface ListExperienceRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
-  product_id?: string;
-  app_id?: string;
-  created_before?: string;
-  created_after?: string;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
+  product_id?: string | undefined;
+  app_id?: string | undefined;
+  created_before?: string | undefined;
+  created_after?: string | undefined;
   account_id: string;
 }
 /** The icon image for this app, displayed on the app store, product pages, checkout, and as the default icon for experiences using this app. */
@@ -231,19 +259,30 @@ export interface UpdateExperienceRequest {
   /** The unique identifier of the experience to update. */
   id: string;
   /** The access level of the experience. */
-  access_level?: ExperienceAccessLevels | (string & {}) | null;
+  access_level?: ExperienceAccessLevels | (string & {}) | null | undefined;
   /** Whether the experience is publicly accessible without a membership. */
-  is_public?: boolean | null;
+  is_public?: boolean | null | undefined;
   /** A logo image displayed alongside the experience name. */
-  logo?: CreateExperienceRequestLogo | null;
+  logo?: CreateExperienceRequestLogo | null | undefined;
   /** The display name of the experience. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Whether Whop app notifications are enabled for this experience. Webhooks still fire. */
-  notifications_enabled?: boolean | null;
+  notifications_enabled?: boolean | null | undefined;
   /** The position of the experience within its section for display ordering. */
-  order?: string | null;
+  order?: string | null | undefined;
   /** The unique identifier of the section to move the experience into. */
-  section_id?: string | null;
+  section_id?: string | null | undefined;
+}
+export interface Error400BodyError {
+  /** A short string indicating the specific error code, e.g. 'parameter_missing', 'parameter_invalid', 'invalid_json' */
+  code?: string | null | undefined;
+  message: string;
+  /** The parameter that caused the error, if applicable */
+  param?: string | null | undefined;
+  type: string;
+}
+export interface Error400Body {
+  error: Error400BodyError;
 }
 export type AttachExperienceError =
   | BadRequest
@@ -258,8 +297,8 @@ export const attachExperience: API.OperationMethod<
   AttachExperienceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<AttachExperienceRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<Experience>,
+  input: __S(24, __c3, 0) as any as S.Schema<AttachExperienceRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<Experience>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -280,8 +319,8 @@ export const createExperience: API.OperationMethod<
   CreateExperienceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<CreateExperienceRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<Experience>,
+  input: __S(48, __c6, 0) as any as S.Schema<CreateExperienceRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<Experience>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -302,8 +341,8 @@ export const deleteExperience: API.OperationMethod<
   DeleteExperienceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<DeleteExperienceRequest>,
-  output: __S(57, __c7, 1) as any as S.Schema<DeleteExperienceResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<DeleteExperienceRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<DeleteExperienceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -324,8 +363,8 @@ export const detachExperience: API.OperationMethod<
   DetachExperienceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<DetachExperienceRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<Experience>,
+  input: __S(72, __c9, 0) as any as S.Schema<DetachExperienceRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<Experience>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -346,8 +385,8 @@ export const duplicateExperience: API.OperationMethod<
   DuplicateExperienceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<DuplicateExperienceRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<Experience>,
+  input: __S(80, __c10, 0) as any as S.Schema<DuplicateExperienceRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<Experience>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -368,8 +407,8 @@ export const getExperience: API.OperationMethod<
   GetExperienceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetExperienceRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<Experience>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetExperienceRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<Experience>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -392,8 +431,8 @@ export const listExperience: API.PaginatedOperationMethod<
   ExperienceListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(0, __c0, 0) as any as S.Schema<ListExperienceRequest>,
-    output: __S(4, __c0, 4) as any as S.Schema<ListExperienceResponse>,
+    input: __S(8, __c1, 0) as any as S.Schema<ListExperienceRequest>,
+    output: __S(12, __c1, 4) as any as S.Schema<ListExperienceResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -424,8 +463,8 @@ export const updateExperience: API.OperationMethod<
   UpdateExperienceError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<UpdateExperienceRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<Experience>,
+  input: __S(16, __c2, 0) as any as S.Schema<UpdateExperienceRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<Experience>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -435,6 +474,25 @@ export const updateExperience: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.NullOr(S.String)),
+          message: S.String,
+          param: S.optional(S.NullOr(S.String)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error400BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -453,18 +511,18 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          app: __S(25, __c3, 1),
-          company: __S(26, __c3, 2),
+          app: __S(33, __c4, 1),
+          company: __S(34, __c4, 2),
           created_at: S.String,
           id: S.String,
-          image: S.NullOr(__S(24, __c3, 0)),
+          image: S.NullOr(__S(32, __c4, 0)),
           is_public: S.Boolean,
           name: S.String,
           order: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ExperienceListItem" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(9, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -477,13 +535,13 @@ function __c0(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2, __c0, 2),
-          page_info: __S(3, __c0, 3),
+          data: __S(10, __c1, 2),
+          page_info: __S(11, __c1, 3),
         }),
       ).annotate({ identifier: "ListExperienceResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -491,7 +549,7 @@ function __c1(j: number): any {
           id: S.String.pipe(T.Label()),
           access_level: S.optional(S.NullOr(S.String)),
           is_public: S.optional(S.NullOr(S.Boolean)),
-          logo: S.optional(S.NullOr(__S(48, __c6, 0))),
+          logo: S.optional(S.NullOr(__S(56, __c7, 0))),
           name: S.optional(S.NullOr(S.String)),
           notifications_enabled: S.optional(S.NullOr(S.Boolean)),
           order: S.optional(S.NullOr(S.String)),
@@ -500,7 +558,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "UpdateExperienceRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -511,7 +569,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "AttachExperienceRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -522,7 +580,7 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          icon: S.NullOr(__S(24, __c3, 0)),
+          icon: S.NullOr(__S(32, __c4, 0)),
           id: S.String,
           name: S.String,
         }),
@@ -537,27 +595,27 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ExperienceCompany" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(26, __c3, 2));
+      return S.Array(__S(34, __c4, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          app: __S(25, __c3, 1),
-          company: __S(26, __c3, 2),
+          app: __S(33, __c4, 1),
+          company: __S(34, __c4, 2),
           created_at: S.String,
           id: S.String,
-          image: S.NullOr(__S(24, __c3, 0)),
+          image: S.NullOr(__S(32, __c4, 0)),
           is_public: S.Boolean,
           name: S.String,
           order: S.NullOr(S.String),
-          products: __S(32, __c4, 0),
+          products: __S(40, __c5, 0),
         }),
       ).annotate({ identifier: "Experience" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -565,7 +623,7 @@ function __c5(j: number): any {
           account_id: S.String,
           app_id: S.String,
           is_public: S.optional(S.NullOr(S.Boolean)),
-          logo: S.optional(S.NullOr(__S(48, __c6, 0))),
+          logo: S.optional(S.NullOr(__S(56, __c7, 0))),
           name: S.optional(S.NullOr(S.String)),
           notifications_enabled: S.optional(S.NullOr(S.Boolean)),
           section_id: S.optional(S.NullOr(S.String)),
@@ -573,7 +631,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateExperienceRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -583,7 +641,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateExperienceRequestLogo" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -597,7 +655,7 @@ function __c7(j: number): any {
       });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -608,7 +666,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DetachExperienceRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -619,7 +677,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DuplicateExperienceRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

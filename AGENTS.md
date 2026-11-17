@@ -20,9 +20,25 @@ number.
    `scripts/convert.ts` or the generator that names a member, shape or
    operation is a patch. Example: `if (name === "environment")` that marks a
    field sensitive becomes a patch on that member.
-4. **No `throw`, and no `try`/`catch` that hides a failure, in runtime code.**
-   An expected failure is a typed Effect failure. `Effect.die` is only for a
-   programmer bug. Example: a bad path label fails with core `InvalidInput`;
+4. **Shipped SDK code never crashes a fiber.** Every failure in
+   `packages/*/src/` is a typed Effect failure, even for an SDK bug: use core
+   `SdkError` ("this SDK can't make the call"), `InvalidInput`, or the
+   operation's own error. `pnpm lint` enforces this in CI, so run it before
+   you push. It rejects:
+   - any `die*` or `orDie*` (`Effect`, `Stream`, `Layer` and the rest);
+   - `Effect.promise`. Use `Effect.tryPromise({ try, catch })`, and load the
+     SDK's own modules with core `loadModule(() => import(...))`;
+   - `throw` inside an `Effect.*` / `Stream.*` / `Layer.*` callback or an
+     `Effect.gen` / `Effect.fn` generator. Use `yield* new SomeError(...)`;
+   - an empty or comment-only `catch`;
+   - `new Function`, `Function(...)` and `eval`.
+
+   Lint can't follow calls between functions. A plain helper may throw only
+   if every Effect caller wraps it in `Effect.try` / `Effect.tryPromise`.
+   A `catch` that turns a failure into a value hides it. Do not add a lint
+   disable comment without a reason in the PR body. A generator that meets a
+   config it can't emit fails `pnpm generate`, and never emits code that fails
+   at call time. Example: a bad path label fails with `InvalidInput`;
    `catch { return {} }` around a config file read hides a broken file.
 5. **Reuse what core already has.** Search `packages/core/src/` and recently
    merged PRs before you add a helper, trait, error class or schema walker.

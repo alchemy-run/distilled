@@ -24,6 +24,8 @@ export class K2AppendOutcomeUnknown
     /*@__PURE__*/ S.TaggedError<K2AppendOutcomeUnknown>()("K2AppendOutcomeUnknown", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10212 }],
   ) {}
@@ -34,6 +36,9 @@ export class K2BatchPending
     /*@__PURE__*/ S.TaggedError<K2BatchPending>()("K2BatchPending", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withConflictError, C.withRetryableError),
     [{ code: 10217 }],
   ) {}
@@ -44,6 +49,8 @@ export class K2InvalidRequest
     /*@__PURE__*/ S.TaggedError<K2InvalidRequest>()("K2InvalidRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ code: 10204 }],
   ) {}
@@ -54,6 +61,8 @@ export class K2LeaseLost
     /*@__PURE__*/ S.TaggedError<K2LeaseLost>()("K2LeaseLost", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ code: 10218 }],
   ) {}
@@ -64,6 +73,9 @@ export class K2LeasesExhausted
     /*@__PURE__*/ S.TaggedError<K2LeasesExhausted>()("K2LeasesExhausted", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withThrottlingError, C.withRetryableError),
     [{ code: 10216 }],
   ) {}
@@ -74,6 +86,8 @@ export class K2NameAlreadyExists
     /*@__PURE__*/ S.TaggedError<K2NameAlreadyExists>()("K2NameAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ code: 10201 }],
   ) {}
@@ -84,6 +98,9 @@ export class K2ReadFailed
     /*@__PURE__*/ S.TaggedError<K2ReadFailed>()("K2ReadFailed", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError, C.withRetryableError),
     [{ code: 10214 }],
   ) {}
@@ -94,6 +111,8 @@ export class K2RecordTooLarge
     /*@__PURE__*/ S.TaggedError<K2RecordTooLarge>()("K2RecordTooLarge", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ code: 10207 }],
   ) {}
@@ -104,6 +123,8 @@ export class K2RequestTooLarge
     /*@__PURE__*/ S.TaggedError<K2RequestTooLarge>()("K2RequestTooLarge", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ code: 10206 }],
   ) {}
@@ -114,6 +135,8 @@ export class K2StreamNotFound
     /*@__PURE__*/ S.TaggedError<K2StreamNotFound>()("K2StreamNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ code: 10200 }],
   ) {}
@@ -124,6 +147,8 @@ export class K2SubscriptionLimitExceeded
     /*@__PURE__*/ S.TaggedError<K2SubscriptionLimitExceeded>()("K2SubscriptionLimitExceeded", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ code: 10219 }],
   ) {}
@@ -134,6 +159,8 @@ export class K2SubscriptionNotFound
     /*@__PURE__*/ S.TaggedError<K2SubscriptionNotFound>()("K2SubscriptionNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ code: 10215 }],
   ) {}
@@ -144,6 +171,9 @@ export class K2Unavailable
     /*@__PURE__*/ S.TaggedError<K2Unavailable>()("K2Unavailable", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError, C.withRetryableError),
     [{ code: 10211 }],
   ) {}
@@ -171,27 +201,27 @@ export interface ConsumedRecord {
   /** The record payload as standard base64. */
   content: string;
   /** The record headers; omitted when it was produced without any. */
-  headers?: RecordHeaders | null;
+  headers?: RecordHeaders | null | undefined;
 }
 export type ConsumedRecordList = Array<ConsumedRecord>;
 export interface ConsumeResponse {
   /** The leased batch, or null when there were no records. */
-  batchId?: string | null;
+  batchId?: string | null | undefined;
   /** When the lease expires, in Unix milliseconds. */
-  leasedUntilMs?: number | null;
+  leasedUntilMs?: number | null | undefined;
   records: ConsumedRecordList;
 }
 export type CorsOriginList = Array<string>;
 export interface StreamCors {
   /** Origins allowed to produce from a browser: `http(s)://host[:port]` without a path, or `*` alone. Up to five. */
-  origins?: CorsOriginList | null;
+  origins?: CorsOriginList | null | undefined;
 }
 export interface StreamHttpInput {
   /** Whether the `/produce` endpoint accepts records. */
   enabled: boolean;
   /** Require an API token with the K2 Produce permission. When false or omitted the endpoint is public. */
-  authentication?: boolean | null;
-  cors?: StreamCors | null;
+  authentication?: boolean | null | undefined;
+  cors?: StreamCors | null | undefined;
 }
 export interface StreamWorkerBindingInput {
   /** Whether Workers can produce to the stream through a `k2` binding. */
@@ -202,10 +232,10 @@ export interface CreateStreamRequest {
   /** 1 to 128 letters, numbers, or underscores. Unique in the account, not case-sensitive. */
   name: string;
   /** From 3600 (one hour) to 2592000 (30 days). Defaults to 604800 (seven days). */
-  retentionSeconds?: number;
+  retentionSeconds?: number | undefined;
   http: StreamHttpInput;
   /** Defaults to enabled. */
-  workerBinding?: StreamWorkerBindingInput;
+  workerBinding?: StreamWorkerBindingInput | undefined;
 }
 export interface CreateStreamResponse {
   /** The stream ID: 32 lowercase hexadecimal characters. */
@@ -299,7 +329,7 @@ export type ConsumerLagStatus = "available" | "unsupported" | "unavailable";
 export interface ConsumerLag {
   status: ConsumerLagStatus;
   /** Decimal string: records between the subscription's committed position and the stream tail. Null unless `status` is `available`. */
-  records?: string | null;
+  records?: string | null | undefined;
 }
 export interface MonitoredSubscription {
   /** The subscription ID. */
@@ -315,8 +345,8 @@ export type MonitoredSubscriptionList = Array<MonitoredSubscription>;
 export type ListMonitoredSubscriptionsResponse = MonitoredSubscriptionList;
 export interface ListStreamsRequest {
   accountId: string;
-  page?: number;
-  perPage?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
 }
 export interface Stream {
   /** The stream ID: 32 lowercase hexadecimal characters. */
@@ -336,11 +366,11 @@ export type StreamList = Array<Stream>;
 export interface ListStreamsResponse {
   result: StreamList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSubscriptionsRequest {
   streamId: string;
-  name?: string;
+  name?: string | undefined;
 }
 export interface Subscription {
   /** The subscription ID. */
@@ -365,7 +395,7 @@ export interface ProduceRecord {
   /** The record payload as standard (padded, not URL-safe) base64. */
   content: string;
   /** Up to 32 string headers describing the content. */
-  headers?: RecordHeaders;
+  headers?: RecordHeaders | undefined;
 }
 export type ProduceRecordList = Array<ProduceRecord>;
 export interface ProduceRequest {
@@ -376,9 +406,9 @@ export interface ProduceResponse {}
 export interface UpdateStreamRequest {
   accountId: string;
   streamId: string;
-  retentionSeconds?: number;
-  http?: StreamHttpInput;
-  workerBinding?: StreamWorkerBindingInput;
+  retentionSeconds?: number | undefined;
+  http?: StreamHttpInput | undefined;
+  workerBinding?: StreamWorkerBindingInput | undefined;
 }
 export interface UpdateStreamResponse {
   /** The stream ID: 32 lowercase hexadecimal characters. */

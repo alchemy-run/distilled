@@ -51,9 +51,9 @@ export interface ContentAutopilotEvidence {
   /** Plain-language explanation of the supporting evidence. */
   explanation: string;
   /** Page supported by this evidence. */
-  page_url?: string;
+  page_url?: string | undefined;
   /** Search query supported by this evidence. */
-  query?: string;
+  query?: string | undefined;
 }
 /** Performance evidence for this proposal. */
 export type ContentAutopilotProposalEvidenceList = Array<ContentAutopilotEvidence>;
@@ -105,9 +105,9 @@ export interface ContentAutopilotPackage {
   /** Portable source notes included with the export. */
   source_notes: ContentAutopilotPackageSourceNotesList;
   /** JSON-LD structured data to embed in the page, such as an FAQPage document. */
-  json_ld?: string;
+  json_ld?: string | undefined;
   /** Suggested llms.txt entry for the page. */
-  llms_txt_line?: string;
+  llms_txt_line?: string | undefined;
 }
 /** Site pages the brief asked to read for facts. */
 export type ContentAutopilotBriefSitePagesToReadList = Array<string>;
@@ -127,29 +127,29 @@ export type ContentAutopilotBriefQuestionsToAnswerList = Array<string>;
 export type ContentAutopilotBriefCompetitorCoverageList = Array<string>;
 export interface ContentAutopilotBrief {
   /** What the person asking wants to know or decide. */
-  intent?: string;
+  intent?: string | undefined;
   /** Who the content is for. */
-  audience?: string;
+  audience?: string | undefined;
   /** Whether the brief recommends new_content or page_improvement. */
-  recommended_type?: string;
+  recommended_type?: string | undefined;
   /** Site page the brief chose to improve. Empty for a new page. */
-  target_page?: string;
+  target_page?: string | undefined;
   /** Site pages the brief asked to read for facts. */
-  site_pages_to_read?: ContentAutopilotBriefSitePagesToReadList;
+  site_pages_to_read?: ContentAutopilotBriefSitePagesToReadList | undefined;
   /** Products the brief asked to research for a comparison. */
-  competitors_to_research?: ContentAutopilotBriefCompetitorsToResearchList;
+  competitors_to_research?: ContentAutopilotBriefCompetitorsToResearchList | undefined;
   /** Working title for the page. */
-  working_title?: string;
+  working_title?: string | undefined;
   /** Planned sections, in order. */
-  outline?: ContentAutopilotBriefOutlineList;
+  outline?: ContentAutopilotBriefOutlineList | undefined;
   /** Questions the page must answer. */
-  questions_to_answer?: ContentAutopilotBriefQuestionsToAnswerList;
+  questions_to_answer?: ContentAutopilotBriefQuestionsToAnswerList | undefined;
   /** Topics the cited competitor pages cover that the site's pages don't. */
-  competitor_coverage?: ContentAutopilotBriefCompetitorCoverageList;
+  competitor_coverage?: ContentAutopilotBriefCompetitorCoverageList | undefined;
   /** What AI answer engines currently say, including what they get wrong. */
-  engine_answer_summary?: string;
+  engine_answer_summary?: string | undefined;
   /** What the question means, when AI answer engines misread which product or company it asks about. */
-  disambiguation?: string;
+  disambiguation?: string | undefined;
 }
 /** * `site` - site * `competitor` - competitor */
 export type ContentAutopilotSourceLedgerEntryKindEnum = "site" | "competitor";
@@ -161,7 +161,7 @@ export interface ContentAutopilotSourceLedgerEntry {
   /** Short quote from the source page. */
   quote: string;
   /** Whether the source is one of the site's pages or a competitor's own page. * `site` - site * `competitor` - competitor */
-  kind?: ContentAutopilotSourceLedgerEntryKindEnum;
+  kind?: ContentAutopilotSourceLedgerEntryKindEnum | undefined;
 }
 /** Factual claims in the draft and the site pages that support them. */
 export type ContentAutopilotProposalSourceLedgerList = Array<ContentAutopilotSourceLedgerEntry>;
@@ -200,13 +200,13 @@ export interface ListWebAnalyticsContentAutopilotProposalsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Only return proposals for this site profile. */
-  profile_id?: string;
+  profile_id?: string | undefined;
   /** Only return proposals from this content run. */
-  run_id?: string;
+  run_id?: string | undefined;
 }
 /** Performance evidence for this proposal. */
 export type ContentAutopilotProposalListEvidenceList = Array<ContentAutopilotEvidence>;
@@ -223,6 +223,8 @@ export interface ContentAutopilotProposalList {
   validation_report: ContentAutopilotValidationReport;
   /** Repository-relative export path. */
   file_path: string;
+  /** Existing or intended public URL. */
+  target_url: string;
   created_at: string;
   updated_at: string;
 }
@@ -230,8 +232,8 @@ export type PaginatedContentAutopilotProposalListListResultsList =
   Array<ContentAutopilotProposalList>;
 export interface PaginatedContentAutopilotProposalListList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedContentAutopilotProposalListListResultsList;
 }
 export type GetWebAnalyticsContentAutopilotProposalError = PosthogOpError;
@@ -431,6 +433,7 @@ function __c2(j: number): any {
           evidence: __S(17, __c1, 1),
           validation_report: __S(20, __c1, 4),
           file_path: S.String,
+          target_url: S.String,
           created_at: S.String,
           updated_at: S.String,
         }),

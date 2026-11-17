@@ -30,36 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 /** Input for an attachment */
 export interface CreateForumPostRequestAttachmentsItem {
@@ -178,31 +206,31 @@ export interface CreateForumPostRequestPoll {
 export type ForumPostVisibilityTypes = "members_only" | "globally_visible";
 export interface CreateForumPostRequest {
   /** The unique identifier of the company whose public forum to post in. Required when experience_id is 'public'. For example, 'biz_xxxxx'. */
-  account_id?: string | null;
+  account_id?: string | null | undefined;
   /** A list of file attachments to include with the post, such as images or videos. */
-  attachments?: CreateForumPostRequestAttachmentsList | null;
+  attachments?: CreateForumPostRequestAttachmentsList | null | undefined;
   /** The main body of the post in Markdown format. For example, 'Check out this **update**'. Hidden if the post is paywalled and the viewer has not purchased access. */
-  content?: string | null;
+  content?: string | null | undefined;
   /** The unique identifier of the experience to create this post in. For example, 'exp_xxxxx'. Pass 'public' along with account_id to automatically use the account's public forum. */
   experience_id: string;
   /** Whether to send this post as a mention notification to all users in the experience who have mentions enabled. */
-  is_mention?: boolean | null;
+  is_mention?: boolean | null | undefined;
   /** The unique identifier of the parent post to comment on. Omit this field to create a top-level post. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** The price to unlock this post in the specified paywall currency. For example, 5.00 for $5.00. When set, users must purchase access to view the post content. */
-  paywall_amount?: number | null;
+  paywall_amount?: number | null | undefined;
   /** The currency for the paywall price on this post. When set along with paywall_amount, users must purchase access to view the post content. */
-  paywall_currency?: LegacyCurrencies | (string & {}) | null;
+  paywall_currency?: LegacyCurrencies | (string & {}) | null | undefined;
   /** Whether this post should be pinned to the top of the forum. */
-  pinned?: boolean | null;
+  pinned?: boolean | null | undefined;
   /** A poll to attach to this post, allowing members to vote on options. */
-  poll?: CreateForumPostRequestPoll | null;
+  poll?: CreateForumPostRequestPoll | null | undefined;
   /** The rich content of the post in Tiptap JSON format. When provided, takes priority over the markdown content field for rendering. */
-  rich_content?: string | null;
+  rich_content?: string | null | undefined;
   /** The title of the post, displayed prominently at the top. Required for paywalled posts as it remains visible to non-purchasers. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Controls who can see this forum post, such as members only or public. */
-  visibility?: ForumPostVisibilityTypes | (string & {}) | null;
+  visibility?: ForumPostVisibilityTypes | (string & {}) | null | undefined;
 }
 /** Represents an image attachment */
 export interface ForumPostAttachmentsItem {
@@ -262,14 +290,14 @@ export interface GetForumPostRequest {
   id: string;
 }
 export interface ListForumPostRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
   experience_id: string;
-  include_bounty_anchors?: boolean;
-  parent_id?: string;
-  pinned?: boolean;
+  include_bounty_anchors?: boolean | undefined;
+  parent_id?: string | undefined;
+  pinned?: boolean | undefined;
 }
 /** Represents an image attachment */
 export type ForumPostListItemAttachmentsItem = ForumPostAttachmentsItem;
@@ -335,15 +363,26 @@ export interface UpdateForumPostRequest {
   /** The unique identifier of the forum post to update. */
   id: string;
   /** A replacement list of file attachments for this post, such as images or videos. */
-  attachments?: UpdateForumPostRequestAttachmentsList | null;
+  attachments?: UpdateForumPostRequestAttachmentsList | null | undefined;
   /** The updated body of the post in Markdown format. For example, 'Check out this **update**'. Hidden if the post is paywalled and the viewer has not purchased access. */
-  content?: string | null;
+  content?: string | null | undefined;
   /** Whether this post should be pinned to the top of the forum. Only top-level posts can be pinned, not comments. */
-  is_pinned?: boolean | null;
+  is_pinned?: boolean | null | undefined;
   /** The updated title of the post, displayed prominently at the top. Required for paywalled posts as it remains visible to non-purchasers. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Controls who can see this forum post, such as members only or public. */
-  visibility?: ForumPostVisibilityTypes | (string & {}) | null;
+  visibility?: ForumPostVisibilityTypes | (string & {}) | null | undefined;
+}
+export interface Error400BodyError {
+  /** A short string indicating the specific error code, e.g. 'parameter_missing', 'parameter_invalid', 'invalid_json' */
+  code?: string | null | undefined;
+  message: string;
+  /** The parameter that caused the error, if applicable */
+  param?: string | null | undefined;
+  type: string;
+}
+export interface Error400Body {
+  error: Error400BodyError;
 }
 export type CreateForumPostError =
   | BadRequest
@@ -358,8 +397,8 @@ export const createForumPost: API.OperationMethod<
   CreateForumPostError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3, __c0, 3) as any as S.Schema<CreateForumPostRequest>,
-  output: __S(7, __c1, 3) as any as S.Schema<ForumPost>,
+  input: __S(7, __c1, 3) as any as S.Schema<CreateForumPostRequest>,
+  output: __S(11, __c2, 3) as any as S.Schema<ForumPost>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -380,8 +419,8 @@ export const getForumPost: API.OperationMethod<
   GetForumPostError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<GetForumPostRequest>,
-  output: __S(7, __c1, 3) as any as S.Schema<ForumPost>,
+  input: __S(16, __c4, 0) as any as S.Schema<GetForumPostRequest>,
+  output: __S(11, __c2, 3) as any as S.Schema<ForumPost>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -404,8 +443,8 @@ export const listForumPost: API.PaginatedOperationMethod<
   ForumPostListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(16, __c4, 0) as any as S.Schema<ListForumPostRequest>,
-    output: __S(19, __c4, 3) as any as S.Schema<ListForumPostResponse>,
+    input: __S(20, __c5, 0) as any as S.Schema<ListForumPostRequest>,
+    output: __S(23, __c5, 3) as any as S.Schema<ListForumPostResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -436,8 +475,8 @@ export const updateForumPost: API.OperationMethod<
   UpdateForumPostError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<UpdateForumPostRequest>,
-  output: __S(7, __c1, 3) as any as S.Schema<ForumPost>,
+  input: __S(24, __c6, 0) as any as S.Schema<UpdateForumPostRequest>,
+  output: __S(11, __c2, 3) as any as S.Schema<ForumPost>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -451,23 +490,42 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.NullOr(S.String)),
+          message: S.String,
+          param: S.optional(S.NullOr(S.String)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error400BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String,
           text: S.String,
         }),
       ).annotate({ identifier: "CreateForumPostRequestPollOptionsItem" });
     case 1:
-      return S.Array(__S(0, __c0, 0));
+      return S.Array(__S(4, __c1, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          options: __S(1, __c0, 1),
+          options: __S(5, __c1, 1),
         }),
       ).annotate({ identifier: "CreateForumPostRequestPoll" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           account_id: S.optional(S.NullOr(S.String)),
-          attachments: S.optional(S.NullOr(__S(9, __c2, 1))),
+          attachments: S.optional(S.NullOr(__S(13, __c3, 1))),
           content: S.optional(S.NullOr(S.String)),
           experience_id: S.String,
           is_mention: S.optional(S.NullOr(S.Boolean)),
@@ -475,7 +533,7 @@ function __c0(j: number): any {
           paywall_amount: S.optional(S.NullOr(S.Number)),
           paywall_currency: S.optional(S.NullOr(S.String)),
           pinned: S.optional(S.NullOr(S.Boolean)),
-          poll: S.optional(S.NullOr(__S(2, __c0, 2))),
+          poll: S.optional(S.NullOr(__S(6, __c1, 2))),
           rich_content: S.optional(S.NullOr(S.String)),
           title: S.optional(S.NullOr(S.String)),
           visibility: S.optional(S.NullOr(S.String)),
@@ -483,7 +541,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateForumPostRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -495,7 +553,7 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "ForumPostAttachmentsItem" });
     case 1:
-      return S.Array(__S(4, __c1, 0));
+      return S.Array(__S(8, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -507,7 +565,7 @@ function __c1(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          attachments: __S(5, __c1, 1),
+          attachments: __S(9, __c2, 1),
           comment_count: S.Number,
           content: S.NullOr(S.String),
           created_at: S.String,
@@ -519,13 +577,13 @@ function __c1(j: number): any {
           parent_id: S.NullOr(S.String),
           title: S.NullOr(S.String),
           updated_at: S.String,
-          user: __S(6, __c1, 2),
+          user: __S(10, __c2, 2),
           view_count: S.NullOr(S.Number),
         }),
       ).annotate({ identifier: "ForumPost" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -534,10 +592,10 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "CreateForumPostRequestAttachmentsItem" });
     case 1:
-      return S.Array(__S(8, __c2, 0));
+      return S.Array(__S(12, __c3, 0));
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -547,7 +605,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetForumPostRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -563,7 +621,7 @@ function __c4(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/forum_posts", code: 200 })),
       ).annotate({ identifier: "ListForumPostRequest" });
     case 1:
-      return S.Array(__S(7, __c1, 3));
+      return S.Array(__S(11, __c2, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -576,19 +634,19 @@ function __c4(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(17, __c4, 1),
-          page_info: __S(18, __c4, 2),
+          data: __S(21, __c5, 1),
+          page_info: __S(22, __c5, 2),
         }),
       ).annotate({ identifier: "ListForumPostResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          attachments: S.optional(S.NullOr(__S(9, __c2, 1))),
+          attachments: S.optional(S.NullOr(__S(13, __c3, 1))),
           content: S.optional(S.NullOr(S.String)),
           is_pinned: S.optional(S.NullOr(S.Boolean)),
           title: S.optional(S.NullOr(S.String)),

@@ -50,6 +50,8 @@ export class CertificateAlreadyDeleted
     /*@__PURE__*/ S.TaggedError<CertificateAlreadyDeleted>()("CertificateAlreadyDeleted", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "already deleted" } }],
   ) {}
@@ -59,6 +61,8 @@ export class CertificateAlreadyExists
     /*@__PURE__*/ S.TaggedError<CertificateAlreadyExists>()("CertificateAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1406, message: { includes: "already exists" } }],
   ) {}
@@ -68,6 +72,8 @@ export class CertificateNotFound
     /*@__PURE__*/ S.TaggedError<CertificateNotFound>()("CertificateNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1552, message: { includes: "certificate not found" } }, { status: 404 }],
   ) {}
@@ -77,6 +83,8 @@ export class CertificatePendingDeletion
     /*@__PURE__*/ S.TaggedError<CertificatePendingDeletion>()("CertificatePendingDeletion", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1414, message: { includes: "pending deletion" } }],
   ) {}
@@ -86,6 +94,8 @@ export class CertificatePendingDeployment
     /*@__PURE__*/ S.TaggedError<CertificatePendingDeployment>()("CertificatePendingDeployment", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1434, message: { includes: "pending deployment" } }],
   ) {}
@@ -95,6 +105,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -104,6 +116,8 @@ export class HostnameAssociationNotFound
     /*@__PURE__*/ S.TaggedError<HostnameAssociationNotFound>()("HostnameAssociationNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1553, message: { includes: "setting for this hostname not found" } }, { status: 404 }],
   ) {}
@@ -113,6 +127,8 @@ export class HostnameCertificateIdRequired
     /*@__PURE__*/ S.TaggedError<HostnameCertificateIdRequired>()("HostnameCertificateIdRequired", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1404, message: { includes: "Certificate ID required" } }],
   ) {}
@@ -122,6 +138,8 @@ export class HostnameCertificateInUse
     /*@__PURE__*/ S.TaggedError<HostnameCertificateInUse>()("HostnameCertificateInUse", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1433, message: { includes: "in use" } }],
   ) {}
@@ -131,6 +149,8 @@ export class HostnameCertificateNotFound
     /*@__PURE__*/ S.TaggedError<HostnameCertificateNotFound>()("HostnameCertificateNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1552 }, { code: 1551 }, { status: 404 }],
   ) {}
@@ -140,6 +160,8 @@ export class InvalidCertificate
     /*@__PURE__*/ S.TaggedError<InvalidCertificate>()("InvalidCertificate", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1408, message: { includes: "Unable to parse certificate" } }],
   ) {}
@@ -149,6 +171,8 @@ export class InvalidCertificateId
     /*@__PURE__*/ S.TaggedError<InvalidCertificateId>()("InvalidCertificateId", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1415, message: { includes: "Invalid Certificate ID" } }],
   ) {}
@@ -158,6 +182,8 @@ export class InvalidHostnameConfig
     /*@__PURE__*/ S.TaggedError<InvalidHostnameConfig>()("InvalidHostnameConfig", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1415 }],
   ) {}
@@ -167,6 +193,8 @@ export class ZoneClientCertConflict
     /*@__PURE__*/ S.TaggedError<ZoneClientCertConflict>()("ZoneClientCertConflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 409 }],
   ) {}
@@ -190,21 +218,21 @@ export type HostnameCertificatesCreateResponseStatus =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateHostnameCertificateResponse {
   /** Certificate identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The hostname certificate. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** The date when the certificate expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The certificate authority that issued the certificate. */
-  issuer?: string | null;
+  issuer?: string | null | undefined;
   /** The serial number on the uploaded certificate. */
-  serialNumber?: string | null;
+  serialNumber?: string | null | undefined;
   /** The type of hash used for the certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** Status of the certificate or the association. */
-  status?: HostnameCertificatesCreateResponseStatus | null;
+  status?: HostnameCertificatesCreateResponseStatus | null | undefined;
   /** The time when the certificate was uploaded. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
 }
 export interface CreateOriginTlsClientAuthRequest {
   /** Identifier. */
@@ -217,18 +245,18 @@ export interface CreateOriginTlsClientAuthRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateOriginTlsClientAuthResponse {
   /** Certificate identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The zone's leaf certificate. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** Indicates whether zone-level authenticated origin pulls is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The zone's private key. */
-  privateKey?: string | null;
-  expiresOn?: string | null;
-  issuer?: string | null;
-  signature?: string | null;
-  status?: string | null;
-  uploadedOn?: string | null;
+  privateKey?: string | null | undefined;
+  expiresOn?: string | null | undefined;
+  issuer?: string | null | undefined;
+  signature?: string | null | undefined;
+  status?: string | null | undefined;
+  uploadedOn?: string | null | undefined;
 }
 export interface CreateZoneCertificateRequest {
   /** Identifier. */
@@ -241,13 +269,13 @@ export interface CreateZoneCertificateRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateZoneCertificateResponse {
   /** Certificate identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The zone's leaf certificate. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** Indicates whether zone-level authenticated origin pulls is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The zone's private key. */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
 }
 export interface DeleteHostnameCertificateRequest {
   /** Identifier. */
@@ -266,21 +294,21 @@ export type HostnameCertificatesDeleteResponseStatus =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteHostnameCertificateResponse {
   /** Certificate identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The hostname certificate. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** The date when the certificate expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The certificate authority that issued the certificate. */
-  issuer?: string | null;
+  issuer?: string | null | undefined;
   /** The serial number on the uploaded certificate. */
-  serialNumber?: string | null;
+  serialNumber?: string | null | undefined;
   /** The type of hash used for the certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** Status of the certificate or the association. */
-  status?: HostnameCertificatesDeleteResponseStatus | null;
+  status?: HostnameCertificatesDeleteResponseStatus | null | undefined;
   /** The time when the certificate was uploaded. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
 }
 export interface DeleteOriginTlsClientAuthRequest {
   /** Identifier. */
@@ -291,13 +319,13 @@ export interface DeleteOriginTlsClientAuthRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteOriginTlsClientAuthResponse {
   /** Certificate identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The zone's leaf certificate. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** Indicates whether zone-level authenticated origin pulls is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The zone's private key. */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
 }
 export interface DeleteZoneCertificateRequest {
   /** Identifier. */
@@ -308,13 +336,13 @@ export interface DeleteZoneCertificateRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteZoneCertificateResponse {
   /** Certificate identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The zone's leaf certificate. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** Indicates whether zone-level authenticated origin pulls is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The zone's private key. */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
 }
 export interface GetHostnameRequest {
   /** Identifier. */
@@ -341,33 +369,33 @@ export type HostnamesGetResponseStatus =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetHostnameResponse {
   /** Certificate identifier tag. */
-  certId?: string | null;
+  certId?: string | null | undefined;
   /** Status of the certificate or the association. */
-  certStatus?: HostnamesGetResponseCertStatus | null;
+  certStatus?: HostnamesGetResponseCertStatus | null | undefined;
   /** The time when the certificate was updated. */
-  certUpdatedAt?: string | null;
+  certUpdatedAt?: string | null | undefined;
   /** The time when the certificate was uploaded. */
-  certUploadedOn?: string | null;
+  certUploadedOn?: string | null | undefined;
   /** The hostname certificate. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** The time when the certificate was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Indicates whether hostname-level authenticated origin pulls is enabled. A null value voids the association. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The date when the certificate expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The hostname on the origin for which the client certificate uploaded will be used. */
-  hostname?: string | null;
+  hostname?: string | null | undefined;
   /** The certificate authority that issued the certificate. */
-  issuer?: string | null;
+  issuer?: string | null | undefined;
   /** The serial number on the uploaded certificate. */
-  serialNumber?: string | null;
+  serialNumber?: string | null | undefined;
   /** The type of hash used for the certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** Status of the certificate or the association. */
-  status?: HostnamesGetResponseStatus | null;
+  status?: HostnamesGetResponseStatus | null | undefined;
   /** The time when the certificate was updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface GetHostnameCertificateRequest {
   /** Identifier. */
@@ -386,21 +414,21 @@ export type HostnameCertificatesGetResponseStatus =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetHostnameCertificateResponse {
   /** Certificate identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The hostname certificate. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** The date when the certificate expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The certificate authority that issued the certificate. */
-  issuer?: string | null;
+  issuer?: string | null | undefined;
   /** The serial number on the uploaded certificate. */
-  serialNumber?: string | null;
+  serialNumber?: string | null | undefined;
   /** The type of hash used for the certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** Status of the certificate or the association. */
-  status?: HostnameCertificatesGetResponseStatus | null;
+  status?: HostnameCertificatesGetResponseStatus | null | undefined;
   /** The time when the certificate was uploaded. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
 }
 export interface GetOriginTlsClientAuthRequest {
   /** Identifier. */
@@ -411,18 +439,18 @@ export interface GetOriginTlsClientAuthRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetOriginTlsClientAuthResponse {
   /** Certificate identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The zone's leaf certificate. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** Indicates whether zone-level authenticated origin pulls is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The zone's private key. */
-  privateKey?: string | null;
-  expiresOn?: string | null;
-  issuer?: string | null;
-  signature?: string | null;
-  status?: string | null;
-  uploadedOn?: string | null;
+  privateKey?: string | null | undefined;
+  expiresOn?: string | null | undefined;
+  issuer?: string | null | undefined;
+  signature?: string | null | undefined;
+  status?: string | null | undefined;
+  uploadedOn?: string | null | undefined;
 }
 export interface GetSettingRequest {
   /** Identifier. */
@@ -431,7 +459,7 @@ export interface GetSettingRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSettingResponse {
   /** Indicates whether zone-level authenticated origin pulls is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export interface GetZoneCertificateRequest {
   /** Identifier. */
@@ -442,13 +470,13 @@ export interface GetZoneCertificateRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetZoneCertificateResponse {
   /** Certificate identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The zone's leaf certificate. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** Indicates whether zone-level authenticated origin pulls is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The zone's private key. */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
 }
 export interface ListHostnameCertificatesRequest {
   /** Identifier. */
@@ -464,28 +492,28 @@ export type HostnameCertificatesListResultItemStatus =
   | "deletion_timed_out";
 export interface HostnameCertificatesListResultItem {
   /** Certificate identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The hostname certificate. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** The date when the certificate expires. */
-  expiresOn?: string | null;
+  expiresOn?: string | null | undefined;
   /** The certificate authority that issued the certificate. */
-  issuer?: string | null;
+  issuer?: string | null | undefined;
   /** The serial number on the uploaded certificate. */
-  serialNumber?: string | null;
+  serialNumber?: string | null | undefined;
   /** The type of hash used for the certificate. */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** Status of the certificate or the association. */
-  status?: HostnameCertificatesListResultItemStatus | null;
+  status?: HostnameCertificatesListResultItemStatus | null | undefined;
   /** The time when the certificate was uploaded. */
-  uploadedOn?: string | null;
+  uploadedOn?: string | null | undefined;
 }
 export type HostnameCertificatesListResultList = Array<HostnameCertificatesListResultItem>;
 export interface ListHostnameCertificatesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: HostnameCertificatesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListOriginTlsClientAuthsRequest {
   /** Identifier. */
@@ -493,25 +521,25 @@ export interface ListOriginTlsClientAuthsRequest {
 }
 export interface ListResultItem {
   /** Certificate identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The zone's leaf certificate. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** Indicates whether zone-level authenticated origin pulls is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The zone's private key. */
-  privateKey?: string | null;
-  expiresOn?: string | null;
-  issuer?: string | null;
-  signature?: string | null;
-  status?: string | null;
-  uploadedOn?: string | null;
+  privateKey?: string | null | undefined;
+  expiresOn?: string | null | undefined;
+  issuer?: string | null | undefined;
+  signature?: string | null | undefined;
+  status?: string | null | undefined;
+  uploadedOn?: string | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListOriginTlsClientAuthsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListZoneCertificatesRequest {
   /** Identifier. */
@@ -519,28 +547,28 @@ export interface ListZoneCertificatesRequest {
 }
 export interface ListZoneCertificatesResultItem {
   /** Certificate identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The zone's leaf certificate. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** Indicates whether zone-level authenticated origin pulls is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The zone's private key. */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
 }
 export type ListZoneCertificatesResultList = Array<ListZoneCertificatesResultItem>;
 export interface ListZoneCertificatesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListZoneCertificatesResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface HostnamesUpdateRequestConfigItem {
   /** Certificate identifier tag. */
-  certId?: string;
+  certId?: string | undefined;
   /** Indicates whether hostname-level authenticated origin pulls is enabled. A null value voids the association. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The hostname on the origin for which the client certificate uploaded will be used. */
-  hostname?: string;
+  hostname?: string | undefined;
 }
 export type HostnamesUpdateRequestConfigList = Array<HostnamesUpdateRequestConfigItem>;
 export interface PutHostnameRequest {
@@ -550,24 +578,24 @@ export interface PutHostnameRequest {
 }
 export interface HostnamesUpdateResultItem {
   /** Certificate identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Certificate identifier tag. */
-  certId?: string | null;
+  certId?: string | null | undefined;
   /** The hostname certificate. */
-  certificate?: string | null;
+  certificate?: string | null | undefined;
   /** Indicates whether hostname-level authenticated origin pulls is enabled. A null value voids the association. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The hostname on the origin for which the client certificate uploaded will be used. */
-  hostname?: string | null;
+  hostname?: string | null | undefined;
   /** The hostname certificate's private key. */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
 }
 export type HostnamesUpdateResultList = Array<HostnamesUpdateResultItem>;
 export interface PutHostnameResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: HostnamesUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface PutSettingRequest {
   /** Identifier. */
@@ -578,7 +606,7 @@ export interface PutSettingRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutSettingResponse {
   /** Indicates whether zone-level authenticated origin pulls is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
 }
 export type CreateHostnameCertificateError =
   | CertificateAlreadyExists

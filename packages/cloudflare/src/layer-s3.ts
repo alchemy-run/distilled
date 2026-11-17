@@ -27,6 +27,7 @@
  * ```
  */
 import * as CoreCrypto from "@distilled.cloud/core/crypto";
+import { loadModule, type SdkError } from "@distilled.cloud/core/sdk-error";
 import type * as S3Credentials from "@distilled.cloud/s3/Credentials";
 import type * as S3Endpoint from "@distilled.cloud/s3/Endpoint";
 import * as Context from "effect/Context";
@@ -37,6 +38,7 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials } from "./credentials.ts";
 import { Jurisdiction } from "./jurisdiction.ts";
+import type { InvalidApiToken } from "./services/user.ts";
 
 /** The Cloudflare credentials could not be turned into R2 S3 keys or an endpoint. */
 export class S3CredentialsError
@@ -52,10 +54,34 @@ declare module "@distilled.cloud/s3/Credentials" {
   }
 }
 
+const loadFailure = (e: SdkError) =>
+  new S3CredentialsError({ message: `the R2 S3 layer could not load: ${e.message}`, cause: e });
+
 interface Resolved {
   readonly keys: S3Credentials.ResolvedCredentials;
   readonly endpoint: string;
 }
+
+/**
+ * Verify an API token at the endpoint for its kind, for its id. An
+ * account-owned token (`cfat_`) verifies only at the account endpoint, a user
+ * token (`cfut_`) only at the user one. A token from before the prefixes
+ * tries the user endpoint and moves to the account endpoint only on its
+ * `InvalidApiToken` (401, code 1000), which is what an account-owned token
+ * gets there; any other failure (a 503, throttling) is the caller's.
+ */
+const verifyApiToken = <A, E1, E2, R1, R2>(
+  token: string,
+  verify: {
+    readonly user: Effect.Effect<A, E1 | InvalidApiToken, R1>;
+    readonly account: Effect.Effect<A, E2, R2>;
+  },
+): Effect.Effect<A, E1 | E2 | InvalidApiToken, R1 | R2> =>
+  token.startsWith("cfat_")
+    ? verify.account
+    : token.startsWith("cfut_")
+      ? verify.user
+      : verify.user.pipe(Effect.catchTag("InvalidApiToken", () => verify.account));
 
 /**
  * `@distilled.cloud/s3`'s `Credentials` (region `auto`) and `Endpoint` for
@@ -63,19 +89,19 @@ interface Resolved {
  */
 export const layerS3 = (): Layer.Layer<
   S3Credentials.Credentials | S3Endpoint.Endpoint,
-  never,
+  S3CredentialsError,
   Credentials | HttpClient.HttpClient
 > =>
   // The S3 runtime and the account APIs load when the layer is built, so
   // importing `r2` costs neither.
   Layer.unwrap(
     Effect.gen(function* () {
-      const [{ Credentials: S3Keys }, { Endpoint }] = yield* Effect.promise(() =>
+      const [{ Credentials: S3Keys }, { Endpoint }] = yield* loadModule(() =>
         Promise.all([
           import("@distilled.cloud/s3/Credentials"),
           import("@distilled.cloud/s3/Endpoint"),
         ]),
-      );
+      ).pipe(Effect.mapError(loadFailure));
       const context = yield* Effect.context<Credentials | HttpClient.HttpClient>();
       const resolve = Effect.gen(function* () {
         const credentials = yield* yield* Credentials;
@@ -83,13 +109,14 @@ export const layerS3 = (): Layer.Layer<
           return yield* new S3CredentialsError({
             message: `R2's S3 API signs with an API token; the Cloudflare credentials are ${credentials.type === "apiKey" ? "a global API key" : "an OAuth token"}.`,
           });
-        const [Accounts, User] = yield* Effect.promise(() =>
+        const [Accounts, User] = yield* loadModule(() =>
           Promise.all([import("./services/accounts.ts"), import("./services/user.ts")]),
-        );
+        ).pipe(Effect.mapError(loadFailure));
         const accountId = credentials.accountId ?? (yield* onlyAccount(Accounts.listAccounts({})));
-        const token = yield* User.verifyToken({}).pipe(
-          Effect.catch(() => Accounts.verifyToken({ accountId })),
-        );
+        const token = yield* verifyApiToken(Redacted.value(credentials.apiToken), {
+          user: User.verifyToken({}),
+          account: Accounts.verifyToken({ accountId }),
+        });
         const crypto = yield* CoreCrypto.Crypto;
         const secret = yield* crypto.sha256(Redacted.value(credentials.apiToken));
         return {

@@ -1,0 +1,17 @@
+{
+  "description": "ClickHouse's spec marks no response member required, so createApiKey's answer types `key` and `key.id` optional, and a caller must handle a create without the new key's ID. Both are always present: listApiKeys returns `id` on every key (live, 2026-11-13); Alchemy's ClickHouse Cloud provider created a key, read it back by the `key.id` createApiKey returned and updated it in place (live, 2026-11-12); and ClickHouse's Terraform provider (ClickHouse/terraform-provider-clickhouse at 66ecf4fa, internal/api) decodes `result.key`, whose `id` it stores as the resource ID. Marking ApiKeyPostResponse.key and ApiKey.id required lets callers read the ID without checking for undefined.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.api_keys#ApiKeyPostResponse/members/key/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.api_keys#ApiKey/members/id/traits/smithy.api#required",
+      "value": {}
+    }
+  ]
+}

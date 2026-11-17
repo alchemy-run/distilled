@@ -35,11 +35,11 @@ export interface AddAssigneesRequestAssigneesItemCase1 {
   /** The login of the user to assign. */
   login: string;
   /** Optional reasoning for adding this assignee. */
-  rationale?: string;
+  rationale?: string | undefined;
   /** If `true`, the assignee is stored as a pending suggestion for human review rather than applied directly. */
-  suggest?: boolean;
+  suggest?: boolean | undefined;
   /** The confidence level for this assignee choice. */
-  confidence?: AddAssigneesRequestAssigneesItemCase1Confidence | (string & {});
+  confidence?: AddAssigneesRequestAssigneesItemCase1Confidence | (string & {}) | undefined;
 }
 export type AddAssigneesRequestAssigneesItem = string | AddAssigneesRequestAssigneesItemCase1;
 /** Usernames of people to assign this issue to. _NOTE: Only users with push access can add assignees to an issue. Assignees are silently ignored otherwise._ */
@@ -52,14 +52,14 @@ export interface AddAssigneesRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** Usernames of people to assign this issue to. _NOTE: Only users with push access can add assignees to an issue. Assignees are silently ignored otherwise._ */
-  assignees?: AddAssigneesRequestAssigneesList;
+  assignees?: AddAssigneesRequestAssigneesList | undefined;
 }
 /** The reason for the current state */
 export type IssueStateReason = "completed" | "reopened" | "not_planned" | "duplicate";
 /** A GitHub user. */
 export interface NullableSimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -78,21 +78,21 @@ export interface NullableSimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 /** A GitHub user. */
 export type SimpleUser = NullableSimpleUser;
 export interface IssueLabelsItemCase1 {
-  id?: number;
-  node_id?: string;
-  url?: string;
-  name?: string;
-  description?: string | null;
-  color?: string | null;
-  default?: boolean;
+  id?: number | undefined;
+  node_id?: string | undefined;
+  url?: string | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  color?: string | null | undefined;
+  default?: boolean | undefined;
   /** The user who archived the label, or `null` if it has not been archived. */
-  archived_by?: NullableSimpleUser | null;
+  archived_by?: NullableSimpleUser | null | undefined;
 }
 export type IssueLabelsItem = string | IssueLabelsItemCase1;
 /** Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository */
@@ -123,7 +123,7 @@ export interface NullableMilestone {
   due_on: string | null;
 }
 export interface IssuePullRequest {
-  merged_at?: string | null;
+  merged_at?: string | null | undefined;
   diff_url: string | null;
   html_url: string | null;
   patch_url: string | null;
@@ -150,13 +150,13 @@ export interface IssueType {
   /** The description of the issue type. */
   description: string | null;
   /** The color of the issue type. */
-  color?: IssueTypeColor | null;
+  color?: IssueTypeColor | null | undefined;
   /** The time the issue type created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time the issue type last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The enabled state of the issue type. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
 }
 /** License Simple */
 export interface NullableLicenseSimple {
@@ -165,14 +165,14 @@ export interface NullableLicenseSimple {
   url: string | null;
   spdx_id: string | null;
   node_id: string;
-  html_url?: string;
+  html_url?: string | undefined;
 }
 export interface RepositoryPermissions {
   admin: boolean;
   pull: boolean;
-  triage?: boolean;
+  triage?: boolean | undefined;
   push: boolean;
-  maintain?: boolean;
+  maintain?: boolean | undefined;
 }
 export type RepositoryTopicsList = Array<string>;
 /** The policy controlling who can create pull requests: all or collaborators_only. */
@@ -187,8 +187,8 @@ export type RepositoryMergeCommitTitle = "PR_TITLE" | "MERGE_MESSAGE";
 export type RepositoryMergeCommitMessage = "PR_BODY" | "PR_TITLE" | "BLANK";
 /** The status of the code search index for this repository */
 export interface RepositoryCodeSearchIndexStatus {
-  lexical_search_ok?: boolean;
-  lexical_commit_sha?: string;
+  lexical_search_ok?: boolean | undefined;
+  lexical_commit_sha?: string | undefined;
 }
 /** A repository on GitHub. */
 export interface Repository {
@@ -200,7 +200,7 @@ export interface Repository {
   full_name: string;
   license: NullableLicenseSimple | null;
   forks: number;
-  permissions?: RepositoryPermissions;
+  permissions?: RepositoryPermissions | undefined;
   owner: NullableSimpleUser;
   /** Whether the repository is private or public. */
   private: boolean;
@@ -260,8 +260,8 @@ export interface Repository {
   default_branch: string;
   open_issues_count: number;
   /** Whether this repository acts as a template that can be used to generate new repositories. */
-  is_template?: boolean;
-  topics?: RepositoryTopicsList;
+  is_template?: boolean | undefined;
+  topics?: RepositoryTopicsList | undefined;
   /** Whether issues are enabled. */
   has_issues: boolean;
   /** Whether projects are enabled. */
@@ -272,63 +272,64 @@ export interface Repository {
   /** Whether downloads are enabled. */
   has_downloads: boolean;
   /** Whether discussions are enabled. */
-  has_discussions?: boolean;
+  has_discussions?: boolean | undefined;
   /** Whether pull requests are enabled. */
-  has_pull_requests?: boolean;
+  has_pull_requests?: boolean | undefined;
   /** The policy controlling who can create pull requests: all or collaborators_only. */
-  pull_request_creation_policy?: RepositoryPullRequestCreationPolicy;
+  pull_request_creation_policy?: RepositoryPullRequestCreationPolicy | undefined;
   /** Whether the repository is archived. */
   archived: boolean;
   /** Returns whether or not this repository disabled. */
   disabled: boolean;
   /** The repository visibility: public, private, or internal. */
-  visibility?: string;
+  visibility?: string | undefined;
   pushed_at: string | null;
   created_at: string | null;
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
-  allow_rebase_merge?: boolean;
-  temp_clone_token?: string;
+  allow_rebase_merge?: boolean | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
+  temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
-  allow_squash_merge?: boolean;
+  allow_squash_merge?: boolean | undefined;
   /** Whether to allow Auto-merge to be used on pull requests. */
-  allow_auto_merge?: boolean;
+  allow_auto_merge?: boolean | undefined;
   /** Whether to delete head branches when pull requests are merged */
-  delete_branch_on_merge?: boolean;
+  delete_branch_on_merge?: boolean | undefined;
   /** Whether or not a pull request head branch that is behind its base branch can always be updated even if it is not required to be up to date before merging. */
-  allow_update_branch?: boolean;
+  allow_update_branch?: boolean | undefined;
   /** Whether a squash merge commit can use the pull request title as default. **This property is closing down. Please use `squash_merge_commit_title` instead. */
-  use_squash_pr_title_as_default?: boolean;
+  use_squash_pr_title_as_default?: boolean | undefined;
   /** The default value for a squash merge commit title: - `PR_TITLE` - default to the pull request's title. - `COMMIT_OR_PR_TITLE` - default to the commit's title (if only one commit) or the pull request's title (when more than one commit). */
-  squash_merge_commit_title?: RepositorySquashMergeCommitTitle;
+  squash_merge_commit_title?: RepositorySquashMergeCommitTitle | undefined;
   /** The default value for a squash merge commit message: - `PR_BODY` - default to the pull request's body. - `COMMIT_MESSAGES` - default to the branch's commit messages. - `BLANK` - default to a blank commit message. */
-  squash_merge_commit_message?: RepositorySquashMergeCommitMessage;
+  squash_merge_commit_message?: RepositorySquashMergeCommitMessage | undefined;
   /** The default value for a merge commit title. - `PR_TITLE` - default to the pull request's title. - `MERGE_MESSAGE` - default to the classic title for a merge message (e.g., Merge pull request #123 from branch-name). */
-  merge_commit_title?: RepositoryMergeCommitTitle;
+  merge_commit_title?: RepositoryMergeCommitTitle | undefined;
   /** The default value for a merge commit message. - `PR_TITLE` - default to the pull request's title. - `PR_BODY` - default to the pull request's body. - `BLANK` - default to a blank commit message. */
-  merge_commit_message?: RepositoryMergeCommitMessage;
+  merge_commit_message?: RepositoryMergeCommitMessage | undefined;
   /** Whether to allow merge commits for pull requests. */
-  allow_merge_commit?: boolean;
+  allow_merge_commit?: boolean | undefined;
   /** Whether to allow forking this repo */
-  allow_forking?: boolean;
+  allow_forking?: boolean | undefined;
   /** Whether to require contributors to sign off on web-based commits */
-  web_commit_signoff_required?: boolean;
+  web_commit_signoff_required?: boolean | undefined;
   open_issues: number;
   watchers: number;
-  master_branch?: string;
-  starred_at?: string;
+  master_branch?: string | undefined;
+  starred_at?: string | undefined;
   /** Whether anonymous git access is enabled for this repository */
-  anonymous_access_enabled?: boolean;
+  anonymous_access_enabled?: boolean | undefined;
   /** The status of the code search index for this repository */
-  code_search_index_status?: RepositoryCodeSearchIndexStatus;
+  code_search_index_status?: RepositoryCodeSearchIndexStatus | undefined;
 }
 /** An enterprise on GitHub. */
 export interface Enterprise {
   /** A short description of the enterprise. */
-  description?: string | null;
+  description?: string | null | undefined;
   html_url: string;
   /** The enterprise's website URL. */
-  website_url?: string | null;
+  website_url?: string | null | undefined;
   /** Unique identifier of the enterprise */
   id: number;
   node_id: string;
@@ -343,11 +344,11 @@ export interface Enterprise {
 export type NullableIntegrationOwner = NullableSimpleUser | Enterprise;
 /** The set of permissions for the GitHub app */
 export interface NullableIntegrationPermissions {
-  issues?: string;
-  checks?: string;
-  metadata?: string;
-  contents?: string;
-  deployments?: string;
+  issues?: string | undefined;
+  checks?: string | undefined;
+  metadata?: string | undefined;
+  contents?: string | undefined;
+  deployments?: string | undefined;
   [key: string]: unknown;
 }
 /** The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation. */
@@ -357,9 +358,9 @@ export interface NullableIntegration {
   /** Unique identifier of the GitHub app */
   id: number;
   /** The slug name of the GitHub app */
-  slug?: string;
+  slug?: string | undefined;
   node_id: string;
-  client_id?: string;
+  client_id?: string | undefined;
   owner: NullableIntegrationOwner;
   /** The name of the GitHub app */
   name: string;
@@ -373,7 +374,7 @@ export interface NullableIntegration {
   /** The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation. */
   events: NullableIntegrationEventsList;
   /** The number of installations associated with the GitHub app. Only returned when the integration is requesting details about itself. */
-  installations_count?: number;
+  installations_count?: number | undefined;
 }
 /** How the author is associated with the repository. */
 export type AuthorAssociation =
@@ -420,19 +421,19 @@ export interface NullableIssueComment {
   /** URL for the issue comment */
   url: string;
   /** Contents of the issue comment */
-  body?: string;
-  body_text?: string;
-  body_html?: string;
+  body?: string | undefined;
+  body_text?: string | undefined;
+  body_html?: string | undefined;
   html_url: string;
   user: NullableSimpleUser | null;
   created_at: string;
   updated_at: string;
   issue_url: string;
-  author_association?: AuthorAssociation;
-  performed_via_github_app?: NullableIntegration | null;
-  reactions?: ReactionRollup;
-  pin?: NullablePinnedIssueComment | null;
-  minimized?: NullableIssueCommentMinimized | null;
+  author_association?: AuthorAssociation | undefined;
+  performed_via_github_app?: NullableIntegration | null | undefined;
+  reactions?: ReactionRollup | undefined;
+  pin?: NullablePinnedIssueComment | null | undefined;
+  minimized?: NullableIssueCommentMinimized | null | undefined;
 }
 export interface IssueDependenciesSummary {
   blocked_by: number;
@@ -461,16 +462,16 @@ export interface IssueFieldValue {
   /** Unique identifier for the issue field. */
   issue_field_id: number;
   /** The human-readable name of the issue field. */
-  issue_field_name?: string;
+  issue_field_name?: string | undefined;
   node_id: string;
   /** The data type of the issue field */
   data_type: IssueFieldValueDataType;
   /** The value of the issue field */
   value: IssueFieldValueValue | null;
   /** Details about the selected option (only present for single_select fields) */
-  single_select_option?: IssueFieldValueSingleSelectOption | null;
+  single_select_option?: IssueFieldValueSingleSelectOption | null | undefined;
   /** Details about the selected options */
-  multi_select_options?: IssueFieldValueMultiSelectOptionsList | null;
+  multi_select_options?: IssueFieldValueMultiSelectOptionsList | null | undefined;
 }
 export type IssueIssueFieldValuesList = Array<IssueFieldValue>;
 /** Issues are a great way to keep track of tasks, enhancements, and bugs for your projects. */
@@ -489,40 +490,40 @@ export interface Issue {
   /** State of the issue; either 'open' or 'closed' */
   state: string;
   /** The reason for the current state */
-  state_reason?: IssueStateReason | null;
+  state_reason?: IssueStateReason | null | undefined;
   /** Title of the issue */
   title: string;
   /** Contents of the issue */
-  body?: string | null;
+  body?: string | null | undefined;
   user: NullableSimpleUser | null;
   /** Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository */
   labels: IssueLabelsList;
   assignee: NullableSimpleUser | null;
-  assignees?: IssueAssigneesList;
+  assignees?: IssueAssigneesList | undefined;
   milestone: NullableMilestone | null;
   locked: boolean;
-  active_lock_reason?: string | null;
+  active_lock_reason?: string | null | undefined;
   comments: number;
-  pull_request?: IssuePullRequest;
+  pull_request?: IssuePullRequest | undefined;
   closed_at: string | null;
   created_at: string;
   updated_at: string;
-  draft?: boolean;
-  closed_by?: NullableSimpleUser | null;
-  body_html?: string;
-  body_text?: string;
-  timeline_url?: string;
-  type?: IssueType | null;
-  repository?: Repository;
-  performed_via_github_app?: NullableIntegration | null;
-  author_association?: AuthorAssociation;
-  reactions?: ReactionRollup;
-  sub_issues_summary?: SubIssuesSummary;
+  draft?: boolean | undefined;
+  closed_by?: NullableSimpleUser | null | undefined;
+  body_html?: string | undefined;
+  body_text?: string | undefined;
+  timeline_url?: string | undefined;
+  type?: IssueType | null | undefined;
+  repository?: Repository | undefined;
+  performed_via_github_app?: NullableIntegration | null | undefined;
+  author_association?: AuthorAssociation | undefined;
+  reactions?: ReactionRollup | undefined;
+  sub_issues_summary?: SubIssuesSummary | undefined;
   /** URL to get the parent issue of this issue, if it is a sub-issue */
-  parent_issue_url?: string | null;
-  pinned_comment?: NullableIssueComment | null;
-  issue_dependencies_summary?: IssueDependenciesSummary;
-  issue_field_values?: IssueIssueFieldValuesList;
+  parent_issue_url?: string | null | undefined;
+  pinned_comment?: NullableIssueComment | null | undefined;
+  issue_dependencies_summary?: IssueDependenciesSummary | undefined;
+  issue_field_values?: IssueIssueFieldValuesList | undefined;
 }
 export interface AddBlockedByDependencyRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -558,7 +559,7 @@ export interface AddIssueFieldValuesRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** An array of issue field values to add to this issue. Each field value must include the field ID and the value to set. */
-  issue_field_values?: AddIssueFieldValuesRequestIssueFieldValuesList;
+  issue_field_values?: AddIssueFieldValuesRequestIssueFieldValuesList | undefined;
 }
 /** The current issue field values for this issue after adding the new values */
 export type AddIssueFieldValuesResponseBodyList = Array<IssueFieldValue>;
@@ -569,18 +570,18 @@ export interface AddLabelsRequestBodyCase0LabelsItemCase1 {
   /** The name of the label to add. */
   name: string;
   /** Optional reasoning for adding this label. */
-  rationale?: string;
+  rationale?: string | undefined;
   /** If `true`, the label is stored as a pending suggestion for human review rather than applied directly. */
-  suggest?: boolean;
+  suggest?: boolean | undefined;
   /** The confidence level for this label choice. */
-  confidence?: AddLabelsRequestBodyCase0LabelsItemCase1Confidence | (string & {});
+  confidence?: AddLabelsRequestBodyCase0LabelsItemCase1Confidence | (string & {}) | undefined;
 }
 export type AddLabelsRequestBodyCase0LabelsItem = string | AddLabelsRequestBodyCase0LabelsItemCase1;
 /** The labels to add to the issue's existing labels. You can also pass an `array` of labels directly, but GitHub recommends passing an object with the `labels` key. To replace all of the labels for an issue, use "[Set labels for an issue](https://docs.github.com/rest/issues/labels#set-labels-for-an-issue)." */
 export type AddLabelsRequestBodyCase0LabelsList = Array<AddLabelsRequestBodyCase0LabelsItem>;
 export interface AddLabelsRequestBodyCase0 {
   /** The labels to add to the issue's existing labels. You can also pass an `array` of labels directly, but GitHub recommends passing an object with the `labels` key. To replace all of the labels for an issue, use "[Set labels for an issue](https://docs.github.com/rest/issues/labels#set-labels-for-an-issue)." */
-  labels?: AddLabelsRequestBodyCase0LabelsList;
+  labels?: AddLabelsRequestBodyCase0LabelsList | undefined;
 }
 export type AddLabelsRequestBodyCase1List = Array<string>;
 /** The confidence level for this label choice. */
@@ -588,11 +589,11 @@ export type AddLabelsRequestBodyCase2ItemConfidence = "low" | "medium" | "high";
 export interface AddLabelsRequestBodyCase2Item {
   name: string;
   /** Optional reasoning for adding this label. */
-  rationale?: string;
+  rationale?: string | undefined;
   /** If `true`, the label is stored as a pending suggestion for human review rather than applied directly. */
-  suggest?: boolean;
+  suggest?: boolean | undefined;
   /** The confidence level for this label choice. */
-  confidence?: AddLabelsRequestBodyCase2ItemConfidence | (string & {});
+  confidence?: AddLabelsRequestBodyCase2ItemConfidence | (string & {}) | undefined;
 }
 export type AddLabelsRequestBodyCase2List = Array<AddLabelsRequestBodyCase2Item>;
 export type AddLabelsRequestBody =
@@ -606,7 +607,7 @@ export interface AddLabelsRequest {
   repo: string;
   /** The number that identifies the issue. */
   issue_number: number;
-  body?: AddLabelsRequestBody;
+  body?: AddLabelsRequestBody | undefined;
 }
 /** Color-coded labels help you categorize and filter your issues (just like labels in Gmail). */
 export interface Label {
@@ -650,7 +651,7 @@ export interface AddSubIssueRequest {
   /** The id of the sub-issue to add. The sub-issue must belong to the same repository owner as the parent issue */
   sub_issue_id: number;
   /** Option that, when true, instructs the operation to replace the sub-issues current parent issue */
-  replace_parent?: boolean;
+  replace_parent?: boolean | undefined;
 }
 export interface ApproveSuggestionRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -737,10 +738,10 @@ export interface CheckUserCanBeAssignedToIssueResponse {}
 export type CreateRequestTitle = string | number;
 export type CreateRequestMilestone = string | number;
 export interface CreateRequestLabelsItemCase1 {
-  id?: number;
-  name?: string;
-  description?: string | null;
-  color?: string | null;
+  id?: number | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  color?: string | null | undefined;
 }
 export type CreateRequestLabelsItem = string | CreateRequestLabelsItemCase1;
 /** Labels to associate with this issue. _NOTE: Only users with push access can set labels for new issues. Labels are silently dropped otherwise._ */
@@ -769,20 +770,20 @@ export interface CreateRequest {
   /** The title of the issue. */
   title: CreateRequestTitle;
   /** The contents of the issue. */
-  body?: string;
+  body?: string | undefined;
   /** Login for the user that this issue should be assigned to. _NOTE: Only users with push access can set the assignee for new issues. The assignee is silently dropped otherwise. **This field is closing down.**_ */
-  assignee?: string | null;
-  milestone?: CreateRequestMilestone | null;
+  assignee?: string | null | undefined;
+  milestone?: CreateRequestMilestone | null | undefined;
   /** Labels to associate with this issue. _NOTE: Only users with push access can set labels for new issues. Labels are silently dropped otherwise._ */
-  labels?: CreateRequestLabelsList;
+  labels?: CreateRequestLabelsList | undefined;
   /** Logins for Users to assign to this issue. _NOTE: Only users with push access can set assignees for new issues. Assignees are silently dropped otherwise._ */
-  assignees?: CreateRequestAssigneesList;
+  assignees?: CreateRequestAssigneesList | undefined;
   /** An array of issue field values to set on this issue. Each field value must include the field ID and the value to set. Issue fields are only available for organization-owned repositories with the feature enabled. Field values are silently dropped otherwise. */
-  issue_field_values?: CreateRequestIssueFieldValuesList;
+  issue_field_values?: CreateRequestIssueFieldValuesList | undefined;
   /** The name of the issue type to associate with this issue. _NOTE: Only users with push access can set the type for new issues. The type is silently dropped otherwise._ */
-  type?: string | null;
+  type?: string | null | undefined;
   /** The id of the parent issue to add this issue to as a sub-issue. _NOTE: Only users with triage access to both the parent issue's repository and this repository can set the parent issue._ */
-  parent_issue_id?: number;
+  parent_issue_id?: number | undefined;
 }
 export interface CreateCommentRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -802,19 +803,69 @@ export interface IssueComment {
   /** URL for the issue comment */
   url: string;
   /** Contents of the issue comment */
-  body?: string;
-  body_text?: string;
-  body_html?: string;
+  body?: string | undefined;
+  body_text?: string | undefined;
+  body_html?: string | undefined;
   html_url: string;
   user: NullableSimpleUser | null;
   created_at: string;
   updated_at: string;
   issue_url: string;
-  author_association?: AuthorAssociation;
-  performed_via_github_app?: NullableIntegration | null;
-  reactions?: ReactionRollup;
-  pin?: NullablePinnedIssueComment | null;
-  minimized?: NullableIssueCommentMinimized | null;
+  author_association?: AuthorAssociation | undefined;
+  performed_via_github_app?: NullableIntegration | null | undefined;
+  reactions?: ReactionRollup | undefined;
+  pin?: NullablePinnedIssueComment | null | undefined;
+  minimized?: NullableIssueCommentMinimized | null | undefined;
+}
+/** The artifact type. */
+export type CreateIssueArtifactRequestType = "generic" | "link" | "plan" | "embedded_html";
+export interface CreateIssueArtifactRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The number that identifies the issue. */
+  issue_number: number;
+  /** The artifact type. */
+  type?: CreateIssueArtifactRequestType | (string & {}) | undefined;
+  /** The human-readable name of the artifact. */
+  name: string;
+  /** The artifact content. For `embedded_html` artifacts, provide the HTML source. */
+  body: string;
+}
+/** The user or integration that created the artifact. */
+export interface IssueArtifactCreator {
+  login: string;
+  id: number;
+}
+/** The user or integration that most recently updated the artifact. */
+export type IssueArtifactUpdatedByActor = IssueArtifactCreator;
+/** Issue artifacts are named, typed pieces of content attached to an issue. They give people and agents a durable place to preserve context and supporting material alongside the work. Each artifact has a number unique within the issue. */
+export interface IssueArtifact {
+  /** The globally unique identifier of the artifact. */
+  id: number;
+  /** The canonical browser URL for the artifact in its issue context. */
+  html_url?: string | undefined;
+  /** The artifact number within the issue. */
+  number: number;
+  /** The artifact type. The types supported for external creation and filtering are: - `generic` is a general-purpose Markdown document. - `link` represents a named link. - `plan` is a Markdown plan. - `embedded_html` is a self-contained HTML document. Its `body` contains the HTML source. */
+  type: string;
+  /** The human-readable name of the artifact. */
+  name: string;
+  /** The artifact content. For `embedded_html` artifacts, this is the HTML source. */
+  body: string;
+  /** The artifact content rendered as HTML, or `null` if rendering times out or is skipped to protect the response's time budget. The raw content remains available in `body`. */
+  body_html: string | null;
+  /** A short, generated summary of the artifact. */
+  description: string;
+  /** The user or integration that created the artifact. */
+  creator: IssueArtifactCreator | null;
+  /** The user or integration that most recently updated the artifact. */
+  updated_by_actor: IssueArtifactCreator | null;
+  /** The time the artifact was created. */
+  created_at: string | null;
+  /** The time the artifact was last updated. */
+  updated_at: string | null;
 }
 export interface CreateLabelRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -824,9 +875,9 @@ export interface CreateLabelRequest {
   /** The name of the label. Emoji can be added to label names, using either native emoji or colon-style markup. For example, typing `:strawberry:` will render the emoji ![:strawberry:](https://github.githubassets.com/images/icons/emoji/unicode/1f353.png ":strawberry:"). For a full list of available emoji and codes, see "[Emoji cheat sheet](https://github.com/ikatyang/emoji-cheat-sheet)." */
   name: string;
   /** The [hexadecimal color code](http://www.color-hex.com/) for the label, without the leading `#`. */
-  color?: string;
+  color?: string | undefined;
   /** A short description of the label. Must be 100 characters or fewer. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The state of the milestone. Either `open` or `closed`. */
 export type CreateMilestoneRequestState = "open" | "closed";
@@ -838,11 +889,11 @@ export interface CreateMilestoneRequest {
   /** The title of the milestone. */
   title: string;
   /** The state of the milestone. Either `open` or `closed`. */
-  state?: CreateMilestoneRequestState | (string & {});
+  state?: CreateMilestoneRequestState | (string & {}) | undefined;
   /** A description of the milestone. */
-  description?: string;
+  description?: string | undefined;
   /** The milestone due date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  due_on?: string;
+  due_on?: string | undefined;
 }
 /** The state of the milestone. */
 export type MilestoneState = "open" | "closed";
@@ -877,6 +928,17 @@ export interface DeleteCommentRequest {
   comment_id: number;
 }
 export interface DeleteCommentResponse {}
+export interface DeleteIssueArtifactRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The number that identifies the issue. */
+  issue_number: number;
+  /** The artifact number within the issue. */
+  artifact_number: number;
+}
+export interface DeleteIssueArtifactResponse {}
 export interface DeleteIssueFieldValueRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -963,40 +1025,40 @@ export interface NullableIssue {
   /** State of the issue; either 'open' or 'closed' */
   state: string;
   /** The reason for the current state */
-  state_reason?: NullableIssueStateReason | null;
+  state_reason?: NullableIssueStateReason | null | undefined;
   /** Title of the issue */
   title: string;
   /** Contents of the issue */
-  body?: string | null;
+  body?: string | null | undefined;
   user: NullableSimpleUser | null;
   /** Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository */
   labels: NullableIssueLabelsList;
   assignee: NullableSimpleUser | null;
-  assignees?: NullableIssueAssigneesList;
+  assignees?: NullableIssueAssigneesList | undefined;
   milestone: NullableMilestone | null;
   locked: boolean;
-  active_lock_reason?: string | null;
+  active_lock_reason?: string | null | undefined;
   comments: number;
-  pull_request?: IssuePullRequest;
+  pull_request?: IssuePullRequest | undefined;
   closed_at: string | null;
   created_at: string;
   updated_at: string;
-  draft?: boolean;
-  closed_by?: NullableSimpleUser | null;
-  body_html?: string;
-  body_text?: string;
-  timeline_url?: string;
-  type?: IssueType | null;
-  repository?: Repository;
-  performed_via_github_app?: NullableIntegration | null;
-  author_association?: AuthorAssociation;
-  reactions?: ReactionRollup;
-  sub_issues_summary?: SubIssuesSummary;
+  draft?: boolean | undefined;
+  closed_by?: NullableSimpleUser | null | undefined;
+  body_html?: string | undefined;
+  body_text?: string | undefined;
+  timeline_url?: string | undefined;
+  type?: IssueType | null | undefined;
+  repository?: Repository | undefined;
+  performed_via_github_app?: NullableIntegration | null | undefined;
+  author_association?: AuthorAssociation | undefined;
+  reactions?: ReactionRollup | undefined;
+  sub_issues_summary?: SubIssuesSummary | undefined;
   /** URL to get the parent issue of this issue, if it is a sub-issue */
-  parent_issue_url?: string | null;
-  pinned_comment?: NullableIssueComment | null;
-  issue_dependencies_summary?: IssueDependenciesSummary;
-  issue_field_values?: NullableIssueIssueFieldValuesList;
+  parent_issue_url?: string | null | undefined;
+  pinned_comment?: NullableIssueComment | null | undefined;
+  issue_dependencies_summary?: IssueDependenciesSummary | undefined;
+  issue_field_values?: NullableIssueIssueFieldValuesList | undefined;
 }
 /** Issue Event Label */
 export interface IssueEventLabel {
@@ -1031,20 +1093,20 @@ export interface NullableTeamSimple {
   /** Permission that the team will have for its repositories */
   permission: string;
   /** The level of privacy this team should have */
-  privacy?: string;
+  privacy?: string | undefined;
   /** The notification setting the team has set */
-  notification_setting?: string;
+  notification_setting?: string | undefined;
   html_url: string;
   repositories_url: string;
   slug: string;
   /** Distinguished Name (DN) that team maps to within LDAP environment */
-  ldap_dn?: string;
+  ldap_dn?: string | undefined;
   /** The ownership type of the team */
   type: NullableTeamSimpleType;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
 }
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface Team {
@@ -1053,10 +1115,10 @@ export interface Team {
   name: string;
   slug: string;
   description: string | null;
-  privacy?: string;
-  notification_setting?: string;
+  privacy?: string | undefined;
+  notification_setting?: string | undefined;
   permission: string;
-  permissions?: TeamPermissions;
+  permissions?: TeamPermissions | undefined;
   url: string;
   html_url: string;
   members_url: string;
@@ -1064,18 +1126,18 @@ export interface Team {
   /** The ownership type of the team */
   type: TeamType;
   /** How the team's access to the repository was granted. This property is only present when the team is returned in a repository context, such as `GET /repos/{owner}/{repo}/teams`. */
-  access_source?: TeamAccessSource;
+  access_source?: TeamAccessSource | undefined;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
   parent: NullableTeamSimple | null;
 }
 export interface IssueEventDismissedReview {
   state: string;
   review_id: number;
   dismissal_message: string | null;
-  dismissal_commit_id?: string | null;
+  dismissal_commit_id?: string | null | undefined;
 }
 /** Issue Event Milestone */
 export interface IssueEventMilestone {
@@ -1088,7 +1150,7 @@ export interface IssueEventProjectCard {
   project_url: string;
   project_id: number;
   column_name: string;
-  previous_column_name?: string;
+  previous_column_name?: string | undefined;
 }
 /** Issue Event Rename */
 export interface IssueEventRename {
@@ -1112,7 +1174,7 @@ export interface IssueTypeWebhook {
   /** The name of the issue type. */
   name: string;
   /** The color of the issue type. */
-  color?: IssueTypeWebhookColor | null;
+  color?: IssueTypeWebhookColor | null | undefined;
 }
 /** A GitHub repository. */
 export interface SimpleRepository {
@@ -1217,7 +1279,7 @@ export interface NullableIssueReferenceIssueType {
   /** The name of the issue type. */
   name: string;
   /** The color of the issue type. */
-  color?: string | null;
+  color?: string | null | undefined;
 }
 /** A minimal reference to an issue linked from a timeline event (e.g. sub-issue, parent-issue, or dependency events). */
 export interface NullableIssueReference {
@@ -1228,7 +1290,7 @@ export interface NullableIssueReference {
   /** The state of the referenced issue. */
   state: string;
   /** The reason for the referenced issue's state. */
-  state_reason?: string | null;
+  state_reason?: string | null | undefined;
   repository: SimpleRepository;
   /** The type of the referenced issue. */
   issue_type: NullableIssueReferenceIssueType | null;
@@ -1238,9 +1300,9 @@ export type NullableIssueEventIntentConfidence = "LOW" | "MEDIUM" | "HIGH";
 /** The intent behind an agent's action on an issue, including the rationale and confidence. Present (and `null` when the event carried no agent intent) on supported event types while the issue suggestions feature is enabled for the repository; the property is omitted entirely when the feature is disabled or the event type does not support intent. */
 export interface NullableIssueEventIntent {
   /** The reasoning the agent provided for the change. */
-  rationale?: string | null;
+  rationale?: string | null | undefined;
   /** The confidence level the agent had when performing this action. */
-  confidence?: NullableIssueEventIntentConfidence | null;
+  confidence?: NullableIssueEventIntentConfidence | null | undefined;
 }
 /** Issue Event */
 export interface IssueEvent {
@@ -1252,28 +1314,72 @@ export interface IssueEvent {
   commit_id: string | null;
   commit_url: string | null;
   created_at: string;
-  issue?: NullableIssue | null;
-  label?: IssueEventLabel;
-  assignee?: NullableSimpleUser | null;
-  assigner?: NullableSimpleUser | null;
-  review_requester?: NullableSimpleUser | null;
-  requested_reviewer?: NullableSimpleUser | null;
-  requested_team?: Team;
-  dismissed_review?: IssueEventDismissedReview;
-  milestone?: IssueEventMilestone;
-  project_card?: IssueEventProjectCard;
-  rename?: IssueEventRename;
-  issue_type?: IssueTypeWebhook | null;
-  prev_issue_type?: IssueTypeWebhook | null;
-  sub_issue?: NullableIssueReference | null;
-  parent_issue?: NullableIssueReference | null;
-  blocked_by?: NullableIssueReference | null;
-  blocking?: NullableIssueReference | null;
-  intent?: NullableIssueEventIntent | null;
-  author_association?: AuthorAssociation;
-  lock_reason?: string | null;
-  performed_via_github_app?: NullableIntegration | null;
+  issue?: NullableIssue | null | undefined;
+  label?: IssueEventLabel | undefined;
+  assignee?: NullableSimpleUser | null | undefined;
+  assigner?: NullableSimpleUser | null | undefined;
+  review_requester?: NullableSimpleUser | null | undefined;
+  requested_reviewer?: NullableSimpleUser | null | undefined;
+  requested_team?: Team | undefined;
+  dismissed_review?: IssueEventDismissedReview | undefined;
+  milestone?: IssueEventMilestone | undefined;
+  project_card?: IssueEventProjectCard | undefined;
+  rename?: IssueEventRename | undefined;
+  issue_type?: IssueTypeWebhook | null | undefined;
+  prev_issue_type?: IssueTypeWebhook | null | undefined;
+  sub_issue?: NullableIssueReference | null | undefined;
+  parent_issue?: NullableIssueReference | null | undefined;
+  blocked_by?: NullableIssueReference | null | undefined;
+  blocking?: NullableIssueReference | null | undefined;
+  intent?: NullableIssueEventIntent | null | undefined;
+  author_association?: AuthorAssociation | undefined;
+  lock_reason?: string | null | undefined;
+  performed_via_github_app?: NullableIntegration | null | undefined;
 }
+export interface GetIssueArtifactRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The number that identifies the issue. */
+  issue_number: number;
+  /** The artifact number within the issue. */
+  artifact_number: number;
+  /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  per_page?: number | undefined;
+  /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  page?: number | undefined;
+}
+/** The user or integration that created this version. */
+export type GetIssueArtifactResponseBodyCase1VersionsItemActor = IssueArtifactCreator;
+export interface GetIssueArtifactResponseBodyCase1VersionsItem {
+  /** The sequential version number. */
+  version: number;
+  /** The artifact name at this version. */
+  name: string;
+  /** The artifact content at this version. */
+  body: string;
+  /** The artifact content at this version rendered as HTML, or `null` if rendering times out or is skipped to protect the response's time budget. The raw content remains available in `body`. */
+  body_html: string | null;
+  /** The time this version was created. */
+  created_at: string | null;
+  /** The user or integration that created this version. */
+  actor: IssueArtifactCreator | null;
+}
+/** The artifact version history, ordered from newest to oldest. */
+export type GetIssueArtifactResponseBodyCase1VersionsList =
+  Array<GetIssueArtifactResponseBodyCase1VersionsItem>;
+export interface GetIssueArtifactResponseBodyCase1 {
+  artifact: IssueArtifact;
+  /** Whether another page of retained versions is available. */
+  has_next_page: boolean;
+  /** The number of retained artifact versions. */
+  total_count: number;
+  /** The artifact version history, ordered from newest to oldest. */
+  versions: GetIssueArtifactResponseBodyCase1VersionsList;
+}
+export type GetIssueArtifactResponseBody = IssueArtifact | GetIssueArtifactResponseBodyCase1;
+export type GetIssueArtifactResponse = GetIssueArtifactResponseBody;
 export interface GetLabelRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -1309,25 +1415,25 @@ export type ListRequestSort = "created" | "updated" | "comments";
 export type ListRequestDirection = "asc" | "desc";
 export interface ListRequest {
   /** Indicates which sorts of issues to return. `assigned` means issues assigned to you. `created` means issues created by you. `mentioned` means issues mentioning you. `subscribed` means issues you're subscribed to updates for. `all` or `repos` means all issues you can see, regardless of participation or creation. */
-  filter?: ListRequestFilter | (string & {});
+  filter?: ListRequestFilter | (string & {}) | undefined;
   /** Indicates the state of the issues to return. */
-  state?: ListRequestState | (string & {});
+  state?: ListRequestState | (string & {}) | undefined;
   /** A list of comma separated label names. Example: `bug,ui,@high` */
-  labels?: string;
+  labels?: string | undefined;
   /** What to sort results by. */
-  sort?: ListRequestSort | (string & {});
+  sort?: ListRequestSort | (string & {}) | undefined;
   /** The direction to sort the results by. */
-  direction?: ListRequestDirection | (string & {});
+  direction?: ListRequestDirection | (string & {}) | undefined;
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
-  collab?: boolean;
-  orgs?: boolean;
-  owned?: boolean;
-  pulls?: boolean;
+  since?: string | undefined;
+  collab?: boolean | undefined;
+  orgs?: boolean | undefined;
+  owned?: boolean | undefined;
+  pulls?: boolean | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListResponseBodyList = Array<Issue>;
 export type ListResponse = ListResponseBodyList;
@@ -1337,9 +1443,9 @@ export interface ListAssigneesRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListAssigneesResponseBodyList = Array<NullableSimpleUser>;
 export type ListAssigneesResponse = ListAssigneesResponseBodyList;
@@ -1351,11 +1457,11 @@ export interface ListCommentsRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
+  since?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListCommentsResponseBodyList = Array<IssueComment>;
 export type ListCommentsResponse = ListCommentsResponseBodyList;
@@ -1367,15 +1473,15 @@ export interface ListCommentsForRepoRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The property to sort the results by. */
-  sort?: ListCommentsForRepoRequestSort | (string & {});
+  sort?: ListCommentsForRepoRequestSort | (string & {}) | undefined;
   /** Either `asc` or `desc`. Ignored without the `sort` parameter. */
-  direction?: ListCommentsForRepoRequestDirection | (string & {});
+  direction?: ListCommentsForRepoRequestDirection | (string & {}) | undefined;
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
+  since?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListCommentsForRepoResponseBodyList = Array<IssueComment>;
 export type ListCommentsForRepoResponse = ListCommentsForRepoResponseBodyList;
@@ -1387,9 +1493,9 @@ export interface ListDependenciesBlockedByRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListDependenciesBlockedByResponseBodyList = Array<Issue>;
 export type ListDependenciesBlockedByResponse = ListDependenciesBlockedByResponseBodyList;
@@ -1401,9 +1507,9 @@ export interface ListDependenciesBlockingRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListDependenciesBlockingResponseBodyList = Array<Issue>;
 export type ListDependenciesBlockingResponse = ListDependenciesBlockingResponseBodyList;
@@ -1415,9 +1521,9 @@ export interface ListEventsRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export interface LabeledIssueEventLabel {
   name: string;
@@ -1435,7 +1541,7 @@ export interface LabeledIssueEvent {
   created_at: string;
   performed_via_github_app: NullableIntegration | null;
   label: LabeledIssueEventLabel;
-  intent?: NullableIssueEventIntent | null;
+  intent?: NullableIssueEventIntent | null | undefined;
 }
 export type UnlabeledIssueEventLabel = LabeledIssueEventLabel;
 /** Unlabeled Issue Event */
@@ -1450,9 +1556,9 @@ export interface Integration {
   /** Unique identifier of the GitHub app */
   id: number;
   /** The slug name of the GitHub app */
-  slug?: string;
+  slug?: string | undefined;
   node_id: string;
-  client_id?: string;
+  client_id?: string | undefined;
   owner: IntegrationOwner;
   /** The name of the GitHub app */
   name: string;
@@ -1466,7 +1572,7 @@ export interface Integration {
   /** The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation. */
   events: IntegrationEventsList;
   /** The number of installations associated with the GitHub app. Only returned when the integration is requesting details about itself. */
-  installations_count?: number;
+  installations_count?: number | undefined;
 }
 /** Assigned Issue Event */
 export interface AssignedIssueEvent {
@@ -1481,7 +1587,7 @@ export interface AssignedIssueEvent {
   performed_via_github_app: Integration | null;
   assignee: NullableSimpleUser;
   assigner: NullableSimpleUser;
-  intent?: NullableIssueEventIntent | null;
+  intent?: NullableIssueEventIntent | null | undefined;
 }
 /** Unassigned Issue Event */
 export interface UnassignedIssueEvent {
@@ -1540,8 +1646,8 @@ export interface ReviewRequestedIssueEvent {
   created_at: string;
   performed_via_github_app: NullableIntegration | null;
   review_requester: NullableSimpleUser;
-  requested_team?: Team;
-  requested_reviewer?: NullableSimpleUser;
+  requested_team?: Team | undefined;
+  requested_reviewer?: NullableSimpleUser | undefined;
 }
 /** Review Request Removed Issue Event */
 export type ReviewRequestRemovedIssueEvent = ReviewRequestedIssueEvent;
@@ -1549,7 +1655,7 @@ export interface ReviewDismissedIssueEventDismissedReview {
   state: string;
   review_id: number;
   dismissal_message: string | null;
-  dismissal_commit_id?: string;
+  dismissal_commit_id?: string | undefined;
 }
 /** Review Dismissed Issue Event */
 export interface ReviewDismissedIssueEvent {
@@ -1583,7 +1689,7 @@ export interface AddedToProjectIssueEventProjectCard {
   project_id: number;
   project_url: string;
   column_name: string;
-  previous_column_name?: string;
+  previous_column_name?: string | undefined;
 }
 /** Added to Project Issue Event */
 export interface AddedToProjectIssueEvent {
@@ -1596,7 +1702,7 @@ export interface AddedToProjectIssueEvent {
   commit_url: string | null;
   created_at: string;
   performed_via_github_app: NullableIntegration | null;
-  project_card?: AddedToProjectIssueEventProjectCard;
+  project_card?: AddedToProjectIssueEventProjectCard | undefined;
 }
 export type MovedColumnInProjectIssueEventProjectCard = AddedToProjectIssueEventProjectCard;
 /** Moved Column in Project Issue Event */
@@ -1616,7 +1722,7 @@ export interface ConvertedNoteToIssueIssueEvent {
   commit_url: string | null;
   created_at: string;
   performed_via_github_app: Integration | null;
-  project_card?: AddedToProjectIssueEventProjectCard;
+  project_card?: AddedToProjectIssueEventProjectCard | undefined;
 }
 /** Issue Type Added Issue Event */
 export interface IssueTypeAddedIssueEvent {
@@ -1630,7 +1736,7 @@ export interface IssueTypeAddedIssueEvent {
   created_at: string;
   performed_via_github_app: NullableIntegration | null;
   issue_type: IssueTypeWebhook | null;
-  intent?: NullableIssueEventIntent | null;
+  intent?: NullableIssueEventIntent | null | undefined;
 }
 /** Issue Type Removed Issue Event */
 export interface IssueTypeRemovedIssueEvent {
@@ -1644,7 +1750,7 @@ export interface IssueTypeRemovedIssueEvent {
   created_at: string;
   performed_via_github_app: NullableIntegration | null;
   prev_issue_type: IssueTypeWebhook | null;
-  intent?: NullableIssueEventIntent | null;
+  intent?: NullableIssueEventIntent | null | undefined;
 }
 /** Issue Type Changed Issue Event */
 export interface IssueTypeChangedIssueEvent {
@@ -1659,7 +1765,7 @@ export interface IssueTypeChangedIssueEvent {
   performed_via_github_app: NullableIntegration | null;
   issue_type: IssueTypeWebhook | null;
   prev_issue_type: IssueTypeWebhook | null;
-  intent?: NullableIssueEventIntent | null;
+  intent?: NullableIssueEventIntent | null | undefined;
 }
 /** Sub-issue Added Issue Event */
 export interface SubIssueAddedIssueEvent {
@@ -1757,9 +1863,9 @@ export interface ListEventsForRepoRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListEventsForRepoResponseBodyList = Array<IssueEvent>;
 export type ListEventsForRepoResponse = ListEventsForRepoResponseBodyList;
@@ -1771,11 +1877,11 @@ export interface ListEventsForTimelineRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
   /** A comma-separated list of timeline event names to exclude from the response. */
-  exclude?: string;
+  exclude?: string | undefined;
 }
 /** Timeline Comment Event */
 export interface TimelineCommentEvent {
@@ -1787,28 +1893,28 @@ export interface TimelineCommentEvent {
   /** URL for the issue comment */
   url: string;
   /** Contents of the issue comment */
-  body?: string;
-  body_text?: string;
-  body_html?: string;
+  body?: string | undefined;
+  body_text?: string | undefined;
+  body_html?: string | undefined;
   html_url: string;
   user: NullableSimpleUser;
   created_at: string;
   updated_at: string;
   issue_url: string;
   author_association: AuthorAssociation;
-  performed_via_github_app?: NullableIntegration | null;
-  reactions?: ReactionRollup;
-  pin?: NullablePinnedIssueComment | null;
-  minimized?: NullableIssueCommentMinimized | null;
+  performed_via_github_app?: NullableIntegration | null | undefined;
+  reactions?: ReactionRollup | undefined;
+  pin?: NullablePinnedIssueComment | null | undefined;
+  minimized?: NullableIssueCommentMinimized | null | undefined;
 }
 export interface TimelineCrossReferencedEventSource {
-  type?: string;
-  issue?: Issue;
+  type?: string | undefined;
+  issue?: Issue | undefined;
 }
 /** Timeline Cross Referenced Event */
 export interface TimelineCrossReferencedEvent {
   event: string;
-  actor?: NullableSimpleUser;
+  actor?: NullableSimpleUser | undefined;
   created_at: string;
   updated_at: string;
   source: TimelineCrossReferencedEventSource;
@@ -1845,7 +1951,7 @@ export interface TimelineCommittedEventVerification {
 }
 /** Timeline Committed Event */
 export interface TimelineCommittedEvent {
-  event?: string;
+  event?: string | undefined;
   /** SHA for the commit */
   sha: string;
   node_id: string;
@@ -1882,14 +1988,30 @@ export interface TimelineReviewedEvent {
   html_url: string;
   pull_request_url: string;
   _links: TimelineReviewedEventLinks;
-  submitted_at?: string;
-  updated_at?: string | null;
+  submitted_at?: string | undefined;
+  updated_at?: string | null | undefined;
   /** A commit SHA for the review. */
   commit_id: string;
-  body_html?: string;
-  body_text?: string;
+  body_html?: string | undefined;
+  body_text?: string | undefined;
   author_association: AuthorAssociation;
 }
+/** The kind of contributing source. */
+export type PullRequestReviewCommentCopilotCodeReviewSourcesItemKind =
+  | "SKILL"
+  | "MCP"
+  | "CUSTOM_INSTRUCTIONS";
+export interface PullRequestReviewCommentCopilotCodeReviewSourcesItem {
+  /** The kind of contributing source. */
+  kind: PullRequestReviewCommentCopilotCodeReviewSourcesItemKind;
+  /** The reported source name, or "custom instructions" for CUSTOM_INSTRUCTIONS. */
+  name: string;
+  /** The validated repository-relative source path, if available. Commit OIDs are not exposed. */
+  path?: string | undefined;
+}
+/** Sources reported as contributing to this comment; may be incomplete. Not returned for issue timeline events. */
+export type PullRequestReviewCommentCopilotCodeReviewSourcesList =
+  Array<PullRequestReviewCommentCopilotCodeReviewSourcesItem>;
 export type PullRequestReviewCommentLinksSelf = TimelineReviewedEventLinksHtml;
 export type PullRequestReviewCommentLinksHtml = TimelineReviewedEventLinksHtml;
 export type PullRequestReviewCommentLinksPullRequest = TimelineReviewedEventLinksHtml;
@@ -1906,6 +2028,10 @@ export type PullRequestReviewCommentSide = "LEFT" | "RIGHT";
 export type PullRequestReviewCommentSubjectType = "line" | "file";
 /** Pull Request Review Comments are comments on a portion of the Pull Request's diff. */
 export interface PullRequestReviewComment {
+  /** Whether this comment was produced by Copilot code review. Not returned for issue timeline events. */
+  is_copilot_code_review?: boolean | undefined;
+  /** Sources reported as contributing to this comment; may be incomplete. Not returned for issue timeline events. */
+  copilot_code_review_sources?: PullRequestReviewCommentCopilotCodeReviewSourcesList | undefined;
   /** URL for the pull request review comment */
   url: string;
   /** The ID of the pull request review to which the comment belongs. */
@@ -1919,15 +2045,15 @@ export interface PullRequestReviewComment {
   /** The relative path of the file to which the comment applies. */
   path: string;
   /** The line index in the diff to which the comment applies. This field is closing down; use `line` instead. */
-  position?: number;
+  position?: number | undefined;
   /** The index of the original line in the diff to which the comment applies. This field is closing down; use `original_line` instead. */
-  original_position?: number;
+  original_position?: number | undefined;
   /** The SHA of the commit to which the comment applies. */
   commit_id: string;
   /** The SHA of the original commit to which the comment applies. */
   original_commit_id: string;
   /** The comment ID to reply to. */
-  in_reply_to_id?: number;
+  in_reply_to_id?: number | undefined;
   user: NullableSimpleUser | null;
   /** The text of the comment. */
   body: string;
@@ -1940,29 +2066,29 @@ export interface PullRequestReviewComment {
   author_association: AuthorAssociation;
   _links: PullRequestReviewCommentLinks;
   /** The first line of the range for a multi-line comment. */
-  start_line?: number | null;
+  start_line?: number | null | undefined;
   /** The first line of the range for a multi-line comment. */
-  original_start_line?: number | null;
+  original_start_line?: number | null | undefined;
   /** The side of the first line of the range for a multi-line comment. */
-  start_side?: PullRequestReviewCommentStartSide | null;
+  start_side?: PullRequestReviewCommentStartSide | null | undefined;
   /** The line of the blob to which the comment applies. The last line of the range for a multi-line comment */
-  line?: number;
+  line?: number | undefined;
   /** The line of the blob to which the comment applies. The last line of the range for a multi-line comment */
-  original_line?: number;
+  original_line?: number | undefined;
   /** The side of the diff to which the comment applies. The side of the last line of the range for a multi-line comment */
-  side?: PullRequestReviewCommentSide;
+  side?: PullRequestReviewCommentSide | undefined;
   /** The level at which the comment is targeted, can be a diff line or a file. */
-  subject_type?: PullRequestReviewCommentSubjectType;
-  reactions?: ReactionRollup;
-  body_html?: string;
-  body_text?: string;
+  subject_type?: PullRequestReviewCommentSubjectType | undefined;
+  reactions?: ReactionRollup | undefined;
+  body_html?: string | undefined;
+  body_text?: string | undefined;
 }
 export type TimelineLineCommentedEventCommentsList = Array<PullRequestReviewComment>;
 /** Timeline Line Commented Event */
 export interface TimelineLineCommentedEvent {
-  event?: string;
-  node_id?: string;
-  comments?: TimelineLineCommentedEventCommentsList;
+  event?: string | undefined;
+  node_id?: string | undefined;
+  comments?: TimelineLineCommentedEventCommentsList | undefined;
 }
 /** Commit Comment */
 export interface CommitComment {
@@ -1979,15 +2105,15 @@ export interface CommitComment {
   created_at: string;
   updated_at: string;
   author_association: AuthorAssociation;
-  reactions?: ReactionRollup;
+  reactions?: ReactionRollup | undefined;
 }
 export type TimelineCommitCommentedEventCommentsList = Array<CommitComment>;
 /** Timeline Commit Commented Event */
 export interface TimelineCommitCommentedEvent {
-  event?: string;
-  node_id?: string;
-  commit_id?: string;
-  comments?: TimelineCommitCommentedEventCommentsList;
+  event?: string | undefined;
+  node_id?: string | undefined;
+  commit_id?: string | undefined;
+  comments?: TimelineCommitCommentedEventCommentsList | undefined;
 }
 /** Timeline Assigned Issue Event */
 export interface TimelineAssignedIssueEvent {
@@ -2001,7 +2127,7 @@ export interface TimelineAssignedIssueEvent {
   created_at: string;
   performed_via_github_app: NullableIntegration | null;
   assignee: NullableSimpleUser;
-  intent?: NullableIssueEventIntent | null;
+  intent?: NullableIssueEventIntent | null | undefined;
 }
 /** Timeline Unassigned Issue Event */
 export interface TimelineUnassignedIssueEvent {
@@ -2027,8 +2153,8 @@ export interface StateChangeIssueEvent {
   commit_url: string | null;
   created_at: string;
   performed_via_github_app: NullableIntegration | null;
-  state_reason?: string | null;
-  intent?: NullableIssueEventIntent | null;
+  state_reason?: string | null | undefined;
+  intent?: NullableIssueEventIntent | null | undefined;
 }
 /** Timeline Connected Event */
 export interface TimelineConnectedEvent {
@@ -2095,21 +2221,21 @@ export type ListForAuthenticatedUserRequestSort = "created" | "updated" | "comme
 export type ListForAuthenticatedUserRequestDirection = "asc" | "desc";
 export interface ListForAuthenticatedUserRequest {
   /** Indicates which sorts of issues to return. `assigned` means issues assigned to you. `created` means issues created by you. `mentioned` means issues mentioning you. `subscribed` means issues you're subscribed to updates for. `all` or `repos` means all issues you can see, regardless of participation or creation. */
-  filter?: ListForAuthenticatedUserRequestFilter | (string & {});
+  filter?: ListForAuthenticatedUserRequestFilter | (string & {}) | undefined;
   /** Indicates the state of the issues to return. */
-  state?: ListForAuthenticatedUserRequestState | (string & {});
+  state?: ListForAuthenticatedUserRequestState | (string & {}) | undefined;
   /** A list of comma separated label names. Example: `bug,ui,@high` */
-  labels?: string;
+  labels?: string | undefined;
   /** What to sort results by. */
-  sort?: ListForAuthenticatedUserRequestSort | (string & {});
+  sort?: ListForAuthenticatedUserRequestSort | (string & {}) | undefined;
   /** The direction to sort the results by. */
-  direction?: ListForAuthenticatedUserRequestDirection | (string & {});
+  direction?: ListForAuthenticatedUserRequestDirection | (string & {}) | undefined;
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
+  since?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListForAuthenticatedUserResponseBodyList = Array<Issue>;
 export type ListForAuthenticatedUserResponse = ListForAuthenticatedUserResponseBodyList;
@@ -2127,23 +2253,23 @@ export interface ListForOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** Indicates which sorts of issues to return. `assigned` means issues assigned to you. `created` means issues created by you. `mentioned` means issues mentioning you. `subscribed` means issues you're subscribed to updates for. `all` or `repos` means all issues you can see, regardless of participation or creation. */
-  filter?: ListForOrgRequestFilter | (string & {});
+  filter?: ListForOrgRequestFilter | (string & {}) | undefined;
   /** Indicates the state of the issues to return. */
-  state?: ListForOrgRequestState | (string & {});
+  state?: ListForOrgRequestState | (string & {}) | undefined;
   /** A list of comma separated label names. Example: `bug,ui,@high` */
-  labels?: string;
+  labels?: string | undefined;
   /** Can be the name of an issue type. */
-  type?: string;
+  type?: string | undefined;
   /** What to sort results by. */
-  sort?: ListForOrgRequestSort | (string & {});
+  sort?: ListForOrgRequestSort | (string & {}) | undefined;
   /** The direction to sort the results by. */
-  direction?: ListForOrgRequestDirection | (string & {});
+  direction?: ListForOrgRequestDirection | (string & {}) | undefined;
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
+  since?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListForOrgResponseBodyList = Array<Issue>;
 export type ListForOrgResponse = ListForOrgResponseBodyList;
@@ -2156,34 +2282,51 @@ export interface ListForRepoRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** If an `integer` is passed, it should refer to a milestone by its `number` field. If the string `*` is passed, issues with any milestone are accepted. If the string `none` is passed, issues without milestones are returned. */
-  milestone?: string;
+  milestone?: string | undefined;
   /** Indicates the state of the issues to return. */
-  state?: ListForRepoRequestState | (string & {});
+  state?: ListForRepoRequestState | (string & {}) | undefined;
   /** Can be the name of a user. Pass in `none` for issues with no assigned user, and `*` for issues assigned to any user. */
-  assignee?: string;
+  assignee?: string | undefined;
   /** Can be the name of an issue type. If the string `*` is passed, issues with any type are accepted. If the string `none` is passed, issues without type are returned. */
-  type?: string;
+  type?: string | undefined;
   /** The user that created the issue. */
-  creator?: string;
+  creator?: string | undefined;
   /** A user that's mentioned in the issue. */
-  mentioned?: string;
+  mentioned?: string | undefined;
   /** A comma-separated list of issue field filters in `field_slug:value` format. Only issues matching all specified field values are returned. Requires issue fields to be enabled for the repository. Issue fields are not available for user-owned repositories, and field availability for organization-owned public repositories depends on the organization's visibility settings. For example, `priority:Urgent,severity:High` filters issues where the `priority` field is `Urgent` AND the `severity` field is `High`. */
-  issue_field_values?: string;
+  issue_field_values?: string | undefined;
   /** A list of comma separated label names. Example: `bug,ui,@high` */
-  labels?: string;
+  labels?: string | undefined;
   /** What to sort results by. */
-  sort?: ListForRepoRequestSort | (string & {});
+  sort?: ListForRepoRequestSort | (string & {}) | undefined;
   /** The direction to sort the results by. */
-  direction?: ListForRepoRequestDirection | (string & {});
+  direction?: ListForRepoRequestDirection | (string & {}) | undefined;
   /** Only show results that were last updated after the given time. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  since?: string;
+  since?: string | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListForRepoResponseBodyList = Array<Issue>;
 export type ListForRepoResponse = ListForRepoResponseBodyList;
+export type ListIssueArtifactsRequestType = "generic" | "link" | "plan" | "embedded_html";
+export interface ListIssueArtifactsRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The number that identifies the issue. */
+  issue_number: number;
+  /** The artifact type to return. */
+  type?: ListIssueArtifactsRequestType | (string & {}) | undefined;
+  /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  per_page?: number | undefined;
+  /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
+  page?: number | undefined;
+}
+export type ListIssueArtifactsResponseBodyList = Array<IssueArtifact>;
+export type ListIssueArtifactsResponse = ListIssueArtifactsResponseBodyList;
 export interface ListIssueFieldValuesForIssueRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -2192,9 +2335,9 @@ export interface ListIssueFieldValuesForIssueRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListIssueFieldValuesForIssueResponseBodyList = Array<IssueFieldValue>;
 export type ListIssueFieldValuesForIssueResponse = ListIssueFieldValuesForIssueResponseBodyList;
@@ -2206,9 +2349,9 @@ export interface ListLabelsForMilestoneRequest {
   /** The number that identifies the milestone. */
   milestone_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListLabelsForMilestoneResponseBodyList = Array<Label>;
 export type ListLabelsForMilestoneResponse = ListLabelsForMilestoneResponseBodyList;
@@ -2218,9 +2361,9 @@ export interface ListLabelsForRepoRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListLabelsForRepoResponseBodyList = Array<Label>;
 export type ListLabelsForRepoResponse = ListLabelsForRepoResponseBodyList;
@@ -2232,9 +2375,9 @@ export interface ListLabelsOnIssueRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListLabelsOnIssueResponseBodyList = Array<Label>;
 export type ListLabelsOnIssueResponse = ListLabelsOnIssueResponseBodyList;
@@ -2247,15 +2390,15 @@ export interface ListMilestonesRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The state of the milestone. Either `open`, `closed`, or `all`. */
-  state?: ListMilestonesRequestState | (string & {});
+  state?: ListMilestonesRequestState | (string & {}) | undefined;
   /** What to sort results by. Either `due_on` or `completeness`. */
-  sort?: ListMilestonesRequestSort | (string & {});
+  sort?: ListMilestonesRequestSort | (string & {}) | undefined;
   /** The direction of the sort. Either `asc` or `desc`. */
-  direction?: ListMilestonesRequestDirection | (string & {});
+  direction?: ListMilestonesRequestDirection | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListMilestonesResponseBodyList = Array<Milestone>;
 export type ListMilestonesResponse = ListMilestonesResponseBodyList;
@@ -2267,9 +2410,9 @@ export interface ListRelatesToRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListRelatesToResponseBodyList = Array<Issue>;
 export type ListRelatesToResponse = ListRelatesToResponseBodyList;
@@ -2281,9 +2424,9 @@ export interface ListSubIssuesRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListSubIssuesResponseBodyList = Array<Issue>;
 export type ListSubIssuesResponse = ListSubIssuesResponseBodyList;
@@ -2309,13 +2452,13 @@ export interface ListSuggestionsRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** Filter suggestions by their state. */
-  state?: ListSuggestionsRequestState | (string & {});
+  state?: ListSuggestionsRequestState | (string & {}) | undefined;
   /** Filter suggestions by the change they propose. */
-  action?: ListSuggestionsRequestAction | (string & {});
+  action?: ListSuggestionsRequestAction | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  page?: number;
+  page?: number | undefined;
 }
 export type ListSuggestionsResponseBodyList = Array<IssueSuggestion>;
 export type ListSuggestionsResponse = ListSuggestionsResponseBodyList;
@@ -2329,7 +2472,7 @@ export interface LockRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** The reason for locking the issue or pull request conversation. Lock will fail if you don't use one of these reasons: * `off-topic` * `too heated` * `resolved` * `spam` */
-  lock_reason?: LockRequestLockReason | (string & {});
+  lock_reason?: LockRequestLockReason | (string & {}) | undefined;
 }
 export interface LockResponse {}
 export interface PinCommentRequest {
@@ -2359,7 +2502,7 @@ export interface RemoveAssigneesRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** Usernames of assignees to remove from an issue. _NOTE: Only users with push access can remove assignees from an issue. Assignees are silently ignored otherwise._ */
-  assignees?: RemoveAssigneesRequestAssigneesList;
+  assignees?: RemoveAssigneesRequestAssigneesList | undefined;
 }
 export interface RemoveDependencyBlockedByRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2412,9 +2555,9 @@ export interface ReprioritizeSubIssueRequest {
   /** The id of the sub-issue to reprioritize */
   sub_issue_id: number;
   /** The id of the sub-issue to be prioritized after (either positional argument after OR before should be specified). */
-  after_id?: number;
+  after_id?: number | undefined;
   /** The id of the sub-issue to be prioritized before (either positional argument after OR before should be specified). */
-  before_id?: number;
+  before_id?: number | undefined;
 }
 /** The value to set for the field. The type depends on the field's data type: - For text fields: provide a string value - For single_select fields: provide the option name as a string (must match an existing option) - For number fields: provide a numeric value - For date fields: provide an ISO 8601 date string */
 export type SetIssueFieldValuesRequestIssueFieldValuesItemValue = string | number;
@@ -2435,7 +2578,7 @@ export interface SetIssueFieldValuesRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** An array of issue field values to set for this issue. Each field value must include the field ID and the value to set. All existing field values will be replaced. */
-  issue_field_values?: SetIssueFieldValuesRequestIssueFieldValuesList;
+  issue_field_values?: SetIssueFieldValuesRequestIssueFieldValuesList | undefined;
 }
 /** The current issue field values for this issue after setting the new values */
 export type SetIssueFieldValuesResponseBodyList = Array<IssueFieldValue>;
@@ -2444,7 +2587,7 @@ export type SetIssueFieldValuesResponse = SetIssueFieldValuesResponseBodyList;
 export type SetLabelsRequestBodyCase0LabelsList = Array<string>;
 export interface SetLabelsRequestBodyCase0 {
   /** The names of the labels to set for the issue. The labels you set replace any existing labels. You can pass an empty array to remove all labels. Alternatively, you can pass a single label as a `string` or an `array` of labels directly, but GitHub recommends passing an object with the `labels` key. You can also add labels to the existing labels for an issue. For more information, see "[Add labels to an issue](https://docs.github.com/rest/issues/labels#add-labels-to-an-issue)." */
-  labels?: SetLabelsRequestBodyCase0LabelsList;
+  labels?: SetLabelsRequestBodyCase0LabelsList | undefined;
 }
 export type SetLabelsRequestBodyCase1List = Array<string>;
 export interface SetLabelsRequestBodyCase2LabelsItem {
@@ -2452,7 +2595,7 @@ export interface SetLabelsRequestBodyCase2LabelsItem {
 }
 export type SetLabelsRequestBodyCase2LabelsList = Array<SetLabelsRequestBodyCase2LabelsItem>;
 export interface SetLabelsRequestBodyCase2 {
-  labels?: SetLabelsRequestBodyCase2LabelsList;
+  labels?: SetLabelsRequestBodyCase2LabelsList | undefined;
 }
 export type SetLabelsRequestBodyCase3Item = SetLabelsRequestBodyCase2LabelsItem;
 export type SetLabelsRequestBodyCase3List = Array<SetLabelsRequestBodyCase2LabelsItem>;
@@ -2469,7 +2612,7 @@ export interface SetLabelsRequest {
   repo: string;
   /** The number that identifies the issue. */
   issue_number: number;
-  body?: SetLabelsRequestBody;
+  body?: SetLabelsRequestBody | undefined;
 }
 export type SetLabelsResponseBodyList = Array<Label>;
 export type SetLabelsResponse = SetLabelsResponseBodyList;
@@ -2501,16 +2644,16 @@ export type UpdateRequestMilestone = string | number;
 /** The confidence level for this label choice. */
 export type UpdateRequestLabelsItemCase1Confidence = "low" | "medium" | "high";
 export interface UpdateRequestLabelsItemCase1 {
-  id?: number;
-  name?: string;
-  description?: string | null;
-  color?: string | null;
+  id?: number | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  color?: string | null | undefined;
   /** Optional reasoning for selecting this label. */
-  rationale?: string;
+  rationale?: string | undefined;
   /** If `true`, the change is stored as a pending suggestion for human review rather than applied directly. */
-  suggest?: boolean;
+  suggest?: boolean | undefined;
   /** The confidence level for this label choice. */
-  confidence?: UpdateRequestLabelsItemCase1Confidence | (string & {});
+  confidence?: UpdateRequestLabelsItemCase1Confidence | (string & {}) | undefined;
 }
 export type UpdateRequestLabelsItem = string | UpdateRequestLabelsItemCase1;
 /** Labels to associate with this issue. Pass one or more labels to _replace_ the set of labels on this issue. Send an empty array (`[]`) to clear all labels from the issue. Only users with push access can set labels for issues. Without push access to the repository, label changes are silently dropped. */
@@ -2518,13 +2661,13 @@ export type UpdateRequestLabelsList = Array<UpdateRequestLabelsItem>;
 /** The confidence level for this assignee choice. */
 export type UpdateRequestAssigneesItemCase1Confidence = "low" | "medium" | "high";
 export interface UpdateRequestAssigneesItemCase1 {
-  login?: string;
+  login?: string | undefined;
   /** Optional reasoning for selecting this assignee. */
-  rationale?: string;
+  rationale?: string | undefined;
   /** If `true`, the change is stored as a pending suggestion for human review rather than applied directly. */
-  suggest?: boolean;
+  suggest?: boolean | undefined;
   /** The confidence level for this assignee choice. */
-  confidence?: UpdateRequestAssigneesItemCase1Confidence | (string & {});
+  confidence?: UpdateRequestAssigneesItemCase1Confidence | (string & {}) | undefined;
 }
 export type UpdateRequestAssigneesItem = string | UpdateRequestAssigneesItemCase1;
 /** Usernames to assign to this issue. Pass one or more user logins to _replace_ the set of assignees on this issue. Send an empty array (`[]`) to clear all assignees from the issue. Only users with push access can set assignees for new issues. Without push access to the repository, assignee changes are silently dropped. */
@@ -2543,11 +2686,11 @@ export interface UpdateRequestIssueFieldValuesItem {
   /** The value to set for the field. For multi-select fields, provide an array of option names. */
   value: UpdateRequestIssueFieldValuesItemValue;
   /** Optional reasoning for setting this field value. */
-  rationale?: string;
+  rationale?: string | undefined;
   /** If `true`, the change is stored as a pending suggestion for human review rather than applied directly. */
-  suggest?: boolean;
+  suggest?: boolean | undefined;
   /** The confidence level for this field value choice. */
-  confidence?: UpdateRequestIssueFieldValuesItemConfidence | (string & {});
+  confidence?: UpdateRequestIssueFieldValuesItemConfidence | (string & {}) | undefined;
 }
 /** An array of issue field values to set on this issue. Each field value must include the field ID and the value to set. Only users with push access can set field values for issues */
 export type UpdateRequestIssueFieldValuesList = Array<UpdateRequestIssueFieldValuesItem>;
@@ -2556,13 +2699,13 @@ export type UpdateRequestTypeCase1Confidence = "low" | "medium" | "high";
 /** The issue type with optional metadata. */
 export interface UpdateRequestTypeCase1 {
   /** The name of the issue type to associate with this issue, or `null` to remove the current issue type. */
-  value?: string | null;
+  value?: string | null | undefined;
   /** Optional reasoning for selecting this type. */
-  rationale?: string;
+  rationale?: string | undefined;
   /** If `true`, the change is stored as a pending suggestion for human review rather than applied directly. */
-  suggest?: boolean;
+  suggest?: boolean | undefined;
   /** The confidence level for this type choice. */
-  confidence?: UpdateRequestTypeCase1Confidence | (string & {});
+  confidence?: UpdateRequestTypeCase1Confidence | (string & {}) | undefined;
 }
 /** The issue type to associate with this issue. Only users with push access can set the type for issues. Without push access to the repository, type changes are silently dropped. */
 export type UpdateRequestType = string | UpdateRequestTypeCase1;
@@ -2574,26 +2717,26 @@ export interface UpdateRequest {
   /** The number that identifies the issue. */
   issue_number: number;
   /** The title of the issue. */
-  title?: UpdateRequestTitle | null;
+  title?: UpdateRequestTitle | null | undefined;
   /** The contents of the issue. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** Username to assign to this issue. **This field is closing down.** */
-  assignee?: string | null;
+  assignee?: string | null | undefined;
   /** The open or closed state of the issue. */
-  state?: UpdateRequestState | (string & {});
+  state?: UpdateRequestState | (string & {}) | undefined;
   /** The reason for the state change. Ignored unless `state` is changed. */
-  state_reason?: UpdateRequestStateReason | (string & {}) | null;
-  /** The ID of the issue to mark as the canonical duplicate when `state_reason` is `duplicate`. The issue must exist and be accessible to the authenticated user. Ignored when `state_reason` is not `duplicate`. */
-  duplicate_issue_id?: number;
-  milestone?: UpdateRequestMilestone | null;
+  state_reason?: UpdateRequestStateReason | (string & {}) | null | undefined;
+  /** The ID of the issue that this issue duplicates, used when marking this issue as a duplicate with `status: Duplicate` or `state_reason: duplicate`. The issue must exist and be accessible to the authenticated user. */
+  duplicate_issue_id?: number | undefined;
+  milestone?: UpdateRequestMilestone | null | undefined;
   /** Labels to associate with this issue. Pass one or more labels to _replace_ the set of labels on this issue. Send an empty array (`[]`) to clear all labels from the issue. Only users with push access can set labels for issues. Without push access to the repository, label changes are silently dropped. */
-  labels?: UpdateRequestLabelsList;
+  labels?: UpdateRequestLabelsList | undefined;
   /** Usernames to assign to this issue. Pass one or more user logins to _replace_ the set of assignees on this issue. Send an empty array (`[]`) to clear all assignees from the issue. Only users with push access can set assignees for new issues. Without push access to the repository, assignee changes are silently dropped. */
-  assignees?: UpdateRequestAssigneesList;
+  assignees?: UpdateRequestAssigneesList | undefined;
   /** An array of issue field values to set on this issue. Each field value must include the field ID and the value to set. Only users with push access can set field values for issues */
-  issue_field_values?: UpdateRequestIssueFieldValuesList;
+  issue_field_values?: UpdateRequestIssueFieldValuesList | undefined;
   /** The issue type to associate with this issue. Only users with push access can set the type for issues. Without push access to the repository, type changes are silently dropped. */
-  type?: UpdateRequestType | null;
+  type?: UpdateRequestType | null | undefined;
 }
 /** The reason for the current state */
 export type UpdateResponseStateReason = "completed" | "reopened" | "not_planned" | "duplicate";
@@ -2609,12 +2752,12 @@ export type UpdateResponseSuggestionsTypeItemIgnoredReason =
   | "already_applied"
   | "issue_already_closed";
 export interface UpdateResponseSuggestionsTypeItem {
-  value?: string;
-  rationale?: string;
-  suggest?: boolean;
-  confidence?: UpdateResponseSuggestionsTypeItemConfidence;
-  ignored?: boolean;
-  ignored_reason?: UpdateResponseSuggestionsTypeItemIgnoredReason;
+  value?: string | undefined;
+  rationale?: string | undefined;
+  suggest?: boolean | undefined;
+  confidence?: UpdateResponseSuggestionsTypeItemConfidence | undefined;
+  ignored?: boolean | undefined;
+  ignored_reason?: UpdateResponseSuggestionsTypeItemIgnoredReason | undefined;
 }
 export type UpdateResponseSuggestionsTypeList = Array<UpdateResponseSuggestionsTypeItem>;
 export type UpdateResponseSuggestionsIssueFieldValuesItemValueCase2List = Array<string>;
@@ -2627,13 +2770,13 @@ export type UpdateResponseSuggestionsIssueFieldValuesItemIgnoredReason =
   | "already_applied"
   | "issue_already_closed";
 export interface UpdateResponseSuggestionsIssueFieldValuesItem {
-  field_id?: number;
-  value?: UpdateResponseSuggestionsIssueFieldValuesItemValue;
-  rationale?: string;
-  suggest?: boolean;
-  confidence?: UpdateResponseSuggestionsIssueFieldValuesItemConfidence;
-  ignored?: boolean;
-  ignored_reason?: UpdateResponseSuggestionsIssueFieldValuesItemIgnoredReason;
+  field_id?: number | undefined;
+  value?: UpdateResponseSuggestionsIssueFieldValuesItemValue | undefined;
+  rationale?: string | undefined;
+  suggest?: boolean | undefined;
+  confidence?: UpdateResponseSuggestionsIssueFieldValuesItemConfidence | undefined;
+  ignored?: boolean | undefined;
+  ignored_reason?: UpdateResponseSuggestionsIssueFieldValuesItemIgnoredReason | undefined;
 }
 export type UpdateResponseSuggestionsIssueFieldValuesList =
   Array<UpdateResponseSuggestionsIssueFieldValuesItem>;
@@ -2642,12 +2785,12 @@ export type UpdateResponseSuggestionsLabelsItemIgnoredReason =
   | "already_applied"
   | "issue_already_closed";
 export interface UpdateResponseSuggestionsLabelsItem {
-  name?: string;
-  rationale?: string;
-  suggest?: boolean;
-  confidence?: UpdateResponseSuggestionsLabelsItemConfidence;
-  ignored?: boolean;
-  ignored_reason?: UpdateResponseSuggestionsLabelsItemIgnoredReason;
+  name?: string | undefined;
+  rationale?: string | undefined;
+  suggest?: boolean | undefined;
+  confidence?: UpdateResponseSuggestionsLabelsItemConfidence | undefined;
+  ignored?: boolean | undefined;
+  ignored_reason?: UpdateResponseSuggestionsLabelsItemIgnoredReason | undefined;
 }
 export type UpdateResponseSuggestionsLabelsList = Array<UpdateResponseSuggestionsLabelsItem>;
 export type UpdateResponseSuggestionsAssigneesItemConfidence = "low" | "medium" | "high";
@@ -2655,12 +2798,12 @@ export type UpdateResponseSuggestionsAssigneesItemIgnoredReason =
   | "already_applied"
   | "issue_already_closed";
 export interface UpdateResponseSuggestionsAssigneesItem {
-  login?: string;
-  rationale?: string;
-  suggest?: boolean;
-  confidence?: UpdateResponseSuggestionsAssigneesItemConfidence;
-  ignored?: boolean;
-  ignored_reason?: UpdateResponseSuggestionsAssigneesItemIgnoredReason;
+  login?: string | undefined;
+  rationale?: string | undefined;
+  suggest?: boolean | undefined;
+  confidence?: UpdateResponseSuggestionsAssigneesItemConfidence | undefined;
+  ignored?: boolean | undefined;
+  ignored_reason?: UpdateResponseSuggestionsAssigneesItemIgnoredReason | undefined;
 }
 export type UpdateResponseSuggestionsAssigneesList = Array<UpdateResponseSuggestionsAssigneesItem>;
 export type UpdateResponseSuggestionsStateItemConfidence = "low" | "medium" | "high";
@@ -2668,23 +2811,23 @@ export type UpdateResponseSuggestionsStateItemIgnoredReason =
   | "already_applied"
   | "issue_already_closed";
 export interface UpdateResponseSuggestionsStateItem {
-  value?: string;
-  state_reason?: string;
-  duplicate_issue_id?: number;
-  rationale?: string;
-  suggest?: boolean;
-  confidence?: UpdateResponseSuggestionsStateItemConfidence;
-  ignored?: boolean;
-  ignored_reason?: UpdateResponseSuggestionsStateItemIgnoredReason;
+  value?: string | undefined;
+  state_reason?: string | undefined;
+  duplicate_issue_id?: number | undefined;
+  rationale?: string | undefined;
+  suggest?: boolean | undefined;
+  confidence?: UpdateResponseSuggestionsStateItemConfidence | undefined;
+  ignored?: boolean | undefined;
+  ignored_reason?: UpdateResponseSuggestionsStateItemIgnoredReason | undefined;
 }
 export type UpdateResponseSuggestionsStateList = Array<UpdateResponseSuggestionsStateItem>;
 /** Pending suggestions for each suggestible field (`type`, `issue_field_values`, `labels`, `assignees`, `state`) the request touched. Omitted for fields not in the request or with no pending or ignored suggestions. Items tagged `ignored` are echoes of the current request's inputs that were not persisted as pending suggestions. */
 export interface UpdateResponseSuggestions {
-  type?: UpdateResponseSuggestionsTypeList;
-  issue_field_values?: UpdateResponseSuggestionsIssueFieldValuesList;
-  labels?: UpdateResponseSuggestionsLabelsList;
-  assignees?: UpdateResponseSuggestionsAssigneesList;
-  state?: UpdateResponseSuggestionsStateList;
+  type?: UpdateResponseSuggestionsTypeList | undefined;
+  issue_field_values?: UpdateResponseSuggestionsIssueFieldValuesList | undefined;
+  labels?: UpdateResponseSuggestionsLabelsList | undefined;
+  assignees?: UpdateResponseSuggestionsAssigneesList | undefined;
+  state?: UpdateResponseSuggestionsStateList | undefined;
 }
 export interface UpdateResponse {
   id: number;
@@ -2701,42 +2844,42 @@ export interface UpdateResponse {
   /** State of the issue; either 'open' or 'closed' */
   state: string;
   /** The reason for the current state */
-  state_reason?: UpdateResponseStateReason | null;
+  state_reason?: UpdateResponseStateReason | null | undefined;
   /** Title of the issue */
   title: string;
   /** Contents of the issue */
-  body?: string | null;
+  body?: string | null | undefined;
   user: NullableSimpleUser | null;
   /** Labels to associate with this issue; pass one or more label names to replace the set of labels on this issue; send an empty array to clear all labels from the issue; note that the labels are silently dropped for users without push access to the repository */
   labels: UpdateResponseLabelsList;
   assignee: NullableSimpleUser | null;
-  assignees?: UpdateResponseAssigneesList;
+  assignees?: UpdateResponseAssigneesList | undefined;
   milestone: NullableMilestone | null;
   locked: boolean;
-  active_lock_reason?: string | null;
+  active_lock_reason?: string | null | undefined;
   comments: number;
-  pull_request?: IssuePullRequest;
+  pull_request?: IssuePullRequest | undefined;
   closed_at: string | null;
   created_at: string;
   updated_at: string;
-  draft?: boolean;
-  closed_by?: NullableSimpleUser | null;
-  body_html?: string;
-  body_text?: string;
-  timeline_url?: string;
-  type?: IssueType | null;
-  repository?: Repository;
-  performed_via_github_app?: NullableIntegration | null;
-  author_association?: AuthorAssociation;
-  reactions?: ReactionRollup;
-  sub_issues_summary?: SubIssuesSummary;
+  draft?: boolean | undefined;
+  closed_by?: NullableSimpleUser | null | undefined;
+  body_html?: string | undefined;
+  body_text?: string | undefined;
+  timeline_url?: string | undefined;
+  type?: IssueType | null | undefined;
+  repository?: Repository | undefined;
+  performed_via_github_app?: NullableIntegration | null | undefined;
+  author_association?: AuthorAssociation | undefined;
+  reactions?: ReactionRollup | undefined;
+  sub_issues_summary?: SubIssuesSummary | undefined;
   /** URL to get the parent issue of this issue, if it is a sub-issue */
-  parent_issue_url?: string | null;
-  pinned_comment?: NullableIssueComment | null;
-  issue_dependencies_summary?: IssueDependenciesSummary;
-  issue_field_values?: UpdateResponseIssueFieldValuesList;
+  parent_issue_url?: string | null | undefined;
+  pinned_comment?: NullableIssueComment | null | undefined;
+  issue_dependencies_summary?: IssueDependenciesSummary | undefined;
+  issue_field_values?: UpdateResponseIssueFieldValuesList | undefined;
   /** Pending suggestions for each suggestible field (`type`, `issue_field_values`, `labels`, `assignees`, `state`) the request touched. Omitted for fields not in the request or with no pending or ignored suggestions. Items tagged `ignored` are echoes of the current request's inputs that were not persisted as pending suggestions. */
-  suggestions?: UpdateResponseSuggestions;
+  suggestions?: UpdateResponseSuggestions | undefined;
 }
 export interface UpdateCommentRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -2748,6 +2891,20 @@ export interface UpdateCommentRequest {
   /** The contents of the comment. */
   body: string;
 }
+export interface UpdateIssueArtifactRequest {
+  /** The account owner of the repository. The name is not case sensitive. */
+  owner: string;
+  /** The name of the repository without the `.git` extension. The name is not case sensitive. */
+  repo: string;
+  /** The number that identifies the issue. */
+  issue_number: number;
+  /** The artifact number within the issue. */
+  artifact_number: number;
+  /** The new human-readable name of the artifact. */
+  name?: string | undefined;
+  /** The new artifact content. */
+  body?: string | undefined;
+}
 export interface UpdateLabelRequest {
   /** The account owner of the repository. The name is not case sensitive. */
   owner: string;
@@ -2755,13 +2912,13 @@ export interface UpdateLabelRequest {
   repo: string;
   name: string;
   /** The new name of the label. Emoji can be added to label names, using either native emoji or colon-style markup. For example, typing `:strawberry:` will render the emoji ![:strawberry:](https://github.githubassets.com/images/icons/emoji/unicode/1f353.png ":strawberry:"). For a full list of available emoji and codes, see "[Emoji cheat sheet](https://github.com/ikatyang/emoji-cheat-sheet)." */
-  new_name?: string;
+  new_name?: string | undefined;
   /** The [hexadecimal color code](http://www.color-hex.com/) for the label, without the leading `#`. */
-  color?: string;
+  color?: string | undefined;
   /** A short description of the label. Must be 100 characters or fewer. */
-  description?: string;
+  description?: string | undefined;
   /** Whether to archive or unarchive the label. Archived labels cannot be added to issues or pull requests. For more information, see "[Archiving labels](https://docs.github.com/issues/organizing-your-work-with-labels/managing-labels)." */
-  archived?: boolean;
+  archived?: boolean | undefined;
 }
 /** The state of the milestone. Either `open` or `closed`. */
 export type UpdateMilestoneRequestState = "open" | "closed";
@@ -2773,13 +2930,13 @@ export interface UpdateMilestoneRequest {
   /** The number that identifies the milestone. */
   milestone_number: number;
   /** The title of the milestone. */
-  title?: string;
+  title?: string | undefined;
   /** The state of the milestone. Either `open` or `closed`. */
-  state?: UpdateMilestoneRequestState | (string & {});
+  state?: UpdateMilestoneRequestState | (string & {}) | undefined;
   /** A description of the milestone. */
-  description?: string;
+  description?: string | undefined;
   /** The milestone due date. This is a timestamp in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format: `YYYY-MM-DDTHH:MM:SSZ`. */
-  due_on?: string | null;
+  due_on?: string | null | undefined;
 }
 export type AddAssigneesError = GithubOpError;
 /** Add assignees to an issue Adds up to 10 assignees to an issue. Users already assigned to an issue are not replaced. */
@@ -2823,8 +2980,8 @@ export const addIssueFieldValues: API.OperationMethod<
   AddIssueFieldValuesError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(610, __c19, 2) as any as S.Schema<AddIssueFieldValuesRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<AddIssueFieldValuesResponse>,
+  input: __S(642, __c20, 2) as any as S.Schema<AddIssueFieldValuesRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<AddIssueFieldValuesResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -2840,8 +2997,8 @@ export const addLabels: API.OperationMethod<
   AddLabelsError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<AddLabelsRequest>,
-  output: __S(1153, __c36, 1) as any as S.Schema<AddLabelsResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<AddLabelsRequest>,
+  output: __S(1185, __c37, 1) as any as S.Schema<AddLabelsResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -2857,7 +3014,7 @@ export const addRelatesTo: API.OperationMethod<
   AddRelatesToError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<AddRelatesToRequest>,
+  input: __S(1536, __c48, 0) as any as S.Schema<AddRelatesToRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<Issue>,
   errors: [],
   protocol: GithubProtocol,
@@ -2874,7 +3031,7 @@ export const addSubIssue: API.OperationMethod<
   AddSubIssueError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<AddSubIssueRequest>,
+  input: __S(1888, __c59, 0) as any as S.Schema<AddSubIssueRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<Issue>,
   errors: [],
   protocol: GithubProtocol,
@@ -2891,8 +3048,8 @@ export const approveSuggestion: API.OperationMethod<
   ApproveSuggestionError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<ApproveSuggestionRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<IssueSuggestion>,
+  input: __S(2240, __c70, 0) as any as S.Schema<ApproveSuggestionRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<IssueSuggestion>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -2908,8 +3065,8 @@ export const checkUserCanBeAssigned: API.OperationMethod<
   CheckUserCanBeAssignedError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<CheckUserCanBeAssignedRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<CheckUserCanBeAssignedResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<CheckUserCanBeAssignedRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<CheckUserCanBeAssignedResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -2925,8 +3082,8 @@ export const checkUserCanBeAssignedToIssue: API.OperationMethod<
   CheckUserCanBeAssignedToIssueError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<CheckUserCanBeAssignedToIssueRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<CheckUserCanBeAssignedToIssueResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<CheckUserCanBeAssignedToIssueRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<CheckUserCanBeAssignedToIssueResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -2938,7 +3095,7 @@ export type CreateError = GithubOpError;
 /** Create an issue Any user with pull access to a repository can create an issue. If [issues are disabled in the repository](https://docs.github.com/articles/disabling-issues/), the API returns a `410 Gone` status. This endpoint triggers [notifications](https://docs.github.com/github/managing-subscriptions-and-notifications-on-github/about-notifications). Creating content too quickly using this endpoint may result in secondary rate limiting. For more information, see "[Rate limits for the API](https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api#about-secondary-rate-limits)" and "[Best practices for using the REST API](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api)." This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
 export const create: API.OperationMethod<CreateRequest, Issue, CreateError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(2403, __c75, 3) as any as S.Schema<CreateRequest>,
+    input: __S(2595, __c81, 3) as any as S.Schema<CreateRequest>,
     output: __S(225, __c7, 1) as any as S.Schema<Issue>,
     errors: [],
     protocol: GithubProtocol,
@@ -2964,6 +3121,23 @@ export const createComment: API.OperationMethod<
   span: "CreateComment",
 }));
 
+export type CreateIssueArtifactError = GithubOpError;
+/** Create an issue artifact Creates an artifact attached to an issue. The artifact type defaults to `generic` when omitted. Creating an artifact requires permission to update the issue. The request can return `403` if the repository is read-only or locked, or a GitHub App installation has only `issues: read` permission. To create an HTML artifact, set `type` to `embedded_html` and provide the HTML source in `body`. Open the returned `html_url` to inspect the source, then select **Preview** to view the rendered artifact. Select **Show source** to return to the HTML source. */
+export const createIssueArtifact: API.OperationMethod<
+  CreateIssueArtifactRequest,
+  IssueArtifact,
+  CreateIssueArtifactError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(320, __c10, 0) as any as S.Schema<CreateIssueArtifactRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<IssueArtifact>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateIssueArtifact",
+}));
+
 export type CreateLabelError = GithubOpError;
 /** Create a label Creates a label for the specified repository with the given name and color. The name and color parameters are required. The color must be a valid [hexadecimal color code](http://www.color-hex.com/). */
 export const createLabel: API.OperationMethod<
@@ -2972,8 +3146,8 @@ export const createLabel: API.OperationMethod<
   CreateLabelError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<CreateLabelRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<Label>,
+  input: __S(384, __c12, 0) as any as S.Schema<CreateLabelRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<Label>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -2989,7 +3163,7 @@ export const createMilestone: API.OperationMethod<
   CreateMilestoneError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<CreateMilestoneRequest>,
+  input: __S(416, __c13, 0) as any as S.Schema<CreateMilestoneRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<Milestone>,
   errors: [],
   protocol: GithubProtocol,
@@ -3006,13 +3180,30 @@ export const deleteComment: API.OperationMethod<
   DeleteCommentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<DeleteCommentRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<DeleteCommentResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<DeleteCommentRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<DeleteCommentResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteComment",
+}));
+
+export type DeleteIssueArtifactError = GithubOpError;
+/** Delete an issue artifact Permanently deletes an artifact attached to an issue. Deleting an artifact requires permission to update the issue. The request can return `403` if the repository is read-only or locked, or a GitHub App installation has only `issues: read` permission. */
+export const deleteIssueArtifact: API.OperationMethod<
+  DeleteIssueArtifactRequest,
+  DeleteIssueArtifactResponse,
+  DeleteIssueArtifactError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(480, __c15, 0) as any as S.Schema<DeleteIssueArtifactRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<DeleteIssueArtifactResponse>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteIssueArtifact",
 }));
 
 export type DeleteIssueFieldValueError = GithubOpError;
@@ -3023,8 +3214,8 @@ export const deleteIssueFieldValue: API.OperationMethod<
   DeleteIssueFieldValueError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<DeleteIssueFieldValueRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<DeleteIssueFieldValueResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<DeleteIssueFieldValueRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<DeleteIssueFieldValueResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3040,8 +3231,8 @@ export const deleteLabel: API.OperationMethod<
   DeleteLabelError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<DeleteLabelRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<DeleteLabelResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<DeleteLabelRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<DeleteLabelResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3057,8 +3248,8 @@ export const deleteMilestone: API.OperationMethod<
   DeleteMilestoneError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<DeleteMilestoneRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<DeleteMilestoneResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<DeleteMilestoneRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<DeleteMilestoneResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3074,8 +3265,8 @@ export const dismissSuggestion: API.OperationMethod<
   DismissSuggestionError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<DismissSuggestionRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<IssueSuggestion>,
+  input: __S(608, __c19, 0) as any as S.Schema<DismissSuggestionRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<IssueSuggestion>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3087,7 +3278,7 @@ export type GetError = GithubOpError;
 /** Get an issue The API returns a [`301 Moved Permanently` status](https://docs.github.com/rest/guides/best-practices-for-using-the-rest-api#follow-redirects) if the issue was [transferred](https://docs.github.com/articles/transferring-an-issue-to-another-repository/) to another repository. If the issue was transferred to or deleted from a repository where the authenticated user lacks read access, the API returns a `404 Not Found` status. If the issue was deleted from a repository where the authenticated user has read access, the API returns a `410 Gone` status. To receive webhook events for transferred and deleted issues, subscribe to the [`issues`](https://docs.github.com/webhooks/event-payloads/#issues) webhook. > [!NOTE] > GitHub's REST API considers every pull request an issue, but not every issue is a pull request. For this reason, "Issues" endpoints may return both issues and pull requests in the response. You can identify pull requests by the `pull_request` key. Be aware that the `id` of a pull request returned from "Issues" endpoints will be an _issue id_. To find out the pull request id, use the "[List pull requests](https://docs.github.com/rest/pulls/pulls#list-pull-requests)" endpoint. This endpoint supports the following custom media types. For more information, see "[Media types](https://docs.github.com/rest/using-the-rest-api/getting-started-with-the-rest-api#media-types)." - **`application/vnd.github.raw+json`**: Returns the raw markdown body. Response will include `body`. This is the default if you do not pass any specific media type. - **`application/vnd.github.text+json`**: Returns a text only representation of the markdown body. Response will include `body_text`. - **`application/vnd.github.html+json`**: Returns HTML rendered from the body's markdown. Response will include `body_html`. - **`application/vnd.github.full+json`**: Returns raw, text, and HTML representations. Response will include `body`, `body_text`, and `body_html`. */
 export const get: API.OperationMethod<GetRequest, Issue, GetError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(544, __c17, 0) as any as S.Schema<GetRequest>,
+    input: __S(704, __c22, 0) as any as S.Schema<GetRequest>,
     output: __S(225, __c7, 1) as any as S.Schema<Issue>,
     errors: [],
     protocol: GithubProtocol,
@@ -3104,7 +3295,7 @@ export const getComment: API.OperationMethod<
   GetCommentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<GetCommentRequest>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetCommentRequest>,
   output: __S(102, __c3, 6) as any as S.Schema<IssueComment>,
   errors: [],
   protocol: GithubProtocol,
@@ -3121,8 +3312,8 @@ export const getEvent: API.OperationMethod<
   GetEventError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<GetEventRequest>,
-  output: __S(719, __c22, 15) as any as S.Schema<IssueEvent>,
+  input: __S(768, __c24, 0) as any as S.Schema<GetEventRequest>,
+  output: __S(815, __c25, 15) as any as S.Schema<IssueEvent>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3130,12 +3321,29 @@ export const getEvent: API.OperationMethod<
   span: "GetEvent",
 }));
 
+export type GetIssueArtifactError = GithubOpError;
+/** Get an issue artifact Returns an artifact attached to an issue by its per-issue artifact number, along with its version history ordered from newest to oldest. */
+export const getIssueArtifact: API.OperationMethod<
+  GetIssueArtifactRequest,
+  GetIssueArtifactResponse,
+  GetIssueArtifactError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(832, __c26, 0) as any as S.Schema<GetIssueArtifactRequest>,
+  output: __S(833, __c26, 1) as any as S.Schema<GetIssueArtifactResponse>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetIssueArtifact",
+}));
+
 export type GetLabelError = GithubOpError;
 /** Get a label Gets a label using the given name. */
 export const getLabel: API.OperationMethod<GetLabelRequest, Label, GetLabelError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(736, __c23, 0) as any as S.Schema<GetLabelRequest>,
-    output: __S(1120, __c35, 0) as any as S.Schema<Label>,
+    input: __S(864, __c27, 0) as any as S.Schema<GetLabelRequest>,
+    output: __S(1152, __c36, 0) as any as S.Schema<Label>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3151,7 +3359,7 @@ export const getMilestone: API.OperationMethod<
   GetMilestoneError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<GetMilestoneRequest>,
+  input: __S(896, __c28, 0) as any as S.Schema<GetMilestoneRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<Milestone>,
   errors: [],
   protocol: GithubProtocol,
@@ -3168,7 +3376,7 @@ export const getParent: API.OperationMethod<
   GetParentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetParentRequest>,
+  input: __S(928, __c29, 0) as any as S.Schema<GetParentRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<Issue>,
   errors: [],
   protocol: GithubProtocol,
@@ -3187,8 +3395,8 @@ export const list: API.PaginatedOperationMethod<
   Issue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(832, __c26, 0) as any as S.Schema<ListRequest>,
-    output: __S(865, __c27, 1) as any as S.Schema<ListResponse>,
+    input: __S(960, __c30, 0) as any as S.Schema<ListRequest>,
+    output: __S(993, __c31, 1) as any as S.Schema<ListResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3209,8 +3417,8 @@ export const listAssignees: API.PaginatedOperationMethod<
   NullableSimpleUser
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(896, __c28, 0) as any as S.Schema<ListAssigneesRequest>,
-    output: __S(897, __c28, 1) as any as S.Schema<ListAssigneesResponse>,
+    input: __S(1024, __c32, 0) as any as S.Schema<ListAssigneesRequest>,
+    output: __S(1025, __c32, 1) as any as S.Schema<ListAssigneesResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3231,8 +3439,8 @@ export const listComments: API.PaginatedOperationMethod<
   IssueComment
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(928, __c29, 0) as any as S.Schema<ListCommentsRequest>,
-    output: __S(961, __c30, 1) as any as S.Schema<ListCommentsResponse>,
+    input: __S(1056, __c33, 0) as any as S.Schema<ListCommentsRequest>,
+    output: __S(1089, __c34, 1) as any as S.Schema<ListCommentsResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3253,8 +3461,8 @@ export const listCommentsForRepo: API.PaginatedOperationMethod<
   IssueComment
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(992, __c31, 0) as any as S.Schema<ListCommentsForRepoRequest>,
-    output: __S(961, __c30, 1) as any as S.Schema<ListCommentsForRepoResponse>,
+    input: __S(1216, __c38, 0) as any as S.Schema<ListCommentsForRepoRequest>,
+    output: __S(1089, __c34, 1) as any as S.Schema<ListCommentsForRepoResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3275,8 +3483,8 @@ export const listDependenciesBlockedBy: API.PaginatedOperationMethod<
   Issue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1024, __c32, 0) as any as S.Schema<ListDependenciesBlockedByRequest>,
-    output: __S(865, __c27, 1) as any as S.Schema<ListDependenciesBlockedByResponse>,
+    input: __S(1248, __c39, 0) as any as S.Schema<ListDependenciesBlockedByRequest>,
+    output: __S(993, __c31, 1) as any as S.Schema<ListDependenciesBlockedByResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3297,8 +3505,8 @@ export const listDependenciesBlocking: API.PaginatedOperationMethod<
   Issue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1056, __c33, 0) as any as S.Schema<ListDependenciesBlockingRequest>,
-    output: __S(865, __c27, 1) as any as S.Schema<ListDependenciesBlockingResponse>,
+    input: __S(1280, __c40, 0) as any as S.Schema<ListDependenciesBlockingRequest>,
+    output: __S(993, __c31, 1) as any as S.Schema<ListDependenciesBlockingResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3319,8 +3527,8 @@ export const listEvents: API.PaginatedOperationMethod<
   IssueEventForIssue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1184, __c37, 0) as any as S.Schema<ListEventsRequest>,
-    output: __S(1186, __c37, 2) as any as S.Schema<ListEventsResponse>,
+    input: __S(1312, __c41, 0) as any as S.Schema<ListEventsRequest>,
+    output: __S(1314, __c41, 2) as any as S.Schema<ListEventsResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3341,8 +3549,8 @@ export const listEventsForRepo: API.PaginatedOperationMethod<
   IssueEvent
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1216, __c38, 0) as any as S.Schema<ListEventsForRepoRequest>,
-    output: __S(1218, __c38, 2) as any as S.Schema<ListEventsForRepoResponse>,
+    input: __S(1344, __c42, 0) as any as S.Schema<ListEventsForRepoRequest>,
+    output: __S(1346, __c42, 2) as any as S.Schema<ListEventsForRepoResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3363,8 +3571,8 @@ export const listEventsForTimeline: API.PaginatedOperationMethod<
   TimelineIssueEvents
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1248, __c39, 0) as any as S.Schema<ListEventsForTimelineRequest>,
-    output: __S(1250, __c39, 2) as any as S.Schema<ListEventsForTimelineResponse>,
+    input: __S(1376, __c43, 0) as any as S.Schema<ListEventsForTimelineRequest>,
+    output: __S(1378, __c43, 2) as any as S.Schema<ListEventsForTimelineResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3385,8 +3593,8 @@ export const listForAuthenticatedUser: API.PaginatedOperationMethod<
   Issue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1280, __c40, 0) as any as S.Schema<ListForAuthenticatedUserRequest>,
-    output: __S(865, __c27, 1) as any as S.Schema<ListForAuthenticatedUserResponse>,
+    input: __S(1408, __c44, 0) as any as S.Schema<ListForAuthenticatedUserRequest>,
+    output: __S(993, __c31, 1) as any as S.Schema<ListForAuthenticatedUserResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3407,8 +3615,8 @@ export const listForOrg: API.PaginatedOperationMethod<
   Issue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1312, __c41, 0) as any as S.Schema<ListForOrgRequest>,
-    output: __S(865, __c27, 1) as any as S.Schema<ListForOrgResponse>,
+    input: __S(1440, __c45, 0) as any as S.Schema<ListForOrgRequest>,
+    output: __S(993, __c31, 1) as any as S.Schema<ListForOrgResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3429,13 +3637,35 @@ export const listForRepo: API.PaginatedOperationMethod<
   Issue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1344, __c42, 0) as any as S.Schema<ListForRepoRequest>,
-    output: __S(865, __c27, 1) as any as S.Schema<ListForRepoResponse>,
+    input: __S(1472, __c46, 0) as any as S.Schema<ListForRepoRequest>,
+    output: __S(993, __c31, 1) as any as S.Schema<ListForRepoResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "ListForRepo",
+    pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
+  }),
+  paginateLink,
+) as any;
+
+export type ListIssueArtifactsError = GithubOpError;
+/** List issue artifacts Lists artifacts attached to an issue. Results are ordered by artifact number. The `type` parameter filters the response to artifacts of one type. Results can be requested by page. The page defaults to `1`; the page size defaults to `30` and can be set from `1` to `100`. The response is a bare array and does not include pagination metadata such as a `Link` header, a total count, or the service's `has_next_page` signal. */
+export const listIssueArtifacts: API.PaginatedOperationMethod<
+  ListIssueArtifactsRequest,
+  ListIssueArtifactsResponse,
+  ListIssueArtifactsError,
+  GithubOpContext,
+  IssueArtifact
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(1504, __c47, 0) as any as S.Schema<ListIssueArtifactsRequest>,
+    output: __S(1506, __c47, 2) as any as S.Schema<ListIssueArtifactsResponse>,
+    errors: [],
+    protocol: GithubProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListIssueArtifacts",
     pagination: { mode: "link", inputToken: "page", pageSize: "per_page", items: "body" } as const,
   }),
   paginateLink,
@@ -3451,8 +3681,8 @@ export const listIssueFieldValuesForIssue: API.PaginatedOperationMethod<
   IssueFieldValue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1376, __c43, 0) as any as S.Schema<ListIssueFieldValuesForIssueRequest>,
-    output: __S(640, __c20, 0) as any as S.Schema<ListIssueFieldValuesForIssueResponse>,
+    input: __S(1568, __c49, 0) as any as S.Schema<ListIssueFieldValuesForIssueRequest>,
+    output: __S(672, __c21, 0) as any as S.Schema<ListIssueFieldValuesForIssueResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3473,8 +3703,8 @@ export const listLabelsForMilestone: API.PaginatedOperationMethod<
   Label
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1408, __c44, 0) as any as S.Schema<ListLabelsForMilestoneRequest>,
-    output: __S(1153, __c36, 1) as any as S.Schema<ListLabelsForMilestoneResponse>,
+    input: __S(1600, __c50, 0) as any as S.Schema<ListLabelsForMilestoneRequest>,
+    output: __S(1185, __c37, 1) as any as S.Schema<ListLabelsForMilestoneResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3495,8 +3725,8 @@ export const listLabelsForRepo: API.PaginatedOperationMethod<
   Label
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1440, __c45, 0) as any as S.Schema<ListLabelsForRepoRequest>,
-    output: __S(1153, __c36, 1) as any as S.Schema<ListLabelsForRepoResponse>,
+    input: __S(1632, __c51, 0) as any as S.Schema<ListLabelsForRepoRequest>,
+    output: __S(1185, __c37, 1) as any as S.Schema<ListLabelsForRepoResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3517,8 +3747,8 @@ export const listLabelsOnIssue: API.PaginatedOperationMethod<
   Label
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1472, __c46, 0) as any as S.Schema<ListLabelsOnIssueRequest>,
-    output: __S(1153, __c36, 1) as any as S.Schema<ListLabelsOnIssueResponse>,
+    input: __S(1664, __c52, 0) as any as S.Schema<ListLabelsOnIssueRequest>,
+    output: __S(1185, __c37, 1) as any as S.Schema<ListLabelsOnIssueResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3539,8 +3769,8 @@ export const listMilestones: API.PaginatedOperationMethod<
   Milestone
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1536, __c48, 0) as any as S.Schema<ListMilestonesRequest>,
-    output: __S(1538, __c48, 2) as any as S.Schema<ListMilestonesResponse>,
+    input: __S(1696, __c53, 0) as any as S.Schema<ListMilestonesRequest>,
+    output: __S(1698, __c53, 2) as any as S.Schema<ListMilestonesResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3561,8 +3791,8 @@ export const listRelatesTo: API.PaginatedOperationMethod<
   Issue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1568, __c49, 0) as any as S.Schema<ListRelatesToRequest>,
-    output: __S(865, __c27, 1) as any as S.Schema<ListRelatesToResponse>,
+    input: __S(1728, __c54, 0) as any as S.Schema<ListRelatesToRequest>,
+    output: __S(993, __c31, 1) as any as S.Schema<ListRelatesToResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3583,8 +3813,8 @@ export const listSubIssues: API.PaginatedOperationMethod<
   Issue
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1600, __c50, 0) as any as S.Schema<ListSubIssuesRequest>,
-    output: __S(865, __c27, 1) as any as S.Schema<ListSubIssuesResponse>,
+    input: __S(1760, __c55, 0) as any as S.Schema<ListSubIssuesRequest>,
+    output: __S(993, __c31, 1) as any as S.Schema<ListSubIssuesResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3605,8 +3835,8 @@ export const listSuggestions: API.PaginatedOperationMethod<
   IssueSuggestion
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1632, __c51, 0) as any as S.Schema<ListSuggestionsRequest>,
-    output: __S(1634, __c51, 2) as any as S.Schema<ListSuggestionsResponse>,
+    input: __S(1792, __c56, 0) as any as S.Schema<ListSuggestionsRequest>,
+    output: __S(1794, __c56, 2) as any as S.Schema<ListSuggestionsResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3621,8 +3851,8 @@ export type LockError = GithubOpError;
 /** Lock an issue Users with push access can lock an issue or pull request's conversation. Note that, if you choose not to pass any parameters, you'll need to set `Content-Length` to zero when calling out to this endpoint. For more information, see "[HTTP method](https://docs.github.com/rest/guides/getting-started-with-the-rest-api#http-method)." */
 export const lock: API.OperationMethod<LockRequest, LockResponse, LockError, GithubOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1664, __c52, 0) as any as S.Schema<LockRequest>,
-    output: __S(2336, __c73, 0) as any as S.Schema<LockResponse>,
+    input: __S(1824, __c57, 0) as any as S.Schema<LockRequest>,
+    output: __S(2528, __c79, 0) as any as S.Schema<LockResponse>,
     errors: [],
     protocol: GithubProtocol,
     retry: Retry.Retry,
@@ -3638,7 +3868,7 @@ export const pinComment: API.OperationMethod<
   PinCommentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<PinCommentRequest>,
+  input: __S(1856, __c58, 0) as any as S.Schema<PinCommentRequest>,
   output: __S(102, __c3, 6) as any as S.Schema<IssueComment>,
   errors: [],
   protocol: GithubProtocol,
@@ -3655,8 +3885,8 @@ export const removeAllLabels: API.OperationMethod<
   RemoveAllLabelsError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<RemoveAllLabelsRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<RemoveAllLabelsResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<RemoveAllLabelsRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<RemoveAllLabelsResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3672,7 +3902,7 @@ export const removeAssignees: API.OperationMethod<
   RemoveAssigneesError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<RemoveAssigneesRequest>,
+  input: __S(1952, __c61, 0) as any as S.Schema<RemoveAssigneesRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<Issue>,
   errors: [],
   protocol: GithubProtocol,
@@ -3689,7 +3919,7 @@ export const removeDependencyBlockedBy: API.OperationMethod<
   RemoveDependencyBlockedByError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<RemoveDependencyBlockedByRequest>,
+  input: __S(1984, __c62, 0) as any as S.Schema<RemoveDependencyBlockedByRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<Issue>,
   errors: [],
   protocol: GithubProtocol,
@@ -3706,8 +3936,8 @@ export const removeLabel: API.OperationMethod<
   RemoveLabelError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<RemoveLabelRequest>,
-  output: __S(1153, __c36, 1) as any as S.Schema<RemoveLabelResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<RemoveLabelRequest>,
+  output: __S(1185, __c37, 1) as any as S.Schema<RemoveLabelResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3723,7 +3953,7 @@ export const removeRelatesTo: API.OperationMethod<
   RemoveRelatesToError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<RemoveRelatesToRequest>,
+  input: __S(2048, __c64, 0) as any as S.Schema<RemoveRelatesToRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<Issue>,
   errors: [],
   protocol: GithubProtocol,
@@ -3740,7 +3970,7 @@ export const removeSubIssue: API.OperationMethod<
   RemoveSubIssueError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<RemoveSubIssueRequest>,
+  input: __S(2080, __c65, 0) as any as S.Schema<RemoveSubIssueRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<Issue>,
   errors: [],
   protocol: GithubProtocol,
@@ -3757,7 +3987,7 @@ export const reprioritizeSubIssue: API.OperationMethod<
   ReprioritizeSubIssueError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<ReprioritizeSubIssueRequest>,
+  input: __S(2112, __c66, 0) as any as S.Schema<ReprioritizeSubIssueRequest>,
   output: __S(225, __c7, 1) as any as S.Schema<Issue>,
   errors: [],
   protocol: GithubProtocol,
@@ -3774,8 +4004,8 @@ export const setIssueFieldValues: API.OperationMethod<
   SetIssueFieldValuesError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1986, __c62, 2) as any as S.Schema<SetIssueFieldValuesRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<SetIssueFieldValuesResponse>,
+  input: __S(2146, __c67, 2) as any as S.Schema<SetIssueFieldValuesRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<SetIssueFieldValuesResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3791,8 +4021,8 @@ export const setLabels: API.OperationMethod<
   SetLabelsError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<SetLabelsRequest>,
-  output: __S(1153, __c36, 1) as any as S.Schema<SetLabelsResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<SetLabelsRequest>,
+  output: __S(1185, __c37, 1) as any as S.Schema<SetLabelsResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3808,8 +4038,8 @@ export const unlock: API.OperationMethod<
   UnlockError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<UnlockRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<UnlockResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<UnlockRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<UnlockResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3825,8 +4055,8 @@ export const unpinComment: API.OperationMethod<
   UnpinCommentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<UnpinCommentRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<UnpinCommentResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<UnpinCommentRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<UnpinCommentResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3842,8 +4072,8 @@ export const update: API.OperationMethod<
   UpdateError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2116, __c66, 4) as any as S.Schema<UpdateRequest>,
-  output: __S(2129, __c66, 17) as any as S.Schema<UpdateResponse>,
+  input: __S(2340, __c73, 4) as any as S.Schema<UpdateRequest>,
+  output: __S(2353, __c73, 17) as any as S.Schema<UpdateResponse>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3859,13 +4089,30 @@ export const updateComment: API.OperationMethod<
   UpdateCommentError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<UpdateCommentRequest>,
+  input: __S(2368, __c74, 0) as any as S.Schema<UpdateCommentRequest>,
   output: __S(102, __c3, 6) as any as S.Schema<IssueComment>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateComment",
+}));
+
+export type UpdateIssueArtifactError = GithubOpError;
+/** Update an issue artifact Updates the name, body, or both for an artifact attached to an issue. Updating an artifact requires permission to update the issue. The request can return `403` if the repository is read-only or locked, or a GitHub App installation has only `issues: read` permission. */
+export const updateIssueArtifact: API.OperationMethod<
+  UpdateIssueArtifactRequest,
+  IssueArtifact,
+  UpdateIssueArtifactError,
+  GithubOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2400, __c75, 0) as any as S.Schema<UpdateIssueArtifactRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<IssueArtifact>,
+  errors: [],
+  protocol: GithubProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateIssueArtifact",
 }));
 
 export type UpdateLabelError = GithubOpError;
@@ -3876,8 +4123,8 @@ export const updateLabel: API.OperationMethod<
   UpdateLabelError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<UpdateLabelRequest>,
-  output: __S(1120, __c35, 0) as any as S.Schema<Label>,
+  input: __S(2432, __c76, 0) as any as S.Schema<UpdateLabelRequest>,
+  output: __S(1152, __c36, 0) as any as S.Schema<Label>,
   errors: [],
   protocol: GithubProtocol,
   retry: Retry.Retry,
@@ -3893,7 +4140,7 @@ export const updateMilestone: API.OperationMethod<
   UpdateMilestoneError,
   GithubOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<UpdateMilestoneRequest>,
+  input: __S(2464, __c77, 0) as any as S.Schema<UpdateMilestoneRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<Milestone>,
   errors: [],
   protocol: GithubProtocol,
@@ -4372,6 +4619,55 @@ function __c10(j: number): any {
         S.Struct({
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          type: S.optional(S.String),
+          name: S.String,
+          body: S.String,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/artifacts",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateIssueArtifactRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          login: S.String,
+          id: S.Number,
+        }),
+      ).annotate({ identifier: "IssueArtifactCreator" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          html_url: S.optional(S.String),
+          number: S.Number,
+          type: S.String,
+          name: S.String,
+          body: S.String,
+          body_html: S.NullOr(S.String),
+          description: S.String,
+          creator: S.NullOr(__S(352, __c11, 0)),
+          updated_by_actor: S.NullOr(__S(352, __c11, 0)),
+          created_at: S.NullOr(S.String),
+          updated_at: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "IssueArtifact" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
           name: S.String,
           color: S.optional(S.String),
           description: S.optional(S.String),
@@ -4379,7 +4675,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "CreateLabelRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4394,7 +4690,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateMilestoneRequest" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4412,7 +4708,26 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteCommentRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          artifact_number: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/artifacts/{artifact_number}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "DeleteIssueArtifactRequest" });
+  }
+}
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4431,7 +4746,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteIssueFieldValueRequest" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4445,7 +4760,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DeleteLabelRequest" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4463,7 +4778,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeleteMilestoneRequest" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4482,7 +4797,43 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DismissSuggestionRequest" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          field_id: S.Number,
+          value: S.Unknown,
+        }),
+      ).annotate({ identifier: "AddIssueFieldValuesRequestIssueFieldValuesItem" });
+    case 1:
+      return S.Array(__S(640, __c20, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          issue_field_values: S.optional(__S(641, __c20, 1)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/issue-field-values",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AddIssueFieldValuesRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(35, __c1, 3).pipe(T.RawResponseRoot())).annotate({
+        identifier: "AddIssueFieldValuesResponse",
+      });
+  }
+}
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4496,7 +4847,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetRequest" });
   }
 }
-function __c18(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4514,43 +4865,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetCommentRequest" });
   }
 }
-function __c19(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          field_id: S.Number,
-          value: S.Unknown,
-        }),
-      ).annotate({ identifier: "AddIssueFieldValuesRequestIssueFieldValuesItem" });
-    case 1:
-      return S.Array(__S(608, __c19, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-          issue_number: S.Number.pipe(T.Label()),
-          issue_field_values: S.optional(__S(609, __c19, 1)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/repos/{owner}/{repo}/issues/{issue_number}/issue-field-values",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AddIssueFieldValuesRequest" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => __S(35, __c1, 3).pipe(T.RawResponseRoot())).annotate({
-        identifier: "AddIssueFieldValuesResponse",
-      });
-  }
-}
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4568,7 +4883,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetEventRequest" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -4589,7 +4904,7 @@ function __c22(j: number): any {
           title: S.String,
           body: S.optional(S.NullOr(S.String)),
           user: S.NullOr(__S(64, __c2, 0)),
-          labels: __S(704, __c22, 0),
+          labels: __S(800, __c25, 0),
           assignee: S.NullOr(__S(64, __c2, 0)),
           assignees: S.optional(__S(160, __c5, 0)),
           milestone: S.NullOr(__S(128, __c4, 0)),
@@ -4666,7 +4981,7 @@ function __c22(j: number): any {
           privacy: S.optional(S.String),
           notification_setting: S.optional(S.String),
           permission: S.String,
-          permissions: S.optional(__S(707, __c22, 3)),
+          permissions: S.optional(__S(803, __c25, 3)),
           url: S.String,
           html_url: S.String,
           members_url: S.String,
@@ -4675,7 +4990,7 @@ function __c22(j: number): any {
           access_source: S.optional(S.String),
           organization_id: S.optional(S.Number),
           enterprise_id: S.optional(S.Number),
-          parent: S.NullOr(__S(708, __c22, 4)),
+          parent: S.NullOr(__S(804, __c25, 4)),
         }),
       ).annotate({ identifier: "Team" });
     case 6:
@@ -4786,8 +5101,8 @@ function __c22(j: number): any {
           title: S.String,
           state: S.String,
           state_reason: S.optional(S.NullOr(S.String)),
-          repository: __S(715, __c22, 11),
-          issue_type: S.NullOr(__S(716, __c22, 12)),
+          repository: __S(811, __c25, 11),
+          issue_type: S.NullOr(__S(812, __c25, 12)),
         }),
       ).annotate({ identifier: "NullableIssueReference" });
     case 14:
@@ -4808,24 +5123,24 @@ function __c22(j: number): any {
           commit_id: S.NullOr(S.String),
           commit_url: S.NullOr(S.String),
           created_at: S.String,
-          issue: S.optional(S.NullOr(__S(705, __c22, 1))),
-          label: S.optional(__S(706, __c22, 2)),
+          issue: S.optional(S.NullOr(__S(801, __c25, 1))),
+          label: S.optional(__S(802, __c25, 2)),
           assignee: S.optional(S.NullOr(__S(64, __c2, 0))),
           assigner: S.optional(S.NullOr(__S(64, __c2, 0))),
           review_requester: S.optional(S.NullOr(__S(64, __c2, 0))),
           requested_reviewer: S.optional(S.NullOr(__S(64, __c2, 0))),
-          requested_team: S.optional(__S(709, __c22, 5)),
-          dismissed_review: S.optional(__S(710, __c22, 6)),
-          milestone: S.optional(__S(711, __c22, 7)),
-          project_card: S.optional(__S(712, __c22, 8)),
-          rename: S.optional(__S(713, __c22, 9)),
-          issue_type: S.optional(S.NullOr(__S(714, __c22, 10))),
-          prev_issue_type: S.optional(S.NullOr(__S(714, __c22, 10))),
-          sub_issue: S.optional(S.NullOr(__S(717, __c22, 13))),
-          parent_issue: S.optional(S.NullOr(__S(717, __c22, 13))),
-          blocked_by: S.optional(S.NullOr(__S(717, __c22, 13))),
-          blocking: S.optional(S.NullOr(__S(717, __c22, 13))),
-          intent: S.optional(S.NullOr(__S(718, __c22, 14))),
+          requested_team: S.optional(__S(805, __c25, 5)),
+          dismissed_review: S.optional(__S(806, __c25, 6)),
+          milestone: S.optional(__S(807, __c25, 7)),
+          project_card: S.optional(__S(808, __c25, 8)),
+          rename: S.optional(__S(809, __c25, 9)),
+          issue_type: S.optional(S.NullOr(__S(810, __c25, 10))),
+          prev_issue_type: S.optional(S.NullOr(__S(810, __c25, 10))),
+          sub_issue: S.optional(S.NullOr(__S(813, __c25, 13))),
+          parent_issue: S.optional(S.NullOr(__S(813, __c25, 13))),
+          blocked_by: S.optional(S.NullOr(__S(813, __c25, 13))),
+          blocking: S.optional(S.NullOr(__S(813, __c25, 13))),
+          intent: S.optional(S.NullOr(__S(814, __c25, 14))),
           author_association: S.optional(S.String),
           lock_reason: S.optional(S.NullOr(S.String)),
           performed_via_github_app: S.optional(S.NullOr(__S(98, __c3, 2))),
@@ -4833,7 +5148,32 @@ function __c22(j: number): any {
       ).annotate({ identifier: "IssueEvent" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          artifact_number: S.Number.pipe(T.Label()),
+          per_page: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/artifacts/{artifact_number}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetIssueArtifactRequest" });
+    case 1:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "GetIssueArtifactResponse",
+      });
+  }
+}
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4845,7 +5185,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetLabelRequest" });
   }
 }
-function __c24(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4863,7 +5203,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetMilestoneRequest" });
   }
 }
-function __c25(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4881,7 +5221,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetParentRequest" });
   }
 }
-function __c26(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4902,17 +5242,17 @@ function __c26(j: number): any {
       ).annotate({ identifier: "ListRequest" });
   }
 }
-function __c27(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(225, __c7, 1));
     case 1:
-      return S.suspend(() => __S(864, __c27, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(992, __c31, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListResponse",
       });
   }
 }
-function __c28(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4929,7 +5269,7 @@ function __c28(j: number): any {
       });
   }
 }
-function __c29(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4950,17 +5290,64 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ListCommentsRequest" });
   }
 }
-function __c30(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(102, __c3, 6));
     case 1:
-      return S.suspend(() => __S(960, __c30, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1088, __c34, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListCommentsResponse",
       });
   }
 }
-function __c31(j: number): any {
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          body: S.optional(S.Unknown.pipe(T.HttpBody())),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/labels",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AddLabelsRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          node_id: S.String,
+          url: S.String,
+          name: S.String,
+          description: S.NullOr(S.String),
+          color: S.String,
+          default: S.Boolean,
+          archived_at: S.NullOr(S.String),
+          archived_by: S.NullOr(__S(64, __c2, 0)),
+        }),
+      ).annotate({ identifier: "Label" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1152, __c36, 0));
+    case 1:
+      return S.suspend(() => __S(1184, __c37, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "AddLabelsResponse",
+      });
+  }
+}
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4976,7 +5363,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "ListCommentsForRepoRequest" });
   }
 }
-function __c32(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4996,7 +5383,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "ListDependenciesBlockedByRequest" });
   }
 }
-function __c33(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5016,54 +5403,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ListDependenciesBlockingRequest" });
   }
 }
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-          issue_number: S.Number.pipe(T.Label()),
-          body: S.optional(S.Unknown.pipe(T.HttpBody())),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/repos/{owner}/{repo}/issues/{issue_number}/labels",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AddLabelsRequest" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number,
-          node_id: S.String,
-          url: S.String,
-          name: S.String,
-          description: S.NullOr(S.String),
-          color: S.String,
-          default: S.Boolean,
-          archived_at: S.NullOr(S.String),
-          archived_by: S.NullOr(__S(64, __c2, 0)),
-        }),
-      ).annotate({ identifier: "Label" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1120, __c35, 0));
-    case 1:
-      return S.suspend(() => __S(1152, __c36, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "AddLabelsResponse",
-      });
-  }
-}
-function __c37(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5084,12 +5424,12 @@ function __c37(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(1185, __c37, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1313, __c41, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListEventsResponse",
       });
   }
 }
-function __c38(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5101,14 +5441,14 @@ function __c38(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/repos/{owner}/{repo}/issues/events", code: 200 })),
       ).annotate({ identifier: "ListEventsForRepoRequest" });
     case 1:
-      return S.Array(__S(719, __c22, 15));
+      return S.Array(__S(815, __c25, 15));
     case 2:
-      return S.suspend(() => __S(1217, __c38, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1345, __c42, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListEventsForRepoResponse",
       });
   }
 }
-function __c39(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5130,12 +5470,12 @@ function __c39(j: number): any {
     case 1:
       return S.Array(S.Unknown);
     case 2:
-      return S.suspend(() => __S(1249, __c39, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1377, __c43, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListEventsForTimelineResponse",
       });
   }
 }
-function __c40(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5152,7 +5492,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "ListForAuthenticatedUserRequest" });
   }
 }
-function __c41(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5171,7 +5511,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "ListForOrgRequest" });
   }
 }
-function __c42(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5195,7 +5535,53 @@ function __c42(j: number): any {
       ).annotate({ identifier: "ListForRepoRequest" });
   }
 }
-function __c43(j: number): any {
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          type: S.optional(S.String.pipe(T.Query())),
+          per_page: S.optional(S.Number.pipe(T.Query())),
+          page: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/artifacts",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListIssueArtifactsRequest" });
+    case 1:
+      return S.Array(__S(353, __c11, 1));
+    case 2:
+      return S.suspend(() => __S(1505, __c47, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListIssueArtifactsResponse",
+      });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          issue_id: S.Number,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/relates_to",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AddRelatesToRequest" });
+  }
+}
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5215,7 +5601,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "ListIssueFieldValuesForIssueRequest" });
   }
 }
-function __c44(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5235,7 +5621,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "ListLabelsForMilestoneRequest" });
   }
 }
-function __c45(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5248,7 +5634,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "ListLabelsForRepoRequest" });
   }
 }
-function __c46(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5268,26 +5654,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "ListLabelsOnIssueRequest" });
   }
 }
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-          issue_number: S.Number.pipe(T.Label()),
-          issue_id: S.Number,
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/repos/{owner}/{repo}/issues/{issue_number}/relates_to",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AddRelatesToRequest" });
-  }
-}
-function __c48(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5304,12 +5671,12 @@ function __c48(j: number): any {
     case 1:
       return S.Array(__S(128, __c4, 0));
     case 2:
-      return S.suspend(() => __S(1537, __c48, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1697, __c53, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListMilestonesResponse",
       });
   }
 }
-function __c49(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5329,7 +5696,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "ListRelatesToRequest" });
   }
 }
-function __c50(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5349,7 +5716,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ListSubIssuesRequest" });
   }
 }
-function __c51(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5370,14 +5737,14 @@ function __c51(j: number): any {
         ),
       ).annotate({ identifier: "ListSuggestionsRequest" });
     case 1:
-      return S.Array(__S(2240, __c70, 0));
+      return S.Array(__S(2272, __c71, 0));
     case 2:
-      return S.suspend(() => __S(1633, __c51, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1793, __c56, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSuggestionsResponse",
       });
   }
 }
-function __c52(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5396,7 +5763,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "LockRequest" });
   }
 }
-function __c53(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5414,82 +5781,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "PinCommentRequest" });
   }
 }
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-          issue_number: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/repos/{owner}/{repo}/issues/{issue_number}/labels",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RemoveAllLabelsRequest" });
-  }
-}
-function __c55(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-          issue_number: S.Number.pipe(T.Label()),
-          assignees: S.optional(__S(96, __c3, 0)),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/repos/{owner}/{repo}/issues/{issue_number}/assignees",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RemoveAssigneesRequest" });
-  }
-}
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-          issue_number: S.Number.pipe(T.Label()),
-          issue_id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocked_by/{issue_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RemoveDependencyBlockedByRequest" });
-  }
-}
-function __c57(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-          issue_number: S.Number.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/repos/{owner}/{repo}/issues/{issue_number}/labels/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "RemoveLabelRequest" });
-  }
-}
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5509,7 +5801,82 @@ function __c58(j: number): any {
       ).annotate({ identifier: "AddSubIssueRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/labels",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RemoveAllLabelsRequest" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          assignees: S.optional(__S(96, __c3, 0)),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/assignees",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RemoveAssigneesRequest" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          issue_id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/dependencies/blocked_by/{issue_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RemoveDependencyBlockedByRequest" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/labels/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "RemoveLabelRequest" });
+  }
+}
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5528,7 +5895,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "RemoveRelatesToRequest" });
   }
 }
-function __c60(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5547,7 +5914,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "RemoveSubIssueRequest" });
   }
 }
-function __c61(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5568,7 +5935,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ReprioritizeSubIssueRequest" });
   }
 }
-function __c62(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5578,14 +5945,14 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "SetIssueFieldValuesRequestIssueFieldValuesItem" });
     case 1:
-      return S.Array(__S(1984, __c62, 0));
+      return S.Array(__S(2144, __c67, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           owner: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           issue_number: S.Number.pipe(T.Label()),
-          issue_field_values: S.optional(__S(1985, __c62, 1)),
+          issue_field_values: S.optional(__S(2145, __c67, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -5596,7 +5963,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "SetIssueFieldValuesRequest" });
   }
 }
-function __c63(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5615,7 +5982,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "SetLabelsRequest" });
   }
 }
-function __c64(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5633,7 +6000,48 @@ function __c64(j: number): any {
       ).annotate({ identifier: "UnlockRequest" });
   }
 }
-function __c65(j: number): any {
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          suggestion_id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/suggestions/{suggestion_id}/approve",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ApproveSuggestionRequest" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          issue_id: S.Number,
+          action: S.String,
+          state: S.String,
+          target_id: S.NullOr(S.Number),
+          target_value: S.NullOr(S.Unknown),
+          rationale: S.NullOr(S.String),
+          confidence: S.NullOr(S.String),
+          actor_id: S.NullOr(S.Number),
+          issue_event_id: S.NullOr(S.Number),
+          resolved_by: S.NullOr(S.Number),
+          created_at: S.String,
+          updated_at: S.String,
+        }),
+      ).annotate({ identifier: "IssueSuggestion" });
+  }
+}
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5651,7 +6059,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "UnpinCommentRequest" });
   }
 }
-function __c66(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -5668,7 +6076,7 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "UpdateRequestIssueFieldValuesItem" });
     case 3:
-      return S.Array(__S(2114, __c66, 2));
+      return S.Array(__S(2338, __c73, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -5682,9 +6090,9 @@ function __c66(j: number): any {
           state_reason: S.optional(S.NullOr(S.String)),
           duplicate_issue_id: S.optional(S.Number),
           milestone: S.optional(S.NullOr(S.Unknown)),
-          labels: S.optional(__S(2112, __c66, 0)),
-          assignees: S.optional(__S(2113, __c66, 1)),
-          issue_field_values: S.optional(__S(2115, __c66, 3)),
+          labels: S.optional(__S(2336, __c73, 0)),
+          assignees: S.optional(__S(2337, __c73, 1)),
+          issue_field_values: S.optional(__S(2339, __c73, 3)),
           type: S.optional(S.NullOr(S.Unknown)),
         }).pipe(
           T.Http({
@@ -5708,7 +6116,7 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "UpdateResponseSuggestionsTypeItem" });
     case 7:
-      return S.Array(__S(2118, __c66, 6));
+      return S.Array(__S(2342, __c73, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -5722,7 +6130,7 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "UpdateResponseSuggestionsIssueFieldValuesItem" });
     case 9:
-      return S.Array(__S(2120, __c66, 8));
+      return S.Array(__S(2344, __c73, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -5735,7 +6143,7 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "UpdateResponseSuggestionsLabelsItem" });
     case 11:
-      return S.Array(__S(2122, __c66, 10));
+      return S.Array(__S(2346, __c73, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -5748,7 +6156,7 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "UpdateResponseSuggestionsAssigneesItem" });
     case 13:
-      return S.Array(__S(2124, __c66, 12));
+      return S.Array(__S(2348, __c73, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -5763,15 +6171,15 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "UpdateResponseSuggestionsStateItem" });
     case 15:
-      return S.Array(__S(2126, __c66, 14));
+      return S.Array(__S(2350, __c73, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(__S(2119, __c66, 7)),
-          issue_field_values: S.optional(__S(2121, __c66, 9)),
-          labels: S.optional(__S(2123, __c66, 11)),
-          assignees: S.optional(__S(2125, __c66, 13)),
-          state: S.optional(__S(2127, __c66, 15)),
+          type: S.optional(__S(2343, __c73, 7)),
+          issue_field_values: S.optional(__S(2345, __c73, 9)),
+          labels: S.optional(__S(2347, __c73, 11)),
+          assignees: S.optional(__S(2349, __c73, 13)),
+          state: S.optional(__S(2351, __c73, 15)),
         }),
       ).annotate({ identifier: "UpdateResponseSuggestions" });
     case 17:
@@ -5791,7 +6199,7 @@ function __c66(j: number): any {
           title: S.String,
           body: S.optional(S.NullOr(S.String)),
           user: S.NullOr(__S(64, __c2, 0)),
-          labels: __S(2117, __c66, 5),
+          labels: __S(2341, __c73, 5),
           assignee: S.NullOr(__S(64, __c2, 0)),
           assignees: S.optional(__S(160, __c5, 0)),
           milestone: S.NullOr(__S(128, __c4, 0)),
@@ -5817,12 +6225,12 @@ function __c66(j: number): any {
           pinned_comment: S.optional(S.NullOr(__S(102, __c3, 6))),
           issue_dependencies_summary: S.optional(__S(199, __c6, 7)),
           issue_field_values: S.optional(__S(35, __c1, 3)),
-          suggestions: S.optional(__S(2128, __c66, 16)),
+          suggestions: S.optional(__S(2352, __c73, 16)),
         }),
       ).annotate({ identifier: "UpdateResponse" });
   }
 }
-function __c67(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5841,7 +6249,28 @@ function __c67(j: number): any {
       ).annotate({ identifier: "UpdateCommentRequest" });
   }
 }
-function __c68(j: number): any {
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          owner: S.String.pipe(T.Label()),
+          repo: S.String.pipe(T.Label()),
+          issue_number: S.Number.pipe(T.Label()),
+          artifact_number: S.Number.pipe(T.Label()),
+          name: S.optional(S.String),
+          body: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/repos/{owner}/{repo}/issues/{issue_number}/artifacts/{artifact_number}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateIssueArtifactRequest" });
+  }
+}
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5857,48 +6286,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "UpdateLabelRequest" });
   }
 }
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          owner: S.String.pipe(T.Label()),
-          repo: S.String.pipe(T.Label()),
-          issue_number: S.Number.pipe(T.Label()),
-          suggestion_id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/repos/{owner}/{repo}/issues/{issue_number}/suggestions/{suggestion_id}/approve",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ApproveSuggestionRequest" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number,
-          issue_id: S.Number,
-          action: S.String,
-          state: S.String,
-          target_id: S.NullOr(S.Number),
-          target_value: S.NullOr(S.Unknown),
-          rationale: S.NullOr(S.String),
-          confidence: S.NullOr(S.String),
-          actor_id: S.NullOr(S.Number),
-          issue_event_id: S.NullOr(S.Number),
-          resolved_by: S.NullOr(S.Number),
-          created_at: S.String,
-          updated_at: S.String,
-        }),
-      ).annotate({ identifier: "IssueSuggestion" });
-  }
-}
-function __c71(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5920,7 +6308,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "UpdateMilestoneRequest" });
   }
 }
-function __c72(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5934,7 +6322,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "CheckUserCanBeAssignedRequest" });
   }
 }
-function __c73(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -5942,7 +6330,7 @@ function __c73(j: number): any {
       });
   }
 }
-function __c74(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5961,7 +6349,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "CheckUserCanBeAssignedToIssueRequest" });
   }
 }
-function __c75(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -5973,7 +6361,7 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "CreateRequestIssueFieldValuesItem" });
     case 2:
-      return S.Array(__S(2401, __c75, 1));
+      return S.Array(__S(2593, __c81, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5983,9 +6371,9 @@ function __c75(j: number): any {
           body: S.optional(S.String),
           assignee: S.optional(S.NullOr(S.String)),
           milestone: S.optional(S.NullOr(S.Unknown)),
-          labels: S.optional(__S(2400, __c75, 0)),
+          labels: S.optional(__S(2592, __c81, 0)),
           assignees: S.optional(__S(96, __c3, 0)),
-          issue_field_values: S.optional(__S(2402, __c75, 2)),
+          issue_field_values: S.optional(__S(2594, __c81, 2)),
           type: S.optional(S.NullOr(S.String)),
           parent_issue_id: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/repos/{owner}/{repo}/issues", code: 200 })),

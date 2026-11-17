@@ -33,6 +33,7 @@ import type { Operation } from "../client/operation.ts";
 import { ParseError } from "../errors.ts";
 import { codecSymbol, isValidDate, type CodecKind } from "../lite.ts";
 import { toBase64 } from "./base64.ts";
+import { formatDateTime } from "./timestamp.ts";
 
 /** A value that does not fit its schema. */
 export class CodecError extends Error {
@@ -169,7 +170,7 @@ const fits = (n: Node, v: unknown, wire: boolean): boolean => {
     case "Objects":
       if (!isRecord(v)) return false;
       for (const m of shapeOf(n).members)
-        if (!m.optional && v[wire ? m.wire : m.name] === undefined) return false;
+        if (!m.optional && v[wire ? m.wire : m.name] == null) return false;
       return true;
     case "Arrays":
       return Array.isArray(v);
@@ -186,6 +187,20 @@ const fits = (n: Node, v: unknown, wire: boolean): boolean => {
  * it to tell a modeled event that does not match from an unmodeled one.
  */
 export const fitsWire = (n: Node, v: unknown): boolean => fits(n, v, true);
+
+/** Whether `null` is a value of the type `n` (a `@sparse` list element or map value). */
+const acceptsNull = (n: Node): boolean => {
+  switch (n._tag) {
+    case "Suspend":
+      return acceptsNull(n.thunk!());
+    case "Union":
+      return n.types!.some(acceptsNull);
+    case "Null":
+      return true;
+    default:
+      return false;
+  }
+};
 
 const expected = (n: Node): string =>
   n._tag === "Literal" ? JSON.stringify(n.literal) : n._tag.toLowerCase();
@@ -221,10 +236,18 @@ export const encode = (n: Node, v: unknown): unknown => {
       return convertArray(n, v, encode);
     case "Union":
       return encodeUnion(n, v);
+    case "Number":
+      // JSON has no NaN or Infinity: AWS sends "NaN", "Infinity", "-Infinity".
+      if (typeof v === "number" && !Number.isFinite(v)) return String(v);
+      return primitive(n, v) ? v : fail(expected(n), v);
     default:
       return primitive(n, v) ? v : fail(expected(n), v);
   }
 };
+
+/** The strings AWS sends for the numbers JSON cannot write. */
+const nonFinite = (v: unknown): v is "NaN" | "Infinity" | "-Infinity" =>
+  v === "NaN" || v === "Infinity" || v === "-Infinity";
 
 const encodeCodec = (codec: CodecKind, n: Node, v: unknown): unknown => {
   if (codec === "sensitive")
@@ -234,7 +257,7 @@ const encodeCodec = (codec: CodecKind, n: Node, v: unknown): unknown => {
   // Whole seconds: some services reject fractional epoch values (IoT
   // SiteWise GetAssetPropertyAggregates: "The date can only be in seconds.").
   if (codec === "epoch-seconds") return Math.floor(v.getTime() / 1000);
-  return codec === "http-date" ? v.toUTCString() : v.toISOString();
+  return codec === "http-date" ? v.toUTCString() : formatDateTime(v);
 };
 
 const encodeObjects = (n: Node, v: unknown): unknown => {
@@ -309,10 +332,12 @@ export const decode = (n: Node, v: unknown, exact: Exactness = false): unknown =
       return decodeObjects(n, v, exact);
     case "Arrays":
       return Array.isArray(v) || exact
-        ? convertArray(n, v, (t, x) => decode(t, x, exact))
+        ? convertArray(n, withoutNulls(n, v), (t, x) => decode(t, x, exact))
         : asRead(n, v);
     case "Union":
       return decodeUnion(n, v, exact);
+    case "Number":
+      return nonFinite(v) ? Number(v) : !exact || primitive(n, v) ? v : fail(expected(n), v);
     default:
       return !exact || primitive(n, v) ? v : fail(expected(n), v);
   }
@@ -321,12 +346,13 @@ export const decode = (n: Node, v: unknown, exact: Exactness = false): unknown =
 const decodeCodec = (codec: CodecKind, n: Node, v: unknown, exact: Exactness): unknown => {
   if (codec === "sensitive") return Redacted.make(decode(innerOf(n), v, exact));
   if (codec === "blob") {
-    if (typeof v === "string") {
-      try {
-        return Uint8Array.from(atob(v), (c) => c.charCodeAt(0));
-      } catch {}
+    if (typeof v !== "string") return exact ? fail("a base64 string", v) : v;
+    try {
+      return Uint8Array.from(atob(v), (c) => c.charCodeAt(0));
+    } catch {
+      // Not base64: the same failure as a non-string.
+      return exact ? fail("a base64 string", v) : v;
     }
-    return exact ? fail("a base64 string", v) : v;
   }
   const date =
     codec === "epoch-seconds"
@@ -340,6 +366,14 @@ const decodeCodec = (codec: CodecKind, n: Node, v: unknown, exact: Exactness): u
   return exact ? fail(codec === "epoch-seconds" ? "epoch seconds" : "a date string", v) : v;
 };
 
+/** A list's elements without the nulls a list that is not `@sparse` cannot hold. */
+const withoutNulls = (n: Node, v: unknown): unknown => {
+  const element = n.rest?.[0];
+  return Array.isArray(v) && element && !acceptsNull(element) && v.includes(null)
+    ? v.filter((x) => x !== null)
+    : v;
+};
+
 const decodeObjects = (n: Node, v: unknown, exact: Exactness): unknown => {
   if (!isRecord(v)) return exact ? fail("an object", v) : asRead(n, v);
   const shape = shapeOf(n);
@@ -347,7 +381,8 @@ const decodeObjects = (n: Node, v: unknown, exact: Exactness): unknown => {
   for (const m of shape.members) {
     const x = v[m.wire];
     try {
-      if (x === undefined) {
+      // JSON sends null for an absent member.
+      if (x == null) {
         if (exact && !m.optional) fail("a value", x);
         continue;
       }
@@ -361,6 +396,8 @@ const decodeObjects = (n: Node, v: unknown, exact: Exactness): unknown => {
     for (const key of Object.keys(v)) {
       if (shape.wireKeys.has(key)) continue;
       const x = v[key];
+      // A map that is not `@sparse` has no null values.
+      if (x === null && !acceptsNull(index.type)) continue;
       try {
         out[key] = decode(index.type, x, exact);
       } catch (e) {
@@ -369,7 +406,7 @@ const decodeObjects = (n: Node, v: unknown, exact: Exactness): unknown => {
     }
   else if (exact === "closed" && shape.members.length > 0)
     for (const key of Object.keys(v))
-      if (!shape.wireKeys.has(key) && v[key] !== undefined)
+      if (!shape.wireKeys.has(key) && v[key] != null)
         throw within(new CodecError("no value (the schema does not model this key)", v[key]), key);
   return out;
 };

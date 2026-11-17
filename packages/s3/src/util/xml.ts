@@ -2,7 +2,7 @@
  * Shared XML utilities for AWS protocols (aws-query, ec2-query, rest-xml)
  */
 
-import { parseXmlSync, XmlParseError, type XmlObject } from "@distilled.cloud/core/xml";
+import { parseXmlSync, type XmlObject } from "@distilled.cloud/core/xml";
 import * as Effect from "effect/Effect";
 import type * as AST from "effect/SchemaAST";
 import { Unreadable } from "../client/protocol.ts";
@@ -33,10 +33,12 @@ export const readXml = (xml: string): XmlObject | Unreadable => {
   try {
     return parseXmlSync(xml);
   } catch (error) {
-    if (error instanceof XmlParseError) {
-      return new Unreadable(new ParseError({ message: error.message }), xml);
-    }
-    throw error;
+    // Any parser failure (malformed XML, a stack overflow on deep nesting)
+    // leaves the body unreadable.
+    return new Unreadable(
+      new ParseError({ message: error instanceof Error ? error.message : String(error) }),
+      xml,
+    );
   }
 };
 
@@ -69,6 +71,45 @@ export function deserializePrimitive(ast: AST.AST, value: string): unknown {
   if (isBooleanAST(ast)) return value.trim() === "true";
   // Dates stay as strings - S.Date (DateFromString) handles the conversion
   return value;
+}
+
+/**
+ * The text of an element: the parser reads an element with attributes and
+ * text, `<K xmlns="...">a</K>`, as `{ "#text": "a", "@_xmlns": "..." }`.
+ */
+export function elementText(value: unknown): unknown {
+  return typeof value === "object" && value !== null && !Array.isArray(value) && "#text" in value
+    ? (value as XmlObject)["#text"]
+    : value;
+}
+
+/**
+ * Read an XML map. A map is `<Map><entry><key>k</key><value>v</value></entry>...</Map>`;
+ * a flattened map repeats the member element itself for each entry,
+ * `<Map><key>k</key><value>v</value></Map><Map>...</Map>`, so `value` is that
+ * element or the list of them. An empty element is an empty map.
+ */
+export function readXmlMap(
+  value: unknown,
+  flattened: boolean,
+  keyTag: string,
+  valueTag: string,
+  readValue: (value: unknown) => unknown,
+): Record<string, unknown> {
+  const result: Record<string, unknown> = {};
+  let entries = value;
+  if (!flattened) {
+    if (typeof value !== "object" || value === null || Array.isArray(value)) return result;
+    entries = (value as XmlObject).entry ?? (value as XmlObject).Entry;
+  }
+  if (entries == null) return result;
+  for (const entry of Array.isArray(entries) ? entries : [entries]) {
+    if (typeof entry !== "object" || entry === null || Array.isArray(entry)) continue;
+    const key = elementText((entry as XmlObject)[keyTag]);
+    if (typeof key !== "string") continue;
+    result[key] = readValue((entry as XmlObject)[valueTag]);
+  }
+  return result;
 }
 
 /**

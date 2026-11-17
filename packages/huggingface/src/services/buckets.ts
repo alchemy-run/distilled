@@ -34,36 +34,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(8, __c1, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error409Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(122, __c15, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error422Body | string;
+}
 
 export interface AddResourceGroupRequest {
   namespace: string;
@@ -122,16 +150,16 @@ export interface CreateBucketRequest {
   namespace: string;
   repo: string;
   /** Bucket visibility. Defaults to public. Cannot be specified along with visibility. */
-  private?: boolean | null;
+  private?: boolean | null | undefined;
   /** Bucket visibility. Cannot be specified along with private. */
-  visibility?: CreateBucketRequestVisibility | (string & {});
-  resourceGroupId?: string;
+  visibility?: CreateBucketRequestVisibility | (string & {}) | undefined;
+  resourceGroupId?: string | undefined;
   /** CDN pre-warming regions */
-  cdn?: CreateBucketRequestCdnList;
+  cdn?: CreateBucketRequestCdnList | undefined;
   /** The region where the bucket is hosted. */
-  region?: CreateBucketRequestRegion | (string & {});
+  region?: CreateBucketRequestRegion | (string & {}) | undefined;
   /** Free-text description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateBucketResponse {
   url: string;
@@ -152,7 +180,7 @@ export interface DuplicateXetFilesRequestTarget {
 export interface DuplicateXetFilesRequestFilesItem {
   xetHash: string;
   sha256: string;
-  filename?: string;
+  filename?: string | undefined;
 }
 export type DuplicateXetFilesRequestFilesList = Array<DuplicateXetFilesRequestFilesItem>;
 export interface DuplicateXetFilesRequest {
@@ -184,8 +212,8 @@ export interface DuplicateXetFilesResponse {
 export interface FollowChangesRequest {
   namespace: string;
   repo: string;
-  cursor?: string;
-  since?: string;
+  cursor?: string | undefined;
+  since?: string | undefined;
 }
 export interface FollowChangesResponse {}
 export interface GetBucketDetailsRequest {
@@ -196,7 +224,7 @@ export type GetBucketDetailsResponseRepoType = "bucket" | "container";
 export type GetBucketDetailsResponseAdminTagsList = Array<string>;
 export interface GetBucketDetailsResponseDisabled {
   reason: string;
-  hideReadme?: boolean;
+  hideReadme?: boolean | undefined;
 }
 export type GetBucketDetailsResponseCdnRegionsItemProvider = "gcp" | "aws";
 export type GetBucketDetailsResponseCdnRegionsItemRegion = "us" | "eu";
@@ -209,16 +237,16 @@ export interface GetBucketDetailsResponseResourceGroup {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  numUsers?: number;
+  numUsers?: number | undefined;
 }
 export interface GetBucketDetailsResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   author: string;
   id: string;
-  private?: boolean | null;
+  private?: boolean | null | undefined;
   /** Free-text description of the bucket / container image */
-  description?: string | null;
+  description?: string | null | undefined;
   createdAt: string;
   /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
   updatedAt: string;
@@ -227,18 +255,18 @@ export interface GetBucketDetailsResponse {
   /** The total number of files in the bucket */
   totalFiles: number;
   repoType: GetBucketDetailsResponseRepoType;
-  adminTags?: GetBucketDetailsResponseAdminTagsList;
-  disabled?: GetBucketDetailsResponseDisabled;
+  adminTags?: GetBucketDetailsResponseAdminTagsList | undefined;
+  disabled?: GetBucketDetailsResponseDisabled | undefined;
   cdnRegions: GetBucketDetailsResponseCdnRegionsList;
-  resourceGroup?: GetBucketDetailsResponseResourceGroup;
+  resourceGroup?: GetBucketDetailsResponseResourceGroup | undefined;
 }
 export interface GetFileMetadataRequest {
   namespace: string;
   repo: string;
   path: string;
-  noContentDisposition?: string;
-  download?: string;
-  accept?: string;
+  noContentDisposition?: string | undefined;
+  download?: string | undefined;
+  accept?: string | undefined;
 }
 export interface GetFileMetadataResponse {
   /** The XET hash of the file */
@@ -252,7 +280,9 @@ export interface GetFileMetadataResponse {
   /** The size of the file */
   size: number;
   /** The content type of the file */
-  contentType?: string;
+  contentType?: string | undefined;
+  /** ISO 8601 timestamp of when the file was added to the bucket */
+  uploadedAt: string;
 }
 export interface GetResourceGroupRequest {
   namespace: string;
@@ -262,7 +292,7 @@ export interface GetResourceGroupResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  numUsers?: number;
+  numUsers?: number | undefined;
 }
 /** Sort order. `path` (default) sorts lexicographically; `uploadedAt` sorts by most recent upload first. In recursive mode `uploadedAt` is only supported at the bucket root (no path prefix). In non-recursive mode, only supported at root or exact folder prefixes. */
 export type ListFilesRequestSort = "path" | "uploadedAt";
@@ -272,30 +302,31 @@ export interface ListFilesRequest {
   namespace: string;
   repo: string;
   path: string;
-  limit?: number;
-  cursor?: string;
-  recursive?: string;
-  sort?: ListFilesRequestSort | (string & {});
-  direction?: ListFilesRequestDirection | (string & {});
+  limit?: number | undefined;
+  cursor?: string | undefined;
+  startAfter?: string | undefined;
+  recursive?: string | undefined;
+  sort?: ListFilesRequestSort | (string & {}) | undefined;
+  direction?: ListFilesRequestDirection | (string & {}) | undefined;
 }
 export type ListFilesResponseBodyItemType = "file" | "directory";
 export interface ListFilesResponseBodyItem {
   type: ListFilesResponseBodyItemType;
   path: string;
-  size?: number;
+  size?: number | undefined;
   /** Not defined for directories */
-  xetHash?: string;
-  mtime?: string;
+  xetHash?: string | undefined;
+  mtime?: string | undefined;
   /** Sub-millisecond remainder of mtime, in nanoseconds (0-999_999) */
-  mtimeNanos?: number;
+  mtimeNanos?: number | undefined;
   uploadedAt: string;
-  contentType?: string;
+  contentType?: string | undefined;
 }
 export type ListFilesResponseBodyList = Array<ListFilesResponseBodyItem>;
 export type ListFilesResponse = ListFilesResponseBodyList;
 export interface ListNamespaceBucketsRequest {
   namespace: string;
-  search?: string;
+  search?: string | undefined;
 }
 export type ListNamespaceBucketsResponseBodyItemRepoType = "bucket" | "container";
 export type ListNamespaceBucketsResponseBodyItemAdminTagsList = Array<string>;
@@ -316,9 +347,9 @@ export interface ListNamespaceBucketsResponseBodyItem {
   _id: string;
   author: string;
   id: string;
-  private?: boolean | null;
+  private?: boolean | null | undefined;
   /** Free-text description of the bucket / container image */
-  description?: string | null;
+  description?: string | null | undefined;
   createdAt: string;
   /** Moves on every successful change to the bucket's files. Poll it to know when to re-list instead of re-listing every path. */
   updatedAt: string;
@@ -327,10 +358,10 @@ export interface ListNamespaceBucketsResponseBodyItem {
   /** The total number of files in the bucket */
   totalFiles: number;
   repoType: ListNamespaceBucketsResponseBodyItemRepoType;
-  adminTags?: ListNamespaceBucketsResponseBodyItemAdminTagsList;
-  disabled?: GetBucketDetailsResponseDisabled;
+  adminTags?: ListNamespaceBucketsResponseBodyItemAdminTagsList | undefined;
+  disabled?: GetBucketDetailsResponseDisabled | undefined;
   cdnRegions: ListNamespaceBucketsResponseBodyItemCdnRegionsList;
-  resourceGroup?: GetBucketDetailsResponseResourceGroup;
+  resourceGroup?: GetBucketDetailsResponseResourceGroup | undefined;
 }
 export type ListNamespaceBucketsResponseBodyList = Array<ListNamespaceBucketsResponseBodyItem>;
 export type ListNamespaceBucketsResponse = ListNamespaceBucketsResponseBodyList;
@@ -345,14 +376,14 @@ export type ListPathsInfoResponseBodyItemType = "file" | "directory";
 export interface ListPathsInfoResponseBodyItem {
   type: ListPathsInfoResponseBodyItemType;
   path: string;
-  size?: number;
+  size?: number | undefined;
   /** Not defined for directories */
-  xetHash?: string;
-  mtime?: string;
+  xetHash?: string | undefined;
+  mtime?: string | undefined;
   /** Sub-millisecond remainder of mtime, in nanoseconds (0-999_999) */
-  mtimeNanos?: number;
+  mtimeNanos?: number | undefined;
   uploadedAt: string;
-  contentType?: string;
+  contentType?: string | undefined;
 }
 export type ListPathsInfoResponseBodyList = Array<ListPathsInfoResponseBodyItem>;
 export type ListPathsInfoResponse = ListPathsInfoResponseBodyList;
@@ -367,8 +398,8 @@ export type UpdateBucketSettingsRequestCdnRegionsList =
 export interface UpdateBucketSettingsRequest {
   namespace: string;
   repo: string;
-  private?: unknown;
-  cdnRegions?: UpdateBucketSettingsRequestCdnRegionsList;
+  private?: unknown | undefined;
+  cdnRegions?: UpdateBucketSettingsRequestCdnRegionsList | undefined;
 }
 export type UpdateBucketSettingsResponseCdnRegionsItemProvider = "gcp" | "aws";
 export type UpdateBucketSettingsResponseCdnRegionsItemRegion = "us" | "eu";
@@ -379,8 +410,8 @@ export interface UpdateBucketSettingsResponseCdnRegionsItem {
 export type UpdateBucketSettingsResponseCdnRegionsList =
   Array<UpdateBucketSettingsResponseCdnRegionsItem>;
 export interface UpdateBucketSettingsResponse {
-  private?: boolean;
-  cdnRegions?: UpdateBucketSettingsResponseCdnRegionsList;
+  private?: boolean | undefined;
+  cdnRegions?: UpdateBucketSettingsResponseCdnRegionsList | undefined;
 }
 export interface XetReadTokenRequest {
   namespace: string;
@@ -400,6 +431,28 @@ export interface XetWriteTokenResponse {
   exp: number;
   accessToken: string | Redacted.Redacted<string>;
 }
+export interface Error400Body {
+  error: string;
+}
+export interface Error409Body {
+  error: string;
+  url: string;
+  /** A hex string of 24 characters representing an ObjectId. */
+  id: string;
+}
+export type Error422BodyFailedItem = BatchFileOperationsResponseFailedItem;
+/** List of failed operations */
+export type Error422BodyFailedList = Array<BatchFileOperationsResponseFailedItem>;
+export interface Error422Body {
+  /** True if all operations succeeded */
+  success: boolean;
+  /** Total number of operations attempted */
+  processed: number;
+  /** Number of successful operations */
+  succeeded: number;
+  /** List of failed operations */
+  failed: Error422BodyFailedList;
+}
 export type AddResourceGroupError = HuggingFaceOpError;
 /** Add resource group Add the repository to a resource group */
 export const addResourceGroup: API.OperationMethod<
@@ -408,8 +461,8 @@ export const addResourceGroup: API.OperationMethod<
   AddResourceGroupError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<AddResourceGroupRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<AddResourceGroupResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<AddResourceGroupRequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<AddResourceGroupResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -425,8 +478,8 @@ export const batchFileOperations: API.OperationMethod<
   BatchFileOperationsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<BatchFileOperationsRequest>,
-  output: __S(115, __c14, 3) as any as S.Schema<BatchFileOperationsResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<BatchFileOperationsRequest>,
+  output: __S(122, __c15, 2) as any as S.Schema<BatchFileOperationsResponse>,
   errors: [UnprocessableEntity],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -442,8 +495,8 @@ export const createBucket: API.OperationMethod<
   CreateBucketError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<CreateBucketRequest>,
-  output: __S(121, __c15, 1) as any as S.Schema<CreateBucketResponse>,
+  input: __S(144, __c18, 0) as any as S.Schema<CreateBucketRequest>,
+  output: __S(145, __c18, 1) as any as S.Schema<CreateBucketResponse>,
   errors: [Conflict],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -459,8 +512,8 @@ export const deleteBucket: API.OperationMethod<
   DeleteBucketError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<DeleteBucketRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<DeleteBucketResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<DeleteBucketRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<DeleteBucketResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -476,8 +529,8 @@ export const duplicateXetFiles: API.OperationMethod<
   DuplicateXetFilesError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(155, __c19, 3) as any as S.Schema<DuplicateXetFilesRequest>,
-  output: __S(158, __c19, 6) as any as S.Schema<DuplicateXetFilesResponse>,
+  input: __S(179, __c22, 3) as any as S.Schema<DuplicateXetFilesRequest>,
+  output: __S(182, __c22, 6) as any as S.Schema<DuplicateXetFilesResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -493,8 +546,8 @@ export const followChanges: API.OperationMethod<
   FollowChangesError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<FollowChangesRequest>,
-  output: __S(144, __c18, 0) as any as S.Schema<FollowChangesResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<FollowChangesRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<FollowChangesResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -510,8 +563,8 @@ export const getBucketDetails: API.OperationMethod<
   GetBucketDetailsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetBucketDetailsRequest>,
-  output: __S(18, __c2, 2) as any as S.Schema<GetBucketDetailsResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<GetBucketDetailsRequest>,
+  output: __S(34, __c4, 2) as any as S.Schema<GetBucketDetailsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -527,8 +580,8 @@ export const getFileMetadata: API.OperationMethod<
   GetFileMetadataError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetFileMetadataRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<GetFileMetadataResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<GetFileMetadataRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<GetFileMetadataResponse>,
   errors: [BadRequest, NotFound],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -544,8 +597,8 @@ export const getResourceGroup: API.OperationMethod<
   GetResourceGroupError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetResourceGroupRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<GetResourceGroupResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetResourceGroupRequest>,
+  output: __S(24, __c3, 0) as any as S.Schema<GetResourceGroupResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -561,8 +614,8 @@ export const listFiles: API.OperationMethod<
   ListFilesError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ListFilesRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<ListFilesResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<ListFilesRequest>,
+  output: __S(66, __c8, 2) as any as S.Schema<ListFilesResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -578,8 +631,8 @@ export const listNamespaceBuckets: API.OperationMethod<
   ListNamespaceBucketsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<ListNamespaceBucketsRequest>,
-  output: __S(58, __c7, 2) as any as S.Schema<ListNamespaceBucketsResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<ListNamespaceBucketsRequest>,
+  output: __S(74, __c9, 2) as any as S.Schema<ListNamespaceBucketsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -595,8 +648,8 @@ export const listPathsInfo: API.OperationMethod<
   ListPathsInfoError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<ListPathsInfoRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<ListPathsInfoResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<ListPathsInfoRequest>,
+  output: __S(66, __c8, 2) as any as S.Schema<ListPathsInfoResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -612,8 +665,8 @@ export const updateBucketSettings: API.OperationMethod<
   UpdateBucketSettingsError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<UpdateBucketSettingsRequest>,
-  output: __S(73, __c9, 1) as any as S.Schema<UpdateBucketSettingsResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<UpdateBucketSettingsRequest>,
+  output: __S(89, __c11, 1) as any as S.Schema<UpdateBucketSettingsResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -629,8 +682,8 @@ export const xetReadToken: API.OperationMethod<
   XetReadTokenError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<XetReadTokenRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<XetReadTokenResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<XetReadTokenRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<XetReadTokenResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -646,8 +699,8 @@ export const xetWriteToken: API.OperationMethod<
   XetWriteTokenError,
   HuggingFaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<XetWriteTokenRequest>,
-  output: __S(88, __c11, 0) as any as S.Schema<XetWriteTokenResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<XetWriteTokenRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<XetWriteTokenResponse>,
   errors: [],
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
@@ -661,13 +714,35 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          error: S.String,
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.String,
+          url: S.String,
+          id: S.String,
+        }),
+      ).annotate({ identifier: "Error409Body" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           namespace: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/api/buckets/{namespace}/{repo}", code: 200 })),
       ).annotate({ identifier: "GetBucketDetailsRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -679,7 +754,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetBucketDetailsResponseResourceGroup" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -703,15 +778,15 @@ function __c2(j: number): any {
           size: S.Number,
           totalFiles: S.Number,
           repoType: S.String,
-          adminTags: S.optional(__S(16, __c2, 0)),
-          disabled: S.optional(__S(17, __c2, 1)),
-          cdnRegions: __S(129, __c16, 1),
-          resourceGroup: S.optional(__S(8, __c1, 0)),
+          adminTags: S.optional(__S(32, __c4, 0)),
+          disabled: S.optional(__S(33, __c4, 1)),
+          cdnRegions: __S(153, __c19, 1),
+          resourceGroup: S.optional(__S(24, __c3, 0)),
         }),
       ).annotate({ identifier: "GetBucketDetailsResponse" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -735,11 +810,12 @@ function __c3(j: number): any {
           etag: S.String,
           size: S.Number,
           contentType: S.optional(S.String),
+          uploadedAt: S.String,
         }),
       ).annotate({ identifier: "GetFileMetadataResponse" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -756,7 +832,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetResourceGroupRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -766,6 +842,7 @@ function __c5(j: number): any {
           path: S.String.pipe(T.Label()),
           limit: S.optional(S.Number.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
+          startAfter: S.optional(S.String.pipe(T.Query())),
           recursive: S.optional(S.String.pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           direction: S.optional(S.String.pipe(T.Query())),
@@ -775,7 +852,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "ListFilesRequest" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -791,14 +868,14 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "ListFilesResponseBodyItem" });
     case 1:
-      return S.Array(__S(48, __c6, 0));
+      return S.Array(__S(64, __c8, 0));
     case 2:
-      return S.suspend(() => __S(49, __c6, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(65, __c8, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListFilesResponse",
       });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -808,14 +885,14 @@ function __c7(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/api/buckets/{namespace}", code: 200 })),
       ).annotate({ identifier: "ListNamespaceBucketsRequest" });
     case 1:
-      return S.Array(__S(18, __c2, 2));
+      return S.Array(__S(34, __c4, 2));
     case 2:
-      return S.suspend(() => __S(57, __c7, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(73, __c9, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListNamespaceBucketsResponse",
       });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -829,7 +906,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ListPathsInfoRequest" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -837,7 +914,7 @@ function __c9(j: number): any {
           namespace: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
           private: S.optional(S.Unknown),
-          cdnRegions: S.optional(__S(129, __c16, 1)),
+          cdnRegions: S.optional(__S(153, __c19, 1)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/api/buckets/{namespace}/{repo}/settings", code: 200 }),
         ),
@@ -846,12 +923,12 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           private: S.optional(S.Boolean),
-          cdnRegions: S.optional(__S(129, __c16, 1)),
+          cdnRegions: S.optional(__S(153, __c19, 1)),
         }),
       ).annotate({ identifier: "UpdateBucketSettingsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -868,7 +945,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "XetReadTokenRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -880,7 +957,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "XetReadTokenResponse" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -897,7 +974,29 @@ function __c12(j: number): any {
       ).annotate({ identifier: "XetWriteTokenRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          path: S.String,
+          error: S.String,
+        }),
+      ).annotate({ identifier: "BatchFileOperationsResponseFailedItem" });
+    case 1:
+      return S.Array(__S(120, __c15, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          processed: S.Number,
+          succeeded: S.Number,
+          failed: __S(121, __c15, 1),
+        }),
+      ).annotate({ identifier: "BatchFileOperationsResponse" });
+  }
+}
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -924,7 +1023,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "AddResourceGroupResponse" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -935,27 +1034,9 @@ function __c14(j: number): any {
           T.Http({ method: "POST", uri: "/api/buckets/{namespace}/{repo}/batch", code: 200 }),
         ),
       ).annotate({ identifier: "BatchFileOperationsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          path: S.String,
-          error: S.String,
-        }),
-      ).annotate({ identifier: "BatchFileOperationsResponseFailedItem" });
-    case 2:
-      return S.Array(__S(113, __c14, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          success: S.Boolean,
-          processed: S.Number,
-          succeeded: S.Number,
-          failed: __S(114, __c14, 2),
-        }),
-      ).annotate({ identifier: "BatchFileOperationsResponse" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -965,7 +1046,7 @@ function __c15(j: number): any {
           private: S.optional(S.NullOr(S.Boolean)),
           visibility: S.optional(S.String),
           resourceGroupId: S.optional(S.String),
-          cdn: S.optional(__S(129, __c16, 1)),
+          cdn: S.optional(__S(153, __c19, 1)),
           region: S.optional(S.String),
           description: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/api/buckets/{namespace}/{repo}", code: 200 })),
@@ -980,7 +1061,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CreateBucketResponse" });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -990,10 +1071,10 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "CreateBucketRequestCdnItem" });
     case 1:
-      return S.Array(__S(128, __c16, 0));
+      return S.Array(__S(152, __c19, 0));
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1004,13 +1085,13 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DeleteBucketRequest" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteBucketResponse" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1028,14 +1109,14 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "DuplicateXetFilesRequestFilesItem" });
     case 2:
-      return S.Array(__S(153, __c19, 1));
+      return S.Array(__S(177, __c22, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           repo: S.String.pipe(T.Label()),
-          target: __S(152, __c19, 0),
-          files: __S(154, __c19, 2),
+          target: __S(176, __c22, 0),
+          files: __S(178, __c22, 2),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1053,19 +1134,19 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "DuplicateXetFilesResponseFailedItem" });
     case 5:
-      return S.Array(__S(156, __c19, 4));
+      return S.Array(__S(180, __c22, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
           processed: S.Number,
           succeeded: S.Number,
-          failed: __S(157, __c19, 5),
+          failed: __S(181, __c22, 5),
         }),
       ).annotate({ identifier: "DuplicateXetFilesResponse" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

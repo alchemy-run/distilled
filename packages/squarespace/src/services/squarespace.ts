@@ -36,43 +36,71 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: StandardErrorPayload | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: StandardErrorPayload | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: StandardErrorPayload | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: StandardErrorPayload | string;
+}
 
 /** Optional; array of objects. Sets the exact stock quantity for InventoryItems. */
 export interface InventoryQuantityExpression {
   /** Quantity value for the inventory operation. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Unique id for the InventoryItem. */
-  variantId?: string;
+  variantId?: string | undefined;
 }
 /** Optional; array of objects. Subtracts stock quantity for InventoryItems. */
 export type AdjustInventoryStockLevelsRequestDecrementOperationsList =
@@ -89,19 +117,19 @@ export interface AdjustInventoryStockLevelsRequest {
   /** Required for idempotent requests. Refer to the idempotency key guide for requirements. */
   idempotencyKey: string;
   /** Optional; array of objects. Subtracts stock quantity for InventoryItems. */
-  decrementOperations?: AdjustInventoryStockLevelsRequestDecrementOperationsList;
+  decrementOperations?: AdjustInventoryStockLevelsRequestDecrementOperationsList | undefined;
   /** Optional; array of objects. Increments stock quantity for InventoryItems. */
-  incrementOperations?: AdjustInventoryStockLevelsRequestIncrementOperationsList;
+  incrementOperations?: AdjustInventoryStockLevelsRequestIncrementOperationsList | undefined;
   /** Optional; array of objects. Sets the exact stock quantity for InventoryItems. */
-  setFiniteOperations?: AdjustInventoryStockLevelsRequestSetFiniteOperationsList;
+  setFiniteOperations?: AdjustInventoryStockLevelsRequestSetFiniteOperationsList | undefined;
   /** Optional; array of InventoryItem ids. Marks stock quantity as "unlimited" for the given InventoryItems. */
-  setUnlimitedOperations?: AdjustInventoryStockLevelsRequestSetUnlimitedOperationsList;
+  setUnlimitedOperations?: AdjustInventoryStockLevelsRequestSetUnlimitedOperationsList | undefined;
 }
 export interface AdjustInventoryStockLevelsResponse {}
 /** Optional; HTTPS URL to receive webhook notifications. */
 export interface ChangeString {
-  present?: boolean;
-  value?: string;
+  present?: boolean | undefined;
+  value?: string | undefined;
 }
 export interface AssociateProductVariantImageRequest {
   productId: string;
@@ -365,46 +393,46 @@ export type ContactAddressCountryCode =
 /** Address properties for a contact. */
 export interface ContactAddress {
   /** Address' city */
-  city?: string;
+  city?: string | undefined;
   /** ISO 3166 alpha-2 country code string. */
   countryCode: ContactAddressCountryCode | (string & {});
   /** Contact's first name */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Contact's last name */
-  lastName?: string;
+  lastName?: string | undefined;
   /** First line of address */
-  line1?: string;
+  line1?: string | undefined;
   /** Second line of address */
-  line2?: string;
+  line2?: string | undefined;
   /** Contact's phone number */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** zip/postal code */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** General region (State, Province, County, etc...) */
-  region?: string;
+  region?: string | undefined;
 }
 export interface CreateAddressBookEntryRequest {
   /** The contact's ID. */
   contactId: string;
   address: ContactAddress;
   /** Whether this entry should be the default shipping address. If this is the only address book entry for the contact after creation, it becomes the default even when set to false. */
-  defaultShipping?: boolean;
+  defaultShipping?: boolean | undefined;
 }
 /** An address book entry for a contact. */
 export interface AddressBookEntry {
-  address?: ContactAddress;
+  address?: ContactAddress | undefined;
   /** Whether this entry is the current default shipping address. When the contact has any address book entries, exactly one entry has this value set to true. */
-  defaultShipping?: boolean;
+  defaultShipping?: boolean | undefined;
   /** The address book entry's ID. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface CreateAddressBookEntryResponse {
-  addressBookEntry?: AddressBookEntry;
+  addressBookEntry?: AddressBookEntry | undefined;
 }
 /** Primary email supplied when creating a contact. */
 export interface CreateEmail {
   /** If contact's email accepts marketing */
-  acceptsMarketing?: boolean;
+  acceptsMarketing?: boolean | undefined;
   /** The email address. */
   email: string;
 }
@@ -420,37 +448,37 @@ export interface CreateContactRequest {
 /** Marketing subscription state for the contact's email. */
 export interface AcceptsMarketing {
   /** Whether the contact accepts marketing email. */
-  acceptsMarketing?: boolean;
+  acceptsMarketing?: boolean | undefined;
   /** The date and time the contact was added to the marketing list.The value returned in the creation response is a near-real-time estimate; the Get Contact endpoint should be used to verify the exact persisted timestamp. */
-  joinedOn?: string;
+  joinedOn?: string | undefined;
   /** The date and time the contact left Marketing list */
-  leftOn?: string;
+  leftOn?: string | undefined;
 }
 /** The contact's primary email. */
 export interface Email {
-  acceptsMarketing?: AcceptsMarketing;
+  acceptsMarketing?: AcceptsMarketing | undefined;
   /** The date and time when the email was created. */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** The email address. */
-  email?: string;
+  email?: string | undefined;
 }
 /** A contact. */
 export interface Contact {
   /** The date and time when the contact was created. */
-  createdOn?: string;
-  defaultShippingAddress?: AddressBookEntry;
+  createdOn?: string | undefined;
+  defaultShippingAddress?: AddressBookEntry | undefined;
   /** The contact's first name. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** The contact's ID. */
-  id?: string;
+  id?: string | undefined;
   /** The contact's last name. */
-  lastName?: string;
+  lastName?: string | undefined;
   /** The contact's locale. */
-  locale?: string;
-  primaryEmail?: Email;
+  locale?: string | undefined;
+  primaryEmail?: Email | undefined;
 }
 export interface CreateContactResponse {
-  contact?: Contact;
+  contact?: Contact | undefined;
 }
 /** Discount applies to any order. No additional conditions. */
 export interface AnyOrderCriteria {
@@ -468,33 +496,33 @@ export type BuyXGetYCriteriaRewardProductIdsList = Array<string>;
 export interface BuyXGetYCriteria {
   type: string;
   /** Specifies the possible targets for a BuyXGetYCriteria buy-side. */
-  criteriaAppliesTo?: BuyXGetYCriteriaCriteriaAppliesTo | (string & {});
+  criteriaAppliesTo?: BuyXGetYCriteriaCriteriaAppliesTo | (string & {}) | undefined;
   /** Product ids the cart must contain. Required if criteriaAppliesTo=PRODUCT. */
-  criteriaProductIds?: BuyXGetYCriteriaCriteriaProductIdsList;
+  criteriaProductIds?: BuyXGetYCriteriaCriteriaProductIdsList | undefined;
   /** Quantity of eligible items the discount applies to. */
   eligibleForDiscountQuantity: number;
   /** Quantity of qualifying items required at full price. */
   requiredFullPriceQuantity: number;
   /** Specifies the possible targets for a BuyXGetYCriteria reward-side. */
-  rewardAppliesTo?: BuyXGetYCriteriaRewardAppliesTo | (string & {});
+  rewardAppliesTo?: BuyXGetYCriteriaRewardAppliesTo | (string & {}) | undefined;
   /** Product ids eligible for the reward. Required if rewardAppliesTo=PRODUCT. */
-  rewardProductIds?: BuyXGetYCriteriaRewardProductIdsList;
+  rewardProductIds?: BuyXGetYCriteriaRewardProductIdsList | undefined;
 }
 /** ISO 4217 currency code. */
 export interface MonetaryAmountCurrency {
-  currencyCode?: string;
-  defaultFractionDigits?: number;
-  displayName?: string;
-  numericCode?: number;
-  numericCodeAsString?: string;
-  symbol?: string;
+  currencyCode?: string | undefined;
+  defaultFractionDigits?: number | undefined;
+  displayName?: string | undefined;
+  numericCode?: number | undefined;
+  numericCodeAsString?: string | undefined;
+  symbol?: string | undefined;
 }
 /** A monetary amount with currency code and decimal value. */
 export interface MonetaryAmount {
   /** ISO 4217 currency code. */
-  currency?: MonetaryAmountCurrency;
+  currency?: MonetaryAmountCurrency | undefined;
   /** Decimal monetary value. */
-  value?: number;
+  value?: number | undefined;
 }
 /** Discount applies when the cart total meets or exceeds a minimum. */
 export interface CartTotalCriteria {
@@ -505,9 +533,9 @@ export interface CartTotalCriteria {
 export interface ProductCriteria {
   type: string;
   /** Identifier of the product the discount targets. */
-  productId?: string;
+  productId?: string | undefined;
   /** Display-time snapshot of the product name at the time the discount was created. */
-  productName?: string;
+  productName?: string | undefined;
 }
 export type CreateDiscountRequestCriteria =
   | AnyOrderCriteria
@@ -533,7 +561,7 @@ export interface BuyXGetYFixedAmountTemplate {
   type: string;
   discountAmount: MonetaryAmount;
   /** Caps how many times the discount can be applied per cart. 0 means unlimited. */
-  maxApplicationsPerCart?: number;
+  maxApplicationsPerCart?: number | undefined;
 }
 /** Apply a percentage discount off each reward item in a BUY_X_GET_Y discount. */
 export interface BuyXGetYPercentageTemplate {
@@ -541,7 +569,7 @@ export interface BuyXGetYPercentageTemplate {
   /** Percentage to subtract from each reward item. Range (0, 100]. */
   discountPercentage: number;
   /** Caps how many times the discount can be applied per cart. 0 means unlimited. */
-  maxApplicationsPerCart?: number;
+  maxApplicationsPerCart?: number | undefined;
 }
 /** Apply a fixed monetary amount off the cart total. */
 export interface FixedAmountTemplate {
@@ -578,9 +606,9 @@ export type SelectedShippingOptionSelectedService =
 /** A shipping option targeted by a free-shipping discount. */
 export interface SelectedShippingOption {
   /** If true, all services within the shipping option are eligible. */
-  isAllServicesSelected?: boolean;
+  isAllServicesSelected?: boolean | undefined;
   /** Carrier service eligible for a free-shipping discount. */
-  selectedService?: SelectedShippingOptionSelectedService | (string & {});
+  selectedService?: SelectedShippingOptionSelectedService | (string & {}) | undefined;
   /** Identifier of the shipping option. */
   shippingOptionId: string;
   /** Display-time snapshot of the shipping option name. */
@@ -592,8 +620,9 @@ export interface FreeShippingTemplate {
   /** Fulfillment channel a free-shipping discount applies to. */
   appliesToFulfillmentOptionType?:
     | FreeShippingTemplateAppliesToFulfillmentOptionType
-    | (string & {});
-  selectedShippingOption?: SelectedShippingOption;
+    | (string & {})
+    | undefined;
+  selectedShippingOption?: SelectedShippingOption | undefined;
 }
 /** Apply a percentage discount off the cart total. */
 export interface PercentageTemplate {
@@ -619,21 +648,21 @@ export type CreateDiscountRequestTrigger = AnyOrderCriteria | PromoCodeTrigger;
 export interface CreateDiscountRequest {
   criteria: CreateDiscountRequestCriteria;
   /** If true, the discount can only be used `maxUsesAllowed` times site-wide. */
-  isLimitedUses?: boolean;
+  isLimitedUses?: boolean | undefined;
   /** If true, a given customer can only use this discount once. */
-  isOncePerCustomer?: boolean;
+  isOncePerCustomer?: boolean | undefined;
   /** Maximum site-wide redemptions. Required when isLimitedUses=true; null otherwise. */
-  maxUsesAllowed?: number;
+  maxUsesAllowed?: number | undefined;
   /** Display name for the discount. */
   name: string;
-  paymentPlanOptions?: PaymentPlanOptions;
-  subscriptionOptions?: SubscriptionOptions;
+  paymentPlanOptions?: PaymentPlanOptions | undefined;
+  subscriptionOptions?: SubscriptionOptions | undefined;
   template: CreateDiscountRequestTemplate;
   trigger: CreateDiscountRequestTrigger;
   /** When the discount becomes active. */
   validFrom: string;
   /** When the discount expires. Null = no expiry. */
-  validTo?: string;
+  validTo?: string | undefined;
 }
 export type DiscountCriteria =
   | AnyOrderCriteria
@@ -653,31 +682,31 @@ export type DiscountTrigger = AnyOrderCriteria | PromoCodeTrigger;
 export interface Discount {
   criteria: DiscountCriteria;
   /** Discount id. */
-  id?: string;
+  id?: string | undefined;
   /** If true, the discount can only be used `maxUsesAllowed` times site-wide. */
-  isLimitedUses?: boolean;
+  isLimitedUses?: boolean | undefined;
   /** If true, a given customer can only use this discount once. */
-  isOncePerCustomer?: boolean;
+  isOncePerCustomer?: boolean | undefined;
   /** Timestamp of the most recent redemption. Null if never redeemed. */
-  lastRedeemedAt?: string;
+  lastRedeemedAt?: string | undefined;
   /** Maximum site-wide redemptions. Required when isLimitedUses=true; null otherwise. */
-  maxUsesAllowed?: number;
+  maxUsesAllowed?: number | undefined;
   /** Display name for the discount. */
   name: string;
   /** Number of times this discount has been redeemed. */
-  numberOfUses?: number;
-  paymentPlanOptions?: PaymentPlanOptions;
+  numberOfUses?: number | undefined;
+  paymentPlanOptions?: PaymentPlanOptions | undefined;
   /** Defines the lifecycle status of a discount. */
-  status?: DiscountStatus;
-  subscriptionOptions?: SubscriptionOptions;
+  status?: DiscountStatus | undefined;
+  subscriptionOptions?: SubscriptionOptions | undefined;
   template: DiscountTemplate;
   trigger: DiscountTrigger;
   /** When the discount becomes active. */
   validFrom: string;
   /** When the discount expires. Null = no expiry. */
-  validTo?: string;
+  validTo?: string | undefined;
   /** 24-char website id. */
-  websiteId?: string;
+  websiteId?: string | undefined;
 }
 /** Envelope for a single discount response. */
 export interface DiscountResponse {
@@ -685,21 +714,21 @@ export interface DiscountResponse {
 }
 /** Customer's shipping address. */
 export interface AddressRequest {
-  address1?: string;
-  address2?: string;
-  city?: string;
-  countryCode?: string;
-  firstName?: string;
-  lastName?: string;
-  phone?: string;
-  postalCode?: string;
-  state?: string;
+  address1?: string | undefined;
+  address2?: string | undefined;
+  city?: string | undefined;
+  countryCode?: string | undefined;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
+  phone?: string | undefined;
+  postalCode?: string | undefined;
+  state?: string | undefined;
 }
 /** Array of discount line items. Describes the promotions redeemed during checkout. */
 export interface CreateDiscountLineRequest {
-  amount?: MonetaryAmount;
-  name?: string;
-  promoCode?: string;
+  amount?: MonetaryAmount | undefined;
+  name?: string | undefined;
+  promoCode?: string | undefined;
 }
 /** Array of discount line items. Describes the promotions redeemed during checkout. */
 export type CreateOrderRequestDiscountLinesList = Array<CreateDiscountLineRequest>;
@@ -716,7 +745,7 @@ export interface CreateOrderShipmentRequest {
   /** Carrier's parcel tracking number. */
   trackingNumber: string;
   /** URL provided by carrier to track the shipment; must adhere to valid URL formatting. */
-  trackingUrl?: string;
+  trackingUrl?: string | undefined;
 }
 /** Array of shipping fulfillments; up to 100 entries. Describes shipment information for the order. */
 export type CreateOrderRequestFulfillmentsList = Array<CreateOrderShipmentRequest>;
@@ -727,14 +756,14 @@ export type OrderCreateLineItemType = "PHYSICAL_PRODUCT" | "CUSTOM";
 /** Array of purchased line items; cannot be empty. */
 export interface CreateLineItemRequest {
   lineItemType: OrderCreateLineItemType | (string & {});
-  nonSaleUnitPrice?: MonetaryAmount;
+  nonSaleUnitPrice?: MonetaryAmount | undefined;
   /** Amount of the item purchased. 1,000,000 limit. */
   quantity: number;
   /** Title of the custom line item. */
-  title?: string;
+  title?: string | undefined;
   unitPricePaid: MonetaryAmount;
   /** Required if lineItemType is PHYSICAL_PRODUCT. Unique id of the ProductVariant sold. */
-  variantId?: string;
+  variantId?: string | undefined;
 }
 /** Array of purchased line items; cannot be empty. */
 export type CreateOrderRequestLineItemsList = Array<CreateLineItemRequest>;
@@ -753,75 +782,78 @@ export type ShopperFulfillmentNotificationBehavior = "SEND" | "SKIP";
 export interface CreateOrderRequest {
   /** Idempotency key to prevent duplicate order creation. */
   idempotencyKey: string;
-  billingAddress?: AddressRequest;
+  billingAddress?: AddressRequest | undefined;
   /** Name of third-party sales channel. */
   channelName: string;
   /** ISO 8601 UTC date and time string. Represents the date and time when the order was placed through the third-party sales channel. */
   createdOn: string;
   /** Email address provided at checkout on the third-party sales channel. */
-  customerEmail?: string;
+  customerEmail?: string | undefined;
   /** Array of discount line items. Describes the promotions redeemed during checkout. */
-  discountLines?: CreateOrderRequestDiscountLinesList;
-  discountTotal?: MonetaryAmount;
+  discountLines?: CreateOrderRequestDiscountLinesList | undefined;
+  discountTotal?: MonetaryAmount | undefined;
   /** Order reference identifier used by the third-party sales channel. */
   externalOrderReference: string;
   /** ISO 8601 UTC date and time string. Represents the moment the order was fulfilled. Required if fulfillmentStatus is FULFILLED. */
-  fulfilledOn?: string;
-  fulfillmentStatus?: OrderCreateFulfillmentStatus | (string & {});
+  fulfilledOn?: string | undefined;
+  fulfillmentStatus?: OrderCreateFulfillmentStatus | (string & {}) | undefined;
   /** Array of shipping fulfillments; up to 100 entries. Describes shipment information for the order. */
   fulfillments: CreateOrderRequestFulfillmentsList;
   grandTotal: MonetaryAmount;
-  inventoryBehavior?: CreateOrderInventoryBehavior | (string & {});
+  inventoryBehavior?: CreateOrderInventoryBehavior | (string & {}) | undefined;
   /** Array of purchased line items; cannot be empty. */
   lineItems: CreateOrderRequestLineItemsList;
   priceTaxInterpretation: TaxInterpretation | (string & {});
-  shippingAddress?: AddressRequest;
+  shippingAddress?: AddressRequest | undefined;
   /** Array of shipping line items. Describes the shipping options chosen at checkout. Currently accepts only one shipping entry. */
-  shippingLines?: CreateOrderRequestShippingLinesList;
-  shippingTotal?: MonetaryAmount;
-  shopperFulfillmentNotificationBehavior?: ShopperFulfillmentNotificationBehavior | (string & {});
-  subtotal?: MonetaryAmount;
-  taxTotal?: MonetaryAmount;
+  shippingLines?: CreateOrderRequestShippingLinesList | undefined;
+  shippingTotal?: MonetaryAmount | undefined;
+  shopperFulfillmentNotificationBehavior?:
+    | ShopperFulfillmentNotificationBehavior
+    | (string & {})
+    | undefined;
+  subtotal?: MonetaryAmount | undefined;
+  taxTotal?: MonetaryAmount | undefined;
 }
 /** Customer's shipping address provided at checkout or, for recurring subscription orders, the customer's current mailing address. */
 export interface Address {
   /** Primary street address */
-  address1?: string;
+  address1?: string | undefined;
   /** Secondary address line */
-  address2?: string;
+  address2?: string | undefined;
   /** City */
-  city?: string;
+  city?: string | undefined;
   /** ISO 3166-1 alpha-2 country code */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** First name */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Last name */
-  lastName?: string;
+  lastName?: string | undefined;
   /** Phone number */
-  phone?: string;
+  phone?: string | undefined;
   /** Postal or ZIP code */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** State or province */
-  state?: string;
+  state?: string | undefined;
 }
 /** Array of discount line items; describes the promotions redeemed during checkout. */
 export interface DiscountLine {
-  amount?: MonetaryAmount;
+  amount?: MonetaryAmount | undefined;
   /** A plain-English description of the promotion */
-  description?: string;
+  description?: string | undefined;
   /** Name of the promotion */
-  name?: string;
+  name?: string | undefined;
   /** The user-entered promo code that triggered the discount */
-  promoCode?: string;
+  promoCode?: string | undefined;
 }
 /** Array of discount line items; describes the promotions redeemed during checkout. */
 export type OrderDiscountLinesList = Array<DiscountLine>;
 /** Array of form data submitted via the checkout page. */
 export interface FormItem {
   /** The name of the form field */
-  label?: string;
+  label?: string | undefined;
   /** The value of the field, as entered by the shopper */
-  value?: string;
+  value?: string | undefined;
 }
 /** Array of form data submitted via the checkout page. */
 export type OrderFormSubmissionList = Array<FormItem>;
@@ -830,22 +862,22 @@ export type FulfillmentStatus = "PENDING" | "FULFILLED" | "CANCELED";
 /** Array of shipping fulfillments; describes shipment information for the order. */
 export interface Fulfillment {
   /** Name of the carrier handling the shipment. */
-  carrierName?: string;
+  carrierName?: string | undefined;
   /** Carrier's level of service for shipping. */
-  service?: string;
+  service?: string | undefined;
   /** ISO 8601 UTC date and time string; represents the moment the fulfillment was shipped. */
-  shipDate?: string;
+  shipDate?: string | undefined;
   /** Carrier's parcel tracking number. */
-  trackingNumber?: string;
+  trackingNumber?: string | undefined;
   /** URL provided by the carrier to track the shipment. */
-  trackingUrl?: string;
+  trackingUrl?: string | undefined;
 }
 /** Array of shipping fulfillments; describes shipment information for the order. */
 export type OrderFulfillmentsList = Array<Fulfillment>;
 /** Array of internal notes added to the order by the merchant. */
 export interface OrderNote {
   /** Content for the note */
-  content?: string;
+  content?: string | undefined;
 }
 /** Array of internal notes added to the order by the merchant. */
 export type OrderInternalNotesList = Array<OrderNote>;
@@ -854,43 +886,43 @@ export type LineItemCustomizationsList = Array<FormItem>;
 /** Array of variant options; represents variant choices made by the customer. Null for download and gift card products. */
 export interface VariantOption {
   /** The name of the option (e.g. color, size, material) */
-  optionName?: string;
+  optionName?: string | undefined;
   /** The shopper-selected value for the option (e.g. red, small, cotton) */
-  value?: string;
+  value?: string | undefined;
 }
 /** Array of variant options; represents variant choices made by the customer. Null for download and gift card products. */
 export type LineItemVariantOptionsList = Array<VariantOption>;
 /** Array of purchased line items; line items describe what product or product variant was purchased, how many of that item were purchased, and additional details. */
 export interface LineItem {
   /** Array of form data submitted via a product's custom form prior to being added to the cart. */
-  customizations?: LineItemCustomizationsList;
+  customizations?: LineItemCustomizationsList | undefined;
   /** Shipping height of the physical product variant. 0.0 when not specified or when the variant is not a physical product. */
-  height?: number;
+  height?: number | undefined;
   /** Unique line item id. */
-  id?: string;
+  id?: string | undefined;
   /** URL of the primary image for the item. */
-  imageUrl?: string;
+  imageUrl?: string | undefined;
   /** Shipping length of the physical product variant. 0.0 when not specified or when the variant is not a physical product. */
-  length?: number;
+  length?: number | undefined;
   /** Product type of the item. */
-  lineItemType?: string;
+  lineItemType?: string | undefined;
   /** Unique product id; unless null, every line item with a variantId is a variant of a product with productId. */
-  productId?: string;
+  productId?: string | undefined;
   /** Name of the purchased product. */
-  productName?: string;
+  productName?: string | undefined;
   /** Amount of the item purchased. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Stock keeping unit (SKU) code assigned by the Squarespace merchant for a variant. Null for digital products. */
-  sku?: string;
-  unitPricePaid?: MonetaryAmount;
+  sku?: string | undefined;
+  unitPricePaid?: MonetaryAmount | undefined;
   /** Unique id of the ProductVariant sold. Populated for physical, service, or gift card line items created on or after May 28, 2019. */
-  variantId?: string;
+  variantId?: string | undefined;
   /** Array of variant options; represents variant choices made by the customer. Null for download and gift card products. */
-  variantOptions?: LineItemVariantOptionsList;
+  variantOptions?: LineItemVariantOptionsList | undefined;
   /** Shipping weight of the physical product variant. 0.0 when not specified or when the variant is not a physical product. */
-  weight?: number;
+  weight?: number | undefined;
   /** Shipping width of the physical product variant. 0.0 when not specified or when the variant is not a physical product. */
-  width?: number;
+  width?: number | undefined;
 }
 /** Array of purchased line items; line items describe what product or product variant was purchased, how many of that item were purchased, and additional details. */
 export type OrderLineItemsList = Array<LineItem>;
@@ -907,9 +939,9 @@ export type PaymentState =
   | "PARTIALLY_PAID";
 /** Array of shipping line items; describes the shipping options chosen at checkout. */
 export interface ShippingLine {
-  amount?: MonetaryAmount;
+  amount?: MonetaryAmount | undefined;
   /** Description of the shipping option */
-  method?: string;
+  method?: string | undefined;
 }
 /** Array of shipping line items; describes the shipping options chosen at checkout. */
 export type OrderShippingLinesList = Array<ShippingLine>;
@@ -950,76 +982,76 @@ export type OrderShippingOptionServiceType =
   | "USPS_ONLINE"
   | "OTHER";
 export interface Order {
-  billingAddress?: Address;
+  billingAddress?: Address | undefined;
   /** Where the order originated; possible values are: web and pos. */
-  channel?: string;
+  channel?: string | undefined;
   /** Name of the third-party sales channel. */
-  channelName?: string;
+  channelName?: string | undefined;
   /** ISO 8601 UTC date and time string; represents the moment when the order was placed. */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** Email address entered at checkout or, for recurring subscription orders, the customer's current email address. */
-  customerEmail?: string;
+  customerEmail?: string | undefined;
   /** Unique customer id. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Array of discount line items; describes the promotions redeemed during checkout. */
-  discountLines?: OrderDiscountLinesList;
-  discountTotal?: MonetaryAmount;
+  discountLines?: OrderDiscountLinesList | undefined;
+  discountTotal?: MonetaryAmount | undefined;
   /** Order reference identifier used by the third-party sales channel. */
-  externalOrderReference?: string;
+  externalOrderReference?: string | undefined;
   /** Array of form data submitted via the checkout page. */
-  formSubmission?: OrderFormSubmissionList;
+  formSubmission?: OrderFormSubmissionList | undefined;
   /** ISO 8601 UTC date and time string; represents the moment the order was fulfilled. */
-  fulfilledOn?: string;
-  fulfillmentStatus?: FulfillmentStatus;
+  fulfilledOn?: string | undefined;
+  fulfillmentStatus?: FulfillmentStatus | undefined;
   /** Array of shipping fulfillments; describes shipment information for the order. */
-  fulfillments?: OrderFulfillmentsList;
-  grandTotal?: MonetaryAmount;
+  fulfillments?: OrderFulfillmentsList | undefined;
+  grandTotal?: MonetaryAmount | undefined;
   /** Unique Order id. */
-  id?: string;
+  id?: string | undefined;
   /** Array of internal notes added to the order by the merchant. */
-  internalNotes?: OrderInternalNotesList;
+  internalNotes?: OrderInternalNotesList | undefined;
   /** Array of purchased line items; line items describe what product or product variant was purchased, how many of that item were purchased, and additional details. */
-  lineItems?: OrderLineItemsList;
+  lineItems?: OrderLineItemsList | undefined;
   /** ISO 8601 UTC date and time string; represents when the order was last modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
   /** Unique, sequential number for the Order. */
-  orderNumber?: string;
-  paymentState?: PaymentState;
+  orderNumber?: string | undefined;
+  paymentState?: PaymentState | undefined;
   /** Indicates whether lineItems.unitPricePaid includes tax. Values may be EXCLUSIVE or INCLUSIVE. */
-  priceTaxInterpretation?: string;
-  refundedTotal?: MonetaryAmount;
-  shippingAddress?: Address;
+  priceTaxInterpretation?: string | undefined;
+  refundedTotal?: MonetaryAmount | undefined;
+  shippingAddress?: Address | undefined;
   /** Array of shipping line items; describes the shipping options chosen at checkout. */
-  shippingLines?: OrderShippingLinesList;
+  shippingLines?: OrderShippingLinesList | undefined;
   /** the specific shipping service name selected at checkout (e.g. "USPS Ground Advantage", "Royal Mail Tracked 48"). */
-  shippingOptionName?: string;
+  shippingOptionName?: string | undefined;
   /** The carrier service type identifier. */
-  shippingOptionServiceType?: OrderShippingOptionServiceType;
-  shippingTotal?: MonetaryAmount;
-  subtotal?: MonetaryAmount;
-  taxTotal?: MonetaryAmount;
+  shippingOptionServiceType?: OrderShippingOptionServiceType | undefined;
+  shippingTotal?: MonetaryAmount | undefined;
+  subtotal?: MonetaryAmount | undefined;
+  taxTotal?: MonetaryAmount | undefined;
   /** If true, the order is a test order created using a payment method in test mode. */
-  testmode?: boolean;
+  testmode?: boolean | undefined;
 }
 export type CreateGiftCardProductRequestTagsList = Array<string>;
 export interface SimpleProductPricing {
-  basePrice?: MonetaryAmount;
+  basePrice?: MonetaryAmount | undefined;
 }
 export interface CreateGiftCardProductVariantRequest {
-  pricing?: SimpleProductPricing;
-  sku?: string;
+  pricing?: SimpleProductPricing | undefined;
+  sku?: string | undefined;
 }
 export type CreateGiftCardProductRequestVariantsList = Array<CreateGiftCardProductVariantRequest>;
 /** Request payload to create a GIFT_CARD product. */
 export interface CreateGiftCardProductRequest {
-  description?: string;
-  isVisible?: boolean;
-  name?: string;
-  storePageId?: string;
-  tags?: CreateGiftCardProductRequestTagsList;
-  type?: string;
-  urlSlug?: string;
-  variants?: CreateGiftCardProductRequestVariantsList;
+  description?: string | undefined;
+  isVisible?: boolean | undefined;
+  name?: string | undefined;
+  storePageId?: string | undefined;
+  tags?: CreateGiftCardProductRequestTagsList | undefined;
+  type?: string | undefined;
+  urlSlug?: string | undefined;
+  variants?: CreateGiftCardProductRequestVariantsList | undefined;
 }
 export type CreatePhysicalProductRequestTagsList = Array<string>;
 export type CreatePhysicalProductRequestVariantAttributesList = Array<string>;
@@ -1027,87 +1059,87 @@ export type CreatePhysicalProductVariantRequestAttributesMap = {
   [key: string]: string | undefined;
 };
 export interface FullProductPricing {
-  basePrice?: MonetaryAmount;
-  onSale?: boolean;
-  salePrice?: MonetaryAmount;
+  basePrice?: MonetaryAmount | undefined;
+  onSale?: boolean | undefined;
+  salePrice?: MonetaryAmount | undefined;
 }
 /** Unit of measurement. Supported values: `INCH`, `CENTIMETER`. */
 export type ProductDimensionsUnit = "CENTIMETER" | "INCH";
 /** Physical dimensions of the variant. */
 export interface ProductDimensions {
   /** Height of the variant. */
-  height?: number;
+  height?: number | undefined;
   /** Length of the variant. */
-  length?: number;
-  unit?: ProductDimensionsUnit | (string & {});
+  length?: number | undefined;
+  unit?: ProductDimensionsUnit | (string & {}) | undefined;
   /** Width of the variant. */
-  width?: number;
+  width?: number | undefined;
 }
 /** Unit of measurement. Supported values: `KILOGRAM`, `POUND`. */
 export type ProductWeightUnit = "KILOGRAM" | "POUND";
 /** Weight of the variant. */
 export interface ProductWeight {
-  unit?: ProductWeightUnit | (string & {});
+  unit?: ProductWeightUnit | (string & {}) | undefined;
   /** Weight amount. */
-  value?: number;
+  value?: number | undefined;
 }
 /** Measurements of the variant when it's shipped. Present for PHYSICAL products only. */
 export interface ProductMeasurements {
-  dimensions?: ProductDimensions;
-  weight?: ProductWeight;
+  dimensions?: ProductDimensions | undefined;
+  weight?: ProductWeight | undefined;
 }
 /** Available stock for the variant. Present for PHYSICAL products only. */
 export interface ProductStock {
   /** Number of units that can be purchased. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Indicates whether the variant has unlimited stock. */
-  unlimited?: boolean;
+  unlimited?: boolean | undefined;
 }
 export interface CreatePhysicalProductVariantRequest {
-  attributes?: CreatePhysicalProductVariantRequestAttributesMap;
+  attributes?: CreatePhysicalProductVariantRequestAttributesMap | undefined;
   /** Global Trade Item Number (GTIN). Optional. Must be 8, 12, 13, or 14 numeric digits. Whitespace, hyphens, and underscores are stripped before validation. */
-  gtin?: string;
+  gtin?: string | undefined;
   /** Manufacturer Part Number (MPN). Optional. Must be alphanumeric and 70 characters or fewer. Whitespace, hyphens, and underscores are stripped before validation. */
-  mpn?: string;
-  pricing?: FullProductPricing;
-  shippingMeasurements?: ProductMeasurements;
-  sku?: string;
-  stock?: ProductStock;
+  mpn?: string | undefined;
+  pricing?: FullProductPricing | undefined;
+  shippingMeasurements?: ProductMeasurements | undefined;
+  sku?: string | undefined;
+  stock?: ProductStock | undefined;
 }
 export type CreatePhysicalProductRequestVariantsList = Array<CreatePhysicalProductVariantRequest>;
 /** Request payload to create a PHYSICAL product. */
 export interface CreatePhysicalProductRequest {
-  description?: string;
-  isVisible?: boolean;
-  name?: string;
-  storePageId?: string;
-  tags?: CreatePhysicalProductRequestTagsList;
-  type?: string;
-  urlSlug?: string;
-  variantAttributes?: CreatePhysicalProductRequestVariantAttributesList;
-  variants?: CreatePhysicalProductRequestVariantsList;
+  description?: string | undefined;
+  isVisible?: boolean | undefined;
+  name?: string | undefined;
+  storePageId?: string | undefined;
+  tags?: CreatePhysicalProductRequestTagsList | undefined;
+  type?: string | undefined;
+  urlSlug?: string | undefined;
+  variantAttributes?: CreatePhysicalProductRequestVariantAttributesList | undefined;
+  variants?: CreatePhysicalProductRequestVariantsList | undefined;
 }
 export type CreateServiceProductRequestTagsList = Array<string>;
 export type CreateServiceProductRequestVariantAttributesList = Array<string>;
 export type CreateServiceProductVariantRequestAttributesMap = { [key: string]: string | undefined };
 export interface CreateServiceProductVariantRequest {
-  attributes?: CreateServiceProductVariantRequestAttributesMap;
-  pricing?: FullProductPricing;
-  sku?: string;
-  stock?: ProductStock;
+  attributes?: CreateServiceProductVariantRequestAttributesMap | undefined;
+  pricing?: FullProductPricing | undefined;
+  sku?: string | undefined;
+  stock?: ProductStock | undefined;
 }
 export type CreateServiceProductRequestVariantsList = Array<CreateServiceProductVariantRequest>;
 /** Request payload to create a SERVICE product. */
 export interface CreateServiceProductRequest {
-  description?: string;
-  isVisible?: boolean;
-  name?: string;
-  storePageId?: string;
-  tags?: CreateServiceProductRequestTagsList;
-  type?: string;
-  urlSlug?: string;
-  variantAttributes?: CreateServiceProductRequestVariantAttributesList;
-  variants?: CreateServiceProductRequestVariantsList;
+  description?: string | undefined;
+  isVisible?: boolean | undefined;
+  name?: string | undefined;
+  storePageId?: string | undefined;
+  tags?: CreateServiceProductRequestTagsList | undefined;
+  type?: string | undefined;
+  urlSlug?: string | undefined;
+  variantAttributes?: CreateServiceProductRequestVariantAttributesList | undefined;
+  variants?: CreateServiceProductRequestVariantsList | undefined;
 }
 export type CreateProductRequestBody =
   | CreateGiftCardProductRequest
@@ -1121,93 +1153,93 @@ export type ProductImageAvailableFormatsList = Array<string>;
 /** Product image assigned to the variant. */
 export interface ProductImage {
   /** Alt text for the image; impacts SEO and appears in search results. */
-  altText?: string;
+  altText?: string | undefined;
   /** Available image sizes. Use with `images.url` and a `format` query parameter to retrieve the image at a particular width. */
-  availableFormats?: ProductImageAvailableFormatsList;
+  availableFormats?: ProductImageAvailableFormatsList | undefined;
   /** Unique ProductImage id. */
-  id?: string;
+  id?: string | undefined;
   /** Position of the image in the product's image list. */
-  orderIndex?: number;
+  orderIndex?: number | undefined;
   /** Image size when first uploaded. */
-  originalSize?: unknown;
+  originalSize?: unknown | undefined;
   /** Absolute URL of the image hosted on Squarespace. */
-  url?: string;
+  url?: string | undefined;
 }
 export type ProductV2ImagesList = Array<ProductImage>;
 /** Options for search engine optimization. */
 export interface SeoOptions {
-  description?: string;
-  title?: string;
+  description?: string | undefined;
+  title?: string | undefined;
 }
 export type ProductV2TagsList = Array<string>;
 export type ProductTypeV2 = "PHYSICAL" | "SERVICE" | "GIFT_CARD" | "DIGITAL";
 export interface ProductV2 {
   createdOn: string;
-  description?: string;
+  description?: string | undefined;
   id: string;
-  images?: ProductV2ImagesList;
-  isVisible?: boolean;
+  images?: ProductV2ImagesList | undefined;
+  isVisible?: boolean | undefined;
   modifiedOn: string;
-  name?: string;
-  seoOptions?: SeoOptions;
+  name?: string | undefined;
+  seoOptions?: SeoOptions | undefined;
   storePageId: string;
-  tags?: ProductV2TagsList;
+  tags?: ProductV2TagsList | undefined;
   type: ProductTypeV2;
-  url?: string;
-  urlSlug?: string;
+  url?: string | undefined;
+  urlSlug?: string | undefined;
 }
 /** Specifies attribute-value pairs for the variant. 100 char limit per key and per value with no more than six key-value pairs. Supported for PHYSICAL products only. */
 export type CreateProductVariantRequestAttributesMap = { [key: string]: string | undefined };
 /** Present for DIGITAL products only. Digital products don't have variants, so pricing is at the product level. */
 export interface ProductPricing {
-  basePrice?: MonetaryAmount;
+  basePrice?: MonetaryAmount | undefined;
   /** Indicates whether the variant is sold according to its sale price. Present for PHYSICAL products only. */
-  onSale?: boolean;
-  salePrice?: MonetaryAmount;
+  onSale?: boolean | undefined;
+  salePrice?: MonetaryAmount | undefined;
 }
 export interface CreateProductVariantRequest {
   productId: string;
   /** Specifies attribute-value pairs for the variant. 100 char limit per key and per value with no more than six key-value pairs. Supported for PHYSICAL products only. */
-  attributes?: CreateProductVariantRequestAttributesMap;
+  attributes?: CreateProductVariantRequestAttributesMap | undefined;
   /** Global Trade Item Number (GTIN). Optional. Must be 8, 12, 13, or 14 numeric digits. Whitespace, hyphens, and underscores are stripped before validation. Supported for PHYSICAL products only. */
-  gtin?: string;
+  gtin?: string | undefined;
   /** Manufacturer Part Number (MPN). Optional. Must be alphanumeric and 70 characters or fewer. Whitespace, hyphens, and underscores are stripped before validation. Supported for PHYSICAL products only. */
-  mpn?: string;
+  mpn?: string | undefined;
   pricing: ProductPricing;
-  shippingMeasurements?: ProductMeasurements;
+  shippingMeasurements?: ProductMeasurements | undefined;
   /** Merchant-defined code that identifies the product variant. Value must be unique among variants. Leading and trailing whitespace is removed. */
   sku: string;
-  stock?: ProductStock;
+  stock?: ProductStock | undefined;
 }
 export type PhysicalProductVariantAttributesMap = { [key: string]: string | undefined };
 /** A variant of a PHYSICAL product. */
 export interface PhysicalProductVariant {
-  attributes?: PhysicalProductVariantAttributesMap;
-  gtin?: string;
-  id?: string;
-  image?: ProductImage;
-  mpn?: string;
-  pricing?: FullProductPricing;
-  shippingMeasurements?: ProductMeasurements;
-  sku?: string;
-  stock?: ProductStock;
+  attributes?: PhysicalProductVariantAttributesMap | undefined;
+  gtin?: string | undefined;
+  id?: string | undefined;
+  image?: ProductImage | undefined;
+  mpn?: string | undefined;
+  pricing?: FullProductPricing | undefined;
+  shippingMeasurements?: ProductMeasurements | undefined;
+  sku?: string | undefined;
+  stock?: ProductStock | undefined;
 }
 /** A variant of a GIFT_CARD product. */
 export interface GiftCardProductVariant {
-  id?: string;
-  image?: ProductImage;
-  pricing?: SimpleProductPricing;
-  sku?: string;
+  id?: string | undefined;
+  image?: ProductImage | undefined;
+  pricing?: SimpleProductPricing | undefined;
+  sku?: string | undefined;
 }
 export type ServiceProductVariantAttributesMap = { [key: string]: string | undefined };
 /** A variant of a SERVICE product. */
 export interface ServiceProductVariant {
-  attributes?: ServiceProductVariantAttributesMap;
-  id?: string;
-  image?: ProductImage;
-  pricing?: FullProductPricing;
-  sku?: string;
-  stock?: ProductStock;
+  attributes?: ServiceProductVariantAttributesMap | undefined;
+  id?: string | undefined;
+  image?: ProductImage | undefined;
+  pricing?: FullProductPricing | undefined;
+  sku?: string | undefined;
+  stock?: ProductStock | undefined;
 }
 /** A product variant. The shape depends on the product type. */
 export type ProductVariantV2 =
@@ -1233,7 +1265,7 @@ export interface CreateWebhookSubscriptionRequest {
   /** HTTPS URL to POST webhook notifications. */
   endpointUrl: string;
   /** List of event topics that trigger a webhook notification. */
-  topics?: CreateWebhookSubscriptionRequestTopicsList;
+  topics?: CreateWebhookSubscriptionRequestTopicsList | undefined;
 }
 /** Description of the event that triggered the notification. * `order.create` - always value for OrderCreatePayload.topic ref * `order.update` - always value for OrderUpdatePayload.topic * `extension.uninstall` - always value for ExtensionUninstallPayload.topic * `contact.create` - always value for ContactCreatePayload.topic * `contact.update` - always value for ContactUpdatePayload.topic * `contact.delete` - always value for ContactDeletePayload.topic * `address.create` - always value for AddressCreatePayload.topic * `address.update` - always value for AddressUpdatePayload.topic * `address.delete` - always value for AddressDeletePayload.topic */
 export type ExternalCreateWebhookSubscriptionResponseTopicsItem =
@@ -1261,7 +1293,7 @@ export interface ExternalCreateWebhookSubscriptionResponse {
   /** Hexadecimal value used to generate a signature for a webhook notification; field is only returned when creating a new subscription or rotating a secret. Store the secret in a safe location to verify notifications from Squarespace. See the 'Verifying notifications' guide under Webhooks for details. */
   secret: string | Redacted.Redacted<string>;
   /** List of event topics that trigger a webhook notification. */
-  topics?: ExternalCreateWebhookSubscriptionResponseTopicsList;
+  topics?: ExternalCreateWebhookSubscriptionResponseTopicsList | undefined;
   /** ISO 8601 UTC date and time string; represents when the webhook subscription was last modified. */
   updatedOn: string;
   /** Unique Webhook Subscription id. */
@@ -1309,36 +1341,36 @@ export interface FulfillOrderRequest {
   /** Specifies the Order to update. */
   id: string;
   /** Array of shipment data. */
-  shipments?: FulfillOrderRequestShipmentsList;
+  shipments?: FulfillOrderRequestShipmentsList | undefined;
   /** Indicates whether the customer should receive an email notification about the added shipments. */
-  shouldSendNotification?: boolean;
+  shouldSendNotification?: boolean | undefined;
 }
 export interface FulfillOrderResponse {}
 export interface GetAddressBookRequest {
   /** The contact's ID. */
   contactId: string;
   /** number of contacts to retrieve per request */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** where next page of results begins. should be {pagination.nextPageCursor} from previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** List of Address Book Entries */
 export type AddressBookAddressBookEntriesList = Array<AddressBookEntry>;
 /** Address settings for a contact. When there is at least one address book entry, exactly one is the default shipping address; default shipping address is always returned on the first page of paginated results). */
 export interface AddressBook {
   /** List of Address Book Entries */
-  addressBookEntries?: AddressBookAddressBookEntriesList;
+  addressBookEntries?: AddressBookAddressBookEntriesList | undefined;
   /** The id of the address book entry that is the default shipping address. */
-  defaultShippingAddressId?: string;
+  defaultShippingAddressId?: string | undefined;
 }
 export interface PaginationDetails {
-  hasNextPage?: boolean;
-  nextPageCursor?: string;
-  nextPageUrl?: string;
+  hasNextPage?: boolean | undefined;
+  nextPageCursor?: string | undefined;
+  nextPageUrl?: string | undefined;
 }
 export interface GetAddressBookResponse {
-  addressBook?: AddressBook;
-  pagination?: PaginationDetails;
+  addressBook?: AddressBook | undefined;
+  pagination?: PaginationDetails | undefined;
 }
 export interface GetAddressBookEntryRequest {
   /** The contact's ID. */
@@ -1347,20 +1379,20 @@ export interface GetAddressBookEntryRequest {
   addressBookEntryId: string;
 }
 export interface GetAddressBookEntryResponse {
-  addressBookEntry?: AddressBookEntry;
+  addressBookEntry?: AddressBookEntry | undefined;
 }
 export interface GetContactRequest {
   /** The contact's ID. */
   contactId: string;
 }
 export interface GetContactResponse {
-  contact?: Contact;
+  contact?: Contact | undefined;
 }
 export interface GetContactsRequest {
   /** number of contacts to retrieve per request */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** where next page of results begins. should be {pagination.nextPageCursor} from previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** paginated list of contacts retrieved */
 export type PaginatedGetContactsResponseContactsList = Array<Contact>;
@@ -1368,7 +1400,7 @@ export type PaginatedGetContactsResponsePagination = PaginationDetails;
 export interface PaginatedGetContactsResponse {
   /** paginated list of contacts retrieved */
   contacts: PaginatedGetContactsResponseContactsList;
-  pagination?: PaginationDetails;
+  pagination?: PaginationDetails | undefined;
 }
 export interface GetDiscountRequest {
   /** The discount's ID */
@@ -1380,11 +1412,11 @@ export interface GetDocumentsByIdRequest {
 }
 /** Array of discounts for an order payment transaction; empty for donations. */
 export interface TransactionDiscount {
-  amount?: MonetaryAmount;
+  amount?: MonetaryAmount | undefined;
   /** Discount description. */
-  description?: string;
+  description?: string | undefined;
   /** Discount name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Array of discounts for an order payment transaction; empty for donations. */
 export type TransactionDocumentDiscountsList = Array<TransactionDiscount>;
@@ -1395,106 +1427,106 @@ export type PaymentGatewayError =
   | "GATEWAY_DISCONNNECTED";
 /** Array of properties for the payment transaction provided by the payment gateway. Properties are listed in key/value pairs. */
 export interface ExternalTransactionProperty {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 /** Array of properties for the payment transaction provided by the payment gateway. Properties are listed in key/value pairs. */
 export type TransactionPaymentExternalTransactionPropertiesList =
   Array<ExternalTransactionProperty>;
 /** Array of processing fee refunds for the payment. */
 export interface TransactionProcessingFeeRefund {
-  amount?: MonetaryAmount;
-  amountGatewayCurrency?: MonetaryAmount;
+  amount?: MonetaryAmount | undefined;
+  amountGatewayCurrency?: MonetaryAmount | undefined;
   /** Foreign exchange rate between the payment gateway's and payment's currencies; determined when the payment is processed. */
-  exchangeRate?: number;
+  exchangeRate?: number | undefined;
   /** Unique id for the processing fee refund transaction provided by the payment gateway. */
-  externalTransactionId?: string;
+  externalTransactionId?: string | undefined;
   /** Unique processing fee refund id. */
-  id?: string;
+  id?: string | undefined;
   /** ISO 8601 UTC date and time string; represents when the processing fee refund was issued. */
-  refundedOn?: string;
+  refundedOn?: string | undefined;
 }
 /** Array of processing fee refunds for the payment. */
 export type TransactionProcessingFeeFeeRefundsList = Array<TransactionProcessingFeeRefund>;
 /** Array of processing fees associated with the payment. */
 export interface TransactionProcessingFee {
-  amount?: MonetaryAmount;
-  amountGatewayCurrency?: MonetaryAmount;
+  amount?: MonetaryAmount | undefined;
+  amountGatewayCurrency?: MonetaryAmount | undefined;
   /** Foreign exchange rate between the payment gateway's and payment's currencies; determined when the payment is processed. */
-  exchangeRate?: number;
+  exchangeRate?: number | undefined;
   /** Array of processing fee refunds for the payment. */
-  feeRefunds?: TransactionProcessingFeeFeeRefundsList;
+  feeRefunds?: TransactionProcessingFeeFeeRefundsList | undefined;
   /** Unique processing fee id. */
-  id?: string;
-  netAmount?: MonetaryAmount;
-  netAmountGatewayCurrency?: MonetaryAmount;
-  refundedAmount?: MonetaryAmount;
-  refundedAmountGatewayCurrency?: MonetaryAmount;
+  id?: string | undefined;
+  netAmount?: MonetaryAmount | undefined;
+  netAmountGatewayCurrency?: MonetaryAmount | undefined;
+  refundedAmount?: MonetaryAmount | undefined;
+  refundedAmountGatewayCurrency?: MonetaryAmount | undefined;
 }
 /** Array of processing fees associated with the payment. */
 export type TransactionPaymentProcessingFeesList = Array<TransactionProcessingFee>;
 /** Array of refunds for the payment transaction. */
 export interface TransactionRefund {
-  amount?: MonetaryAmount;
+  amount?: MonetaryAmount | undefined;
   /** Unique id for the refund transaction provided by the payment gateway. */
-  externalTransactionId?: string;
+  externalTransactionId?: string | undefined;
   /** Unique refund id. */
-  id?: string;
+  id?: string | undefined;
   /** ISO 8601 UTC date and time string; represents refund issue date. */
-  refundedOn?: string;
+  refundedOn?: string | undefined;
 }
 /** Array of refunds for the payment transaction. */
 export type TransactionPaymentRefundsList = Array<TransactionRefund>;
 /** Array of payment transactions for the order or donation. */
 export interface TransactionPayment {
-  amount?: MonetaryAmount;
+  amount?: MonetaryAmount | undefined;
   /** Payment credit card type; possible values: VISA, MASTERCARD, DISCOVER, AMEX, JCB, and OTHER. null if credit card processing isn't available for the payment gateway. */
-  creditCardType?: string;
+  creditCardType?: string | undefined;
   /** Unique customer id for the payment transaction provided by the payment gateway. Value is null if not available. */
-  externalCustomerId?: string;
+  externalCustomerId?: string | undefined;
   /** Unique id for the payment transaction provided by the payment gateway. */
-  externalTransactionId?: string;
+  externalTransactionId?: string | undefined;
   /** Array of properties for the payment transaction provided by the payment gateway. Properties are listed in key/value pairs. */
-  externalTransactionProperties?: TransactionPaymentExternalTransactionPropertiesList;
+  externalTransactionProperties?: TransactionPaymentExternalTransactionPropertiesList | undefined;
   /** Unique id for a Squarespace gift card. Value is null if a gift card was not used. */
-  giftCardId?: string;
+  giftCardId?: string | undefined;
   /** Unique payment id. */
-  id?: string;
-  netAmount?: MonetaryAmount;
+  id?: string | undefined;
+  netAmount?: MonetaryAmount | undefined;
   /** ISO 8601 UTC date and time string; represents when the payment was made. */
-  paidOn?: string;
+  paidOn?: string | undefined;
   /** Array of processing fees associated with the payment. */
-  processingFees?: TransactionPaymentProcessingFeesList;
+  processingFees?: TransactionPaymentProcessingFeesList | undefined;
   /** Payment gateway used for processing. */
-  provider?: string;
-  refundedAmount?: MonetaryAmount;
+  provider?: string | undefined;
+  refundedAmount?: MonetaryAmount | undefined;
   /** Array of refunds for the payment transaction. */
-  refunds?: TransactionPaymentRefundsList;
+  refunds?: TransactionPaymentRefundsList | undefined;
 }
 /** Array of payment transactions for the order or donation. */
 export type TransactionDocumentPaymentsList = Array<TransactionPayment>;
 /** Array of taxes for the shipping line item. */
 export interface TransactionTax {
-  amount?: MonetaryAmount;
+  amount?: MonetaryAmount | undefined;
   /** Tax jurisdiction in COUNTRY:{value},STATE:{value},LOCAL:{value} format. Examples: COUNTRY:US, COUNTRY:US,STATE:NY, and COUNTRY:US,STATE:NY,LOCAL:10001. */
-  jurisdiction?: string;
+  jurisdiction?: string | undefined;
   /** Tax classification as defined by the Squarespace merchant. */
-  name?: string;
+  name?: string | undefined;
   /** Tax rate as a percent. For example, a value of 7.00 is a 7% tax. */
-  rate?: string;
+  rate?: string | undefined;
 }
 /** Array of taxes for the sale item. */
 export type TransactionSalesLineItemTaxesList = Array<TransactionTax>;
 /** Array of sales items for an order payment transaction; empty for donations. */
 export interface TransactionSalesLineItem {
-  discountAmount?: MonetaryAmount;
+  discountAmount?: MonetaryAmount | undefined;
   /** Unique id for the sales item. */
-  id?: string;
+  id?: string | undefined;
   /** Array of taxes for the sale item. */
-  taxes?: TransactionSalesLineItemTaxesList;
-  total?: MonetaryAmount;
-  totalNetSales?: MonetaryAmount;
-  totalSales?: MonetaryAmount;
+  taxes?: TransactionSalesLineItemTaxesList | undefined;
+  total?: MonetaryAmount | undefined;
+  totalNetSales?: MonetaryAmount | undefined;
+  totalSales?: MonetaryAmount | undefined;
 }
 /** Array of sales items for an order payment transaction; empty for donations. */
 export type TransactionDocumentSalesLineItemsList = Array<TransactionSalesLineItem>;
@@ -1502,62 +1534,62 @@ export type TransactionDocumentSalesLineItemsList = Array<TransactionSalesLineIt
 export type TransactionShippingLineItemTaxesList = Array<TransactionTax>;
 /** Array of shipping line items. */
 export interface TransactionShippingLineItem {
-  amount?: MonetaryAmount;
+  amount?: MonetaryAmount | undefined;
   /** Description of the shipping line item as defined by the Squarespace merchant. */
-  description?: string;
-  discountAmount?: MonetaryAmount;
+  description?: string | undefined;
+  discountAmount?: MonetaryAmount | undefined;
   /** Unique id for the shipping line item. */
-  id?: string;
-  netAmount?: MonetaryAmount;
+  id?: string | undefined;
+  netAmount?: MonetaryAmount | undefined;
   /** Array of taxes for the shipping line item. */
-  taxes?: TransactionShippingLineItemTaxesList;
+  taxes?: TransactionShippingLineItemTaxesList | undefined;
 }
 /** Array of shipping line items. */
 export type TransactionDocumentShippingLineItemsList = Array<TransactionShippingLineItem>;
 /** Array of Document resources. */
 export interface TransactionDocument {
   /** ISO 8601 UTC date and time string; represents when the Document was created. */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** Customer or donor email address. May be null for point of sale orders because email wasn't collected. */
-  customerEmail?: string;
+  customerEmail?: string | undefined;
   /** Array of discounts for an order payment transaction; empty for donations. */
-  discounts?: TransactionDocumentDiscountsList;
+  discounts?: TransactionDocumentDiscountsList | undefined;
   /** Unique Document id. */
-  id?: string;
+  id?: string | undefined;
   /** ISO 8601 UTC date and time string; represents when the Document was last modified. */
-  modifiedOn?: string;
-  paymentGatewayError?: PaymentGatewayError;
+  modifiedOn?: string | undefined;
+  paymentGatewayError?: PaymentGatewayError | undefined;
   /** Array of payment transactions for the order or donation. */
-  payments?: TransactionDocumentPaymentsList;
+  payments?: TransactionDocumentPaymentsList | undefined;
   /** Array of sales items for an order payment transaction; empty for donations. */
-  salesLineItems?: TransactionDocumentSalesLineItemsList;
+  salesLineItems?: TransactionDocumentSalesLineItemsList | undefined;
   /** Unique order id; not applicable if payment transaction is a donation. */
-  salesOrderId?: string;
+  salesOrderId?: string | undefined;
   /** Array of shipping line items. */
-  shippingLineItems?: TransactionDocumentShippingLineItemsList;
-  total?: MonetaryAmount;
-  totalNetPayment?: MonetaryAmount;
-  totalNetSales?: MonetaryAmount;
-  totalNetShipping?: MonetaryAmount;
-  totalSales?: MonetaryAmount;
-  totalTaxes?: MonetaryAmount;
+  shippingLineItems?: TransactionDocumentShippingLineItemsList | undefined;
+  total?: MonetaryAmount | undefined;
+  totalNetPayment?: MonetaryAmount | undefined;
+  totalNetSales?: MonetaryAmount | undefined;
+  totalNetShipping?: MonetaryAmount | undefined;
+  totalSales?: MonetaryAmount | undefined;
+  totalTaxes?: MonetaryAmount | undefined;
   /** Flag; indicates order cancellation. */
-  voided?: boolean;
+  voided?: boolean | undefined;
 }
 /** Array of Document resources. */
 export type TransactionListResponseDocumentsList = Array<TransactionDocument>;
 export interface TransactionListResponse {
   /** Array of Document resources. */
-  documents?: TransactionListResponseDocumentsList;
+  documents?: TransactionListResponseDocumentsList | undefined;
 }
 export interface GetDocumentsByUpdatedOnRequest {
   /** Identifies where the next page of results should begin. Should be the value of pagination.nextPageCursor from a previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Time-boxes the request to Documents that were modified after a given ISO 8601 UTC date and time string (YYYY-MM-DDThh:mm:ss.sZ). */
-  modifiedAfter?: string;
+  modifiedAfter?: string | undefined;
   /** Time-boxes the request to Documents that were modified before a given ISO 8601 UTC date and time string (YYYY-MM-DDThh:mm:ss.sZ). */
-  modifiedBefore?: string;
-  orderId?: string;
+  modifiedBefore?: string | undefined;
+  orderId?: string | undefined;
 }
 /** Array of Document resources. If the merchant site doesn't have any payment transactions for orders or donations, this array is empty. */
 export type PaginatedTransactionListResponseDocumentsList = Array<TransactionDocument>;
@@ -1565,7 +1597,7 @@ export type PaginatedTransactionListResponsePagination = PaginationDetails;
 export interface PaginatedTransactionListResponse {
   /** Array of Document resources. If the merchant site doesn't have any payment transactions for orders or donations, this array is empty. */
   documents: PaginatedTransactionListResponseDocumentsList;
-  pagination?: PaginationDetails;
+  pagination?: PaginationDetails | undefined;
 }
 export interface GetFulfillmentOptionsRequest {}
 /** Carrier service identifier and display name. */
@@ -1599,20 +1631,20 @@ export interface FulfillmentOptionsList {
 }
 export interface GetInventoryItemsRequest {
   /** Identifies where the next page of results should begin. Should be the value of pagination.nextPageCursor from a previous response. If not present or empty, the endpoint returns up to 50 InventoryItems. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** Array of InventoryItem resources. If the merchant site doesn't have any physical or service products, this array is empty. */
 export interface InventoryItem {
   /** Generated description using the product's title and any available variant attributes including, but not limited to, color and size. */
-  descriptor?: string;
+  descriptor?: string | undefined;
   /** Indicates whether stock is currently tracked for the item. */
-  isUnlimited?: boolean;
+  isUnlimited?: boolean | undefined;
   /** Current amount in stock, or the last known stock amount prior to becoming unlimited. This value is modified by purchases and returns only when `isUnlimited` is `false`. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Stock keeping unit (SKU) code assigned by the Squarespace merchant for the variant; used to identify an exact variant of a product using a naming scheme preferred by the merchant. */
-  sku?: string;
+  sku?: string | undefined;
   /** The product variant id, which also serves as a unique id for the InventoryItem. */
-  variantId?: string;
+  variantId?: string | undefined;
 }
 /** Array of InventoryItem resources. If the merchant site doesn't have any physical or service product variants, this array is empty. */
 export type PaginatedInventoryItemListResponseInventoryList = Array<InventoryItem>;
@@ -1620,18 +1652,18 @@ export type PaginatedInventoryItemListResponsePagination = PaginationDetails;
 export interface PaginatedInventoryItemListResponse {
   /** Array of InventoryItem resources. If the merchant site doesn't have any physical or service product variants, this array is empty. */
   inventory: PaginatedInventoryItemListResponseInventoryList;
-  pagination?: PaginationDetails;
+  pagination?: PaginationDetails | undefined;
 }
 export interface GetMemberProfileRequest {}
 export interface MemberProfile {
   /** Profile email address. */
-  email?: string;
+  email?: string | undefined;
   /** Profile first name. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Unique Profile id. */
-  id?: string;
+  id?: string | undefined;
   /** Profile last name. */
-  lastName?: string;
+  lastName?: string | undefined;
 }
 export interface GetOrderRequest {
   /** Specifies the Order to retrieve. */
@@ -1639,22 +1671,22 @@ export interface GetOrderRequest {
 }
 export interface GetOrdersRequest {
   /** Used to filter Orders by Customer ID. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Time-boxes the request to Orders that were modified after a given ISO 8601 UTC date and time string (YYYY-MM-DDThh:mm:ss.sZ). Required when modifiedBefore is passed; cannot be used with cursor. */
-  modifiedAfter?: string;
+  modifiedAfter?: string | undefined;
   /** Time-boxes the request to Orders that were modified before a given ISO 8601 UTC date and time string (YYYY-MM-DDThh:mm:ss.sZ). Required when modifiedAfter is passed; cannot be used with cursor. */
-  modifiedBefore?: string;
+  modifiedBefore?: string | undefined;
   /** Identifies where the next page of results should begin. Should be the value of pagination.nextPageCursor from a previous response. Cannot be used with other parameters. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Used to filter Orders by fulfillment status. Values may be PENDING, FULFILLED, or CANCELED. */
-  fulfillmentStatus?: string;
+  fulfillmentStatus?: string | undefined;
   /** Used to filter Orders by payment state. Accepts a comma-separated list of values. Possible values are: NOT_CHARGED, AUTHORIZED, PAID, REFUNDED, PENDING, FAILED, REFUND_PENDING, REFUND_FAILED, PARTIALLY_PAID. If not specified, defaults to NOT_CHARGED, AUTHORIZED, PAID, and REFUNDED. */
-  paymentStates?: string;
+  paymentStates?: string | undefined;
 }
 export type OrderListResponsePagination = PaginationDetails;
 export type OrderListResponseResultList = Array<Order>;
 export interface OrderListResponse {
-  pagination?: PaginationDetails;
+  pagination?: PaginationDetails | undefined;
   result: OrderListResponseResultList;
 }
 export interface GetProductImageProcessingStatusRequest {
@@ -1663,16 +1695,16 @@ export interface GetProductImageProcessingStatusRequest {
 }
 export type ImageProcessingStatus = "QUEUED" | "PROCESSING" | "READY" | "ERROR";
 export interface ProductImageProcessingStatus {
-  id?: string;
-  status?: ImageProcessingStatus;
+  id?: string | undefined;
+  status?: ImageProcessingStatus | undefined;
 }
 export type GetProductsRequestTypeList = Array<string>;
 export interface GetProductsRequest {
-  modifiedAfter?: string;
-  modifiedBefore?: string;
-  cursor?: string;
-  query?: string;
-  type?: GetProductsRequestTypeList;
+  modifiedAfter?: string | undefined;
+  modifiedBefore?: string | undefined;
+  cursor?: string | undefined;
+  query?: string | undefined;
+  type?: GetProductsRequestTypeList | undefined;
 }
 export type PaginatedProductListResponseV2Pagination = PaginationDetails;
 export type DigitalProductImagesList = Array<ProductImage>;
@@ -1680,27 +1712,27 @@ export type DigitalProductTagsList = Array<string>;
 /** Present for DIGITAL products only. */
 export interface DigitalGood {
   /** Filename of the downloadable file. */
-  filename?: string;
+  filename?: string | undefined;
   /** Unique DigitalGood id. */
-  id?: string;
+  id?: string | undefined;
 }
 /** A DIGITAL product. */
 export interface DigitalProduct {
   createdOn: string;
-  description?: string;
+  description?: string | undefined;
   id: string;
-  images?: DigitalProductImagesList;
-  isVisible?: boolean;
+  images?: DigitalProductImagesList | undefined;
+  isVisible?: boolean | undefined;
   modifiedOn: string;
-  name?: string;
-  seoOptions?: SeoOptions;
+  name?: string | undefined;
+  seoOptions?: SeoOptions | undefined;
   storePageId: string;
-  tags?: DigitalProductTagsList;
+  tags?: DigitalProductTagsList | undefined;
   type: ProductTypeV2;
-  url?: string;
-  urlSlug?: string;
-  digitalGood?: DigitalGood;
-  pricing?: ProductPricing;
+  url?: string | undefined;
+  urlSlug?: string | undefined;
+  digitalGood?: DigitalGood | undefined;
+  pricing?: ProductPricing | undefined;
 }
 export type GiftCardProductImagesList = Array<ProductImage>;
 export type GiftCardProductTagsList = Array<string>;
@@ -1708,19 +1740,19 @@ export type GiftCardProductVariantsList = Array<GiftCardProductVariant>;
 /** A GIFT_CARD product. */
 export interface GiftCardProduct {
   createdOn: string;
-  description?: string;
+  description?: string | undefined;
   id: string;
-  images?: GiftCardProductImagesList;
-  isVisible?: boolean;
+  images?: GiftCardProductImagesList | undefined;
+  isVisible?: boolean | undefined;
   modifiedOn: string;
-  name?: string;
-  seoOptions?: SeoOptions;
+  name?: string | undefined;
+  seoOptions?: SeoOptions | undefined;
   storePageId: string;
-  tags?: GiftCardProductTagsList;
+  tags?: GiftCardProductTagsList | undefined;
   type: ProductTypeV2;
-  url?: string;
-  urlSlug?: string;
-  variants?: GiftCardProductVariantsList;
+  url?: string | undefined;
+  urlSlug?: string | undefined;
+  variants?: GiftCardProductVariantsList | undefined;
 }
 export type PhysicalProductImagesList = Array<ProductImage>;
 export type PhysicalProductTagsList = Array<string>;
@@ -1729,20 +1761,20 @@ export type PhysicalProductVariantsList = Array<PhysicalProductVariant>;
 /** A PHYSICAL product. */
 export interface PhysicalProduct {
   createdOn: string;
-  description?: string;
+  description?: string | undefined;
   id: string;
-  images?: PhysicalProductImagesList;
-  isVisible?: boolean;
+  images?: PhysicalProductImagesList | undefined;
+  isVisible?: boolean | undefined;
   modifiedOn: string;
-  name?: string;
-  seoOptions?: SeoOptions;
+  name?: string | undefined;
+  seoOptions?: SeoOptions | undefined;
   storePageId: string;
-  tags?: PhysicalProductTagsList;
+  tags?: PhysicalProductTagsList | undefined;
   type: ProductTypeV2;
-  url?: string;
-  urlSlug?: string;
-  variantAttributes?: PhysicalProductVariantAttributesList;
-  variants?: PhysicalProductVariantsList;
+  url?: string | undefined;
+  urlSlug?: string | undefined;
+  variantAttributes?: PhysicalProductVariantAttributesList | undefined;
+  variants?: PhysicalProductVariantsList | undefined;
 }
 export type ServiceProductImagesList = Array<ProductImage>;
 export type ServiceProductTagsList = Array<string>;
@@ -1751,20 +1783,20 @@ export type ServiceProductVariantsList = Array<ServiceProductVariant>;
 /** A SERVICE product. */
 export interface ServiceProduct {
   createdOn: string;
-  description?: string;
+  description?: string | undefined;
   id: string;
-  images?: ServiceProductImagesList;
-  isVisible?: boolean;
+  images?: ServiceProductImagesList | undefined;
+  isVisible?: boolean | undefined;
   modifiedOn: string;
-  name?: string;
-  seoOptions?: SeoOptions;
+  name?: string | undefined;
+  seoOptions?: SeoOptions | undefined;
   storePageId: string;
-  tags?: ServiceProductTagsList;
+  tags?: ServiceProductTagsList | undefined;
   type: ProductTypeV2;
-  url?: string;
-  urlSlug?: string;
-  variantAttributes?: ServiceProductVariantAttributesList;
-  variants?: ServiceProductVariantsList;
+  url?: string | undefined;
+  urlSlug?: string | undefined;
+  variantAttributes?: ServiceProductVariantAttributesList | undefined;
+  variants?: ServiceProductVariantsList | undefined;
 }
 export type PaginatedProductListResponseV2ProductsItem =
   | DigitalProduct
@@ -1774,63 +1806,63 @@ export type PaginatedProductListResponseV2ProductsItem =
 export type PaginatedProductListResponseV2ProductsList =
   Array<PaginatedProductListResponseV2ProductsItem>;
 export interface PaginatedProductListResponseV2 {
-  pagination?: PaginationDetails;
+  pagination?: PaginationDetails | undefined;
   products: PaginatedProductListResponseV2ProductsList;
 }
 export interface GetProfilesRequest {
   /** Identifies the sort direction of the result list; asc for ascending or dsc for descending. If not specified, the returned list is in descending order. */
-  sortDirection?: string;
+  sortDirection?: string | undefined;
   /** Identifies the sort field of the result list. Values include: createdOn, id, email, or lastName. If not specified, the returned list is sorted by id. */
-  sortField?: string;
+  sortField?: string | undefined;
   /** Semicolon separated list used to filter profile results. Values include: isCustomer and/or hasAccount, or email. The email filter cannot be used with isCustomer or hasAccount. */
-  filter?: string;
+  filter?: string | undefined;
   /** Email address filter (URL-encoded, case insensitive). */
-  email?: string;
+  email?: string | undefined;
   /** Identifies where the next page of results should begin. Should be the value of pagination.nextPageCursor from a previous response. Cannot be used with other parameters. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type PaginatedProfileListResponsePagination = PaginationDetails;
 /** Summary of profile's commerce transactions. If a profile has no commerce transactions, the object is still returned with null or 0 values. This information is calculated asynchronously; there may be a slight delay between when an order is created, and when it's reflected in the object. */
 export interface TransactionsSummary {
   /** Count of donations submitted. */
-  donationCount?: number;
+  donationCount?: number | undefined;
   /** ISO 8601 UTC date and time string; represents when the profile's first donation was submitted. */
-  firstDonationSubmittedOn?: string;
+  firstDonationSubmittedOn?: string | undefined;
   /** ISO 8601 UTC date and time string; represents when the profile's first order was submitted. */
-  firstOrderSubmittedOn?: string;
+  firstOrderSubmittedOn?: string | undefined;
   /** ISO 8601 UTC date and time string; represents when the profile's latest donation was submitted. */
-  lastDonationSubmittedOn?: string;
+  lastDonationSubmittedOn?: string | undefined;
   /** ISO 8601 UTC date and time string; represents when the profile's latest order was submitted. */
-  lastOrderSubmittedOn?: string;
+  lastOrderSubmittedOn?: string | undefined;
   /** Count of orders submitted. */
-  orderCount?: number;
-  totalDonationAmount?: MonetaryAmount;
-  totalOrderAmount?: MonetaryAmount;
-  totalRefundAmount?: MonetaryAmount;
+  orderCount?: number | undefined;
+  totalDonationAmount?: MonetaryAmount | undefined;
+  totalOrderAmount?: MonetaryAmount | undefined;
+  totalRefundAmount?: MonetaryAmount | undefined;
 }
 export interface Profile {
   /** Indicates whether the profile opted to receive marketing. */
-  acceptsMarketing?: boolean;
-  address?: Address;
+  acceptsMarketing?: boolean | undefined;
+  address?: Address | undefined;
   /** ISO 8601 UTC date and time string; represents when the profile was created. */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** Profile email address. */
-  email?: string;
+  email?: string | undefined;
   /** Profile first name. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Indicates whether the profile has an account with the website. */
-  hasAccount?: boolean;
+  hasAccount?: boolean | undefined;
   /** Unique Profile id. */
-  id?: string;
+  id?: string | undefined;
   /** Indicates whether the profile has any commerce orders or donations with the website. */
-  isCustomer?: boolean;
+  isCustomer?: boolean | undefined;
   /** Profile last name. */
-  lastName?: string;
-  transactionsSummary?: TransactionsSummary;
+  lastName?: string | undefined;
+  transactionsSummary?: TransactionsSummary | undefined;
 }
 export type PaginatedProfileListResponseProfilesList = Array<Profile>;
 export interface PaginatedProfileListResponse {
-  pagination?: PaginationDetails;
+  pagination?: PaginationDetails | undefined;
   profiles: PaginatedProfileListResponseProfilesList;
 }
 export interface GetSpecificInventoryItemsRequest {
@@ -1841,7 +1873,7 @@ export interface GetSpecificInventoryItemsRequest {
 export type InventoryItemListResponseInventoryList = Array<InventoryItem>;
 export interface InventoryItemListResponse {
   /** Array of InventoryItem resources. If the merchant site doesn't have any physical or service products, this array is empty. */
-  inventory?: InventoryItemListResponseInventoryList;
+  inventory?: InventoryItemListResponseInventoryList | undefined;
 }
 export interface GetSpecificProductsRequest {
   productIdCsvs: string;
@@ -1853,7 +1885,7 @@ export type ProductListResponseV2ProductsItem =
   | ServiceProduct;
 export type ProductListResponseV2ProductsList = Array<ProductListResponseV2ProductsItem>;
 export interface ProductListResponseV2 {
-  products?: ProductListResponseV2ProductsList;
+  products?: ProductListResponseV2ProductsList | undefined;
 }
 export interface GetSpecificProfilesRequest {
   /** Specifies the profiles to retrieve. Multiple Profiles can be retrieved by providing a comma-separated list of profile ids. */
@@ -1861,21 +1893,21 @@ export interface GetSpecificProfilesRequest {
 }
 export type ProfileListResponseProfilesList = Array<Profile>;
 export interface ProfileListResponse {
-  profiles?: ProfileListResponseProfilesList;
+  profiles?: ProfileListResponseProfilesList | undefined;
 }
 export interface GetStorePagesRequest {
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type PaginatedStorePagesResponsePagination = PaginationDetails;
 export interface StorePage {
-  id?: string;
-  isEnabled?: boolean;
-  title?: string;
-  urlSlug?: string;
+  id?: string | undefined;
+  isEnabled?: boolean | undefined;
+  title?: string | undefined;
+  urlSlug?: string | undefined;
 }
 export type PaginatedStorePagesResponseStorePagesList = Array<StorePage>;
 export interface PaginatedStorePagesResponse {
-  pagination?: PaginationDetails;
+  pagination?: PaginationDetails | undefined;
   storePages: PaginatedStorePagesResponseStorePagesList;
 }
 export type GetTransactionsSummariesRequestContactIdsList = Array<string>;
@@ -1889,15 +1921,17 @@ export interface GetTransactionsSummariesRequest {
 /** List of transaction summary wrappers */
 export interface TransactionsSummaryWrapper {
   /** Unique contact identifier */
-  contactId?: string;
-  transactionsSummary?: TransactionsSummary;
+  contactId?: string | undefined;
+  transactionsSummary?: TransactionsSummary | undefined;
 }
 /** List of transaction summary wrappers */
 export type RetrieveTransactionsSummariesResponseTransactionsSummaryWrappersList =
   Array<TransactionsSummaryWrapper>;
 export interface RetrieveTransactionsSummariesResponse {
   /** List of transaction summary wrappers */
-  transactionsSummaryWrappers?: RetrieveTransactionsSummariesResponseTransactionsSummaryWrappersList;
+  transactionsSummaryWrappers?:
+    | RetrieveTransactionsSummariesResponseTransactionsSummaryWrappersList
+    | undefined;
 }
 export interface GetWebhookSubscriptionRequest {
   /** Specifies the Webhook Subscription to retrieve. */
@@ -1907,19 +1941,19 @@ export interface GetWebhookSubscriptionRequest {
 export type ExternalWebhookSubscriptionResponseTopicsList = Array<string>;
 export interface ExternalWebhookSubscriptionResponse {
   /** Third-party client id. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** ISO 8601 UTC date and time string; represents when the webhook subscription was created. */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** HTTPS URL that receives webhook notifications. */
-  endpointUrl?: string;
+  endpointUrl?: string | undefined;
   /** Unique Webhook Subscription id. */
-  id?: string;
+  id?: string | undefined;
   /** List of event topics that trigger a webhook notification. Possible values include: extension.uninstall, order.create, order.update. */
-  topics?: ExternalWebhookSubscriptionResponseTopicsList;
+  topics?: ExternalWebhookSubscriptionResponseTopicsList | undefined;
   /** ISO 8601 UTC date and time string; represents when the webhook subscription was last modified. */
-  updatedOn?: string;
+  updatedOn?: string | undefined;
   /** Unique website id. */
-  websiteId?: string;
+  websiteId?: string | undefined;
 }
 export interface GetWebhookSubscriptionsRequest {}
 /** Array of Webhook Subscription resources. If the merchant site doesn't have any webhook subscriptions, this array is empty. */
@@ -1927,24 +1961,26 @@ export type ExternalWebhookSubscriptionListResponseWebhookSubscriptionsList =
   Array<ExternalWebhookSubscriptionResponse>;
 export interface ExternalWebhookSubscriptionListResponse {
   /** Array of Webhook Subscription resources. If the merchant site doesn't have any webhook subscriptions, this array is empty. */
-  webhookSubscriptions?: ExternalWebhookSubscriptionListResponseWebhookSubscriptionsList;
+  webhookSubscriptions?:
+    | ExternalWebhookSubscriptionListResponseWebhookSubscriptionsList
+    | undefined;
 }
 export interface GetWebsiteProfileRequest {}
 export interface Location {
-  country?: string;
-  region?: string;
+  country?: string | undefined;
+  region?: string | undefined;
 }
 export type MeasurementStandard = "IMPERIAL" | "METRIC";
 export interface WebsiteProfile {
-  currency?: string;
-  id?: string;
-  language?: string;
-  location?: Location;
-  measurementStandard?: MeasurementStandard;
-  siteId?: string;
-  timeZone?: string;
-  title?: string;
-  url?: string;
+  currency?: string | undefined;
+  id?: string | undefined;
+  language?: string | undefined;
+  location?: Location | undefined;
+  measurementStandard?: MeasurementStandard | undefined;
+  siteId?: string | undefined;
+  timeZone?: string | undefined;
+  title?: string | undefined;
+  url?: string | undefined;
 }
 export type ListDiscountsRequestSortBy = "CREATED_ON" | "PROMO_CODE" | "USES_COUNT";
 export type ListDiscountsRequestSortDirection = "ASCENDING" | "DESCENDING";
@@ -1969,25 +2005,25 @@ export type ListDiscountsRequestTemplateList = Array<
 export type ListDiscountsRequestTrigger = "AUTO" | "CODE";
 export interface ListDiscountsRequest {
   /** Sort field for the result set. */
-  sortBy?: ListDiscountsRequestSortBy | (string & {});
+  sortBy?: ListDiscountsRequestSortBy | (string & {}) | undefined;
   /** Sort direction. */
-  sortDirection?: ListDiscountsRequestSortDirection | (string & {});
+  sortDirection?: ListDiscountsRequestSortDirection | (string & {}) | undefined;
   /** Free-text search across a discount's name and promo code. */
-  search?: string;
+  search?: string | undefined;
   /** Filter by discount lifecycle status. */
-  status?: ListDiscountsRequestStatus | (string & {});
+  status?: ListDiscountsRequestStatus | (string & {}) | undefined;
   /** Filter by one or more criteria types (comma-separated). When omitted, defaults to all allowable values. */
-  criteria?: ListDiscountsRequestCriteriaList;
+  criteria?: ListDiscountsRequestCriteriaList | undefined;
   /** Filter by one or more template types (comma-separated). When omitted, defaults to all allowable values. */
-  template?: ListDiscountsRequestTemplateList;
+  template?: ListDiscountsRequestTemplateList | undefined;
   /** Filter by one or more trigger types (comma-separated): AUTO (auto-applied) or CODE (promo code). When omitted, or when all allowable values are supplied, defaults to all allowable values. */
-  trigger?: ListDiscountsRequestTrigger | (string & {});
+  trigger?: ListDiscountsRequestTrigger | (string & {}) | undefined;
   /** When true, only discounts with limited-use semantics (per product rules) are returned. */
-  limitedUseOnly?: boolean;
+  limitedUseOnly?: boolean | undefined;
   /** Zero-based offset into the result set. Must be non-negative. Default 0. */
-  offset?: number;
+  offset?: number | undefined;
   /** Page size (1-1000; default 50). */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Discounts for this page. */
 export type PaginatedDiscountListResponseDiscountsList = Array<Discount>;
@@ -1996,29 +2032,29 @@ export interface PaginatedDiscountListResponse {
   /** Discounts for this page. */
   discounts: PaginatedDiscountListResponseDiscountsList;
   /** True when more results exist after the current window. */
-  hasNextPage?: boolean;
+  hasNextPage?: boolean | undefined;
   /** True when a page of results exists before the current window. */
-  hasPreviousPage?: boolean;
+  hasPreviousPage?: boolean | undefined;
 }
 /** Object for filtering by before and after dates */
 export interface DateFilter {
   /** Filter out any dates after */
-  after?: string;
+  after?: string | undefined;
   /** Filter out any dates before */
-  before?: string;
+  before?: string | undefined;
 }
 /** Contact's marketing settings with joined on date */
 export interface AcceptsMarketingWithDate {
   /** If contact's email accepts marketing */
-  acceptsMarketing?: boolean;
-  joinedOn?: DateFilter;
+  acceptsMarketing?: boolean | undefined;
+  joinedOn?: DateFilter | undefined;
 }
 /** Object for filtering by a min and max integer */
 export interface IntegerFilter {
   /** Filter out any numbers greater */
-  max?: number;
+  max?: number | undefined;
   /** Filter out any numbers lower */
-  min?: number;
+  min?: number | undefined;
 }
 /** Direction to sort results, ASCENDING or DESCENDING */
 export type QueryContactsRequestSortDirection = "ASCENDING" | "DESCENDING";
@@ -2037,25 +2073,25 @@ export type QueryContactsRequestSortField =
   | "LAST_DONATION_ON"
   | "DONATION_AMOUNT";
 export interface QueryContactsRequest {
-  acceptsMarketingWithDate?: AcceptsMarketingWithDate;
+  acceptsMarketingWithDate?: AcceptsMarketingWithDate | undefined;
   /** The cursor for the next page of results. Use the value of `pagination.nextPageCursor` from the previous response. */
-  cursor?: string;
-  donationAmount?: IntegerFilter;
-  donationCount?: IntegerFilter;
-  firstDonationOn?: DateFilter;
-  firstOrderOn?: DateFilter;
-  lastDonationOn?: DateFilter;
-  lastOrderOn?: DateFilter;
-  orderAmount?: IntegerFilter;
-  orderCount?: IntegerFilter;
+  cursor?: string | undefined;
+  donationAmount?: IntegerFilter | undefined;
+  donationCount?: IntegerFilter | undefined;
+  firstDonationOn?: DateFilter | undefined;
+  firstOrderOn?: DateFilter | undefined;
+  lastDonationOn?: DateFilter | undefined;
+  lastOrderOn?: DateFilter | undefined;
+  orderAmount?: IntegerFilter | undefined;
+  orderCount?: IntegerFilter | undefined;
   /** The number of contacts to return per request. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Search string for Name and Email address */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Direction to sort results, ASCENDING or DESCENDING */
-  sortDirection?: QueryContactsRequestSortDirection | (string & {});
+  sortDirection?: QueryContactsRequestSortDirection | (string & {}) | undefined;
   /** Field to sort results by */
-  sortField?: QueryContactsRequestSortField | (string & {});
+  sortField?: QueryContactsRequestSortField | (string & {}) | undefined;
 }
 /** paginated list of contacts retrieved */
 export type PaginatedQueryContactsResponseContactsList = Array<Contact>;
@@ -2063,7 +2099,7 @@ export type PaginatedQueryContactsResponsePagination = PaginationDetails;
 export interface PaginatedQueryContactsResponse {
   /** paginated list of contacts retrieved */
   contacts: PaginatedQueryContactsResponseContactsList;
-  pagination?: PaginationDetails;
+  pagination?: PaginationDetails | undefined;
 }
 export interface RotateSubscriptionSecretRequest {
   /** Specifies the Webhook Subscription to update. */
@@ -2071,7 +2107,7 @@ export interface RotateSubscriptionSecretRequest {
 }
 export interface ExternalRotateSecretResponse {
   /** Hexadecimal value used to generate a signature for a webhook notification; field is only returned when creating a new subscription or rotating a secret. Store the secret in a safe location to verify notifications from Squarespace. */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface SendTestNotificationForWebhookSubscriptionRequest {
   /** Specifies the Webhook Subscription to send a notification to. */
@@ -2081,7 +2117,7 @@ export interface SendTestNotificationForWebhookSubscriptionRequest {
 }
 export interface ExternalTestNotificationResponse {
   /** Status code returned by the subscribed webhook endpoint. */
-  statusCode?: number;
+  statusCode?: number | undefined;
 }
 export interface UpdateAddressBookEntryRequest {
   /** The contact's ID. */
@@ -2090,17 +2126,17 @@ export interface UpdateAddressBookEntryRequest {
   addressBookEntryId: string;
   address: ContactAddress;
   /** Whether this entry should be the default shipping address. When updating the entry that is currently the default, changing this value from true to false has no effect. */
-  defaultShipping?: boolean;
+  defaultShipping?: boolean | undefined;
 }
 export interface UpdateAddressBookEntryResponse {
-  addressBookEntry?: AddressBookEntry;
+  addressBookEntry?: AddressBookEntry | undefined;
 }
 export interface UpdateContactRequest {
   /** The contact's ID. */
   contactId: string;
 }
 export interface PatchContactResponse {
-  contact?: Contact;
+  contact?: Contact | undefined;
 }
 export type UpdateDiscountRequestCriteria =
   | AnyOrderCriteria
@@ -2119,116 +2155,161 @@ export interface UpdateDiscountRequest {
   discountId: string;
   criteria: UpdateDiscountRequestCriteria;
   /** If true, the discount can only be used `maxUsesAllowed` times site-wide. */
-  isLimitedUses?: boolean;
+  isLimitedUses?: boolean | undefined;
   /** If true, a given customer can only use this discount once. */
-  isOncePerCustomer?: boolean;
+  isOncePerCustomer?: boolean | undefined;
   /** Maximum site-wide redemptions. Required when isLimitedUses=true; null otherwise. */
-  maxUsesAllowed?: number;
+  maxUsesAllowed?: number | undefined;
   /** Display name for the discount. */
   name: string;
-  paymentPlanOptions?: PaymentPlanOptions;
-  subscriptionOptions?: SubscriptionOptions;
+  paymentPlanOptions?: PaymentPlanOptions | undefined;
+  subscriptionOptions?: SubscriptionOptions | undefined;
   template: UpdateDiscountRequestTemplate;
   trigger: UpdateDiscountRequestTrigger;
   /** When the discount becomes active. */
   validFrom: string;
   /** When the discount expires. Null = no expiry. */
-  validTo?: string;
+  validTo?: string | undefined;
 }
 export interface ChangeBoolean {
-  present?: boolean;
-  value?: boolean;
+  present?: boolean | undefined;
+  value?: boolean | undefined;
 }
 export interface ChangeMonetaryAmount {
-  present?: boolean;
-  value?: MonetaryAmount;
+  present?: boolean | undefined;
+  value?: MonetaryAmount | undefined;
 }
 export interface UpdateProductPricing {
-  basePrice?: ChangeMonetaryAmount;
-  onSale?: ChangeBoolean;
-  salePrice?: ChangeMonetaryAmount;
+  basePrice?: ChangeMonetaryAmount | undefined;
+  onSale?: ChangeBoolean | undefined;
+  salePrice?: ChangeMonetaryAmount | undefined;
 }
 /** Pricing data for the product. */
 export interface ChangeUpdateProductPricing {
-  present?: boolean;
-  value?: UpdateProductPricing;
+  present?: boolean | undefined;
+  value?: UpdateProductPricing | undefined;
 }
 export type ChangeListStringValueList = Array<string>;
 /** Optional; list of event topics that trigger a webhook notification. Possible values include: extension.uninstall, order.create, order.update. */
 export interface ChangeListString {
-  present?: boolean;
-  value?: ChangeListStringValueList;
+  present?: boolean | undefined;
+  value?: ChangeListStringValueList | undefined;
 }
 /** Options for search engine optimization. */
 export interface ChangeSeoOptions {
-  present?: boolean;
-  value?: SeoOptions;
+  present?: boolean | undefined;
+  value?: SeoOptions | undefined;
 }
 export interface UpdateProductRequest {
   productId: string;
-  description?: ChangeString;
-  isVisible?: ChangeBoolean;
-  name?: ChangeString;
-  pricing?: ChangeUpdateProductPricing;
-  productAttributeNames?: ChangeListString;
-  seoData?: ChangeSeoOptions;
-  tags?: ChangeListString;
-  urlSlug?: ChangeString;
+  description?: ChangeString | undefined;
+  isVisible?: ChangeBoolean | undefined;
+  name?: ChangeString | undefined;
+  pricing?: ChangeUpdateProductPricing | undefined;
+  productAttributeNames?: ChangeListString | undefined;
+  seoData?: ChangeSeoOptions | undefined;
+  tags?: ChangeListString | undefined;
+  urlSlug?: ChangeString | undefined;
 }
 export interface UpdateProductImageRequest {
   productId: string;
   imageId: string;
-  altText?: ChangeString;
+  altText?: ChangeString | undefined;
 }
 export interface UpdateProductImageOrderRequest {
   productId: string;
   imageId: string;
-  afterImageId?: ChangeString;
+  afterImageId?: ChangeString | undefined;
 }
 export interface UpdateProductImageOrderResponse {}
 export type ChangeMapStringStringValueMap = { [key: string]: string | undefined };
 /** Specifies attribute-value pairs for the variant. Supported for PHYSICAL products only. */
 export interface ChangeMapStringString {
-  present?: boolean;
-  value?: ChangeMapStringStringValueMap;
+  present?: boolean | undefined;
+  value?: ChangeMapStringStringValueMap | undefined;
 }
 export interface ChangeProductDimensions {
-  present?: boolean;
-  value?: ProductDimensions;
+  present?: boolean | undefined;
+  value?: ProductDimensions | undefined;
 }
 export interface ChangeProductWeight {
-  present?: boolean;
-  value?: ProductWeight;
+  present?: boolean | undefined;
+  value?: ProductWeight | undefined;
 }
 export interface UpdateProductMeasurements {
-  dimensions?: ChangeProductDimensions;
-  weight?: ChangeProductWeight;
+  dimensions?: ChangeProductDimensions | undefined;
+  weight?: ChangeProductWeight | undefined;
 }
 /** Measurements of the variant when it's shipped. Supported for PHYSICAL products only. */
 export interface ChangeUpdateProductMeasurements {
-  present?: boolean;
-  value?: UpdateProductMeasurements;
+  present?: boolean | undefined;
+  value?: UpdateProductMeasurements | undefined;
 }
 export interface UpdateProductVariantRequest {
   productId: string;
   variantId: string;
-  attributes?: ChangeMapStringString;
-  gtin?: ChangeString;
-  mpn?: ChangeString;
-  pricing?: ChangeUpdateProductPricing;
-  shippingMeasurements?: ChangeUpdateProductMeasurements;
-  sku?: ChangeString;
+  attributes?: ChangeMapStringString | undefined;
+  gtin?: ChangeString | undefined;
+  mpn?: ChangeString | undefined;
+  pricing?: ChangeUpdateProductPricing | undefined;
+  shippingMeasurements?: ChangeUpdateProductMeasurements | undefined;
+  sku?: ChangeString | undefined;
 }
 export interface UpdateWebhookSubscriptionRequest {
   /** Specifies the Webhook Subscription to update. */
   subscriptionId: string;
-  endpointUrl?: ChangeString;
-  topics?: ChangeListString;
+  endpointUrl?: ChangeString | undefined;
+  topics?: ChangeListString | undefined;
 }
 export interface UploadProductImageRequest {
   productId: string;
 }
 export interface UploadProductImageResponse {}
+export type StandardErrorPayloadSubtype =
+  | "MISSING_ARGUMENT"
+  | "INVALID_ARGUMENT"
+  | "INVALID_CONTENT_TYPE"
+  | "CONCURRENT_MODIFICATION"
+  | "INSUFFICIENT_STOCK"
+  | "STOCK_NOT_TRACKED"
+  | "STOCK_EXCEEDS_MAX"
+  | "CURRENCY_MISMATCH"
+  | "MEASUREMENT_STANDARD_MISMATCH"
+  | "INSUFFICIENT_PRODUCT_VARIANTS"
+  | "URL_SLUG_UNAVAILABLE"
+  | "SKU_UNAVAILABLE"
+  | "STORE_PAGE_NOT_FOUND"
+  | "STORE_PAGE_PRODUCT_LIMIT_REACHED"
+  | "IMAGE_LIMIT_REACHED"
+  | "WEBHOOK_SUBSCRIPTION_LIMIT_REACHED"
+  | "MISSING_SCOPE"
+  | "PROFILE_CANNOT_ACCEPT_MARKETING"
+  | "ENTITY_LIMIT_REACHED"
+  | "PRODUCT_UPDATE_CONFLICT"
+  | "DUPLICATE_USER_CONFLICT"
+  | "PROMO_CODE_CONFLICT"
+  | "INVENTORY_ITEM_NOT_FOUND"
+  | "PRODUCT_IMAGE_NOT_FOUND"
+  | "PRODUCT_VARIANT_NOT_FOUND"
+  | "OAUTH_TOKEN_REQUIRED"
+  | "FORBIDDEN_RESOURCE"
+  | "OPERATION_NOT_ALLOWED_FOR_PRODUCT_TYPE";
+export type StandardErrorPayloadType =
+  | "INVALID_REQUEST_ERROR"
+  | "AUTHORIZATION_ERROR"
+  | "WEBSITE_EXPIRED"
+  | "METHOD_NOT_ALLOWED"
+  | "CONFLICT"
+  | "TOO_MANY_REQUESTS"
+  | "SERVER_ERROR"
+  | "SERVICE_UNAVAILABLE";
+export interface StandardErrorPayload {
+  contextId?: string | undefined;
+  details?: unknown | undefined;
+  message?: string | undefined;
+  subtype?: StandardErrorPayloadSubtype | undefined;
+  type?: StandardErrorPayloadType | undefined;
+}
 export type AdjustInventoryStockLevelsError = BadRequest | NotFound | Conflict | SquarespaceOpError;
 /** Adjust stock quantities Adjusts stock quantities for product variants. Stock quantities can be added or subtracted, set with a given number, or marked as "unlimited". All quantity information is stored in InventoryItems. */
 export const adjustInventoryStockLevels: API.OperationMethod<
@@ -2237,8 +2318,8 @@ export const adjustInventoryStockLevels: API.OperationMethod<
   AdjustInventoryStockLevelsError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1282, __c40, 2) as any as S.Schema<AdjustInventoryStockLevelsRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<AdjustInventoryStockLevelsResponse>,
+  input: __S(1314, __c41, 2) as any as S.Schema<AdjustInventoryStockLevelsRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<AdjustInventoryStockLevelsResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2254,8 +2335,8 @@ export const associateProductVariantImage: API.OperationMethod<
   AssociateProductVariantImageError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<AssociateProductVariantImageRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<AssociateProductVariantImageResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<AssociateProductVariantImageRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<AssociateProductVariantImageResponse>,
   errors: [BadRequest, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2271,8 +2352,8 @@ export const createAddressBookEntry: API.OperationMethod<
   CreateAddressBookEntryError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<CreateAddressBookEntryRequest>,
-  output: __S(2112, __c66, 0) as any as S.Schema<CreateAddressBookEntryResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<CreateAddressBookEntryRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<CreateAddressBookEntryResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2288,8 +2369,8 @@ export const createContact: API.OperationMethod<
   CreateContactError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2177, __c68, 1) as any as S.Schema<CreateContactRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<CreateContactResponse>,
+  input: __S(2209, __c69, 1) as any as S.Schema<CreateContactRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<CreateContactResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2305,8 +2386,8 @@ export const createDiscount: API.OperationMethod<
   CreateDiscountError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<CreateDiscountRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<DiscountResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<CreateDiscountRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<DiscountResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2322,8 +2403,8 @@ export const createOrder: API.OperationMethod<
   CreateOrderError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2374, __c74, 6) as any as S.Schema<CreateOrderRequest>,
-  output: __S(2478, __c77, 14) as any as S.Schema<Order>,
+  input: __S(2406, __c75, 6) as any as S.Schema<CreateOrderRequest>,
+  output: __S(2510, __c78, 14) as any as S.Schema<Order>,
   errors: [BadRequest, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2339,8 +2420,8 @@ export const createProduct: API.OperationMethod<
   CreateProductError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateProductRequest>,
-  output: __S(34, __c1, 2) as any as S.Schema<ProductV2>,
+  input: __S(32, __c1, 0) as any as S.Schema<CreateProductRequest>,
+  output: __S(66, __c2, 2) as any as S.Schema<ProductV2>,
   errors: [BadRequest, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2356,7 +2437,7 @@ export const createProductVariant: API.OperationMethod<
   CreateProductVariantError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(99, __c3, 3) as any as S.Schema<CreateProductVariantRequest>,
+  input: __S(131, __c4, 3) as any as S.Schema<CreateProductVariantRequest>,
   output: S.Unknown as any as S.Schema<ProductVariantV2>,
   errors: [BadRequest, NotFound, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
@@ -2373,8 +2454,8 @@ export const createWebhookSubscription: API.OperationMethod<
   CreateWebhookSubscriptionError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<CreateWebhookSubscriptionRequest>,
-  output: __S(161, __c5, 1) as any as S.Schema<ExternalCreateWebhookSubscriptionResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<CreateWebhookSubscriptionRequest>,
+  output: __S(193, __c6, 1) as any as S.Schema<ExternalCreateWebhookSubscriptionResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2390,8 +2471,8 @@ export const deleteAddressBookEntry: API.OperationMethod<
   DeleteAddressBookEntryError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<DeleteAddressBookEntryRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<DeleteAddressBookEntryResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<DeleteAddressBookEntryRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<DeleteAddressBookEntryResponse>,
   errors: [Forbidden, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2407,8 +2488,8 @@ export const deleteContact: API.OperationMethod<
   DeleteContactError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<DeleteContactRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<DeleteContactResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<DeleteContactRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<DeleteContactResponse>,
   errors: [Forbidden, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2424,8 +2505,8 @@ export const deleteDiscount: API.OperationMethod<
   DeleteDiscountError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<DeleteDiscountRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<DeleteDiscountResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<DeleteDiscountRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<DeleteDiscountResponse>,
   errors: [Forbidden, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2441,8 +2522,8 @@ export const deleteProduct: API.OperationMethod<
   DeleteProductError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<DeleteProductRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<DeleteProductResponse>,
+  input: __S(352, __c11, 0) as any as S.Schema<DeleteProductRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<DeleteProductResponse>,
   errors: [NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2458,8 +2539,8 @@ export const deleteProductImage: API.OperationMethod<
   DeleteProductImageError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<DeleteProductImageRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<DeleteProductImageResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<DeleteProductImageRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<DeleteProductImageResponse>,
   errors: [NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2475,8 +2556,8 @@ export const deleteProductVariant: API.OperationMethod<
   DeleteProductVariantError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<DeleteProductVariantRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<DeleteProductVariantResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<DeleteProductVariantRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<DeleteProductVariantResponse>,
   errors: [NotFound, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2492,8 +2573,8 @@ export const deleteWebhookSubscription: API.OperationMethod<
   DeleteWebhookSubscriptionError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<DeleteWebhookSubscriptionRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<DeleteWebhookSubscriptionResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<DeleteWebhookSubscriptionRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<DeleteWebhookSubscriptionResponse>,
   errors: [NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2509,8 +2590,8 @@ export const fulfillOrder: API.OperationMethod<
   FulfillOrderError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<FulfillOrderRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<FulfillOrderResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<FulfillOrderRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<FulfillOrderResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2526,8 +2607,8 @@ export const getAddressBook: API.OperationMethod<
   GetAddressBookError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetAddressBookRequest>,
-  output: __S(483, __c15, 3) as any as S.Schema<GetAddressBookResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetAddressBookRequest>,
+  output: __S(515, __c16, 3) as any as S.Schema<GetAddressBookResponse>,
   errors: [Forbidden, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2543,8 +2624,8 @@ export const getAddressBookEntry: API.OperationMethod<
   GetAddressBookEntryError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetAddressBookEntryRequest>,
-  output: __S(2112, __c66, 0) as any as S.Schema<GetAddressBookEntryResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetAddressBookEntryRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<GetAddressBookEntryResponse>,
   errors: [Forbidden, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2560,8 +2641,8 @@ export const getContact: API.OperationMethod<
   GetContactError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<GetContactRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<GetContactResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetContactRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<GetContactResponse>,
   errors: [Forbidden, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2579,8 +2660,8 @@ export const getContacts: API.PaginatedOperationMethod<
   Contact
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(608, __c19, 0) as any as S.Schema<GetContactsRequest>,
-    output: __S(641, __c20, 1) as any as S.Schema<PaginatedGetContactsResponse>,
+    input: __S(640, __c20, 0) as any as S.Schema<GetContactsRequest>,
+    output: __S(673, __c21, 1) as any as S.Schema<PaginatedGetContactsResponse>,
     errors: [BadRequest, Forbidden, UnknownSquarespaceError],
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
@@ -2605,8 +2686,8 @@ export const getDiscount: API.OperationMethod<
   GetDiscountError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<GetDiscountRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<DiscountResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetDiscountRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<DiscountResponse>,
   errors: [Forbidden, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2622,8 +2703,8 @@ export const getDocumentsById: API.OperationMethod<
   GetDocumentsByIdError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<GetDocumentsByIdRequest>,
-  output: __S(705, __c22, 1) as any as S.Schema<TransactionListResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetDocumentsByIdRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<TransactionListResponse>,
   errors: [BadRequest, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2641,8 +2722,8 @@ export const getDocumentsByUpdatedOn: API.PaginatedOperationMethod<
   TransactionDocument
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(768, __c24, 0) as any as S.Schema<GetDocumentsByUpdatedOnRequest>,
-    output: __S(769, __c24, 1) as any as S.Schema<PaginatedTransactionListResponse>,
+    input: __S(800, __c25, 0) as any as S.Schema<GetDocumentsByUpdatedOnRequest>,
+    output: __S(801, __c25, 1) as any as S.Schema<PaginatedTransactionListResponse>,
     errors: [BadRequest, UnknownSquarespaceError],
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
@@ -2666,8 +2747,8 @@ export const getFulfillmentOptions: API.OperationMethod<
   GetFulfillmentOptionsError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetFulfillmentOptionsRequest>,
-  output: __S(805, __c25, 5) as any as S.Schema<FulfillmentOptionsList>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetFulfillmentOptionsRequest>,
+  output: __S(837, __c26, 5) as any as S.Schema<FulfillmentOptionsList>,
   errors: [Forbidden, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2685,8 +2766,8 @@ export const getInventoryItems: API.PaginatedOperationMethod<
   InventoryItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(832, __c26, 0) as any as S.Schema<GetInventoryItemsRequest>,
-    output: __S(833, __c26, 1) as any as S.Schema<PaginatedInventoryItemListResponse>,
+    input: __S(864, __c27, 0) as any as S.Schema<GetInventoryItemsRequest>,
+    output: __S(865, __c27, 1) as any as S.Schema<PaginatedInventoryItemListResponse>,
     errors: [BadRequest, NotFound, UnknownSquarespaceError],
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
@@ -2710,8 +2791,8 @@ export const getMemberProfile: API.OperationMethod<
   GetMemberProfileError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<GetMemberProfileRequest>,
-  output: __S(897, __c28, 1) as any as S.Schema<MemberProfile>,
+  input: __S(928, __c29, 0) as any as S.Schema<GetMemberProfileRequest>,
+  output: __S(929, __c29, 1) as any as S.Schema<MemberProfile>,
   errors: [NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2727,8 +2808,8 @@ export const getOrder: API.OperationMethod<
   GetOrderError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<GetOrderRequest>,
-  output: __S(2478, __c77, 14) as any as S.Schema<Order>,
+  input: __S(960, __c30, 0) as any as S.Schema<GetOrderRequest>,
+  output: __S(2510, __c78, 14) as any as S.Schema<Order>,
   errors: [BadRequest, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2746,8 +2827,8 @@ export const getOrders: API.PaginatedOperationMethod<
   Order
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(960, __c30, 0) as any as S.Schema<GetOrdersRequest>,
-    output: __S(962, __c30, 2) as any as S.Schema<OrderListResponse>,
+    input: __S(992, __c31, 0) as any as S.Schema<GetOrdersRequest>,
+    output: __S(994, __c31, 2) as any as S.Schema<OrderListResponse>,
     errors: [BadRequest, UnknownSquarespaceError],
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
@@ -2771,8 +2852,8 @@ export const getProductImageProcessingStatus: API.OperationMethod<
   GetProductImageProcessingStatusError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<GetProductImageProcessingStatusRequest>,
-  output: __S(993, __c31, 1) as any as S.Schema<ProductImageProcessingStatus>,
+  input: __S(1024, __c32, 0) as any as S.Schema<GetProductImageProcessingStatusRequest>,
+  output: __S(1025, __c32, 1) as any as S.Schema<ProductImageProcessingStatus>,
   errors: [NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2790,8 +2871,8 @@ export const getProducts: API.PaginatedOperationMethod<
   PaginatedProductListResponseV2ProductsItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1024, __c32, 0) as any as S.Schema<GetProductsRequest>,
-    output: __S(1026, __c32, 2) as any as S.Schema<PaginatedProductListResponseV2>,
+    input: __S(1056, __c33, 0) as any as S.Schema<GetProductsRequest>,
+    output: __S(1058, __c33, 2) as any as S.Schema<PaginatedProductListResponseV2>,
     errors: [BadRequest, UnknownSquarespaceError],
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
@@ -2817,8 +2898,8 @@ export const getProfiles: API.PaginatedOperationMethod<
   Profile
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1056, __c33, 0) as any as S.Schema<GetProfilesRequest>,
-    output: __S(1057, __c33, 1) as any as S.Schema<PaginatedProfileListResponse>,
+    input: __S(1088, __c34, 0) as any as S.Schema<GetProfilesRequest>,
+    output: __S(1089, __c34, 1) as any as S.Schema<PaginatedProfileListResponse>,
     errors: [BadRequest, NotFound, UnknownSquarespaceError],
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
@@ -2842,8 +2923,8 @@ export const getSpecificInventoryItems: API.OperationMethod<
   GetSpecificInventoryItemsError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetSpecificInventoryItemsRequest>,
-  output: __S(1153, __c36, 1) as any as S.Schema<InventoryItemListResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<GetSpecificInventoryItemsRequest>,
+  output: __S(1185, __c37, 1) as any as S.Schema<InventoryItemListResponse>,
   errors: [BadRequest, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2859,8 +2940,8 @@ export const getSpecificProducts: API.OperationMethod<
   GetSpecificProductsError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetSpecificProductsRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<ProductListResponseV2>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetSpecificProductsRequest>,
+  output: __S(1218, __c38, 2) as any as S.Schema<ProductListResponseV2>,
   errors: [BadRequest, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2876,8 +2957,8 @@ export const getSpecificProfiles: API.OperationMethod<
   GetSpecificProfilesError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<GetSpecificProfilesRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<ProfileListResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<GetSpecificProfilesRequest>,
+  output: __S(1249, __c39, 1) as any as S.Schema<ProfileListResponse>,
   errors: [BadRequest, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2895,8 +2976,8 @@ export const getStorePages: API.PaginatedOperationMethod<
   StorePage
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1248, __c39, 0) as any as S.Schema<GetStorePagesRequest>,
-    output: __S(1251, __c39, 3) as any as S.Schema<PaginatedStorePagesResponse>,
+    input: __S(1280, __c40, 0) as any as S.Schema<GetStorePagesRequest>,
+    output: __S(1283, __c40, 3) as any as S.Schema<PaginatedStorePagesResponse>,
     errors: [NotFound, UnknownSquarespaceError],
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
@@ -2920,8 +3001,8 @@ export const getTransactionsSummaries: API.OperationMethod<
   GetTransactionsSummariesError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetTransactionsSummariesRequest>,
-  output: __S(1379, __c43, 3) as any as S.Schema<RetrieveTransactionsSummariesResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetTransactionsSummariesRequest>,
+  output: __S(1411, __c44, 3) as any as S.Schema<RetrieveTransactionsSummariesResponse>,
   errors: [BadRequest, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2937,8 +3018,8 @@ export const getWebhookSubscription: API.OperationMethod<
   GetWebhookSubscriptionError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<GetWebhookSubscriptionRequest>,
-  output: __S(1440, __c45, 0) as any as S.Schema<ExternalWebhookSubscriptionResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetWebhookSubscriptionRequest>,
+  output: __S(1472, __c46, 0) as any as S.Schema<ExternalWebhookSubscriptionResponse>,
   errors: [NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2954,8 +3035,8 @@ export const getWebhookSubscriptions: API.OperationMethod<
   GetWebhookSubscriptionsError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<GetWebhookSubscriptionsRequest>,
-  output: __S(1474, __c46, 2) as any as S.Schema<ExternalWebhookSubscriptionListResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<GetWebhookSubscriptionsRequest>,
+  output: __S(1506, __c47, 2) as any as S.Schema<ExternalWebhookSubscriptionListResponse>,
   errors: [NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2971,8 +3052,8 @@ export const getWebsiteProfile: API.OperationMethod<
   GetWebsiteProfileError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetWebsiteProfileRequest>,
-  output: __S(1506, __c47, 2) as any as S.Schema<WebsiteProfile>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetWebsiteProfileRequest>,
+  output: __S(1538, __c48, 2) as any as S.Schema<WebsiteProfile>,
   errors: [NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -2988,8 +3069,8 @@ export const listDiscounts: API.OperationMethod<
   ListDiscountsError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<ListDiscountsRequest>,
-  output: __S(1538, __c48, 2) as any as S.Schema<PaginatedDiscountListResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<ListDiscountsRequest>,
+  output: __S(1570, __c49, 2) as any as S.Schema<PaginatedDiscountListResponse>,
   errors: [BadRequest, Forbidden, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -3007,8 +3088,8 @@ export const queryContacts: API.PaginatedOperationMethod<
   Contact
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1571, __c49, 3) as any as S.Schema<QueryContactsRequest>,
-    output: __S(641, __c20, 1) as any as S.Schema<PaginatedQueryContactsResponse>,
+    input: __S(1603, __c50, 3) as any as S.Schema<QueryContactsRequest>,
+    output: __S(673, __c21, 1) as any as S.Schema<PaginatedQueryContactsResponse>,
     errors: [BadRequest, Forbidden, UnknownSquarespaceError],
     protocol: SquarespaceProtocol,
     retry: Retry.Retry,
@@ -3033,8 +3114,8 @@ export const rotateSubscriptionSecret: API.OperationMethod<
   RotateSubscriptionSecretError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<RotateSubscriptionSecretRequest>,
-  output: __S(1601, __c50, 1) as any as S.Schema<ExternalRotateSecretResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<RotateSubscriptionSecretRequest>,
+  output: __S(1633, __c51, 1) as any as S.Schema<ExternalRotateSecretResponse>,
   errors: [NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -3053,8 +3134,8 @@ export const sendTestNotificationForWebhookSubscription: API.OperationMethod<
   SendTestNotificationForWebhookSubscriptionError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<SendTestNotificationForWebhookSubscriptionRequest>,
-  output: __S(1633, __c51, 1) as any as S.Schema<ExternalTestNotificationResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<SendTestNotificationForWebhookSubscriptionRequest>,
+  output: __S(1665, __c52, 1) as any as S.Schema<ExternalTestNotificationResponse>,
   errors: [BadRequest, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -3070,8 +3151,8 @@ export const updateAddressBookEntry: API.OperationMethod<
   UpdateAddressBookEntryError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<UpdateAddressBookEntryRequest>,
-  output: __S(2112, __c66, 0) as any as S.Schema<UpdateAddressBookEntryResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<UpdateAddressBookEntryRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<UpdateAddressBookEntryResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -3087,8 +3168,8 @@ export const updateContact: API.OperationMethod<
   UpdateContactError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<UpdateContactRequest>,
-  output: __S(2240, __c70, 0) as any as S.Schema<PatchContactResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<UpdateContactRequest>,
+  output: __S(2272, __c71, 0) as any as S.Schema<PatchContactResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -3104,8 +3185,8 @@ export const updateDiscount: API.OperationMethod<
   UpdateDiscountError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<UpdateDiscountRequest>,
-  output: __S(2336, __c73, 0) as any as S.Schema<DiscountResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<UpdateDiscountRequest>,
+  output: __S(2368, __c74, 0) as any as S.Schema<DiscountResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -3121,8 +3202,8 @@ export const updateProduct: API.OperationMethod<
   UpdateProductError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1825, __c57, 1) as any as S.Schema<UpdateProductRequest>,
-  output: __S(34, __c1, 2) as any as S.Schema<ProductV2>,
+  input: __S(1857, __c58, 1) as any as S.Schema<UpdateProductRequest>,
+  output: __S(66, __c2, 2) as any as S.Schema<ProductV2>,
   errors: [BadRequest, NotFound, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -3138,8 +3219,8 @@ export const updateProductImage: API.OperationMethod<
   UpdateProductImageError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<UpdateProductImageRequest>,
-  output: __S(64, __c2, 0) as any as S.Schema<ProductImage>,
+  input: __S(1952, __c61, 0) as any as S.Schema<UpdateProductImageRequest>,
+  output: __S(96, __c3, 0) as any as S.Schema<ProductImage>,
   errors: [BadRequest, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -3155,8 +3236,8 @@ export const updateProductImageOrder: API.OperationMethod<
   UpdateProductImageOrderError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<UpdateProductImageOrderRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<UpdateProductImageOrderResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<UpdateProductImageOrderRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<UpdateProductImageOrderResponse>,
   errors: [BadRequest, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -3172,7 +3253,7 @@ export const updateProductVariant: API.OperationMethod<
   UpdateProductVariantError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1989, __c62, 5) as any as S.Schema<UpdateProductVariantRequest>,
+  input: __S(2021, __c63, 5) as any as S.Schema<UpdateProductVariantRequest>,
   output: S.Unknown as any as S.Schema<ProductVariantV2>,
   errors: [BadRequest, NotFound, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
@@ -3189,8 +3270,8 @@ export const updateWebhookSubscription: API.OperationMethod<
   UpdateWebhookSubscriptionError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<UpdateWebhookSubscriptionRequest>,
-  output: __S(1440, __c45, 0) as any as S.Schema<ExternalWebhookSubscriptionResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<UpdateWebhookSubscriptionRequest>,
+  output: __S(1472, __c46, 0) as any as S.Schema<ExternalWebhookSubscriptionResponse>,
   errors: [BadRequest, NotFound, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -3206,8 +3287,8 @@ export const uploadProductImage: API.OperationMethod<
   UploadProductImageError,
   SquarespaceOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<UploadProductImageRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<UploadProductImageResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<UploadProductImageRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<UploadProductImageResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownSquarespaceError],
   protocol: SquarespaceProtocol,
   retry: Retry.Retry,
@@ -3221,15 +3302,29 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: S.Unknown.pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/v2/commerce/products", code: 200 })),
-      ).annotate({ identifier: "CreateProductRequest" });
+          contextId: S.optional(S.String),
+          details: S.optional(S.Unknown),
+          message: S.optional(S.String),
+          subtype: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StandardErrorPayload" });
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(64, __c2, 0));
+      return S.suspend(() =>
+        S.Struct({
+          body: S.Unknown.pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "POST", uri: "/v2/commerce/products", code: 200 })),
+      ).annotate({ identifier: "CreateProductRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(96, __c3, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -3243,13 +3338,13 @@ function __c1(j: number): any {
           createdOn: S.String,
           description: S.optional(S.String),
           id: S.String,
-          images: S.optional(__S(32, __c1, 0)),
+          images: S.optional(__S(64, __c2, 0)),
           isVisible: S.optional(S.Boolean),
           modifiedOn: S.String,
           name: S.optional(S.String),
-          seoOptions: S.optional(__S(33, __c1, 1)),
+          seoOptions: S.optional(__S(65, __c2, 1)),
           storePageId: S.String,
-          tags: S.optional(__S(1312, __c41, 0)),
+          tags: S.optional(__S(1344, __c42, 0)),
           type: S.String,
           url: S.optional(S.String),
           urlSlug: S.optional(S.String),
@@ -3257,13 +3352,13 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ProductV2" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           altText: S.optional(S.String),
-          availableFormats: S.optional(__S(1312, __c41, 0)),
+          availableFormats: S.optional(__S(1344, __c42, 0)),
           id: S.optional(S.String),
           orderIndex: S.optional(S.Number),
           originalSize: S.optional(S.Unknown),
@@ -3272,21 +3367,21 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ProductImage" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          basePrice: S.optional(__S(2401, __c75, 1)),
+          basePrice: S.optional(__S(2433, __c76, 1)),
           onSale: S.optional(S.Boolean),
-          salePrice: S.optional(__S(2401, __c75, 1)),
+          salePrice: S.optional(__S(2433, __c76, 1)),
         }),
       ).annotate({ identifier: "FullProductPricing" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dimensions: S.optional(__S(129, __c4, 1)),
-          weight: S.optional(__S(130, __c4, 2)),
+          dimensions: S.optional(__S(161, __c5, 1)),
+          weight: S.optional(__S(162, __c5, 2)),
         }),
       ).annotate({ identifier: "ProductMeasurements" });
     case 2:
@@ -3300,20 +3395,20 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           productId: S.String.pipe(T.Label()),
-          attributes: S.optional(__S(128, __c4, 0)),
+          attributes: S.optional(__S(160, __c5, 0)),
           gtin: S.optional(S.String),
           mpn: S.optional(S.String),
-          pricing: __S(96, __c3, 0),
-          shippingMeasurements: S.optional(__S(97, __c3, 1)),
+          pricing: __S(128, __c4, 0),
+          shippingMeasurements: S.optional(__S(129, __c4, 1)),
           sku: S.String,
-          stock: S.optional(__S(98, __c3, 2)),
+          stock: S.optional(__S(130, __c4, 2)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/commerce/products/{productId}/variants", code: 200 }),
         ),
       ).annotate({ identifier: "CreateProductVariantRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -3335,13 +3430,13 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ProductWeight" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           endpointUrl: S.String,
-          topics: S.optional(__S(192, __c6, 0)),
+          topics: S.optional(__S(224, __c7, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/1.0/webhook_subscriptions", code: 200 })),
       ).annotate({ identifier: "CreateWebhookSubscriptionRequest" });
     case 1:
@@ -3352,20 +3447,20 @@ function __c5(j: number): any {
           endpointUrl: S.String,
           id: S.String,
           secret: S.String.pipe(T.SensitiveValue({})),
-          topics: S.optional(__S(192, __c6, 0)),
+          topics: S.optional(__S(224, __c7, 0)),
           updatedOn: S.String,
           websiteId: S.String,
         }),
       ).annotate({ identifier: "ExternalCreateWebhookSubscriptionResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3382,7 +3477,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DeleteAddressBookEntryRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3392,7 +3487,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DeleteContactRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3404,7 +3499,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteDiscountRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3414,7 +3509,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteProductRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3431,7 +3526,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteProductImageRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3448,7 +3543,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeleteProductVariantRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3464,13 +3559,13 @@ function __c13(j: number): any {
       ).annotate({ identifier: "DeleteWebhookSubscriptionRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          shipments: S.optional(__S(2433, __c76, 1)),
+          shipments: S.optional(__S(2465, __c77, 1)),
           shouldSendNotification: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "POST", uri: "/1.0/commerce/orders/{id}/fulfillments", code: 200 }),
@@ -3478,7 +3573,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "FulfillOrderRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3489,24 +3584,24 @@ function __c15(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/contacts/{contactId}/address-book", code: 200 })),
       ).annotate({ identifier: "GetAddressBookRequest" });
     case 1:
-      return S.Array(__S(2145, __c67, 1));
+      return S.Array(__S(2177, __c68, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          addressBookEntries: S.optional(__S(481, __c15, 1)),
+          addressBookEntries: S.optional(__S(513, __c16, 1)),
           defaultShippingAddressId: S.optional(S.String),
         }),
       ).annotate({ identifier: "AddressBook" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          addressBook: S.optional(__S(482, __c15, 2)),
-          pagination: S.optional(__S(512, __c16, 0)),
+          addressBook: S.optional(__S(514, __c16, 2)),
+          pagination: S.optional(__S(544, __c17, 0)),
         }),
       ).annotate({ identifier: "GetAddressBookResponse" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3518,7 +3613,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "PaginationDetails" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3535,7 +3630,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GetAddressBookEntryRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3545,7 +3640,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetContactRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3556,20 +3651,20 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetContactsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(2210, __c69, 2));
+      return S.Array(__S(2242, __c70, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          contacts: __S(640, __c20, 0),
-          pagination: S.optional(__S(512, __c16, 0)),
+          contacts: __S(672, __c21, 0),
+          pagination: S.optional(__S(544, __c17, 0)),
         }),
       ).annotate({ identifier: "PaginatedGetContactsResponse" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3579,7 +3674,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "GetDiscountRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3592,23 +3687,23 @@ function __c22(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          documents: S.optional(__S(755, __c23, 19)),
+          documents: S.optional(__S(787, __c24, 19)),
         }),
       ).annotate({ identifier: "TransactionListResponse" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(2401, __c75, 1)),
+          amount: S.optional(__S(2433, __c76, 1)),
           description: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "TransactionDiscount" });
     case 1:
-      return S.Array(__S(736, __c23, 0));
+      return S.Array(__S(768, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3617,12 +3712,12 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "ExternalTransactionProperty" });
     case 3:
-      return S.Array(__S(738, __c23, 2));
+      return S.Array(__S(770, __c24, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(2401, __c75, 1)),
-          amountGatewayCurrency: S.optional(__S(2401, __c75, 1)),
+          amount: S.optional(__S(2433, __c76, 1)),
+          amountGatewayCurrency: S.optional(__S(2433, __c76, 1)),
           exchangeRate: S.optional(S.Number),
           externalTransactionId: S.optional(S.String),
           id: S.optional(S.String),
@@ -3630,118 +3725,118 @@ function __c23(j: number): any {
         }),
       ).annotate({ identifier: "TransactionProcessingFeeRefund" });
     case 5:
-      return S.Array(__S(740, __c23, 4));
+      return S.Array(__S(772, __c24, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(2401, __c75, 1)),
-          amountGatewayCurrency: S.optional(__S(2401, __c75, 1)),
+          amount: S.optional(__S(2433, __c76, 1)),
+          amountGatewayCurrency: S.optional(__S(2433, __c76, 1)),
           exchangeRate: S.optional(S.Number),
-          feeRefunds: S.optional(__S(741, __c23, 5)),
+          feeRefunds: S.optional(__S(773, __c24, 5)),
           id: S.optional(S.String),
-          netAmount: S.optional(__S(2401, __c75, 1)),
-          netAmountGatewayCurrency: S.optional(__S(2401, __c75, 1)),
-          refundedAmount: S.optional(__S(2401, __c75, 1)),
-          refundedAmountGatewayCurrency: S.optional(__S(2401, __c75, 1)),
+          netAmount: S.optional(__S(2433, __c76, 1)),
+          netAmountGatewayCurrency: S.optional(__S(2433, __c76, 1)),
+          refundedAmount: S.optional(__S(2433, __c76, 1)),
+          refundedAmountGatewayCurrency: S.optional(__S(2433, __c76, 1)),
         }),
       ).annotate({ identifier: "TransactionProcessingFee" });
     case 7:
-      return S.Array(__S(742, __c23, 6));
+      return S.Array(__S(774, __c24, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(2401, __c75, 1)),
+          amount: S.optional(__S(2433, __c76, 1)),
           externalTransactionId: S.optional(S.String),
           id: S.optional(S.String),
           refundedOn: S.optional(S.String),
         }),
       ).annotate({ identifier: "TransactionRefund" });
     case 9:
-      return S.Array(__S(744, __c23, 8));
+      return S.Array(__S(776, __c24, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(2401, __c75, 1)),
+          amount: S.optional(__S(2433, __c76, 1)),
           creditCardType: S.optional(S.String),
           externalCustomerId: S.optional(S.String),
           externalTransactionId: S.optional(S.String),
-          externalTransactionProperties: S.optional(__S(739, __c23, 3)),
+          externalTransactionProperties: S.optional(__S(771, __c24, 3)),
           giftCardId: S.optional(S.String),
           id: S.optional(S.String),
-          netAmount: S.optional(__S(2401, __c75, 1)),
+          netAmount: S.optional(__S(2433, __c76, 1)),
           paidOn: S.optional(S.String),
-          processingFees: S.optional(__S(743, __c23, 7)),
+          processingFees: S.optional(__S(775, __c24, 7)),
           provider: S.optional(S.String),
-          refundedAmount: S.optional(__S(2401, __c75, 1)),
-          refunds: S.optional(__S(745, __c23, 9)),
+          refundedAmount: S.optional(__S(2433, __c76, 1)),
+          refunds: S.optional(__S(777, __c24, 9)),
         }),
       ).annotate({ identifier: "TransactionPayment" });
     case 11:
-      return S.Array(__S(746, __c23, 10));
+      return S.Array(__S(778, __c24, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(2401, __c75, 1)),
+          amount: S.optional(__S(2433, __c76, 1)),
           jurisdiction: S.optional(S.String),
           name: S.optional(S.String),
           rate: S.optional(S.String),
         }),
       ).annotate({ identifier: "TransactionTax" });
     case 13:
-      return S.Array(__S(748, __c23, 12));
+      return S.Array(__S(780, __c24, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          discountAmount: S.optional(__S(2401, __c75, 1)),
+          discountAmount: S.optional(__S(2433, __c76, 1)),
           id: S.optional(S.String),
-          taxes: S.optional(__S(749, __c23, 13)),
-          total: S.optional(__S(2401, __c75, 1)),
-          totalNetSales: S.optional(__S(2401, __c75, 1)),
-          totalSales: S.optional(__S(2401, __c75, 1)),
+          taxes: S.optional(__S(781, __c24, 13)),
+          total: S.optional(__S(2433, __c76, 1)),
+          totalNetSales: S.optional(__S(2433, __c76, 1)),
+          totalSales: S.optional(__S(2433, __c76, 1)),
         }),
       ).annotate({ identifier: "TransactionSalesLineItem" });
     case 15:
-      return S.Array(__S(750, __c23, 14));
+      return S.Array(__S(782, __c24, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(2401, __c75, 1)),
+          amount: S.optional(__S(2433, __c76, 1)),
           description: S.optional(S.String),
-          discountAmount: S.optional(__S(2401, __c75, 1)),
+          discountAmount: S.optional(__S(2433, __c76, 1)),
           id: S.optional(S.String),
-          netAmount: S.optional(__S(2401, __c75, 1)),
-          taxes: S.optional(__S(749, __c23, 13)),
+          netAmount: S.optional(__S(2433, __c76, 1)),
+          taxes: S.optional(__S(781, __c24, 13)),
         }),
       ).annotate({ identifier: "TransactionShippingLineItem" });
     case 17:
-      return S.Array(__S(752, __c23, 16));
+      return S.Array(__S(784, __c24, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
           createdOn: S.optional(S.String),
           customerEmail: S.optional(S.String),
-          discounts: S.optional(__S(737, __c23, 1)),
+          discounts: S.optional(__S(769, __c24, 1)),
           id: S.optional(S.String),
           modifiedOn: S.optional(S.String),
           paymentGatewayError: S.optional(S.String),
-          payments: S.optional(__S(747, __c23, 11)),
-          salesLineItems: S.optional(__S(751, __c23, 15)),
+          payments: S.optional(__S(779, __c24, 11)),
+          salesLineItems: S.optional(__S(783, __c24, 15)),
           salesOrderId: S.optional(S.String),
-          shippingLineItems: S.optional(__S(753, __c23, 17)),
-          total: S.optional(__S(2401, __c75, 1)),
-          totalNetPayment: S.optional(__S(2401, __c75, 1)),
-          totalNetSales: S.optional(__S(2401, __c75, 1)),
-          totalNetShipping: S.optional(__S(2401, __c75, 1)),
-          totalSales: S.optional(__S(2401, __c75, 1)),
-          totalTaxes: S.optional(__S(2401, __c75, 1)),
+          shippingLineItems: S.optional(__S(785, __c24, 17)),
+          total: S.optional(__S(2433, __c76, 1)),
+          totalNetPayment: S.optional(__S(2433, __c76, 1)),
+          totalNetSales: S.optional(__S(2433, __c76, 1)),
+          totalNetShipping: S.optional(__S(2433, __c76, 1)),
+          totalSales: S.optional(__S(2433, __c76, 1)),
+          totalTaxes: S.optional(__S(2433, __c76, 1)),
           voided: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TransactionDocument" });
     case 19:
-      return S.Array(__S(754, __c23, 18));
+      return S.Array(__S(786, __c24, 18));
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3755,13 +3850,13 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          documents: __S(755, __c23, 19),
-          pagination: S.optional(__S(512, __c16, 0)),
+          documents: __S(787, __c24, 19),
+          pagination: S.optional(__S(544, __c17, 0)),
         }),
       ).annotate({ identifier: "PaginatedTransactionListResponse" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3777,27 +3872,27 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "CarrierService" });
     case 2:
-      return S.Array(__S(801, __c25, 1));
+      return S.Array(__S(833, __c26, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          availableServices: __S(802, __c25, 2),
+          availableServices: __S(834, __c26, 2),
           id: S.String,
           name: S.String,
           type: S.String,
         }),
       ).annotate({ identifier: "FulfillmentOption" });
     case 4:
-      return S.Array(__S(803, __c25, 3));
+      return S.Array(__S(835, __c26, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          fulfillmentOptions: __S(804, __c25, 4),
+          fulfillmentOptions: __S(836, __c26, 4),
         }),
       ).annotate({ identifier: "FulfillmentOptionsList" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3808,13 +3903,13 @@ function __c26(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          inventory: __S(865, __c27, 1),
-          pagination: S.optional(__S(512, __c16, 0)),
+          inventory: __S(897, __c28, 1),
+          pagination: S.optional(__S(544, __c17, 0)),
         }),
       ).annotate({ identifier: "PaginatedInventoryItemListResponse" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3827,10 +3922,10 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "InventoryItem" });
     case 1:
-      return S.Array(__S(864, __c27, 0));
+      return S.Array(__S(896, __c28, 0));
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3847,7 +3942,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "MemberProfile" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3857,7 +3952,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetOrderRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3871,17 +3966,17 @@ function __c30(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/1.0/commerce/orders", code: 200 })),
       ).annotate({ identifier: "GetOrdersRequest" });
     case 1:
-      return S.Array(__S(2478, __c77, 14));
+      return S.Array(__S(2510, __c78, 14));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pagination: S.optional(__S(512, __c16, 0)),
-          result: __S(961, __c30, 1),
+          pagination: S.optional(__S(544, __c17, 0)),
+          result: __S(993, __c31, 1),
         }),
       ).annotate({ identifier: "OrderListResponse" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3905,7 +4000,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "ProductImageProcessingStatus" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3914,7 +4009,7 @@ function __c32(j: number): any {
           modifiedBefore: S.optional(S.String.pipe(T.Query())),
           cursor: S.optional(S.String.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
-          type: S.optional(__S(1312, __c41, 0).pipe(T.Query())),
+          type: S.optional(__S(1344, __c42, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/v2/commerce/products", code: 200 })),
       ).annotate({ identifier: "GetProductsRequest" });
     case 1:
@@ -3922,13 +4017,13 @@ function __c32(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pagination: S.optional(__S(512, __c16, 0)),
-          products: __S(1025, __c32, 1),
+          pagination: S.optional(__S(544, __c17, 0)),
+          products: __S(1057, __c33, 1),
         }),
       ).annotate({ identifier: "PaginatedProductListResponseV2" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3943,19 +4038,19 @@ function __c33(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          pagination: S.optional(__S(512, __c16, 0)),
-          profiles: __S(1089, __c34, 1),
+          pagination: S.optional(__S(544, __c17, 0)),
+          profiles: __S(1121, __c35, 1),
         }),
       ).annotate({ identifier: "PaginatedProfileListResponse" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           acceptsMarketing: S.optional(S.Boolean),
-          address: S.optional(__S(2496, __c78, 0)),
+          address: S.optional(__S(2528, __c79, 0)),
           createdOn: S.optional(S.String),
           email: S.optional(S.String),
           firstName: S.optional(S.String),
@@ -3963,14 +4058,14 @@ function __c34(j: number): any {
           id: S.optional(S.String),
           isCustomer: S.optional(S.Boolean),
           lastName: S.optional(S.String),
-          transactionsSummary: S.optional(__S(1120, __c35, 0)),
+          transactionsSummary: S.optional(__S(1152, __c36, 0)),
         }),
       ).annotate({ identifier: "Profile" });
     case 1:
-      return S.Array(__S(1088, __c34, 0));
+      return S.Array(__S(1120, __c35, 0));
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3981,14 +4076,14 @@ function __c35(j: number): any {
           lastDonationSubmittedOn: S.optional(S.String),
           lastOrderSubmittedOn: S.optional(S.String),
           orderCount: S.optional(S.Number),
-          totalDonationAmount: S.optional(__S(2401, __c75, 1)),
-          totalOrderAmount: S.optional(__S(2401, __c75, 1)),
-          totalRefundAmount: S.optional(__S(2401, __c75, 1)),
+          totalDonationAmount: S.optional(__S(2433, __c76, 1)),
+          totalOrderAmount: S.optional(__S(2433, __c76, 1)),
+          totalRefundAmount: S.optional(__S(2433, __c76, 1)),
         }),
       ).annotate({ identifier: "TransactionsSummary" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4001,12 +4096,12 @@ function __c36(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          inventory: S.optional(__S(865, __c27, 1)),
+          inventory: S.optional(__S(897, __c28, 1)),
         }),
       ).annotate({ identifier: "InventoryItemListResponse" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4019,12 +4114,12 @@ function __c37(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          products: S.optional(__S(1185, __c37, 1)),
+          products: S.optional(__S(1217, __c38, 1)),
         }),
       ).annotate({ identifier: "ProductListResponseV2" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4035,12 +4130,12 @@ function __c38(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          profiles: S.optional(__S(1089, __c34, 1)),
+          profiles: S.optional(__S(1121, __c35, 1)),
         }),
       ).annotate({ identifier: "ProfileListResponse" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4058,17 +4153,17 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "StorePage" });
     case 2:
-      return S.Array(__S(1249, __c39, 1));
+      return S.Array(__S(1281, __c40, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          pagination: S.optional(__S(512, __c16, 0)),
-          storePages: __S(1250, __c39, 2),
+          pagination: S.optional(__S(544, __c17, 0)),
+          storePages: __S(1282, __c40, 2),
         }),
       ).annotate({ identifier: "PaginatedStorePagesResponse" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4078,26 +4173,26 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "InventoryQuantityExpression" });
     case 1:
-      return S.Array(__S(1280, __c40, 0));
+      return S.Array(__S(1312, __c41, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
-          decrementOperations: S.optional(__S(1281, __c40, 1)),
-          incrementOperations: S.optional(__S(1281, __c40, 1)),
-          setFiniteOperations: S.optional(__S(1281, __c40, 1)),
-          setUnlimitedOperations: S.optional(__S(1312, __c41, 0)),
+          decrementOperations: S.optional(__S(1313, __c41, 1)),
+          incrementOperations: S.optional(__S(1313, __c41, 1)),
+          setFiniteOperations: S.optional(__S(1313, __c41, 1)),
+          setUnlimitedOperations: S.optional(__S(1344, __c42, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/1.0/commerce/inventory/adjustments", code: 200 })),
       ).annotate({ identifier: "AdjustInventoryStockLevelsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -4105,12 +4200,12 @@ function __c42(j: number): any {
       });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          contactIds: __S(1312, __c41, 0),
+          contactIds: __S(1344, __c42, 0),
           groupBy: S.String,
         }).pipe(T.Http({ method: "POST", uri: "/v1/analytics/transaction-summaries", code: 200 })),
       ).annotate({ identifier: "GetTransactionsSummariesRequest" });
@@ -4118,20 +4213,20 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           contactId: S.optional(S.String),
-          transactionsSummary: S.optional(__S(1120, __c35, 0)),
+          transactionsSummary: S.optional(__S(1152, __c36, 0)),
         }),
       ).annotate({ identifier: "TransactionsSummaryWrapper" });
     case 2:
-      return S.Array(__S(1377, __c43, 1));
+      return S.Array(__S(1409, __c44, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          transactionsSummaryWrappers: S.optional(__S(1378, __c43, 2)),
+          transactionsSummaryWrappers: S.optional(__S(1410, __c44, 2)),
         }),
       ).annotate({ identifier: "RetrieveTransactionsSummariesResponse" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4143,7 +4238,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetWebhookSubscriptionRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4152,30 +4247,30 @@ function __c45(j: number): any {
           createdOn: S.optional(S.String),
           endpointUrl: S.optional(S.String),
           id: S.optional(S.String),
-          topics: S.optional(__S(1312, __c41, 0)),
+          topics: S.optional(__S(1344, __c42, 0)),
           updatedOn: S.optional(S.String),
           websiteId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExternalWebhookSubscriptionResponse" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/1.0/webhook_subscriptions", code: 200 })),
       ).annotate({ identifier: "GetWebhookSubscriptionsRequest" });
     case 1:
-      return S.Array(__S(1440, __c45, 0));
+      return S.Array(__S(1472, __c46, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          webhookSubscriptions: S.optional(__S(1473, __c46, 1)),
+          webhookSubscriptions: S.optional(__S(1505, __c47, 1)),
         }),
       ).annotate({ identifier: "ExternalWebhookSubscriptionListResponse" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4194,7 +4289,7 @@ function __c47(j: number): any {
           currency: S.optional(S.String),
           id: S.optional(S.String),
           language: S.optional(S.String),
-          location: S.optional(__S(1505, __c47, 1)),
+          location: S.optional(__S(1537, __c48, 1)),
           measurementStandard: S.optional(S.String),
           siteId: S.optional(S.String),
           timeZone: S.optional(S.String),
@@ -4204,7 +4299,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "WebsiteProfile" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4213,8 +4308,8 @@ function __c48(j: number): any {
           sortDirection: S.optional(S.String.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
-          criteria: S.optional(__S(192, __c6, 0).pipe(T.Query())),
-          template: S.optional(__S(192, __c6, 0).pipe(T.Query())),
+          criteria: S.optional(__S(224, __c7, 0).pipe(T.Query())),
+          template: S.optional(__S(224, __c7, 0).pipe(T.Query())),
           trigger: S.optional(S.String.pipe(T.Query())),
           limitedUseOnly: S.optional(S.Boolean.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
@@ -4222,18 +4317,18 @@ function __c48(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/commerce/discounts", code: 200 })),
       ).annotate({ identifier: "ListDiscountsRequest" });
     case 1:
-      return S.Array(__S(2305, __c72, 1));
+      return S.Array(__S(2337, __c73, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          discounts: __S(1537, __c48, 1),
+          discounts: __S(1569, __c49, 1),
           hasNextPage: S.optional(S.Boolean),
           hasPreviousPage: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PaginatedDiscountListResponse" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4246,7 +4341,7 @@ function __c49(j: number): any {
       return S.suspend(() =>
         S.Struct({
           acceptsMarketing: S.optional(S.Boolean),
-          joinedOn: S.optional(__S(1568, __c49, 0)),
+          joinedOn: S.optional(__S(1600, __c50, 0)),
         }),
       ).annotate({ identifier: "AcceptsMarketingWithDate" });
     case 2:
@@ -4259,16 +4354,16 @@ function __c49(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          acceptsMarketingWithDate: S.optional(__S(1569, __c49, 1)),
+          acceptsMarketingWithDate: S.optional(__S(1601, __c50, 1)),
           cursor: S.optional(S.String),
-          donationAmount: S.optional(__S(1570, __c49, 2)),
-          donationCount: S.optional(__S(1570, __c49, 2)),
-          firstDonationOn: S.optional(__S(1568, __c49, 0)),
-          firstOrderOn: S.optional(__S(1568, __c49, 0)),
-          lastDonationOn: S.optional(__S(1568, __c49, 0)),
-          lastOrderOn: S.optional(__S(1568, __c49, 0)),
-          orderAmount: S.optional(__S(1570, __c49, 2)),
-          orderCount: S.optional(__S(1570, __c49, 2)),
+          donationAmount: S.optional(__S(1602, __c50, 2)),
+          donationCount: S.optional(__S(1602, __c50, 2)),
+          firstDonationOn: S.optional(__S(1600, __c50, 0)),
+          firstOrderOn: S.optional(__S(1600, __c50, 0)),
+          lastDonationOn: S.optional(__S(1600, __c50, 0)),
+          lastOrderOn: S.optional(__S(1600, __c50, 0)),
+          orderAmount: S.optional(__S(1602, __c50, 2)),
+          orderCount: S.optional(__S(1602, __c50, 2)),
           pageSize: S.optional(S.Number),
           searchString: S.optional(S.String),
           sortDirection: S.optional(S.String),
@@ -4277,7 +4372,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "QueryContactsRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4299,7 +4394,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ExternalRotateSecretResponse" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4322,14 +4417,14 @@ function __c51(j: number): any {
       ).annotate({ identifier: "ExternalTestNotificationResponse" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           contactId: S.String.pipe(T.Label()),
           addressBookEntryId: S.String.pipe(T.Label()),
-          address: __S(2144, __c67, 0),
+          address: __S(2176, __c68, 0),
           defaultShipping: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -4341,7 +4436,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "UpdateAddressBookEntryRequest" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4351,14 +4446,14 @@ function __c53(j: number): any {
       ).annotate({ identifier: "UpdateContactRequest" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           productId: S.String.pipe(T.Label()),
           variantId: S.String.pipe(T.Label()),
-          imageId: __S(1760, __c55, 0),
+          imageId: __S(1792, __c56, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4369,7 +4464,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "AssociateProductVariantImageRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4380,7 +4475,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "ChangeString" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4391,8 +4486,8 @@ function __c56(j: number): any {
           isOncePerCustomer: S.optional(S.Boolean),
           maxUsesAllowed: S.optional(S.Number),
           name: S.String,
-          paymentPlanOptions: S.optional(__S(2304, __c72, 0)),
-          subscriptionOptions: S.optional(__S(2304, __c72, 0)),
+          paymentPlanOptions: S.optional(__S(2336, __c73, 0)),
+          subscriptionOptions: S.optional(__S(2336, __c73, 0)),
           template: S.Unknown,
           trigger: S.Unknown,
           validFrom: S.String,
@@ -4401,32 +4496,32 @@ function __c56(j: number): any {
       ).annotate({ identifier: "UpdateDiscountRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           present: S.optional(S.Boolean),
-          value: S.optional(__S(33, __c1, 1)),
+          value: S.optional(__S(65, __c2, 1)),
         }),
       ).annotate({ identifier: "ChangeSeoOptions" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           productId: S.String.pipe(T.Label()),
-          description: S.optional(__S(1760, __c55, 0)),
-          isVisible: S.optional(__S(1856, __c58, 0)),
-          name: S.optional(__S(1760, __c55, 0)),
-          pricing: S.optional(__S(1859, __c58, 3)),
-          productAttributeNames: S.optional(__S(1888, __c59, 0)),
-          seoData: S.optional(__S(1824, __c57, 0)),
-          tags: S.optional(__S(1888, __c59, 0)),
-          urlSlug: S.optional(__S(1760, __c55, 0)),
+          description: S.optional(__S(1792, __c56, 0)),
+          isVisible: S.optional(__S(1888, __c59, 0)),
+          name: S.optional(__S(1792, __c56, 0)),
+          pricing: S.optional(__S(1891, __c59, 3)),
+          productAttributeNames: S.optional(__S(1920, __c60, 0)),
+          seoData: S.optional(__S(1856, __c58, 0)),
+          tags: S.optional(__S(1920, __c60, 0)),
+          urlSlug: S.optional(__S(1792, __c56, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/commerce/products/{productId}", code: 200 })),
       ).annotate({ identifier: "UpdateProductRequest" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4439,35 +4534,24 @@ function __c58(j: number): any {
       return S.suspend(() =>
         S.Struct({
           present: S.optional(S.Boolean),
-          value: S.optional(__S(2401, __c75, 1)),
+          value: S.optional(__S(2433, __c76, 1)),
         }),
       ).annotate({ identifier: "ChangeMonetaryAmount" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          basePrice: S.optional(__S(1857, __c58, 1)),
-          onSale: S.optional(__S(1856, __c58, 0)),
-          salePrice: S.optional(__S(1857, __c58, 1)),
+          basePrice: S.optional(__S(1889, __c59, 1)),
+          onSale: S.optional(__S(1888, __c59, 0)),
+          salePrice: S.optional(__S(1889, __c59, 1)),
         }),
       ).annotate({ identifier: "UpdateProductPricing" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           present: S.optional(S.Boolean),
-          value: S.optional(__S(1858, __c58, 2)),
+          value: S.optional(__S(1890, __c59, 2)),
         }),
       ).annotate({ identifier: "ChangeUpdateProductPricing" });
-  }
-}
-function __c59(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          present: S.optional(S.Boolean),
-          value: S.optional(__S(1312, __c41, 0)),
-        }),
-      ).annotate({ identifier: "ChangeListString" });
   }
 }
 function __c60(j: number): any {
@@ -4475,9 +4559,20 @@ function __c60(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          present: S.optional(S.Boolean),
+          value: S.optional(__S(1344, __c42, 0)),
+        }),
+      ).annotate({ identifier: "ChangeListString" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           productId: S.String.pipe(T.Label()),
           imageId: S.String.pipe(T.Label()),
-          altText: S.optional(__S(1760, __c55, 0)),
+          altText: S.optional(__S(1792, __c56, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4488,14 +4583,14 @@ function __c60(j: number): any {
       ).annotate({ identifier: "UpdateProductImageRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           productId: S.String.pipe(T.Label()),
           imageId: S.String.pipe(T.Label()),
-          afterImageId: S.optional(__S(1760, __c55, 0)),
+          afterImageId: S.optional(__S(1792, __c56, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4506,41 +4601,41 @@ function __c61(j: number): any {
       ).annotate({ identifier: "UpdateProductImageOrderRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           present: S.optional(S.Boolean),
-          value: S.optional(__S(128, __c4, 0)),
+          value: S.optional(__S(160, __c5, 0)),
         }),
       ).annotate({ identifier: "ChangeMapStringString" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           present: S.optional(S.Boolean),
-          value: S.optional(__S(129, __c4, 1)),
+          value: S.optional(__S(161, __c5, 1)),
         }),
       ).annotate({ identifier: "ChangeProductDimensions" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           present: S.optional(S.Boolean),
-          value: S.optional(__S(130, __c4, 2)),
+          value: S.optional(__S(162, __c5, 2)),
         }),
       ).annotate({ identifier: "ChangeProductWeight" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dimensions: S.optional(__S(1985, __c62, 1)),
-          weight: S.optional(__S(1986, __c62, 2)),
+          dimensions: S.optional(__S(2017, __c63, 1)),
+          weight: S.optional(__S(2018, __c63, 2)),
         }),
       ).annotate({ identifier: "UpdateProductMeasurements" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           present: S.optional(S.Boolean),
-          value: S.optional(__S(1987, __c62, 3)),
+          value: S.optional(__S(2019, __c63, 3)),
         }),
       ).annotate({ identifier: "ChangeUpdateProductMeasurements" });
     case 5:
@@ -4548,12 +4643,12 @@ function __c62(j: number): any {
         S.Struct({
           productId: S.String.pipe(T.Label()),
           variantId: S.String.pipe(T.Label()),
-          attributes: S.optional(__S(1984, __c62, 0)),
-          gtin: S.optional(__S(1760, __c55, 0)),
-          mpn: S.optional(__S(1760, __c55, 0)),
-          pricing: S.optional(__S(1859, __c58, 3)),
-          shippingMeasurements: S.optional(__S(1988, __c62, 4)),
-          sku: S.optional(__S(1760, __c55, 0)),
+          attributes: S.optional(__S(2016, __c63, 0)),
+          gtin: S.optional(__S(1792, __c56, 0)),
+          mpn: S.optional(__S(1792, __c56, 0)),
+          pricing: S.optional(__S(1891, __c59, 3)),
+          shippingMeasurements: S.optional(__S(2020, __c63, 4)),
+          sku: S.optional(__S(1792, __c56, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4564,21 +4659,21 @@ function __c62(j: number): any {
       ).annotate({ identifier: "UpdateProductVariantRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
-          endpointUrl: S.optional(__S(1760, __c55, 0)),
-          topics: S.optional(__S(1888, __c59, 0)),
+          endpointUrl: S.optional(__S(1792, __c56, 0)),
+          topics: S.optional(__S(1920, __c60, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/1.0/webhook_subscriptions/{subscriptionId}", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateWebhookSubscriptionRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4595,13 +4690,13 @@ function __c64(j: number): any {
       ).annotate({ identifier: "UploadProductImageRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           contactId: S.String.pipe(T.Label()),
-          address: __S(2144, __c67, 0),
+          address: __S(2176, __c68, 0),
           defaultShipping: S.optional(S.Boolean),
         }).pipe(
           T.Http({ method: "POST", uri: "/v1/contacts/{contactId}/address-book", code: 200 }),
@@ -4609,17 +4704,17 @@ function __c65(j: number): any {
       ).annotate({ identifier: "CreateAddressBookEntryRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          addressBookEntry: S.optional(__S(2145, __c67, 1)),
+          addressBookEntry: S.optional(__S(2177, __c68, 1)),
         }),
       ).annotate({ identifier: "CreateAddressBookEntryResponse" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4638,14 +4733,14 @@ function __c67(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          address: S.optional(__S(2144, __c67, 0)),
+          address: S.optional(__S(2176, __c68, 0)),
           defaultShipping: S.optional(S.Boolean),
           id: S.optional(S.String),
         }),
       ).annotate({ identifier: "AddressBookEntry" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4660,12 +4755,12 @@ function __c68(j: number): any {
           firstName: S.String,
           lastName: S.String,
           locale: S.String,
-          primaryEmail: __S(2176, __c68, 0),
+          primaryEmail: __S(2208, __c69, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v1/contacts", code: 200 })),
       ).annotate({ identifier: "CreateContactRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4678,7 +4773,7 @@ function __c69(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          acceptsMarketing: S.optional(__S(2208, __c69, 0)),
+          acceptsMarketing: S.optional(__S(2240, __c70, 0)),
           createdOn: S.optional(S.String),
           email: S.optional(S.String),
         }),
@@ -4687,27 +4782,27 @@ function __c69(j: number): any {
       return S.suspend(() =>
         S.Struct({
           createdOn: S.optional(S.String),
-          defaultShippingAddress: S.optional(__S(2145, __c67, 1)),
+          defaultShippingAddress: S.optional(__S(2177, __c68, 1)),
           firstName: S.optional(S.String),
           id: S.optional(S.String),
           lastName: S.optional(S.String),
           locale: S.optional(S.String),
-          primaryEmail: S.optional(__S(2209, __c69, 1)),
+          primaryEmail: S.optional(__S(2241, __c70, 1)),
         }),
       ).annotate({ identifier: "Contact" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          contact: S.optional(__S(2210, __c69, 2)),
+          contact: S.optional(__S(2242, __c70, 2)),
         }),
       ).annotate({ identifier: "CreateContactResponse" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4717,8 +4812,8 @@ function __c71(j: number): any {
           isOncePerCustomer: S.optional(S.Boolean),
           maxUsesAllowed: S.optional(S.Number),
           name: S.String,
-          paymentPlanOptions: S.optional(__S(2304, __c72, 0)),
-          subscriptionOptions: S.optional(__S(2304, __c72, 0)),
+          paymentPlanOptions: S.optional(__S(2336, __c73, 0)),
+          subscriptionOptions: S.optional(__S(2336, __c73, 0)),
           template: S.Unknown,
           trigger: S.Unknown,
           validFrom: S.String,
@@ -4727,7 +4822,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "CreateDiscountRequest" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4746,9 +4841,9 @@ function __c72(j: number): any {
           maxUsesAllowed: S.optional(S.Number),
           name: S.String,
           numberOfUses: S.optional(S.Number),
-          paymentPlanOptions: S.optional(__S(2304, __c72, 0)),
+          paymentPlanOptions: S.optional(__S(2336, __c73, 0)),
           status: S.optional(S.String),
-          subscriptionOptions: S.optional(__S(2304, __c72, 0)),
+          subscriptionOptions: S.optional(__S(2336, __c73, 0)),
           template: S.Unknown,
           trigger: S.Unknown,
           validFrom: S.String,
@@ -4758,79 +4853,79 @@ function __c72(j: number): any {
       ).annotate({ identifier: "Discount" });
   }
 }
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          discount: __S(2305, __c72, 1),
-        }),
-      ).annotate({ identifier: "DiscountResponse" });
-  }
-}
 function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(2401, __c75, 1)),
+          discount: __S(2337, __c73, 1),
+        }),
+      ).annotate({ identifier: "DiscountResponse" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.optional(__S(2433, __c76, 1)),
           name: S.optional(S.String),
           promoCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateDiscountLineRequest" });
     case 1:
-      return S.Array(__S(2368, __c74, 0));
+      return S.Array(__S(2400, __c75, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           lineItemType: S.String,
-          nonSaleUnitPrice: S.optional(__S(2401, __c75, 1)),
+          nonSaleUnitPrice: S.optional(__S(2433, __c76, 1)),
           quantity: S.Number,
           title: S.optional(S.String),
-          unitPricePaid: __S(2401, __c75, 1),
+          unitPricePaid: __S(2433, __c76, 1),
           variantId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateLineItemRequest" });
     case 3:
-      return S.Array(__S(2370, __c74, 2));
+      return S.Array(__S(2402, __c75, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          amount: __S(2401, __c75, 1),
+          amount: __S(2433, __c76, 1),
           method: S.String,
         }),
       ).annotate({ identifier: "CreateShippingLineRequest" });
     case 5:
-      return S.Array(__S(2372, __c74, 4));
+      return S.Array(__S(2404, __c75, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.String.pipe(T.Header("Idempotency-Key")),
-          billingAddress: S.optional(__S(2496, __c78, 0)),
+          billingAddress: S.optional(__S(2528, __c79, 0)),
           channelName: S.String,
           createdOn: S.String,
           customerEmail: S.optional(S.String),
-          discountLines: S.optional(__S(2369, __c74, 1)),
-          discountTotal: S.optional(__S(2401, __c75, 1)),
+          discountLines: S.optional(__S(2401, __c75, 1)),
+          discountTotal: S.optional(__S(2433, __c76, 1)),
           externalOrderReference: S.String,
           fulfilledOn: S.optional(S.String),
           fulfillmentStatus: S.optional(S.String),
-          fulfillments: __S(2433, __c76, 1),
-          grandTotal: __S(2401, __c75, 1),
+          fulfillments: __S(2465, __c77, 1),
+          grandTotal: __S(2433, __c76, 1),
           inventoryBehavior: S.optional(S.String),
-          lineItems: __S(2371, __c74, 3),
+          lineItems: __S(2403, __c75, 3),
           priceTaxInterpretation: S.String,
-          shippingAddress: S.optional(__S(2496, __c78, 0)),
-          shippingLines: S.optional(__S(2373, __c74, 5)),
-          shippingTotal: S.optional(__S(2401, __c75, 1)),
+          shippingAddress: S.optional(__S(2528, __c79, 0)),
+          shippingLines: S.optional(__S(2405, __c75, 5)),
+          shippingTotal: S.optional(__S(2433, __c76, 1)),
           shopperFulfillmentNotificationBehavior: S.optional(S.String),
-          subtotal: S.optional(__S(2401, __c75, 1)),
-          taxTotal: S.optional(__S(2401, __c75, 1)),
+          subtotal: S.optional(__S(2433, __c76, 1)),
+          taxTotal: S.optional(__S(2433, __c76, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/1.0/commerce/orders", code: 200 })),
       ).annotate({ identifier: "CreateOrderRequest" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4846,13 +4941,13 @@ function __c75(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          currency: S.optional(__S(2400, __c75, 0)),
+          currency: S.optional(__S(2432, __c76, 0)),
           value: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MonetaryAmount" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4865,22 +4960,22 @@ function __c76(j: number): any {
         }),
       ).annotate({ identifier: "CreateOrderShipmentRequest" });
     case 1:
-      return S.Array(__S(2432, __c76, 0));
+      return S.Array(__S(2464, __c77, 0));
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(2401, __c75, 1)),
+          amount: S.optional(__S(2433, __c76, 1)),
           description: S.optional(S.String),
           name: S.optional(S.String),
           promoCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiscountLine" });
     case 1:
-      return S.Array(__S(2464, __c77, 0));
+      return S.Array(__S(2496, __c78, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4889,7 +4984,7 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "FormItem" });
     case 3:
-      return S.Array(__S(2466, __c77, 2));
+      return S.Array(__S(2498, __c78, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -4901,7 +4996,7 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "Fulfillment" });
     case 5:
-      return S.Array(__S(2468, __c77, 4));
+      return S.Array(__S(2500, __c78, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -4909,7 +5004,7 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "OrderNote" });
     case 7:
-      return S.Array(__S(2470, __c77, 6));
+      return S.Array(__S(2502, __c78, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -4918,11 +5013,11 @@ function __c77(j: number): any {
         }),
       ).annotate({ identifier: "VariantOption" });
     case 9:
-      return S.Array(__S(2472, __c77, 8));
+      return S.Array(__S(2504, __c78, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          customizations: S.optional(__S(2467, __c77, 3)),
+          customizations: S.optional(__S(2499, __c78, 3)),
           height: S.optional(S.Number),
           id: S.optional(S.String),
           imageUrl: S.optional(S.String),
@@ -4932,62 +5027,62 @@ function __c77(j: number): any {
           productName: S.optional(S.String),
           quantity: S.optional(S.Number),
           sku: S.optional(S.String),
-          unitPricePaid: S.optional(__S(2401, __c75, 1)),
+          unitPricePaid: S.optional(__S(2433, __c76, 1)),
           variantId: S.optional(S.String),
-          variantOptions: S.optional(__S(2473, __c77, 9)),
+          variantOptions: S.optional(__S(2505, __c78, 9)),
           weight: S.optional(S.Number),
           width: S.optional(S.Number),
         }),
       ).annotate({ identifier: "LineItem" });
     case 11:
-      return S.Array(__S(2474, __c77, 10));
+      return S.Array(__S(2506, __c78, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(__S(2401, __c75, 1)),
+          amount: S.optional(__S(2433, __c76, 1)),
           method: S.optional(S.String),
         }),
       ).annotate({ identifier: "ShippingLine" });
     case 13:
-      return S.Array(__S(2476, __c77, 12));
+      return S.Array(__S(2508, __c78, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          billingAddress: S.optional(__S(2496, __c78, 0)),
+          billingAddress: S.optional(__S(2528, __c79, 0)),
           channel: S.optional(S.String),
           channelName: S.optional(S.String),
           createdOn: S.optional(S.String),
           customerEmail: S.optional(S.String),
           customerId: S.optional(S.String),
-          discountLines: S.optional(__S(2465, __c77, 1)),
-          discountTotal: S.optional(__S(2401, __c75, 1)),
+          discountLines: S.optional(__S(2497, __c78, 1)),
+          discountTotal: S.optional(__S(2433, __c76, 1)),
           externalOrderReference: S.optional(S.String),
-          formSubmission: S.optional(__S(2467, __c77, 3)),
+          formSubmission: S.optional(__S(2499, __c78, 3)),
           fulfilledOn: S.optional(S.String),
           fulfillmentStatus: S.optional(S.String),
-          fulfillments: S.optional(__S(2469, __c77, 5)),
-          grandTotal: S.optional(__S(2401, __c75, 1)),
+          fulfillments: S.optional(__S(2501, __c78, 5)),
+          grandTotal: S.optional(__S(2433, __c76, 1)),
           id: S.optional(S.String),
-          internalNotes: S.optional(__S(2471, __c77, 7)),
-          lineItems: S.optional(__S(2475, __c77, 11)),
+          internalNotes: S.optional(__S(2503, __c78, 7)),
+          lineItems: S.optional(__S(2507, __c78, 11)),
           modifiedOn: S.optional(S.String),
           orderNumber: S.optional(S.String),
           paymentState: S.optional(S.String),
           priceTaxInterpretation: S.optional(S.String),
-          refundedTotal: S.optional(__S(2401, __c75, 1)),
-          shippingAddress: S.optional(__S(2496, __c78, 0)),
-          shippingLines: S.optional(__S(2477, __c77, 13)),
+          refundedTotal: S.optional(__S(2433, __c76, 1)),
+          shippingAddress: S.optional(__S(2528, __c79, 0)),
+          shippingLines: S.optional(__S(2509, __c78, 13)),
           shippingOptionName: S.optional(S.String),
           shippingOptionServiceType: S.optional(S.String),
-          shippingTotal: S.optional(__S(2401, __c75, 1)),
-          subtotal: S.optional(__S(2401, __c75, 1)),
-          taxTotal: S.optional(__S(2401, __c75, 1)),
+          shippingTotal: S.optional(__S(2433, __c76, 1)),
+          subtotal: S.optional(__S(2433, __c76, 1)),
+          taxTotal: S.optional(__S(2433, __c76, 1)),
           testmode: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Order" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -1,0 +1,3650 @@
+{
+  "description": "Stripe's OpenAPI spec declares no Idempotency-Key header, but the API accepts one on every v1 POST and on every v2 POST and DELETE (https://docs.stripe.com/api/idempotent_requests: 'For API v1, all POST requests accept idempotency keys. Don't send idempotency keys in GET and DELETE requests because it has no effect.'; https://docs.stripe.com/api-v2-overview: 'API v1 only supports idempotent replay for POST requests. API v2 supports all POST and DELETE requests.'). Stripe's official Node client sends the header on exactly those methods (stripe-node src/RequestSender.ts, _defaultIdempotencyKey). This adds an optional `idempotencyKey` header member to the input of each of those operations, and gives CreateBillingMeterEventSession, which has no input, an input that holds only that member.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#DeleteV2CoreAccountsAccountIdPersonsIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#DeleteV2CoreEventDestinationsIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostAccountLinksRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostAccountSessionsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostAccountsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostAccountsAccountRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostAccountsAccountCapabilitiesCapabilityRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostAccountsAccountExternalAccountsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostAccountsAccountExternalAccountsIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostAccountsAccountLoginLinksRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostAccountsAccountPersonsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostAccountsAccountPersonsPersonRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostAccountsAccountRejectRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostAccountsAccountUnrejectRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostApplePayDomainsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostApplicationFeesFeeRefundsIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostApplicationFeesIdRefundsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostAppsInstallsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostAppsInstallsIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostAppsInstallsIdUninstallRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostAppsSecretsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostAppsSecretsDeleteRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostBalanceSettingsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostBillingAlertsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostBillingAlertsIdActivateRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostBillingAlertsIdArchiveRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostBillingAlertsIdDeactivateRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostBillingCreditGrantsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostBillingCreditGrantsIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostBillingCreditGrantsIdExpireRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostBillingCreditGrantsIdVoidRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostBillingFeedbackOptionsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostBillingFeedbackOptionsIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostBillingFeedbackOptionsIdDeactivateRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostBillingMeterEventAdjustmentsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostBillingMeterEventsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostBillingMetersRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostBillingMetersIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostBillingMetersIdDeactivateRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostBillingMetersIdReactivateRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostBillingPortalConfigurationsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostBillingPortalConfigurationsConfigurationRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostBillingPortalSessionsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostChargesRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostChargesChargeRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostChargesChargeCaptureRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostCheckoutSessionsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostCheckoutSessionsSessionRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostCheckoutSessionsSessionExpireRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostClimateOrdersRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostClimateOrdersOrderRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostClimateOrdersOrderCancelRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostCouponsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostCouponsCouponRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostCreditNotesRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostCreditNotesIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostCreditNotesIdVoidRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostCustomerSessionsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostCustomersRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostCustomersCustomerRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostCustomersCustomerBalanceTransactionsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostCustomersCustomerBalanceTransactionsTransactionRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostCustomersCustomerCashBalanceRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostCustomersCustomerFundingInstructionsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostCustomersCustomerSourcesRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostCustomersCustomerSourcesIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostCustomersCustomerSourcesIdVerifyRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostCustomersCustomerTaxIdsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostDisputesDisputeRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostDisputesDisputeCloseRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostEntitlementsFeaturesRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostEntitlementsFeaturesIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostEphemeralKeysRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostFileLinksRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostFileLinksLinkRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostFilesRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostFinancialConnectionsAccountsAccountDisconnectRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostFinancialConnectionsAccountsAccountRefreshRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostFinancialConnectionsAccountsAccountSubscribeRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostFinancialConnectionsAccountsAccountUnsubscribeRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostFinancialConnectionsSessionsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostForwardingRequestsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostIdentityVerificationSessionsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostIdentityVerificationSessionsSessionRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostIdentityVerificationSessionsSessionCancelRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostIdentityVerificationSessionsSessionRedactRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostInvoiceRenderingTemplatesTemplateArchiveRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostInvoiceRenderingTemplatesTemplateUnarchiveRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostInvoiceitemsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostInvoiceitemsInvoiceitemRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostInvoicesRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostInvoicesCreatePreviewRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostInvoicesInvoiceRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostInvoicesInvoiceAddLinesRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostInvoicesInvoiceAttachPaymentRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostInvoicesInvoiceFinalizeRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostInvoicesInvoiceLinesLineItemIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostInvoicesInvoiceMarkUncollectibleRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostInvoicesInvoicePayRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostInvoicesInvoiceRemoveLinesRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostInvoicesInvoiceSendRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostInvoicesInvoiceUpdateLinesRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostInvoicesInvoiceVoidRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostIssuingAuthorizationsAuthorizationRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostIssuingCardholdersRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostIssuingCardholdersCardholderRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostIssuingCardsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostIssuingCardsCardRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostIssuingDisputesRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostIssuingDisputesDisputeRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostIssuingDisputesDisputeSubmitRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostIssuingPersonalizationDesignsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostIssuingPersonalizationDesignsPersonalizationDesignRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostIssuingTokensTokenRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostIssuingTransactionsTransactionRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentIntentsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentIntentsIntentRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentIntentsIntentApplyCustomerBalanceRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentIntentsIntentCancelRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentIntentsIntentCaptureRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentIntentsIntentConfirmRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentIntentsIntentIncrementAuthorizationRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentIntentsIntentVerifyMicrodepositsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentLinksRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentLinksPaymentLinkRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentMethodConfigurationsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentMethodConfigurationsConfigurationRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentMethodDomainsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentMethodDomainsPaymentMethodDomainRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentMethodDomainsPaymentMethodDomainValidateRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentMethodsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentMethodsPaymentMethodRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentMethodsPaymentMethodAttachRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentMethodsPaymentMethodDetachRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentRecordsIdReportPaymentAttemptRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentRecordsIdReportPaymentAttemptCanceledRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentRecordsIdReportPaymentAttemptFailedRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentRecordsIdReportPaymentAttemptGuaranteedRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentRecordsIdReportPaymentAttemptInformationalRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentRecordsIdReportRefundRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPaymentRecordsReportPaymentRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPayoutsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPayoutsPayoutRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPayoutsPayoutCancelRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPayoutsPayoutReverseRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPlansRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPlansPlanRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPricesRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPricesPriceRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostProductCatalogTrialOffersRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostProductCatalogTrialOffersIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostProductsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostProductsIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostProductsProductFeaturesRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPromotionCodesRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostPromotionCodesPromotionCodeRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostQuotesRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostQuotesQuoteRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostQuotesQuoteAcceptRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostQuotesQuoteCancelRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostQuotesQuoteFinalizeRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostRadarPaymentEvaluationsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostRadarValueListItemsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostRadarValueListsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostRadarValueListsValueListRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostRefundsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostRefundsRefundRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostRefundsRefundCancelRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostReportingReportRunsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostReviewsReviewApproveRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostSetupIntentsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostSetupIntentsIntentRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostSetupIntentsIntentCancelRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostSetupIntentsIntentConfirmRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostSetupIntentsIntentVerifyMicrodepositsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostShippingRatesRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostShippingRatesShippingRateTokenRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostSourcesRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostSourcesSourceRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostSourcesSourceVerifyRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostSubscriptionItemsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostSubscriptionItemsItemRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostSubscriptionSchedulesRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostSubscriptionSchedulesScheduleRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostSubscriptionSchedulesScheduleCancelRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostSubscriptionSchedulesScheduleReleaseRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostSubscriptionsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostSubscriptionsSubscriptionExposedIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostSubscriptionsSubscriptionMigrateRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostSubscriptionsSubscriptionPauseRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostSubscriptionsSubscriptionResumeRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTaxCalculationsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTaxIdsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTaxLocationsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTaxRatesRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTaxRatesTaxRateRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTaxRegistrationsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTaxRegistrationsIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTaxSettingsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTaxTransactionsCreateFromCalculationRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTaxTransactionsCreateReversalRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTerminalConfigurationsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTerminalConfigurationsConfigurationRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTerminalConnectionTokensRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTerminalLocationsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTerminalLocationsLocationRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTerminalOnboardingLinksRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTerminalReadersRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTerminalReadersReaderRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTerminalReadersReaderCancelActionRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTerminalReadersReaderCollectInputsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTerminalReadersReaderCollectPaymentMethodRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTerminalReadersReaderConfirmPaymentIntentRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTerminalReadersReaderProcessPaymentIntentRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTerminalReadersReaderProcessSetupIntentRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTerminalReadersReaderRefundPaymentRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTerminalReadersReaderSetReaderDisplayRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersConfirmationTokensRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersCustomersCustomerFundCashBalanceRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersIssuingAuthorizationsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersIssuingAuthorizationsAuthorizationCaptureRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersIssuingAuthorizationsAuthorizationExpireRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersIssuingAuthorizationsAuthorizationFinalizeAmountRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersIssuingAuthorizationsAuthorizationFraudChallengesRespondRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersIssuingAuthorizationsAuthorizationIncrementRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersIssuingAuthorizationsAuthorizationReverseRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersIssuingCardsCardShippingDeliverRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersIssuingCardsCardShippingFailRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersIssuingCardsCardShippingReturnRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersIssuingCardsCardShippingShipRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersIssuingCardsCardShippingSubmitRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersIssuingPersonalizationDesignsPersonalizationDesignActivateRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersIssuingPersonalizationDesignsPersonalizationDesignDeactivateRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersIssuingPersonalizationDesignsPersonalizationDesignRejectRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersIssuingTransactionsCreateForceCaptureRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersIssuingTransactionsCreateUnlinkedRefundRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersIssuingTransactionsTransactionRefundRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersRefundsRefundExpireRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersTerminalReadersReaderPresentPaymentMethodRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersTerminalReadersReaderSucceedInputCollectionRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersTerminalReadersReaderTimeoutInputCollectionRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersTestClocksRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersTestClocksTestClockAdvanceRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersTreasuryInboundTransfersIdFailRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersTreasuryInboundTransfersIdReturnRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersTreasuryInboundTransfersIdSucceedRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersTreasuryOutboundPaymentsIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersTreasuryOutboundPaymentsIdFailRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersTreasuryOutboundPaymentsIdPostRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersTreasuryOutboundPaymentsIdReturnRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersTreasuryOutboundTransfersOutboundTransferRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersTreasuryOutboundTransfersOutboundTransferFailRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersTreasuryOutboundTransfersOutboundTransferPostRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersTreasuryOutboundTransfersOutboundTransferReturnRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersTreasuryReceivedCreditsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTestHelpersTreasuryReceivedDebitsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostThreeDSecureAuthenticationsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostThreeDSecureAuthenticationsAuthenticationCancelRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostThreeDSecureAuthenticationsAuthenticationSubmitRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTokensRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTopupsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTopupsTopupRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTopupsTopupCancelRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTransfersRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTransfersIdReversalsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTransfersTransferRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTransfersTransferReversalsIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTreasuryCreditReversalsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTreasuryDebitReversalsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTreasuryFinancialAccountsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTreasuryFinancialAccountsFinancialAccountRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTreasuryFinancialAccountsFinancialAccountCloseRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTreasuryFinancialAccountsFinancialAccountFeaturesRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTreasuryInboundTransfersRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTreasuryInboundTransfersInboundTransferCancelRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTreasuryOutboundPaymentsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTreasuryOutboundPaymentsIdCancelRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTreasuryOutboundTransfersRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostTreasuryOutboundTransfersOutboundTransferCancelRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2BillingMeterEventAdjustmentsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#CreateBillingMeterEventSessionRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "idempotencyKey": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpHeader": "Idempotency-Key",
+              "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.stripe.api#PostV2BillingMeterEventSession/input",
+      "value": {
+        "target": "com.stripe.api#CreateBillingMeterEventSessionRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2BillingMeterEventStreamRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2BillingMeterEventsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CommerceProductCatalogImportsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreAccountLinksRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreAccountTokensRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreAccountsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreAccountsAccountIdPersonTokensRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreAccountsAccountIdPersonsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreAccountsAccountIdPersonsIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreAccountsIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreAccountsIdCloseRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreEventDestinationsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreEventDestinationsIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreEventDestinationsIdDisableRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreEventDestinationsIdEnableRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreEventDestinationsIdPingRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreVaultGbBankAccountsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreVaultGbBankAccountsIdArchiveRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreVaultGbBankAccountsIdUnarchiveRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreVaultUsBankAccountsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreVaultUsBankAccountsIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreVaultUsBankAccountsIdArchiveRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreVaultUsBankAccountsIdConfirmMicrodepositsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreVaultUsBankAccountsIdSendMicrodepositsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2CoreVaultUsBankAccountsIdUnarchiveRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2MoneyManagementFinancialAccountsIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2MoneyManagementFinancialAddressesRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2MoneyManagementInboundTransfersRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2MoneyManagementOutboundPaymentsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2MoneyManagementOutboundPaymentsIdCancelRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2MoneyManagementOutboundSetupIntentsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2MoneyManagementOutboundSetupIntentsIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2MoneyManagementOutboundSetupIntentsIdCancelRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2MoneyManagementPayoutIntentsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2MoneyManagementPayoutIntentsIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2MoneyManagementPayoutIntentsIdCancelRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2MoneyManagementPayoutIntentsIdConfirmRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2MoneyManagementPayoutIntentsIdRefreshFxQuoteRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2MoneyManagementPayoutIntentsIdRefreshRecipientVerificationRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2MoneyManagementPayoutMethodsIdArchiveRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2MoneyManagementPayoutMethodsIdUnarchiveRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2MoneyManagementRecipientVerificationsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2MoneyManagementRecipientVerificationsIdAcknowledgeRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2MoneyManagementTestHelpersFinancialAddressesIdCreditRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2MoneyManagementTransactionsIdRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2MoneyManagementTransactionsIdRefreshRegulatoryReceiptRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostV2TestHelpersMoneyManagementRecipientVerificationsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostWebhookEndpointsRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#PostWebhookEndpointsWebhookEndpointRequest/members/idempotencyKey",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Idempotency-Key",
+          "smithy.api#documentation": "A unique key (up to 255 characters, for example a V4 UUID) that makes a retry of this request safe: Stripe returns the first result for a repeated key instead of performing the operation twice. See https://docs.stripe.com/api/idempotent_requests."
+        }
+      }
+    }
+  ]
+}

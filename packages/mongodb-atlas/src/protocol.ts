@@ -14,6 +14,7 @@ import {
 } from "@distilled.cloud/core/protocol-http";
 import { unwrapRedactedDeep, validateSuccess } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
  * MongodbAtlasProtocol -- hand-written.
@@ -63,7 +64,8 @@ export type MongodbAtlasOpError =
   | MongodbAtlasParseError
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Atlas operation. */
 export type MongodbAtlasOpContext = Credentials | HttpClient.HttpClient;
@@ -184,6 +186,9 @@ const decode = ({
       // 4. Unknown Atlas error (carries the envelope for cataloging).
       return yield* fail(
         new UnknownMongodbAtlasError({
+          status,
+          code: env.errorCode,
+          message,
           errorCode: env.errorCode,
           reason: env.reason,
           detail: env.detail,
@@ -199,7 +204,7 @@ const decode = ({
     // Strict mode (core/response-validation) checks the mapped body against
     // the output schema, and parse errors withhold a body that can hold a
     // secret (core `validateSuccess`).
-    const body: unknown = nonJson ? text : (json ?? {});
+    const body: unknown = nonJson ? text : json === undefined ? {} : json;
     return yield* validateSuccess(
       outputAst,
       { value: mapKeys(outputAst, body, "decode"), body: nonJson ? text : json, nonJson },

@@ -30,8 +30,8 @@ export interface PublishViewRequest {
   /** A [view payload](/reference/views). This must be a JSON-encoded string. */
   view: unknown;
   /** A string that represents view state to protect against possible race conditions. */
-  hash?: string;
-  interactivity_pointer?: string;
+  hash?: string | undefined;
+  interactivity_pointer?: string | undefined;
 }
 export interface PublishViewResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -40,13 +40,13 @@ export interface PublishViewResponse {
 }
 export interface UpdateViewRequest {
   /** A unique identifier of the view to be updated. Either `view_id` or `external_id` is required. */
-  view_id?: string;
+  view_id?: string | undefined;
   /** A unique identifier of the view set by the developer. Must be unique for all views on a team. Max length of 255 characters. Either `view_id` or `external_id` is required. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** A [view object](/reference/views). This must be a JSON-encoded string. */
   view: unknown;
   /** A string that represents view state to protect against possible race conditions. */
-  hash?: string;
+  hash?: string | undefined;
 }
 export interface UpdateViewResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -56,9 +56,9 @@ export interface UpdateViewResponse {
 export type ViewsOpenRequestViewMap = { [key: string]: unknown | undefined };
 export interface ViewsOpenRequest {
   /** Exchange a trigger to post to the user. */
-  trigger_id?: string | null;
+  trigger_id?: string | null | undefined;
   /** Exchange an interactivity pointer to post to the user. */
-  interactivity_pointer?: string | null;
+  interactivity_pointer?: string | null | undefined;
   /** A [view payload](/reference/views). This must be a JSON-encoded string. */
   view: ViewsOpenRequestViewMap;
 }
@@ -69,9 +69,9 @@ export interface ViewsOpenResponse {
 }
 export interface ViewsPushRequest {
   /** Exchange a trigger to post to the user. */
-  trigger_id?: string | null;
+  trigger_id?: string | null | undefined;
   /** Exchange an interactivity pointer to post to the user. */
-  interactivity_pointer?: string | null;
+  interactivity_pointer?: string | null | undefined;
   /** A [view payload](/reference/views). This must be a JSON-encoded string. */
   view: unknown;
 }

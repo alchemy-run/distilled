@@ -27,7 +27,7 @@ const TELEMETRY = {
 
 export interface DeleteOnEmptyConfig {
   /** Minimum age in seconds before an empty stream can be deleted. Set to 0 (default) to disable delete-on-empty (don't delete automatically). */
-  min_age_secs?: number;
+  min_age_secs?: number | undefined;
 }
 /** Age in seconds for automatic trimming of records older than this threshold. This must be set to a value greater than 0 seconds. */
 export interface RetentionPolicyCase0 {
@@ -42,40 +42,40 @@ export interface RetentionPolicyCase1 {
 export type RetentionPolicy = RetentionPolicyCase0 | RetentionPolicyCase1;
 export type TimestampingMode = "client-prefer" | "client-require" | "arrival";
 export interface TimestampingConfig {
-  mode?: TimestampingMode | (string & {}) | null;
+  mode?: TimestampingMode | (string & {}) | null | undefined;
   /** Allow client-specified timestamps to exceed the arrival time. If this is `false` or not set, client timestamps will be capped at the arrival time. */
-  uncapped?: boolean | null;
+  uncapped?: boolean | null | undefined;
 }
 export interface StreamConfig {
-  delete_on_empty?: DeleteOnEmptyConfig | null;
-  retention_policy?: RetentionPolicy | null;
+  delete_on_empty?: DeleteOnEmptyConfig | null | undefined;
+  retention_policy?: RetentionPolicy | null | undefined;
   /** [Storage class](https://s2.dev/docs/storage-classes) for recent writes. */
-  storage_class?: string | null;
-  timestamping?: TimestampingConfig | null;
+  storage_class?: string | null | undefined;
+  timestamping?: TimestampingConfig | null | undefined;
 }
 export type EncryptionAlgorithm = "aegis-256" | "aes-256-gcm";
 export interface BasinConfig {
   /** Create stream on append if it doesn't exist, using the default stream configuration. */
-  create_stream_on_append?: boolean;
+  create_stream_on_append?: boolean | undefined;
   /** Create stream on read if it doesn't exist, using the default stream configuration. */
-  create_stream_on_read?: boolean;
-  default_stream_config?: StreamConfig | null;
-  stream_cipher?: EncryptionAlgorithm | (string & {}) | null;
+  create_stream_on_read?: boolean | undefined;
+  default_stream_config?: StreamConfig | null | undefined;
+  stream_cipher?: EncryptionAlgorithm | (string & {}) | null | undefined;
 }
 export interface CreateBasinRequest {
   /** Client-specified request token for idempotent retries. */
-  s2RequestToken?: string;
+  s2RequestToken?: string | undefined;
   /** Basin name which must be globally unique. It can be between 8 and 48 bytes in length, and comprise lowercase letters, numbers and hyphens. It cannot begin or end with a hyphen. */
   basin: string;
-  config?: BasinConfig | null;
-  location?: string | null;
+  config?: BasinConfig | null | undefined;
+  location?: string | null | undefined;
 }
 export interface BasinInfo {
   /** Creation time in RFC 3339 format. */
   created_at: string;
   /** Deletion time in RFC 3339 format, if the basin is being deleted. */
-  deleted_at?: string | null;
-  location?: string | null;
+  deleted_at?: string | null | undefined;
+  location?: string | null | undefined;
   /** Basin name. */
   name: string;
 }
@@ -85,13 +85,13 @@ export interface DeleteBasinRequest {
 }
 export interface DeleteBasinResponse {}
 export interface EnsureBasinRequest {
-  config?: BasinConfig | null;
-  location?: string | null;
+  config?: BasinConfig | null | undefined;
+  location?: string | null | undefined;
 }
 export interface EnsureBasinRequest2 {
   /** Basin name. */
   basin: string;
-  body?: EnsureBasinRequest | null;
+  body?: EnsureBasinRequest | null | undefined;
 }
 export interface GetBasinConfigRequest {
   /** Basin name. */
@@ -99,11 +99,11 @@ export interface GetBasinConfigRequest {
 }
 export interface ListBasinsRequest {
   /** Filter to basins whose names begin with this prefix. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Filter to basins whose names lexicographically start after this string. */
-  start_after?: string;
+  start_after?: string | undefined;
   /** Number of results, up to a maximum of 1000. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Matching basins. */
 export type ListBasinsResponseBasinsList = Array<BasinInfo>;
@@ -115,29 +115,29 @@ export interface ListBasinsResponse {
 }
 export interface DeleteOnEmptyReconfiguration {
   /** Minimum age in seconds before an empty stream can be deleted. Set to 0 to disable delete-on-empty (don't delete automatically). */
-  min_age_secs?: number | null;
+  min_age_secs?: number | null | undefined;
 }
 export interface TimestampingReconfiguration {
-  mode?: TimestampingMode | (string & {}) | null;
+  mode?: TimestampingMode | (string & {}) | null | undefined;
   /** Allow client-specified timestamps to exceed the arrival time. */
-  uncapped?: boolean | null;
+  uncapped?: boolean | null | undefined;
 }
 export interface StreamReconfiguration {
-  delete_on_empty?: DeleteOnEmptyReconfiguration | null;
-  retention_policy?: RetentionPolicy | null;
+  delete_on_empty?: DeleteOnEmptyReconfiguration | null | undefined;
+  retention_policy?: RetentionPolicy | null | undefined;
   /** [Storage class](https://s2.dev/docs/storage-classes) for recent writes. */
-  storage_class?: string | null;
-  timestamping?: TimestampingReconfiguration | null;
+  storage_class?: string | null | undefined;
+  timestamping?: TimestampingReconfiguration | null | undefined;
 }
 export interface ReconfigureBasinRequest {
   /** Basin name. */
   basin: string;
   /** Create a stream on append. */
-  create_stream_on_append?: boolean | null;
+  create_stream_on_append?: boolean | null | undefined;
   /** Create a stream on read. */
-  create_stream_on_read?: boolean | null;
-  default_stream_config?: StreamReconfiguration | null;
-  stream_cipher?: EncryptionAlgorithm | (string & {}) | null;
+  create_stream_on_read?: boolean | null | undefined;
+  default_stream_config?: StreamReconfiguration | null | undefined;
+  stream_cipher?: EncryptionAlgorithm | (string & {}) | null | undefined;
 }
 export type CreateBasinError = S2OpError;
 /** Create a basin. */

@@ -32,8 +32,10 @@ export class AcmeAccountDoesNotExist
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:accountDoesNotExist$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:accountDoesNotExist" } }],
   ) {}
 
 /** The request specified a certificate to be revoked that has already been revoked. */
@@ -44,8 +46,10 @@ export class AcmeAlreadyRevoked
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:alreadyRevoked$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:alreadyRevoked" } }],
   ) {}
 
 /** The CSR is unacceptable (e.g., due to a short key). */
@@ -56,8 +60,10 @@ export class AcmeBadCsr
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:badCSR$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:badCSR" } }],
   ) {}
 
 /** The client sent an unacceptable anti-replay nonce. */
@@ -68,8 +74,10 @@ export class AcmeBadNonce
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:badNonce$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:badNonce" } }],
   ) {}
 
 /** The JWS was signed by a public key the server does not support. */
@@ -80,8 +88,10 @@ export class AcmeBadPublicKey
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:badPublicKey$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:badPublicKey" } }],
   ) {}
 
 /** The revocation reason provided is not allowed by the server. */
@@ -92,8 +102,10 @@ export class AcmeBadRevocationReason
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:badRevocationReason$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:badRevocationReason" } }],
   ) {}
 
 /** The JWS was signed with an algorithm the server does not support. */
@@ -104,8 +116,10 @@ export class AcmeBadSignatureAlgorithm
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:badSignatureAlgorithm$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:badSignatureAlgorithm" } }],
   ) {}
 
 /** Certification Authority Authorization (CAA) records forbid the CA from issuing a certificate. */
@@ -116,8 +130,10 @@ export class AcmeCaa
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:caa$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:caa" } }],
   ) {}
 
 /** The server could not connect to validation target. */
@@ -128,8 +144,10 @@ export class AcmeConnection
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:connection$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:connection" } }],
   ) {}
 
 /** There was a problem with a DNS query during identifier validation. */
@@ -140,8 +158,10 @@ export class AcmeDns
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:dns$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:dns" } }],
   ) {}
 
 /** The request must include a value for the "externalAccountBinding" field. */
@@ -152,8 +172,10 @@ export class AcmeExternalAccountRequired
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:externalAccountRequired$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:externalAccountRequired" } }],
   ) {}
 
 /** Response received didn't match the challenge's requirements. */
@@ -164,8 +186,10 @@ export class AcmeIncorrectResponse
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:incorrectResponse$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:incorrectResponse" } }],
   ) {}
 
 /** A contact URL for an account was invalid. */
@@ -176,8 +200,10 @@ export class AcmeInvalidContact
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:invalidContact$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:invalidContact" } }],
   ) {}
 
 /** The request message was malformed. */
@@ -188,8 +214,10 @@ export class AcmeMalformed
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:malformed$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:malformed" } }],
   ) {}
 
 /** The request attempted to finalize an order that is not ready to be finalized. */
@@ -200,8 +228,10 @@ export class AcmeOrderNotReady
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:orderNotReady$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:orderNotReady" } }],
   ) {}
 
 /** The request exceeds a rate limit. */
@@ -213,8 +243,10 @@ export class AcmeRateLimited
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withThrottlingError, C.withRetryableError),
-    [{ message: { matches: "^urn:ietf:params:acme:error:rateLimited$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:rateLimited" } }],
   ) {}
 
 /** The server will not issue certificates for the identifier. */
@@ -225,8 +257,10 @@ export class AcmeRejectedIdentifier
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:rejectedIdentifier$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:rejectedIdentifier" } }],
   ) {}
 
 /** The server experienced an internal error. */
@@ -237,8 +271,11 @@ export class AcmeServerInternal
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withRetryableError),
-    [{ message: { matches: "^urn:ietf:params:acme:error:serverInternal$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:serverInternal" } }],
   ) {}
 
 /** The server received a TLS error during validation. */
@@ -249,8 +286,10 @@ export class AcmeTls
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:tls$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:tls" } }],
   ) {}
 
 /** The client lacks sufficient authorization. */
@@ -261,8 +300,10 @@ export class AcmeUnauthorized
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:unauthorized$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:unauthorized" } }],
   ) {}
 
 /** A contact URL for an account used an unsupported protocol scheme. */
@@ -273,8 +314,10 @@ export class AcmeUnsupportedContact
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:unsupportedContact$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:unsupportedContact" } }],
   ) {}
 
 /** An identifier is of an unsupported type. */
@@ -285,8 +328,10 @@ export class AcmeUnsupportedIdentifier
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:unsupportedIdentifier$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:unsupportedIdentifier" } }],
   ) {}
 
 /** Visit the "instance" URL and take actions specified there. */
@@ -297,8 +342,10 @@ export class AcmeUserActionRequired
       message: S.String,
       type: S.String,
       detail: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
-    [{ message: { matches: "^urn:ietf:params:acme:error:userActionRequired$" } }],
+    [{ body: { "/type": "urn:ietf:params:acme:error:userActionRequired" } }],
   ) {}
 
 export interface DeactivateAuthorizationRequest {
@@ -315,27 +362,27 @@ export interface Identifier {
 }
 export interface Subproblem {
   /** The error type URI. */
-  type?: string;
+  type?: string | undefined;
   /** A human-readable explanation. */
-  detail?: string;
+  detail?: string | undefined;
   /** The identifier this subproblem is about. */
-  identifier?: Identifier;
+  identifier?: Identifier | undefined;
 }
 export type ProblemSubproblemsList = Array<Subproblem>;
 /** RFC 7807 problem document (RFC 8555 §6.7). */
 export interface Problem {
   /** The error type URI, e.g. `urn:ietf:params:acme:error:malformed`. */
-  type?: string;
+  type?: string | undefined;
   /** A human-readable explanation. */
-  detail?: string;
+  detail?: string | undefined;
   /** The HTTP status code. */
-  status?: number;
+  status?: number | undefined;
   /** A URI reference identifying this occurrence. */
-  instance?: string;
+  instance?: string | undefined;
   /** The identifier the error relates to. */
-  identifier?: Identifier;
+  identifier?: Identifier | undefined;
   /** Errors for individual identifiers (RFC 8555 §6.7.1). */
-  subproblems?: ProblemSubproblemsList;
+  subproblems?: ProblemSubproblemsList | undefined;
 }
 /** RFC 8555 §8 */
 export interface Challenge {
@@ -346,11 +393,11 @@ export interface Challenge {
   /** The status of this challenge. Possible values are "pending", "processing", "valid", and "invalid" (see Section 7.1.6). */
   status: string;
   /** The time at which the server validated this challenge, encoded in the format specified in [RFC3339]. This field is REQUIRED if the "status" field is "valid". */
-  validated?: string;
+  validated?: string | undefined;
   /** A random value that uniquely identifies the challenge. This value MUST have at least 128 bits of entropy. It MUST NOT contain any characters outside the base64url alphabet and MUST NOT include base64 padding characters ("="). See [RFC4086] for additional information on randomness requirements. */
-  token?: string;
+  token?: string | undefined;
   /** Error that occurred while the server was validating the challenge, if any, structured as a problem document [RFC7807]. Multiple errors can be indicated by using subproblems Section 6.7.1. A challenge object with an error MUST have status equal to "invalid". */
-  error?: Problem;
+  error?: Problem | undefined;
 }
 export type AuthorizationChallengesList = Array<Challenge>;
 /** RFC 8555 §7.1.4 */
@@ -360,11 +407,11 @@ export interface Authorization {
   /** The status of this authorization. Possible values are "pending", "valid", "invalid", "deactivated", "expired", and "revoked". See Section 7.1.6. */
   status: string;
   /** The timestamp after which the server will consider this authorization invalid, encoded in the format specified in [RFC3339]. This field is REQUIRED for objects with "valid" in the "status" field. */
-  expires?: string;
+  expires?: string | undefined;
   /** For pending authorizations, the challenges that the client can fulfill in order to prove possession of the identifier. For valid authorizations, the challenge that was validated. For invalid authorizations, the challenge that was attempted and failed. Each array entry is an object with parameters required to validate the challenge. A client should attempt to fulfill one of these challenges, and a server should consider any one of the challenges sufficient to make the authorization valid. */
   challenges: AuthorizationChallengesList;
   /** This field MUST be present and true for authorizations created as a result of a newOrder request containing a DNS identifier with a value that was a wildcard domain name. For other authorizations, it MUST be absent. Wildcard domain names are described in Section 7.1.3. */
-  wildcard?: boolean;
+  wildcard?: boolean | undefined;
 }
 export interface DownloadCertificateRequest {
   /** Absolute URL of the resource, as returned by the CA. */
@@ -376,7 +423,7 @@ export interface CertificateChain {
   /** PEM certificate chain (`application/pem-certificate-chain`), leaf first. */
   chain: string;
   /** Alternate chain URLs from `Link: <url>;rel="alternate"` headers. */
-  alternates?: CertificateChainAlternatesList;
+  alternates?: CertificateChainAlternatesList | undefined;
 }
 export interface FinalizeOrderRequest {
   /** Absolute URL of the resource, as returned by the CA. */
@@ -391,23 +438,23 @@ export interface OrderResponse {
   /** The status of this order. Possible values are "pending", "ready", "processing", "valid", and "invalid". See Section 7.1.6. */
   status: string;
   /** The timestamp after which the server will consider this order invalid, encoded in the format specified in [RFC3339]. This field is REQUIRED for objects with "pending" or "valid" in the status field. */
-  expires?: string;
+  expires?: string | undefined;
   /** An array of identifier objects that the order pertains to. */
   identifiers: OrderResponseIdentifiersList;
   /** The requested value of the notBefore field in the certificate, in the date format defined in [RFC3339]. */
-  notBefore?: string;
+  notBefore?: string | undefined;
   /** The requested value of the notAfter field in the certificate, in the date format defined in [RFC3339]. */
-  notAfter?: string;
+  notAfter?: string | undefined;
   /** The error that occurred while processing the order, if any. This field is structured as a problem document [RFC7807]. */
-  error?: Problem;
+  error?: Problem | undefined;
   /** For pending orders, the authorizations that the client needs to complete before the requested certificate can be issued (see Section 7.5), including unexpired authorizations that the client has completed in the past for identifiers specified in the order. The authorizations required are dictated by server policy; there may not be a 1:1 relationship between the order identifiers and the authorizations required. For final orders (in the "valid" or "invalid" state), the authorizations that were completed. Each entry is a URL from which an authorization can be fetched with a POST-as-GET request. */
   authorizations: OrderResponseAuthorizationsList;
   /** A URL that a CSR must be POSTed to once all of the order's authorizations are satisfied to finalize the order. The result of a successful finalization will be the population of the certificate URL for the order. */
   finalize: string;
   /** A URL for the certificate that has been issued in response to this order. */
-  certificate?: string;
+  certificate?: string | undefined;
   /** The order URL (`Location` header). */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetAuthorizationRequest {
   /** Absolute URL of the resource, as returned by the CA. */
@@ -417,13 +464,13 @@ export interface GetDirectoryRequest {}
 export type DirectoryMetaCaaIdentitiesList = Array<string>;
 export interface DirectoryMeta {
   /** A URL identifying the current terms of service. */
-  termsOfService?: string;
+  termsOfService?: string | undefined;
   /** An HTTP or HTTPS URL locating a website providing more information about the ACME server. */
-  website?: string;
+  website?: string | undefined;
   /** The hostnames that the ACME server recognizes as referring to itself for the purposes of CAA record validation as defined in [RFC6844]. Each string MUST represent the same sequence of ASCII code points that the server will expect to see as the "Issuer Domain Name" in a CAA issue or issuewild property tag. This allows clients to determine the correct issuer domain name to use when configuring CAA records. */
-  caaIdentities?: DirectoryMetaCaaIdentitiesList;
+  caaIdentities?: DirectoryMetaCaaIdentitiesList | undefined;
   /** If this field is present and set to "true", then the CA requires that all newAccount requests include an "externalAccountBinding" field associating the new account with an external account. */
-  externalAccountRequired?: boolean;
+  externalAccountRequired?: boolean | undefined;
 }
 /** RFC 8555 §7.1.1 */
 export interface Directory {
@@ -434,13 +481,13 @@ export interface Directory {
   /** URL of the new order resource. */
   newOrder: string;
   /** URL of the new authorization resource. */
-  newAuthz?: string;
+  newAuthz?: string | undefined;
   /** URL of the revoke certificate resource. */
   revokeCert: string;
   /** URL of the key change resource. */
-  keyChange?: string;
+  keyChange?: string | undefined;
   /** Metadata relating to the service provided by the ACME server. */
-  meta?: DirectoryMeta;
+  meta?: DirectoryMeta | undefined;
 }
 export interface GetOrderRequest {
   /** Absolute URL of the resource, as returned by the CA. */
@@ -455,13 +502,13 @@ export interface ExternalAccountBinding {
 }
 export interface NewAccountRequest {
   /** Same meaning as the corresponding server field defined in Section 7.1.2. */
-  contact?: NewAccountRequestContactList;
+  contact?: NewAccountRequestContactList | undefined;
   /** Same meaning as the corresponding server field defined in Section 7.1.2. */
-  termsOfServiceAgreed?: boolean;
+  termsOfServiceAgreed?: boolean | undefined;
   /** If this field is present with the value "true", then the server MUST NOT create a new account if one does not already exist. This allows a client to look up an account URL based on an account key (see Section 7.3.1). */
-  onlyReturnExisting?: boolean;
+  onlyReturnExisting?: boolean | undefined;
   /** Same meaning as the corresponding server field defined in Section 7.1.2 */
-  externalAccountBinding?: ExternalAccountBinding;
+  externalAccountBinding?: ExternalAccountBinding | undefined;
 }
 export type AccountResponseContactList = Array<string>;
 /** RFC 8555 §7.1.2, plus the `Location` header as `location`. */
@@ -469,13 +516,13 @@ export interface AccountResponse {
   /** The status of this account. Possible values are "valid", "deactivated", and "revoked". The value "deactivated" should be used to indicate client-initiated deactivation whereas "revoked" should be used to indicate server- initiated deactivation. See Section 7.1.6. */
   status: string;
   /** An array of URLs that the server can use to contact the client for issues related to this account. For example, the server may wish to notify the client about server-initiated revocation or certificate expiration. For information on supported URL schemes, see Section 7.3. */
-  contact?: AccountResponseContactList;
+  contact?: AccountResponseContactList | undefined;
   /** Including this field in a newAccount request, with a value of true, indicates the client's agreement with the terms of service. This field cannot be updated by the client. */
-  termsOfServiceAgreed?: boolean;
+  termsOfServiceAgreed?: boolean | undefined;
   /** A URL from which a list of orders submitted by this account can be fetched via a POST-as-GET request, as described in Section 7.1.2.1. */
-  orders?: string;
+  orders?: string | undefined;
   /** The account URL (`Location` header); the `kid` for every later request. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface NewNonceRequest {}
 export interface NonceResponse {
@@ -487,9 +534,9 @@ export interface NewOrderRequest {
   /** An array of identifier objects that the client wishes to submit an order for. */
   identifiers: NewOrderRequestIdentifiersList;
   /** The requested value of the notBefore field in the certificate, in the date format defined in [RFC3339]. */
-  notBefore?: string;
+  notBefore?: string | undefined;
   /** The requested value of the notAfter field in the certificate, in the date format defined in [RFC3339]. */
-  notAfter?: string;
+  notAfter?: string | undefined;
 }
 export interface RespondChallengeRequest {
   /** Absolute URL of the resource, as returned by the CA. */
@@ -499,7 +546,7 @@ export interface RevokeCertificateRequest {
   /** The certificate to be revoked, in the base64url-encoded version of the DER format. (Note: Because this field uses base64url, and does not include headers, it is different from PEM.) */
   certificate: string;
   /** One of the revocation reasonCodes defined in Section 5.3.1 of [RFC5280] to be used when generating OCSP responses and CRLs. If this field is not set, the server SHOULD omit the reasonCode CRL entry extension when generating OCSP responses and CRLs. The server MAY disallow a subset of reasonCodes from being used by the user. If a request contains a disallowed reasonCode, then the server MUST reject it with the error type "urn:ietf:params:acme:error:badRevocationReason". The problem document detail SHOULD indicate which reasonCodes are allowed. */
-  reason?: number;
+  reason?: number | undefined;
 }
 export interface RevokeCertificateResponse {}
 export type UpdateAccountRequestContactList = Array<string>;
@@ -507,9 +554,9 @@ export interface UpdateAccountRequest {
   /** Absolute URL of the resource, as returned by the CA. */
   url: string;
   /** An array of URLs that the server can use to contact the client for issues related to this account. For example, the server may wish to notify the client about server-initiated revocation or certificate expiration. For information on supported URL schemes, see Section 7.3. */
-  contact?: UpdateAccountRequestContactList;
+  contact?: UpdateAccountRequestContactList | undefined;
   /** `deactivated` to deactivate the account (RFC 8555 §7.3.6). */
-  status?: string;
+  status?: string | undefined;
 }
 export type DeactivateAuthorizationError =
   | AcmeAccountDoesNotExist

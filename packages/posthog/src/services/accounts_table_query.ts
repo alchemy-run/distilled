@@ -37,27 +37,27 @@ export type AccountsTableAccountField =
   | "zendesk_id";
 export interface AccountsTableAccountFieldColumn {
   field: AccountsTableAccountField | (string & {});
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface AccountsTableTagsColumn {
-  kind?: string;
+  kind?: string | undefined;
 }
 export type AccountsTableNoteCountColumn = AccountsTableTagsColumn;
 export interface AccountsTableRelationshipColumn {
   /** Team-scoped relationship definition to return for each account. */
   definitionId: string;
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface AccountsTableCustomPropertyColumn {
   /** Team-scoped custom property definition to return for each account. */
   definitionId: string;
-  kind?: string;
+  kind?: string | undefined;
 }
 export type WindowDays = 7 | 14 | 30 | 90;
 export interface AccountsTableCustomPropertyHistoryColumn {
   /** Team-scoped numeric custom property definition whose write history should be returned. */
   definitionId: string;
-  kind?: string;
+  kind?: string | undefined;
   /** Number of days of history to return. The current value is included even when it is older. */
   windowDays: WindowDays | (number & {});
 }
@@ -83,17 +83,17 @@ export type AccountsTableAccountFieldOperator =
 export type AccountsTableAccountFieldFilterValuesList = Array<string>;
 export interface AccountsTableAccountFieldFilter {
   field: AccountsTableAccountField | (string & {});
-  kind?: string;
+  kind?: string | undefined;
   operator: AccountsTableAccountFieldOperator | (string & {});
-  values?: AccountsTableAccountFieldFilterValuesList | null;
+  values?: AccountsTableAccountFieldFilterValuesList | null | undefined;
 }
 export type AccountsTableRelationshipOperator = "exact" | "is_not" | "is_set" | "is_not_set";
 export type AccountsTableRelationshipFilterUserIdsList = Array<number>;
 export interface AccountsTableRelationshipFilter {
   definitionId: string;
-  kind?: string;
+  kind?: string | undefined;
   operator: AccountsTableRelationshipOperator | (string & {});
-  userIds?: AccountsTableRelationshipFilterUserIdsList | null;
+  userIds?: AccountsTableRelationshipFilterUserIdsList | null | undefined;
 }
 export type AccountsTableCustomPropertyOperator =
   | "exact"
@@ -116,10 +116,10 @@ export type AccountsTableCustomPropertyFilterValuesList =
   Array<AccountsTableCustomPropertyFilterValuesItem>;
 export interface AccountsTableCustomPropertyFilter {
   definitionId: string;
-  kind?: string;
+  kind?: string | undefined;
   operator: AccountsTableCustomPropertyOperator | (string & {});
   /** Values interpreted according to the custom property definition's display type. */
-  values?: AccountsTableCustomPropertyFilterValuesList | null;
+  values?: AccountsTableCustomPropertyFilterValuesList | null | undefined;
 }
 export type AccountsTableQueryFilterGroupsItemItem =
   | AccountsTableAccountFieldFilter
@@ -128,20 +128,20 @@ export type AccountsTableQueryFilterGroupsItemItem =
 export type AccountsTableQueryFilterGroupsItemList = Array<AccountsTableQueryFilterGroupsItemItem>;
 export type AccountsTableQueryFilterGroupsList = Array<AccountsTableQueryFilterGroupsItemList>;
 export interface AccountsTableSearchFilter {
-  kind?: string;
+  kind?: string | undefined;
   query: string;
 }
 /** Match accounts carrying any of these tag names. */
 export type AccountsTableTagsFilterTagNamesList = Array<string>;
 export interface AccountsTableTagsFilter {
-  kind?: string;
+  kind?: string | undefined;
   /** Match accounts carrying any of these tag names. */
   tagNames: AccountsTableTagsFilterTagNamesList;
 }
 /** Match accounts where any listed user actively holds any relationship. */
 export type AccountsTableAssignedToFilterUserIdsList = Array<number>;
 export interface AccountsTableAssignedToFilter {
-  kind?: string;
+  kind?: string | undefined;
   /** Match accounts where any listed user actively holds any relationship. */
   userIds: AccountsTableAssignedToFilterUserIdsList;
 }
@@ -149,7 +149,7 @@ export type AccountsTableAssignedFilter = AccountsTableTagsColumn;
 export type AccountsTableUnassignedFilter = AccountsTableTagsColumn;
 export interface AccountsTableAccountIdFilter {
   accountId: string;
-  kind?: string;
+  kind?: string | undefined;
 }
 export type AccountsTableQueryFiltersItem =
   | AccountsTableSearchFilter
@@ -167,13 +167,13 @@ export type AccountsTableAggregation = "sum" | "avg" | "min" | "max" | "median";
 export interface AccountsTableAggregateMetric {
   aggregation: AccountsTableAggregation | (string & {});
   column: AccountsTableCustomPropertyColumn;
-  kind?: string;
-  scale?: number | null;
+  kind?: string | undefined;
+  scale?: number | null | undefined;
 }
 export type AccountsTableThresholdOperator = "gt" | "gte" | "lt" | "lte" | "exact" | "is_not";
 export interface AccountsTableCountThresholdMetric {
   column: AccountsTableCustomPropertyColumn;
-  kind?: string;
+  kind?: string | undefined;
   operator: AccountsTableThresholdOperator | (string & {});
   value: number;
 }
@@ -214,7 +214,7 @@ export interface CustomBotCondition {
 export type CustomBotRuleItemsList = Array<CustomBotCondition>;
 export interface CustomBotRule {
   /** Reported by `$virt_traffic_category`. Defaults to `custom`. */
-  category?: string | null;
+  category?: string | null | undefined;
   /** Whether every condition must match (AND) or any one of them (OR). */
   combiner: FilterLogicalOperator | (string & {});
   id: string;
@@ -243,24 +243,24 @@ export type CustomChannelOperator =
 export type CustomChannelConditionValueCase1List = Array<string>;
 export type CustomChannelConditionValue = string | CustomChannelConditionValueCase1List;
 export interface CustomChannelCondition {
-  id?: string;
-  key?: CustomChannelField | (string & {});
-  op?: CustomChannelOperator | (string & {});
-  value?: CustomChannelConditionValue | null;
+  id?: string | undefined;
+  key?: CustomChannelField | (string & {}) | undefined;
+  op?: CustomChannelOperator | (string & {}) | undefined;
+  value?: CustomChannelConditionValue | null | undefined;
 }
 export type CustomChannelRuleItemsList = Array<CustomChannelCondition>;
 export interface CustomChannelRule {
-  channel_type?: string;
-  combiner?: FilterLogicalOperator | (string & {});
-  id?: string;
-  items?: CustomChannelRuleItemsList;
+  channel_type?: string | undefined;
+  combiner?: FilterLogicalOperator | (string & {}) | undefined;
+  id?: string | undefined;
+  items?: CustomChannelRuleItemsList | undefined;
 }
 export type HogQLQueryModifiersCustomChannelTypeRulesList = Array<CustomChannelRule>;
 export interface DataWarehouseEventsModifier {
-  distinct_id_field?: string;
-  id_field?: string;
-  table_name?: string;
-  timestamp_field?: string;
+  distinct_id_field?: string | undefined;
+  id_field?: string | undefined;
+  table_name?: string | undefined;
+  timestamp_field?: string | undefined;
 }
 export type HogQLQueryModifiersDataWarehouseEventsModifiersList =
   Array<DataWarehouseEventsModifier>;
@@ -292,63 +292,120 @@ export type PropertyGroupsMode = "enabled" | "disabled" | "optimized";
 export type SessionTableVersion = "auto" | "v1" | "v2" | "v3";
 export type SessionsV2JoinMode = "string" | "uuid";
 export interface HogQLQueryModifiers {
-  bounceRateDurationSeconds?: number | null;
-  bounceRatePageViewMode?: BounceRatePageViewMode | (string & {}) | null;
-  convertToProjectTimezone?: boolean | null;
+  bounceRateDurationSeconds?: number | null | undefined;
+  bounceRatePageViewMode?: BounceRatePageViewMode | (string & {}) | null | undefined;
+  convertToProjectTimezone?: boolean | null | undefined;
   /** Do not treat a missing user agent as automation on cookieless events. Positive bot signals and custom project rules still apply. Resolved server-side; not intended to be set by clients. */
-  cookielessTrafficIsRegular?: boolean | null;
-  customBotDefinitions?: HogQLQueryModifiersCustomBotDefinitionsList | null;
-  customChannelTypeRules?: HogQLQueryModifiersCustomChannelTypeRulesList | null;
-  dataWarehouseEventsModifiers?: HogQLQueryModifiersDataWarehouseEventsModifiersList | null;
-  debug?: boolean | null;
+  cookielessTrafficIsRegular?: boolean | null | undefined;
+  customBotDefinitions?: HogQLQueryModifiersCustomBotDefinitionsList | null | undefined;
+  customChannelTypeRules?: HogQLQueryModifiersCustomChannelTypeRulesList | null | undefined;
+  dataWarehouseEventsModifiers?:
+    | HogQLQueryModifiersDataWarehouseEventsModifiersList
+    | null
+    | undefined;
+  debug?: boolean | null | undefined;
   /** If these are provided, the query will fail if these skip indexes are not used */
-  forceClickhouseDataSkippingIndexes?: HogQLQueryModifiersForceClickhouseDataSkippingIndexesList | null;
-  formatCsvAllowDoubleQuotes?: boolean | null;
-  inCohortVia?: InCohortVia | (string & {}) | null;
-  inlineCohortCalculation?: InlineCohortCalculation | (string & {}) | null;
-  materializationMode?: MaterializationMode | (string & {}) | null;
-  materializedColumnsOptimizationMode?: MaterializedColumnsOptimizationMode | (string & {}) | null;
+  forceClickhouseDataSkippingIndexes?:
+    | HogQLQueryModifiersForceClickhouseDataSkippingIndexesList
+    | null
+    | undefined;
+  formatCsvAllowDoubleQuotes?: boolean | null | undefined;
+  inCohortVia?: InCohortVia | (string & {}) | null | undefined;
+  inlineCohortCalculation?: InlineCohortCalculation | (string & {}) | null | undefined;
+  materializationMode?: MaterializationMode | (string & {}) | null | undefined;
+  /** Reuse eligible bounded event aggregates within one query execution. When unset, the server may enable it via the cloud feature flag. */
+  materializeRepeatedCTEs?: boolean | null | undefined;
+  materializedColumnsOptimizationMode?:
+    | MaterializedColumnsOptimizationMode
+    | (string & {})
+    | null
+    | undefined;
   /** Merge sibling aggregating LEFT JOINs over federated Postgres tables into one UNION ALL join, so their scans overlap */
-  mergeFederatedAggregateJoins?: boolean | null;
-  optimizeJoinedFilters?: boolean | null;
-  optimizeProjections?: boolean | null;
+  mergeFederatedAggregateJoins?: boolean | null | undefined;
+  /** Replace negated person-property filters in the WHERE of an `events` query (such as `email not_icontains`) with `person_id NOT IN (SELECT id FROM persons WHERE <the filters fail>)`, so the query no longer joins every person. Applies only when every filtered person property has a materialized column, nothing else in the query reads that persons join, and the join would be a LEFT JOIN. */
+  negatedPersonFiltersNotIn?: boolean | null | undefined;
+  optimizeJoinedFilters?: boolean | null | undefined;
+  optimizeProjections?: boolean | null | undefined;
   /** HogQL parser backend; absent -> `rust_py_with_cpp_shadow` (rust-py is primary, cpp runs as a sampled shadow). `*_shadow` modes return the primary result and sample-compare against the other parser, reporting divergences without failing the request. The `rust_py_*` modes drive the same hand-rolled Rust parser as `rust_*` but build `posthog.hogql.ast` dataclass instances directly via PyO3, skipping the JSON round-trip. */
-  parserMode?: ParserMode | (string & {}) | null;
+  parserMode?: ParserMode | (string & {}) | null | undefined;
   /** Push an `id IN (SELECT person_id FROM <left table> WHERE ...)` predicate into the joined persons subquery, so the latest-version lookup only reads persons that the outer query's left-table filters can reach. Applies only to a persons join from the query's own FROM table. */
-  personIdPushdown?: boolean | null;
-  personsArgMaxVersion?: PersonsArgMaxVersion | (string & {}) | null;
-  personsJoinMode?: PersonsJoinMode | (string & {}) | null;
-  personsOnEventsMode?: PersonsOnEventsMode | (string & {}) | null;
-  propertyGroupsMode?: PropertyGroupsMode | (string & {}) | null;
-  pushDownPredicates?: boolean | null;
-  s3TableUseInvalidColumns?: boolean | null;
+  personIdPushdown?: boolean | null | undefined;
+  personsArgMaxVersion?: PersonsArgMaxVersion | (string & {}) | null | undefined;
+  personsJoinMode?: PersonsJoinMode | (string & {}) | null | undefined;
+  personsOnEventsMode?: PersonsOnEventsMode | (string & {}) | null | undefined;
+  propertyGroupsMode?: PropertyGroupsMode | (string & {}) | null | undefined;
+  pushDownPredicates?: boolean | null | undefined;
+  s3TableUseInvalidColumns?: boolean | null | undefined;
   /** Push a `session_id_v7 IN (SELECT ... FROM events WHERE ...)` predicate into the raw_sessions subquery to limit aggregation to sessions that participate in the outer events filter. */
-  sessionIdPushdown?: boolean | null;
+  sessionIdPushdown?: boolean | null | undefined;
   /** Pre-filter raw_sessions aggregation by `session_id_v7 IN (cheap pre-aggregation that only materializes the columns referenced by the outer-WHERE session predicate)`. Useful when the breakdown/SELECT pulls in many session columns (e.g. `$channel_type`) but the filter only references one (e.g. `$entry_current_url`). */
-  sessionPropertyPreAggregation?: boolean | null;
-  sessionTableVersion?: SessionTableVersion | (string & {}) | null;
-  sessionsV2JoinMode?: SessionsV2JoinMode | (string & {}) | null;
-  timings?: boolean | null;
+  sessionPropertyPreAggregation?: boolean | null | undefined;
+  sessionTableVersion?: SessionTableVersion | (string & {}) | null | undefined;
+  /** Padding, in minutes, on each side of the event time range when it filters the sessions table by session start. Defaults to 3 days. It can only narrow the range: values above the default are ignored. Lower it only for a query that keeps just the sessions that start inside its own time range. */
+  sessionTimestampBufferMinutes?: number | null | undefined;
+  sessionsV2JoinMode?: SessionsV2JoinMode | (string & {}) | null | undefined;
+  timings?: boolean | null | undefined;
   /** Remove provably redundant casts and nullability wrappers (e.g. `toString(String)`, `assumeNotNull(non_nullable)`, dead `ifNull` fallbacks) using inferred expression types */
-  typeAwareCastSimplification?: boolean | null;
-  useMaterializedViews?: boolean | null;
-  /** Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, the project's stored value applies, then the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA` instance settings. This is an internal rollout switch. PostHog staff set the project value in Django admin and the project settings API ignores it. */
-  useNewEventsSchema?: boolean | null;
-  usePreaggregatedIntermediateResults?: boolean | null;
+  typeAwareCastSimplification?: boolean | null | undefined;
+  useMaterializedViews?: boolean | null | undefined;
+  /** Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, a staff person's `ph_new_events_schema` cookie applies, then the project's listing in the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA_TEAMS` instance setting, then the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA` instance setting. This is an internal rollout switch, and the project settings API ignores it. */
+  useNewEventsSchema?: boolean | null | undefined;
+  usePreaggregatedIntermediateResults?: boolean | null | undefined;
   /** Try to automatically convert HogQL queries to use preaggregated tables at the AST level * */
-  usePreaggregatedTableTransforms?: boolean | null;
-  useWebAnalyticsPreAggregatedTables?: boolean | null;
+  usePreaggregatedTableTransforms?: boolean | null | undefined;
+  useWebAnalyticsPreAggregatedTables?: boolean | null | undefined;
   /** Serve filters on the stored session-entry attribution properties (`$channel_type`, `$entry_utm_*`, `$entry_referring_domain`) by recomputing the value from the session's first pageview. Resolved server-side; not intended to be set by clients. */
-  webAnalyticsFirstPageviewFilters?: boolean | null;
+  webAnalyticsFirstPageviewFilters?: boolean | null | undefined;
 }
+export type AccountsTableQueryResponseColumnsItem =
+  | AccountsTableAccountFieldColumn
+  | AccountsTableTagsColumn
+  | AccountsTableTagsColumn
+  | AccountsTableRelationshipColumn
+  | AccountsTableCustomPropertyColumn
+  | AccountsTableCustomPropertyHistoryColumn;
+export type AccountsTableQueryResponseColumnsList = Array<AccountsTableQueryResponseColumnsItem>;
+export type AccountsTableCustomPropertyDisplayType =
+  | "text"
+  | "link"
+  | "number"
+  | "currency"
+  | "percent"
+  | "date"
+  | "datetime"
+  | "boolean"
+  | "select";
+export interface AccountsTableCustomPropertyOption {
+  color: string;
+  id?: string | null | undefined;
+  label: string;
+}
+export type AccountsTableCustomPropertyDefinitionOptionsList =
+  Array<AccountsTableCustomPropertyOption>;
+export interface AccountsTableCustomPropertySource {
+  id: string;
+}
+export interface AccountsTableCustomPropertyDefinition {
+  description?: string | null | undefined;
+  display_type: AccountsTableCustomPropertyDisplayType | (string & {});
+  has_workflow_reference: boolean;
+  id: string;
+  is_big_number?: boolean | null | undefined;
+  is_canonical: boolean;
+  name: string;
+  options?: AccountsTableCustomPropertyDefinitionOptionsList | null | undefined;
+  source?: AccountsTableCustomPropertySource | null | undefined;
+}
+export type AccountsTableQueryResponseCustomPropertyDefinitionsList =
+  Array<AccountsTableCustomPropertyDefinition>;
 export type AccountsTableQueryResponseMetricsResultsList = Array<number | null>;
 export type QueryStatusLabelsList = Array<string>;
 export interface ClickhouseQueryProgress {
-  active_cpu_time?: number;
-  bytes_read?: number;
-  estimated_rows_total?: number;
-  rows_read?: number;
-  time_elapsed?: number;
+  active_cpu_time?: number | undefined;
+  bytes_read?: number | undefined;
+  estimated_rows_total?: number | undefined;
+  rows_read?: number | undefined;
+  time_elapsed?: number | undefined;
 }
 export type QueryScanFixLocation =
   | "query"
@@ -361,15 +418,15 @@ export interface QueryScanWarning {
   /** Whether the person can change the query so it reads less and still answers the same question. Surfaces show the full advice and "Fix with AI" only when a finding is actionable. */
   actionable: boolean;
   /** True when the query reads this much on purpose, so reading less would change the answer. Absent means no. */
-  by_design?: boolean | null;
+  by_design?: boolean | null | undefined;
   /** A label for what in the query text kept the read wide, such as `in_or`. Only analytics and the assistant read it, and the labels can change. */
-  cause?: string | null;
+  cause?: string | null | undefined;
   /** The one fact the finding rests on. */
-  evidence?: string | null;
+  evidence?: string | null | undefined;
   /** What "Fix with AI" and the assistant are told to do. */
   fix: string;
   /** Where the change goes. Absent means the query itself. */
-  fix_location?: QueryScanFixLocation | (string & {}) | null;
+  fix_location?: QueryScanFixLocation | (string & {}) | null | undefined;
   kind: QueryScanFindingKind | (string & {});
   /** Shown to the person: what happened and what to do. */
   message: string;
@@ -378,60 +435,71 @@ export interface QueryScanWarning {
 export type QueryScanAnalysisFindingsList = Array<QueryScanWarning>;
 export interface QueryScanAnalysis {
   /** The message the Fix with AI button sends to the assistant. Absent when no finding can be fixed in the query. */
-  assistant_prompt?: string | null;
+  assistant_prompt?: string | null | undefined;
   /** Every finding, fixable or not. Empty when the analysis found none. */
   findings: QueryScanAnalysisFindingsList;
   /** How much of all the project's events the query read, 0 to 1. */
-  project_share?: number | null;
+  project_share?: number | null | undefined;
   /** How much of the project's events in the query's date range the query read, 0 to 1. */
-  range_share?: number | null;
+  range_share?: number | null | undefined;
 }
 export interface QueryScanSummary {
   /** The stored analysis, put on the response when it is served. Absent while the analysis runs, and when none was requested. */
-  analysis?: QueryScanAnalysis | null;
+  analysis?: QueryScanAnalysis | null | undefined;
   /** True when the run asked for an analysis, or found one stored. While `analysis` is absent, poll `GET /query/scan/{cache_key}` for it. */
-  analysis_requested?: boolean | null;
+  analysis_requested?: boolean | null | undefined;
   /** ClickHouse time for the last fresh run, summed over its ClickHouse queries. */
   duration_ms: number;
   /** True when ClickHouse stopped the run instead of finishing it. */
-  killed?: boolean | null;
+  killed?: boolean | null | undefined;
   /** Rows ClickHouse read for the last fresh run, all tables included. */
   rows_read: number;
 }
 export interface QueryStatus {
-  budget_remaining_bytes?: number | null;
-  bytes_read?: number | null;
+  budget_remaining_bytes?: number | null | undefined;
+  bytes_read?: number | null | undefined;
   /** Cache key of the run that failed, so clients can ask for its query scan. */
-  cache_key?: string | null;
+  cache_key?: string | null | undefined;
   /** Whether the query is still running. Will be true if the query is complete, even if it errored. Either result or error will be set. */
-  complete?: boolean | null;
-  dashboard_id?: number | null;
+  complete?: boolean | null | undefined;
+  dashboard_id?: number | null | undefined;
   /** When did the query execution task finish (whether successfully or not). */
-  end_time?: string | null;
+  end_time?: string | null | undefined;
   /** If the query failed, this will be set to true. More information can be found in the error_message field. */
-  error?: boolean | null;
-  /** Stable machine-readable code for the error (the DRF exception code), when known. */
-  error_code?: string | null;
-  error_message?: string | null;
-  expiration_time?: string | null;
-  id?: string;
-  insight_id?: number | null;
-  labels?: QueryStatusLabelsList | null;
+  error?: boolean | null | undefined;
+  /** Stable machine-readable code for the error, when known: the DRF exception code, the ClickHouse error name, the HogQL error code, or `unhandled_<exception class>` for a failure that no handler classified. */
+  error_code?: string | null | undefined;
+  error_message?: string | null | undefined;
+  expiration_time?: string | null | undefined;
+  id?: string | undefined;
+  insight_id?: number | null | undefined;
+  labels?: QueryStatusLabelsList | null | undefined;
   /** When was the query execution task picked up by a worker. */
-  pickup_time?: string | null;
+  pickup_time?: string | null | undefined;
   /** ONLY async queries use QueryStatus. */
-  query_async?: boolean;
-  query_progress?: ClickhouseQueryProgress | null;
-  query_scan?: QueryScanSummary | null;
-  results?: unknown;
+  query_async?: boolean | undefined;
+  query_progress?: ClickhouseQueryProgress | null | undefined;
+  query_scan?: QueryScanSummary | null | undefined;
+  results?: unknown | undefined;
   /** When was query execution task enqueued. */
-  start_time?: string | null;
-  task_id?: string | null;
-  team_id?: number;
+  start_time?: string | null | undefined;
+  task_id?: string | null | undefined;
+  team_id?: number | undefined;
 }
+export interface AccountsTableRelationshipDefinition {
+  description?: string | null | undefined;
+  id: string;
+  is_controlled: boolean;
+  is_single_holder?: boolean | null | undefined;
+  name: string;
+}
+export type AccountsTableQueryResponseRelationshipDefinitionsList =
+  Array<AccountsTableRelationshipDefinition>;
 export interface ResolvedDateRangeResponse {
-  date_from?: string;
-  date_to?: string;
+  date_from?: string | undefined;
+  date_to?: string | undefined;
+  /** The earliest timestamp the query reads, when only its first interval depends on rows from before date_from. Lifecycle sets it to the start of the interval before the range. */
+  read_from?: string | null | undefined;
 }
 /** Requested direct Account fields, keyed by their typed field reference. */
 export type AccountsTableRowAccountFieldsMap = { [key: string]: string | null | undefined };
@@ -463,43 +531,47 @@ export interface AccountsTableRow {
   customProperties: AccountsTableRowCustomPropertiesMap;
   /** Numeric write history keyed by requested custom property definition ID. */
   customPropertyHistory: AccountsTableRowCustomPropertyHistoryMap;
-  externalId?: string | null;
+  externalId?: string | null | undefined;
   id: string;
   /** Bare hostname the row's logo is rendered from. Null when no source resolved one. */
-  logoDomain?: string | null;
+  logoDomain?: string | null | undefined;
   name: string;
   /** Number of linked internal notes. Omitted when the request does not select the note count. */
-  noteCount?: number | null;
+  noteCount?: number | null | undefined;
   /** Active assignee user IDs keyed by requested relationship definition ID. */
   relationships: AccountsTableRowRelationshipsMap;
   /** Sorted tag names. Omitted when the request does not select tags. */
-  tags?: AccountsTableRowTagsList | null;
+  tags?: AccountsTableRowTagsList | null | undefined;
 }
 export type AccountsTableQueryResponseResultsList = Array<AccountsTableRow>;
 export interface QueryTiming {
   /** Key. Shortened to 'k' to save on data. */
-  k?: string;
+  k?: string | undefined;
   /** Time in seconds. Shortened to 't' to save on data. */
-  t?: number;
+  t?: number | undefined;
 }
 export type AccountsTableQueryResponseTimingsList = Array<QueryTiming>;
 export interface DataWarehouseSourceUsage {
   /** ExternalDataSource id */
   id: string;
   /** Connector type of the source (e.g. Stripe, Postgres), if known */
-  source_type?: string | null;
+  source_type?: string | null | undefined;
   /** Warehouse table name that was referenced */
   table_name: string;
+  /** Whether the query read a history table of this source */
+  uses_history_table?: boolean | null | undefined;
 }
 export type AccountsTableQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export interface DataWarehouseSyncWarning {
+  /** True when the last sync is still within the table's sync interval, so the data is current and the warning only says it will stop updating (a sync paused recently). False or absent when the data is out of date. */
+  data_is_current?: boolean | null | undefined;
   /** Human-readable warning shown to the user */
   message: string;
   /** Name of the ExternalDataSchema responsible for syncing the table */
   schema_name: string;
   /** ID of the ExternalDataSource, used to link to its management page. Null for self-managed tables. */
-  source_id?: string | null;
+  source_id?: string | null | undefined;
   /** Source type, e.g. "Stripe", "Hubspot" */
   source_type: string;
   /** Sync status that triggered the warning, e.g. "Failed", "Paused", "BillingLimitReached" */
@@ -507,7 +579,7 @@ export interface DataWarehouseSyncWarning {
   /** Name of the warehouse table the warning refers to */
   table_name: string;
   /** Tells warning kinds apart in the shared `warnings` list */
-  type?: string;
+  type?: string | undefined;
 }
 /** Resource types the user has access restrictions on, referenced by the query, e.g. ["insight", "dashboard"] */
 export type AccessControlFilterWarningResourcesList = Array<string>;
@@ -517,38 +589,57 @@ export interface AccessControlFilterWarning {
   /** Resource types the user has access restrictions on, referenced by the query, e.g. ["insight", "dashboard"] */
   resources: AccessControlFilterWarningResourcesList;
   /** Tells warning kinds apart in the shared `warnings` list */
-  type?: string;
+  type?: string | undefined;
+}
+export interface BreakdownNotAppliedWarning {
+  /** Human-readable warning shown to the user */
+  message: string;
+  /** Tells warning kinds apart in the shared `warnings` list */
+  type?: string | undefined;
 }
 export type AccountsTableQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
-  | AccessControlFilterWarning;
+  | AccessControlFilterWarning
+  | BreakdownNotAppliedWarning;
 export type AccountsTableQueryResponseWarningsList = Array<AccountsTableQueryResponseWarningsItem>;
 export interface AccountsTableQueryResponse {
+  columns?: AccountsTableQueryResponseColumnsList | null | undefined;
+  customPropertyDefinitions?:
+    | AccountsTableQueryResponseCustomPropertyDefinitionsList
+    | null
+    | undefined;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
+  error?: string | null | undefined;
   hasMore: boolean;
   /** Generated HogQL query. */
-  hogql?: string | null;
-  kind?: string;
+  hogql?: string | null | undefined;
+  kind?: string | undefined;
   limit: number;
   /** Aggregated values in the same order as the requested metrics. */
-  metricsResults?: AccountsTableQueryResponseMetricsResultsList | null;
+  metricsResults?: AccountsTableQueryResponseMetricsResultsList | null | undefined;
   /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
+  modifiers?: HogQLQueryModifiers | null | undefined;
   offset: number;
   /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
+  query_status?: QueryStatus | null | undefined;
+  relationshipDefinitions?:
+    | AccountsTableQueryResponseRelationshipDefinitionsList
+    | null
+    | undefined;
   /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null | undefined;
   /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
+  resolved_date_range?: ResolvedDateRangeResponse | null | undefined;
   results: AccountsTableQueryResponseResultsList;
   /** Measured timings for different parts of the query generation process */
-  timings?: AccountsTableQueryResponseTimingsList | null;
+  timings?: AccountsTableQueryResponseTimingsList | null | undefined;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: AccountsTableQueryResponseUsedDataWarehouseSourcesList | null;
-  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access. */
-  warnings?: AccountsTableQueryResponseWarningsList | null;
+  used_data_warehouse_sources?:
+    | AccountsTableQueryResponseUsedDataWarehouseSourcesList
+    | null
+    | undefined;
+  /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
+  warnings?: AccountsTableQueryResponseWarningsList | null | undefined;
 }
 /** A typed column that supports server-side sorting. */
 export type AccountsTableSortColumn =
@@ -565,37 +656,40 @@ export interface AccountsTableSort {
 }
 export interface QueryLogTags {
   /** Name of the query, preferably unique. For example web_analytics_vitals */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Short id of the saved Web analytics filter preset this query was run under, if any. */
-  presetId?: string | null;
+  presetId?: string | null | undefined;
   /** Product responsible for this query. Use string, there's no need to churn the Schema when we add a new product * */
-  productKey?: string | null;
+  productKey?: string | null | undefined;
   /** Scene where this query is shown in the UI. Use string, there's no need to churn the Schema when we add a new Scene * */
-  scene?: string | null;
+  scene?: string | null | undefined;
 }
 export interface AccountsTableQuery2 {
   /** Columns to load for each account. Account identity fields are always returned. */
   columns: AccountsTableQueryColumnsList;
   /** Nonempty property-filter groups are ORed together; filters within each group use AND. Global filters still apply. */
-  filterGroups?: AccountsTableQueryFilterGroupsList | null;
+  filterGroups?: AccountsTableQueryFilterGroupsList | null | undefined;
   /** Filters are combined with AND. Values within tag and assignment filters use OR. */
-  filters?: AccountsTableQueryFiltersList | null;
+  filters?: AccountsTableQueryFiltersList | null | undefined;
+  /** Omit missing definitions and custom-property filters incompatible with their current types. */
+  ignoreMissingDefinitions?: boolean | null | undefined;
   /** Include churned accounts. Churned accounts are hidden by default. */
-  includeChurned?: boolean | null;
+  includeChurned?: boolean | null | undefined;
   /** Include ignored accounts. Ignored accounts are hidden by default. */
-  includeIgnored?: boolean | null;
-  kind?: string;
-  limit?: number | null;
+  includeIgnored?: boolean | null | undefined;
+  kind?: string | undefined;
+  limit?: number | null | undefined;
   /** Aggregates to evaluate against the filtered account set. A metrics query skips row loading. */
-  metrics?: AccountsTableQueryMetricsList | null;
+  metrics?: AccountsTableQueryMetricsList | null | undefined;
   /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  offset?: number | null;
-  response?: AccountsTableQueryResponse | null;
-  sort?: AccountsTableSort | null;
-  tags?: QueryLogTags | null;
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  offset?: number | null | undefined;
+  response?: AccountsTableQueryResponse | null | undefined;
+  sort?: AccountsTableSort | null | undefined;
+  tags?: QueryLogTags | null | undefined;
+  useDefaultColumns?: boolean | null | undefined;
   /** version of the node, used for schema migrations */
-  version?: number | null;
+  version?: number | null | undefined;
 }
 export type BreakdownFilterBreakdownCase1Item = string | number;
 export type BreakdownFilterBreakdownCase1List = Array<BreakdownFilterBreakdownCase1Item>;
@@ -605,6 +699,7 @@ export type BreakdownType =
   | "person"
   | "event"
   | "event_metadata"
+  | "element"
   | "group"
   | "session"
   | "hogql"
@@ -616,6 +711,7 @@ export type MultipleBreakdownType =
   | "person"
   | "event"
   | "event_metadata"
+  | "element"
   | "group"
   | "session"
   | "hogql"
@@ -624,23 +720,29 @@ export type MultipleBreakdownType =
   | "data_warehouse"
   | "data_warehouse_person_property";
 export interface Breakdown {
-  group_type_index?: number | null;
-  histogram_bin_count?: number | null;
-  normalize_url?: boolean | null;
-  property?: BreakdownProperty;
-  type?: MultipleBreakdownType | (string & {}) | null;
+  group_type_index?: number | null | undefined;
+  histogram_bin_count?: number | null | undefined;
+  normalize_url?: boolean | null | undefined;
+  property?: BreakdownProperty | undefined;
+  type?: MultipleBreakdownType | (string & {}) | null | undefined;
 }
 export type BreakdownFilterBreakdownsList = Array<Breakdown>;
 export interface BreakdownFilter {
-  breakdown?: BreakdownFilterBreakdown | null;
-  breakdown_group_type_index?: number | null;
-  breakdown_hide_other_aggregation?: boolean | null;
-  breakdown_histogram_bin_count?: number | null;
-  breakdown_limit?: number | null;
-  breakdown_normalize_url?: boolean | null;
-  breakdown_path_cleaning?: boolean | null;
-  breakdown_type?: BreakdownType | (string & {}) | null;
-  breakdowns?: BreakdownFilterBreakdownsList | null;
+  breakdown?: BreakdownFilterBreakdown | null | undefined;
+  breakdown_group_type_index?: number | null | undefined;
+  breakdown_hide_other_aggregation?: boolean | null | undefined;
+  breakdown_histogram_bin_count?: number | null | undefined;
+  breakdown_limit?: number | null | undefined;
+  breakdown_normalize_url?: boolean | null | undefined;
+  breakdown_path_cleaning?: boolean | null | undefined;
+  breakdown_type?: BreakdownType | (string & {}) | null | undefined;
+  breakdowns?: BreakdownFilterBreakdownsList | null | undefined;
+}
+export interface CompareFilter {
+  /** Whether to compare the current date range to a previous date range. */
+  compare?: boolean | null | undefined;
+  /** The date range to compare to. The value is a relative date. Examples of relative dates are: `-1y` for 1 year ago, `-14m` for 14 months ago, `-100w` for 100 weeks ago, `-14d` for 14 days ago, `-30h` for 30 hours ago. */
+  compare_to?: string | null | undefined;
 }
 export type IntervalType =
   | "second"
@@ -651,6 +753,43 @@ export type IntervalType =
   | "month"
   | "quarter"
   | "year";
+export type MetricsFilterOp = "eq" | "neq" | "regex" | "not_regex";
+export type MetricsAttributeScope = "resource" | "attribute" | "auto";
+export interface MetricsQueryFilter {
+  key: string;
+  op: MetricsFilterOp | (string & {});
+  scope?: MetricsAttributeScope | (string & {}) | null | undefined;
+  value: string;
+}
+export type DashboardFilterMetricFiltersList = Array<MetricsQueryFilter>;
+/** The selected values. Empty when `all` is true: All stands for every option of the variable. */
+export type MetricsDashboardVariableSelectionValuesList = Array<string>;
+export interface MetricsDashboardVariableSelection {
+  all?: boolean | null | undefined;
+  /** The selected values. Empty when `all` is true: All stands for every option of the variable. */
+  values: MetricsDashboardVariableSelectionValuesList;
+}
+export type MetricsDashboardVariableCustomValuesList = Array<string>;
+export type MetricsDashboardVariableSource = "custom" | "promql" | "sql" | "textbox";
+export interface MetricsDashboardVariable {
+  /** The text that All puts in a PromQL query. `.*` when it is empty. */
+  allValue?: string | null | undefined;
+  current?: MetricsDashboardVariableSelection | null | undefined;
+  /** The options when `source` is `custom`. */
+  customValues?: MetricsDashboardVariableCustomValuesList | null | undefined;
+  includeAll?: boolean | null | undefined;
+  /** Shown in the dashboard filter bar. The name is shown when it is empty. */
+  label?: string | null | undefined;
+  multi?: boolean | null | undefined;
+  /** Letters, digits and underscores. Tiles refer to it as `$name`. */
+  name: string;
+  /** The options query when `source` is `promql` or `sql`. It can refer to other variables. PromQL supports `label_values(label)`, `label_values(selector, label)`, `label_names()`, `metrics(regex)` and `query_result(expr)`. SQL returns the options in its first column. */
+  query?: string | null | undefined;
+  /** RE2 pattern that options must match. When it has a capture group, the option is the first group. */
+  regex?: string | null | undefined;
+  source: MetricsDashboardVariableSource | (string & {});
+}
+export type DashboardFilterMetricVariablesList = Array<MetricsDashboardVariable>;
 export type PropertyOperator =
   | "exact"
   | "is_not"
@@ -678,6 +817,7 @@ export type PropertyOperator =
   | "in"
   | "not_in"
   | "is_cleaned_path_exact"
+  | "is_cleaned_path_not_exact"
   | "flag_evaluates_to"
   | "semver_eq"
   | "semver_neq"
@@ -698,12 +838,12 @@ export type EventPropertyFilterValue =
   | number
   | boolean;
 export interface EventPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {}) | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
   /** Event properties */
-  type?: string;
-  value?: EventPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: EventPropertyFilterValue | null | undefined;
 }
 export type PersonPropertyFilterValueCase0Item = string | number | boolean;
 export type PersonPropertyFilterValueCase0List = Array<PersonPropertyFilterValueCase0Item>;
@@ -713,12 +853,12 @@ export type PersonPropertyFilterValue =
   | number
   | boolean;
 export interface PersonPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
   /** Person properties */
-  type?: string;
-  value?: PersonPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: PersonPropertyFilterValue | null | undefined;
 }
 export type PersonMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export type PersonMetadataPropertyFilterValueCase0List =
@@ -730,11 +870,11 @@ export type PersonMetadataPropertyFilterValue =
   | boolean;
 export interface PersonMetadataPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   /** Top-level columns on the persons table (e.g. created_at), not properties JSON */
-  type?: string;
-  value?: PersonMetadataPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: PersonMetadataPropertyFilterValue | null | undefined;
 }
 export type Key10 = "tag_name" | "text" | "href" | "selector";
 export type ElementPropertyFilterValueCase0Item = string | number | boolean;
@@ -745,11 +885,11 @@ export type ElementPropertyFilterValue =
   | number
   | boolean;
 export interface ElementPropertyFilter {
-  key?: Key10 | (string & {});
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: ElementPropertyFilterValue | null;
+  key?: Key10 | (string & {}) | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: ElementPropertyFilterValue | null | undefined;
 }
 export type EventMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export type EventMetadataPropertyFilterValueCase0List =
@@ -760,11 +900,11 @@ export type EventMetadataPropertyFilterValue =
   | number
   | boolean;
 export interface EventMetadataPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: EventMetadataPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: EventMetadataPropertyFilterValue | null | undefined;
 }
 export type SessionPropertyFilterValueCase0Item = string | number | boolean;
 export type SessionPropertyFilterValueCase0List = Array<SessionPropertyFilterValueCase0Item>;
@@ -774,19 +914,23 @@ export type SessionPropertyFilterValue =
   | number
   | boolean;
 export interface SessionPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: SessionPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: SessionPropertyFilterValue | null | undefined;
 }
 export interface CohortPropertyFilter {
-  cohort_name?: string | null;
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {}) | null;
-  type?: string;
-  value?: number;
+  /** Set by the feature flag API when the cohort is deleted or does not exist. */
+  cohort_deleted?: boolean | null | undefined;
+  /** Set by the feature flag API when the cohort does not exist, so it cannot be restored. */
+  cohort_missing?: boolean | null | undefined;
+  cohort_name?: string | null | undefined;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
+  type?: string | undefined;
+  value?: number | undefined;
 }
 export type DurationType = "duration" | "active_seconds" | "inactive_seconds";
 export type RecordingPropertyFilterKey = DurationType | string;
@@ -798,11 +942,11 @@ export type RecordingPropertyFilterValue =
   | number
   | boolean;
 export interface RecordingPropertyFilter {
-  key?: RecordingPropertyFilterKey;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: RecordingPropertyFilterValue | null;
+  key?: RecordingPropertyFilterKey | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: RecordingPropertyFilterValue | null | undefined;
 }
 export type LogEntryPropertyFilterValueCase0Item = string | number | boolean;
 export type LogEntryPropertyFilterValueCase0List = Array<LogEntryPropertyFilterValueCase0Item>;
@@ -812,11 +956,11 @@ export type LogEntryPropertyFilterValue =
   | number
   | boolean;
 export interface LogEntryPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: LogEntryPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: LogEntryPropertyFilterValue | null | undefined;
 }
 export type GroupPropertyFilterGroupKeyNamesMap = { [key: string]: string | undefined };
 export type GroupPropertyFilterValueCase0Item = string | number | boolean;
@@ -827,13 +971,13 @@ export type GroupPropertyFilterValue =
   | number
   | boolean;
 export interface GroupPropertyFilter {
-  group_key_names?: GroupPropertyFilterGroupKeyNamesMap | null;
-  group_type_index?: number | null;
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: GroupPropertyFilterValue | null;
+  group_key_names?: GroupPropertyFilterGroupKeyNamesMap | null | undefined;
+  group_type_index?: number | null | undefined;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: GroupPropertyFilterValue | null | undefined;
 }
 export type FeaturePropertyFilterValueCase0Item = string | number | boolean;
 export type FeaturePropertyFilterValueCase0List = Array<FeaturePropertyFilterValueCase0Item>;
@@ -843,25 +987,25 @@ export type FeaturePropertyFilterValue =
   | number
   | boolean;
 export interface FeaturePropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
   /** Event property with "$feature/" prepended */
-  type?: string;
-  value?: FeaturePropertyFilterValue | null;
+  type?: string | undefined;
+  value?: FeaturePropertyFilterValue | null | undefined;
 }
 /** The value can be true, false, or a variant name */
 export type FlagPropertyFilterValue = boolean | string;
 export interface FlagPropertyFilter {
   /** The key should be the flag ID */
-  key?: string;
-  label?: string | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
   /** Only flag_evaluates_to operator is allowed for flag dependencies */
-  operator?: string;
+  operator?: string | undefined;
   /** Feature flag dependency */
-  type?: string;
+  type?: string | undefined;
   /** The value can be true, false, or a variant name */
-  value?: FlagPropertyFilterValue;
+  value?: FlagPropertyFilterValue | undefined;
 }
 export type HogQLPropertyFilterValueCase0Item = string | number | boolean;
 export type HogQLPropertyFilterValueCase0List = Array<HogQLPropertyFilterValueCase0Item>;
@@ -871,13 +1015,13 @@ export type HogQLPropertyFilterValue =
   | number
   | boolean;
 export interface HogQLPropertyFilter {
-  key?: string;
-  label?: string | null;
-  type?: string;
-  value?: HogQLPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  type?: string | undefined;
+  value?: HogQLPropertyFilterValue | null | undefined;
 }
 export interface EmptyPropertyFilter {
-  type?: string;
+  type?: string | undefined;
 }
 export type DataWarehousePropertyFilterValueCase0Item = string | number | boolean;
 export type DataWarehousePropertyFilterValueCase0List =
@@ -888,11 +1032,11 @@ export type DataWarehousePropertyFilterValue =
   | number
   | boolean;
 export interface DataWarehousePropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: DataWarehousePropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: DataWarehousePropertyFilterValue | null | undefined;
 }
 export type DataWarehousePersonPropertyFilterValueCase0Item = string | number | boolean;
 export type DataWarehousePersonPropertyFilterValueCase0List =
@@ -903,11 +1047,11 @@ export type DataWarehousePersonPropertyFilterValue =
   | number
   | boolean;
 export interface DataWarehousePersonPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: DataWarehousePersonPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: DataWarehousePersonPropertyFilterValue | null | undefined;
 }
 export type ErrorTrackingIssueFilterValueCase0Item = string | number | boolean;
 export type ErrorTrackingIssueFilterValueCase0List = Array<ErrorTrackingIssueFilterValueCase0Item>;
@@ -917,22 +1061,22 @@ export type ErrorTrackingIssueFilterValue =
   | number
   | boolean;
 export interface ErrorTrackingIssueFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: ErrorTrackingIssueFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: ErrorTrackingIssueFilterValue | null | undefined;
 }
 export type LogPropertyFilterType = "log" | "log_attribute" | "log_resource_attribute";
 export type LogPropertyFilterValueCase0Item = string | number | boolean;
 export type LogPropertyFilterValueCase0List = Array<LogPropertyFilterValueCase0Item>;
 export type LogPropertyFilterValue = LogPropertyFilterValueCase0List | string | number | boolean;
 export interface LogPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: LogPropertyFilterType | (string & {});
-  value?: LogPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: LogPropertyFilterType | (string & {}) | undefined;
+  value?: LogPropertyFilterValue | null | undefined;
 }
 export type MetricPropertyFilterValueCase0Item = string | number | boolean;
 export type MetricPropertyFilterValueCase0List = Array<MetricPropertyFilterValueCase0Item>;
@@ -943,21 +1087,21 @@ export type MetricPropertyFilterValue =
   | boolean;
 export interface MetricPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: MetricPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: MetricPropertyFilterValue | null | undefined;
 }
 export type SpanPropertyFilterType = "span" | "span_attribute" | "span_resource_attribute";
 export type SpanPropertyFilterValueCase0Item = string | number | boolean;
 export type SpanPropertyFilterValueCase0List = Array<SpanPropertyFilterValueCase0Item>;
 export type SpanPropertyFilterValue = SpanPropertyFilterValueCase0List | string | number | boolean;
 export interface SpanPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: SpanPropertyFilterType | (string & {});
-  value?: SpanPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: SpanPropertyFilterType | (string & {}) | undefined;
+  value?: SpanPropertyFilterValue | null | undefined;
 }
 export type RevenueAnalyticsPropertyFilterValueCase0Item = string | number | boolean;
 export type RevenueAnalyticsPropertyFilterValueCase0List =
@@ -968,11 +1112,11 @@ export type RevenueAnalyticsPropertyFilterValue =
   | number
   | boolean;
 export interface RevenueAnalyticsPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: RevenueAnalyticsPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: RevenueAnalyticsPropertyFilterValue | null | undefined;
 }
 export type AccountCustomPropertyFilterValueCase0Item = string | number | boolean;
 export type AccountCustomPropertyFilterValueCase0List =
@@ -984,11 +1128,11 @@ export type AccountCustomPropertyFilterValue =
   | boolean;
 export interface AccountCustomPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   /** Customer analytics account custom property -- the key is the property definition id */
-  type?: string;
-  value?: AccountCustomPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: AccountCustomPropertyFilterValue | null | undefined;
 }
 export type WorkflowVariablePropertyFilterValueCase0Item = string | number | boolean;
 export type WorkflowVariablePropertyFilterValueCase0List =
@@ -999,11 +1143,11 @@ export type WorkflowVariablePropertyFilterValue =
   | number
   | boolean;
 export interface WorkflowVariablePropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: WorkflowVariablePropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: WorkflowVariablePropertyFilterValue | null | undefined;
 }
 export type BehavioralPropertyFilterEventFiltersItem =
   | EventPropertyFilter
@@ -1018,25 +1162,25 @@ export type TimeUnitType = "day" | "week" | "month" | "year";
 export type InlineBehavioralType = "performed_event" | "performed_event_multiple";
 export interface BehavioralPropertyFilter {
   /** Extra property filters the matching events must satisfy. Deliberately excludes nested behavioral/cohort filters and groups */
-  event_filters?: BehavioralPropertyFilterEventFiltersList | null;
+  event_filters?: BehavioralPropertyFilterEventFiltersList | null | undefined;
   event_type: BehavioralEventSource | (string & {});
   /** Absolute or relative (e.g. -30d) lower date bound -- alternative to time_value/time_interval */
-  explicit_datetime?: string | null;
-  explicit_datetime_to?: string | null;
+  explicit_datetime?: string | null | undefined;
+  explicit_datetime_to?: string | null | undefined;
   /** Event name, or action id when event_type is 'actions' */
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   /** Match persons who did NOT satisfy the criterion. Not the same as a low count -- zero-occurrence persons never match count operators */
-  negation?: boolean | null;
+  negation?: boolean | null | undefined;
   /** Count comparison for performed_event_multiple, defaults to exact */
-  operator?: PropertyOperator | (string & {}) | null;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
   /** Count threshold for performed_event_multiple */
-  operator_value?: number | null;
-  time_interval?: TimeUnitType | (string & {}) | null;
+  operator_value?: number | null | undefined;
+  time_interval?: TimeUnitType | (string & {}) | null | undefined;
   /** Relative time window size, paired with time_interval */
-  time_value?: number | null;
+  time_value?: number | null | undefined;
   /** Person performed (or didn't perform) an event in a time window. ClickHouse-only -- not evaluable by flags or CDP */
-  type?: string;
+  type?: string | undefined;
   value: InlineBehavioralType | (string & {});
 }
 export type DashboardFilterPropertiesItem =
@@ -1066,15 +1210,20 @@ export type DashboardFilterPropertiesItem =
   | BehavioralPropertyFilter;
 export type DashboardFilterPropertiesList = Array<DashboardFilterPropertiesItem>;
 export interface DashboardFilter {
-  breakdown_filter?: BreakdownFilter | null;
-  date_from?: string | null;
-  date_to?: string | null;
-  explicitDate?: boolean | null;
+  breakdown_filter?: BreakdownFilter | null | undefined;
+  /** Period comparison forced onto every insight that supports one. Absent/null = inherit. */
+  compareFilter?: CompareFilter | null | undefined;
+  date_from?: string | null | undefined;
+  date_to?: string | null | undefined;
+  explicitDate?: boolean | null | undefined;
   /** Tri-state test-account override. Null/absent = inherit; true = force on; false = force off. */
-  filterTestAccounts?: boolean | null;
+  filterTestAccounts?: boolean | null | undefined;
   /** Time granularity forced onto every insight that supports one. Absent/null = inherit. */
-  interval?: IntervalType | (string & {}) | null;
-  properties?: DashboardFilterPropertiesList | null;
+  interval?: IntervalType | (string & {}) | null | undefined;
+  metricFilters?: DashboardFilterMetricFiltersList | null | undefined;
+  /** Variables that metrics tiles refer to as `$name`. Other tiles ignore them. */
+  metricVariables?: DashboardFilterMetricVariablesList | null | undefined;
+  properties?: DashboardFilterPropertiesList | null | undefined;
 }
 export type LimitContext = "posthog_ai";
 export type RefreshType =
@@ -1096,19 +1245,22 @@ export type CreateCustomerAnalyticsAccountsTableQueryRequestVariablesOverrideMap
 export interface CreateCustomerAnalyticsAccountsTableQueryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  async?: boolean | null;
+  async?: boolean | null | undefined;
   /** Accounts table query to run. */
   query: AccountsTableQuery2;
   /** Client-provided query ID for checking status or canceling an asynchronous query. */
-  client_query_id?: string | null;
-  filters_override?: DashboardFilter | null;
+  client_query_id?: string | null | undefined;
+  filters_override?: DashboardFilter | null | undefined;
   /** Limit context for the query. Only 'posthog_ai' is allowed as a client-provided value. */
-  limit_context?: LimitContext | (string & {}) | null;
+  limit_context?: LimitContext | (string & {}) | null | undefined;
   /** Name given to a query. It's used to identify the query in the UI. Up to 128 characters for a name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Cache and execution behavior for the query. */
-  refresh?: RefreshType | (string & {});
-  variables_override?: CreateCustomerAnalyticsAccountsTableQueryRequestVariablesOverrideMap | null;
+  refresh?: RefreshType | (string & {}) | undefined;
+  variables_override?:
+    | CreateCustomerAnalyticsAccountsTableQueryRequestVariablesOverrideMap
+    | null
+    | undefined;
 }
 export type CreateCustomerAnalyticsAccountsTableQueryError = PosthogOpError;
 /** Run a Customer Analytics accounts table query. */
@@ -1118,8 +1270,8 @@ export const createCustomerAnalyticsAccountsTableQuery: API.OperationMethod<
   CreateCustomerAnalyticsAccountsTableQueryError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(50, __c1, 18) as any as S.Schema<CreateCustomerAnalyticsAccountsTableQueryRequest>,
-  output: __S(39, __c1, 7) as any as S.Schema<AccountsTableQueryResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<CreateCustomerAnalyticsAccountsTableQueryRequest>,
+  output: __S(47, __c1, 15) as any as S.Schema<AccountsTableQueryResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1216,8 +1368,10 @@ function __c0(j: number): any {
           inCohortVia: S.optional(S.NullOr(S.String)),
           inlineCohortCalculation: S.optional(S.NullOr(S.String)),
           materializationMode: S.optional(S.NullOr(S.String)),
+          materializeRepeatedCTEs: S.optional(S.NullOr(S.Boolean)),
           materializedColumnsOptimizationMode: S.optional(S.NullOr(S.String)),
           mergeFederatedAggregateJoins: S.optional(S.NullOr(S.Boolean)),
+          negatedPersonFiltersNotIn: S.optional(S.NullOr(S.Boolean)),
           optimizeJoinedFilters: S.optional(S.NullOr(S.Boolean)),
           optimizeProjections: S.optional(S.NullOr(S.Boolean)),
           parserMode: S.optional(S.NullOr(S.String)),
@@ -1231,6 +1385,7 @@ function __c0(j: number): any {
           sessionIdPushdown: S.optional(S.NullOr(S.Boolean)),
           sessionPropertyPreAggregation: S.optional(S.NullOr(S.Boolean)),
           sessionTableVersion: S.optional(S.NullOr(S.String)),
+          sessionTimestampBufferMinutes: S.optional(S.NullOr(S.Number)),
           sessionsV2JoinMode: S.optional(S.NullOr(S.String)),
           timings: S.optional(S.NullOr(S.Boolean)),
           typeAwareCastSimplification: S.optional(S.NullOr(S.Boolean)),
@@ -1243,8 +1398,42 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "HogQLQueryModifiers" });
     case 18:
-      return S.Array(/*@__PURE__*/ S.NullOr(S.Number));
+      return S.Array(S.Unknown);
     case 19:
+      return S.suspend(() =>
+        S.Struct({
+          color: S.String,
+          id: S.optional(S.NullOr(S.String)),
+          label: S.String,
+        }),
+      ).annotate({ identifier: "AccountsTableCustomPropertyOption" });
+    case 20:
+      return S.Array(__S(19, __c0, 19));
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+        }),
+      ).annotate({ identifier: "AccountsTableCustomPropertySource" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          display_type: S.String,
+          has_workflow_reference: S.Boolean,
+          id: S.String,
+          is_big_number: S.optional(S.NullOr(S.Boolean)),
+          is_canonical: S.Boolean,
+          name: S.String,
+          options: S.optional(S.NullOr(__S(20, __c0, 20))),
+          source: S.optional(S.NullOr(__S(21, __c0, 21))),
+        }),
+      ).annotate({ identifier: "AccountsTableCustomPropertyDefinition" });
+    case 23:
+      return S.Array(__S(22, __c0, 22));
+    case 24:
+      return S.Array(/*@__PURE__*/ S.NullOr(S.Number));
+    case 25:
       return S.suspend(() =>
         S.Struct({
           active_cpu_time: S.optional(S.Number),
@@ -1254,7 +1443,7 @@ function __c0(j: number): any {
           time_elapsed: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ClickhouseQueryProgress" });
-    case 20:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           actionable: S.Boolean,
@@ -1267,28 +1456,28 @@ function __c0(j: number): any {
           message: S.String,
         }),
       ).annotate({ identifier: "QueryScanWarning" });
-    case 21:
-      return S.Array(__S(20, __c0, 20));
-    case 22:
+    case 27:
+      return S.Array(__S(26, __c0, 26));
+    case 28:
       return S.suspend(() =>
         S.Struct({
           assistant_prompt: S.optional(S.NullOr(S.String)),
-          findings: __S(21, __c0, 21),
+          findings: __S(27, __c0, 27),
           project_share: S.optional(S.NullOr(S.Number)),
           range_share: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "QueryScanAnalysis" });
-    case 23:
+    case 29:
       return S.suspend(() =>
         S.Struct({
-          analysis: S.optional(S.NullOr(__S(22, __c0, 22))),
+          analysis: S.optional(S.NullOr(__S(28, __c0, 28))),
           analysis_requested: S.optional(S.NullOr(S.Boolean)),
           duration_ms: S.Number,
           killed: S.optional(S.NullOr(S.Boolean)),
           rows_read: S.Number,
         }),
       ).annotate({ identifier: "QueryScanSummary" });
-    case 24:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           budget_remaining_bytes: S.optional(S.NullOr(S.Number)),
@@ -1306,108 +1495,125 @@ function __c0(j: number): any {
           labels: S.optional(S.NullOr(__S(1, __c0, 1))),
           pickup_time: S.optional(S.NullOr(S.String)),
           query_async: S.optional(S.Boolean),
-          query_progress: S.optional(S.NullOr(__S(19, __c0, 19))),
-          query_scan: S.optional(S.NullOr(__S(23, __c0, 23))),
+          query_progress: S.optional(S.NullOr(__S(25, __c0, 25))),
+          query_scan: S.optional(S.NullOr(__S(29, __c0, 29))),
           results: S.optional(S.Unknown),
           start_time: S.optional(S.NullOr(S.String)),
           task_id: S.optional(S.NullOr(S.String)),
           team_id: S.optional(S.Number),
         }),
       ).annotate({ identifier: "QueryStatus" });
-    case 25:
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          id: S.String,
+          is_controlled: S.Boolean,
+          is_single_holder: S.optional(S.NullOr(S.Boolean)),
+          name: S.String,
+        }),
+      ).annotate({ identifier: "AccountsTableRelationshipDefinition" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(31, __c0, 31));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           date_from: S.optional(S.String),
           date_to: S.optional(S.String),
+          read_from: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ResolvedDateRangeResponse" });
-    case 26:
+    case 2:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
-    case 27:
+    case 3:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.Unknown));
-    case 28:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           timestamp: S.String,
           value: S.Number,
         }),
       ).annotate({ identifier: "AccountsTableCustomPropertyHistoryPoint" });
-    case 29:
-      return S.Array(__S(28, __c0, 28));
-    case 30:
-      return S.Record(S.String, __S(29, __c0, 29));
-    case 31:
+    case 5:
+      return S.Array(__S(36, __c1, 4));
+    case 6:
+      return S.Record(S.String, __S(37, __c1, 5));
+    case 7:
       return S.Record(S.String, __S(2, __c0, 2));
-  }
-}
-function __c1(j: number): any {
-  switch (j) {
-    case 0:
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          accountFields: __S(26, __c0, 26),
-          customProperties: __S(27, __c0, 27),
-          customPropertyHistory: __S(30, __c0, 30),
+          accountFields: __S(34, __c1, 2),
+          customProperties: __S(35, __c1, 3),
+          customPropertyHistory: __S(38, __c1, 6),
           externalId: S.optional(S.NullOr(S.String)),
           id: S.String,
           logoDomain: S.optional(S.NullOr(S.String)),
           name: S.String,
           noteCount: S.optional(S.NullOr(S.Number)),
-          relationships: __S(31, __c0, 31),
+          relationships: __S(39, __c1, 7),
           tags: S.optional(S.NullOr(__S(1, __c0, 1))),
         }),
       ).annotate({ identifier: "AccountsTableRow" });
-    case 1:
-      return S.Array(__S(32, __c1, 0));
-    case 2:
+    case 9:
+      return S.Array(__S(40, __c1, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
           k: S.optional(S.String),
           t: S.optional(S.Number),
         }),
       ).annotate({ identifier: "QueryTiming" });
-    case 3:
-      return S.Array(__S(34, __c1, 2));
-    case 4:
+    case 11:
+      return S.Array(__S(42, __c1, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           source_type: S.optional(S.NullOr(S.String)),
           table_name: S.String,
+          uses_history_table: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "DataWarehouseSourceUsage" });
-    case 5:
-      return S.Array(__S(36, __c1, 4));
-    case 6:
+    case 13:
+      return S.Array(__S(44, __c1, 12));
+    case 14:
       return S.Array(S.Unknown);
-    case 7:
+    case 15:
       return S.suspend(() =>
         S.Struct({
+          columns: S.optional(S.NullOr(__S(18, __c0, 18))),
+          customPropertyDefinitions: S.optional(S.NullOr(__S(23, __c0, 23))),
           error: S.optional(S.NullOr(S.String)),
           hasMore: S.Boolean,
           hogql: S.optional(S.NullOr(S.String)),
           kind: S.optional(S.String),
           limit: S.Number,
-          metricsResults: S.optional(S.NullOr(__S(18, __c0, 18))),
+          metricsResults: S.optional(S.NullOr(__S(24, __c0, 24))),
           modifiers: S.optional(S.NullOr(__S(17, __c0, 17))),
           offset: S.Number,
-          query_status: S.optional(S.NullOr(__S(24, __c0, 24))),
-          resolved_compare_date_range: S.optional(S.NullOr(__S(25, __c0, 25))),
-          resolved_date_range: S.optional(S.NullOr(__S(25, __c0, 25))),
-          results: __S(33, __c1, 1),
-          timings: S.optional(S.NullOr(__S(35, __c1, 3))),
-          used_data_warehouse_sources: S.optional(S.NullOr(__S(37, __c1, 5))),
-          warnings: S.optional(S.NullOr(__S(38, __c1, 6))),
+          query_status: S.optional(S.NullOr(__S(30, __c0, 30))),
+          relationshipDefinitions: S.optional(S.NullOr(__S(32, __c1, 0))),
+          resolved_compare_date_range: S.optional(S.NullOr(__S(33, __c1, 1))),
+          resolved_date_range: S.optional(S.NullOr(__S(33, __c1, 1))),
+          results: __S(41, __c1, 9),
+          timings: S.optional(S.NullOr(__S(43, __c1, 11))),
+          used_data_warehouse_sources: S.optional(S.NullOr(__S(45, __c1, 13))),
+          warnings: S.optional(S.NullOr(__S(46, __c1, 14))),
         }),
       ).annotate({ identifier: "AccountsTableQueryResponse" });
-    case 8:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           column: S.Unknown,
           direction: S.String,
         }),
       ).annotate({ identifier: "AccountsTableSort" });
-    case 9:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.NullOr(S.String)),
@@ -1416,12 +1622,13 @@ function __c1(j: number): any {
           scene: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "QueryLogTags" });
-    case 10:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           columns: __S(0, __c0, 0),
           filterGroups: S.optional(S.NullOr(__S(4, __c0, 4))),
           filters: S.optional(S.NullOr(__S(5, __c0, 5))),
+          ignoreMissingDefinitions: S.optional(S.NullOr(S.Boolean)),
           includeChurned: S.optional(S.NullOr(S.Boolean)),
           includeIgnored: S.optional(S.NullOr(S.Boolean)),
           kind: S.optional(S.String),
@@ -1429,13 +1636,14 @@ function __c1(j: number): any {
           metrics: S.optional(S.NullOr(__S(6, __c0, 6))),
           modifiers: S.optional(S.NullOr(__S(17, __c0, 17))),
           offset: S.optional(S.NullOr(S.Number)),
-          response: S.optional(S.NullOr(__S(39, __c1, 7))),
-          sort: S.optional(S.NullOr(__S(40, __c1, 8))),
-          tags: S.optional(S.NullOr(__S(41, __c1, 9))),
+          response: S.optional(S.NullOr(__S(47, __c1, 15))),
+          sort: S.optional(S.NullOr(__S(48, __c1, 16))),
+          tags: S.optional(S.NullOr(__S(49, __c1, 17))),
+          useDefaultColumns: S.optional(S.NullOr(S.Boolean)),
           version: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "AccountsTableQuery2" });
-    case 11:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           group_type_index: S.optional(S.NullOr(S.Number)),
@@ -1445,9 +1653,9 @@ function __c1(j: number): any {
           type: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "Breakdown" });
-    case 12:
-      return S.Array(__S(43, __c1, 11));
-    case 13:
+    case 20:
+      return S.Array(__S(51, __c1, 19));
+    case 21:
       return S.suspend(() =>
         S.Struct({
           breakdown: S.optional(S.NullOr(S.Unknown)),
@@ -1458,39 +1666,88 @@ function __c1(j: number): any {
           breakdown_normalize_url: S.optional(S.NullOr(S.Boolean)),
           breakdown_path_cleaning: S.optional(S.NullOr(S.Boolean)),
           breakdown_type: S.optional(S.NullOr(S.String)),
-          breakdowns: S.optional(S.NullOr(__S(44, __c1, 12))),
+          breakdowns: S.optional(S.NullOr(__S(52, __c1, 20))),
         }),
       ).annotate({ identifier: "BreakdownFilter" });
-    case 14:
-      return S.Array(S.Unknown);
-    case 15:
+    case 22:
       return S.suspend(() =>
         S.Struct({
-          breakdown_filter: S.optional(S.NullOr(__S(45, __c1, 13))),
+          compare: S.optional(S.NullOr(S.Boolean)),
+          compare_to: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CompareFilter" });
+    case 23:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          op: S.String,
+          scope: S.optional(S.NullOr(S.String)),
+          value: S.String,
+        }),
+      ).annotate({ identifier: "MetricsQueryFilter" });
+    case 24:
+      return S.Array(__S(55, __c1, 23));
+    case 25:
+      return S.suspend(() =>
+        S.Struct({
+          all: S.optional(S.NullOr(S.Boolean)),
+          values: __S(1, __c0, 1),
+        }),
+      ).annotate({ identifier: "MetricsDashboardVariableSelection" });
+    case 26:
+      return S.suspend(() =>
+        S.Struct({
+          allValue: S.optional(S.NullOr(S.String)),
+          current: S.optional(S.NullOr(__S(57, __c1, 25))),
+          customValues: S.optional(S.NullOr(__S(1, __c0, 1))),
+          includeAll: S.optional(S.NullOr(S.Boolean)),
+          label: S.optional(S.NullOr(S.String)),
+          multi: S.optional(S.NullOr(S.Boolean)),
+          name: S.String,
+          query: S.optional(S.NullOr(S.String)),
+          regex: S.optional(S.NullOr(S.String)),
+          source: S.String,
+        }),
+      ).annotate({ identifier: "MetricsDashboardVariable" });
+    case 27:
+      return S.Array(__S(58, __c1, 26));
+    case 28:
+      return S.Array(S.Unknown);
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          breakdown_filter: S.optional(S.NullOr(__S(53, __c1, 21))),
+          compareFilter: S.optional(S.NullOr(__S(54, __c1, 22))),
           date_from: S.optional(S.NullOr(S.String)),
           date_to: S.optional(S.NullOr(S.String)),
           explicitDate: S.optional(S.NullOr(S.Boolean)),
           filterTestAccounts: S.optional(S.NullOr(S.Boolean)),
           interval: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(46, __c1, 14))),
+          metricFilters: S.optional(S.NullOr(__S(56, __c1, 24))),
+          metricVariables: S.optional(S.NullOr(__S(59, __c1, 27))),
+          properties: S.optional(S.NullOr(__S(60, __c1, 28))),
         }),
       ).annotate({ identifier: "DashboardFilter" });
-    case 16:
+    case 30:
       return S.Record(S.String, S.Unknown);
-    case 17:
-      return S.Record(S.String, __S(48, __c1, 16));
-    case 18:
+    case 31:
+      return S.Record(S.String, __S(62, __c1, 30));
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           async: S.optional(S.NullOr(S.Boolean)),
-          query: __S(42, __c1, 10),
+          query: __S(50, __c1, 18),
           client_query_id: S.optional(S.NullOr(S.String)),
-          filters_override: S.optional(S.NullOr(__S(47, __c1, 15))),
+          filters_override: S.optional(S.NullOr(__S(61, __c1, 29))),
           limit_context: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
           refresh: S.optional(S.String),
-          variables_override: S.optional(S.NullOr(__S(49, __c1, 17))),
+          variables_override: S.optional(S.NullOr(__S(63, __c1, 31))),
         }).pipe(
           T.Http({
             method: "POST",

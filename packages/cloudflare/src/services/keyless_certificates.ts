@@ -45,6 +45,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -54,6 +56,8 @@ export class KeylessCertificateNotFound
     /*@__PURE__*/ S.TaggedError<KeylessCertificateNotFound>()("KeylessCertificateNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1005, message: { includes: "Invalid or missing Keyless SSL" } }],
   ) {}
@@ -63,6 +67,8 @@ export class KeylessSslNotAvailable
     /*@__PURE__*/ S.TaggedError<KeylessSslNotAvailable>()("KeylessSslNotAvailable", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 1067, message: { includes: "Keyless SSL is not available" } }],
   ) {}
@@ -84,11 +90,11 @@ export interface CreateKeylessCertificateRequest {
   /** The keyless SSL port used to communicate between Cloudflare and the client's Keyless SSL server. */
   port: number;
   /** A ubiquitous bundle has the highest probability of being verified everywhere, even by clients using outdated or unusual trust stores. An optimal bundle uses the shortest chain and newest intermediates. And the force bundle verifies the chain, but does not otherwise modify it. */
-  bundleMethod?: CreateRequestBundleMethod | (string & {});
+  bundleMethod?: CreateRequestBundleMethod | (string & {}) | undefined;
   /** The keyless SSL name. */
-  name?: string;
+  name?: string | undefined;
   /** Configuration for using Keyless SSL through a Cloudflare Tunnel. */
-  tunnel?: CreateRequestTunnel;
+  tunnel?: CreateRequestTunnel | undefined;
 }
 export type CreateResponsePermissionsList = Array<string>;
 export type CreateResponseStatus = "active" | "deleted";
@@ -114,7 +120,7 @@ export interface CreateKeylessCertificateResponse {
   /** Status of the Keyless SSL. */
   status: CreateResponseStatus;
   /** Configuration for using Keyless SSL through a Cloudflare Tunnel. */
-  tunnel?: CreateRequestTunnel | null;
+  tunnel?: CreateRequestTunnel | null | undefined;
 }
 export interface DeleteKeylessCertificateRequest {
   /** Identifier. */
@@ -125,7 +131,7 @@ export interface DeleteKeylessCertificateRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteKeylessCertificateResponse {
   /** Keyless certificate identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface GetKeylessCertificateRequest {
   /** Identifier. */
@@ -157,7 +163,7 @@ export interface GetKeylessCertificateResponse {
   /** Status of the Keyless SSL. */
   status: GetResponseStatus;
   /** Configuration for using Keyless SSL through a Cloudflare Tunnel. */
-  tunnel?: CreateRequestTunnel | null;
+  tunnel?: CreateRequestTunnel | null | undefined;
 }
 export interface ListKeylessCertificatesRequest {
   /** Identifier. */
@@ -186,14 +192,14 @@ export interface ListResultItem {
   /** Status of the Keyless SSL. */
   status: ListResultItemStatus;
   /** Configuration for using Keyless SSL through a Cloudflare Tunnel. */
-  tunnel?: CreateRequestTunnel | null;
+  tunnel?: CreateRequestTunnel | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListKeylessCertificatesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type EditRequestTunnel = CreateRequestTunnel;
 export interface PatchKeylessCertificateRequest {
@@ -202,15 +208,15 @@ export interface PatchKeylessCertificateRequest {
   /** Keyless certificate identifier tag. */
   keylessCertificateId: string;
   /** Whether or not the Keyless SSL is on or off. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The keyless SSL name. */
-  host?: string;
+  host?: string | undefined;
   /** The keyless SSL name. */
-  name?: string;
+  name?: string | undefined;
   /** The keyless SSL port used to communicate between Cloudflare and the client's Keyless SSL server. */
-  port?: number;
+  port?: number | undefined;
   /** Configuration for using Keyless SSL through a Cloudflare Tunnel. */
-  tunnel?: CreateRequestTunnel;
+  tunnel?: CreateRequestTunnel | undefined;
 }
 export type EditResponsePermissionsList = Array<string>;
 export type EditResponseStatus = "active" | "deleted";
@@ -236,7 +242,7 @@ export interface PatchKeylessCertificateResponse {
   /** Status of the Keyless SSL. */
   status: EditResponseStatus;
   /** Configuration for using Keyless SSL through a Cloudflare Tunnel. */
-  tunnel?: CreateRequestTunnel | null;
+  tunnel?: CreateRequestTunnel | null | undefined;
 }
 export type CreateKeylessCertificateError = KeylessSslNotAvailable | Forbidden | CloudflareOpError;
 /** Creates a Keyless SSL configuration that allows SSL/TLS termination without exposing private keys to Cloudflare. Keys remain on your infrastructure. */

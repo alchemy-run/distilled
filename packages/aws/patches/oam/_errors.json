@@ -1,0 +1,19 @@
+{
+  "description": "OAM: Error shapes the model does not declare, for the errors operations.json list; categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.oam#TooManyRequestsException",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.oam#TooManyRequestsException/traits/distilled.errors#categories",
+      "value": ["ThrottlingError", "RetryableError"]
+    }
+  ]
+}

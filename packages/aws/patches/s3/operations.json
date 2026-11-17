@@ -1,0 +1,2784 @@
+{
+  "description": "S3: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#CreateBucket/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#CreateBucket/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#CreateBucket/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#IllegalLocationConstraintException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#CreateBucket/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#InvalidArgument"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#CreateBucket/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#InvalidBucketName"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#CreateBucket/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#InvalidLocationConstraint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucket/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucket/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucket/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#BucketNotEmpty"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucket/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#BucketHasAccessPointsAttached"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucket/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucket/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketLifecycleConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketLifecycleConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketLifecycleConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#InvalidRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketLifecycleConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#MalformedXML"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketLifecycleConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketLifecycleConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketReplication/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketReplication/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketReplication/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#InvalidRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketReplication/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectLockConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectLockConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectLockConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#InvalidBucketState"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectLockConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectLockConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#AccessDenied"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#InvalidBucketName"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#InvalidDigest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#InvalidRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#MalformedPolicy"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SignatureDoesNotMatch"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#HeadBucket/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#HeadBucket/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#HeadBucket/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#HeadBucket/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucketPolicy"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SignatureDoesNotMatch"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchTagSet"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketLifecycleConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketLifecycleConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketLifecycleConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketLifecycleConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchLifecycleConfiguration"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketLifecycleConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketVersioning/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketVersioning/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketVersioning/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketVersioning/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketCors/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketCors/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketCors/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketCors/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketCors/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketCors/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketCors/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketCors/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchCORSConfiguration"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketCors/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketCors/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketCors/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketCors/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketEncryption/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketEncryption/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketEncryption/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketEncryption/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketAcl/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketAcl/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketAcl/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketAcl/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchKey"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PreconditionFailed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#ConditionalRequestConflict"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketEncryption/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketEncryption/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketEncryption/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketEncryption/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketEncryption/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketEncryption/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketEncryption/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketEncryption/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketAcl/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketAcl/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketAcl/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketAcl/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketVersioning/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketVersioning/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketVersioning/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketVersioning/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketLocation/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketLocation/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketLocation/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketLogging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketLogging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketLogging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketLogging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketAccelerateConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketAccelerateConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketAccelerateConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketAccelerateConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketRequestPayment/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketRequestPayment/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketRequestPayment/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketRequestPayment/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketLogging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketLogging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketLogging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketLogging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketAccelerateConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketAccelerateConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketAccelerateConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketAccelerateConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketRequestPayment/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketRequestPayment/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketRequestPayment/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketRequestPayment/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetPublicAccessBlock/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetPublicAccessBlock/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetPublicAccessBlock/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetPublicAccessBlock/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchPublicAccessBlockConfiguration"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetPublicAccessBlock/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutPublicAccessBlock/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutPublicAccessBlock/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutPublicAccessBlock/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutPublicAccessBlock/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeletePublicAccessBlock/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeletePublicAccessBlock/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeletePublicAccessBlock/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketNotificationConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketNotificationConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketNotificationConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketNotificationConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketNotificationConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketNotificationConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketAnalyticsConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketAnalyticsConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketAnalyticsConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketAnalyticsConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchConfiguration"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketAnalyticsConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketAnalyticsConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketAnalyticsConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListBucketAnalyticsConfigurations/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListBucketAnalyticsConfigurations/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListBucketAnalyticsConfigurations/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketMetricsConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketMetricsConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketMetricsConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketMetricsConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketMetricsConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketMetricsConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketMetricsConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchConfiguration"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketMetricsConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketMetricsConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketMetricsConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListBucketMetricsConfigurations/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListBucketMetricsConfigurations/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListBucketMetricsConfigurations/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketInventoryConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketInventoryConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketInventoryConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketInventoryConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketInventoryConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketInventoryConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketInventoryConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchConfiguration"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketInventoryConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketInventoryConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketInventoryConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListBucketInventoryConfigurations/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListBucketInventoryConfigurations/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListBucketInventoryConfigurations/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketReplication/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketReplication/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketReplication/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketReplication/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#ReplicationConfigurationNotFoundError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketReplication/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketReplication/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketReplication/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketOwnershipControls/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketOwnershipControls/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketOwnershipControls/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketOwnershipControls/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketOwnershipControls/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketOwnershipControls/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketOwnershipControls/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#OwnershipControlsNotFoundError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketWebsite/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketWebsite/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketWebsite/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketWebsite/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketWebsite/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketWebsite/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketWebsite/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketWebsite/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchWebsiteConfiguration"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketWebsite/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketOwnershipControls/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketOwnershipControls/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketOwnershipControls/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketWebsite/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketWebsite/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketWebsite/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectLockConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectLockConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectLockConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectLockConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#ObjectLockConfigurationNotFoundError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectLockConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketIntelligentTieringConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketIntelligentTieringConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutBucketIntelligentTieringConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketIntelligentTieringConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketIntelligentTieringConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketIntelligentTieringConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketIntelligentTieringConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchConfiguration"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketIntelligentTieringConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketIntelligentTieringConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketIntelligentTieringConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListBucketIntelligentTieringConfigurations/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListBucketIntelligentTieringConfigurations/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListBucketIntelligentTieringConfigurations/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SignatureDoesNotMatch"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchVersion"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#MethodNotAllowed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectAttributes/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchVersion"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectAttributes/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#MethodNotAllowed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#HeadObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#HeadObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#HeadObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#HeadObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#HeadObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#MethodNotAllowed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectAcl/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectAcl/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectAcl/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectAcl/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchKey"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchVersion"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#MethodNotAllowed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteObjectTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteObjectTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteObjectTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchKey"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteObjectTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteObjectTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchVersion"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteObjectTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#MethodNotAllowed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchKey"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchVersion"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#MethodNotAllowed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectRetention/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectRetention/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectRetention/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#InvalidRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectRetention/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchKey"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectRetention/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchVersion"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectRetention/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#MethodNotAllowed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectRetention/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectRetention/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectRetention/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#InvalidRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectRetention/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchKey"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectRetention/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchVersion"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectRetention/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#MethodNotAllowed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectLegalHold/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectLegalHold/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectLegalHold/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#InvalidRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectLegalHold/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchKey"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectLegalHold/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchVersion"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetObjectLegalHold/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#MethodNotAllowed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectLegalHold/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectLegalHold/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectLegalHold/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#MalformedXML"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectLegalHold/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#InvalidRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectLegalHold/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchKey"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectLegalHold/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchVersion"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectLegalHold/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#MethodNotAllowed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListMultipartUploads/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListMultipartUploads/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListMultipartUploads/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListMultipartUploads/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListObjectVersions/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListObjectVersions/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListObjectVersions/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListObjectVersions/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#CreateMultipartUpload/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#CreateMultipartUpload/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#CreateMultipartUpload/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#CreateMultipartUpload/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#CopyObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#CopyObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#CopyObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#CopyObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#CopyObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchKey"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#CopyObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchVersion"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#CopyObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#InvalidRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#UploadPart/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#UploadPart/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#UploadPart/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#UploadPart/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#UploadPart/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchUpload"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#CompleteMultipartUpload/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchUpload"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListParts/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListParts/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListParts/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListParts/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchUpload"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#AbortMultipartUpload/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#AbortMultipartUpload/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#AbortMultipartUpload/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#AbortMultipartUpload/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteObjects/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteObjects/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteObjects/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteObjects/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#RestoreObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#RestoreObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#RestoreObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchKey"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#RestoreObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#RestoreObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#InvalidObjectState"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#RestoreObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchVersion"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#RestoreObject/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#MethodNotAllowed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#UploadPartCopy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#UploadPartCopy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#UploadPartCopy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#UploadPartCopy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchUpload"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#UploadPartCopy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchVersion"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#UploadPartCopy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchKey"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#UploadPartCopy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#InvalidRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketPolicyStatus/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketPolicyStatus/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketPolicyStatus/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketPolicyStatus/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListBuckets/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListBuckets/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListBuckets/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListObjectsV2/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListObjectsV2/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListObjectsV2/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListObjects/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListObjects/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ListObjects/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectAcl/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectAcl/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PutObjectAcl/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#SelectObjectContent/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#SelectObjectContent/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#SelectObjectContent/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#PermanentRedirect"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketLifecycle/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketLifecycle/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketLifecycle/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketMetadataConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketMetadataConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketMetadataConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketMetadataTableConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketMetadataTableConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#DeleteBucketMetadataTableConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketAbac/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketAbac/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketAbac/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketMetadataConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketMetadataConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketMetadataConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketMetadataTableConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketMetadataTableConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#SlowDown"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#GetBucketMetadataTableConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3#NoSuchBucket"
+      }
+    }
+  ]
+}

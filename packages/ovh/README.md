@@ -14,9 +14,10 @@ npm install @distilled.cloud/ovh effect
 import { Effect, Layer } from "effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
 import * as Ovh from "@distilled.cloud/ovh";
+import * as Vps from "@distilled.cloud/ovh/vps";
 
 const program = Effect.gen(function* () {
-  const result = yield* Ovh.vps.getVps({});
+  const result = yield* Vps.getVps({});
   return result;
 });
 

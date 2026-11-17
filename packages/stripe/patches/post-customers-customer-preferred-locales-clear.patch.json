@@ -1,0 +1,46 @@
+{
+  "description": "Allow clearing Customer.preferred_locales on update with Stripe's empty-string form value. An empty list encodes to nothing, so `preferred_locales: []` never clears; Stripe accepts `preferred_locales=` and returns `preferred_locales: []`.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.stripe.api#PostCustomersCustomerRequest/members/preferred_locales/target",
+      "value": "com.stripe.api#UpdateCustomerRequestPreferredLocales"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#UpdateCustomerRequestPreferredLocalesCase1",
+      "before": "com.stripe.api#PostCustomersCustomerRequestPreferredLocalesList",
+      "value": {
+        "type": "enum",
+        "members": {
+          "VALUE": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": ""
+            }
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stripe.api#UpdateCustomerRequestPreferredLocales",
+      "before": "com.stripe.api#PostCustomersCustomerRequestPreferredLocalesList",
+      "value": {
+        "type": "union",
+        "members": {
+          "Case0": {
+            "target": "com.stripe.api#PostCustomersCustomerRequestPreferredLocalesList"
+          },
+          "Case1": {
+            "target": "com.stripe.api#UpdateCustomerRequestPreferredLocalesCase1"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Customer's preferred languages, ordered by preference. Pass an empty string to clear them."
+        }
+      }
+    }
+  ]
+}

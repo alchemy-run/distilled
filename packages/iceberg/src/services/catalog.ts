@@ -15,7 +15,6 @@ export type { IcebergOpError, IcebergOpContext };
 /** TS member name -> Iceberg wire name, for opaque union payloads. */
 const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   added_rows: "added-rows",
-  avg_value_size_in_bytes: "avg-value-size-in-bytes",
   blob_metadata: "blob-metadata",
   case_sensitive: "case-sensitive",
   column_sizes: "column-sizes",
@@ -59,6 +58,8 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   initial_default: "initial-default",
   key_id: "key-id",
   key_metadata: "key-metadata",
+  last_assigned_field_id: "last-assigned-field-id",
+  last_assigned_partition_id: "last-assigned-partition-id",
   last_column_id: "last-column-id",
   last_partition_id: "last-partition-id",
   last_sequence_number: "last-sequence-number",
@@ -119,6 +120,7 @@ const KEY_DICTIONARY: Record<string, string | ReadonlyArray<string>> = {
   table_changes: "table-changes",
   table_uuid: "table-uuid",
   timestamp_ms: "timestamp-ms",
+  total_bytes: "total-bytes",
   upper_bounds: "upper-bounds",
   use_snapshot_schema: "use-snapshot-schema",
   value_counts: "value-counts",
@@ -151,137 +153,245 @@ export class AlreadyExistsException
     /*@__PURE__*/ S.TaggedError<AlreadyExistsException>()("AlreadyExistsException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(64, __c2, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [
       { status: 409, body: { "/error/type": "AlreadyExistsException" } },
       { status: 409, body: { "/error/type": "NamespaceAlreadyExists" } },
       { status: 409, body: { "/error/type": "EntityAlreadyExists" } },
     ],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | ErrorModel | string;
+}
 
 export class CommitFailedException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CommitFailedException>()("CommitFailedException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(64, __c2, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [
       { status: 409, body: { "/error/type": "CommitFailedException" } },
       { status: 409, body: { "/error/type": "CatalogCommitConflicts" } },
     ],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | ErrorModel | string;
+}
 
 export class CommitStateUnknownException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<CommitStateUnknownException>()("CommitStateUnknownException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(64, __c2, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 500 }, { status: 502 }, { status: 504 }],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | ErrorModel | string;
+}
 
 export class NamespaceNotEmptyException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NamespaceNotEmptyException>()("NamespaceNotEmptyException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [
       { status: 409, body: { "/error/type": "NamespaceNotEmptyException" } },
       { status: 409, body: { "/error/type": "NamespaceNotEmpty" } },
     ],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | string;
+}
 
 export class NoSuchFunctionException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NoSuchFunctionException>()("NoSuchFunctionException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, body: { "/error/type": "NoSuchFunctionException" } }],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | string;
+}
 
 export class NoSuchNamespaceException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NoSuchNamespaceException>()("NoSuchNamespaceException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(64, __c2, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [
       { status: 404, body: { "/error/type": "NoSuchNamespaceException" } },
       { status: 404, body: { "/error/type": "NamespaceActionForbidden" } },
     ],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | ErrorModel | string;
+}
 
 export class NoSuchPlanIdException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NoSuchPlanIdException>()("NoSuchPlanIdException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, body: { "/error/type": "NoSuchPlanIdException" } }],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | string;
+}
 
 export class NoSuchPlanTaskException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NoSuchPlanTaskException>()("NoSuchPlanTaskException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, body: { "/error/type": "NoSuchPlanTaskException" } }],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | string;
+}
 
 export class NoSuchTableException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NoSuchTableException>()("NoSuchTableException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [
       { status: 404, body: { "/error/type": "NoSuchTableException" } },
       { status: 404, body: { "/error/type": "TableActionForbidden" } },
     ],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | string;
+}
 
 export class NoSuchViewException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NoSuchViewException>()("NoSuchViewException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(64, __c2, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, body: { "/error/type": "NoSuchViewException" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorModel | string;
+}
 
 export class NoSuchWarehouseException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NoSuchWarehouseException>()("NoSuchWarehouseException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, body: { "/error/type": "NoSuchWarehouseException" } }],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | string;
+}
 
 export class UnprocessableEntityException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntityException>()("UnprocessableEntityException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422, body: { "/error/type": "UnprocessableEntityException" } }],
-  ) {}
+  )
+{
+  declare readonly body?: IcebergErrorResponse | string;
+}
 
 export class UnsupportedOperationException
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnsupportedOperationException>()("UnsupportedOperationException", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(64, __c2, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 406, body: { "/error/type": "UnsupportedOperationException" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorModel | string;
+}
 
 export type CancelPlanningRequestXIcebergAccessDelegationItem =
   | "vended-credentials"
-  | "remote-signing";
+  | "remote-signing"
+  | "none";
 export type CancelPlanningRequestXIcebergAccessDelegationList = Array<
   CancelPlanningRequestXIcebergAccessDelegationItem | (string & {})
 >;
@@ -292,10 +402,10 @@ export interface CancelPlanningRequest {
   table: string;
   /** ID used to track a planning request */
   plan_id: string;
-  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
-  xIcebergAccessDelegation?: CancelPlanningRequestXIcebergAccessDelegationList;
+  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. The value `none` signals that the client is able to operate without any access delegation mechanism. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
+  xIcebergAccessDelegation?: CancelPlanningRequestXIcebergAccessDelegationList | undefined;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
 }
 export interface CancelPlanningResponse {}
 /** Reference to one or more levels of a namespace */
@@ -304,19 +414,76 @@ export interface TableIdentifier {
   namespace: Namespace;
   name: string;
 }
-export interface TableRequirement {
-  type: string;
+export type AssertCreateType = "assert-create";
+/** The table must not already exist; used for create transactions */
+export interface AssertCreate {
+  type: AssertCreateType;
 }
-export type CommitTableRequestInputRequirementsList = Array<TableRequirement>;
-/** Assigning a UUID to a table/view should only be done when creating the table/view. It is not safe to re-assign the UUID if a table/view already has a UUID assigned */
-export interface AssignUUIDUpdate {
-  action: string;
+export type AssertTableUUIDType = "assert-table-uuid";
+/** The table UUID must match the requirement's `uuid` */
+export interface AssertTableUUID {
+  type: AssertTableUUIDType;
   uuid: string;
 }
+export type AssertRefSnapshotIdType = "assert-ref-snapshot-id";
+/** The table branch or tag identified by the requirement's `ref` must reference the requirement's `snapshot-id`. The `snapshot-id` field is required in this object, but in the case of a `null` the ref must not already exist. */
+export interface AssertRefSnapshotId {
+  type: AssertRefSnapshotIdType;
+  ref: string;
+  snapshot_id: number | null;
+}
+export type AssertLastAssignedFieldIdType = "assert-last-assigned-field-id";
+/** The table's last assigned column id must match the requirement's `last-assigned-field-id` */
+export interface AssertLastAssignedFieldId {
+  type: AssertLastAssignedFieldIdType;
+  last_assigned_field_id: number;
+}
+export type AssertCurrentSchemaIdType = "assert-current-schema-id";
+/** The table's current schema id must match the requirement's `current-schema-id` */
+export interface AssertCurrentSchemaId {
+  type: AssertCurrentSchemaIdType;
+  current_schema_id: number;
+}
+export type AssertLastAssignedPartitionIdType = "assert-last-assigned-partition-id";
+/** The table's last assigned partition id must match the requirement's `last-assigned-partition-id` */
+export interface AssertLastAssignedPartitionId {
+  type: AssertLastAssignedPartitionIdType;
+  last_assigned_partition_id: number;
+}
+export type AssertDefaultSpecIdType = "assert-default-spec-id";
+/** The table's default spec id must match the requirement's `default-spec-id` */
+export interface AssertDefaultSpecId {
+  type: AssertDefaultSpecIdType;
+  default_spec_id: number;
+}
+export type AssertDefaultSortOrderIdType = "assert-default-sort-order-id";
+/** The table's default sort order id must match the requirement's `default-sort-order-id` */
+export interface AssertDefaultSortOrderId {
+  type: AssertDefaultSortOrderIdType;
+  default_sort_order_id: number;
+}
+export type TableRequirement =
+  | AssertCreate
+  | AssertTableUUID
+  | AssertRefSnapshotId
+  | AssertLastAssignedFieldId
+  | AssertCurrentSchemaId
+  | AssertLastAssignedPartitionId
+  | AssertDefaultSpecId
+  | AssertDefaultSortOrderId;
+export type CommitTableRequestInputRequirementsList = Array<TableRequirement>;
+export type AssignUUIDUpdateAction = "assign-uuid";
+/** Assigning a UUID to a table/view should only be done when creating the table/view. It is not safe to re-assign the UUID if a table/view already has a UUID assigned */
+export interface AssignUUIDUpdate {
+  action: AssignUUIDUpdateAction;
+  uuid: string;
+}
+export type UpgradeFormatVersionUpdateAction = "upgrade-format-version";
 export interface UpgradeFormatVersionUpdate {
-  action: string;
+  action: UpgradeFormatVersionUpdateAction;
   format_version: number;
 }
+export type AddSchemaUpdateInputAction = "add-schema";
 export type StructTypeFieldsList = Array<StructField>;
 export interface StructType {
   type: string;
@@ -343,30 +510,32 @@ export interface StructField {
   name: string;
   type: Type;
   required: boolean;
-  doc?: string;
-  initial_default?: PrimitiveTypeValue;
-  write_default?: PrimitiveTypeValue;
+  doc?: string | undefined;
+  initial_default?: PrimitiveTypeValue | undefined;
+  write_default?: PrimitiveTypeValue | undefined;
 }
 export type SchemaInputFieldsList = Array<StructField>;
 export type SchemaInputIdentifierFieldIdsList = Array<number>;
 export interface SchemaInput {
   type: string;
   fields: SchemaInputFieldsList;
-  identifier_field_ids?: SchemaInputIdentifierFieldIdsList;
+  identifier_field_ids?: SchemaInputIdentifierFieldIdsList | undefined;
 }
 export interface AddSchemaUpdateInput {
-  action: string;
+  action: AddSchemaUpdateInputAction;
   schema: SchemaInput;
   /** This optional field is **DEPRECATED for REMOVAL** since it more safe to handle this internally, and shouldn't be exposed to the clients. The highest assigned column ID for the table. This is used to ensure columns are always assigned an unused ID when evolving schemas. When omitted, it will be computed on the server side. */
-  last_column_id?: number;
+  last_column_id?: number | undefined;
 }
+export type SetCurrentSchemaUpdateAction = "set-current-schema";
 export interface SetCurrentSchemaUpdate {
-  action: string;
+  action: SetCurrentSchemaUpdateAction;
   /** Schema ID to set as current, or -1 to set last added schema */
   schema_id: number;
 }
+export type AddPartitionSpecUpdateInputAction = "add-spec";
 export interface PartitionField {
-  field_id?: number;
+  field_id?: number | undefined;
   source_id: number;
   name: string;
   transform: string;
@@ -376,14 +545,16 @@ export interface PartitionSpecInput {
   fields: PartitionSpecInputFieldsList;
 }
 export interface AddPartitionSpecUpdateInput {
-  action: string;
+  action: AddPartitionSpecUpdateInputAction;
   spec: PartitionSpecInput;
 }
+export type SetDefaultSpecUpdateAction = "set-default-spec";
 export interface SetDefaultSpecUpdate {
-  action: string;
+  action: SetDefaultSpecUpdateAction;
   /** Partition spec ID to set as the default, or -1 to set last added spec */
   spec_id: number;
 }
+export type AddSortOrderUpdateInputAction = "add-sort-order";
 export type SortDirection = "asc" | "desc";
 export type NullOrder = "nulls-first" | "nulls-last";
 export interface SortField {
@@ -397,69 +568,79 @@ export interface SortOrderInput {
   fields: SortOrderInputFieldsList;
 }
 export interface AddSortOrderUpdateInput {
-  action: string;
+  action: AddSortOrderUpdateInputAction;
   sort_order: SortOrderInput;
 }
+export type SetDefaultSortOrderUpdateAction = "set-default-sort-order";
 export interface SetDefaultSortOrderUpdate {
-  action: string;
+  action: SetDefaultSortOrderUpdateAction;
   /** Sort order ID to set as the default, or -1 to set last added sort order */
   sort_order_id: number;
 }
+export type AddSnapshotUpdateAction = "add-snapshot";
 export type SnapshotSummaryOperation = "append" | "replace" | "overwrite" | "delete";
 export interface SnapshotSummary {
   operation: SnapshotSummaryOperation | (string & {});
+  [key: string]: unknown;
 }
 export interface Snapshot {
   snapshot_id: number;
-  parent_snapshot_id?: number;
-  sequence_number?: number;
+  parent_snapshot_id?: number | undefined;
+  sequence_number?: number | undefined;
   timestamp_ms: number;
   /** Location of the snapshot's manifest list file */
   manifest_list: string;
   /** The first _row_id assigned to the first row in the first data file in the first manifest */
-  first_row_id?: number;
+  first_row_id?: number | undefined;
   /** The upper bound of the number of rows with assigned row IDs */
-  added_rows?: number;
+  added_rows?: number | undefined;
   summary: SnapshotSummary;
-  schema_id?: number;
+  schema_id?: number | undefined;
 }
 export interface AddSnapshotUpdate {
-  action: string;
+  action: AddSnapshotUpdateAction;
   snapshot: Snapshot;
 }
+export type SetSnapshotRefUpdateAction = "set-snapshot-ref";
 export type SetSnapshotRefUpdateType = "tag" | "branch";
 export interface SetSnapshotRefUpdate {
-  action: string;
+  action: SetSnapshotRefUpdateAction;
   type: SetSnapshotRefUpdateType | (string & {});
   snapshot_id: number;
-  max_ref_age_ms?: number;
-  max_snapshot_age_ms?: number;
-  min_snapshots_to_keep?: number;
+  max_ref_age_ms?: number | undefined;
+  max_snapshot_age_ms?: number | undefined;
+  min_snapshots_to_keep?: number | undefined;
   ref_name: string;
 }
+export type RemoveSnapshotsUpdateAction = "remove-snapshots";
 export type RemoveSnapshotsUpdateSnapshotIdsList = Array<number>;
 export interface RemoveSnapshotsUpdate {
-  action: string;
+  action: RemoveSnapshotsUpdateAction;
   snapshot_ids: RemoveSnapshotsUpdateSnapshotIdsList;
 }
+export type RemoveSnapshotRefUpdateAction = "remove-snapshot-ref";
 export interface RemoveSnapshotRefUpdate {
-  action: string;
+  action: RemoveSnapshotRefUpdateAction;
   ref_name: string;
 }
+export type SetLocationUpdateAction = "set-location";
 export interface SetLocationUpdate {
-  action: string;
+  action: SetLocationUpdateAction;
   location: string;
 }
+export type SetPropertiesUpdateAction = "set-properties";
 export type SetPropertiesUpdateUpdatesMap = { [key: string]: string | undefined };
 export interface SetPropertiesUpdate {
-  action: string;
+  action: SetPropertiesUpdateAction;
   updates: SetPropertiesUpdateUpdatesMap;
 }
+export type RemovePropertiesUpdateAction = "remove-properties";
 export type RemovePropertiesUpdateRemovalsList = Array<string>;
 export interface RemovePropertiesUpdate {
-  action: string;
+  action: RemovePropertiesUpdateAction;
   removals: RemovePropertiesUpdateRemovalsList;
 }
+export type SetStatisticsUpdateAction = "set-statistics";
 export type BlobMetadataFieldsList = Array<number>;
 export type BlobMetadataPropertiesMap = { [key: string]: string | undefined };
 export interface BlobMetadata {
@@ -467,7 +648,7 @@ export interface BlobMetadata {
   snapshot_id: number;
   sequence_number: number;
   fields: BlobMetadataFieldsList;
-  properties?: BlobMetadataPropertiesMap;
+  properties?: BlobMetadataPropertiesMap | undefined;
 }
 export type StatisticsFileBlobMetadataList = Array<BlobMetadata>;
 export interface StatisticsFile {
@@ -478,48 +659,58 @@ export interface StatisticsFile {
   blob_metadata: StatisticsFileBlobMetadataList;
 }
 export interface SetStatisticsUpdate {
-  action: string;
+  action: SetStatisticsUpdateAction;
   /** This optional field is **DEPRECATED for REMOVAL** since it contains redundant information. Clients should use the `statistics.snapshot-id` field instead. */
-  snapshot_id?: number;
+  snapshot_id?: number | undefined;
   statistics: StatisticsFile;
 }
+export type RemoveStatisticsUpdateAction = "remove-statistics";
 export interface RemoveStatisticsUpdate {
-  action: string;
+  action: RemoveStatisticsUpdateAction;
   snapshot_id: number;
 }
+export type SetPartitionStatisticsUpdateAction = "set-partition-statistics";
 export interface PartitionStatisticsFile {
   snapshot_id: number;
   statistics_path: string;
   file_size_in_bytes: number;
 }
 export interface SetPartitionStatisticsUpdate {
-  action: string;
+  action: SetPartitionStatisticsUpdateAction;
   partition_statistics: PartitionStatisticsFile;
 }
-export type RemovePartitionStatisticsUpdate = RemoveStatisticsUpdate;
+export type RemovePartitionStatisticsUpdateAction = "remove-partition-statistics";
+export interface RemovePartitionStatisticsUpdate {
+  action: RemovePartitionStatisticsUpdateAction;
+  snapshot_id: number;
+}
+export type RemovePartitionSpecsUpdateAction = "remove-partition-specs";
 export type RemovePartitionSpecsUpdateSpecIdsList = Array<number>;
 export interface RemovePartitionSpecsUpdate {
-  action: string;
+  action: RemovePartitionSpecsUpdateAction;
   spec_ids: RemovePartitionSpecsUpdateSpecIdsList;
 }
+export type RemoveSchemasUpdateAction = "remove-schemas";
 export type RemoveSchemasUpdateSchemaIdsList = Array<number>;
 export interface RemoveSchemasUpdate {
-  action: string;
+  action: RemoveSchemasUpdateAction;
   schema_ids: RemoveSchemasUpdateSchemaIdsList;
 }
+export type AddEncryptionKeyUpdateAction = "add-encryption-key";
 export type EncryptedKeyPropertiesMap = { [key: string]: string | undefined };
 export interface EncryptedKey {
   key_id: string;
   encrypted_key_metadata: string;
-  encrypted_by_id?: string;
-  properties?: EncryptedKeyPropertiesMap;
+  encrypted_by_id?: string | undefined;
+  properties?: EncryptedKeyPropertiesMap | undefined;
 }
 export interface AddEncryptionKeyUpdate {
-  action: string;
+  action: AddEncryptionKeyUpdateAction;
   encryption_key: EncryptedKey;
 }
+export type RemoveEncryptionKeyUpdateAction = "remove-encryption-key";
 export interface RemoveEncryptionKeyUpdate {
-  action: string;
+  action: RemoveEncryptionKeyUpdateAction;
   key_id: string;
 }
 export type TableUpdateInput =
@@ -541,7 +732,7 @@ export type TableUpdateInput =
   | SetStatisticsUpdate
   | RemoveStatisticsUpdate
   | SetPartitionStatisticsUpdate
-  | RemoveStatisticsUpdate
+  | RemovePartitionStatisticsUpdate
   | RemovePartitionSpecsUpdate
   | RemoveSchemasUpdate
   | AddEncryptionKeyUpdate
@@ -549,14 +740,14 @@ export type TableUpdateInput =
 export type CommitTableRequestInputUpdatesList = Array<TableUpdateInput>;
 export interface CommitTableRequestInput {
   /** Table identifier to update; must be present for CommitTransactionRequest */
-  identifier?: TableIdentifier;
+  identifier?: TableIdentifier | undefined;
   requirements: CommitTableRequestInputRequirementsList;
   updates: CommitTableRequestInputUpdatesList;
 }
 export type CommitTransactionRequestTableChangesList = Array<CommitTableRequestInput>;
 export interface CommitTransactionRequest {
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   table_changes: CommitTransactionRequestTableChangesList;
 }
 export interface CommitTransactionResponse {}
@@ -564,21 +755,22 @@ export interface CommitTransactionResponse {}
 export type CreateNamespaceRequestPropertiesMap = { [key: string]: string | undefined };
 export interface CreateNamespaceRequest {
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   namespace: Namespace;
   /** Configured string to string map of properties for the namespace */
-  properties?: CreateNamespaceRequestPropertiesMap;
+  properties?: CreateNamespaceRequestPropertiesMap | undefined;
 }
 /** Properties stored on the namespace, if supported by the server. */
 export type CreateNamespaceResponsePropertiesMap = { [key: string]: string | undefined };
 export interface CreateNamespaceResponse {
   namespace: Namespace;
   /** Properties stored on the namespace, if supported by the server. */
-  properties?: CreateNamespaceResponsePropertiesMap;
+  properties?: CreateNamespaceResponsePropertiesMap | undefined;
 }
 export type CreateTableRequestXIcebergAccessDelegationItem =
   | "vended-credentials"
-  | "remote-signing";
+  | "remote-signing"
+  | "none";
 export type CreateTableRequestXIcebergAccessDelegationList = Array<
   CreateTableRequestXIcebergAccessDelegationItem | (string & {})
 >;
@@ -586,17 +778,17 @@ export type CreateTableRequestPropertiesMap = { [key: string]: string | undefine
 export interface CreateTableRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
   namespace: string;
-  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
-  xIcebergAccessDelegation?: CreateTableRequestXIcebergAccessDelegationList;
+  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. The value `none` signals that the client is able to operate without any access delegation mechanism. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
+  xIcebergAccessDelegation?: CreateTableRequestXIcebergAccessDelegationList | undefined;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   name: string;
-  location?: string;
+  location?: string | undefined;
   schema: SchemaInput;
-  partition_spec?: PartitionSpecInput;
-  write_order?: SortOrderInput;
-  stage_create?: boolean;
-  properties?: CreateTableRequestPropertiesMap;
+  partition_spec?: PartitionSpecInput | undefined;
+  write_order?: SortOrderInput | undefined;
+  stage_create?: boolean | undefined;
+  properties?: CreateTableRequestPropertiesMap | undefined;
 }
 export type TableMetadataPropertiesMap = { [key: string]: string | undefined };
 export type SchemaFieldsList = Array<StructField>;
@@ -604,13 +796,13 @@ export type SchemaIdentifierFieldIdsList = Array<number>;
 export interface Schema {
   type: string;
   fields: SchemaFieldsList;
-  schema_id?: number;
-  identifier_field_ids?: SchemaIdentifierFieldIdsList;
+  schema_id?: number | undefined;
+  identifier_field_ids?: SchemaIdentifierFieldIdsList | undefined;
 }
 export type TableMetadataSchemasList = Array<Schema>;
 export type PartitionSpecFieldsList = Array<PartitionField>;
 export interface PartitionSpec {
-  spec_id?: number;
+  spec_id?: number | undefined;
   fields: PartitionSpecFieldsList;
 }
 export type TableMetadataPartitionSpecsList = Array<PartitionSpec>;
@@ -626,9 +818,9 @@ export type SnapshotReferenceType = "tag" | "branch";
 export interface SnapshotReference {
   type: SnapshotReferenceType;
   snapshot_id: number;
-  max_ref_age_ms?: number;
-  max_snapshot_age_ms?: number;
-  min_snapshots_to_keep?: number;
+  max_ref_age_ms?: number | undefined;
+  max_snapshot_age_ms?: number | undefined;
+  min_snapshots_to_keep?: number | undefined;
 }
 export type SnapshotReferences = { [key: string]: SnapshotReference | undefined };
 export interface SnapshotLogItem {
@@ -646,28 +838,28 @@ export type TableMetadataPartitionStatisticsList = Array<PartitionStatisticsFile
 export interface TableMetadata {
   format_version: number;
   table_uuid: string;
-  location?: string;
-  last_updated_ms?: number;
+  location?: string | undefined;
+  last_updated_ms?: number | undefined;
   /** A long higher than all assigned row IDs; the next snapshot's first-row-id. */
-  next_row_id?: number;
-  properties?: TableMetadataPropertiesMap;
-  schemas?: TableMetadataSchemasList;
-  current_schema_id?: number;
-  last_column_id?: number;
-  partition_specs?: TableMetadataPartitionSpecsList;
-  default_spec_id?: number;
-  last_partition_id?: number;
-  sort_orders?: TableMetadataSortOrdersList;
-  default_sort_order_id?: number;
-  encryption_keys?: TableMetadataEncryptionKeysList;
-  snapshots?: TableMetadataSnapshotsList;
-  refs?: SnapshotReferences;
-  current_snapshot_id?: number;
-  last_sequence_number?: number;
-  snapshot_log?: SnapshotLog;
-  metadata_log?: MetadataLog;
-  statistics?: TableMetadataStatisticsList;
-  partition_statistics?: TableMetadataPartitionStatisticsList;
+  next_row_id?: number | undefined;
+  properties?: TableMetadataPropertiesMap | undefined;
+  schemas?: TableMetadataSchemasList | undefined;
+  current_schema_id?: number | undefined;
+  last_column_id?: number | undefined;
+  partition_specs?: TableMetadataPartitionSpecsList | undefined;
+  default_spec_id?: number | undefined;
+  last_partition_id?: number | undefined;
+  sort_orders?: TableMetadataSortOrdersList | undefined;
+  default_sort_order_id?: number | undefined;
+  encryption_keys?: TableMetadataEncryptionKeysList | undefined;
+  snapshots?: TableMetadataSnapshotsList | undefined;
+  refs?: SnapshotReferences | undefined;
+  current_snapshot_id?: number | undefined;
+  last_sequence_number?: number | undefined;
+  snapshot_log?: SnapshotLog | undefined;
+  metadata_log?: MetadataLog | undefined;
+  statistics?: TableMetadataStatisticsList | undefined;
+  partition_statistics?: TableMetadataPartitionStatisticsList | undefined;
 }
 export type LoadTableResultConfigMap = { [key: string]: string | undefined };
 export type StorageCredentialConfigMap = { [key: string]: string | undefined };
@@ -685,21 +877,91 @@ export type MultiValuedMap = { [key: string]: MultiValuedMapValueList | undefine
 /** Configuration for the remote signer client. */
 export interface RemoteSigningConfig {
   /** Static key-value pairs the signer client MUST pass through unchanged in the `properties` field of every `RemoteSignRequest` sent to the signing endpoint. */
-  properties?: RemoteSigningConfigPropertiesMap;
+  properties?: RemoteSigningConfigPropertiesMap | undefined;
   /** Static headers the signer client MUST include unchanged in every request to the signing endpoint. */
-  headers?: MultiValuedMap;
+  headers?: MultiValuedMap | undefined;
 }
-export interface Action {
-  action: string;
+export type MaskAlphanumAction = "mask-alphanum";
+/** Redacts the column value using the following rules to transform Unicode code points: - Digits (U+0030-U+0039, 0-9) are replaced with 'n' - The following punctuation characters are kept as-is: U+0028 '(' LEFT PARENTHESIS U+0029 ')' RIGHT PARENTHESIS U+002C ',' COMMA U+002E '.' FULL STOP U+002D '-' HYPHEN-MINUS U+0040 '@' COMMERCIAL AT - All other Unicode characters (including letters, whitespace, and any punctuation not listed above) are replaced with 'x' For example: "iceberg16112018@apache.org" -> "xxxxxxxnnnnnnnn@xxxxxx.xxx" NULL input is preserved (NULL -> NULL). Applicable to: string */
+export interface MaskAlphanum {
+  action: MaskAlphanumAction;
   /** Field ID of the column being projected. */
   field_id: number;
 }
+export type MaskToFixedValueAction = "mask-to-fixed-value";
+/** Replaces the column value with a type-specific fixed value. Readers must use exactly the values listed below to ensure consistency across implementations. Fixed values by type: - boolean: false - int: 0 - long: 0 - float: 0.0 - double: 0.0 - decimal(p, s): 0 (the unscaled value is 0) - string: "XXXXXXXX" - date: 1970-01-01 - time: 00:00:00 - timestamp: 1970-01-01T00:00:00 - timestamptz: 1970-01-01T00:00:00+00:00 - timestamp_ns: 1970-01-01T00:00:00.000000000 - timestamptz_ns: 1970-01-01T00:00:00.000000000+00:00 - uuid: 00000000-0000-0000-0000-000000000000 - fixed(n): n zero bytes - binary: empty byte sequence - variant: an empty variant object - list: empty list [] - map: empty map {} - struct: struct with each field set to its type-specific default (applied recursively) NULL input is also replaced with the type-specific fixed value; NULL is not preserved. Applicable to: the types with a fixed value defined above. A server must not return mask-to-fixed-value for any other type. */
+export interface MaskToFixedValue {
+  action: MaskToFixedValueAction;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type ReplaceWithNullAction = "replace-with-null";
+/** Replaces the column value with NULL. NULL input is preserved (NULL -> NULL). Applicable to: all optional types. A server must not return replace-with-null for a required (non-nullable) field; a reader that receives one must fail the query. */
+export interface ReplaceWithNull {
+  action: ReplaceWithNullAction;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type ShowFirst4Action = "show-first-4";
+/** Preserves the first 4 Unicode code points of the column value and redacts the remainder using mask-alphanum rules (see MaskAlphanum for the exact character rules). Values with 4 or fewer Unicode code points are returned unchanged. For example: "iceberg16112018@apache.org" -> "icebxxxnnnnnnnn@xxxxxx.xxx" NULL input is preserved (NULL -> NULL). Applicable to: string */
+export interface ShowFirst4 {
+  action: ShowFirst4Action;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type ShowLast4Action = "show-last-4";
+/** Redacts all Unicode code points except the last 4 using mask-alphanum rules (see MaskAlphanum for the exact character rules). Values with 4 or fewer Unicode code points are returned unchanged. For example: "4111-1111-1111-4444" -> "nnnn-nnnn-nnnn-4444" NULL input is preserved (NULL -> NULL). Applicable to: string */
+export interface ShowLast4 {
+  action: ShowLast4Action;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type TruncateToYearAction = "truncate-to-year";
+/** Truncates the column value to year precision, setting month, day, and time components to their minimum values. The output type matches the input type. For example: 2024-07-15 -> 2024-01-01 For timestamptz and timestamptz_ns, truncation is performed in UTC. NULL input is preserved (NULL -> NULL). Applicable to: date, timestamp, timestamptz, timestamp_ns, timestamptz_ns */
+export interface TruncateToYear {
+  action: TruncateToYearAction;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type TruncateToMonthAction = "truncate-to-month";
+/** Truncates the column value to year and month precision, setting day and time components to their minimum values. The output type matches the input type. For example: 2024-07-15 -> 2024-07-01 For timestamptz and timestamptz_ns, truncation is performed in UTC. NULL input is preserved (NULL -> NULL). Applicable to: date, timestamp, timestamptz, timestamp_ns, timestamptz_ns */
+export interface TruncateToMonth {
+  action: TruncateToMonthAction;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type Sha256GlobalAction = "sha-256-global";
+/** Applies SHA-256. Deterministic across all queries and readers: the same input always produces the same output. Input-to-bytes encoding by type: - string: UTF-8 encoded bytes - int: 4 bytes, little-endian - long: 8 bytes, little-endian - binary: raw bytes as-is Output encoding by type: - string: 64-character lowercase hexadecimal string - int: first 4 bytes of the digest, read as a little-endian int - long: first 8 bytes of the digest, read as a little-endian long - binary: the full 32-byte raw SHA-256 digest NULL input is preserved (NULL -> NULL). Applicable to: string, int, long, binary */
+export interface Sha256Global {
+  action: Sha256GlobalAction;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type Sha256QueryLocalAction = "sha-256-query-local";
+/** Applies SHA-256 with a per-query random salt, making the output non-deterministic across queries while remaining consistent within a single query. The definition of a query is left to the implementation. The reader must generate a cryptographically random salt of at least 16 bytes for each query. For each column value, the reader must encode the value to bytes using sha-256-global's input rules, prepend the per-query salt, and compute SHA-256 over the result. Output encoding follows the same rules as sha-256-global. NULL input is preserved (NULL -> NULL). Applicable to: string, int, long, binary */
+export interface Sha256QueryLocal {
+  action: Sha256QueryLocalAction;
+  /** Field ID of the column being projected. */
+  field_id: number;
+}
+export type Action =
+  | MaskAlphanum
+  | MaskToFixedValue
+  | ReplaceWithNull
+  | ShowFirst4
+  | ShowLast4
+  | TruncateToYear
+  | TruncateToMonth
+  | Sha256Global
+  | Sha256QueryLocal;
 /** A list of columns that require specific actions to be applied when reading. A server must not return an action for a column whose type is not listed in that action's "Applicable to" set. If absent or empty, no required actions apply; columns not listed are not subject to any required action. 1. For each column listed, the reader must apply the specified action before returning values for that column. 2. The reader must replace all output references to the column with the result of the action, presenting the result under the original field-id. For example, if the action for field-id `9` is mask-alphanum, the reader must return the masked value as field-id `9` in the query output. 3. A server must not return more than one projection for the same field-id in required-column-projections. If a duplicate field-id appears, the reader must fail the query. 4. A server must not return a projection that targets a map's key field-id; a reader that receives one must fail the query. Applying an action to keys can produce duplicate or null keys, which readers silently coalesce or reject, causing data loss. 5. A reader must enforce projections on the columns it is actually reading. Projections referencing columns that are not being read do not apply. 6. A server must not return projections on both a nested-typed field (struct, list, or map) and any field-id nested within it at any depth. A reader that receives such a response must fail the query. */
 export type ReadRestrictionsRequiredColumnProjectionsList = Array<Action>;
 /** Deprecated. Use the bare boolean literal `true` as a predicate instead. */
-export type TrueExpression = TableRequirement;
+export interface TrueExpression {
+  type: string;
+}
 /** Deprecated. Use the bare boolean literal `false` as a predicate instead. */
-export type FalseExpression = TableRequirement;
+export type FalseExpression = TrueExpression;
 export interface AndOrPredicate {
   type: string;
   left: Predicate;
@@ -712,7 +974,7 @@ export interface NotPredicate {
 export interface LiteralCase1 {
   type: string;
   value: PrimitiveTypeValue;
-  data_type?: string;
+  data_type?: string | undefined;
 }
 /** A literal is either a bare value, an untyped literal object, or a typed literal object. */
 export type Literal = PrimitiveTypeValue | LiteralCase1;
@@ -731,7 +993,7 @@ export type Reference = IdReference | NamedReference;
 /** Reference to a catalog object (for example, table, view, or namespace) as an ordered list of hierarchical levels. The object kind is determined by context (e.g. the endpoint or a companion type discriminator), not by the identifier structure alone. */
 export type CatalogObjectIdentifier = Array<string>;
 export interface ApplyFunctionCase2 {
-  catalog?: string;
+  catalog?: string | undefined;
   identifier: CatalogObjectIdentifier;
 }
 export type ApplyFunction = string | CatalogObjectIdentifier | ApplyFunctionCase2;
@@ -756,19 +1018,19 @@ export type Term = string | TransformTerm;
 /** A predicate that tests a single value expression. Accepts either 'child' (preferred) or 'term' (deprecated) to identify the operand. */
 export interface UnaryPredicate {
   type: string;
-  child?: ValueExpression;
+  child?: ValueExpression | undefined;
   /** Deprecated. Use 'child' instead. */
-  term?: Term;
+  term?: Term | undefined;
 }
 /** A predicate that compares two value expressions. Accepts either 'left'/'right' (preferred) or 'term'/'value' (deprecated). */
 export interface ComparisonPredicate {
   type: string;
-  left?: ValueExpression;
-  right?: ValueExpression;
+  left?: ValueExpression | undefined;
+  right?: ValueExpression | undefined;
   /** Deprecated. Use 'left' instead. */
-  term?: Term;
+  term?: Term | undefined;
   /** Deprecated. Use 'right' instead. */
-  value?: Literal;
+  value?: Literal | undefined;
 }
 export type LiteralsCase0List = Array<Literal>;
 export type LiteralsCase1ValuesList = Array<PrimitiveTypeValue>;
@@ -782,15 +1044,15 @@ export type Literals = LiteralsCase0List | LiteralsCase1;
 /** A predicate that tests whether a value is in a set of literals. Accepts either 'child' (preferred) or 'term' (deprecated) to identify the operand. */
 export interface SetPredicate {
   type: string;
-  child?: ValueExpression;
+  child?: ValueExpression | undefined;
   /** Deprecated. Use 'child' instead. */
-  term?: Term;
+  term?: Term | undefined;
   values: Literals;
 }
 export type Predicate =
   | boolean
-  | TableRequirement
-  | TableRequirement
+  | TrueExpression
+  | TrueExpression
   | AndOrPredicate
   | NotPredicate
   | UnaryPredicate
@@ -799,9 +1061,9 @@ export type Predicate =
 /** Read restrictions for a table. A reader evaluates the row filter against original, untransformed column values, then applies required-column-projections to the surviving rows. Each action must produce a value of the same type as the input column. If a reader that supports read-restrictions cannot apply any returned restriction (a filter expression or an action), it must fail the query and must not silently return raw, partial, or empty results. A missing or empty ReadRestrictions object (no required-column-projections and no required-row-filter) imposes no restrictions. */
 export interface ReadRestrictions {
   /** A list of columns that require specific actions to be applied when reading. A server must not return an action for a column whose type is not listed in that action's "Applicable to" set. If absent or empty, no required actions apply; columns not listed are not subject to any required action. 1. For each column listed, the reader must apply the specified action before returning values for that column. 2. The reader must replace all output references to the column with the result of the action, presenting the result under the original field-id. For example, if the action for field-id `9` is mask-alphanum, the reader must return the masked value as field-id `9` in the query output. 3. A server must not return more than one projection for the same field-id in required-column-projections. If a duplicate field-id appears, the reader must fail the query. 4. A server must not return a projection that targets a map's key field-id; a reader that receives one must fail the query. Applying an action to keys can produce duplicate or null keys, which readers silently coalesce or reject, causing data loss. 5. A reader must enforce projections on the columns it is actually reading. Projections referencing columns that are not being read do not apply. 6. A server must not return projections on both a nested-typed field (struct, list, or map) and any field-id nested within it at any depth. A reader that receives such a response must fail the query. */
-  required_column_projections?: ReadRestrictionsRequiredColumnProjectionsList;
+  required_column_projections?: ReadRestrictionsRequiredColumnProjectionsList | undefined;
   /** An expression that limits which rows the reader may return. 1. The expression must evaluate to a boolean (TRUE or FALSE; Iceberg predicates never produce NULL). A reader must discard any row for which the filter evaluates to FALSE, and no information derived from discarded rows may be included in the query result. 2. If this property is absent, null, or always true then no mandatory filtering is required. 3. Column references within the expression must use field IDs (IdReference), not column names. This ensures the filter remains valid across column renames, consistent with required-column-projections which also reference columns by field-id. */
-  required_row_filter?: Predicate;
+  required_row_filter?: Predicate | undefined;
 }
 /** Flat key-value labels attached to the object (table, view, ...) as a whole. */
 export type CatalogObjectLabels = { [key: string]: string | undefined };
@@ -818,20 +1080,20 @@ export interface FieldLabels {
 export type LabelsFieldsList = Array<FieldLabels>;
 /** Catalog-provided metadata enrichment (for example ownership, classification, or cost attribution) returned with a table or view. Labels are catalog-provided and optional; clients may ignore them, and may cache them following the response ETag. The spec does not require how a catalog produces or stores labels, nor whether they are persisted or versioned. `object-labels` carries labels for the object as a whole; `fields` carries per-field labels, each identified by field-id. */
 export interface Labels {
-  object_labels?: CatalogObjectLabels;
+  object_labels?: CatalogObjectLabels | undefined;
   /** Field-level labels. Each entry identifies its field by field-id. */
-  fields?: LabelsFieldsList;
+  fields?: LabelsFieldsList | undefined;
 }
 /** Result used when a table is successfully loaded. The table metadata JSON is returned in the `metadata` field. The corresponding file location of table metadata should be returned in the `metadata-location` field, unless the metadata is not yet committed. For example, a create transaction may return metadata that is staged but not committed. Clients can check whether metadata has changed by comparing metadata locations after the table has been created. The `config` map returns table-specific configuration for the table's resources, including its HTTP client and FileIO. For example, config may contain a specific FileIO implementation class for the table depending on its underlying storage. The following configurations should be respected by clients: ## General Configurations - `token`: Authorization bearer token to use for table requests if OAuth2 security is enabled - `scan-planning-mode`: Communicates to clients the supported planning mode. Clients should use this value to fail fast if the supported scanning mode is not available on the client. Valid values: - `client`: Clients MUST use client-side scan planning - `server`: Clients MUST use server-side scan planning via the `planTableScan` endpoint ## AWS Configurations The following configurations should be respected when working with tables stored in AWS S3 - `client.region`: region to configure client for making requests to AWS - `s3.access-key-id`: id for credentials that provide access to the data in S3 - `s3.secret-access-key`: secret for credentials that provide access to data in S3 - `s3.session-token`: if present, this value should be used for as the session token - `s3.remote-signing-enabled`: if `true` remote signing should be performed as described in the `RemoteSignRequest` schema section of this spec document. - `s3.cross-region-access-enabled`: if `true`, S3 Cross-Region bucket access is enabled ## Storage Credentials Credentials for ADLS / GCS / S3 / ... are provided through the `storage-credentials` field. Clients must first check whether the respective credentials exist in the `storage-credentials` field before checking the `config` for credentials. ## Remote Signing If remote signing for a specific storage provider is enabled, the server SHOULD use the `remote-signing-config` field to communicate all signer client settings. When the `remote-signing-config` field is present, clients SHOULD respect the provided configuration. For backward compatibility, the following `config` properties are still supported but **DEPRECATED** and SHOULD NOT be used by clients able to consume the remote signing configuration: - `signer.endpoint` **DEPRECATED**.: the remote signer endpoint. Can either be a relative path (to be resolved against `signer.uri`) or an absolute URI. - `signer.uri` **DEPRECATED**.: the base URI to resolve `signer.endpoint` against. Only meaningful if `signer.endpoint` is a relative path. Defaults to the catalog's base URI if not set. If any of these properties is present, clients SHOULD use them to compute the actual remote signing endpoint URI to contact. If none of these properties is present, clients SHOULD contact the default remote signing endpoint using the catalog's base URI. */
 export interface LoadTableResult {
   /** May be null if the table is staged as part of a transaction */
-  metadata_location?: string | null;
+  metadata_location?: string | null | undefined;
   metadata: TableMetadata;
-  config?: LoadTableResultConfigMap;
-  storage_credentials?: LoadTableResultStorageCredentialsList;
-  remote_signing_config?: RemoteSigningConfig;
-  read_restrictions?: ReadRestrictions;
-  labels?: Labels;
+  config?: LoadTableResultConfigMap | undefined;
+  storage_credentials?: LoadTableResultStorageCredentialsList | undefined;
+  remote_signing_config?: RemoteSigningConfig | undefined;
+  read_restrictions?: ReadRestrictions | undefined;
+  labels?: Labels | undefined;
 }
 export type ViewVersionSummaryMap = { [key: string]: string | undefined };
 export interface SQLViewRepresentation {
@@ -847,7 +1109,7 @@ export interface ViewVersion {
   schema_id: number;
   summary: ViewVersionSummaryMap;
   representations: ViewVersionRepresentationsList;
-  default_catalog?: string;
+  default_catalog?: string | undefined;
   default_namespace: Namespace;
 }
 export type CreateViewRequestPropertiesMap = { [key: string]: string | undefined };
@@ -855,7 +1117,7 @@ export interface CreateViewRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
   namespace: string;
   name: string;
-  location?: string;
+  location?: string | undefined;
   schema: SchemaInput;
   /** The view version to create, will replace the schema-id sent within the view-version with the id assigned to the provided schema */
   view_version: ViewVersion;
@@ -877,21 +1139,21 @@ export interface ViewMetadata {
   versions: ViewMetadataVersionsList;
   version_log: ViewMetadataVersionLogList;
   schemas: ViewMetadataSchemasList;
-  properties?: ViewMetadataPropertiesMap;
+  properties?: ViewMetadataPropertiesMap | undefined;
 }
 export type LoadViewResultConfigMap = { [key: string]: string | undefined };
 /** Result used when a view is successfully loaded. The view metadata JSON is returned in the `metadata` field. The corresponding file location of view metadata is returned in the `metadata-location` field. Clients can check whether metadata has changed by comparing metadata locations after the view has been created. The `config` map returns view-specific configuration for the view's resources. The following configurations should be respected by clients: ## General Configurations - `token`: Authorization bearer token to use for view requests if OAuth2 security is enabled */
 export interface LoadViewResult {
   metadata_location: string;
   metadata: ViewMetadata;
-  config?: LoadViewResultConfigMap;
-  labels?: Labels;
+  config?: LoadViewResultConfigMap | undefined;
+  labels?: Labels | undefined;
 }
 export interface DropNamespaceRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
   namespace: string;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
 }
 export interface DropNamespaceResponse {}
 export interface DropTableRequest {
@@ -900,9 +1162,9 @@ export interface DropTableRequest {
   /** A table name */
   table: string;
   /** Whether the user requested to purge the underlying table's data and metadata */
-  purgeRequested?: boolean;
+  purgeRequested?: boolean | undefined;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
 }
 export interface DropTableResponse {}
 export interface DropViewRequest {
@@ -911,12 +1173,13 @@ export interface DropViewRequest {
   /** A view name */
   view: string;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
 }
 export interface DropViewResponse {}
 export type FetchPlanningResultRequestXIcebergAccessDelegationItem =
   | "vended-credentials"
-  | "remote-signing";
+  | "remote-signing"
+  | "none";
 export type FetchPlanningResultRequestXIcebergAccessDelegationList = Array<
   FetchPlanningResultRequestXIcebergAccessDelegationItem | (string & {})
 >;
@@ -927,22 +1190,23 @@ export interface FetchPlanningResultRequest {
   table: string;
   /** ID used to track a planning request */
   plan_id: string;
-  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
-  xIcebergAccessDelegation?: FetchPlanningResultRequestXIcebergAccessDelegationList;
+  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. The value `none` signals that the client is able to operate without any access delegation mechanism. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
+  xIcebergAccessDelegation?: FetchPlanningResultRequestXIcebergAccessDelegationList | undefined;
 }
+export type PositionDeleteFileContent = "position-deletes";
 export type FileFormat = "avro" | "orc" | "parquet" | "puffin";
 /** A list of partition field values ordered based on the fields of the partition spec specified by the `spec-id` */
 export type PositionDeleteFilePartitionList = Array<PrimitiveTypeValue>;
 /** List of splittable offsets */
 export type PositionDeleteFileSplitOffsetsList = Array<number>;
 export interface FieldStatistics {
-  /** Avg value size in memory (uncompressed) in bytes over non-null values to estimate memory consumption */
-  avg_value_size_in_bytes?: number;
+  /** Estimated uncompressed bytes in memory of non-null values. The estimate depends on the in-memory representation */
+  total_bytes?: number | undefined;
 }
 /** Container struct for per-field metrics structs */
 export type PositionDeleteFileContentStatsMap = { [key: string]: FieldStatistics | undefined };
 export interface PositionDeleteFile {
-  content: string;
+  content: PositionDeleteFileContent;
   file_path: string;
   file_format: FileFormat;
   spec_id: number;
@@ -953,17 +1217,18 @@ export interface PositionDeleteFile {
   /** Number of records in the file */
   record_count: number;
   /** Encryption key metadata blob */
-  key_metadata?: string;
+  key_metadata?: string | undefined;
   /** List of splittable offsets */
-  split_offsets?: PositionDeleteFileSplitOffsetsList;
-  sort_order_id?: number;
+  split_offsets?: PositionDeleteFileSplitOffsetsList | undefined;
+  sort_order_id?: number | undefined;
   /** Container struct for per-field metrics structs */
-  content_stats?: PositionDeleteFileContentStatsMap;
+  content_stats?: PositionDeleteFileContentStatsMap | undefined;
   /** Offset within the delete file of delete content */
-  content_offset?: number;
+  content_offset?: number | undefined;
   /** Length, in bytes, of the delete content; required if content-offset is present */
-  content_size_in_bytes?: number;
+  content_size_in_bytes?: number | undefined;
 }
+export type EqualityDeleteFileContent = "equality-deletes";
 /** A list of partition field values ordered based on the fields of the partition spec specified by the `spec-id` */
 export type EqualityDeleteFilePartitionList = Array<PrimitiveTypeValue>;
 /** List of splittable offsets */
@@ -973,7 +1238,7 @@ export type EqualityDeleteFileContentStatsMap = { [key: string]: FieldStatistics
 /** List of equality field IDs */
 export type EqualityDeleteFileEqualityIdsList = Array<number>;
 export interface EqualityDeleteFile {
-  content: string;
+  content: EqualityDeleteFileContent;
   file_path: string;
   file_format: FileFormat;
   spec_id: number;
@@ -984,18 +1249,19 @@ export interface EqualityDeleteFile {
   /** Number of records in the file */
   record_count: number;
   /** Encryption key metadata blob */
-  key_metadata?: string;
+  key_metadata?: string | undefined;
   /** List of splittable offsets */
-  split_offsets?: EqualityDeleteFileSplitOffsetsList;
-  sort_order_id?: number;
+  split_offsets?: EqualityDeleteFileSplitOffsetsList | undefined;
+  sort_order_id?: number | undefined;
   /** Container struct for per-field metrics structs */
-  content_stats?: EqualityDeleteFileContentStatsMap;
+  content_stats?: EqualityDeleteFileContentStatsMap | undefined;
   /** List of equality field IDs */
-  equality_ids?: EqualityDeleteFileEqualityIdsList;
+  equality_ids?: EqualityDeleteFileEqualityIdsList | undefined;
 }
 export type DeleteFile = PositionDeleteFile | EqualityDeleteFile;
 /** Delete files referenced by file scan tasks */
 export type CompletedPlanningResultDeleteFilesList = Array<DeleteFile>;
+export type DataFileContent = "data";
 /** A list of partition field values ordered based on the fields of the partition spec specified by the `spec-id` */
 export type DataFilePartitionList = Array<PrimitiveTypeValue>;
 /** List of splittable offsets */
@@ -1008,9 +1274,9 @@ export type CountMapKeysList = Array<number>;
 export type CountMapValuesList = Array<number>;
 export interface CountMap {
   /** List of integer column ids for each corresponding value */
-  keys?: CountMapKeysList;
+  keys?: CountMapKeysList | undefined;
   /** List of Long values, matched to 'keys' by index */
-  values?: CountMapValuesList;
+  values?: CountMapValuesList | undefined;
 }
 /** List of integer column ids for each corresponding value */
 export type ValueMapKeysList = Array<number>;
@@ -1018,12 +1284,12 @@ export type ValueMapKeysList = Array<number>;
 export type ValueMapValuesList = Array<PrimitiveTypeValue>;
 export interface ValueMap {
   /** List of integer column ids for each corresponding value */
-  keys?: ValueMapKeysList;
+  keys?: ValueMapKeysList | undefined;
   /** List of primitive type values, matched to 'keys' by index */
-  values?: ValueMapValuesList;
+  values?: ValueMapValuesList | undefined;
 }
 export interface DataFile {
-  content: string;
+  content: DataFileContent;
   file_path: string;
   file_format: FileFormat;
   spec_id: number;
@@ -1034,35 +1300,35 @@ export interface DataFile {
   /** Number of records in the file */
   record_count: number;
   /** Encryption key metadata blob */
-  key_metadata?: string;
+  key_metadata?: string | undefined;
   /** List of splittable offsets */
-  split_offsets?: DataFileSplitOffsetsList;
-  sort_order_id?: number;
+  split_offsets?: DataFileSplitOffsetsList | undefined;
+  sort_order_id?: number | undefined;
   /** Container struct for per-field metrics structs */
-  content_stats?: DataFileContentStatsMap;
+  content_stats?: DataFileContentStatsMap | undefined;
   /** The first row ID assigned to the first row in the data file */
-  first_row_id?: number;
+  first_row_id?: number | undefined;
   /** Map of column id to total count, including null and NaN */
-  column_sizes?: CountMap;
+  column_sizes?: CountMap | undefined;
   /** Map of column id to null value count */
-  value_counts?: CountMap;
+  value_counts?: CountMap | undefined;
   /** Map of column id to null value count */
-  null_value_counts?: CountMap;
+  null_value_counts?: CountMap | undefined;
   /** Map of column id to number of NaN values in the column */
-  nan_value_counts?: CountMap;
+  nan_value_counts?: CountMap | undefined;
   /** Map of column id to lower bound primitive type values */
-  lower_bounds?: ValueMap;
+  lower_bounds?: ValueMap | undefined;
   /** Map of column id to upper bound primitive type values */
-  upper_bounds?: ValueMap;
+  upper_bounds?: ValueMap | undefined;
 }
 /** A list of indices in the delete files array (0-based) */
 export type FileScanTaskDeleteFileReferencesList = Array<number>;
 export interface FileScanTask {
   data_file: DataFile;
   /** A list of indices in the delete files array (0-based) */
-  delete_file_references?: FileScanTaskDeleteFileReferencesList;
+  delete_file_references?: FileScanTaskDeleteFileReferencesList | undefined;
   /** An optional filter to be applied to rows in this file scan task. If the residual is not present, the client must produce the residual or use the original filter. */
-  residual_filter?: Predicate;
+  residual_filter?: Predicate | undefined;
 }
 export type CompletedPlanningResultFileScanTasksList = Array<FileScanTask>;
 export type CompletedPlanningResultPlanTasksList = Array<string>;
@@ -1073,12 +1339,12 @@ export type CompletedPlanningResultStorageCredentialsList = Array<StorageCredent
 /** Completed server-side planning result */
 export interface CompletedPlanningResult {
   /** Delete files referenced by file scan tasks */
-  delete_files?: CompletedPlanningResultDeleteFilesList;
-  file_scan_tasks?: CompletedPlanningResultFileScanTasksList;
-  plan_tasks?: CompletedPlanningResultPlanTasksList;
+  delete_files?: CompletedPlanningResultDeleteFilesList | undefined;
+  file_scan_tasks?: CompletedPlanningResultFileScanTasksList | undefined;
+  plan_tasks?: CompletedPlanningResultPlanTasksList | undefined;
   status: PlanStatus;
   /** Storage credentials for accessing the files returned in the scan result. If the server returns storage credentials as part of the completed scan planning response, the expectation is for the client to use these credentials to read the files returned in the FileScanTasks as part of the scan result. */
-  storage_credentials?: CompletedPlanningResultStorageCredentialsList;
+  storage_credentials?: CompletedPlanningResultStorageCredentialsList | undefined;
 }
 export type ErrorModelStackList = Array<string>;
 /** JSON error payload returned in a response with further details on the error */
@@ -1089,7 +1355,7 @@ export interface ErrorModel {
   type: string;
   /** HTTP response code */
   code: number;
-  stack?: ErrorModelStackList;
+  stack?: ErrorModelStackList | undefined;
 }
 /** Failed server-side planning result */
 export interface FailedPlanningResult {
@@ -1109,7 +1375,7 @@ export interface FetchScanTasksRequest {
   /** A table name */
   table: string;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   plan_task: string;
 }
 /** Delete files referenced by file scan tasks */
@@ -1118,13 +1384,13 @@ export type FetchScanTasksResponseFileScanTasksList = Array<FileScanTask>;
 export type FetchScanTasksResponsePlanTasksList = Array<string>;
 export interface FetchScanTasksResponse {
   /** Delete files referenced by file scan tasks */
-  delete_files?: FetchScanTasksResponseDeleteFilesList;
-  file_scan_tasks?: FetchScanTasksResponseFileScanTasksList;
-  plan_tasks?: FetchScanTasksResponsePlanTasksList;
+  delete_files?: FetchScanTasksResponseDeleteFilesList | undefined;
+  file_scan_tasks?: FetchScanTasksResponseFileScanTasksList | undefined;
+  plan_tasks?: FetchScanTasksResponsePlanTasksList | undefined;
 }
 export interface GetConfigRequest {
   /** Warehouse location or identifier to request from the service */
-  warehouse?: string;
+  warehouse?: string | undefined;
 }
 /** Properties that should be used to override client configuration; applied after defaults and client configuration. */
 export type CatalogConfigOverridesMap = { [key: string]: string | undefined };
@@ -1139,52 +1405,52 @@ export interface CatalogConfig {
   /** Properties that should be used as default configuration; applied before client configuration. */
   defaults: CatalogConfigDefaultsMap;
   /** A list of endpoints that the server supports. The format of each endpoint must be "<HTTP verb> <resource path from OpenAPI REST spec>". The HTTP verb and the resource path must be separated by a space character. */
-  endpoints?: CatalogConfigEndpointsList;
+  endpoints?: CatalogConfigEndpointsList | undefined;
   /** Client reuse window for an Idempotency-Key (ISO-8601 duration, e.g., PT30M, PT24H). Interpreted as the maximum time from the first submission using a key to the last retry during which a client may reuse that key. Servers SHOULD accept retries for at least this duration and MAY include a grace period to account for delays/clock skew. Clients SHOULD NOT reuse an Idempotency-Key after this window elapses; they SHOULD generate a new key for any subsequent attempt. Presence of this field indicates the server supports Idempotency-Key semantics for mutation endpoints. If absent, clients MUST assume idempotency is not supported. */
-  idempotency_key_lifetime?: string;
+  idempotency_key_lifetime?: string | undefined;
 }
 export interface ListFunctionsRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
   namespace: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** For servers that support pagination, this signals an upper bound of the number of results that a client will receive. For servers that do not support pagination, clients may receive results larger than the indicated `pageSize`. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ListFunctionsResponseIdentifiersList = Array<CatalogObjectIdentifier>;
 export interface ListFunctionsResponse {
-  next_page_token?: string | null;
+  next_page_token?: string | null | undefined;
   identifiers: ListFunctionsResponseIdentifiersList;
 }
 export interface ListNamespacesRequest {
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** For servers that support pagination, this signals an upper bound of the number of results that a client will receive. For servers that do not support pagination, clients may receive results larger than the indicated `pageSize`. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** An optional namespace, underneath which to list namespaces. If not provided, all top-level namespaces should be listed. For backward compatibility, empty string is treated as absent for now. If parent is a multipart namespace, the parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
-  parent?: string;
+  parent?: string | undefined;
 }
 export type ListNamespacesResponseNamespacesList = Array<Namespace>;
 export interface ListNamespacesResponse {
-  next_page_token?: string | null;
+  next_page_token?: string | null | undefined;
   namespaces: ListNamespacesResponseNamespacesList;
 }
 export interface ListTablesRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
   namespace: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** For servers that support pagination, this signals an upper bound of the number of results that a client will receive. For servers that do not support pagination, clients may receive results larger than the indicated `pageSize`. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ListTablesResponseIdentifiersList = Array<TableIdentifier>;
 export interface ListTablesResponse {
-  next_page_token?: string | null;
+  next_page_token?: string | null | undefined;
   identifiers: ListTablesResponseIdentifiersList;
 }
 export interface ListViewsRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
   namespace: string;
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** For servers that support pagination, this signals an upper bound of the number of results that a client will receive. For servers that do not support pagination, clients may receive results larger than the indicated `pageSize`. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface LoadCredentialsRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
@@ -1192,9 +1458,9 @@ export interface LoadCredentialsRequest {
   /** A table name */
   table: string;
   /** The plan ID that has been used for server-side scan planning */
-  planId?: string;
+  planId?: string | undefined;
   /** A comma-separated list of fully qualified view names (namespace and view name) representing the view reference chain when an entity (table or view) is loaded via a view. The list should be ordered with the outermost view first, followed by any intermediate views it references, down to the view that directly references the entity. For a simple case where a view directly references the entity, the list contains a single view identifier. For nested views (a view referencing another view which references the entity), the list contains multiple view identifiers representing the complete dependency chain. The view identifier is a composite string of the format {namespace}{separator}{viewName}. The namespace-separator (defined in /config) acts as the delimiter. When parsing, the last occurrence of this separator identifies the boundary between the namespace and the view name. Multipart namespaces must follow the encoding rules of the parent parameter in the list namespaces endpoint. Multiple view identifiers are separated by commas. Servers should split the parameter value on comma characters to parse individual view identifiers. If view names contain commas, they must be url-encoded as %2C. Example with multiple views (where prod%1Fanalytics is a nested namespace which has a quarterly_view which references to monthly_view which then references the entity being loaded) - prod%1Fanalytics%1Fquarterly_view,prod%1Fanalytics%1Fmonthly_view */
-  referenced_by?: string;
+  referenced_by?: string | undefined;
 }
 export type LoadCredentialsResponseStorageCredentialsList = Array<StorageCredential>;
 export interface LoadCredentialsResponse {
@@ -1234,7 +1500,7 @@ export interface FunctionParameter {
   type: FunctionDataType;
   name: string;
   /** Parameter documentation. */
-  doc?: string;
+  doc?: string | undefined;
 }
 /** Ordered list of function parameters. Invocation order must match this list. */
 export type FunctionDefinitionParametersList = Array<FunctionParameter>;
@@ -1255,9 +1521,9 @@ export interface FunctionDefinitionVersion {
   /** UDF implementations. */
   representations: FunctionDefinitionVersionRepresentationsList;
   /** Whether the function is deterministic. */
-  deterministic?: boolean;
+  deterministic?: boolean | undefined;
   /** Defines how the UDF behaves when any input parameter is NULL. */
-  on_null_input?: FunctionDefinitionVersionOnNullInput;
+  on_null_input?: FunctionDefinitionVersionOnNullInput | undefined;
   /** Creation timestamp of this version (unix epoch millis). */
   timestamp_ms: number;
 }
@@ -1269,12 +1535,12 @@ export interface FunctionDefinition {
   /** A canonical string derived from the parameter types, formatted as a comma-separated list with no spaces. */
   definition_id: string;
   /** A user-assignable name for this definition that must be unique among all definitions within the UDF metadata. */
-  specific_name?: string;
+  specific_name?: string | undefined;
   /** Ordered list of function parameters. Invocation order must match this list. */
   parameters: FunctionDefinitionParametersList;
   return_type: FunctionDataType;
   /** A hint to indicate whether the return value is nullable or not. */
-  return_nullable?: boolean;
+  return_nullable?: boolean | undefined;
   /** Versioned implementations of this definition. */
   versions: FunctionDefinitionVersionsList;
   /** Identifier of the current version for this definition. */
@@ -1282,7 +1548,7 @@ export interface FunctionDefinition {
   /** Function type. When set to "udtf", "return-type" must be a struct describing the output schema. */
   function_type: FunctionDefinitionFunctionType;
   /** Documentation string. */
-  doc?: string;
+  doc?: string | undefined;
 }
 /** List of function definition entities. */
 export type FunctionMetadataDefinitionsList = Array<FunctionDefinition>;
@@ -1313,17 +1579,17 @@ export interface FunctionMetadata {
   /** History of versions within the function's definitions. */
   definition_log: FunctionMetadataDefinitionLogList;
   /** The function's base location. This is used to store function metadata files. */
-  location?: string;
+  location?: string | undefined;
   /** A string-to-string map of properties. */
-  properties?: FunctionMetadataPropertiesMap;
+  properties?: FunctionMetadataPropertiesMap | undefined;
   /** Whether it is a secure function. */
-  secure?: boolean;
+  secure?: boolean | undefined;
   /** Documentation string. */
-  doc?: string;
+  doc?: string | undefined;
 }
 /** Result returned when a function is loaded from the catalog. The function metadata JSON is returned in the `metadata` field. The location of the metadata file is returned in the `metadata-location` field, if available. */
 export interface LoadFunctionResult {
-  metadata_location?: string;
+  metadata_location?: string | undefined;
   metadata: FunctionMetadata;
 }
 export interface LoadNamespaceMetadataRequest {
@@ -1335,10 +1601,13 @@ export type GetNamespaceResponsePropertiesMap = { [key: string]: string | undefi
 export interface GetNamespaceResponse {
   namespace: Namespace;
   /** Properties stored on the namespace, if supported by the server. If the server does not support namespace properties, it should return null for this field. If namespace properties are supported, but none are set, it should return an empty object. */
-  properties?: GetNamespaceResponsePropertiesMap | null;
+  properties?: GetNamespaceResponsePropertiesMap | null | undefined;
 }
 export type LoadTableRequestSnapshots = "all" | "refs";
-export type LoadTableRequestXIcebergAccessDelegationItem = "vended-credentials" | "remote-signing";
+export type LoadTableRequestXIcebergAccessDelegationItem =
+  | "vended-credentials"
+  | "remote-signing"
+  | "none";
 export type LoadTableRequestXIcebergAccessDelegationList = Array<
   LoadTableRequestXIcebergAccessDelegationItem | (string & {})
 >;
@@ -1348,13 +1617,13 @@ export interface LoadTableRequest {
   /** A table name */
   table: string;
   /** The snapshots to return in the body of the metadata via the `snapshots` field. Setting the value to `all` would return the full set of snapshots currently valid for the table. Setting the value to `refs` would load all snapshots referenced by branches or tags. Default if no param is provided is `all`. */
-  snapshots?: LoadTableRequestSnapshots | (string & {});
+  snapshots?: LoadTableRequestSnapshots | (string & {}) | undefined;
   /** A comma-separated list of fully qualified view names (namespace and view name) representing the view reference chain when an entity (table or view) is loaded via a view. The list should be ordered with the outermost view first, followed by any intermediate views it references, down to the view that directly references the entity. For a simple case where a view directly references the entity, the list contains a single view identifier. For nested views (a view referencing another view which references the entity), the list contains multiple view identifiers representing the complete dependency chain. The view identifier is a composite string of the format {namespace}{separator}{viewName}. The namespace-separator (defined in /config) acts as the delimiter. When parsing, the last occurrence of this separator identifies the boundary between the namespace and the view name. Multipart namespaces must follow the encoding rules of the parent parameter in the list namespaces endpoint. Multiple view identifiers are separated by commas. Servers should split the parameter value on comma characters to parse individual view identifiers. If view names contain commas, they must be url-encoded as %2C. Example with multiple views (where prod%1Fanalytics is a nested namespace which has a quarterly_view which references to monthly_view which then references the entity being loaded) - prod%1Fanalytics%1Fquarterly_view,prod%1Fanalytics%1Fmonthly_view */
-  referenced_by?: string;
-  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
-  xIcebergAccessDelegation?: LoadTableRequestXIcebergAccessDelegationList;
+  referenced_by?: string | undefined;
+  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. The value `none` signals that the client is able to operate without any access delegation mechanism. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
+  xIcebergAccessDelegation?: LoadTableRequestXIcebergAccessDelegationList | undefined;
   /** An optional header that allows the server to return 304 (Not Modified) if the metadata is current. The content is the value of the ETag received in a CreateTableResponse, LoadTableResponse or CommitTableResponse. */
-  ifNoneMatch?: string;
+  ifNoneMatch?: string | undefined;
 }
 export interface LoadViewRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
@@ -1362,7 +1631,7 @@ export interface LoadViewRequest {
   /** A view name */
   view: string;
   /** A comma-separated list of fully qualified view names (namespace and view name) representing the view reference chain when an entity (table or view) is loaded via a view. The list should be ordered with the outermost view first, followed by any intermediate views it references, down to the view that directly references the entity. For a simple case where a view directly references the entity, the list contains a single view identifier. For nested views (a view referencing another view which references the entity), the list contains multiple view identifiers representing the complete dependency chain. The view identifier is a composite string of the format {namespace}{separator}{viewName}. The namespace-separator (defined in /config) acts as the delimiter. When parsing, the last occurrence of this separator identifies the boundary between the namespace and the view name. Multipart namespaces must follow the encoding rules of the parent parameter in the list namespaces endpoint. Multiple view identifiers are separated by commas. Servers should split the parameter value on comma characters to parse individual view identifiers. If view names contain commas, they must be url-encoded as %2C. Example with multiple views (where prod%1Fanalytics is a nested namespace which has a quarterly_view which references to monthly_view which then references the entity being loaded) - prod%1Fanalytics%1Fquarterly_view,prod%1Fanalytics%1Fmonthly_view */
-  referenced_by?: string;
+  referenced_by?: string | undefined;
 }
 export interface NamespaceExistsRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
@@ -1371,7 +1640,8 @@ export interface NamespaceExistsRequest {
 export interface NamespaceExistsResponse {}
 export type PlanTableScanRequestXIcebergAccessDelegationItem =
   | "vended-credentials"
-  | "remote-signing";
+  | "remote-signing"
+  | "none";
 export type PlanTableScanRequestXIcebergAccessDelegationList = Array<
   PlanTableScanRequestXIcebergAccessDelegationItem | (string & {})
 >;
@@ -1384,28 +1654,28 @@ export interface PlanTableScanRequest {
   namespace: string;
   /** A table name */
   table: string;
-  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
-  xIcebergAccessDelegation?: PlanTableScanRequestXIcebergAccessDelegationList;
+  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. The value `none` signals that the client is able to operate without any access delegation mechanism. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
+  xIcebergAccessDelegation?: PlanTableScanRequestXIcebergAccessDelegationList | undefined;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Identifier for the snapshot to scan in a point-in-time scan */
-  snapshot_id?: number;
+  snapshot_id?: number | undefined;
   /** List of selected schema fields */
-  select?: PlanTableScanRequestSelectList;
+  select?: PlanTableScanRequestSelectList | undefined;
   /** Predicate used to filter the table data */
-  filter?: Predicate;
+  filter?: Predicate | undefined;
   /** The minimum number of rows requested for the scan. This is used as a hint to the server to not have to return more rows than necessary. It is not required for the server to return that many rows since the scan may not produce that many rows. The server can also return more rows than requested. */
-  min_rows_requested?: number;
+  min_rows_requested?: number | undefined;
   /** Enables case sensitive field matching for filter and select */
-  case_sensitive?: boolean;
+  case_sensitive?: boolean | undefined;
   /** Whether to use the schema at the time the snapshot was written. When time travelling, the snapshot schema should be used (true). When scanning a branch, the table schema should be used (false). */
-  use_snapshot_schema?: boolean;
+  use_snapshot_schema?: boolean | undefined;
   /** Starting snapshot ID for an incremental scan (exclusive) */
-  start_snapshot_id?: number;
+  start_snapshot_id?: number | undefined;
   /** Ending snapshot ID for an incremental scan (inclusive). Required when start-snapshot-id is specified. */
-  end_snapshot_id?: number;
+  end_snapshot_id?: number | undefined;
   /** List of fields for which the service should send column stats. */
-  stats_fields?: PlanTableScanRequestStatsFieldsList;
+  stats_fields?: PlanTableScanRequestStatsFieldsList | undefined;
 }
 /** Delete files referenced by file scan tasks */
 export type CompletedPlanningWithIDResultDeleteFilesList = Array<DeleteFile>;
@@ -1415,12 +1685,12 @@ export type CompletedPlanningWithIDResultPlanTasksList = Array<string>;
 export type CompletedPlanningWithIDResultStorageCredentialsList = Array<StorageCredential>;
 export interface CompletedPlanningWithIDResult {
   /** Delete files referenced by file scan tasks */
-  delete_files?: CompletedPlanningWithIDResultDeleteFilesList;
-  file_scan_tasks?: CompletedPlanningWithIDResultFileScanTasksList;
-  plan_tasks?: CompletedPlanningWithIDResultPlanTasksList;
+  delete_files?: CompletedPlanningWithIDResultDeleteFilesList | undefined;
+  file_scan_tasks?: CompletedPlanningWithIDResultFileScanTasksList | undefined;
+  plan_tasks?: CompletedPlanningWithIDResultPlanTasksList | undefined;
   status: PlanStatus;
   /** Storage credentials for accessing the files returned in the scan result. If the server returns storage credentials as part of the completed scan planning response, the expectation is for the client to use these credentials to read the files returned in the FileScanTasks as part of the scan result. */
-  storage_credentials?: CompletedPlanningWithIDResultStorageCredentialsList;
+  storage_credentials?: CompletedPlanningWithIDResultStorageCredentialsList | undefined;
   /** ID used to track a planning request */
   plan_id: string;
 }
@@ -1438,40 +1708,41 @@ export type PlanTableScanResult =
 export type PlanTableScanResponse = PlanTableScanResult;
 export type RegisterTableRequestXIcebergAccessDelegationItem =
   | "vended-credentials"
-  | "remote-signing";
+  | "remote-signing"
+  | "none";
 export type RegisterTableRequestXIcebergAccessDelegationList = Array<
   RegisterTableRequestXIcebergAccessDelegationItem | (string & {})
 >;
 export interface RegisterTableRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
   namespace: string;
-  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
-  xIcebergAccessDelegation?: RegisterTableRequestXIcebergAccessDelegationList;
+  /** Optional signal to the server that the client supports delegated access via a comma-separated list of access mechanisms. The server may choose to supply access via any or none of the requested mechanisms. The value `none` signals that the client is able to operate without any access delegation mechanism. Specific properties and handling for `vended-credentials` and `remote-signing` are documented in the `LoadTableResult` schema section of this spec document. */
+  xIcebergAccessDelegation?: RegisterTableRequestXIcebergAccessDelegationList | undefined;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   name: string;
   metadata_location: string;
   /** Whether to overwrite table metadata if the table already exists */
-  overwrite?: boolean;
+  overwrite?: boolean | undefined;
 }
 export interface RegisterViewRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
   namespace: string;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   name: string;
   metadata_location: string;
 }
 export interface RenameTableRequest {
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   source: TableIdentifier;
   destination: TableIdentifier;
 }
 export interface RenameTableResponse {}
 export interface RenameViewRequest {
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   source: TableIdentifier;
   destination: TableIdentifier;
 }
@@ -1482,12 +1753,14 @@ export interface AssertViewUUID {
   uuid: string;
 }
 export type ReplaceViewRequestRequirementsList = Array<AssertViewUUID>;
+export type AddViewVersionUpdateAction = "add-view-version";
 export interface AddViewVersionUpdate {
-  action: string;
+  action: AddViewVersionUpdateAction;
   view_version: ViewVersion;
 }
+export type SetCurrentViewVersionUpdateAction = "set-current-view-version";
 export interface SetCurrentViewVersionUpdate {
-  action: string;
+  action: SetCurrentViewVersionUpdateAction;
   /** The view version id to set as current, or -1 to set last added view version id */
   view_version_id: number;
 }
@@ -1507,10 +1780,10 @@ export interface ReplaceViewRequest {
   /** A view name */
   view: string;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** View identifier to update */
-  identifier?: TableIdentifier;
-  requirements?: ReplaceViewRequestRequirementsList;
+  identifier?: TableIdentifier | undefined;
+  requirements?: ReplaceViewRequestRequirementsList | undefined;
   updates: ReplaceViewRequestUpdatesList;
 }
 export interface ReportMetricsRequest {
@@ -1539,11 +1812,11 @@ export interface SignRequestRequest {
   uri: string;
   method: SignRequestRequestMethod | (string & {});
   headers: MultiValuedMap;
-  properties?: SignRequestRequestPropertiesMap;
+  properties?: SignRequestRequestPropertiesMap | undefined;
   /** Optional body of the request to send to the signing API. This should only be populated for requests where the body of the message contains content which must be validated before a request is signed, such as the S3 DeleteObjects call. */
-  body?: string;
+  body?: string | undefined;
   /** The storage provider for which the request is to be signed. The provider should correspond to the scheme used for a storage native URI. For example `s3` for AWS S3 paths. For backwards compatibility, if this is not specified, the provider is assumed to be `s3`. */
-  provider?: string;
+  provider?: string | undefined;
 }
 /** The result of a remote request signing operation. */
 export interface RemoteSignResult {
@@ -1563,7 +1836,7 @@ export interface UnregisterTableRequest {
   /** A table name */
   table: string;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
 }
 /** Last metadata location and the corresponding table metadata for the table that was successfully unregistered and is no longer tracked by the catalog. */
 export interface UnregisterTableResult {
@@ -1577,9 +1850,9 @@ export interface UpdatePropertiesRequest {
   /** A namespace identifier as a single string. Multipart namespace parts must be separated by the namespace separator as indicated via the /config override `namespace-separator`, which defaults to the unit separator `0x1F` byte (url encoded `%1F`). To be compatible with older clients, servers must use both the advertised separator and `0x1F` as valid separators when decoding namespaces. The `namespace-separator` should be provided in a url encoded form. */
   namespace: string;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
-  removals?: UpdatePropertiesRequestRemovalsList;
-  updates?: UpdatePropertiesRequestUpdatesMap;
+  idempotencyKey?: string | undefined;
+  removals?: UpdatePropertiesRequestRemovalsList | undefined;
+  updates?: UpdatePropertiesRequestUpdatesMap | undefined;
 }
 /** List of property keys that were added or updated */
 export type UpdateNamespacePropertiesResponseUpdatedList = Array<string>;
@@ -1593,7 +1866,7 @@ export interface UpdateNamespacePropertiesResponse {
   /** List of properties that were removed */
   removed: UpdateNamespacePropertiesResponseRemovedList;
   /** List of properties requested for removal that were not found in the namespace's properties. Represents a partial success response. Server's do not need to implement this. */
-  missing?: UpdateNamespacePropertiesResponseMissingList | null;
+  missing?: UpdateNamespacePropertiesResponseMissingList | null | undefined;
 }
 export type UpdateTableRequestRequirementsList = Array<TableRequirement>;
 export type UpdateTableRequestUpdatesList = Array<TableUpdateInput>;
@@ -1603,9 +1876,9 @@ export interface UpdateTableRequest {
   /** A table name */
   table: string;
   /** Optional client-provided idempotency key for safe request retries. When present, the server ensures no additional effects for requests that carry the same Idempotency-Key. If a prior request with this key has been finalized, the server returns an equivalent final response without re-running the operation. The response body may reflect a newer state of the catalog than existed at the time of the commit. Finalization rules: - Finalize & replay: 200, 201, 204, and deterministic terminal 4xx (including 409 such as AlreadyExists, NamespaceNotEmpty, etc.) - Do not finalize (not stored/replayed): 5xx Key Requirements: - Key format: UUIDv7 in string form (RFC 9562). - The idempotency key must be globally unique (no reuse across different operations). - Catalogs SHOULD NOT expire keys before the end of the advertised token lifetime. - If Idempotency-Key is used, clients MUST reuse the same key when retrying the same logical operation and MUST generate a new key for a different operation. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Table identifier to update; must be present for CommitTransactionRequest */
-  identifier?: TableIdentifier;
+  identifier?: TableIdentifier | undefined;
   requirements: UpdateTableRequestRequirementsList;
   updates: UpdateTableRequestUpdatesList;
 }
@@ -1620,6 +1893,10 @@ export interface ViewExistsRequest {
   view: string;
 }
 export interface ViewExistsResponse {}
+/** JSON wrapper for all error responses (non-2xx) */
+export interface IcebergErrorResponse {
+  error: ErrorModel;
+}
 export type CancelPlanningError =
   | NoSuchNamespaceException
   | NoSuchPlanIdException
@@ -1632,8 +1909,8 @@ export const cancelPlanning: API.OperationMethod<
   CancelPlanningError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CancelPlanningRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<CancelPlanningResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<CancelPlanningRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<CancelPlanningResponse>,
   errors: [NoSuchNamespaceException, NoSuchPlanIdException, NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1653,8 +1930,8 @@ export const commitTransaction: API.OperationMethod<
   CommitTransactionError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(98, __c3, 2) as any as S.Schema<CommitTransactionRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<CommitTransactionResponse>,
+  input: __S(194, __c6, 2) as any as S.Schema<CommitTransactionRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<CommitTransactionResponse>,
   errors: [CommitFailedException, CommitStateUnknownException, NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1673,8 +1950,8 @@ export const createNamespace: API.OperationMethod<
   CreateNamespaceError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<CreateNamespaceRequest>,
-  output: __S(225, __c7, 1) as any as S.Schema<CreateNamespaceResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<CreateNamespaceRequest>,
+  output: __S(289, __c9, 1) as any as S.Schema<CreateNamespaceResponse>,
   errors: [AlreadyExistsException, UnsupportedOperationException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1690,8 +1967,8 @@ export const createTable: API.OperationMethod<
   CreateTableError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(290, __c9, 2) as any as S.Schema<CreateTableRequest>,
-  output: __S(484, __c15, 4) as any as S.Schema<LoadTableResult>,
+  input: __S(354, __c11, 2) as any as S.Schema<CreateTableRequest>,
+  output: __S(547, __c17, 3) as any as S.Schema<LoadTableResult>,
   errors: [AlreadyExistsException, NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1707,8 +1984,8 @@ export const createView: API.OperationMethod<
   CreateViewError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<CreateViewRequest>,
-  output: __S(615, __c19, 7) as any as S.Schema<LoadViewResult>,
+  input: __S(640, __c20, 0) as any as S.Schema<CreateViewRequest>,
+  output: __S(679, __c21, 7) as any as S.Schema<LoadViewResult>,
   errors: [AlreadyExistsException, NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1727,8 +2004,8 @@ export const dropNamespace: API.OperationMethod<
   DropNamespaceError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<DropNamespaceRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<DropNamespaceResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<DropNamespaceRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<DropNamespaceResponse>,
   errors: [NamespaceNotEmptyException, NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1744,8 +2021,8 @@ export const dropTable: API.OperationMethod<
   DropTableError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<DropTableRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<DropTableResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<DropTableRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<DropTableResponse>,
   errors: [NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1761,8 +2038,8 @@ export const dropView: API.OperationMethod<
   DropViewError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<DropViewRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<DropViewResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<DropViewRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<DropViewResponse>,
   errors: [NoSuchViewException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1782,8 +2059,8 @@ export const fetchPlanningResult: API.OperationMethod<
   FetchPlanningResultError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<FetchPlanningResultRequest>,
-  output: __S(737, __c23, 1) as any as S.Schema<FetchPlanningResultResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<FetchPlanningResultRequest>,
+  output: __S(801, __c25, 1) as any as S.Schema<FetchPlanningResultResponse>,
   errors: [NoSuchNamespaceException, NoSuchPlanIdException, NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1803,8 +2080,8 @@ export const fetchScanTasks: API.OperationMethod<
   FetchScanTasksError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(777, __c24, 9) as any as S.Schema<FetchScanTasksRequest>,
-  output: __S(778, __c24, 10) as any as S.Schema<FetchScanTasksResponse>,
+  input: __S(841, __c26, 9) as any as S.Schema<FetchScanTasksRequest>,
+  output: __S(842, __c26, 10) as any as S.Schema<FetchScanTasksResponse>,
   errors: [NoSuchNamespaceException, NoSuchPlanTaskException, NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1820,8 +2097,8 @@ export const getConfig: API.OperationMethod<
   GetConfigError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetConfigRequest>,
-  output: __S(801, __c25, 1) as any as S.Schema<CatalogConfig>,
+  input: __S(864, __c27, 0) as any as S.Schema<GetConfigRequest>,
+  output: __S(865, __c27, 1) as any as S.Schema<CatalogConfig>,
   errors: [NoSuchWarehouseException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1839,8 +2116,8 @@ export const listFunctions: API.PaginatedOperationMethod<
   CatalogObjectIdentifier
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(832, __c26, 0) as any as S.Schema<ListFunctionsRequest>,
-    output: __S(833, __c26, 1) as any as S.Schema<ListFunctionsResponse>,
+    input: __S(896, __c28, 0) as any as S.Schema<ListFunctionsRequest>,
+    output: __S(897, __c28, 1) as any as S.Schema<ListFunctionsResponse>,
     errors: [NoSuchNamespaceException],
     protocol: IcebergProtocol,
     retry: Retry.Retry,
@@ -1867,8 +2144,8 @@ export const listNamespaces: API.PaginatedOperationMethod<
   Namespace
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(896, __c28, 0) as any as S.Schema<ListNamespacesRequest>,
-    output: __S(897, __c28, 1) as any as S.Schema<ListNamespacesResponse>,
+    input: __S(960, __c30, 0) as any as S.Schema<ListNamespacesRequest>,
+    output: __S(961, __c30, 1) as any as S.Schema<ListNamespacesResponse>,
     errors: [NoSuchNamespaceException],
     protocol: IcebergProtocol,
     retry: Retry.Retry,
@@ -1895,8 +2172,8 @@ export const listTables: API.PaginatedOperationMethod<
   TableIdentifier
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(928, __c29, 0) as any as S.Schema<ListTablesRequest>,
-    output: __S(961, __c30, 1) as any as S.Schema<ListTablesResponse>,
+    input: __S(992, __c31, 0) as any as S.Schema<ListTablesRequest>,
+    output: __S(1025, __c32, 1) as any as S.Schema<ListTablesResponse>,
     errors: [NoSuchNamespaceException],
     protocol: IcebergProtocol,
     retry: Retry.Retry,
@@ -1923,8 +2200,8 @@ export const listViews: API.PaginatedOperationMethod<
   TableIdentifier
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(992, __c31, 0) as any as S.Schema<ListViewsRequest>,
-    output: __S(961, __c30, 1) as any as S.Schema<ListTablesResponse>,
+    input: __S(1056, __c33, 0) as any as S.Schema<ListViewsRequest>,
+    output: __S(1025, __c32, 1) as any as S.Schema<ListTablesResponse>,
     errors: [NoSuchNamespaceException],
     protocol: IcebergProtocol,
     retry: Retry.Retry,
@@ -1949,8 +2226,8 @@ export const loadCredentials: API.OperationMethod<
   LoadCredentialsError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<LoadCredentialsRequest>,
-  output: __S(1025, __c32, 1) as any as S.Schema<LoadCredentialsResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<LoadCredentialsRequest>,
+  output: __S(1089, __c34, 1) as any as S.Schema<LoadCredentialsResponse>,
   errors: [NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1966,8 +2243,8 @@ export const loadFunction: API.OperationMethod<
   LoadFunctionError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<LoadFunctionRequest>,
-  output: __S(1070, __c33, 14) as any as S.Schema<LoadFunctionResult>,
+  input: __S(1120, __c35, 0) as any as S.Schema<LoadFunctionRequest>,
+  output: __S(1134, __c35, 14) as any as S.Schema<LoadFunctionResult>,
   errors: [NoSuchFunctionException, NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -1983,8 +2260,8 @@ export const loadNamespaceMetadata: API.OperationMethod<
   LoadNamespaceMetadataError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<LoadNamespaceMetadataRequest>,
-  output: __S(1089, __c34, 1) as any as S.Schema<GetNamespaceResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<LoadNamespaceMetadataRequest>,
+  output: __S(1153, __c36, 1) as any as S.Schema<GetNamespaceResponse>,
   errors: [NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2000,8 +2277,8 @@ export const loadTable: API.OperationMethod<
   LoadTableError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<LoadTableRequest>,
-  output: __S(484, __c15, 4) as any as S.Schema<LoadTableResult>,
+  input: __S(1184, __c37, 0) as any as S.Schema<LoadTableRequest>,
+  output: __S(547, __c17, 3) as any as S.Schema<LoadTableResult>,
   errors: [NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2017,8 +2294,8 @@ export const loadView: API.OperationMethod<
   LoadViewError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<LoadViewRequest>,
-  output: __S(615, __c19, 7) as any as S.Schema<LoadViewResult>,
+  input: __S(1216, __c38, 0) as any as S.Schema<LoadViewRequest>,
+  output: __S(679, __c21, 7) as any as S.Schema<LoadViewResult>,
   errors: [NoSuchViewException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2034,8 +2311,8 @@ export const namespaceExists: API.OperationMethod<
   NamespaceExistsError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<NamespaceExistsRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<NamespaceExistsResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<NamespaceExistsRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<NamespaceExistsResponse>,
   errors: [],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2055,8 +2332,8 @@ export const planTableScan: API.OperationMethod<
   PlanTableScanError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<PlanTableScanRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<PlanTableScanResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<PlanTableScanRequest>,
+  output: __S(1281, __c40, 1) as any as S.Schema<PlanTableScanResponse>,
   errors: [NoSuchNamespaceException, NoSuchTableException, UnsupportedOperationException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2072,8 +2349,8 @@ export const registerTable: API.OperationMethod<
   RegisterTableError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<RegisterTableRequest>,
-  output: __S(484, __c15, 4) as any as S.Schema<LoadTableResult>,
+  input: __S(1312, __c41, 0) as any as S.Schema<RegisterTableRequest>,
+  output: __S(547, __c17, 3) as any as S.Schema<LoadTableResult>,
   errors: [AlreadyExistsException, NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2089,8 +2366,8 @@ export const registerView: API.OperationMethod<
   RegisterViewError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<RegisterViewRequest>,
-  output: __S(615, __c19, 7) as any as S.Schema<LoadViewResult>,
+  input: __S(1344, __c42, 0) as any as S.Schema<RegisterViewRequest>,
+  output: __S(679, __c21, 7) as any as S.Schema<LoadViewResult>,
   errors: [AlreadyExistsException, NoSuchNamespaceException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2110,8 +2387,8 @@ export const renameTable: API.OperationMethod<
   RenameTableError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<RenameTableRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<RenameTableResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<RenameTableRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<RenameTableResponse>,
   errors: [NoSuchNamespaceException, NoSuchTableException, UnsupportedOperationException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2131,8 +2408,8 @@ export const renameView: API.OperationMethod<
   RenameViewError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<RenameViewRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<RenameViewResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<RenameViewRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<RenameViewResponse>,
   errors: [NoSuchNamespaceException, NoSuchViewException, UnsupportedOperationException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2152,8 +2429,8 @@ export const replaceView: API.OperationMethod<
   ReplaceViewError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1379, __c43, 3) as any as S.Schema<ReplaceViewRequest>,
-  output: __S(615, __c19, 7) as any as S.Schema<LoadViewResult>,
+  input: __S(1443, __c45, 3) as any as S.Schema<ReplaceViewRequest>,
+  output: __S(679, __c21, 7) as any as S.Schema<LoadViewResult>,
   errors: [CommitFailedException, CommitStateUnknownException, NoSuchViewException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2169,8 +2446,8 @@ export const reportMetrics: API.OperationMethod<
   ReportMetricsError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<ReportMetricsRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<ReportMetricsResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<ReportMetricsRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<ReportMetricsResponse>,
   errors: [NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2186,8 +2463,8 @@ export const signRequest: API.OperationMethod<
   SignRequestError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<SignRequestRequest>,
-  output: __S(1441, __c45, 1) as any as S.Schema<RemoteSignResult>,
+  input: __S(1504, __c47, 0) as any as S.Schema<SignRequestRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<RemoteSignResult>,
   errors: [],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2203,8 +2480,8 @@ export const tableExists: API.OperationMethod<
   TableExistsError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<TableExistsRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<TableExistsResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<TableExistsRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<TableExistsResponse>,
   errors: [],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2220,8 +2497,8 @@ export const unregisterTable: API.OperationMethod<
   UnregisterTableError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<UnregisterTableRequest>,
-  output: __S(1536, __c48, 0) as any as S.Schema<UnregisterTableResult>,
+  input: __S(1568, __c49, 0) as any as S.Schema<UnregisterTableRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<UnregisterTableResult>,
   errors: [NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2241,8 +2518,8 @@ export const updateProperties: API.OperationMethod<
   UpdatePropertiesError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<UpdatePropertiesRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<UpdateNamespacePropertiesResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<UpdatePropertiesRequest>,
+  output: __S(1633, __c51, 1) as any as S.Schema<UpdateNamespacePropertiesResponse>,
   errors: [NoSuchNamespaceException, UnprocessableEntityException, UnsupportedOperationException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2262,8 +2539,8 @@ export const updateTable: API.OperationMethod<
   UpdateTableError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<UpdateTableRequest>,
-  output: __S(1536, __c48, 0) as any as S.Schema<CommitTableResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<UpdateTableRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<CommitTableResponse>,
   errors: [CommitFailedException, CommitStateUnknownException, NoSuchTableException],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2279,8 +2556,8 @@ export const viewExists: API.OperationMethod<
   ViewExistsError,
   IcebergOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<ViewExistsRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<ViewExistsResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<ViewExistsRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<ViewExistsResponse>,
   errors: [],
   protocol: IcebergProtocol,
   retry: Retry.Retry,
@@ -2294,11 +2571,40 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          error: __S(64, __c2, 0),
+        }),
+      ).annotate({ identifier: "IcebergErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          type: S.String,
+          code: S.Number,
+          stack: S.optional(__S(32, __c1, 0)),
+        }),
+      ).annotate({ identifier: "ErrorModel" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           namespace: S.String.pipe(T.Label()),
           table: S.String.pipe(T.Label()),
           plan_id: S.String.pipe(T.Label()),
           xIcebergAccessDelegation: S.optional(
-            __S(64, __c2, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
+            __S(160, __c5, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
           ),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         })
@@ -2313,7 +2619,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CancelPlanningRequest" });
   }
 }
-function __c1(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({}).pipe(T.KeyDictionary(KEY_DICTIONARY))).annotate({
@@ -2321,50 +2627,10 @@ function __c1(j: number): any {
       });
   }
 }
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          identifier: S.optional(__S(160, __c5, 0)),
-          requirements: __S(193, __c6, 1),
-          updates: __S(194, __c6, 2),
-        }),
-      ).annotate({ identifier: "CommitTableRequestInput" });
-    case 1:
-      return S.Array(__S(96, __c3, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          table_changes: __S(97, __c3, 1).pipe(T.Body("table-changes")),
-        })
-          .pipe(T.Http({ method: "POST", uri: "/transactions/commit", code: 200 }))
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CommitTransactionRequest" });
-  }
-}
-function __c4(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
 function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: __S(128, __c4, 0),
-          name: S.String,
-        }),
-      ).annotate({ identifier: "TableIdentifier" });
+      return S.Array(S.String);
   }
 }
 function __c6(j: number): any {
@@ -2372,13 +2638,22 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: S.String,
+          identifier: S.optional(__S(224, __c7, 0)),
+          requirements: __S(256, __c8, 0),
+          updates: __S(257, __c8, 1),
         }),
-      ).annotate({ identifier: "TableRequirement" });
+      ).annotate({ identifier: "CommitTableRequestInput" });
     case 1:
       return S.Array(__S(192, __c6, 0));
     case 2:
-      return S.Array(S.Unknown);
+      return S.suspend(() =>
+        S.Struct({
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          table_changes: __S(193, __c6, 1).pipe(T.Body("table-changes")),
+        })
+          .pipe(T.Http({ method: "POST", uri: "/transactions/commit", code: 200 }))
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CommitTransactionRequest" });
   }
 }
 function __c7(j: number): any {
@@ -2386,26 +2661,18 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          namespace: __S(128, __c4, 0),
-          properties: S.optional(__S(256, __c8, 0)),
-        })
-          .pipe(T.Http({ method: "POST", uri: "/namespaces", code: 200 }))
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreateNamespaceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          namespace: __S(128, __c4, 0),
-          properties: S.optional(__S(256, __c8, 0)),
-        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreateNamespaceResponse" });
+          namespace: __S(32, __c1, 0),
+          name: S.String,
+        }),
+      ).annotate({ identifier: "TableIdentifier" });
   }
 }
 function __c8(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
+      return S.Array(S.Unknown);
+    case 1:
+      return S.Array(S.Unknown);
   }
 }
 function __c9(j: number): any {
@@ -2413,13 +2680,40 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          fields: __S(545, __c17, 1),
+          idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          namespace: __S(32, __c1, 0),
+          properties: S.optional(__S(320, __c10, 0)),
+        })
+          .pipe(T.Http({ method: "POST", uri: "/namespaces", code: 200 }))
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreateNamespaceRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          namespace: __S(32, __c1, 0),
+          properties: S.optional(__S(320, __c10, 0)),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreateNamespaceResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          fields: __S(609, __c19, 1),
         }),
       ).annotate({ identifier: "PartitionSpecInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          fields: __S(547, __c17, 3),
+          fields: __S(611, __c19, 3),
         }),
       ).annotate({ identifier: "SortOrderInput" });
     case 2:
@@ -2427,38 +2721,20 @@ function __c9(j: number): any {
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           xIcebergAccessDelegation: S.optional(
-            __S(64, __c2, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
+            __S(160, __c5, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
           ),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
           name: S.String,
           location: S.optional(S.String),
-          schema: __S(320, __c10, 0),
-          partition_spec: S.optional(__S(288, __c9, 0).pipe(T.Body("partition-spec"))),
-          write_order: S.optional(__S(289, __c9, 1).pipe(T.Body("write-order"))),
+          schema: __S(384, __c12, 0),
+          partition_spec: S.optional(__S(352, __c11, 0).pipe(T.Body("partition-spec"))),
+          write_order: S.optional(__S(353, __c11, 1).pipe(T.Body("write-order"))),
           stage_create: S.optional(S.Boolean.pipe(T.Body("stage-create"))),
-          properties: S.optional(__S(256, __c8, 0)),
+          properties: S.optional(__S(320, __c10, 0)),
         })
           .pipe(T.Http({ method: "POST", uri: "/namespaces/{namespace}/tables", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateTableRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          fields: __S(417, __c13, 1),
-          identifier_field_ids: S.optional(__S(352, __c11, 0).pipe(T.Body("identifier-field-ids"))),
-        }),
-      ).annotate({ identifier: "SchemaInput" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Number);
   }
 }
 function __c12(j: number): any {
@@ -2466,22 +2742,40 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          type: S.String,
+          fields: __S(481, __c15, 1),
+          identifier_field_ids: S.optional(__S(416, __c13, 0).pipe(T.Body("identifier-field-ids"))),
+        }),
+      ).annotate({ identifier: "SchemaInput" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           field_id: S.Number.pipe(T.Body("field-id")),
-          labels: __S(256, __c8, 0),
+          labels: __S(320, __c10, 0),
         }),
       ).annotate({ identifier: "FieldLabels" });
     case 1:
-      return S.Array(__S(384, __c12, 0));
+      return S.Array(__S(448, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          object_labels: S.optional(__S(256, __c8, 0).pipe(T.Body("object-labels"))),
-          fields: S.optional(__S(385, __c12, 1)),
+          object_labels: S.optional(__S(320, __c10, 0).pipe(T.Body("object-labels"))),
+          fields: S.optional(__S(449, __c14, 1)),
         }),
       ).annotate({ identifier: "Labels" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2496,83 +2790,76 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "StructField" });
     case 1:
-      return S.Array(__S(416, __c13, 0));
+      return S.Array(__S(480, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          fields: __S(417, __c13, 1),
+          fields: __S(481, __c15, 1),
           schema_id: S.optional(S.Number.pipe(T.Body("schema-id"))),
-          identifier_field_ids: S.optional(__S(352, __c11, 0).pipe(T.Body("identifier-field-ids"))),
+          identifier_field_ids: S.optional(__S(416, __c13, 0).pipe(T.Body("identifier-field-ids"))),
         }),
       ).annotate({ identifier: "Schema" });
     case 3:
-      return S.Array(__S(418, __c13, 2));
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          prefix: S.String,
-          config: __S(256, __c8, 0),
-        }),
-      ).annotate({ identifier: "StorageCredential" });
-    case 1:
-      return S.Array(__S(448, __c14, 0));
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          properties: S.optional(__S(256, __c8, 0)),
-          headers: S.optional(__S(512, __c16, 0)),
-        }),
-      ).annotate({ identifier: "RemoteSigningConfig" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.String,
-          field_id: S.Number.pipe(T.Body("field-id")),
-        }),
-      ).annotate({ identifier: "Action" });
-    case 2:
-      return S.Array(__S(481, __c15, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          required_column_projections: S.optional(
-            __S(482, __c15, 2).pipe(T.Body("required-column-projections")),
-          ),
-          required_row_filter: S.optional(S.Unknown.pipe(T.Body("required-row-filter"))),
-        }),
-      ).annotate({ identifier: "ReadRestrictions" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          metadata_location: S.optional(S.NullOr(S.String).pipe(T.Body("metadata-location"))),
-          metadata: __S(569, __c17, 25),
-          config: S.optional(__S(256, __c8, 0)),
-          storage_credentials: S.optional(__S(449, __c14, 1).pipe(T.Body("storage-credentials"))),
-          remote_signing_config: S.optional(
-            __S(480, __c15, 0).pipe(T.Body("remote-signing-config")),
-          ),
-          read_restrictions: S.optional(__S(483, __c15, 3).pipe(T.Body("read-restrictions"))),
-          labels: S.optional(__S(386, __c12, 2)),
-        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "LoadTableResult" });
+      return S.Array(__S(482, __c15, 2));
   }
 }
 function __c16(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(128, __c4, 0));
+      return S.suspend(() =>
+        S.Struct({
+          prefix: S.String,
+          config: __S(320, __c10, 0),
+        }),
+      ).annotate({ identifier: "StorageCredential" });
+    case 1:
+      return S.Array(__S(512, __c16, 0));
   }
 }
 function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          properties: S.optional(__S(320, __c10, 0)),
+          headers: S.optional(__S(576, __c18, 0)),
+        }),
+      ).annotate({ identifier: "RemoteSigningConfig" });
+    case 1:
+      return S.Array(S.Unknown);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          required_column_projections: S.optional(
+            __S(545, __c17, 1).pipe(T.Body("required-column-projections")),
+          ),
+          required_row_filter: S.optional(S.Unknown.pipe(T.Body("required-row-filter"))),
+        }),
+      ).annotate({ identifier: "ReadRestrictions" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          metadata_location: S.optional(S.NullOr(S.String).pipe(T.Body("metadata-location"))),
+          metadata: __S(633, __c19, 25),
+          config: S.optional(__S(320, __c10, 0)),
+          storage_credentials: S.optional(__S(513, __c16, 1).pipe(T.Body("storage-credentials"))),
+          remote_signing_config: S.optional(
+            __S(544, __c17, 0).pipe(T.Body("remote-signing-config")),
+          ),
+          read_restrictions: S.optional(__S(546, __c17, 2).pipe(T.Body("read-restrictions"))),
+          labels: S.optional(__S(450, __c14, 2)),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "LoadTableResult" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, __S(32, __c1, 0));
+  }
+}
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2584,7 +2871,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "PartitionField" });
     case 1:
-      return S.Array(__S(544, __c17, 0));
+      return S.Array(__S(608, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2595,12 +2882,15 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "SortField" });
     case 3:
-      return S.Array(__S(546, __c17, 2));
+      return S.Array(__S(610, __c19, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({
-          operation: S.String,
-        }),
+        S.StructWithRest(
+          S.Struct({
+            operation: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "SnapshotSummary" });
     case 5:
       return S.suspend(() =>
@@ -2612,7 +2902,7 @@ function __c17(j: number): any {
           manifest_list: S.String.pipe(T.Body("manifest-list")),
           first_row_id: S.optional(S.Number.pipe(T.Body("first-row-id"))),
           added_rows: S.optional(S.Number.pipe(T.Body("added-rows"))),
-          summary: __S(548, __c17, 4),
+          summary: __S(612, __c19, 4),
           schema_id: S.optional(S.Number.pipe(T.Body("schema-id"))),
         }),
       ).annotate({ identifier: "Snapshot" });
@@ -2622,12 +2912,12 @@ function __c17(j: number): any {
           type: S.String,
           snapshot_id: S.Number.pipe(T.Body("snapshot-id")),
           sequence_number: S.Number.pipe(T.Body("sequence-number")),
-          fields: __S(352, __c11, 0),
-          properties: S.optional(__S(256, __c8, 0)),
+          fields: __S(416, __c13, 0),
+          properties: S.optional(__S(320, __c10, 0)),
         }),
       ).annotate({ identifier: "BlobMetadata" });
     case 7:
-      return S.Array(__S(550, __c17, 6));
+      return S.Array(__S(614, __c19, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -2635,7 +2925,7 @@ function __c17(j: number): any {
           statistics_path: S.String.pipe(T.Body("statistics-path")),
           file_size_in_bytes: S.Number.pipe(T.Body("file-size-in-bytes")),
           file_footer_size_in_bytes: S.Number.pipe(T.Body("file-footer-size-in-bytes")),
-          blob_metadata: __S(551, __c17, 7).pipe(T.Body("blob-metadata")),
+          blob_metadata: __S(615, __c19, 7).pipe(T.Body("blob-metadata")),
         }),
       ).annotate({ identifier: "StatisticsFile" });
     case 9:
@@ -2652,31 +2942,31 @@ function __c17(j: number): any {
           key_id: S.String.pipe(T.Body("key-id")),
           encrypted_key_metadata: S.String.pipe(T.Body("encrypted-key-metadata")),
           encrypted_by_id: S.optional(S.String.pipe(T.Body("encrypted-by-id"))),
-          properties: S.optional(__S(256, __c8, 0)),
+          properties: S.optional(__S(320, __c10, 0)),
         }),
       ).annotate({ identifier: "EncryptedKey" });
     case 11:
       return S.suspend(() =>
         S.Struct({
           spec_id: S.optional(S.Number.pipe(T.Body("spec-id"))),
-          fields: __S(545, __c17, 1),
+          fields: __S(609, __c19, 1),
         }),
       ).annotate({ identifier: "PartitionSpec" });
     case 12:
-      return S.Array(__S(555, __c17, 11));
+      return S.Array(__S(619, __c19, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           order_id: S.Number.pipe(T.Body("order-id")),
-          fields: __S(547, __c17, 3),
+          fields: __S(611, __c19, 3),
         }),
       ).annotate({ identifier: "SortOrder" });
     case 14:
-      return S.Array(__S(557, __c17, 13));
+      return S.Array(__S(621, __c19, 13));
     case 15:
-      return S.Array(__S(554, __c17, 10));
+      return S.Array(__S(618, __c19, 10));
     case 16:
-      return S.Array(__S(549, __c17, 5));
+      return S.Array(__S(613, __c19, 5));
     case 17:
       return S.suspend(() =>
         S.Struct({
@@ -2688,7 +2978,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "SnapshotReference" });
     case 18:
-      return S.Record(S.String, __S(561, __c17, 17));
+      return S.Record(S.String, __S(625, __c19, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
@@ -2697,7 +2987,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "SnapshotLogItem" });
     case 20:
-      return S.Array(__S(563, __c17, 19));
+      return S.Array(__S(627, __c19, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
@@ -2706,11 +2996,11 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "MetadataLogItem" });
     case 22:
-      return S.Array(__S(565, __c17, 21));
+      return S.Array(__S(629, __c19, 21));
     case 23:
-      return S.Array(__S(552, __c17, 8));
+      return S.Array(__S(616, __c19, 8));
     case 24:
-      return S.Array(__S(553, __c17, 9));
+      return S.Array(__S(617, __c19, 9));
     case 25:
       return S.suspend(() =>
         S.Struct({
@@ -2719,31 +3009,31 @@ function __c17(j: number): any {
           location: S.optional(S.String),
           last_updated_ms: S.optional(S.Number.pipe(T.Body("last-updated-ms"))),
           next_row_id: S.optional(S.Number.pipe(T.Body("next-row-id"))),
-          properties: S.optional(__S(256, __c8, 0)),
-          schemas: S.optional(__S(419, __c13, 3)),
+          properties: S.optional(__S(320, __c10, 0)),
+          schemas: S.optional(__S(483, __c15, 3)),
           current_schema_id: S.optional(S.Number.pipe(T.Body("current-schema-id"))),
           last_column_id: S.optional(S.Number.pipe(T.Body("last-column-id"))),
-          partition_specs: S.optional(__S(556, __c17, 12).pipe(T.Body("partition-specs"))),
+          partition_specs: S.optional(__S(620, __c19, 12).pipe(T.Body("partition-specs"))),
           default_spec_id: S.optional(S.Number.pipe(T.Body("default-spec-id"))),
           last_partition_id: S.optional(S.Number.pipe(T.Body("last-partition-id"))),
-          sort_orders: S.optional(__S(558, __c17, 14).pipe(T.Body("sort-orders"))),
+          sort_orders: S.optional(__S(622, __c19, 14).pipe(T.Body("sort-orders"))),
           default_sort_order_id: S.optional(S.Number.pipe(T.Body("default-sort-order-id"))),
-          encryption_keys: S.optional(__S(559, __c17, 15).pipe(T.Body("encryption-keys"))),
-          snapshots: S.optional(__S(560, __c17, 16)),
-          refs: S.optional(__S(562, __c17, 18)),
+          encryption_keys: S.optional(__S(623, __c19, 15).pipe(T.Body("encryption-keys"))),
+          snapshots: S.optional(__S(624, __c19, 16)),
+          refs: S.optional(__S(626, __c19, 18)),
           current_snapshot_id: S.optional(S.Number.pipe(T.Body("current-snapshot-id"))),
           last_sequence_number: S.optional(S.Number.pipe(T.Body("last-sequence-number"))),
-          snapshot_log: S.optional(__S(564, __c17, 20).pipe(T.Body("snapshot-log"))),
-          metadata_log: S.optional(__S(566, __c17, 22).pipe(T.Body("metadata-log"))),
-          statistics: S.optional(__S(567, __c17, 23)),
+          snapshot_log: S.optional(__S(628, __c19, 20).pipe(T.Body("snapshot-log"))),
+          metadata_log: S.optional(__S(630, __c19, 22).pipe(T.Body("metadata-log"))),
+          statistics: S.optional(__S(631, __c19, 23)),
           partition_statistics: S.optional(
-            __S(568, __c17, 24).pipe(T.Body("partition-statistics")),
+            __S(632, __c19, 24).pipe(T.Body("partition-statistics")),
           ),
         }),
       ).annotate({ identifier: "TableMetadata" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2751,16 +3041,16 @@ function __c18(j: number): any {
           namespace: S.String.pipe(T.Label()),
           name: S.String,
           location: S.optional(S.String),
-          schema: __S(320, __c10, 0),
-          view_version: __S(610, __c19, 2).pipe(T.Body("view-version")),
-          properties: __S(256, __c8, 0),
+          schema: __S(384, __c12, 0),
+          view_version: __S(674, __c21, 2).pipe(T.Body("view-version")),
+          properties: __S(320, __c10, 0),
         })
           .pipe(T.Http({ method: "POST", uri: "/namespaces/{namespace}/views", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateViewRequest" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2771,21 +3061,21 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "SQLViewRepresentation" });
     case 1:
-      return S.Array(__S(608, __c19, 0));
+      return S.Array(__S(672, __c21, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           version_id: S.Number.pipe(T.Body("version-id")),
           timestamp_ms: S.Number.pipe(T.Body("timestamp-ms")),
           schema_id: S.Number.pipe(T.Body("schema-id")),
-          summary: __S(256, __c8, 0),
-          representations: __S(609, __c19, 1),
+          summary: __S(320, __c10, 0),
+          representations: __S(673, __c21, 1),
           default_catalog: S.optional(S.String.pipe(T.Body("default-catalog"))),
-          default_namespace: __S(128, __c4, 0).pipe(T.Body("default-namespace")),
+          default_namespace: __S(32, __c1, 0).pipe(T.Body("default-namespace")),
         }),
       ).annotate({ identifier: "ViewVersion" });
     case 3:
-      return S.Array(__S(610, __c19, 2));
+      return S.Array(__S(674, __c21, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2794,7 +3084,7 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "ViewHistoryEntry" });
     case 5:
-      return S.Array(__S(612, __c19, 4));
+      return S.Array(__S(676, __c21, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -2802,24 +3092,24 @@ function __c19(j: number): any {
           format_version: S.Number.pipe(T.Body("format-version")),
           location: S.String,
           current_version_id: S.Number.pipe(T.Body("current-version-id")),
-          versions: __S(611, __c19, 3),
-          version_log: __S(613, __c19, 5).pipe(T.Body("version-log")),
-          schemas: __S(419, __c13, 3),
-          properties: S.optional(__S(256, __c8, 0)),
+          versions: __S(675, __c21, 3),
+          version_log: __S(677, __c21, 5).pipe(T.Body("version-log")),
+          schemas: __S(483, __c15, 3),
+          properties: S.optional(__S(320, __c10, 0)),
         }),
       ).annotate({ identifier: "ViewMetadata" });
     case 7:
       return S.suspend(() =>
         S.Struct({
           metadata_location: S.String.pipe(T.Body("metadata-location")),
-          metadata: __S(614, __c19, 6),
-          config: S.optional(__S(256, __c8, 0)),
-          labels: S.optional(__S(386, __c12, 2)),
+          metadata: __S(678, __c21, 6),
+          config: S.optional(__S(320, __c10, 0)),
+          labels: S.optional(__S(450, __c14, 2)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "LoadViewResult" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2832,7 +3122,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DropNamespaceRequest" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2849,7 +3139,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DropTableRequest" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2865,7 +3155,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DropViewRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2874,7 +3164,7 @@ function __c23(j: number): any {
           table: S.String.pipe(T.Label()),
           plan_id: S.String.pipe(T.Label()),
           xIcebergAccessDelegation: S.optional(
-            __S(64, __c2, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
+            __S(160, __c5, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
           ),
         })
           .pipe(
@@ -2892,32 +3182,32 @@ function __c23(j: number): any {
       ).annotate({ identifier: "FetchPlanningResultResponse" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          avg_value_size_in_bytes: S.optional(S.Number.pipe(T.Body("avg-value-size-in-bytes"))),
+          total_bytes: S.optional(S.Number.pipe(T.Body("total-bytes"))),
         }),
       ).annotate({ identifier: "FieldStatistics" });
     case 2:
-      return S.Record(S.String, __S(769, __c24, 1));
+      return S.Record(S.String, __S(833, __c26, 1));
     case 3:
       return S.Array(S.Unknown);
     case 4:
       return S.suspend(() =>
         S.Struct({
-          keys: S.optional(__S(352, __c11, 0)),
-          values: S.optional(__S(352, __c11, 0)),
+          keys: S.optional(__S(416, __c13, 0)),
+          values: S.optional(__S(416, __c13, 0)),
         }),
       ).annotate({ identifier: "CountMap" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          keys: S.optional(__S(352, __c11, 0)),
-          values: S.optional(__S(768, __c24, 0)),
+          keys: S.optional(__S(416, __c13, 0)),
+          values: S.optional(__S(832, __c26, 0)),
         }),
       ).annotate({ identifier: "ValueMap" });
     case 6:
@@ -2927,34 +3217,34 @@ function __c24(j: number): any {
           file_path: S.String.pipe(T.Body("file-path")),
           file_format: S.String.pipe(T.Body("file-format")),
           spec_id: S.Number.pipe(T.Body("spec-id")),
-          partition: __S(768, __c24, 0),
+          partition: __S(832, __c26, 0),
           file_size_in_bytes: S.Number.pipe(T.Body("file-size-in-bytes")),
           record_count: S.Number.pipe(T.Body("record-count")),
           key_metadata: S.optional(S.String.pipe(T.Body("key-metadata"))),
-          split_offsets: S.optional(__S(352, __c11, 0).pipe(T.Body("split-offsets"))),
+          split_offsets: S.optional(__S(416, __c13, 0).pipe(T.Body("split-offsets"))),
           sort_order_id: S.optional(S.Number.pipe(T.Body("sort-order-id"))),
-          content_stats: S.optional(__S(770, __c24, 2).pipe(T.Body("content-stats"))),
+          content_stats: S.optional(__S(834, __c26, 2).pipe(T.Body("content-stats"))),
           first_row_id: S.optional(S.Number.pipe(T.Body("first-row-id"))),
-          column_sizes: S.optional(__S(772, __c24, 4).pipe(T.Body("column-sizes"))),
-          value_counts: S.optional(__S(772, __c24, 4).pipe(T.Body("value-counts"))),
-          null_value_counts: S.optional(__S(772, __c24, 4).pipe(T.Body("null-value-counts"))),
-          nan_value_counts: S.optional(__S(772, __c24, 4).pipe(T.Body("nan-value-counts"))),
-          lower_bounds: S.optional(__S(773, __c24, 5).pipe(T.Body("lower-bounds"))),
-          upper_bounds: S.optional(__S(773, __c24, 5).pipe(T.Body("upper-bounds"))),
+          column_sizes: S.optional(__S(836, __c26, 4).pipe(T.Body("column-sizes"))),
+          value_counts: S.optional(__S(836, __c26, 4).pipe(T.Body("value-counts"))),
+          null_value_counts: S.optional(__S(836, __c26, 4).pipe(T.Body("null-value-counts"))),
+          nan_value_counts: S.optional(__S(836, __c26, 4).pipe(T.Body("nan-value-counts"))),
+          lower_bounds: S.optional(__S(837, __c26, 5).pipe(T.Body("lower-bounds"))),
+          upper_bounds: S.optional(__S(837, __c26, 5).pipe(T.Body("upper-bounds"))),
         }),
       ).annotate({ identifier: "DataFile" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          data_file: __S(774, __c24, 6).pipe(T.Body("data-file")),
+          data_file: __S(838, __c26, 6).pipe(T.Body("data-file")),
           delete_file_references: S.optional(
-            __S(352, __c11, 0).pipe(T.Body("delete-file-references")),
+            __S(416, __c13, 0).pipe(T.Body("delete-file-references")),
           ),
           residual_filter: S.optional(S.Unknown.pipe(T.Body("residual-filter"))),
         }),
       ).annotate({ identifier: "FileScanTask" });
     case 8:
-      return S.Array(__S(775, __c24, 7));
+      return S.Array(__S(839, __c26, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -2975,14 +3265,14 @@ function __c24(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          delete_files: S.optional(__S(771, __c24, 3).pipe(T.Body("delete-files"))),
-          file_scan_tasks: S.optional(__S(776, __c24, 8).pipe(T.Body("file-scan-tasks"))),
-          plan_tasks: S.optional(__S(128, __c4, 0).pipe(T.Body("plan-tasks"))),
+          delete_files: S.optional(__S(835, __c26, 3).pipe(T.Body("delete-files"))),
+          file_scan_tasks: S.optional(__S(840, __c26, 8).pipe(T.Body("file-scan-tasks"))),
+          plan_tasks: S.optional(__S(32, __c1, 0).pipe(T.Body("plan-tasks"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "FetchScanTasksResponse" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2995,15 +3285,15 @@ function __c25(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          overrides: __S(256, __c8, 0),
-          defaults: __S(256, __c8, 0),
-          endpoints: S.optional(__S(128, __c4, 0)),
+          overrides: __S(320, __c10, 0),
+          defaults: __S(320, __c10, 0),
+          endpoints: S.optional(__S(32, __c1, 0)),
           idempotency_key_lifetime: S.optional(S.String.pipe(T.Body("idempotency-key-lifetime"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CatalogConfig" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3019,18 +3309,18 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           next_page_token: S.optional(S.NullOr(S.String).pipe(T.Body("next-page-token"))),
-          identifiers: __S(864, __c27, 0),
+          identifiers: __S(928, __c29, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListFunctionsResponse" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(128, __c4, 0));
+      return S.Array(__S(32, __c1, 0));
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3046,12 +3336,12 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           next_page_token: S.optional(S.NullOr(S.String).pipe(T.Body("next-page-token"))),
-          namespaces: __S(864, __c27, 0),
+          namespaces: __S(928, __c29, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListNamespacesResponse" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3065,20 +3355,20 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ListTablesRequest" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(160, __c5, 0));
+      return S.Array(__S(224, __c7, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           next_page_token: S.optional(S.NullOr(S.String).pipe(T.Body("next-page-token"))),
-          identifiers: __S(960, __c30, 0),
+          identifiers: __S(1024, __c32, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListTablesResponse" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3092,7 +3382,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "ListViewsRequest" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3114,12 +3404,12 @@ function __c32(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          storage_credentials: __S(449, __c14, 1).pipe(T.Body("storage-credentials")),
+          storage_credentials: __S(513, __c16, 1).pipe(T.Body("storage-credentials")),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "LoadCredentialsResponse" });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3145,7 +3435,7 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "FunctionParameter" });
     case 2:
-      return S.Array(__S(1057, __c33, 1));
+      return S.Array(__S(1121, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3155,35 +3445,35 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "FunctionSQLRepresentation" });
     case 4:
-      return S.Array(__S(1059, __c33, 3));
+      return S.Array(__S(1123, __c35, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           version_id: S.Number.pipe(T.Body("version-id")),
-          representations: __S(1060, __c33, 4),
+          representations: __S(1124, __c35, 4),
           deterministic: S.optional(S.Boolean),
           on_null_input: S.optional(S.String.pipe(T.Body("on-null-input"))),
           timestamp_ms: S.Number.pipe(T.Body("timestamp-ms")),
         }),
       ).annotate({ identifier: "FunctionDefinitionVersion" });
     case 6:
-      return S.Array(__S(1061, __c33, 5));
+      return S.Array(__S(1125, __c35, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           definition_id: S.String.pipe(T.Body("definition-id")),
           specific_name: S.optional(S.String.pipe(T.Body("specific-name"))),
-          parameters: __S(1058, __c33, 2),
+          parameters: __S(1122, __c35, 2),
           return_type: S.Unknown.pipe(T.Body("return-type")),
           return_nullable: S.optional(S.Boolean.pipe(T.Body("return-nullable"))),
-          versions: __S(1062, __c33, 6),
+          versions: __S(1126, __c35, 6),
           current_version_id: S.Number.pipe(T.Body("current-version-id")),
           function_type: S.String.pipe(T.Body("function-type")),
           doc: S.optional(S.String),
         }),
       ).annotate({ identifier: "FunctionDefinition" });
     case 8:
-      return S.Array(__S(1063, __c33, 7));
+      return S.Array(__S(1127, __c35, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -3192,25 +3482,25 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "FunctionDefinitionVersionRef" });
     case 10:
-      return S.Array(__S(1065, __c33, 9));
+      return S.Array(__S(1129, __c35, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           timestamp_ms: S.Number.pipe(T.Body("timestamp-ms")),
-          definition_versions: __S(1066, __c33, 10).pipe(T.Body("definition-versions")),
+          definition_versions: __S(1130, __c35, 10).pipe(T.Body("definition-versions")),
         }),
       ).annotate({ identifier: "FunctionDefinitionLogEntry" });
     case 12:
-      return S.Array(__S(1067, __c33, 11));
+      return S.Array(__S(1131, __c35, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           function_uuid: S.String.pipe(T.Body("function-uuid")),
           format_version: S.Number.pipe(T.Body("format-version")),
-          definitions: __S(1064, __c33, 8),
-          definition_log: __S(1068, __c33, 12).pipe(T.Body("definition-log")),
+          definitions: __S(1128, __c35, 8),
+          definition_log: __S(1132, __c35, 12).pipe(T.Body("definition-log")),
           location: S.optional(S.String),
-          properties: S.optional(__S(256, __c8, 0)),
+          properties: S.optional(__S(320, __c10, 0)),
           secure: S.optional(S.Boolean),
           doc: S.optional(S.String),
         }),
@@ -3219,12 +3509,12 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           metadata_location: S.optional(S.String.pipe(T.Body("metadata-location"))),
-          metadata: __S(1069, __c33, 13),
+          metadata: __S(1133, __c35, 13),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "LoadFunctionResult" });
   }
 }
-function __c34(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3237,13 +3527,13 @@ function __c34(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          namespace: __S(128, __c4, 0),
-          properties: S.optional(S.NullOr(__S(256, __c8, 0))),
+          namespace: __S(32, __c1, 0),
+          properties: S.optional(S.NullOr(__S(320, __c10, 0))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetNamespaceResponse" });
   }
 }
-function __c35(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3253,7 +3543,7 @@ function __c35(j: number): any {
           snapshots: S.optional(S.String.pipe(T.Query())),
           referenced_by: S.optional(S.String.pipe(T.Query("referenced-by"))),
           xIcebergAccessDelegation: S.optional(
-            __S(64, __c2, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
+            __S(160, __c5, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
           ),
           ifNoneMatch: S.optional(S.String.pipe(T.Header("If-None-Match"))),
         })
@@ -3262,7 +3552,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "LoadTableRequest" });
   }
 }
-function __c36(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3276,7 +3566,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "LoadViewRequest" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3288,7 +3578,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "NamespaceExistsRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3296,18 +3586,18 @@ function __c38(j: number): any {
           namespace: S.String.pipe(T.Label()),
           table: S.String.pipe(T.Label()),
           xIcebergAccessDelegation: S.optional(
-            __S(64, __c2, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
+            __S(160, __c5, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
           ),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
           snapshot_id: S.optional(S.Number.pipe(T.Body("snapshot-id"))),
-          select: S.optional(__S(128, __c4, 0)),
+          select: S.optional(__S(32, __c1, 0)),
           filter: S.optional(S.Unknown),
           min_rows_requested: S.optional(S.Number.pipe(T.Body("min-rows-requested"))),
           case_sensitive: S.optional(S.Boolean.pipe(T.Body("case-sensitive"))),
           use_snapshot_schema: S.optional(S.Boolean.pipe(T.Body("use-snapshot-schema"))),
           start_snapshot_id: S.optional(S.Number.pipe(T.Body("start-snapshot-id"))),
           end_snapshot_id: S.optional(S.Number.pipe(T.Body("end-snapshot-id"))),
-          stats_fields: S.optional(__S(128, __c4, 0).pipe(T.Body("stats-fields"))),
+          stats_fields: S.optional(__S(32, __c1, 0).pipe(T.Body("stats-fields"))),
         })
           .pipe(
             T.Http({
@@ -3324,14 +3614,14 @@ function __c38(j: number): any {
       ).annotate({ identifier: "PlanTableScanResponse" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           xIcebergAccessDelegation: S.optional(
-            __S(64, __c2, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
+            __S(160, __c5, 0).pipe(T.Header("X-Iceberg-Access-Delegation")),
           ),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
           name: S.String,
@@ -3343,7 +3633,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "RegisterTableRequest" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3358,35 +3648,35 @@ function __c40(j: number): any {
       ).annotate({ identifier: "RegisterViewRequest" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          source: __S(160, __c5, 0),
-          destination: __S(160, __c5, 0),
+          source: __S(224, __c7, 0),
+          destination: __S(224, __c7, 0),
         })
           .pipe(T.Http({ method: "POST", uri: "/tables/rename", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "RenameTableRequest" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          source: __S(160, __c5, 0),
-          destination: __S(160, __c5, 0),
+          source: __S(224, __c7, 0),
+          destination: __S(224, __c7, 0),
         })
           .pipe(T.Http({ method: "POST", uri: "/views/rename", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "RenameViewRequest" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3396,7 +3686,7 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "AssertViewUUID" });
     case 1:
-      return S.Array(__S(1376, __c43, 0));
+      return S.Array(__S(1440, __c45, 0));
     case 2:
       return S.Array(S.Unknown);
     case 3:
@@ -3405,16 +3695,16 @@ function __c43(j: number): any {
           namespace: S.String.pipe(T.Label()),
           view: S.String.pipe(T.Label()),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          identifier: S.optional(__S(160, __c5, 0)),
-          requirements: S.optional(__S(1377, __c43, 1)),
-          updates: __S(1378, __c43, 2),
+          identifier: S.optional(__S(224, __c7, 0)),
+          requirements: S.optional(__S(1441, __c45, 1)),
+          updates: __S(1442, __c45, 2),
         })
           .pipe(T.Http({ method: "POST", uri: "/namespaces/{namespace}/views/{view}", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ReplaceViewRequest" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3434,7 +3724,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "ReportMetricsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3444,8 +3734,8 @@ function __c45(j: number): any {
           region: S.String,
           uri: S.String,
           method: S.String,
-          headers: __S(512, __c16, 0),
-          properties: S.optional(__S(256, __c8, 0)),
+          headers: __S(576, __c18, 0),
+          properties: S.optional(__S(320, __c10, 0)),
           body: S.optional(S.String),
           provider: S.optional(S.String),
         })
@@ -3462,12 +3752,12 @@ function __c45(j: number): any {
       return S.suspend(() =>
         S.Struct({
           uri: S.String,
-          headers: __S(512, __c16, 0),
+          headers: __S(576, __c18, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "RemoteSignResult" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3482,7 +3772,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "TableExistsRequest" });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3502,26 +3792,26 @@ function __c47(j: number): any {
       ).annotate({ identifier: "UnregisterTableRequest" });
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           metadata_location: S.String.pipe(T.Body("metadata-location")),
-          metadata: __S(569, __c17, 25),
+          metadata: __S(633, __c19, 25),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UnregisterTableResult" });
   }
 }
-function __c49(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           namespace: S.String.pipe(T.Label()),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          removals: S.optional(__S(128, __c4, 0)),
-          updates: S.optional(__S(256, __c8, 0)),
+          removals: S.optional(__S(32, __c1, 0)),
+          updates: S.optional(__S(320, __c10, 0)),
         })
           .pipe(T.Http({ method: "POST", uri: "/namespaces/{namespace}/properties", code: 200 }))
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -3529,14 +3819,14 @@ function __c49(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          updated: __S(128, __c4, 0),
-          removed: __S(128, __c4, 0),
-          missing: S.optional(S.NullOr(__S(128, __c4, 0))),
+          updated: __S(32, __c1, 0),
+          removed: __S(32, __c1, 0),
+          missing: S.optional(S.NullOr(__S(32, __c1, 0))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UpdateNamespacePropertiesResponse" });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3544,9 +3834,9 @@ function __c50(j: number): any {
           namespace: S.String.pipe(T.Label()),
           table: S.String.pipe(T.Label()),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-          identifier: S.optional(__S(160, __c5, 0)),
-          requirements: __S(193, __c6, 1),
-          updates: __S(194, __c6, 2),
+          identifier: S.optional(__S(224, __c7, 0)),
+          requirements: __S(256, __c8, 0),
+          updates: __S(257, __c8, 1),
         })
           .pipe(
             T.Http({ method: "POST", uri: "/namespaces/{namespace}/tables/{table}", code: 200 }),
@@ -3555,7 +3845,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "UpdateTableRequest" });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

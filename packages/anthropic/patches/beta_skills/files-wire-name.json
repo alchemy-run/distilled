@@ -1,0 +1,15 @@
+{
+  "description": "Beta createSkill and createSkillVersion (POST /v1/skills?beta=true, POST /v1/skills/{skill_id}/versions?beta=true): The multipart field is a list of files that Anthropic reads only as repeated parts named `files[]`, but the spec names the member `files`, so the SDK sent parts named `files` (and, before core's list fix, parts named after each file), which the API does not read. Give the member the wire name `files[]`; core sends each file as a `files[]` part with the File's own filename (the file's path in the bundle). Evidence: the Skills guide's cURL for POST /v1/skills and POST /v1/skills/{skill_id}/versions, `-F \"files[]=@financial_skill/SKILL.md;filename=financial_skill/SKILL.md\"` (https://platform.claude.com/docs/en/build-with-claude/skills-guide, fetched 2026-11-14); the official TypeScript SDK sends `skills.create` and `skills.versions.create` bodies through `multipartFormRequestOptions` (https://github.com/anthropics/anthropic-sdk-typescript/blob/590783078cd961a0df698d9fddc0275c65ff3afd/src/resources/skills/skills.ts#L54-L58), whose `addFormValue` appends every array element under `key + '[]'` (https://github.com/anthropics/anthropic-sdk-typescript/blob/590783078cd961a0df698d9fddc0275c65ff3afd/src/internal/uploads.ts#L203-L204).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_skills#BetaCreateSkillV1SkillsPostRequest/members/files/traits/smithy.api#jsonName",
+      "value": "files[]"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.beta_skills#BetaCreateSkillVersionV1SkillsSkillIdVersionsPostRequest/members/files/traits/smithy.api#jsonName",
+      "value": "files[]"
+    }
+  ]
+}

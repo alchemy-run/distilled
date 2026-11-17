@@ -4,7 +4,13 @@ import {
   InternalServerError,
   type ConfigError,
 } from "@distilled.cloud/core/errors";
-import { getAnn, getProps, hasPropAnn, mapKeys } from "@distilled.cloud/core/protocol-http";
+import {
+  getAnn,
+  getProps,
+  hasPropAnn,
+  mapKeys,
+  matchTypedError,
+} from "@distilled.cloud/core/protocol-http";
 import { unwrapRedactedDeep } from "@distilled.cloud/core/protocol-rest";
 /**
  * AcmeProtocol -- hand-written.
@@ -37,8 +43,9 @@ import {
   isValidating,
   validateResponse,
 } from "@distilled.cloud/core/response-validation";
-import { parseRetryAfter, parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
-import { getErrorMatchers, httpSymbol, labelSymbol } from "@distilled.cloud/core/trait";
+import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import { httpSymbol, labelSymbol } from "@distilled.cloud/core/trait";
 import * as Effect from "effect/Effect";
 import type * as HttpBody from "effect/http/HttpBody";
 import * as HttpClient from "effect/http/HttpClient";
@@ -65,7 +72,7 @@ import { parseJwk, signExternalAccountBinding, signRequest, type SignOptions } f
  * AcmeOpContext>` explicitly so the compiler never infers these back out of
  * the schema generics.
  */
-export type AcmeOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type AcmeOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError | SdkError;
 
 /** Context (requirements) shared by every generated ACME operation. */
 export type AcmeOpContext = Credentials | HttpClient.HttpClient;
@@ -329,49 +336,6 @@ interface Problem {
 const isProblem = (value: unknown): value is Problem =>
   isObject(value) && typeof value.type === "string";
 
-/**
- * Match a problem document against the operation's typed error classes by
- * its `type` URN (the matcher's `message` rule is applied to the URN, so a
- * patch writes `{ "message": { "matches": "^urn:ietf:params:acme:error:badNonce$" } }`).
- */
-const matchProblem = (
-  errorClasses: ReadonlyArray<unknown>,
-  status: number,
-  problem: Problem,
-  headers: Record<string, string | undefined>,
-): unknown | undefined => {
-  const urn = problem.type ?? "";
-  let best: { cls: unknown; specificity: number } | undefined;
-  for (const cls of errorClasses) {
-    const matchers = getErrorMatchers(cls);
-    if (!matchers) continue;
-    for (const m of matchers) {
-      if (m.status !== undefined && m.status !== status) continue;
-      if (m.code !== undefined && m.code !== status) continue;
-      const rule = m.message;
-      let hit = false;
-      if (rule === undefined) hit = true;
-      else if (typeof rule === "string") hit = rule === urn;
-      else if (rule.matches !== undefined) hit = new RegExp(rule.matches).test(urn);
-      else if (rule.includes !== undefined) hit = urn.includes(rule.includes);
-      if (!hit) continue;
-      const specificity = (m.status !== undefined ? 1 : 0) + (rule !== undefined ? 2 : 0);
-      if (!best || specificity > best.specificity) best = { cls, specificity };
-    }
-  }
-  if (!best) return undefined;
-  return new (best.cls as new (args: any) => unknown)({
-    code: status,
-    message: problem.detail ?? urn,
-    type: urn,
-    detail: problem.detail,
-    subproblems: problem.subproblems,
-    ...(urn === "urn:ietf:params:acme:error:rateLimited"
-      ? { retryAfter: parseRetryAfter(headers) }
-      : {}),
-  });
-};
-
 const parseLinkAlternates = (link: string | undefined): string[] => {
   if (!link) return [];
   const out: string[] = [];
@@ -431,7 +395,15 @@ const decode = ({
 
       if (status >= 400) {
         if (problem) {
-          const typed = matchProblem(errorClasses, status, problem, headers);
+          // Matchers key on the problem's `type` URN (a body pointer); the
+          // message is the problem's `detail`, and core fills the declared
+          // `type`, `detail` and `retryAfter`.
+          const typed = matchTypedError(
+            errorClasses,
+            status,
+            [{ code: status, message: problem.detail ?? problem.type ?? `HTTP ${status}` }],
+            { body: problem, headers },
+          );
           if (typed !== undefined) return yield* fail(typed);
           return yield* fail(
             new UnknownAcmeError({

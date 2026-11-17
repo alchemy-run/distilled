@@ -351,8 +351,8 @@ export class TagQuotaPerResourceExceeded
 export type AvailabilityZoneList = string[];
 export type SecurityGroupIdentifierList = string[];
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export type SSEEnabled = boolean;
@@ -364,261 +364,261 @@ export type NetworkType = "ipv4" | "ipv6" | "dual_stack" | (string & {});
 export interface CreateClusterRequest {
   ClusterName: string;
   NodeType: string;
-  Description?: string;
+  Description?: string | undefined;
   ReplicationFactor: number;
-  AvailabilityZones?: string[];
-  SubnetGroupName?: string;
-  SecurityGroupIds?: string[];
-  PreferredMaintenanceWindow?: string;
-  NotificationTopicArn?: string;
+  AvailabilityZones?: string[] | undefined;
+  SubnetGroupName?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  NotificationTopicArn?: string | undefined;
   IamRoleArn: string;
-  ParameterGroupName?: string;
-  Tags?: Tag[];
-  SSESpecification?: SSESpecification;
-  ClusterEndpointEncryptionType?: ClusterEndpointEncryptionType;
-  NetworkType?: NetworkType;
+  ParameterGroupName?: string | undefined;
+  Tags?: Tag[] | undefined;
+  SSESpecification?: SSESpecification | undefined;
+  ClusterEndpointEncryptionType?: ClusterEndpointEncryptionType | undefined;
+  NetworkType?: NetworkType | undefined;
 }
 export interface Endpoint {
-  Address?: string;
-  Port?: number;
-  URL?: string;
+  Address?: string | undefined;
+  Port?: number | undefined;
+  URL?: string | undefined;
 }
 const Endpoint = /*@__PURE__*/ __L.at(__c1, 0) as any as S.Schema<Endpoint>;
 export type NodeIdentifierList = string[];
 export interface Node {
-  NodeId?: string;
-  Endpoint?: Endpoint;
-  NodeCreateTime?: Date;
-  AvailabilityZone?: string;
-  NodeStatus?: string;
-  ParameterGroupStatus?: string;
+  NodeId?: string | undefined;
+  Endpoint?: Endpoint | undefined;
+  NodeCreateTime?: Date | undefined;
+  AvailabilityZone?: string | undefined;
+  NodeStatus?: string | undefined;
+  ParameterGroupStatus?: string | undefined;
 }
 export type NodeList = Node[];
 export interface NotificationConfiguration {
-  TopicArn?: string;
-  TopicStatus?: string;
+  TopicArn?: string | undefined;
+  TopicStatus?: string | undefined;
 }
 export interface SecurityGroupMembership {
-  SecurityGroupIdentifier?: string;
-  Status?: string;
+  SecurityGroupIdentifier?: string | undefined;
+  Status?: string | undefined;
 }
 export type SecurityGroupMembershipList = SecurityGroupMembership[];
 export interface ParameterGroupStatus {
-  ParameterGroupName?: string;
-  ParameterApplyStatus?: string;
-  NodeIdsToReboot?: string[];
+  ParameterGroupName?: string | undefined;
+  ParameterApplyStatus?: string | undefined;
+  NodeIdsToReboot?: string[] | undefined;
 }
 export type SSEStatus = "ENABLING" | "ENABLED" | "DISABLING" | "DISABLED" | (string & {});
 export interface SSEDescription {
-  Status?: SSEStatus;
+  Status?: SSEStatus | undefined;
 }
 export interface Cluster {
-  ClusterName?: string;
-  Description?: string;
-  ClusterArn?: string;
-  TotalNodes?: number;
-  ActiveNodes?: number;
-  NodeType?: string;
-  Status?: string;
-  ClusterDiscoveryEndpoint?: Endpoint;
-  NodeIdsToRemove?: string[];
-  Nodes?: Node[];
-  PreferredMaintenanceWindow?: string;
-  NotificationConfiguration?: NotificationConfiguration;
-  SubnetGroup?: string;
-  SecurityGroups?: SecurityGroupMembership[];
-  IamRoleArn?: string;
-  ParameterGroup?: ParameterGroupStatus;
-  SSEDescription?: SSEDescription;
-  ClusterEndpointEncryptionType?: ClusterEndpointEncryptionType;
-  NetworkType?: NetworkType;
+  ClusterName?: string | undefined;
+  Description?: string | undefined;
+  ClusterArn?: string | undefined;
+  TotalNodes?: number | undefined;
+  ActiveNodes?: number | undefined;
+  NodeType?: string | undefined;
+  Status?: string | undefined;
+  ClusterDiscoveryEndpoint?: Endpoint | undefined;
+  NodeIdsToRemove?: string[] | undefined;
+  Nodes?: Node[] | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  NotificationConfiguration?: NotificationConfiguration | undefined;
+  SubnetGroup?: string | undefined;
+  SecurityGroups?: SecurityGroupMembership[] | undefined;
+  IamRoleArn?: string | undefined;
+  ParameterGroup?: ParameterGroupStatus | undefined;
+  SSEDescription?: SSEDescription | undefined;
+  ClusterEndpointEncryptionType?: ClusterEndpointEncryptionType | undefined;
+  NetworkType?: NetworkType | undefined;
 }
 export interface CreateClusterResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface CreateParameterGroupRequest {
   ParameterGroupName: string;
-  Description?: string;
+  Description?: string | undefined;
 }
 export interface ParameterGroup {
-  ParameterGroupName?: string;
-  Description?: string;
+  ParameterGroupName?: string | undefined;
+  Description?: string | undefined;
 }
 export interface CreateParameterGroupResponse {
-  ParameterGroup?: ParameterGroup;
+  ParameterGroup?: ParameterGroup | undefined;
 }
 export type SubnetIdentifierList = string[];
 export interface CreateSubnetGroupRequest {
   SubnetGroupName: string;
-  Description?: string;
+  Description?: string | undefined;
   SubnetIds: string[];
 }
 export type NetworkTypeList = NetworkType[];
 export interface Subnet {
-  SubnetIdentifier?: string;
-  SubnetAvailabilityZone?: string;
-  SupportedNetworkTypes?: NetworkType[];
+  SubnetIdentifier?: string | undefined;
+  SubnetAvailabilityZone?: string | undefined;
+  SupportedNetworkTypes?: NetworkType[] | undefined;
 }
 export type SubnetList = Subnet[];
 export interface SubnetGroup {
-  SubnetGroupName?: string;
-  Description?: string;
-  VpcId?: string;
-  Subnets?: Subnet[];
-  SupportedNetworkTypes?: NetworkType[];
+  SubnetGroupName?: string | undefined;
+  Description?: string | undefined;
+  VpcId?: string | undefined;
+  Subnets?: Subnet[] | undefined;
+  SupportedNetworkTypes?: NetworkType[] | undefined;
 }
 export interface CreateSubnetGroupResponse {
-  SubnetGroup?: SubnetGroup;
+  SubnetGroup?: SubnetGroup | undefined;
 }
 export interface DecreaseReplicationFactorRequest {
   ClusterName: string;
   NewReplicationFactor: number;
-  AvailabilityZones?: string[];
-  NodeIdsToRemove?: string[];
+  AvailabilityZones?: string[] | undefined;
+  NodeIdsToRemove?: string[] | undefined;
 }
 export interface DecreaseReplicationFactorResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface DeleteClusterRequest {
   ClusterName: string;
 }
 export interface DeleteClusterResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface DeleteParameterGroupRequest {
   ParameterGroupName: string;
 }
 export interface DeleteParameterGroupResponse {
-  DeletionMessage?: string;
+  DeletionMessage?: string | undefined;
 }
 export interface DeleteSubnetGroupRequest {
   SubnetGroupName: string;
 }
 export interface DeleteSubnetGroupResponse {
-  DeletionMessage?: string;
+  DeletionMessage?: string | undefined;
 }
 export type ClusterNameList = string[];
 export interface DescribeClustersRequest {
-  ClusterNames?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  ClusterNames?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ClusterList = Cluster[];
 export interface DescribeClustersResponse {
-  NextToken?: string;
-  Clusters?: Cluster[];
+  NextToken?: string | undefined;
+  Clusters?: Cluster[] | undefined;
 }
 export interface DescribeDefaultParametersRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ParameterType = "DEFAULT" | "NODE_TYPE_SPECIFIC" | (string & {});
 export interface NodeTypeSpecificValue {
-  NodeType?: string;
-  Value?: string;
+  NodeType?: string | undefined;
+  Value?: string | undefined;
 }
 export type NodeTypeSpecificValueList = NodeTypeSpecificValue[];
 export type IsModifiable = "TRUE" | "FALSE" | "CONDITIONAL" | (string & {});
 export type ChangeType = "IMMEDIATE" | "REQUIRES_REBOOT" | (string & {});
 export interface Parameter {
-  ParameterName?: string;
-  ParameterType?: ParameterType;
-  ParameterValue?: string;
-  NodeTypeSpecificValues?: NodeTypeSpecificValue[];
-  Description?: string;
-  Source?: string;
-  DataType?: string;
-  AllowedValues?: string;
-  IsModifiable?: IsModifiable;
-  ChangeType?: ChangeType;
+  ParameterName?: string | undefined;
+  ParameterType?: ParameterType | undefined;
+  ParameterValue?: string | undefined;
+  NodeTypeSpecificValues?: NodeTypeSpecificValue[] | undefined;
+  Description?: string | undefined;
+  Source?: string | undefined;
+  DataType?: string | undefined;
+  AllowedValues?: string | undefined;
+  IsModifiable?: IsModifiable | undefined;
+  ChangeType?: ChangeType | undefined;
 }
 export type ParameterList = Parameter[];
 export interface DescribeDefaultParametersResponse {
-  NextToken?: string;
-  Parameters?: Parameter[];
+  NextToken?: string | undefined;
+  Parameters?: Parameter[] | undefined;
 }
 export type SourceType = "CLUSTER" | "PARAMETER_GROUP" | "SUBNET_GROUP" | (string & {});
 export interface DescribeEventsRequest {
-  SourceName?: string;
-  SourceType?: SourceType;
-  StartTime?: Date;
-  EndTime?: Date;
-  Duration?: number;
-  MaxResults?: number;
-  NextToken?: string;
+  SourceName?: string | undefined;
+  SourceType?: SourceType | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Duration?: number | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Event {
-  SourceName?: string;
-  SourceType?: SourceType;
-  Message?: string;
-  Date?: Date;
+  SourceName?: string | undefined;
+  SourceType?: SourceType | undefined;
+  Message?: string | undefined;
+  Date?: Date | undefined;
 }
 export type EventList = Event[];
 export interface DescribeEventsResponse {
-  NextToken?: string;
-  Events?: Event[];
+  NextToken?: string | undefined;
+  Events?: Event[] | undefined;
 }
 export type ParameterGroupNameList = string[];
 export interface DescribeParameterGroupsRequest {
-  ParameterGroupNames?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  ParameterGroupNames?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ParameterGroupList = ParameterGroup[];
 export interface DescribeParameterGroupsResponse {
-  NextToken?: string;
-  ParameterGroups?: ParameterGroup[];
+  NextToken?: string | undefined;
+  ParameterGroups?: ParameterGroup[] | undefined;
 }
 export interface DescribeParametersRequest {
   ParameterGroupName: string;
-  Source?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  Source?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeParametersResponse {
-  NextToken?: string;
-  Parameters?: Parameter[];
+  NextToken?: string | undefined;
+  Parameters?: Parameter[] | undefined;
 }
 export type SubnetGroupNameList = string[];
 export interface DescribeSubnetGroupsRequest {
-  SubnetGroupNames?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  SubnetGroupNames?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SubnetGroupList = SubnetGroup[];
 export interface DescribeSubnetGroupsResponse {
-  NextToken?: string;
-  SubnetGroups?: SubnetGroup[];
+  NextToken?: string | undefined;
+  SubnetGroups?: SubnetGroup[] | undefined;
 }
 export interface IncreaseReplicationFactorRequest {
   ClusterName: string;
   NewReplicationFactor: number;
-  AvailabilityZones?: string[];
+  AvailabilityZones?: string[] | undefined;
 }
 export interface IncreaseReplicationFactorResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface ListTagsRequest {
   ResourceName: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsResponse {
-  Tags?: Tag[];
-  NextToken?: string;
+  Tags?: Tag[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface RebootNodeRequest {
   ClusterName: string;
   NodeId: string;
 }
 export interface RebootNodeResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface TagResourceRequest {
   ResourceName: string;
   Tags: Tag[];
 }
 export interface TagResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type KeyList = string[];
 export interface UntagResourceRequest {
@@ -626,23 +626,23 @@ export interface UntagResourceRequest {
   TagKeys: string[];
 }
 export interface UntagResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface UpdateClusterRequest {
   ClusterName: string;
-  Description?: string;
-  PreferredMaintenanceWindow?: string;
-  NotificationTopicArn?: string;
-  NotificationTopicStatus?: string;
-  ParameterGroupName?: string;
-  SecurityGroupIds?: string[];
+  Description?: string | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  NotificationTopicArn?: string | undefined;
+  NotificationTopicStatus?: string | undefined;
+  ParameterGroupName?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
 }
 export interface UpdateClusterResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface ParameterNameValue {
-  ParameterName?: string;
-  ParameterValue?: string;
+  ParameterName?: string | undefined;
+  ParameterValue?: string | undefined;
 }
 export type ParameterNameValueList = ParameterNameValue[];
 export interface UpdateParameterGroupRequest {
@@ -650,15 +650,15 @@ export interface UpdateParameterGroupRequest {
   ParameterNameValues: ParameterNameValue[];
 }
 export interface UpdateParameterGroupResponse {
-  ParameterGroup?: ParameterGroup;
+  ParameterGroup?: ParameterGroup | undefined;
 }
 export interface UpdateSubnetGroupRequest {
   SubnetGroupName: string;
-  Description?: string;
-  SubnetIds?: string[];
+  Description?: string | undefined;
+  SubnetIds?: string[] | undefined;
 }
 export interface UpdateSubnetGroupResponse {
-  SubnetGroup?: SubnetGroup;
+  SubnetGroup?: SubnetGroup | undefined;
 }
 export type ExceptionMessage = string;
 export type AwsQueryErrorMessage = string;

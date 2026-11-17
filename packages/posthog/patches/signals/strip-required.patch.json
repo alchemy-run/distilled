@@ -71,38 +71,6 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.signals#PaginatedSignalSourceConfigList/members/count/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.signals#PaginatedSignalSourceConfigList/members/results/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.signals#SignalSourceConfig/members/id/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.signals#SignalSourceConfig/members/source_product/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.signals#SignalSourceConfig/members/source_type/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.signals#SignalSourceConfig/members/created_at/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.signals#SignalSourceConfig/members/updated_at/traits"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.signals#SignalSourceConfig/members/status/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.signals#SignalsSourceConfigsCreateRequest/members/source_product/traits"
     },
     {
@@ -116,6 +84,38 @@
     {
       "op": "remove",
       "path": "/shapes/com.posthog.signals#SignalsSourceConfigsUpdateRequest/members/source_type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.signals#PaginatedSignalSourceConfigListOutput/members/count/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.signals#PaginatedSignalSourceConfigListOutput/members/results/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.signals#SignalSourceConfigOutput/members/id/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.signals#SignalSourceConfigOutput/members/source_product/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.signals#SignalSourceConfigOutput/members/source_type/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.signals#SignalSourceConfigOutput/members/created_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.signals#SignalSourceConfigOutput/members/updated_at/traits"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.posthog.signals#SignalSourceConfigOutput/members/status/traits/smithy.api#required"
     }
   ]
 }

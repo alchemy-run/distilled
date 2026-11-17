@@ -42,13 +42,13 @@ export type MeAgreementsAgreementStatusEnum = "ko" | "obsolete" | "ok" | "todo";
 /** Contract Agreement */
 export interface MeAgreementsContractAgreement {
   /** State of the agreement */
-  agreed?: MeAgreementsAgreementStatusEnum;
+  agreed?: MeAgreementsAgreementStatusEnum | undefined;
   /** Contract ID */
-  contractId?: number;
+  contractId?: number | undefined;
   /** Date of creation if the agreement is not signed. Date of signature if the agreement is signed */
-  date?: string;
+  date?: string | undefined;
   /** Contract Agreement ID */
-  id?: number;
+  id?: number | undefined;
 }
 export interface AcceptMeTaskContactChangeRequest {
   id: number;
@@ -84,13 +84,13 @@ export interface CheckMeVoucherValidityRequest {
 /** Voucher Status and Information */
 export interface NichandleVoucherStatus {
   /** Is voucher valid */
-  validity?: boolean;
+  validity?: boolean | undefined;
 }
 export interface CreateMeAccessRestrictionBackupCodeRequest {}
 export type NichandleAccessRestrictionSOTPSecretCodesList = Array<string>;
 /** Describe SOTP secret keys */
 export interface NichandleAccessRestrictionSOTPSecret {
-  codes?: NichandleAccessRestrictionSOTPSecretCodesList;
+  codes?: NichandleAccessRestrictionSOTPSecretCodesList | undefined;
 }
 /** Accept or deny IP access */
 export type NichandleAccessRestrictionIpRestrictionRuleEnum = "accept" | "deny";
@@ -109,26 +109,26 @@ export interface CreateMeAccessRestrictionSmsRequest {
 }
 /** Describe secret key */
 export interface NichandleAccessRestrictionSmsSecret {
-  id?: number;
-  remainingTry?: number;
+  id?: number | undefined;
+  remainingTry?: number | undefined;
 }
 export interface CreateMeAccessRestrictionTotpRequest {}
 /** Describe TOTP secret keys */
 export interface NichandleAccessRestrictionTOTPSecret {
-  id?: number;
-  qrcodeHelper?: string;
-  secret?: string | Redacted.Redacted<string>;
+  id?: number | undefined;
+  qrcodeHelper?: string | undefined;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateMeAccessRestrictionU2fRequest {}
 /** U2F Register Request */
 export interface NichandleAccessRestrictionU2FRegisterChallenge {
-  challenge?: string;
-  id?: number;
-  rpId?: string;
-  rpName?: string;
-  userDisplayName?: string;
-  userId?: string;
-  userName?: string;
+  challenge?: string | undefined;
+  id?: number | undefined;
+  rpId?: string | undefined;
+  rpName?: string | undefined;
+  userDisplayName?: string | undefined;
+  userId?: string | undefined;
+  userName?: string | undefined;
 }
 /** Countries a nichandle can choose */
 export type NichandleCountryEnum =
@@ -421,65 +421,65 @@ export type NichandlePhoneTypeEnum = "landline" | "mobile";
 export type NichandleGenderEnum = "female" | "male";
 export interface CreateMeAccountRequest {
   /** Address of nichandle */
-  address?: string | null;
+  address?: string | null | undefined;
   /** Area of nichandle */
-  area?: string | null;
+  area?: string | null | undefined;
   /** Billing account to link to the new nic */
-  billingAccount?: string | null;
+  billingAccount?: string | null | undefined;
   /** City of birth */
-  birthCity?: string | null;
+  birthCity?: string | null | undefined;
   /** Birth date */
-  birthDay?: string | null;
+  birthDay?: string | null | undefined;
   /** City of nichandle */
-  city?: string | null;
+  city?: string | null | undefined;
   /** Company National Identification Number */
-  companyNationalIdentificationNumber?: string | null;
+  companyNationalIdentificationNumber?: string | null | undefined;
   /** Complementary Address */
-  complementaryAddress?: string | null;
+  complementaryAddress?: string | null | undefined;
   /** Corporation type */
-  corporationType?: string | null;
+  corporationType?: string | null | undefined;
   /** Customer country */
-  country?: NichandleCountryEnum | (string & {});
+  country?: NichandleCountryEnum | (string & {}) | undefined;
   /** Email address */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Fax number */
-  fax?: string | null;
+  fax?: string | null | undefined;
   /** First name */
-  firstname?: string | null;
+  firstname?: string | null | undefined;
   /** Italian SDI */
-  italianSDI?: string | null;
+  italianSDI?: string | null | undefined;
   /** Language */
-  language?: NichandleLanguageEnum | (string & {}) | null;
+  language?: NichandleLanguageEnum | (string & {}) | null | undefined;
   /** Customer legal form */
-  legalform?: NichandleLegalFormEnum | (string & {});
+  legalform?: NichandleLegalFormEnum | (string & {}) | undefined;
   /** Customer name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** National Identification Number */
-  nationalIdentificationNumber?: string | null;
+  nationalIdentificationNumber?: string | null | undefined;
   /** Name of organisation */
-  organisation?: string | null;
+  organisation?: string | null | undefined;
   /** Phone number */
-  phone?: string | null;
-  phoneCountry?: NichandleCountryEnum | (string & {}) | null;
+  phone?: string | null | undefined;
+  phoneCountry?: NichandleCountryEnum | (string & {}) | null | undefined;
   /** Type of phone(mobile, landline) */
-  phoneType?: NichandlePhoneTypeEnum | (string & {}) | null;
+  phoneType?: NichandlePhoneTypeEnum | (string & {}) | null | undefined;
   /** Customer purpose of purchase */
-  purposeOfPurchase?: string | null;
+  purposeOfPurchase?: string | null | undefined;
   /** Gender */
-  sex?: NichandleGenderEnum | (string & {}) | null;
+  sex?: NichandleGenderEnum | (string & {}) | null | undefined;
   /** Spare email */
-  spareEmail?: string | null;
+  spareEmail?: string | null | undefined;
   /** VAT number */
-  vat?: string | null;
+  vat?: string | null | undefined;
   /** Zipcode */
-  zip?: string | null;
+  zip?: string | null | undefined;
 }
 /** Customer currency */
 export interface NichandleCurrency {
   /** Currency code */
-  code?: string;
+  code?: string | undefined;
   /** Currency symbol */
-  symbol?: string;
+  symbol?: string | undefined;
 }
 /** OVH companies */
 export type NichandleOvhCompanyEnum = "kimsufi" | "ovh" | "soyoustart";
@@ -506,72 +506,72 @@ export type NichandleStateEnum = "complete" | "incomplete";
 /** Details about your OVH identifier */
 export interface NichandleNichandle {
   /** Address of nichandle */
-  address?: string | null;
+  address?: string | null | undefined;
   /** Area of nichandle */
-  area?: string | null;
+  area?: string | null | undefined;
   /** City of birth */
-  birthCity?: string | null;
+  birthCity?: string | null | undefined;
   /** Birth date */
-  birthDay?: string | null;
+  birthDay?: string | null | undefined;
   /** City of nichandle */
-  city?: string | null;
+  city?: string | null | undefined;
   /** Company National Identification Number */
-  companyNationalIdentificationNumber?: string | null;
+  companyNationalIdentificationNumber?: string | null | undefined;
   /** Complementary Address */
-  complementaryAddress?: string | null;
+  complementaryAddress?: string | null | undefined;
   /** Corporation type */
-  corporationType?: string | null;
+  corporationType?: string | null | undefined;
   /** Customer country */
-  country?: NichandleCountryEnum;
+  country?: NichandleCountryEnum | undefined;
   /** Customer currency */
-  currency?: NichandleCurrency;
+  currency?: NichandleCurrency | undefined;
   /** Your customer code (a numerical value used for identification when contacting support via phone call) */
-  customerCode?: string | null;
+  customerCode?: string | null | undefined;
   /** Display name shown instead of the organisation name. */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Email address */
-  email?: string;
+  email?: string | undefined;
   /** Fax number */
-  fax?: string | null;
+  fax?: string | null | undefined;
   /** First name */
-  firstname?: string | null;
+  firstname?: string | null | undefined;
   /** Italian SDI */
-  italianSDI?: string | null;
+  italianSDI?: string | null | undefined;
   /** KYC validation state */
-  kycValidated?: boolean | null;
+  kycValidated?: boolean | null | undefined;
   /** Language */
-  language?: NichandleLanguageEnum | null;
+  language?: NichandleLanguageEnum | null | undefined;
   /** Customer legal form */
-  legalform?: NichandleLegalFormEnum;
+  legalform?: NichandleLegalFormEnum | undefined;
   /** Customer name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** National Identification Number */
-  nationalIdentificationNumber?: string | null;
+  nationalIdentificationNumber?: string | null | undefined;
   /** Customer identifier */
-  nichandle?: string;
+  nichandle?: string | undefined;
   /** Name of organisation */
-  organisation?: string | null;
+  organisation?: string | null | undefined;
   /** OVH company */
-  ovhCompany?: NichandleOvhCompanyEnum;
+  ovhCompany?: NichandleOvhCompanyEnum | undefined;
   /** OVH subsidiary */
-  ovhSubsidiary?: NichandleOvhSubsidiaryEnum;
+  ovhSubsidiary?: NichandleOvhSubsidiaryEnum | undefined;
   /** Phone number */
-  phone?: string | null;
-  phoneCountry?: NichandleCountryEnum | null;
+  phone?: string | null | undefined;
+  phoneCountry?: NichandleCountryEnum | null | undefined;
   /** Type of phone(mobile, landline) */
-  phoneType?: NichandlePhoneTypeEnum | null;
+  phoneType?: NichandlePhoneTypeEnum | null | undefined;
   /** Customer purpose of purchase */
-  purposeOfPurchase?: string | null;
+  purposeOfPurchase?: string | null | undefined;
   /** Gender */
-  sex?: NichandleGenderEnum | null;
+  sex?: NichandleGenderEnum | null | undefined;
   /** Spare email */
-  spareEmail?: string | null;
+  spareEmail?: string | null | undefined;
   /** Nichandle state */
-  state?: NichandleStateEnum;
+  state?: NichandleStateEnum | undefined;
   /** VAT number */
-  vat?: string | null;
+  vat?: string | null | undefined;
   /** Zipcode */
-  zip?: string | null;
+  zip?: string | null | undefined;
 }
 export interface CreateMeAutorenewRequest {
   /** Day of autorenew */
@@ -602,50 +602,50 @@ export type OrderCurrencyCodeEnum =
 /** Price with its currency and textual representation */
 export interface OrderPrice {
   /** Currency code */
-  currencyCode?: OrderCurrencyCodeEnum;
+  currencyCode?: OrderCurrencyCodeEnum | undefined;
   /** Price in microcents */
-  priceInUcents?: number | null;
+  priceInUcents?: number | null | undefined;
   /** Textual representation */
-  text?: string;
+  text?: string | undefined;
   /** The effective price */
-  value?: number;
+  value?: number | undefined;
 }
 /** Details about an Order */
 export interface BillingOrder {
-  date?: string | null;
-  expirationDate?: string | null;
-  metadatas?: BillingOrderMetadatasList | null;
-  orderId?: number;
-  password?: string | Redacted.Redacted<string>;
-  pdfUrl?: string;
-  priceWithTax?: OrderPrice;
-  priceWithoutTax?: OrderPrice;
-  retractionDate?: string | null;
-  tax?: OrderPrice;
-  url?: string;
+  date?: string | null | undefined;
+  expirationDate?: string | null | undefined;
+  metadatas?: BillingOrderMetadatasList | null | undefined;
+  orderId?: number | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  pdfUrl?: string | undefined;
+  priceWithTax?: OrderPrice | undefined;
+  priceWithoutTax?: OrderPrice | undefined;
+  retractionDate?: string | null | undefined;
+  tax?: OrderPrice | undefined;
+  url?: string | undefined;
 }
 export interface CreateMeBillingGroupRequest {
   /** Contact ID from /me/contact */
-  contactId?: number | null;
+  contactId?: number | null | undefined;
   /** Billing group unique name */
-  name?: string;
+  name?: string | undefined;
   /** Payment method ID associated to the billing group */
-  paymentMethodId?: number | null;
+  paymentMethodId?: number | null | undefined;
 }
 /** Missing description */
 export interface MeBillingGroupBillingGroup {
   /** Contact ID from /me/contact */
-  contactId?: number | null;
+  contactId?: number | null | undefined;
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Billing group ID */
-  groupId?: number;
+  groupId?: number | undefined;
   /** Last update date */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Billing group unique name */
-  name?: string;
+  name?: string | undefined;
   /** Payment method ID associated to the billing group */
-  paymentMethodId?: number | null;
+  paymentMethodId?: number | null | undefined;
 }
 export interface CreateMeBillingGroupServiceRequest {
   /** Group ID */
@@ -656,9 +656,9 @@ export interface CreateMeBillingGroupServiceRequest {
 /** Missing description */
 export interface MeBillingGroupService {
   /** Billing group ID */
-  groupId?: number;
+  groupId?: number | undefined;
   /** Service ID */
-  serviceId?: number;
+  serviceId?: number | undefined;
 }
 export interface CreateMeBillingInvoicesByPostalMailRequest {
   /** Send invoices through postal mail */
@@ -669,13 +669,13 @@ export interface CreateMeBillingInvoicesByPostalMailResponse {}
 export type MeBillingPurchaseOrderPurchaseOrderTypeEnum = "PURCHASE_ORDER" | "REFERENCE_ORDER";
 export interface CreateMeBillingPurchaseOrderRequest {
   /** Active */
-  active?: boolean | null;
+  active?: boolean | null | undefined;
   /** Billing Group identifier */
-  billingGroupId?: number | null;
+  billingGroupId?: number | null | undefined;
   /** Description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** End date */
-  endDate?: string | null;
+  endDate?: string | null | undefined;
   /** Reference */
   reference: string;
   /** Start date */
@@ -688,27 +688,27 @@ export type MeBillingPurchaseOrderStatusEnum = "CREATED" | "DELETED";
 /** Purchase Order */
 export interface MeBillingPurchaseOrderPurchaseOrder {
   /** Active */
-  active?: boolean | null;
+  active?: boolean | null | undefined;
   /** Billing Group identifier */
-  billingGroupId?: number | null;
+  billingGroupId?: number | null | undefined;
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** End date */
-  endDate?: string | null;
+  endDate?: string | null | undefined;
   /** Purchase Order identifier */
-  id?: number;
+  id?: number | undefined;
   /** Last update date */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Reference */
-  reference?: string;
+  reference?: string | undefined;
   /** Start date */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Status */
-  status?: MeBillingPurchaseOrderStatusEnum;
+  status?: MeBillingPurchaseOrderStatusEnum | undefined;
   /** Type of a purchase order */
-  type?: MeBillingPurchaseOrderPurchaseOrderTypeEnum;
+  type?: MeBillingPurchaseOrderPurchaseOrderTypeEnum | undefined;
 }
 export interface CreateMeBillingReportConsumptionRequest {
   /** End date of the report period */
@@ -719,7 +719,7 @@ export interface CreateMeBillingReportConsumptionRequest {
 /** Response of consumption billing report creation */
 export interface MeBillingReportConsumptionCreationResponse {
   /** Task id of the report */
-  taskId?: string;
+  taskId?: string | undefined;
 }
 export interface CreateMeCarbonCalculatorTaskRequest {
   /** Month of the requested document (day is ignored) */
@@ -728,7 +728,7 @@ export interface CreateMeCarbonCalculatorTaskRequest {
 /** Response for request of customer's carbon impact */
 export interface CarbonCalculatorCalculationResponse {
   /** ID of the calculation task */
-  taskID?: string;
+  taskID?: string | undefined;
 }
 export interface CreateMeChangeEmailRequest {
   /** New email to associate to your account */
@@ -739,126 +739,126 @@ export type NichandleChangeEmailTaskStateEnum = "aborted" | "done" | "refused" |
 /** Task running an email change on an account */
 export interface NichandleEmailChangeTask {
   /** End date of that request */
-  dateDone?: string | null;
+  dateDone?: string | null | undefined;
   /** Creation date of that request */
-  dateRequest?: string;
-  id?: number;
+  dateRequest?: string | undefined;
+  id?: number | undefined;
   /** The email address to change for */
-  newEmail?: string;
+  newEmail?: string | undefined;
   /** Current state of the request */
-  state?: NichandleChangeEmailTaskStateEnum;
+  state?: NichandleChangeEmailTaskStateEnum | undefined;
 }
 export interface CreateMeChangePasswordRequest {}
 export interface CreateMeChangePasswordResponse {}
 /** Representation of a Contact */
 export interface MeContactAddress {
   /** City */
-  city?: string;
+  city?: string | undefined;
   /** Country */
-  country?: NichandleCountryEnum | (string & {});
+  country?: NichandleCountryEnum | (string & {}) | undefined;
   /** First line of the address */
-  line1?: string;
+  line1?: string | undefined;
   /** Second line of the address */
-  line2?: string | null;
+  line2?: string | null | undefined;
   /** Third line of the address */
-  line3?: string | null;
+  line3?: string | null | undefined;
   /** Other details */
-  otherDetails?: string | null;
+  otherDetails?: string | null | undefined;
   /** Province name */
-  province?: string | null;
+  province?: string | null | undefined;
   /** Zipcode */
-  zip?: string | null;
+  zip?: string | null | undefined;
 }
 export interface CreateMeContactRequest {
   /** Address for this contact */
-  address?: MeContactAddress;
+  address?: MeContactAddress | undefined;
   /** Birth city */
-  birthCity?: string | null;
+  birthCity?: string | null | undefined;
   /** Birth Country */
-  birthCountry?: NichandleCountryEnum | (string & {}) | null;
+  birthCountry?: NichandleCountryEnum | (string & {}) | null | undefined;
   /** Birth date */
-  birthDay?: string | null;
+  birthDay?: string | null | undefined;
   /** Birth Zipcode */
-  birthZip?: string | null;
+  birthZip?: string | null | undefined;
   /** Cellphone number */
-  cellPhone?: string | null;
+  cellPhone?: string | null | undefined;
   /** National identification number of your company */
-  companyNationalIdentificationNumber?: string | null;
+  companyNationalIdentificationNumber?: string | null | undefined;
   /** Email address */
-  email?: string;
+  email?: string | undefined;
   /** Fax number */
-  fax?: string | null;
+  fax?: string | null | undefined;
   /** First name */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Gender */
-  gender?: NichandleGenderEnum | (string & {}) | null;
+  gender?: NichandleGenderEnum | (string & {}) | null | undefined;
   /** Language */
-  language?: NichandleLanguageEnum | (string & {});
+  language?: NichandleLanguageEnum | (string & {}) | undefined;
   /** Last name */
-  lastName?: string;
+  lastName?: string | undefined;
   /** Legal form of the contact */
-  legalForm?: NichandleLegalFormEnum | (string & {});
+  legalForm?: NichandleLegalFormEnum | (string & {}) | undefined;
   /** National identification number of the contact */
-  nationalIdentificationNumber?: string | null;
+  nationalIdentificationNumber?: string | null | undefined;
   /** Nationality */
-  nationality?: NichandleCountryEnum | (string & {}) | null;
+  nationality?: NichandleCountryEnum | (string & {}) | null | undefined;
   /** Organisation name */
-  organisationName?: string | null;
+  organisationName?: string | null | undefined;
   /** Organisation type */
-  organisationType?: string | null;
+  organisationType?: string | null | undefined;
   /** Telephone number */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** Spare email address */
-  spareEmail?: string | null;
+  spareEmail?: string | null | undefined;
   /** VAT number */
-  vat?: string | null;
+  vat?: string | null | undefined;
 }
 /** Contact definition */
 export interface MeContactContact {
   /** Address for this contact */
-  address?: MeContactAddress;
+  address?: MeContactAddress | undefined;
   /** Birth city */
-  birthCity?: string | null;
+  birthCity?: string | null | undefined;
   /** Birth Country */
-  birthCountry?: NichandleCountryEnum | null;
+  birthCountry?: NichandleCountryEnum | null | undefined;
   /** Birth date */
-  birthDay?: string | null;
+  birthDay?: string | null | undefined;
   /** Birth Zipcode */
-  birthZip?: string | null;
+  birthZip?: string | null | undefined;
   /** Cellphone number */
-  cellPhone?: string | null;
+  cellPhone?: string | null | undefined;
   /** National identification number of your company */
-  companyNationalIdentificationNumber?: string | null;
+  companyNationalIdentificationNumber?: string | null | undefined;
   /** Email address */
-  email?: string;
+  email?: string | undefined;
   /** Fax number */
-  fax?: string | null;
+  fax?: string | null | undefined;
   /** First name */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Gender */
-  gender?: NichandleGenderEnum | null;
+  gender?: NichandleGenderEnum | null | undefined;
   /** Contact Identifier */
-  id?: number;
+  id?: number | undefined;
   /** Language */
-  language?: NichandleLanguageEnum;
+  language?: NichandleLanguageEnum | undefined;
   /** Last name */
-  lastName?: string;
+  lastName?: string | undefined;
   /** Legal form of the contact */
-  legalForm?: NichandleLegalFormEnum;
+  legalForm?: NichandleLegalFormEnum | undefined;
   /** National identification number of the contact */
-  nationalIdentificationNumber?: string | null;
+  nationalIdentificationNumber?: string | null | undefined;
   /** Nationality */
-  nationality?: NichandleCountryEnum | null;
+  nationality?: NichandleCountryEnum | null | undefined;
   /** Organisation name */
-  organisationName?: string | null;
+  organisationName?: string | null | undefined;
   /** Organisation type */
-  organisationType?: string | null;
+  organisationType?: string | null | undefined;
   /** Telephone number */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** Spare email address */
-  spareEmail?: string | null;
+  spareEmail?: string | null | undefined;
   /** VAT number */
-  vat?: string | null;
+  vat?: string | null | undefined;
 }
 export interface CreateMeCorrectiveInvoiceDebtPayRequest {
   correctiveInvoiceId: string;
@@ -867,14 +867,14 @@ export interface CreateMeCreditCodeRequest {
   /** Code to validate */
   inputCode: string;
   /** Restrict credit to a specific service */
-  serviceId?: number;
+  serviceId?: number | undefined;
 }
 /** Missing description */
 export interface MeCreditBalanceMovementSubObject {
   /** Sub object ID */
-  id?: string;
+  id?: string | undefined;
   /** Sub object name */
-  name?: string;
+  name?: string | undefined;
 }
 /** Balance movement type */
 export type MeCreditBalanceMovementTypeEnum =
@@ -892,25 +892,25 @@ export type MeCreditBalanceMovementTypeEnum =
 /** Missing description */
 export interface MeCreditBalanceMovement {
   /** Movement amount */
-  amount?: OrderPrice;
+  amount?: OrderPrice | undefined;
   /** Balance name */
-  balanceName?: string;
+  balanceName?: string | undefined;
   /** Movement creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Object destination of this credit movement */
-  destinationObject?: MeCreditBalanceMovementSubObject | null;
+  destinationObject?: MeCreditBalanceMovementSubObject | null | undefined;
   /** Movement expiration date */
-  expirationDate?: string | null;
+  expirationDate?: string | null | undefined;
   /** Movement last update */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Movement ID */
-  movementId?: number;
+  movementId?: number | undefined;
   /** Order ID associated to this credit movement */
-  orderId?: number | null;
+  orderId?: number | null | undefined;
   /** Object source of this credit movement */
-  sourceObject?: MeCreditBalanceMovementSubObject;
+  sourceObject?: MeCreditBalanceMovementSubObject | undefined;
   /** Movement type */
-  type?: MeCreditBalanceMovementTypeEnum;
+  type?: MeCreditBalanceMovementTypeEnum | undefined;
 }
 export interface CreateMeDebtAccountDebtPayRequest {
   debtId: number;
@@ -922,7 +922,7 @@ export interface CreateMeDepositPaidBillDebtPayRequest {
 }
 /** Key and value, with proper key strings */
 export interface ComplexTypeSafeKeyValueStringInput {
-  value?: string;
+  value?: string | undefined;
 }
 /** File tags */
 export type CreateMeDocumentRequestTagsList = Array<ComplexTypeSafeKeyValueStringInput>;
@@ -930,35 +930,35 @@ export interface CreateMeDocumentRequest {
   /** File name */
   name: string;
   /** File tags */
-  tags?: CreateMeDocumentRequestTagsList;
+  tags?: CreateMeDocumentRequestTagsList | undefined;
 }
 /** Key and value, with proper key strings */
 export interface ComplexTypeSafeKeyValueString {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 /** Document tags */
 export type NichandleDocumentDocumentTagsList = Array<ComplexTypeSafeKeyValueString>;
 /** List of documents added on your account */
 export interface NichandleDocumentDocument {
   /** Document creation */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Document expiration */
-  expirationDate?: string | null;
+  expirationDate?: string | null | undefined;
   /** URL used to get document */
-  getUrl?: string;
+  getUrl?: string | undefined;
   /** Document id */
-  id?: string;
+  id?: string | undefined;
   /** Document name */
-  name?: string;
+  name?: string | undefined;
   /** URL used to put document */
-  putUrl?: string;
+  putUrl?: string | undefined;
   /** Document size (in bytes) */
-  size?: number;
+  size?: number | undefined;
   /** Document tags */
-  tags?: NichandleDocumentDocumentTagsList;
+  tags?: NichandleDocumentDocumentTagsList | undefined;
   /** Document validation */
-  validationDate?: string | null;
+  validationDate?: string | null | undefined;
 }
 export interface CreateMeDocumentCorsRequest {
   /** Allow this origin */
@@ -975,8 +975,8 @@ export interface CreateMeFaxCustomDomainRequest {
 /** Custom domains of your fax services */
 export interface TelephonyMailDomain2Service {
   /** The custom domain of your fax services */
-  domain?: string;
-  id?: number;
+  domain?: string | undefined;
+  id?: number | undefined;
 }
 export interface CreateMeFeedbackRequest {
   /** Your feedback text */
@@ -1264,44 +1264,44 @@ export type MeGeolocationCountryEnum =
 /** Representation of country and continent from visitor IP */
 export interface MeGeolocationContinentCountryLocation {
   /** Continent */
-  continent?: MeGeolocationContinentEnum | null;
+  continent?: MeGeolocationContinentEnum | null | undefined;
   /** Country iso code */
-  countryCode?: MeGeolocationCountryEnum | null;
+  countryCode?: MeGeolocationCountryEnum | null | undefined;
   /** The IP address processed, the user's origin one */
-  ip?: string;
+  ip?: string | undefined;
 }
 /** Permission given on the account */
 export type AuthRoleEnum = "ADMIN" | "NONE" | "REGULAR" | "UNPRIVILEGED";
 export interface CreateMeIdentityGroupRequest {
   /** Group's description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Group's name */
   name: string;
   /** Group's role */
-  role?: AuthRoleEnum | (string & {});
+  role?: AuthRoleEnum | (string & {}) | undefined;
 }
 /** An IAM Group */
 export interface AuthGroup {
   /** Creation date of this group */
-  creation?: string;
+  creation?: string | undefined;
   /** Whether it is a default group. This kind of group can't be edited or deleted */
-  defaultGroup?: boolean;
+  defaultGroup?: boolean | undefined;
   /** Group's description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Last update of this group */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Group's name */
-  name?: string;
+  name?: string | undefined;
   /** Group's role */
-  role?: AuthRoleEnum;
+  role?: AuthRoleEnum | undefined;
   /** IAM identity URN of the group */
-  urn?: string;
+  urn?: string | undefined;
 }
 export interface CreateMeIdentityGroupUserRequest {
   /** Group */
   group: string;
   /** Username to add to the group */
-  user?: string;
+  user?: string | undefined;
 }
 export interface CreateMeIdentityGroupUserResponse {}
 /** List of AttributeValues allowed for this RequestedAttribute */
@@ -1313,76 +1313,76 @@ export interface AuthProviderRequestedAttributes {
   /** Name of the SAML RequestedAttribute */
   name: string;
   /** NameFormat of the SAML RequestedAttribute */
-  nameFormat?: string | null;
+  nameFormat?: string | null | undefined;
   /** List of AttributeValues allowed for this RequestedAttribute */
-  values?: AuthProviderRequestedAttributesValuesList | null;
+  values?: AuthProviderRequestedAttributesValuesList | null | undefined;
 }
 /** List of SAML RequestedAttribute to add to SAML requests */
 export type AuthProviderExtensionsRequestedAttributesList = Array<AuthProviderRequestedAttributes>;
 /** A SAML 2.0 Extension that should be added to SAML requests when using this provider */
 export interface AuthProviderExtensions {
   /** List of SAML RequestedAttribute to add to SAML requests */
-  requestedAttributes?: AuthProviderExtensionsRequestedAttributesList | null;
+  requestedAttributes?: AuthProviderExtensionsRequestedAttributesList | null | undefined;
 }
 export interface CreateMeIdentityProviderRequest {
   /** Whether account users should still be usable as a login method or not */
-  disableUsers?: boolean | null;
+  disableUsers?: boolean | null | undefined;
   /** SAML Extensions to embed inside the SAML requests */
-  extensions?: AuthProviderExtensions;
+  extensions?: AuthProviderExtensions | undefined;
   /** SAML Group attribute name */
-  groupAttributeName?: string | null;
+  groupAttributeName?: string | null | undefined;
   /** IdP's signing certificate */
   metadata: string;
   /** Whether SAML Authn Requests should be signed */
-  signRequests?: boolean | null;
+  signRequests?: boolean | null | undefined;
   /** SAML User attribute name */
-  userAttributeName?: string | null;
+  userAttributeName?: string | null | undefined;
 }
 /** X509 Certificate */
 export interface AuthCertificate {
   /** Certificate's expiration */
-  expiration?: string;
+  expiration?: string | undefined;
   /** Certificate's subject */
-  subject?: string;
+  subject?: string | undefined;
 }
 /** IdP's signing certificate */
 export type AuthProviderIdpSigningCertificatesList = Array<AuthCertificate>;
 /** An IAM Federation Provider */
 export interface AuthProvider {
   /** Creation date of the identity provider */
-  creation?: string;
+  creation?: string | undefined;
   /** Whether account users should still be usable as a login method or not */
-  disableUsers?: boolean | null;
+  disableUsers?: boolean | null | undefined;
   /** SAML Extensions to embed inside the SAML requests */
-  extensions?: AuthProviderExtensions;
+  extensions?: AuthProviderExtensions | undefined;
   /** SAML Group attribute name */
-  groupAttributeName?: string;
+  groupAttributeName?: string | undefined;
   /** IdP's signing certificate */
-  idpSigningCertificates?: AuthProviderIdpSigningCertificatesList;
+  idpSigningCertificates?: AuthProviderIdpSigningCertificatesList | undefined;
   /** Last update of the identity provider */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Whether SAML Authn Requests should be signed */
-  signRequests?: boolean | null;
+  signRequests?: boolean | null | undefined;
   /** IdP's Single Sign On Service Url */
-  ssoServiceUrl?: string;
+  ssoServiceUrl?: string | undefined;
   /** SAML User attribute name */
-  userAttributeName?: string;
+  userAttributeName?: string | undefined;
 }
 /** Type of user */
 export type AuthUserTypeEnum = "ROOT" | "SERVICE" | "USER";
 export interface CreateMeIdentityUserRequest {
   /** User's description */
-  description?: string;
+  description?: string | undefined;
   /** User's email */
-  email?: string;
+  email?: string | undefined;
   /** User's group */
-  group?: string;
+  group?: string | undefined;
   /** User's login */
   login: string;
   /** User's password */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Type of user to create */
-  type?: AuthUserTypeEnum | (string & {});
+  type?: AuthUserTypeEnum | (string & {}) | undefined;
 }
 export interface CreateMeIdentityUserResponse {}
 export interface CreateMeIdentityUserTokenRequest {
@@ -1391,26 +1391,26 @@ export interface CreateMeIdentityUserTokenRequest {
   /** Personal access token's description */
   description: string;
   /** Personal access token's expiration date */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Duration (in seconds) of the token's validity */
-  expiresIn?: number;
+  expiresIn?: number | undefined;
   /** Personal access token's name */
   name: string;
 }
 /** Personal access token usable on OVHcloud's applications */
 export interface AuthPersonalAccessTokenResponse {
   /** Creation date of this token */
-  creation?: string;
+  creation?: string | undefined;
   /** Personal access token's description */
-  description?: string;
+  description?: string | undefined;
   /** Personal access token's expiration date */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** Personal access token's last used date */
-  lastUsed?: string | null;
+  lastUsed?: string | null | undefined;
   /** Name of this token */
-  name?: string;
+  name?: string | undefined;
   /** Personal access token */
-  token?: string;
+  token?: string | undefined;
 }
 /** Ip registries */
 export type NichandleIpRegistryEnum = "ARIN" | "RIPE";
@@ -1423,8 +1423,8 @@ export interface CreateMeIpOrganisationRequest {
   lastname: string;
   phone: string;
   registry: NichandleIpRegistryEnum | (string & {});
-  state?: string;
-  zip?: string;
+  state?: string | undefined;
+  zip?: string | undefined;
 }
 export interface CreateMeIpOrganisationResponse {}
 export interface CreateMeLogAuditLogSubscriptionRequest {
@@ -1436,9 +1436,9 @@ export interface CreateMeLogAuditLogSubscriptionRequest {
 /** Asynchronous operation after subscribing or unsubscribing to a resource logs */
 export interface DbaasLogsLogSubscriptionResponse {
   /** Identifier of the operation */
-  operationId?: string;
+  operationId?: string | undefined;
   /** Operation owner's service name */
-  serviceName?: string;
+  serviceName?: string | undefined;
 }
 export interface CreateMeLogAuditLogUrlRequest {
   /** Log kind name */
@@ -1447,9 +1447,9 @@ export interface CreateMeLogAuditLogUrlRequest {
 /** Temporary url information */
 export interface DbaasLogsTemporaryLogsLink {
   /** Temporary url expiration date */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Temporary url */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CreateMeLogSubscriptionRequest {
   /** Log kind name to subscribe to */
@@ -1469,7 +1469,7 @@ export type CreateMeOauth2ClientRequestCallbackUrlsList = Array<string>;
 export type Oauth2ClientFlowEnum = "AUTHORIZATION_CODE" | "CLIENT_CREDENTIALS";
 export interface CreateMeOauth2ClientRequest {
   /** allowed callback urls */
-  callbackUrls?: CreateMeOauth2ClientRequestCallbackUrlsList;
+  callbackUrls?: CreateMeOauth2ClientRequestCallbackUrlsList | undefined;
   /** client's description */
   description: string;
   /** oAuth2's flow */
@@ -1480,9 +1480,9 @@ export interface CreateMeOauth2ClientRequest {
 /** An oAuth2 Client Secret */
 export interface Oauth2ClientSecret {
   /** client's client_id */
-  clientId?: string;
+  clientId?: string | undefined;
   /** client's client_secret */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateMeOrderBalanceRequest {
   orderId: number;
@@ -1492,9 +1492,9 @@ export interface CreateMeOrderBalanceRequest {
 /** Credit balance applied on an Order */
 export interface BillingCreditBalance {
   /** Amount applied from the balance */
-  amount?: OrderPrice;
+  amount?: OrderPrice | undefined;
   /** Credit balance name */
-  balanceName?: string;
+  balanceName?: string | undefined;
 }
 export interface CreateMeOrderDebtPayRequest {
   orderId: number;
@@ -1502,7 +1502,7 @@ export interface CreateMeOrderDebtPayRequest {
 /** Pay with payment method parameter */
 export interface BillingOrderPayWithPaymentMethod {
   /** ID of payment method for pay this order */
-  id?: number;
+  id?: number | undefined;
 }
 export interface CreateMeOrderPayRequest {
   orderId: number;
@@ -1532,7 +1532,7 @@ export interface CreateMeOrderPayWithRegisteredPaymentMeanRequest {
   /** The registered payment mean you want to use */
   paymentMean: BillingReusablePaymentMeanEnum | (string & {});
   /** Id of registered payment mean, mandatory for bankAccount, creditCard and paypal */
-  paymentMeanId?: number;
+  paymentMeanId?: number | undefined;
 }
 export interface CreateMeOrderPayWithRegisteredPaymentMeanResponse {}
 /** Retraction reason type */
@@ -1547,7 +1547,7 @@ export type BillingOrderRetractionReasonEnum =
 export interface CreateMeOrderRetractionRequest {
   orderId: number;
   /** An optional comment of why you want to retract */
-  comment?: string;
+  comment?: string | undefined;
   /** The reason why you want to retract */
   reason: BillingOrderRetractionReasonEnum | (string & {});
 }
@@ -1597,23 +1597,23 @@ export interface MePaymentMethodCallbackUrl {
 export type MePaymentCreationSubTypeEnum = "CHORUS" | "NONE";
 export interface CreateMePaymentMethodRequest {
   /** Associated billing contact ID */
-  billingContactId?: number | null;
+  billingContactId?: number | null | undefined;
   /** Callback URL's necessary to register */
   callbackUrl: MePaymentMethodCallbackUrl;
   /** Indicates if this payment method will be set as the default one */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Personalized description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Additional payment information */
-  formData?: string | null;
+  formData?: string | null | undefined;
   /** Order ID to pay it if it's possible (in oneshot transaction or while registration) */
-  orderId?: number | null;
+  orderId?: number | null | undefined;
   /** Payment sub-type */
-  paymentSubType?: MePaymentCreationSubTypeEnum | (string & {}) | null;
+  paymentSubType?: MePaymentCreationSubTypeEnum | (string & {}) | null | undefined;
   /** Payment type */
   paymentType: string;
   /** Register this payment method if it's possible (default value is false and will proceed a oneshot transaction) */
-  register?: boolean;
+  register?: boolean | undefined;
 }
 /** Register integration type enum */
 export type MePaymentIntegrationEnum =
@@ -1627,19 +1627,19 @@ export type MePaymentIntegrationEnum =
 /** Registration response to validate */
 export interface MePaymentMethodValidation {
   /** Form session ID */
-  formSessionId?: string | null;
+  formSessionId?: string | null | undefined;
   /** Merchant ID */
-  merchantId?: string | null;
+  merchantId?: string | null | undefined;
   /** Organization ID */
-  organizationId?: string | null;
+  organizationId?: string | null | undefined;
   /** Registered new payment method ID */
-  paymentMethodId?: number;
+  paymentMethodId?: number | undefined;
   /** Registered new transaction ID */
-  transactionId?: number | null;
+  transactionId?: number | null | undefined;
   /** Registration validation URL to redirect */
-  url?: string | null;
+  url?: string | null | undefined;
   /** Registration validation type */
-  validationType?: MePaymentIntegrationEnum;
+  validationType?: MePaymentIntegrationEnum | undefined;
 }
 export interface CreateMePaymentMethodChallengeRequest {
   /** Payment method ID */
@@ -1652,9 +1652,9 @@ export interface CreateMePaymentMethodDetailRequest {
   /** Payment method ID */
   paymentMethodId: number;
   /** Details data */
-  details?: string;
+  details?: string | undefined;
   /** Transaction ID */
-  transactionId?: number;
+  transactionId?: number | undefined;
 }
 export interface CreateMePreferenceManagerRequest {
   /** This preference key */
@@ -1672,7 +1672,7 @@ export interface CreateMeSshKeyRequest {
 export interface CreateMeSshKeyResponse {}
 export interface CreateMeSubAccountRequest {
   /** Description of the new sub-account */
-  description?: string;
+  description?: string | undefined;
 }
 export type CreateMeSubAccountResponse = number;
 export interface CreateMeSubAccountConsumerKeyRequest {
@@ -1682,18 +1682,18 @@ export interface CreateMeSubAccountConsumerKeyRequest {
 /** Credentials to interact with the api on behalf of the sub-account */
 export interface NichandleSubAccountConsumerKey {
   /** The consumer key */
-  consumerKey?: string;
+  consumerKey?: string | undefined;
 }
 export interface CreateMeTagRequest {
   /** Reason */
-  reason?: string | null;
+  reason?: string | null | undefined;
   /** Tag name */
   tagName: string;
 }
 /** Tag Extra */
 export interface MeTagTagExtra {
   /** Tax exemption */
-  exemption?: string | null;
+  exemption?: string | null | undefined;
 }
 /** Tag status */
 export type MeTagStatusEnum =
@@ -1711,19 +1711,19 @@ export type MeTagStatusEnum =
 /** Tag */
 export interface MeTagTag {
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Customer code */
-  customerCode?: string;
+  customerCode?: string | undefined;
   /** Expiration date */
-  expirationDate?: string | null;
+  expirationDate?: string | null | undefined;
   /** Extra data */
-  extra?: MeTagTagExtra | null;
+  extra?: MeTagTagExtra | null | undefined;
   /** Last update */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Tag Status */
-  status?: MeTagStatusEnum;
+  status?: MeTagStatusEnum | undefined;
   /** Tag name */
-  tag?: string;
+  tag?: string | undefined;
 }
 export interface CreateMeTaskContactChangeRefuseRequest {
   id: number;
@@ -1767,30 +1767,30 @@ export interface CreateMeTelephonyDefaultIpRestrictionRequest {
 }
 /** Default IP restriction of a VoIP line */
 export interface TelephonyDefaultIpRestriction {
-  id?: number;
+  id?: number | undefined;
   /** The IPv4 subnet you want to allow */
-  subnet?: string;
+  subnet?: string | undefined;
   /** The protocol you want to restrict (sip/mgcp) */
-  type?: TelephonyProtocolEnum;
+  type?: TelephonyProtocolEnum | undefined;
 }
 /** Billing policies settings */
 export interface TelephonyBillingSettings {
   /** Renew is done by billing contact instead of billing account */
-  renewByBillingContact?: boolean;
+  renewByBillingContact?: boolean | undefined;
 }
 /** Line description policies settings */
 export interface TelephonyLineDescriptionSettings {
   /** Line's description is displayed on bills */
-  displayOnBill?: boolean;
+  displayOnBill?: boolean | undefined;
   /** Line's description is displayed on incoming calls */
-  displayOnIncomingCall?: boolean;
+  displayOnIncomingCall?: boolean | undefined;
 }
 /** Telephony settings linked to the customer account */
 export interface TelephonySettings {
   /** Billing policies settings */
-  billingPolicies?: TelephonyBillingSettings;
+  billingPolicies?: TelephonyBillingSettings | undefined;
   /** Line description policies settings */
-  lineDescriptionPolicies?: TelephonyLineDescriptionSettings;
+  lineDescriptionPolicies?: TelephonyLineDescriptionSettings | undefined;
 }
 export interface CreateMeTelephonySettingsRequest {
   /** Settings to be changed */
@@ -1799,9 +1799,9 @@ export interface CreateMeTelephonySettingsRequest {
 export interface CreateMeTelephonySettingsResponse {}
 export interface CreateMeXdslSettingRequest {
   /** Send the modem as soon as possible, do not wait the xdsl line to be active */
-  resellerFastModemShipping?: boolean;
+  resellerFastModemShipping?: boolean | undefined;
   /** Let the modem with vendor configuration. It prevent to apply the config managed by ovh manager */
-  resellerModemBasicConfig?: boolean;
+  resellerModemBasicConfig?: boolean | undefined;
 }
 export interface CreateMeXdslSettingResponse {}
 export interface DeleteMeAccessRestrictionBackupCodeRequest {}
@@ -1923,11 +1923,11 @@ export interface DeleteMePaymentMethodRequest {
 /** Icon */
 export interface MePaymentIcon {
   /** Icon in base64 */
-  data?: string | null;
+  data?: string | null | undefined;
   /** Icon name */
-  name?: string;
+  name?: string | undefined;
   /** Icon URL */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 /** Payment method available sub-type enum */
 export type MePaymentAvailableSubTypeEnum =
@@ -1965,39 +1965,39 @@ export type MePaymentMethodStatusEnum =
 /** Payment method object */
 export interface MePaymentPaymentMethod {
   /** Associated billing contact ID */
-  billingContactId?: number | null;
+  billingContactId?: number | null | undefined;
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Indicates if payment method is the default one for this account */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Custom customer description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Expiration date */
-  expirationDate?: string | null;
+  expirationDate?: string | null | undefined;
   /** Form session ID */
-  formSessionId?: string | null;
+  formSessionId?: string | null | undefined;
   /** Payment method type icon */
-  icon?: MePaymentIcon;
+  icon?: MePaymentIcon | undefined;
   /** Payment method integration type */
-  integration?: MePaymentIntegrationEnum | null;
+  integration?: MePaymentIntegrationEnum | null | undefined;
   /** Payment method public label */
-  label?: string | null;
+  label?: string | null | undefined;
   /** Last update date */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Merchant ID */
-  merchantId?: string | null;
+  merchantId?: string | null | undefined;
   /** Indicates if payment method support the oneclick functionality */
-  oneclick?: boolean | null;
+  oneclick?: boolean | null | undefined;
   /** Payment mean ID associated to this payment method */
-  paymentMeanId?: number | null;
+  paymentMeanId?: number | null | undefined;
   /** Payment method ID */
-  paymentMethodId?: number;
+  paymentMethodId?: number | undefined;
   /** Payment method sub-type */
-  paymentSubType?: MePaymentAvailableSubTypeEnum | null;
+  paymentSubType?: MePaymentAvailableSubTypeEnum | null | undefined;
   /** Payment method type */
-  paymentType?: string;
+  paymentType?: string | undefined;
   /** Payment method status */
-  status?: MePaymentMethodStatusEnum;
+  status?: MePaymentMethodStatusEnum | undefined;
 }
 export interface DeleteMePreferenceManagerRequest {
   /** This preference key */
@@ -2048,56 +2048,56 @@ export interface DisableMeIdentityUserRequest {
 export interface DisableMeIdentityUserResponse {}
 export interface EditAccountDetailsRequest {
   /** Address of nichandle */
-  address?: string | null;
+  address?: string | null | undefined;
   /** Area of nichandle */
-  area?: string | null;
+  area?: string | null | undefined;
   /** City of birth */
-  birthCity?: string | null;
+  birthCity?: string | null | undefined;
   /** Birth date */
-  birthDay?: string | null;
+  birthDay?: string | null | undefined;
   /** City of nichandle */
-  city?: string | null;
+  city?: string | null | undefined;
   /** Company National Identification Number */
-  companyNationalIdentificationNumber?: string | null;
+  companyNationalIdentificationNumber?: string | null | undefined;
   /** Complementary Address */
-  complementaryAddress?: string | null;
+  complementaryAddress?: string | null | undefined;
   /** Corporation type */
-  corporationType?: string | null;
+  corporationType?: string | null | undefined;
   /** Customer country */
-  country?: NichandleCountryEnum | (string & {});
+  country?: NichandleCountryEnum | (string & {}) | undefined;
   /** Display name shown instead of the organisation name. */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Fax number */
-  fax?: string | null;
+  fax?: string | null | undefined;
   /** First name */
-  firstname?: string | null;
+  firstname?: string | null | undefined;
   /** Italian SDI */
-  italianSDI?: string | null;
+  italianSDI?: string | null | undefined;
   /** Language */
-  language?: NichandleLanguageEnum | (string & {}) | null;
+  language?: NichandleLanguageEnum | (string & {}) | null | undefined;
   /** Customer legal form */
-  legalform?: NichandleLegalFormEnum | (string & {});
+  legalform?: NichandleLegalFormEnum | (string & {}) | undefined;
   /** Customer name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** National Identification Number */
-  nationalIdentificationNumber?: string | null;
+  nationalIdentificationNumber?: string | null | undefined;
   /** Name of organisation */
-  organisation?: string | null;
+  organisation?: string | null | undefined;
   /** Phone number */
-  phone?: string | null;
-  phoneCountry?: NichandleCountryEnum | (string & {}) | null;
+  phone?: string | null | undefined;
+  phoneCountry?: NichandleCountryEnum | (string & {}) | null | undefined;
   /** Type of phone(mobile, landline) */
-  phoneType?: NichandlePhoneTypeEnum | (string & {}) | null;
+  phoneType?: NichandlePhoneTypeEnum | (string & {}) | null | undefined;
   /** Customer purpose of purchase */
-  purposeOfPurchase?: string | null;
+  purposeOfPurchase?: string | null | undefined;
   /** Gender */
-  sex?: NichandleGenderEnum | (string & {}) | null;
+  sex?: NichandleGenderEnum | (string & {}) | null | undefined;
   /** Spare email */
-  spareEmail?: string | null;
+  spareEmail?: string | null | undefined;
   /** VAT number */
-  vat?: string | null;
+  vat?: string | null | undefined;
   /** Zipcode */
-  zip?: string | null;
+  zip?: string | null | undefined;
 }
 export interface EditAccountDetailsResponse {}
 export interface EnableMeAccessRestrictionBackupCodeRequest {
@@ -2137,11 +2137,11 @@ export interface ExportMeBillRequest {
   /** The file type of the archive */
   archiveType: BillingArchiveTypeEnum | (string & {});
   /** End interval of the export */
-  endDate?: string;
+  endDate?: string | undefined;
   /** A list of ids to export */
-  ids?: ExportMeBillRequestIdsList;
+  ids?: ExportMeBillRequestIdsList | undefined;
   /** Start interval of the export */
-  startDate?: string;
+  startDate?: string | undefined;
 }
 export interface ExportMeBillResponse {}
 /** A list of ids to export */
@@ -2150,29 +2150,29 @@ export interface ExportMeRefundRequest {
   /** The file type of the archive */
   archiveType: BillingArchiveTypeEnum | (string & {});
   /** End interval of the export */
-  endDate?: string;
+  endDate?: string | undefined;
   /** A list of ids to export */
-  ids?: ExportMeRefundRequestIdsList;
+  ids?: ExportMeRefundRequestIdsList | undefined;
   /** Start interval of the export */
-  startDate?: string;
+  startDate?: string | undefined;
 }
 export interface ExportMeRefundResponse {}
 export interface FinalizeMePaymentMethodRequest {
   /** Payment method ID */
   paymentMethodId: number;
   /** Expiration month */
-  expirationMonth?: number | null;
+  expirationMonth?: number | null | undefined;
   /** Expiration year */
-  expirationYear?: number | null;
+  expirationYear?: number | null | undefined;
   /** Form session ID */
-  formSessionId?: string | null;
+  formSessionId?: string | null | undefined;
   /** Registration ID */
-  registrationId?: string | null;
+  registrationId?: string | null | undefined;
 }
 export interface GetAccountDetailsRequest {}
 export interface GetCertificatesRequest {
   /** Certificate definition name */
-  name?: string;
+  name?: string | undefined;
 }
 export type GetCertificatesResponseBodyList = Array<string>;
 export type GetCertificatesResponse = GetCertificatesResponseBodyList;
@@ -2205,15 +2205,15 @@ export type MeAbuseAbuseStatusEnum =
 /** Get report API response */
 export interface MeAbuseAbuse {
   /** Abuse category */
-  category?: MeAbuseAbuseCategoryEnum;
+  category?: MeAbuseAbuseCategoryEnum | undefined;
   /** Creation date of the abuse */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Public ID of the abuse case */
-  publicId?: string;
+  publicId?: string | undefined;
   /** Service where is hosted the abuse */
-  service?: string;
+  service?: string | undefined;
   /** Abuse case status */
-  status?: MeAbuseAbuseStatusEnum;
+  status?: MeAbuseAbuseStatusEnum | undefined;
 }
 export interface GetMeAccessRestrictionBackupCodeRequest {}
 /** Status of SOTP account */
@@ -2225,19 +2225,19 @@ export type NichandleAccessRestrictionSOTPStatusEnum =
 /** SOTP Two-Factor Authentication */
 export interface NichandleAccessRestrictionSOTPAccount {
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Last used date */
-  lastUsedDate?: string | null;
+  lastUsedDate?: string | null | undefined;
   /** Number of remaining codes */
-  remaining?: number;
+  remaining?: number | undefined;
   /** Status of this account */
-  status?: NichandleAccessRestrictionSOTPStatusEnum;
+  status?: NichandleAccessRestrictionSOTPStatusEnum | undefined;
 }
 export interface GetMeAccessRestrictionDeveloperModeRequest {}
 /** Login restrictions on a development version of the Manager */
 export interface NichandleDeveloperModeRestriction {
   /** Allow login on your account on a development version of the Manager */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface GetMeAccessRestrictionIpRequest {
   /** The Id of the restriction */
@@ -2246,21 +2246,21 @@ export interface GetMeAccessRestrictionIpRequest {
 /** List of all IP Restrictions */
 export interface NichandleIpRestriction {
   /** The Id of the restriction */
-  id?: number;
+  id?: number | undefined;
   /** An IP range where we will apply the rule */
-  ip?: string;
+  ip?: string | undefined;
   /** Accept or deny IP access */
-  rule?: NichandleAccessRestrictionIpRestrictionRuleEnum;
+  rule?: NichandleAccessRestrictionIpRestrictionRuleEnum | undefined;
   /** Send an email if someone try to access with this IP address */
-  warning?: boolean;
+  warning?: boolean | undefined;
 }
 export interface GetMeAccessRestrictionIpDefaultRuleRequest {}
 /** IP Restriction default rule */
 export interface NichandleIpRestrictionDefaultRule {
   /** Accept or deny access */
-  rule?: NichandleAccessRestrictionIpRestrictionRuleEnum;
+  rule?: NichandleAccessRestrictionIpRestrictionRuleEnum | undefined;
   /** Send an email if someone try to access */
-  warning?: boolean;
+  warning?: boolean | undefined;
 }
 export interface GetMeAccessRestrictionSmsRequest {
   /** The Id of the restriction */
@@ -2275,17 +2275,17 @@ export type NichandleAccessRestrictionSmsStatusEnum =
 /** Sms Two-Factor Authentication */
 export interface NichandleAccessRestrictionSmsAccount {
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Description of this phone */
-  description?: string;
+  description?: string | undefined;
   /** The Id of the restriction */
-  id?: number;
+  id?: number | undefined;
   /** Last used date */
-  lastUsedDate?: string | null;
+  lastUsedDate?: string | null | undefined;
   /** Associated phone number */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** Status of this account */
-  status?: NichandleAccessRestrictionSmsStatusEnum;
+  status?: NichandleAccessRestrictionSmsStatusEnum | undefined;
 }
 export interface GetMeAccessRestrictionTotpRequest {
   /** The Id of the restriction */
@@ -2300,15 +2300,15 @@ export type NichandleAccessRestrictionTOTPStatusEnum =
 /** TOTP Two-Factor Authentication */
 export interface NichandleAccessRestrictionTOTPAccount {
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Description of this TOTP */
-  description?: string;
+  description?: string | undefined;
   /** The Id of the restriction */
-  id?: number;
+  id?: number | undefined;
   /** Last used date */
-  lastUsedDate?: string | null;
+  lastUsedDate?: string | null | undefined;
   /** Status of this account */
-  status?: NichandleAccessRestrictionTOTPStatusEnum;
+  status?: NichandleAccessRestrictionTOTPStatusEnum | undefined;
 }
 export interface GetMeAccessRestrictionU2fRequest {
   /** The Id of the restriction */
@@ -2319,15 +2319,15 @@ export type NichandleAccessRestrictionU2FStatusEnum = "disabled" | "enabled" | "
 /** U2F Two-Factor Authentication */
 export interface NichandleAccessRestrictionU2FAccount {
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Description of this U2F key */
-  description?: string;
+  description?: string | undefined;
   /** The Id of the restriction */
-  id?: number;
+  id?: number | undefined;
   /** Last used date */
-  lastUsedDate?: string | null;
+  lastUsedDate?: string | null | undefined;
   /** Status of this account */
-  status?: NichandleAccessRestrictionU2FStatusEnum;
+  status?: NichandleAccessRestrictionU2FStatusEnum | undefined;
 }
 export interface GetMeAgreementRequest {
   /** Id of the contract */
@@ -2338,13 +2338,13 @@ export type AgreementsAgreementStateEnum = "ko" | "obsolete" | "ok" | "todo";
 /** Contract agreement */
 export interface AgreementsContractAgreement {
   /** State of the agreement */
-  agreed?: AgreementsAgreementStateEnum;
+  agreed?: AgreementsAgreementStateEnum | undefined;
   /** Id of the agreed contract */
-  contractId?: number;
+  contractId?: number | undefined;
   /** Date the agreed contract was effective */
-  date?: string;
+  date?: string | undefined;
   /** Id of the contract */
-  id?: number;
+  id?: number | undefined;
 }
 export interface GetMeAgreementContractRequest {
   /** Id of the contract */
@@ -2353,15 +2353,15 @@ export interface GetMeAgreementContractRequest {
 /** Contract of service */
 export interface AgreementsContract {
   /** Is this contract currently active or not ? */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Date the contract was created on */
-  date?: string;
+  date?: string | undefined;
   /** Name of of the contract */
-  name?: string;
+  name?: string | undefined;
   /** URL you can download the contract at */
-  pdf?: string;
+  pdf?: string | undefined;
   /** Full text of the contract */
-  text?: string;
+  text?: string | undefined;
 }
 export interface GetMeApplicationRequest {
   /** Application ID */
@@ -2372,37 +2372,37 @@ export type AuthApplicationStatusEnum = "active" | "blocked" | "inactive" | "tru
 /** API Application */
 export interface AuthApiApplication {
   /** ID of this Application */
-  applicationId?: number;
+  applicationId?: number | undefined;
   /** Key of this application */
-  applicationKey?: string;
+  applicationKey?: string | undefined;
   /** Description of this application */
-  description?: string;
+  description?: string | undefined;
   /** Name of this application */
-  name?: string;
+  name?: string | undefined;
   /** Status of this application */
-  status?: AuthApplicationStatusEnum;
+  status?: AuthApplicationStatusEnum | undefined;
 }
 export interface GetMeAutorenewRequest {}
 /** Auto renewal information */
 export interface NichandleNicAutorenewInfos {
   /** Renewal active or not */
-  active?: boolean;
+  active?: boolean | undefined;
   /** give the last renew */
-  lastRenew?: string | null;
+  lastRenew?: string | null | undefined;
   /** give the renewal day */
-  renewDay?: number;
+  renewDay?: number | undefined;
 }
 export interface GetMeAvailableAutomaticPaymentMeansRequest {}
 /** Available automatic payment means */
 export interface BillingAutomaticPaymentMean {
   /** Bank Account */
-  bankAccount?: boolean;
+  bankAccount?: boolean | undefined;
   /** Credit Card */
-  creditCard?: boolean;
+  creditCard?: boolean | undefined;
   /** Deferred invoice payment account for authorized customers */
-  deferredPaymentAccount?: boolean;
+  deferredPaymentAccount?: boolean | undefined;
   /** Paypal account */
-  paypal?: boolean;
+  paypal?: boolean | undefined;
 }
 export interface GetMeBillRequest {
   billId: string;
@@ -2430,18 +2430,18 @@ export type BillingEInvoicingStatusEnum =
   | "submitted";
 /** Details about a Bill */
 export interface BillingBill {
-  billId?: string;
-  category?: BillingCategoryEnum;
-  date?: string;
-  eInvoicingId?: string | null;
-  eInvoicingStatus?: BillingEInvoicingStatusEnum | null;
-  orderId?: number;
-  password?: string | Redacted.Redacted<string>;
-  pdfUrl?: string;
-  priceWithTax?: OrderPrice;
-  priceWithoutTax?: OrderPrice;
-  tax?: OrderPrice;
-  url?: string;
+  billId?: string | undefined;
+  category?: BillingCategoryEnum | undefined;
+  date?: string | undefined;
+  eInvoicingId?: string | null | undefined;
+  eInvoicingStatus?: BillingEInvoicingStatusEnum | null | undefined;
+  orderId?: number | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  pdfUrl?: string | undefined;
+  priceWithTax?: OrderPrice | undefined;
+  priceWithoutTax?: OrderPrice | undefined;
+  tax?: OrderPrice | undefined;
+  url?: string | undefined;
 }
 export interface GetMeBillDebtRequest {
   billId: string;
@@ -2457,24 +2457,24 @@ export type DebtEntryStatusDebtOrderEnum =
 /** State of a debt */
 export interface DebtDebt {
   /** Original amount of the debt */
-  amount?: OrderPrice;
+  amount?: OrderPrice | undefined;
   /** Date the debt was created on */
-  date?: string;
-  debtId?: number;
+  date?: string | undefined;
+  debtId?: number | undefined;
   /** Amount you still owe for that debt */
-  dueAmount?: OrderPrice;
+  dueAmount?: OrderPrice | undefined;
   /** If specified, the debt will not be recovered before that date */
-  dueDate?: string | null;
+  dueDate?: string | null | undefined;
   /** The order the debt relates to */
-  orderId?: number;
+  orderId?: number | undefined;
   /** Amount currently being processed */
-  pendingAmount?: OrderPrice;
+  pendingAmount?: OrderPrice | undefined;
   /** Status of a debt */
-  status?: DebtEntryStatusDebtOrderEnum;
+  status?: DebtEntryStatusDebtOrderEnum | undefined;
   /** Reserved amount awaiting payment */
-  todoAmount?: OrderPrice;
+  todoAmount?: OrderPrice | undefined;
   /** Unmatured amount for deferred payment term */
-  unmaturedAmount?: OrderPrice;
+  unmaturedAmount?: OrderPrice | undefined;
 }
 export interface GetMeBillDebtOperationRequest {
   billId: string;
@@ -2559,16 +2559,16 @@ export type DebtEntryOperationEnum =
 /** Operation that happend on a debt */
 export interface DebtOperation {
   /** Amount of the operation */
-  amount?: OrderPrice;
+  amount?: OrderPrice | undefined;
   /** Date the operation took place on */
-  date?: string;
+  date?: string | undefined;
   /** Order id associated to the deposit */
-  depositOrderId?: number;
-  operationId?: number;
+  depositOrderId?: number | undefined;
+  operationId?: number | undefined;
   /** Status of the operation */
-  status?: DebtEntryStatusEnum;
+  status?: DebtEntryStatusEnum | undefined;
   /** Type of movement this operation represents */
-  type?: DebtEntryOperationEnum | null;
+  type?: DebtEntryOperationEnum | null | undefined;
 }
 export interface GetMeBillDebtOperationAssociatedObjectRequest {
   billId: string;
@@ -2605,11 +2605,11 @@ export type BillingPaymentMeanEnum =
 /** The payment infos linked to this debt entry */
 export interface DebtAssociatedObjectPaymentInfo {
   /** Optional customer description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Payment mean used for this debt operation */
-  paymentType?: BillingPaymentMeanEnum;
+  paymentType?: BillingPaymentMeanEnum | undefined;
   /** Public payment mean label */
-  publicLabel?: string | null;
+  publicLabel?: string | null | undefined;
 }
 /** Type of objects an order can be linked to */
 export type DebtAssociatedObjectTypeEnum =
@@ -2622,10 +2622,10 @@ export type DebtAssociatedObjectTypeEnum =
   | "Withdrawal";
 /** The object linked to this debt entry */
 export interface DebtEntryAssociatedObject {
-  id?: string | null;
-  paymentInfo?: DebtAssociatedObjectPaymentInfo | null;
-  subId?: string | null;
-  type?: DebtAssociatedObjectTypeEnum | null;
+  id?: string | null | undefined;
+  paymentInfo?: DebtAssociatedObjectPaymentInfo | null | undefined;
+  subId?: string | null | undefined;
+  type?: DebtAssociatedObjectTypeEnum | null | undefined;
 }
 export interface GetMeBillDetailRequest {
   billId: string;
@@ -2633,20 +2633,20 @@ export interface GetMeBillDetailRequest {
 }
 /** LongPrice with all digits and its currency and a textual representation */
 export interface OrderLongPrice {
-  currencyCode?: OrderCurrencyCodeEnum;
-  text?: string;
-  value?: number;
+  currencyCode?: OrderCurrencyCodeEnum | undefined;
+  text?: string | undefined;
+  value?: number | undefined;
 }
 /** Information about a Bill entry */
 export interface BillingBillDetail {
-  billDetailId?: string;
-  description?: string;
-  domain?: string;
-  periodEnd?: string | null;
-  periodStart?: string | null;
-  quantity?: string;
-  totalPrice?: OrderPrice;
-  unitPrice?: OrderLongPrice;
+  billDetailId?: string | undefined;
+  description?: string | undefined;
+  domain?: string | undefined;
+  periodEnd?: string | null | undefined;
+  periodStart?: string | null | undefined;
+  quantity?: string | undefined;
+  totalPrice?: OrderPrice | undefined;
+  unitPrice?: OrderLongPrice | undefined;
 }
 export interface GetMeBillingCapacitiesRequest {}
 /** Indicates the mandatory nature of having a valid payment method */
@@ -2657,11 +2657,11 @@ export type NichandleRequiredPaymentMethodEnum =
 /** Internal customer billing capacities for customer control panel */
 export interface NichandleBillingCapacities {
   /** Indicates if the debt system has been enabled on the customer account */
-  canUseDebtSystem?: boolean;
+  canUseDebtSystem?: boolean | undefined;
   /** Indicates customer's ability to use postal mailing for invoices */
-  canUsePostalMailForInvoices?: boolean;
+  canUsePostalMailForInvoices?: boolean | undefined;
   /** Indicates the mandatory nature of having a valid payment method */
-  requiredPaymentMethod?: NichandleRequiredPaymentMethodEnum;
+  requiredPaymentMethod?: NichandleRequiredPaymentMethodEnum | undefined;
 }
 export interface GetMeBillingGroupRequest {
   /** Group ID */
@@ -2688,15 +2688,15 @@ export type MeBillingReportConsumptionStatusEnum = "CREATING" | "ERROR" | "READY
 /** Consumption billing report */
 export interface MeBillingReportConsumption {
   /** End date of the report period */
-  periodEnd?: string;
+  periodEnd?: string | undefined;
   /** Start date of the report period */
-  periodStart?: string;
+  periodStart?: string | undefined;
   /** Url of the report */
-  report?: string | null;
+  report?: string | null | undefined;
   /** Status of the report */
-  status?: MeBillingReportConsumptionStatusEnum;
+  status?: MeBillingReportConsumptionStatusEnum | undefined;
   /** Task id of the report */
-  taskId?: string;
+  taskId?: string | undefined;
 }
 export interface GetMeBillingTaskRequest {
   /** Id */
@@ -2705,9 +2705,9 @@ export interface GetMeBillingTaskRequest {
 /** Metadatum linked to a Task */
 export interface MeBillingTasksTaskMetadatum {
   /** Metadatum key */
-  key?: string;
+  key?: string | undefined;
   /** Metadatum value */
-  value?: string;
+  value?: string | undefined;
 }
 /** Metadata linked to the Task. Will help you determine which object it relates to */
 export type MeBillingTasksTaskMetadataList = Array<MeBillingTasksTaskMetadatum>;
@@ -2725,24 +2725,24 @@ export type MeBillingTasksTaskStatusEnum =
 /** Asynchronous task related to Billing */
 export interface MeBillingTasksTask {
   /** Unique identifier of the Task */
-  id?: number;
+  id?: number | undefined;
   /** Metadata linked to the Task. Will help you determine which object it relates to */
-  metadata?: MeBillingTasksTaskMetadataList;
+  metadata?: MeBillingTasksTaskMetadataList | undefined;
   /** Describes which Task is being performed */
-  name?: MeBillingTasksTaskNameEnum;
+  name?: MeBillingTasksTaskNameEnum | undefined;
   /** Current status of the Task */
-  status?: MeBillingTasksTaskStatusEnum;
+  status?: MeBillingTasksTaskStatusEnum | undefined;
   /** Current step of the Task. The step depends on the Task name. */
-  step?: string;
+  step?: string | undefined;
 }
 export interface GetMeBillPaymentRequest {
   billId: string;
 }
 /** Details about a payment */
 export interface BillingPayment {
-  paymentDate?: string;
-  paymentIdentifier?: string | null;
-  paymentType?: BillingPaymentMeanEnum;
+  paymentDate?: string | undefined;
+  paymentIdentifier?: string | null | undefined;
+  paymentType?: BillingPaymentMeanEnum | undefined;
 }
 /** Possible values for IP campuses' names */
 export type IpCampusEnum =
@@ -2768,12 +2768,12 @@ export interface GetMeBringYourOwnIpTokenRequest {
 export type GetMeBringYourOwnIpTokenResponse = string;
 export interface GetMeCarbonCalculatorHasInvoiceRequest {
   /** Month of the requested invoice (day is ignored) */
-  date?: string;
+  date?: string | undefined;
 }
 /** Boolean to determine if account can generate invoice */
 export interface CarbonCalculatorHasInvoiceResponse {
   /** Whether the account has data to generate invoice */
-  hasInvoice?: boolean;
+  hasInvoice?: boolean | undefined;
 }
 export interface GetMeCarbonCalculatorTaskRequest {
   /** TaskID */
@@ -2784,11 +2784,11 @@ export type CarbonCalculatorTaskTaskStatusEnum = "ERROR" | "IN_PROGRESS" | "SUCC
 /** Task to generate a carbon impact document */
 export interface CarbonCalculatorTask {
   /** Link to the document */
-  link?: string | null;
+  link?: string | null | undefined;
   /** Status of the task */
-  status?: CarbonCalculatorTaskTaskStatusEnum;
+  status?: CarbonCalculatorTaskTaskStatusEnum | undefined;
   /** ID of the task */
-  taskID?: string;
+  taskID?: string | undefined;
 }
 export interface GetMeConsentRequest {
   /** Campaign name */
@@ -2799,11 +2799,11 @@ export type MeConsentCampaignTypeEnum = "OPTIN" | "OPTOUT";
 /** Consent campaign */
 export interface MeConsentCampaign {
   /** Campaign description */
-  description?: string;
+  description?: string | undefined;
   /** Campaign name */
-  name?: string;
+  name?: string | undefined;
   /** Campaign type */
-  type?: MeConsentCampaignTypeEnum;
+  type?: MeConsentCampaignTypeEnum | undefined;
 }
 export interface GetMeContactRequest {
   /** Contact ID */
@@ -2814,19 +2814,19 @@ export interface GetMeCorrectiveInvoiceRequest {
 }
 /** Details about a CorrectiveInvoice */
 export interface BillingCorrectiveInvoice {
-  category?: BillingCategoryEnum;
-  correctedInvoiceId?: string;
-  correctiveInvoiceId?: string;
-  date?: string;
-  eInvoicingId?: string | null;
-  eInvoicingStatus?: BillingEInvoicingStatusEnum | null;
-  orderId?: number;
-  password?: string | Redacted.Redacted<string>;
-  pdfUrl?: string;
-  priceWithTax?: OrderPrice;
-  priceWithoutTax?: OrderPrice;
-  tax?: OrderPrice;
-  url?: string;
+  category?: BillingCategoryEnum | undefined;
+  correctedInvoiceId?: string | undefined;
+  correctiveInvoiceId?: string | undefined;
+  date?: string | undefined;
+  eInvoicingId?: string | null | undefined;
+  eInvoicingStatus?: BillingEInvoicingStatusEnum | null | undefined;
+  orderId?: number | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  pdfUrl?: string | undefined;
+  priceWithTax?: OrderPrice | undefined;
+  priceWithoutTax?: OrderPrice | undefined;
+  tax?: OrderPrice | undefined;
+  url?: string | undefined;
 }
 export interface GetMeCorrectiveInvoiceDebtRequest {
   correctiveInvoiceId: string;
@@ -2845,14 +2845,14 @@ export interface GetMeCorrectiveInvoiceDetailRequest {
 }
 /** Information about a Bill entry */
 export interface BillingCorrectiveInvoiceDetail {
-  correctiveInvoiceDetailId?: string;
-  description?: string;
-  domain?: string;
-  periodEnd?: string | null;
-  periodStart?: string | null;
-  quantity?: number;
-  totalPrice?: OrderPrice;
-  unitPrice?: OrderLongPrice;
+  correctiveInvoiceDetailId?: string | undefined;
+  description?: string | undefined;
+  domain?: string | undefined;
+  periodEnd?: string | null | undefined;
+  periodStart?: string | null | undefined;
+  quantity?: number | undefined;
+  totalPrice?: OrderPrice | undefined;
+  unitPrice?: OrderLongPrice | undefined;
 }
 export interface GetMeCorrectiveInvoicePaymentRequest {
   correctiveInvoiceId: string;
@@ -2868,9 +2868,9 @@ export type AuthHTTPMethodEnum = "DELETE" | "GET" | "PATCH" | "POST" | "PUT";
 /** Access rule allowed to an application */
 export interface AuthAccessRule {
   /** Allowed Method */
-  method?: AuthHTTPMethodEnum;
+  method?: AuthHTTPMethodEnum | undefined;
   /** Allowed path */
-  path?: string;
+  path?: string | undefined;
 }
 /** API routes allowed to this credential */
 export type AuthApiCredentialRulesList = Array<AuthAccessRule>;
@@ -2879,23 +2879,23 @@ export type AuthCredentialStateEnum = "expired" | "pendingValidation" | "refused
 /** API Credential */
 export interface AuthApiCredential {
   /** If defined, list of ip blocks which are allowed to call API with this credential */
-  allowedIPs?: AuthApiCredentialAllowedIPsList | null;
+  allowedIPs?: AuthApiCredentialAllowedIPsList | null | undefined;
   /** ID of associated API Application */
-  applicationId?: number;
+  applicationId?: number | undefined;
   /** Creation date of this credential */
-  creation?: string;
+  creation?: string | undefined;
   /** ID of this credential */
-  credentialId?: number;
+  credentialId?: number | undefined;
   /** Expiration date of this credential */
-  expiration?: string | null;
+  expiration?: string | null | undefined;
   /** Last use date of this credential */
-  lastUse?: string | null;
+  lastUse?: string | null | undefined;
   /** States whether this credential has been created by yourself or by the OVH support team */
-  ovhSupport?: boolean;
+  ovhSupport?: boolean | undefined;
   /** API routes allowed to this credential */
-  rules?: AuthApiCredentialRulesList;
+  rules?: AuthApiCredentialRulesList | undefined;
   /** State of to this credential */
-  status?: AuthCredentialStateEnum;
+  status?: AuthCredentialStateEnum | undefined;
 }
 export interface GetMeCredentialApplicationRequest {
   /** Credential ID */
@@ -2908,39 +2908,39 @@ export interface GetMeCreditBalanceRequest {
 /** Missing description */
 export interface MeCreditBalanceExpiringMovement {
   /** Movement amount */
-  amount?: OrderPrice;
+  amount?: OrderPrice | undefined;
   /** Movement creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Movement expiration date */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Movement last update */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Object source of this credit movement */
-  sourceObject?: MeCreditBalanceMovementSubObject;
+  sourceObject?: MeCreditBalanceMovementSubObject | undefined;
 }
 /** Expiring parts of this balance */
 export type MeCreditBalanceBalanceDetailsExpiringList = Array<MeCreditBalanceExpiringMovement>;
 /** Missing description */
 export interface MeCreditBalanceBalanceDetails {
   /** Balance part amount */
-  amount?: OrderPrice;
+  amount?: OrderPrice | undefined;
   /** Balance sub name */
-  balanceSubName?: string | null;
+  balanceSubName?: string | null | undefined;
   /** Expiring parts of this balance */
-  expiring?: MeCreditBalanceBalanceDetailsExpiringList;
+  expiring?: MeCreditBalanceBalanceDetailsExpiringList | undefined;
   /** Service ID of this balance part */
-  serviceId?: number | null;
+  serviceId?: number | null | undefined;
 }
 /** Balance details, amounts by serviceID */
 export type MeCreditBalanceBalanceDetailsList = Array<MeCreditBalanceBalanceDetails>;
 /** Missing description */
 export interface MeCreditBalanceBookedMovement {
   /** Movement amount */
-  amount?: OrderPrice;
+  amount?: OrderPrice | undefined;
   /** Balance sub name */
-  balanceSubName?: string | null;
+  balanceSubName?: string | null | undefined;
   /** Order ID */
-  orderId?: number;
+  orderId?: number | undefined;
 }
 /** Movement already booked on orders */
 export type MeCreditBalanceBookedList = Array<MeCreditBalanceBookedMovement>;
@@ -2951,21 +2951,21 @@ export type MeCreditBalanceTypeEnum = "BONUS" | "DEPOSIT" | "PREPAID_ACCOUNT" | 
 /** Missing description */
 export interface MeCreditBalance {
   /** Balance amount */
-  amount?: OrderPrice;
+  amount?: OrderPrice | undefined;
   /** Balance details, amounts by serviceID */
-  balanceDetails?: MeCreditBalanceBalanceDetailsList;
+  balanceDetails?: MeCreditBalanceBalanceDetailsList | undefined;
   /** Balance name */
-  balanceName?: string;
+  balanceName?: string | undefined;
   /** Movement already booked on orders */
-  booked?: MeCreditBalanceBookedList;
+  booked?: MeCreditBalanceBookedList | undefined;
   /** Balance creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Movement expiring soon */
-  expiring?: MeCreditBalanceExpiringList;
+  expiring?: MeCreditBalanceExpiringList | undefined;
   /** Balance last update */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Balance type */
-  type?: MeCreditBalanceTypeEnum;
+  type?: MeCreditBalanceTypeEnum | undefined;
 }
 export interface GetMeCreditBalanceMovementRequest {
   /** Balance name */
@@ -2976,15 +2976,15 @@ export interface GetMeCreditBalanceMovementRequest {
 export interface GetMeDebtAccountRequest {}
 /** Debt balance of the account */
 export interface DebtBalance {
-  active?: boolean;
+  active?: boolean | undefined;
   /** Amount of debts the account has */
-  dueAmount?: OrderPrice;
+  dueAmount?: OrderPrice | undefined;
   /** Amount currently being processed */
-  pendingAmount?: OrderPrice;
+  pendingAmount?: OrderPrice | undefined;
   /** Reserved amount awaiting payment */
-  todoAmount?: OrderPrice;
+  todoAmount?: OrderPrice | undefined;
   /** Unmatured amount for deferred payment term */
-  unmaturedAmount?: OrderPrice;
+  unmaturedAmount?: OrderPrice | undefined;
 }
 export interface GetMeDebtAccountDebtRequest {
   debtId: number;
@@ -3002,14 +3002,14 @@ export interface GetMeDepositRequest {
 }
 /** Details about a deposit */
 export interface BillingDeposit {
-  amount?: OrderPrice;
-  date?: string;
-  depositId?: string;
-  orderId?: number;
-  password?: string | Redacted.Redacted<string>;
-  paymentInfo?: DebtAssociatedObjectPaymentInfo | null;
-  pdfUrl?: string;
-  url?: string;
+  amount?: OrderPrice | undefined;
+  date?: string | undefined;
+  depositId?: string | undefined;
+  orderId?: number | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  paymentInfo?: DebtAssociatedObjectPaymentInfo | null | undefined;
+  pdfUrl?: string | undefined;
+  url?: string | undefined;
 }
 export interface GetMeDepositDetailRequest {
   depositId: string;
@@ -3017,12 +3017,12 @@ export interface GetMeDepositDetailRequest {
 }
 /** Information about a Deposit entry */
 export interface BillingDepositDetail {
-  depositDetailId?: string;
-  description?: string;
-  domain?: string;
-  quantity?: string;
-  totalPrice?: OrderPrice;
-  unitPrice?: OrderPrice;
+  depositDetailId?: string | undefined;
+  description?: string | undefined;
+  domain?: string | undefined;
+  quantity?: string | undefined;
+  totalPrice?: OrderPrice | undefined;
+  unitPrice?: OrderPrice | undefined;
 }
 export interface GetMeDepositPaidBillRequest {
   depositId: string;
@@ -3063,18 +3063,18 @@ export interface GetMeDownPaymentInvoiceRequest {
 }
 /** Details about a DownPaymentInvoice */
 export interface BillingDownPaymentInvoice {
-  category?: BillingCategoryEnum;
-  date?: string;
-  downPaymentInvoiceId?: string;
-  eInvoicingId?: string | null;
-  eInvoicingStatus?: BillingEInvoicingStatusEnum | null;
-  orderId?: number;
-  password?: string | Redacted.Redacted<string>;
-  pdfUrl?: string;
-  priceWithTax?: OrderPrice;
-  priceWithoutTax?: OrderPrice;
-  tax?: OrderPrice;
-  url?: string;
+  category?: BillingCategoryEnum | undefined;
+  date?: string | undefined;
+  downPaymentInvoiceId?: string | undefined;
+  eInvoicingId?: string | null | undefined;
+  eInvoicingStatus?: BillingEInvoicingStatusEnum | null | undefined;
+  orderId?: number | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  pdfUrl?: string | undefined;
+  priceWithTax?: OrderPrice | undefined;
+  priceWithoutTax?: OrderPrice | undefined;
+  tax?: OrderPrice | undefined;
+  url?: string | undefined;
 }
 export interface GetMeDownPaymentInvoiceDebtRequest {
   downPaymentInvoiceId: string;
@@ -3093,14 +3093,14 @@ export interface GetMeDownPaymentInvoiceDetailRequest {
 }
 /** Information about a DownPaymentInvoice entry */
 export interface BillingDownPaymentInvoiceDetail {
-  description?: string;
-  domain?: string;
-  downPaymentInvoiceDetailId?: string;
-  periodEnd?: string | null;
-  periodStart?: string | null;
-  quantity?: number;
-  totalPrice?: OrderPrice;
-  unitPrice?: OrderLongPrice;
+  description?: string | undefined;
+  domain?: string | undefined;
+  downPaymentInvoiceDetailId?: string | undefined;
+  periodEnd?: string | null | undefined;
+  periodStart?: string | null | undefined;
+  quantity?: number | undefined;
+  totalPrice?: OrderPrice | undefined;
+  unitPrice?: OrderLongPrice | undefined;
 }
 export interface GetMeDownPaymentInvoicePaymentRequest {
   downPaymentInvoiceId: string;
@@ -3111,11 +3111,11 @@ export interface GetMeFaxCustomDomainRequest {
 export interface GetMeFidelityAccountRequest {}
 /** Balance of the fidelity account */
 export interface BillingFidelityAccount {
-  alertThreshold?: number | null;
-  balance?: number;
-  canBeCredited?: boolean;
-  lastUpdate?: string;
-  openDate?: string;
+  alertThreshold?: number | null | undefined;
+  balance?: number | undefined;
+  canBeCredited?: boolean | undefined;
+  lastUpdate?: string | undefined;
+  openDate?: string | undefined;
 }
 export interface GetMeFidelityAccountMovementRequest {
   movementId: number;
@@ -3133,14 +3133,14 @@ export type BillingFidelityAccountOperationEnum =
   | "pre-debit";
 /** Details about a fidelity account */
 export interface BillingFidelityMovement {
-  amount?: number;
-  balance?: number;
-  date?: string;
-  description?: string;
-  movementId?: number;
-  operation?: BillingFidelityAccountOperationEnum;
-  order?: number;
-  previousBalance?: number;
+  amount?: number | undefined;
+  balance?: number | undefined;
+  date?: string | undefined;
+  description?: string | undefined;
+  movementId?: number | undefined;
+  operation?: BillingFidelityAccountOperationEnum | undefined;
+  order?: number | undefined;
+  previousBalance?: number | undefined;
 }
 export interface GetMeIdentityGroupRequest {
   /** Group */
@@ -3151,13 +3151,13 @@ export interface GetMeIdentityProviderSamlServiceProviderInfoRequest {}
 /** An IAM Federation Provider */
 export interface AuthServiceProviderInfo {
   /** URL of the SAMLv2 Assertion Consumer Service for OVHcloud */
-  assertionConsumerServiceUrl?: string;
+  assertionConsumerServiceUrl?: string | undefined;
   /** Entity ID of OVHcloud as a service provider */
-  entityId?: string;
+  entityId?: string | undefined;
   /** XML metadata of OVHcloud as a service provider */
-  metadata?: string;
+  metadata?: string | undefined;
   /** URL of the SAMLv2 metadata for OVHcloud */
-  metadataUrl?: string;
+  metadataUrl?: string | undefined;
 }
 export interface GetMeIdentityUserRequest {
   /** User */
@@ -3170,27 +3170,27 @@ export type AuthUserStatusEnum = "DISABLED" | "OK" | "PASSWORD_CHANGE_REQUIRED";
 /** An IAM User */
 export interface AuthUser {
   /** Creation date of this user */
-  creation?: string;
+  creation?: string | undefined;
   /** User's description */
-  description?: string;
+  description?: string | undefined;
   /** User's email */
-  email?: string | null;
+  email?: string | null | undefined;
   /** User's main group */
-  group?: string;
+  group?: string | undefined;
   /** User's groups */
-  groups?: AuthUserGroupsList;
+  groups?: AuthUserGroupsList | undefined;
   /** User's last update date */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** User's login suffix */
-  login?: string;
+  login?: string | undefined;
   /** User's password last update date */
-  passwordLastUpdate?: string | Redacted.Redacted<string> | null;
+  passwordLastUpdate?: string | Redacted.Redacted<string> | null | undefined;
   /** Current user's status */
-  status?: AuthUserStatusEnum;
+  status?: AuthUserStatusEnum | undefined;
   /** Type of user */
-  type?: AuthUserTypeEnum | null;
+  type?: AuthUserTypeEnum | null | undefined;
   /** IAM identity URN of the user */
-  urn?: string;
+  urn?: string | undefined;
 }
 export interface GetMeIdentityUserTokenRequest {
   /** User */
@@ -3201,42 +3201,42 @@ export interface GetMeIdentityUserTokenRequest {
 /** A personal access token response */
 export interface AuthPersonalAccessToken {
   /** Creation date of this token */
-  creation?: string;
+  creation?: string | undefined;
   /** Personal access token's description */
-  description?: string;
+  description?: string | undefined;
   /** Personal access token's expiration date */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** Personal access token's last used date */
-  lastUsed?: string | null;
+  lastUsed?: string | null | undefined;
   /** Name of this token */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetMeInsightRequest {}
 /** Insight access token */
 export interface MeInsightAccess {
   /** Access token */
-  access?: string;
+  access?: string | undefined;
   /** Token creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Token expiration date */
-  expireAt?: string;
+  expireAt?: string | undefined;
 }
 export interface GetMeIpOrganisationRequest {
   organisationId: string;
 }
 /** Details about an IP block organisation */
 export interface NichandleIpv4Org {
-  abuse_mailbox?: string;
-  address?: string;
-  city?: string;
-  country?: NichandleCountryEnum;
-  firstname?: string;
-  lastname?: string;
-  organisationId?: string;
-  phone?: string;
-  registry?: NichandleIpRegistryEnum;
-  state?: string | null;
-  zip?: string | null;
+  abuse_mailbox?: string | undefined;
+  address?: string | undefined;
+  city?: string | undefined;
+  country?: NichandleCountryEnum | undefined;
+  firstname?: string | undefined;
+  lastname?: string | undefined;
+  organisationId?: string | undefined;
+  phone?: string | undefined;
+  registry?: NichandleIpRegistryEnum | undefined;
+  state?: string | null | undefined;
+  zip?: string | null | undefined;
 }
 export interface GetMeLogAuditLogKindRequest {
   /** Name */
@@ -3247,17 +3247,17 @@ export type DbaasLogsLogKindAdditionalReturnedFieldsList = Array<string>;
 /** Log kind */
 export interface DbaasLogsLogKind {
   /** List of additional log fields managed in this log kind */
-  additionalReturnedFields?: DbaasLogsLogKindAdditionalReturnedFieldsList;
+  additionalReturnedFields?: DbaasLogsLogKindAdditionalReturnedFieldsList | undefined;
   /** Creation date of the log kind */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Log kind display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Log kind ID */
-  kindId?: string;
+  kindId?: string | undefined;
   /** Log kind name */
-  name?: string;
+  name?: string | undefined;
   /** Last update date of the log kind */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetMeLogAuditLogSubscriptionRequest {
   /** Subscription ID */
@@ -3266,26 +3266,26 @@ export interface GetMeLogAuditLogSubscriptionRequest {
 /** Log subscription resource */
 export interface DbaasLogsSubscriptionResource {
   /** Name of subscribed resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of subscribed resource */
-  type?: string;
+  type?: string | undefined;
 }
 /** Log subscription */
 export interface DbaasLogsLogSubscription {
   /** Creation date of the subscription */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Log kind name of this subscription */
-  kind?: string;
+  kind?: string | undefined;
   /** Subscribed resource, where the logs come from */
-  resource?: DbaasLogsSubscriptionResource;
+  resource?: DbaasLogsSubscriptionResource | undefined;
   /** Name of the destination log service */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Id of the destination log stream */
-  streamId?: string;
+  streamId?: string | undefined;
   /** Subscription ID */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Last update date of the subscription */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetMeLogKindRequest {
   /** Name */
@@ -3299,18 +3299,18 @@ export type HttpMethodEnum = "DELETE" | "GET" | "POST" | "PUT";
 /** API Log */
 export interface ApiLog {
   /** Account which did the Request */
-  account?: string;
+  account?: string | undefined;
   /** Date of the request */
-  date?: string;
+  date?: string | undefined;
   /** Source IP of the request */
-  ip?: string | null;
-  logId?: number;
+  ip?: string | null | undefined;
+  logId?: number | undefined;
   /** HTTP Method of the request */
-  method?: HttpMethodEnum;
+  method?: HttpMethodEnum | undefined;
   /** HTTP URI of the request */
-  path?: string;
+  path?: string | undefined;
   /** API Route called */
-  route?: string;
+  route?: string | undefined;
 }
 export interface GetMeLogServiceRequest {
   logId: number;
@@ -3332,35 +3332,35 @@ export type BillingBillingTaskStatusEnum =
 /** Status of your manual domain payment migration */
 export interface BillingManualDomainPaymentStatus {
   /** Total number of domains that needs to be migrated to manual renew mode */
-  domainsToMigrate?: number | null;
+  domainsToMigrate?: number | null | undefined;
   /** Total number of domains successfully migrated to manual renew mode */
-  migratedDomains?: number | null;
-  status?: BillingBillingTaskStatusEnum;
+  migratedDomains?: number | null | undefined;
+  status?: BillingBillingTaskStatusEnum | undefined;
 }
 export interface GetMeMarketingRequest {}
 /** User consent details for a marketing communication mean */
 export interface MeMarketingConsentDetails {
   /** Enable marketing communication for OVHcloud events and webinars */
-  events?: boolean;
+  events?: boolean | undefined;
   /** Enable marketing communication for new product */
-  newProductRecommendation?: boolean;
+  newProductRecommendation?: boolean | undefined;
   /** Enable marketing communication for OVHcloud newsletter */
-  newsletter?: boolean;
+  newsletter?: boolean | undefined;
   /** Enable marketing communication for offer and discount */
-  offerAndDiscount?: boolean;
+  offerAndDiscount?: boolean | undefined;
 }
 /** User marketing consent */
 export interface MeMarketingConsent {
   /** Details for call marketing communication */
-  call?: MeMarketingConsentDetails;
+  call?: MeMarketingConsentDetails | undefined;
   /** Stop all marketing communication */
-  denyAll?: boolean;
+  denyAll?: boolean | undefined;
   /** Stop marketing communication until this date */
-  denyUntil?: string | null;
+  denyUntil?: string | null | undefined;
   /** Details for email marketing communication */
-  email?: MeMarketingConsentDetails;
+  email?: MeMarketingConsentDetails | undefined;
   /** Details for sms marketing communication */
-  sms?: MeMarketingConsentDetails;
+  sms?: MeMarketingConsentDetails | undefined;
 }
 export interface GetMeMigrationRequest {
   /** Migration ID */
@@ -3379,55 +3379,55 @@ export type MeMigrationStepContractsAgreementsList = Array<MeAgreementsContractA
 /** Country Migration step contracts data */
 export interface MeMigrationStepContracts {
   /** Array of contract agreements to accept */
-  agreements?: MeMigrationStepContractsAgreementsList;
+  agreements?: MeMigrationStepContractsAgreementsList | undefined;
 }
 /** Country Migration step debt data */
 export interface MeMigrationStepDebt {
   /** Balance amount */
-  balanceAmount?: OrderPrice | null;
+  balanceAmount?: OrderPrice | null | undefined;
   /** OVH Account amount */
-  ovhAccountAmount?: OrderPrice | null;
+  ovhAccountAmount?: OrderPrice | null | undefined;
 }
 /** Name of the migration step */
 export type MeMigrationStepNameEnum = "CONTRACTS" | "DEBT" | "NIC" | "ORDERS";
 /** Country Migration step orders data */
 export interface MeMigrationStepOrders {
   /** Whether there is pending operations */
-  pendingOperations?: boolean;
+  pendingOperations?: boolean | undefined;
   /** Whether there is pending promotions */
-  pendingPromotions?: boolean;
+  pendingPromotions?: boolean | undefined;
   /** Whether there is pending subscriptions */
-  pendingSubscriptions?: boolean;
+  pendingSubscriptions?: boolean | undefined;
 }
 /** Status of the migration step */
 export type MeMigrationStepStatusEnum = "OK" | "PENDING";
 /** Country Migration Step */
 export interface MeMigrationStep {
   /** Contracts data */
-  contracts?: MeMigrationStepContracts | null;
+  contracts?: MeMigrationStepContracts | null | undefined;
   /** Debt data */
-  debt?: MeMigrationStepDebt | null;
+  debt?: MeMigrationStepDebt | null | undefined;
   /** Migration step name */
-  name?: MeMigrationStepNameEnum;
+  name?: MeMigrationStepNameEnum | undefined;
   /** Orders data */
-  orders?: MeMigrationStepOrders | null;
+  orders?: MeMigrationStepOrders | null | undefined;
   /** Billing step status */
-  status?: MeMigrationStepStatusEnum;
+  status?: MeMigrationStepStatusEnum | undefined;
 }
 /** Migration steps */
 export type MeMigrationStepsList = Array<MeMigrationStep>;
 /** Country Migration */
 export interface MeMigration {
   /** Billing country to migrate from */
-  from?: NichandleOvhSubsidiaryEnum;
+  from?: NichandleOvhSubsidiaryEnum | undefined;
   /** Migration Id */
-  id?: number;
+  id?: number | undefined;
   /** Migration status */
-  status?: MeMigrationStatusEnum;
+  status?: MeMigrationStatusEnum | undefined;
   /** Migration steps */
-  steps?: MeMigrationStepsList | null;
+  steps?: MeMigrationStepsList | null | undefined;
   /** Billing country to migrate to */
-  to?: NichandleOvhSubsidiaryEnum;
+  to?: NichandleOvhSubsidiaryEnum | undefined;
 }
 export interface GetMeMigrationContractRequest {
   /** Migration ID */
@@ -3438,17 +3438,17 @@ export interface GetMeMigrationContractRequest {
 /** contract */
 export interface MeMigrationContract {
   /** Status */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Date */
-  date?: string;
+  date?: string | undefined;
   /** ID */
-  id?: number;
+  id?: number | undefined;
   /** Name */
-  name?: string;
+  name?: string | undefined;
   /** PDF URL */
-  pdf?: string;
+  pdf?: string | undefined;
   /** Text of the contract */
-  text?: string;
+  text?: string | undefined;
 }
 export interface GetMeMigrationContractAgreementRequest {
   /** Migration ID */
@@ -3463,13 +3463,13 @@ export interface GetMeNotificationEmailHistoryRequest {
 /** Email notification received */
 export interface NichandleEmailNotification {
   /** Content of the email */
-  body?: string;
+  body?: string | undefined;
   /** Date at which the email was sent */
-  date?: string;
+  date?: string | undefined;
   /** ID of the email notification */
-  id?: number;
+  id?: number | undefined;
   /** Subject of the email */
-  subject?: string;
+  subject?: string | undefined;
 }
 export interface GetMeOauth2ClientRequest {
   /** Client ID */
@@ -3480,19 +3480,19 @@ export type Oauth2ClientCallbackUrlsList = Array<string>;
 /** An oAuth2 Client */
 export interface Oauth2Client {
   /** allowed callback urls */
-  callbackUrls?: Oauth2ClientCallbackUrlsList | null;
+  callbackUrls?: Oauth2ClientCallbackUrlsList | null | undefined;
   /** client's client_id */
-  clientId?: string;
+  clientId?: string | undefined;
   /** client's creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** client's description */
-  description?: string;
+  description?: string | undefined;
   /** oAuth2's flow */
-  flow?: Oauth2ClientFlowEnum;
+  flow?: Oauth2ClientFlowEnum | undefined;
   /** associated IAM identity */
-  identity?: string | null;
+  identity?: string | null | undefined;
   /** client's name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetMeOauth2TokenRequest {
   /** Id */
@@ -3503,13 +3503,13 @@ export type Oauth2AccessTokenScopesList = Array<string>;
 /** An oAuth2 accesss token details */
 export interface Oauth2AccessToken {
   /** token's creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** token's expiration date */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** id of the token */
-  id?: string;
+  id?: string | undefined;
   /** list of scopes the token has */
-  scopes?: Oauth2AccessTokenScopesList;
+  scopes?: Oauth2AccessTokenScopesList | undefined;
 }
 /** list of access tokens derived from the refresh token */
 export type Oauth2TokenAccessTokensList = Array<Oauth2AccessToken>;
@@ -3520,25 +3520,25 @@ export type Oauth2TokenScopesList = Array<string>;
 /** An oAuth2 refresh token details */
 export interface Oauth2Token {
   /** list of access tokens derived from the refresh token */
-  accessTokens?: Oauth2TokenAccessTokensList;
+  accessTokens?: Oauth2TokenAccessTokensList | undefined;
   /** Description of the OAuth2 client that requested the token */
-  clientDescription?: string;
+  clientDescription?: string | undefined;
   /** ID of the OAuth2 client that requested the token */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Name of the OAuth2 client that requested the token */
-  clientName?: string;
+  clientName?: string | undefined;
   /** token's creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** token's expiration date */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** id of the refresh token */
-  id?: string;
+  id?: string | undefined;
   /** list of identities that the token is associated with */
-  identities?: Oauth2TokenIdentitiesList;
+  identities?: Oauth2TokenIdentitiesList | undefined;
   /** last time the token was used to get a new access token */
-  lastUsedAt?: string | null;
+  lastUsedAt?: string | null | undefined;
   /** list of scopes the token has */
-  scopes?: Oauth2TokenScopesList;
+  scopes?: Oauth2TokenScopesList | undefined;
 }
 export interface GetMeOrderRequest {
   orderId: number;
@@ -3555,8 +3555,8 @@ export type BillingOrderAssociatedObjectTypeEnum =
   | "Withdrawal";
 /** The object the processing of the order leaded to */
 export interface BillingOrderAssociatedObject {
-  id?: string | null;
-  type?: BillingOrderAssociatedObjectTypeEnum | null;
+  id?: string | null | undefined;
+  type?: BillingOrderAssociatedObjectTypeEnum | null | undefined;
 }
 export interface GetMeOrderBalanceRequest {
   orderId: number;
@@ -3575,15 +3575,15 @@ export type ConsumptionConsumptionExportTaskStatusEnum = "DOING" | "DONE" | "ERR
 /** Detailed consumption's retrieval information */
 export interface BillingOrderConsumptionDetails {
   /** Format of the file */
-  fileFormat?: ConsumptionConsumptionExportFormatsEnum | null;
+  fileFormat?: ConsumptionConsumptionExportFormatsEnum | null | undefined;
   /** Temporary URL to download detailed consumption */
-  fileURL?: string | null;
+  fileURL?: string | null | undefined;
   /** Request's state description */
-  message?: string | null;
+  message?: string | null | undefined;
   /** Consumption details export task's identifier */
-  taskId?: number;
+  taskId?: number | undefined;
   /** Consumption details export task's status */
-  taskStatus?: ConsumptionConsumptionExportTaskStatusEnum;
+  taskStatus?: ConsumptionConsumptionExportTaskStatusEnum | undefined;
 }
 export interface GetMeOrderDebtRequest {
   orderId: number;
@@ -3624,14 +3624,14 @@ export type OrderOrderDetailTypeEnum =
   | "VOUCHER";
 /** Information about a Bill entry */
 export interface BillingOrderDetail {
-  cancelled?: boolean;
-  description?: string;
-  detailType?: OrderOrderDetailTypeEnum | null;
-  domain?: string;
-  orderDetailId?: number;
-  quantity?: string;
-  totalPrice?: OrderPrice;
-  unitPrice?: OrderPrice;
+  cancelled?: boolean | undefined;
+  description?: string | undefined;
+  detailType?: OrderOrderDetailTypeEnum | null | undefined;
+  domain?: string | undefined;
+  orderDetailId?: number | undefined;
+  quantity?: string | undefined;
+  totalPrice?: OrderPrice | undefined;
+  unitPrice?: OrderPrice | undefined;
 }
 export interface GetMeOrderDetailExtensionRequest {
   orderId: number;
@@ -3648,46 +3648,46 @@ export type BillingItemDetailOrderActionEnum =
 /** Configuration of order */
 export interface BillingItemDetailOrderConfiguration {
   /** Label of the configuration */
-  label?: string;
+  label?: string | undefined;
   /** Value of the configuration */
-  value?: string;
+  value?: string | undefined;
 }
 /** Configurations chosen during the order */
 export type BillingItemDetailOrderConfigurationsList = Array<BillingItemDetailOrderConfiguration>;
 /** Product data from order */
 export interface BillingItemDetailOrderPlanProduct {
   /** Name of the product used when ordering through /order/cart */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 /** Plan data from order */
 export interface BillingItemDetailOrderPlan {
   /** Plan code used when ordering through /order/cart */
-  code?: string | null;
+  code?: string | null | undefined;
   /** Duration chosen when ordering through /order/cart (ISO 8601) */
-  duration?: string | null;
+  duration?: string | null | undefined;
   /** Pricing mode used when ordering through /order/cart */
-  pricingMode?: string | null;
+  pricingMode?: string | null | undefined;
   /** Product from /order/cart */
-  product?: BillingItemDetailOrderPlanProduct;
+  product?: BillingItemDetailOrderPlanProduct | undefined;
   /** Quantity ordered */
-  quantity?: number | null;
+  quantity?: number | null | undefined;
 }
 /** List of order detail types */
 export type BillingItemDetailOrderDetailTypeEnum = "plan" | "product";
 /** Order data for this Detail */
 export interface BillingItemDetailOrder {
   /** The meaning of this order detail */
-  action?: BillingItemDetailOrderActionEnum | null;
+  action?: BillingItemDetailOrderActionEnum | null | undefined;
   /** Configurations chosen during the order */
-  configurations?: BillingItemDetailOrderConfigurationsList;
+  configurations?: BillingItemDetailOrderConfigurationsList | undefined;
   /** Plan from /order/cart */
-  plan?: BillingItemDetailOrderPlan;
+  plan?: BillingItemDetailOrderPlan | undefined;
   /** Type of the detail to match with values inside the catalog */
-  type?: BillingItemDetailOrderDetailTypeEnum | null;
+  type?: BillingItemDetailOrderDetailTypeEnum | null | undefined;
 }
 /** Extensions of a detail */
 export interface BillingItemDetail {
-  order?: BillingItemDetailOrder;
+  order?: BillingItemDetailOrder | undefined;
 }
 export interface GetMeOrderPaymentRequest {
   orderId: number;
@@ -3711,15 +3711,15 @@ export interface GetMeOvhAccountRequest {
 }
 /** Details about an OVH account */
 export interface BillingOvhAccount {
-  alertThreshold?: number | null;
-  availableAfterCredit?: OrderPrice;
-  balance?: OrderPrice;
-  canBeCredited?: boolean;
-  isActive?: boolean;
-  lastUpdate?: string;
-  openDate?: string;
-  ovhAccountId?: string;
-  retrievableAmount?: OrderPrice;
+  alertThreshold?: number | null | undefined;
+  availableAfterCredit?: OrderPrice | undefined;
+  balance?: OrderPrice | undefined;
+  canBeCredited?: boolean | undefined;
+  isActive?: boolean | undefined;
+  lastUpdate?: string | undefined;
+  openDate?: string | undefined;
+  ovhAccountId?: string | undefined;
+  retrievableAmount?: OrderPrice | undefined;
 }
 export interface GetMeOvhAccountMoneyRequest {
   ovhAccountId: string;
@@ -3743,15 +3743,15 @@ export type BillingOvhAccountOperationEnum =
   | "pre-debit";
 /** Details about an OVH account */
 export interface BillingMovement {
-  amount?: OrderPrice;
-  balance?: OrderPrice;
-  date?: string;
-  description?: string;
-  movementId?: number;
-  operation?: BillingOvhAccountOperationEnum;
-  order?: number;
-  previousBalance?: OrderPrice;
-  retrievableAmount?: OrderPrice;
+  amount?: OrderPrice | undefined;
+  balance?: OrderPrice | undefined;
+  date?: string | undefined;
+  description?: string | undefined;
+  movementId?: number | undefined;
+  operation?: BillingOvhAccountOperationEnum | undefined;
+  order?: number | undefined;
+  previousBalance?: OrderPrice | undefined;
+  retrievableAmount?: OrderPrice | undefined;
 }
 export interface GetMePartnerLevelRequest {}
 /** Type of level */
@@ -3761,11 +3761,11 @@ export type MePartnerLevelRequirementLoSEnum = "none" | "premium" | "premium-acc
 /** Partner level of an account */
 export interface MePartnerLevelLevel {
   /** Level of partner */
-  level?: MePartnerLevelLevelTypeEnum;
+  level?: MePartnerLevelLevelTypeEnum | undefined;
   /** Contains an MSA certificate */
-  msa?: boolean;
+  msa?: boolean | undefined;
   /** Level of Support required */
-  requirement?: MePartnerLevelRequirementLoSEnum;
+  requirement?: MePartnerLevelRequirementLoSEnum | undefined;
 }
 export interface GetMePaymentMeanDeferredPaymentAccountRequest {
   /** Id */
@@ -3774,29 +3774,29 @@ export interface GetMePaymentMeanDeferredPaymentAccountRequest {
 /** Payment mean type icon */
 export interface MePaymentMeanIconData {
   /** Icon in base64 */
-  data?: string | null;
+  data?: string | null | undefined;
   /** Icon name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Icon URL */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 /** State of you deferred account */
 export type MePaymentMeanDeferredStateEnum = "failed" | "valid";
 /** Deferred account information */
 export interface MePaymentMeanDeferred {
   /** Creation date of this deferred account */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** This deferred account is the default payment mean? */
-  defaultPaymentMean?: boolean;
+  defaultPaymentMean?: boolean | undefined;
   /** Custom description of this deferred account */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Payment method type icon */
-  icon?: MePaymentMeanIconData | null;
-  id?: number;
+  icon?: MePaymentMeanIconData | null | undefined;
+  id?: number | undefined;
   /** Deferred account type */
-  label?: string | null;
+  label?: string | null | undefined;
   /** Deferred account state */
-  state?: MePaymentMeanDeferredStateEnum;
+  state?: MePaymentMeanDeferredStateEnum | undefined;
 }
 export interface GetMePaymentMethodRequest {
   /** Payment method ID */
@@ -3821,19 +3821,19 @@ export type MePaymentTransactionTypeEnum = "CREDIT" | "DEBIT";
 /** Transaction object */
 export interface MePaymentTransaction {
   /** Transaction amount */
-  amount?: OrderPrice;
+  amount?: OrderPrice | undefined;
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Last update date */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Associated payment method ID */
-  paymentMethodId?: number;
+  paymentMethodId?: number | undefined;
   /** Transaction status */
-  status?: MePaymentTransactionStatusEnum;
+  status?: MePaymentTransactionStatusEnum | undefined;
   /** Transaction ID */
-  transactionId?: number;
+  transactionId?: number | undefined;
   /** Transaction type */
-  type?: MePaymentTransactionTypeEnum;
+  type?: MePaymentTransactionTypeEnum | undefined;
 }
 export interface GetMePreferenceManagerRequest {
   /** This preference key */
@@ -3842,25 +3842,25 @@ export interface GetMePreferenceManagerRequest {
 /** Manager preference */
 export interface NichandleManagerPreference {
   /** This preference key */
-  key?: string;
+  key?: string | undefined;
   /** This preference value */
-  value?: string;
+  value?: string | undefined;
 }
 export interface GetMeRefundRequest {
   refundId: string;
 }
 /** Details about a Refund */
 export interface BillingRefund {
-  date?: string;
-  orderId?: number;
-  originalBillId?: string | null;
-  password?: string | Redacted.Redacted<string>;
-  pdfUrl?: string;
-  priceWithTax?: OrderPrice;
-  priceWithoutTax?: OrderPrice;
-  refundId?: string;
-  tax?: OrderPrice;
-  url?: string;
+  date?: string | undefined;
+  orderId?: number | undefined;
+  originalBillId?: string | null | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  pdfUrl?: string | undefined;
+  priceWithTax?: OrderPrice | undefined;
+  priceWithoutTax?: OrderPrice | undefined;
+  refundId?: string | undefined;
+  tax?: OrderPrice | undefined;
+  url?: string | undefined;
 }
 export interface GetMeRefundDetailRequest {
   refundId: string;
@@ -3868,14 +3868,14 @@ export interface GetMeRefundDetailRequest {
 }
 /** Information about a Bill entry */
 export interface BillingRefundDetail {
-  description?: string;
-  domain?: string;
-  quantity?: string;
-  reference?: string;
-  refundDetailId?: string;
-  refundId?: string;
-  totalPrice?: OrderPrice;
-  unitPrice?: OrderPrice;
+  description?: string | undefined;
+  domain?: string | undefined;
+  quantity?: string | undefined;
+  reference?: string | undefined;
+  refundDetailId?: string | undefined;
+  refundId?: string | undefined;
+  totalPrice?: OrderPrice | undefined;
+  unitPrice?: OrderPrice | undefined;
 }
 export interface GetMeRefundPaymentRequest {
   refundId: string;
@@ -3885,15 +3885,15 @@ export interface GetMeReverseBillRequest {
 }
 /** Details about a bill from customer */
 export interface BillingReverseBill {
-  date?: string;
-  orderId?: number;
-  password?: string | Redacted.Redacted<string>;
-  pdfUrl?: string;
-  priceWithTax?: OrderPrice;
-  priceWithoutTax?: OrderPrice;
-  reverseBillId?: string;
-  tax?: OrderPrice;
-  url?: string;
+  date?: string | undefined;
+  orderId?: number | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  pdfUrl?: string | undefined;
+  priceWithTax?: OrderPrice | undefined;
+  priceWithoutTax?: OrderPrice | undefined;
+  reverseBillId?: string | undefined;
+  tax?: OrderPrice | undefined;
+  url?: string | undefined;
 }
 export interface GetMeReverseBillDetailRequest {
   reverseBillId: string;
@@ -3901,14 +3901,14 @@ export interface GetMeReverseBillDetailRequest {
 }
 /** Information about withdrawal entry */
 export interface BillingReversableBillDetail {
-  description?: string;
-  domain?: string;
-  quantity?: string;
-  reference?: string;
-  reverseBillDetailId?: string;
-  reverseBillId?: string;
-  totalPrice?: OrderPrice;
-  unitPrice?: OrderPrice;
+  description?: string | undefined;
+  domain?: string | undefined;
+  quantity?: string | undefined;
+  reference?: string | undefined;
+  reverseBillDetailId?: string | undefined;
+  reverseBillId?: string | undefined;
+  totalPrice?: OrderPrice | undefined;
+  unitPrice?: OrderPrice | undefined;
 }
 export interface GetMeReverseBillPaymentRequest {
   reverseBillId: string;
@@ -3920,17 +3920,17 @@ export interface GetMeSlaRequest {
 /** SLA properties */
 export interface BillingSlaOperation {
   /** Date of the event that led to SLA */
-  date?: string;
+  date?: string | undefined;
   /** Description of the SLA operation for this incident */
-  description?: string;
+  description?: string | undefined;
   /** Date of the end of the SLA */
-  endDate?: string | null;
+  endDate?: string | null | undefined;
   /** SLA identifier */
-  id?: number;
+  id?: number | undefined;
   /** Sla operation name */
-  name?: string;
+  name?: string | undefined;
   /** Date of the start of the SLA */
-  startDate?: string;
+  startDate?: string | undefined;
 }
 export interface GetMeSlaCanBeAppliedRequest {
   /** Id of the object */
@@ -3949,9 +3949,9 @@ export interface GetMeSshKeyRequest {
 /** Customer public SSH key, can be used for rescue netboot or server access after reinstallation */
 export interface NichandleSshKey {
   /** ASCII encoded public SSH key */
-  key?: string;
+  key?: string | undefined;
   /** Name of this public SSH key */
-  keyName?: string;
+  keyName?: string | undefined;
 }
 export interface GetMeSubAccountRequest {
   /** Id of the object */
@@ -3960,11 +3960,11 @@ export interface GetMeSubAccountRequest {
 /** Sub Account */
 export interface NichandleSubAccount {
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** This sub-account description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** This sub-account id */
-  id?: number;
+  id?: number | undefined;
 }
 export interface GetMeSupportLevelRequest {}
 /** Type of level */
@@ -3977,7 +3977,7 @@ export type MeSupportLevelLevelTypeEnum =
 /** Support level of an account */
 export interface MeSupportLevelLevel {
   /** Level of support */
-  level?: MeSupportLevelLevelTypeEnum;
+  level?: MeSupportLevelLevelTypeEnum | undefined;
 }
 export interface GetMeTagRequest {
   /** Tag */
@@ -4008,22 +4008,22 @@ export type NichandleChangeContactTaskStateEnum =
 /** Task running a contact change on a service */
 export interface NichandleContactChangeTask {
   /** Account who asked the contact change */
-  askingAccount?: string | null;
+  askingAccount?: string | null | undefined;
   /** Contacts to be changed */
-  contactTypes?: NichandleContactChangeTaskContactTypesList;
+  contactTypes?: NichandleContactChangeTaskContactTypesList | undefined;
   /** Date at which the contact change has been finished */
-  dateDone?: string | null;
+  dateDone?: string | null | undefined;
   /** Date at which the request has been made */
-  dateRequest?: string;
+  dateRequest?: string | undefined;
   /** Account to change contact from */
-  fromAccount?: string;
-  id?: number;
+  fromAccount?: string | undefined;
+  id?: number | undefined;
   /** The service on which the task runs */
-  serviceDomain?: string | null;
+  serviceDomain?: string | null | undefined;
   /** Current state of the request */
-  state?: NichandleChangeContactTaskStateEnum;
+  state?: NichandleChangeContactTaskStateEnum | undefined;
   /** Account to change contact to */
-  toAccount?: string;
+  toAccount?: string | undefined;
 }
 export interface GetMeTaskDnsRequest {
   /** Id */
@@ -4050,29 +4050,29 @@ export type DomainTaskStatusEnum = "cancelled" | "doing" | "done" | "error" | "p
 /** DNS task */
 export interface MeDnsTask {
   /** Can accelerate the task */
-  canAccelerate?: boolean;
+  canAccelerate?: boolean | undefined;
   /** Can cancel the task */
-  canCancel?: boolean;
+  canCancel?: boolean | undefined;
   /** Can relaunch the task */
-  canRelaunch?: boolean;
+  canRelaunch?: boolean | undefined;
   /** Comment about the task */
-  comment?: string | null;
+  comment?: string | null | undefined;
   /** Creation date of the task */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Done date of the task */
-  doneDate?: string | null;
+  doneDate?: string | null | undefined;
   /** Function of the task */
-  function?: DomainTaskFunctionEnum;
+  function?: DomainTaskFunctionEnum | undefined;
   /** Id of the task */
-  id?: number;
+  id?: number | undefined;
   /** Last update date of the task */
-  lastUpdate?: string | null;
+  lastUpdate?: string | null | undefined;
   /** Status of the task */
-  status?: DomainTaskStatusEnum;
+  status?: DomainTaskStatusEnum | undefined;
   /** Todo date of the task */
-  todoDate?: string;
+  todoDate?: string | undefined;
   /** Zone related to the task */
-  zone?: string;
+  zone?: string | undefined;
 }
 export interface GetMeTaskDomainRequest {
   /** Id */
@@ -4091,31 +4091,31 @@ export type DomainOperationTypeEnum = "alldom" | "domain";
 /** Tasks associated to domain */
 export interface DomainTask {
   /** Can accelerate the task */
-  canAccelerate?: boolean;
+  canAccelerate?: boolean | undefined;
   /** Can cancel the task */
-  canCancel?: boolean;
+  canCancel?: boolean | undefined;
   /** Can relaunch the task */
-  canRelaunch?: boolean;
+  canRelaunch?: boolean | undefined;
   /** Comment about the task */
-  comment?: string | null;
+  comment?: string | null | undefined;
   /** Creation date of the task */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Domain of the task */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** Done date of the task */
-  doneDate?: string | null;
+  doneDate?: string | null | undefined;
   /** Function of the task */
-  function?: string;
+  function?: string | undefined;
   /** Id of the task */
-  id?: number;
+  id?: number | undefined;
   /** Last update date of the task */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Status of the task */
-  status?: DomainOperationStatusEnum;
+  status?: DomainOperationStatusEnum | undefined;
   /** Todo date of the task */
-  todoDate?: string;
+  todoDate?: string | undefined;
   /** type of the task */
-  type?: DomainOperationTypeEnum;
+  type?: DomainOperationTypeEnum | undefined;
 }
 export interface GetMeTaskDomainArgumentRequest {
   /** Id */
@@ -4164,27 +4164,27 @@ export type NichandleDomainTaskArgumentFieldsList = Array<XanderContactFieldEnum
 /** Domain operation argument */
 export interface NichandleDomainTaskArgument {
   /** List of accepted formats */
-  acceptedFormats?: NichandleDomainTaskArgumentAcceptedFormatsList | null;
+  acceptedFormats?: NichandleDomainTaskArgumentAcceptedFormatsList | null | undefined;
   /** List of accepted values */
-  acceptedValues?: NichandleDomainTaskArgumentAcceptedValuesList | null;
+  acceptedValues?: NichandleDomainTaskArgumentAcceptedValuesList | null | undefined;
   /** Description of the argument */
-  description?: string | null;
+  description?: string | null | undefined;
   /** List of impacted field names */
-  fields?: NichandleDomainTaskArgumentFieldsList | null;
+  fields?: NichandleDomainTaskArgumentFieldsList | null | undefined;
   /** Key of the argument */
-  key?: string;
+  key?: string | undefined;
   /** Maximum of the content length that you can send */
-  maximumSize?: number | null;
+  maximumSize?: number | null | undefined;
   /** Minimum of the content length that you can send */
-  minimumSize?: number | null;
+  minimumSize?: number | null | undefined;
   /** True if the argument is in read only */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Template of the content */
-  template?: string | null;
+  template?: string | null | undefined;
   /** Type of the argument */
-  type?: string;
+  type?: string | undefined;
   /** Value of the argument */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export interface GetMeTaskDomainProgressbarRequest {
   /** Id */
@@ -4193,11 +4193,11 @@ export interface GetMeTaskDomainProgressbarRequest {
 /** One step from an operation */
 export interface DomainOperationStep {
   /** Description of the step */
-  description?: string;
+  description?: string | undefined;
   /** Execution time of the step */
-  executionDuration?: number;
+  executionDuration?: number | undefined;
   /** Name of the step */
-  step?: string;
+  step?: string | undefined;
 }
 /** All the steps of the operation */
 export type NichandleDomainTaskProgressBarFollowUpStepsList = Array<DomainOperationStep>;
@@ -4208,19 +4208,19 @@ export type NichandleDomainTaskProgressBarTaskActionsList = Array<DomainOperatio
 /** Domain operation progress */
 export interface NichandleDomainTaskProgressBar {
   /** Current step of the operation */
-  currentStep?: DomainOperationStep;
+  currentStep?: DomainOperationStep | undefined;
   /** The estimated end date of the task */
-  expectedDoneDate?: string | null;
+  expectedDoneDate?: string | null | undefined;
   /** All the steps of the operation */
-  followUpSteps?: NichandleDomainTaskProgressBarFollowUpStepsList | null;
+  followUpSteps?: NichandleDomainTaskProgressBarFollowUpStepsList | null | undefined;
   /** The last update date of the task */
-  lastUpdateDate?: string | null;
+  lastUpdateDate?: string | null | undefined;
   /** Progress percentage of the task */
-  progress?: number;
+  progress?: number | undefined;
   /** Action possible on task */
-  taskActions?: NichandleDomainTaskProgressBarTaskActionsList;
+  taskActions?: NichandleDomainTaskProgressBarTaskActionsList | undefined;
   /** The status of the task */
-  taskStatus?: DomainOperationStatusEnum;
+  taskStatus?: DomainOperationStatusEnum | undefined;
 }
 export interface GetMeTaskEmailChangeRequest {
   id: number;
@@ -4233,23 +4233,23 @@ export interface GetMeVipStatusRequest {}
 /** VIP Status by Universe */
 export interface NichandleVipStatus {
   /** Is account VIP for Cloud Universe */
-  cloud?: boolean;
+  cloud?: boolean | undefined;
   /** Is account VIP for Dedicated Universe */
-  dedicated?: boolean;
+  dedicated?: boolean | undefined;
   /** Is account VIP for Telecom Universe */
-  telecom?: boolean;
+  telecom?: boolean | undefined;
   /** Is account VIP for Web Universe */
-  web?: boolean;
+  web?: boolean | undefined;
 }
 export interface GetMeVoucherAccountRequest {
   voucherAccountId: string;
 }
 /** Details about a Voucher account */
 export interface BillingVoucherAccount {
-  balance?: OrderPrice;
-  lastUpdate?: string;
-  openDate?: string;
-  voucherAccountId?: string;
+  balance?: OrderPrice | undefined;
+  lastUpdate?: string | undefined;
+  openDate?: string | undefined;
+  voucherAccountId?: string | undefined;
 }
 export interface GetMeVoucherAccountMovementRequest {
   voucherAccountId: string;
@@ -4266,28 +4266,28 @@ export type BillingVoucherAccountOperationEnum =
   | "pre-debit";
 /** Details about a voucher account */
 export interface BillingVoucherMovement {
-  amount?: OrderPrice;
-  balance?: OrderPrice;
-  date?: string;
-  description?: string;
-  movementId?: number;
-  operation?: BillingVoucherAccountOperationEnum;
-  order?: number;
-  previousBalance?: OrderPrice;
+  amount?: OrderPrice | undefined;
+  balance?: OrderPrice | undefined;
+  date?: string | undefined;
+  description?: string | undefined;
+  movementId?: number | undefined;
+  operation?: BillingVoucherAccountOperationEnum | undefined;
+  order?: number | undefined;
+  previousBalance?: OrderPrice | undefined;
 }
 export interface GetMeWithdrawalRequest {
   withdrawalId: string;
 }
 /** Details about a withdrawal */
 export interface BillingWithdrawal {
-  amount?: OrderPrice;
-  country?: string;
-  date?: string;
-  orderId?: number;
-  password?: string | Redacted.Redacted<string>;
-  pdfUrl?: string;
-  url?: string;
-  withdrawalId?: string;
+  amount?: OrderPrice | undefined;
+  country?: string | undefined;
+  date?: string | undefined;
+  orderId?: number | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  pdfUrl?: string | undefined;
+  url?: string | undefined;
+  withdrawalId?: string | undefined;
 }
 export interface GetMeWithdrawalDetailRequest {
   withdrawalId: string;
@@ -4295,12 +4295,12 @@ export interface GetMeWithdrawalDetailRequest {
 }
 /** Information about a Withdrawal entry */
 export interface BillingWithdrawalDetail {
-  description?: string;
-  domain?: string;
-  quantity?: string;
-  totalPrice?: OrderPrice;
-  unitPrice?: OrderPrice;
-  withdrawalDetailId?: string;
+  description?: string | undefined;
+  domain?: string | undefined;
+  quantity?: string | undefined;
+  totalPrice?: OrderPrice | undefined;
+  unitPrice?: OrderPrice | undefined;
+  withdrawalDetailId?: string | undefined;
 }
 export interface GetMeWithdrawalPaymentRequest {
   withdrawalId: string;
@@ -4309,11 +4309,11 @@ export interface GetMeXdslSettingRequest {}
 /** Xdsl Settings */
 export interface XdslSetting {
   /** Enable the partner collect choice in the order funnel */
-  ispPartnerOrderCollectChoice?: boolean;
+  ispPartnerOrderCollectChoice?: boolean | undefined;
   /** Send the modem as soon as possible, do not wait the xdsl line to be active */
-  resellerFastModemShipping?: boolean;
+  resellerFastModemShipping?: boolean | undefined;
   /** Let the modem with vendor configuration. It prevent to apply the config managed by ovh manager */
-  resellerModemBasicConfig?: boolean;
+  resellerModemBasicConfig?: boolean | undefined;
 }
 export interface ListMeAbuseRequest {}
 export type ListMeAbuseResponseBodyList = Array<string>;
@@ -4332,9 +4332,9 @@ export type ListMeAccessRestrictionU2fResponseBodyList = Array<number>;
 export type ListMeAccessRestrictionU2fResponse = ListMeAccessRestrictionU2fResponseBodyList;
 export interface ListMeAgreementsRequest {
   /** Filter the value of agreed property (like) */
-  agreed?: AgreementsAgreementStateEnum | (string & {});
+  agreed?: AgreementsAgreementStateEnum | (string & {}) | undefined;
   /** Filter the value of contractId property (like) */
-  contractId?: number;
+  contractId?: number | undefined;
 }
 export type ListMeAgreementsResponseBodyList = Array<number>;
 export type ListMeAgreementsResponse = ListMeAgreementsResponseBodyList;
@@ -4343,20 +4343,20 @@ export type ListMeApplicationResponseBodyList = Array<number>;
 export type ListMeApplicationResponse = ListMeApplicationResponseBodyList;
 export interface ListMeBillRequest {
   /** Filter the value of category property (=) */
-  category?: BillingCategoryEnum | (string & {});
+  category?: BillingCategoryEnum | (string & {}) | undefined;
   /** Filter the value of date property (>=) */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Filter the value of date property (<=) */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Filter the value of orderId property (=) */
-  orderId?: number;
+  orderId?: number | undefined;
 }
 export type ListMeBillResponseBodyList = Array<string>;
 export type ListMeBillResponse = ListMeBillResponseBodyList;
 export interface ListMeBillDebtOperationRequest {
   billId: string;
   /** Filter the value of depositOrderId property (=) */
-  depositOrderId?: number;
+  depositOrderId?: number | undefined;
 }
 export type ListMeBillDebtOperationResponseBodyList = Array<number>;
 export type ListMeBillDebtOperationResponse = ListMeBillDebtOperationResponseBodyList;
@@ -4367,9 +4367,9 @@ export type ListMeBillDetailsResponseBodyList = Array<string>;
 export type ListMeBillDetailsResponse = ListMeBillDetailsResponseBodyList;
 export interface ListMeBillingGroupRequest {
   /** Filter by name */
-  name?: string;
+  name?: string | undefined;
   /** Filter by Service ID */
-  serviceId?: number;
+  serviceId?: number | undefined;
 }
 export type ListMeBillingGroupResponseBodyList = Array<number>;
 export type ListMeBillingGroupResponse = ListMeBillingGroupResponseBodyList;
@@ -4381,7 +4381,7 @@ export type ListMeBillingGroupServiceResponseBodyList = Array<number>;
 export type ListMeBillingGroupServiceResponse = ListMeBillingGroupServiceResponseBodyList;
 export interface ListMeBillingPurchaseOrderRequest {
   /** Billing Group Identifier */
-  billingGroupId?: number;
+  billingGroupId?: number | undefined;
 }
 export type ListMeBillingPurchaseOrderResponseBodyList = Array<number>;
 export type ListMeBillingPurchaseOrderResponse = ListMeBillingPurchaseOrderResponseBodyList;
@@ -4390,9 +4390,9 @@ export type ListMeBillingReportConsumptionResponseBodyList = Array<string>;
 export type ListMeBillingReportConsumptionResponse = ListMeBillingReportConsumptionResponseBodyList;
 export interface ListMeBillingTaskRequest {
   /** Filter tasks by name */
-  name?: MeBillingTasksTaskNameEnum | (string & {});
+  name?: MeBillingTasksTaskNameEnum | (string & {}) | undefined;
   /** Filter tasks by status */
-  status?: MeBillingTasksTaskStatusEnum | (string & {});
+  status?: MeBillingTasksTaskStatusEnum | (string & {}) | undefined;
 }
 export type ListMeBillingTaskResponseBodyList = Array<number>;
 export type ListMeBillingTaskResponse = ListMeBillingTaskResponseBodyList;
@@ -4409,7 +4409,7 @@ export interface ListMeConsentDecisionRequest {
 /** Customer consent decision */
 export interface MeConsentDecision {
   /** Consent decision datetime */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Consent decision value */
   value: boolean;
 }
@@ -4418,30 +4418,30 @@ export type MeConsentConsentHistoryList = Array<MeConsentDecision>;
 /** Customer consent information for a campaign */
 export interface MeConsentConsent {
   /** Campaign name */
-  campaign?: string;
+  campaign?: string | undefined;
   /** Consent decisions history for this campaign */
-  history?: MeConsentConsentHistoryList;
+  history?: MeConsentConsentHistoryList | undefined;
   /** Campaign type */
-  type?: MeConsentCampaignTypeEnum;
+  type?: MeConsentCampaignTypeEnum | undefined;
   /** Current consent value */
-  value?: boolean;
+  value?: boolean | undefined;
 }
 export interface ListMeConsumptionUsageCurrentRequest {}
 /** Price with currency and amount in micro-cents */
 export interface MeConsumptionPrice {
-  currencyCode?: OrderCurrencyCodeEnum;
-  text?: string;
-  value?: number;
-  valueInUcents?: number;
+  currencyCode?: OrderCurrencyCodeEnum | undefined;
+  text?: string | undefined;
+  value?: number | undefined;
+  valueInUcents?: number | undefined;
 }
 /** Element of consumption for resource */
 export interface MeConsumptionTransactionElementDetail {
   /** Consumption amount price */
-  price?: MeConsumptionPrice;
+  price?: MeConsumptionPrice | undefined;
   /** Consumption quantity */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Unique ID associated to one service element */
-  unique_id?: string | null;
+  unique_id?: string | null | undefined;
 }
 /** List of consumption details for this planCode */
 export type MeConsumptionTransactionElementDetailsList =
@@ -4449,36 +4449,36 @@ export type MeConsumptionTransactionElementDetailsList =
 /** Element of consumption for resource */
 export interface MeConsumptionTransactionElement {
   /** List of consumption details for this planCode */
-  details?: MeConsumptionTransactionElementDetailsList;
+  details?: MeConsumptionTransactionElementDetailsList | undefined;
   /** Identifier of the offer */
-  planCode?: string;
+  planCode?: string | undefined;
   /** Family of the offer */
-  planFamily?: string;
+  planFamily?: string | undefined;
   /** Consumption amount price */
-  price?: MeConsumptionPrice;
+  price?: MeConsumptionPrice | undefined;
   /** Consumption quantity */
-  quantity?: number;
+  quantity?: number | undefined;
 }
 /** List of product plan code consumption */
 export type MeConsumptionTransactionElementsList = Array<MeConsumptionTransactionElement>;
 /** List of consumptions recorded in a range */
 export interface MeConsumptionTransaction {
   /** Begin date */
-  beginDate?: string;
+  beginDate?: string | undefined;
   /** Creation date */
-  creationDate?: string | null;
+  creationDate?: string | null | undefined;
   /** List of product plan code consumption */
-  elements?: MeConsumptionTransactionElementsList;
+  elements?: MeConsumptionTransactionElementsList | undefined;
   /** End date */
-  endDate?: string | null;
+  endDate?: string | null | undefined;
   /** Transaction ID */
-  id?: number | null;
+  id?: number | null | undefined;
   /** Last update */
-  lastUpdate?: string | null;
+  lastUpdate?: string | null | undefined;
   /** Consumption amount price */
-  price?: MeConsumptionPrice;
+  price?: MeConsumptionPrice | undefined;
   /** Service ID */
-  serviceId?: number;
+  serviceId?: number | undefined;
 }
 export type ListMeConsumptionUsageCurrentResponseBodyList = Array<MeConsumptionTransaction>;
 export type ListMeConsumptionUsageCurrentResponse = ListMeConsumptionUsageCurrentResponseBodyList;
@@ -4503,30 +4503,30 @@ export interface ListMeContactFieldsRequest {
 /** Extras information about a field */
 export interface MeContactFieldInformation {
   /** Name of the field concerned by restrictions */
-  fieldName?: string;
+  fieldName?: string | undefined;
   /** Indicates if the field is mandatory when editing */
-  mandatory?: boolean;
+  mandatory?: boolean | undefined;
   /** Indicates if the field can't be edited */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
 }
 export type ListMeContactFieldsResponseBodyList = Array<MeContactFieldInformation>;
 export type ListMeContactFieldsResponse = ListMeContactFieldsResponseBodyList;
 export interface ListMeCorrectiveInvoiceRequest {
   /** Filter the value of category property (=) */
-  category?: BillingCategoryEnum | (string & {});
+  category?: BillingCategoryEnum | (string & {}) | undefined;
   /** Filter the value of date property (>=) */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Filter the value of date property (<=) */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Filter the value of orderId property (=) */
-  orderId?: number;
+  orderId?: number | undefined;
 }
 export type ListMeCorrectiveInvoiceResponseBodyList = Array<string>;
 export type ListMeCorrectiveInvoiceResponse = ListMeCorrectiveInvoiceResponseBodyList;
 export interface ListMeCorrectiveInvoiceDebtOperationRequest {
   correctiveInvoiceId: string;
   /** Filter the value of depositOrderId property (=) */
-  depositOrderId?: number;
+  depositOrderId?: number | undefined;
 }
 export type ListMeCorrectiveInvoiceDebtOperationResponseBodyList = Array<number>;
 export type ListMeCorrectiveInvoiceDebtOperationResponse =
@@ -4538,15 +4538,15 @@ export type ListMeCorrectiveInvoiceDetailsResponseBodyList = Array<string>;
 export type ListMeCorrectiveInvoiceDetailsResponse = ListMeCorrectiveInvoiceDetailsResponseBodyList;
 export interface ListMeCredentialRequest {
   /** Filter by applicationId */
-  applicationId?: number;
+  applicationId?: number | undefined;
   /** Filter by status */
-  status?: AuthCredentialStateEnum | (string & {});
+  status?: AuthCredentialStateEnum | (string & {}) | undefined;
 }
 export type ListMeCredentialResponseBodyList = Array<number>;
 export type ListMeCredentialResponse = ListMeCredentialResponseBodyList;
 export interface ListMeCreditBalanceRequest {
   /** Filter by balance type */
-  type?: MeCreditBalanceTypeEnum | (string & {});
+  type?: MeCreditBalanceTypeEnum | (string & {}) | undefined;
 }
 export type ListMeCreditBalanceResponseBodyList = Array<string>;
 export type ListMeCreditBalanceResponse = ListMeCreditBalanceResponseBodyList;
@@ -4562,17 +4562,17 @@ export type ListMeDebtAccountDebtResponse = ListMeDebtAccountDebtResponseBodyLis
 export interface ListMeDebtAccountDebtOperationRequest {
   debtId: number;
   /** Filter the value of depositOrderId property (=) */
-  depositOrderId?: number;
+  depositOrderId?: number | undefined;
 }
 export type ListMeDebtAccountDebtOperationResponseBodyList = Array<number>;
 export type ListMeDebtAccountDebtOperationResponse = ListMeDebtAccountDebtOperationResponseBodyList;
 export interface ListMeDepositRequest {
   /** Filter the value of date property (>=) */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Filter the value of date property (<=) */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Filter the value of orderId property (=) */
-  orderId?: number;
+  orderId?: number | undefined;
 }
 export type ListMeDepositResponseBodyList = Array<string>;
 export type ListMeDepositResponse = ListMeDepositResponseBodyList;
@@ -4585,7 +4585,7 @@ export interface ListMeDepositPaidBillDebtOperationRequest {
   depositId: string;
   billId: string;
   /** Filter the value of depositOrderId property (=) */
-  depositOrderId?: number;
+  depositOrderId?: number | undefined;
 }
 export type ListMeDepositPaidBillDebtOperationResponseBodyList = Array<number>;
 export type ListMeDepositPaidBillDebtOperationResponse =
@@ -4606,20 +4606,20 @@ export type ListMeDocumentResponseBodyList = Array<string>;
 export type ListMeDocumentResponse = ListMeDocumentResponseBodyList;
 export interface ListMeDownPaymentInvoiceRequest {
   /** Filter the value of category property (=) */
-  category?: BillingCategoryEnum | (string & {});
+  category?: BillingCategoryEnum | (string & {}) | undefined;
   /** Filter the value of date property (>=) */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Filter the value of date property (<=) */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Filter the value of orderId property (=) */
-  orderId?: number;
+  orderId?: number | undefined;
 }
 export type ListMeDownPaymentInvoiceResponseBodyList = Array<string>;
 export type ListMeDownPaymentInvoiceResponse = ListMeDownPaymentInvoiceResponseBodyList;
 export interface ListMeDownPaymentInvoiceDebtOperationRequest {
   downPaymentInvoiceId: string;
   /** Filter the value of depositOrderId property (=) */
-  depositOrderId?: number;
+  depositOrderId?: number | undefined;
 }
 export type ListMeDownPaymentInvoiceDebtOperationResponseBodyList = Array<number>;
 export type ListMeDownPaymentInvoiceDebtOperationResponse =
@@ -4635,9 +4635,9 @@ export type ListMeFaxCustomDomainsResponseBodyList = Array<number>;
 export type ListMeFaxCustomDomainsResponse = ListMeFaxCustomDomainsResponseBodyList;
 export interface ListMeFidelityAccountMovementsRequest {
   /** Filter the value of date property (>=) */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Filter the value of date property (<=) */
-  date_to?: string;
+  date_to?: string | undefined;
 }
 export type ListMeFidelityAccountMovementsResponseBodyList = Array<number>;
 export type ListMeFidelityAccountMovementsResponse = ListMeFidelityAccountMovementsResponseBodyList;
@@ -4665,9 +4665,9 @@ export type MeIncidentServiceMigrationAddonsList = Array<MeIncidentServiceMigrat
 /** Config */
 export interface MeIncidentProposedOfferConfiguration {
   /** name */
-  name?: string;
+  name?: string | undefined;
   /** value */
-  value?: string;
+  value?: string | undefined;
 }
 /** List of configurations used for the migration */
 export type MeIncidentProposedOfferConfigurationsList = Array<MeIncidentProposedOfferConfiguration>;
@@ -4688,29 +4688,29 @@ export type OrderCartGenericProductPricingTypeEnum = "consumption" | "purchase" 
 /** Representation of a product pricing */
 export interface OrderCartGenericProductPricing {
   /** Capacities of the pricing (type of pricing) */
-  capacities?: OrderCartGenericProductPricingCapacitiesList;
+  capacities?: OrderCartGenericProductPricingCapacitiesList | undefined;
   /** Description of the pricing */
-  description?: string;
+  description?: string | undefined;
   /** Duration for ordering the product */
-  duration?: string;
+  duration?: string | undefined;
   /** Interval of renewal */
-  interval?: number;
+  interval?: number | undefined;
   /** Maximum quantity that can be ordered */
-  maximumQuantity?: number | null;
+  maximumQuantity?: number | null | undefined;
   /** Maximum repeat for renewal */
-  maximumRepeat?: number | null;
+  maximumRepeat?: number | null | undefined;
   /** Minimum quantity that can be ordered */
-  minimumQuantity?: number;
+  minimumQuantity?: number | undefined;
   /** Minimum repeat for renewal */
-  minimumRepeat?: number;
+  minimumRepeat?: number | undefined;
   /** Price of the product */
-  price?: OrderPrice;
+  price?: OrderPrice | undefined;
   /** Price of the product in micro-centims */
-  priceInUcents?: number;
+  priceInUcents?: number | undefined;
   /** Pricing model identifier */
-  pricingMode?: string;
+  pricingMode?: string | undefined;
   /** Pricing type */
-  pricingType?: OrderCartGenericProductPricingTypeEnum;
+  pricingType?: OrderCartGenericProductPricingTypeEnum | undefined;
 }
 /** Prices of the product offer */
 export type OrderCartGenericProductDefinitionPricesList = Array<OrderCartGenericProductPricing>;
@@ -4727,57 +4727,57 @@ export type OrderCartGenericProductTypeEnum =
 /** Representation of a generic product */
 export interface OrderCartGenericProductDefinition {
   /** Product offer identifier */
-  planCode?: string;
+  planCode?: string | undefined;
   /** Prices of the product offer */
-  prices?: OrderCartGenericProductDefinitionPricesList;
+  prices?: OrderCartGenericProductDefinitionPricesList | undefined;
   /** Name of the product */
-  productName?: string;
+  productName?: string | undefined;
   /** Product type */
-  productType?: OrderCartGenericProductTypeEnum;
+  productType?: OrderCartGenericProductTypeEnum | undefined;
 }
 /** Commercial gesture applied for the service migration */
 export interface MeIncidentPercentagePromotion {
   /** Duration applied for the commercial gesture */
-  duration?: string;
+  duration?: string | undefined;
   /** Percentage of the discount */
-  value?: number;
+  value?: number | undefined;
 }
 /** Commercial offer a customer can migrate his service to */
 export interface MeIncidentProposedOffer {
   /** List of configurations used for the migration */
-  configurations?: MeIncidentProposedOfferConfigurationsList;
+  configurations?: MeIncidentProposedOfferConfigurationsList | undefined;
   /** Proposed commercial offer */
-  plan?: OrderCartGenericProductDefinition;
+  plan?: OrderCartGenericProductDefinition | undefined;
   /** Pricing mode used to bill the offer */
-  pricingMode?: string;
+  pricingMode?: string | undefined;
   /** Promotion applied to the commercial offer */
-  promotion?: MeIncidentPercentagePromotion;
+  promotion?: MeIncidentPercentagePromotion | undefined;
 }
 /** Additional information on the service */
 export type MeIncidentServiceToMigrateMetadataList = Array<ComplexTypeSafeKeyValueString>;
 /** Original service that can be migrated */
 export interface MeIncidentServiceToMigrate {
   /** Description of the offer of the service */
-  description?: string;
+  description?: string | undefined;
   /** Additional information on the service */
-  metadata?: MeIncidentServiceToMigrateMetadataList;
+  metadata?: MeIncidentServiceToMigrateMetadataList | undefined;
   /** Route */
-  route?: string | null;
+  route?: string | null | undefined;
   /** ID of the migratable service */
-  serviceId?: number;
+  serviceId?: number | undefined;
   /** Name of the migratable service */
-  serviceName?: string;
+  serviceName?: string | undefined;
 }
 /** Service you may migrate to a given offer */
 export interface MeIncidentServiceMigration {
   /** Options to migrate linked to the original service */
-  addons?: MeIncidentServiceMigrationAddonsList;
+  addons?: MeIncidentServiceMigrationAddonsList | undefined;
   /** ID of an ongoing migration order */
-  orderId?: number | null;
+  orderId?: number | null | undefined;
   /** Proposed commercial offer to replace the service */
-  proposedOffer?: MeIncidentProposedOffer;
+  proposedOffer?: MeIncidentProposedOffer | undefined;
   /** Description of the service to migrate */
-  serviceToMigrate?: MeIncidentServiceToMigrate | null;
+  serviceToMigrate?: MeIncidentServiceToMigrate | null | undefined;
 }
 export type ListMeIncidentSbgMigrateServicesResponseBodyList = Array<MeIncidentServiceMigration>;
 export type ListMeIncidentSbgMigrateServicesResponse =
@@ -4791,46 +4791,46 @@ export type AuditLogAuthUserTypeEnum = "ACCOUNT" | "PROVIDER" | "USER";
 /** Authenticated user details */
 export interface AuditLogAuthUserDetails {
   /** authentication type */
-  type?: AuditLogAuthUserTypeEnum;
+  type?: AuditLogAuthUserTypeEnum | undefined;
   /** authenticated user name */
-  user?: string | null;
+  user?: string | null | undefined;
 }
 /** Authentication details */
 export interface AuditLogAuthDetails {
   /** authenticated user details */
-  userDetails?: AuditLogAuthUserDetails;
+  userDetails?: AuditLogAuthUserDetails | undefined;
 }
 /** Specific fields for GROUP events */
 export interface AuditLogGroupDetails {
   /** Description of the group */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Name of the group */
-  name?: string;
+  name?: string | undefined;
   /** Role of the group */
-  role?: string;
+  role?: string | undefined;
 }
 /** specific fields for GROUP_CREATED events */
 export interface AuditLogGroupCreatedDetails {
   /** Identifier of the group */
-  group?: string;
+  group?: string | undefined;
   /** Group details after creation */
-  new?: AuditLogGroupDetails | null;
+  new?: AuditLogGroupDetails | null | undefined;
 }
 /** specific fields for GROUP_DELETED events */
 export interface AuditLogGroupDeletedDetails {
   /** Identifier of the group */
-  group?: string;
+  group?: string | undefined;
   /** Group details before deletion */
-  old?: AuditLogGroupDetails | null;
+  old?: AuditLogGroupDetails | null | undefined;
 }
 /** specific fields for GROUP_MODIFIED events */
 export interface AuditLogGroupModifiedDetails {
   /** Identifier of the group */
-  group?: string;
+  group?: string | undefined;
   /** Group details after update */
-  new?: AuditLogGroupDetails | null;
+  new?: AuditLogGroupDetails | null | undefined;
   /** Group details before update */
-  old?: AuditLogGroupDetails | null;
+  old?: AuditLogGroupDetails | null | undefined;
 }
 /** Authentication MFA type */
 export type AuditLogAuthMFATypeEnum =
@@ -4844,9 +4844,9 @@ export type AuditLogAuthMFATypeEnum =
 /** specific fields for LOGIN_SUCCESS events */
 export interface AuditLogLoginSuccessDetails {
   /** Used MFA while login */
-  mfaType?: AuditLogAuthMFATypeEnum | null;
+  mfaType?: AuditLogAuthMFATypeEnum | null | undefined;
   /** Browser's user agent */
-  userAgent?: string;
+  userAgent?: string | undefined;
 }
 /** Identities changed on the policy */
 export type AuditLogPolicyChangesIdentitiesList = Array<string>;
@@ -4855,178 +4855,178 @@ export type AuditLogPolicyChangesResourcesList = Array<string>;
 /** Changed fields for POLICY events */
 export interface AuditLogPolicyChanges {
   /** Identities changed on the policy */
-  identities?: AuditLogPolicyChangesIdentitiesList | null;
+  identities?: AuditLogPolicyChangesIdentitiesList | null | undefined;
   /** Resources changed on the policy */
-  resources?: AuditLogPolicyChangesResourcesList | null;
+  resources?: AuditLogPolicyChangesResourcesList | null | undefined;
 }
 /** Specific fields for POLICY events */
 export interface AuditLogPolicyDetails {
   /** Description of the policy */
-  description?: string;
+  description?: string | undefined;
   /** Name of the policy */
-  name?: string;
+  name?: string | undefined;
 }
 /** specific fields for POLICY_CREATED events */
 export interface AuditLogPolicyCreatedDetails {
   /** Policy changes */
-  added?: AuditLogPolicyChanges | null;
+  added?: AuditLogPolicyChanges | null | undefined;
   /** Policy details after creation */
-  new?: AuditLogPolicyDetails | null;
+  new?: AuditLogPolicyDetails | null | undefined;
   /** Id of the policy */
-  policyId?: string;
+  policyId?: string | undefined;
   /** Name of the policy */
-  policyName?: string;
+  policyName?: string | undefined;
 }
 /** specific fields for POLICY_DELETED events */
 export interface AuditLogPolicyDeletedDetails {
   /** Policy details before deletion */
-  old?: AuditLogPolicyDetails | null;
+  old?: AuditLogPolicyDetails | null | undefined;
   /** Id of the policy */
-  policyId?: string;
+  policyId?: string | undefined;
   /** Name of the policy */
-  policyName?: string;
+  policyName?: string | undefined;
   /** Policy changes */
-  removed?: AuditLogPolicyChanges | null;
+  removed?: AuditLogPolicyChanges | null | undefined;
 }
 /** specific fields for POLICY_MODIFIED events */
 export interface AuditLogPolicyModifiedDetails {
   /** Policy changes (addition) */
-  added?: AuditLogPolicyChanges | null;
+  added?: AuditLogPolicyChanges | null | undefined;
   /** Policy details after update */
-  new?: AuditLogPolicyDetails | null;
+  new?: AuditLogPolicyDetails | null | undefined;
   /** Policy details before update */
-  old?: AuditLogPolicyDetails | null;
+  old?: AuditLogPolicyDetails | null | undefined;
   /** Id of the policy */
-  policyId?: string;
+  policyId?: string | undefined;
   /** Name of the policy */
-  policyName?: string;
+  policyName?: string | undefined;
   /** Policy changes (removal) */
-  removed?: AuditLogPolicyChanges | null;
+  removed?: AuditLogPolicyChanges | null | undefined;
 }
 /** specific fields for PROVIDER events */
 export interface AuditLogProviderDetails {
   /** SAML group attribute name of the provider */
-  groupAttributeName?: string;
+  groupAttributeName?: string | undefined;
   /** SAML request signature enabled */
-  requestSignatureEnabled?: boolean;
+  requestSignatureEnabled?: boolean | undefined;
   /** SAML user attribute name of the provider */
-  userAttributeName?: string;
+  userAttributeName?: string | undefined;
   /** Provider use disabled account users */
-  usersDisabled?: boolean;
+  usersDisabled?: boolean | undefined;
 }
 /** specific fields for PROVIDER_CREATED events */
 export interface AuditLogProviderCreatedDetails {
   /** Provider details after creation */
-  new?: AuditLogProviderDetails | null;
+  new?: AuditLogProviderDetails | null | undefined;
   /** SSO URL of the provider */
-  ssoServiceURL?: string;
+  ssoServiceURL?: string | undefined;
 }
 /** specific fields for PROVIDER_DELETED events */
 export interface AuditLogProviderDeletedDetails {
   /** Provider details before deletion */
-  old?: AuditLogProviderDetails | null;
+  old?: AuditLogProviderDetails | null | undefined;
   /** SSO URL of the provider */
-  ssoServiceURL?: string;
+  ssoServiceURL?: string | undefined;
 }
 /** specific fields for PROVIDER_MODIFIED events */
 export interface AuditLogProviderModifiedDetails {
   /** Provider details after update */
-  new?: AuditLogProviderDetails | null;
+  new?: AuditLogProviderDetails | null | undefined;
   /** Provider details before update */
-  old?: AuditLogProviderDetails | null;
+  old?: AuditLogProviderDetails | null | undefined;
   /** SSO URL of the provider */
-  ssoServiceURL?: string;
+  ssoServiceURL?: string | undefined;
 }
 /** Resources changed on the resource group */
 export type AuditLogResourceGroupChangesResourcesList = Array<string>;
 /** Changed fields for RESOURCE_GROUP events */
 export interface AuditLogResourceGroupChanges {
   /** Resources changed on the resource group */
-  resources?: AuditLogResourceGroupChangesResourcesList | null;
+  resources?: AuditLogResourceGroupChangesResourcesList | null | undefined;
 }
 /** Specific fields for RESOURCE_GROUP events */
 export interface AuditLogResourceGroupDetails {
   /** Name of the policy */
-  name?: string;
+  name?: string | undefined;
 }
 /** specific fields for RESOURCE_GROUP_CREATED events */
 export interface AuditLogResourceGroupCreatedDetails {
   /** Resource group changes */
-  added?: AuditLogResourceGroupChanges | null;
+  added?: AuditLogResourceGroupChanges | null | undefined;
   /** Resource group details after creation */
-  new?: AuditLogResourceGroupDetails | null;
+  new?: AuditLogResourceGroupDetails | null | undefined;
   /** Id of the resource group */
-  resourceGroupId?: string;
+  resourceGroupId?: string | undefined;
   /** Name of the resource group */
-  resourceGroupName?: string;
+  resourceGroupName?: string | undefined;
 }
 /** specific fields for RESOURCE_GROUP_DELETED events */
 export interface AuditLogResourceGroupDeletedDetails {
   /** Resource group details before deletion */
-  old?: AuditLogResourceGroupDetails | null;
+  old?: AuditLogResourceGroupDetails | null | undefined;
   /** Resource group changes */
-  removed?: AuditLogResourceGroupChanges | null;
+  removed?: AuditLogResourceGroupChanges | null | undefined;
   /** Id of the resource group */
-  resourceGroupId?: string;
+  resourceGroupId?: string | undefined;
   /** Name of the resource group */
-  resourceGroupName?: string;
+  resourceGroupName?: string | undefined;
 }
 /** specific fields for RESOURCE_GROUP_MODIFIED events */
 export interface AuditLogResourceGroupModifiedDetails {
   /** Resource group changes (addition) */
-  added?: AuditLogResourceGroupChanges | null;
+  added?: AuditLogResourceGroupChanges | null | undefined;
   /** Resource group details after update */
-  new?: AuditLogResourceGroupDetails | null;
+  new?: AuditLogResourceGroupDetails | null | undefined;
   /** Resource group details before update */
-  old?: AuditLogResourceGroupDetails | null;
+  old?: AuditLogResourceGroupDetails | null | undefined;
   /** Resource group changes (removal) */
-  removed?: AuditLogResourceGroupChanges | null;
+  removed?: AuditLogResourceGroupChanges | null | undefined;
   /** Id of the resource group */
-  resourceGroupId?: string;
+  resourceGroupId?: string | undefined;
   /** Name of the resource group */
-  resourceGroupName?: string;
+  resourceGroupName?: string | undefined;
 }
 /** specific fields for TOKEN events */
 export interface AuditLogTokenDetails {
   /** Description of the token */
-  description?: string;
+  description?: string | undefined;
   /** Token's expiration date */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
 }
 /** specific fields for TOKEN_CREATED events */
 export interface AuditLogTokenCreatedDetails {
   /** Token details after creation */
-  new?: AuditLogTokenDetails | null;
+  new?: AuditLogTokenDetails | null | undefined;
   /** Token's creation date */
-  tokenCreatedAt?: string | null;
+  tokenCreatedAt?: string | null | undefined;
   /** Name of the token */
-  tokenName?: string;
+  tokenName?: string | undefined;
   /** Login of the user */
-  user?: string;
+  user?: string | undefined;
 }
 /** specific fields for TOKEN_DELETED events */
 export interface AuditLogTokenDeletedDetails {
   /** Token details before deletion */
-  old?: AuditLogTokenDetails | null;
+  old?: AuditLogTokenDetails | null | undefined;
   /** Token's creation date */
-  tokenCreatedAt?: string | null;
+  tokenCreatedAt?: string | null | undefined;
   /** Name of the token */
-  tokenName?: string;
+  tokenName?: string | undefined;
   /** Login of the user */
-  user?: string;
+  user?: string | undefined;
 }
 /** specific fields for TOKEN_MODIFIED events */
 export interface AuditLogTokenModifiedDetails {
   /** Token details after update */
-  new?: AuditLogTokenDetails | null;
+  new?: AuditLogTokenDetails | null | undefined;
   /** Token details before update */
-  old?: AuditLogTokenDetails | null;
+  old?: AuditLogTokenDetails | null | undefined;
   /** Token's creation date */
-  tokenCreatedAt?: string | null;
+  tokenCreatedAt?: string | null | undefined;
   /** Name of the token */
-  tokenName?: string;
+  tokenName?: string | undefined;
   /** Login of the user */
-  user?: string;
+  user?: string | undefined;
 }
 /** Audit event type */
 export type AuditLogTypeEnum =
@@ -5054,104 +5054,104 @@ export type AuditLogTypeEnum =
 /** specific fields for USER events */
 export interface AuditLogUserDetails {
   /** Description of the user */
-  description?: string;
+  description?: string | undefined;
   /** Group of the user */
-  group?: string;
+  group?: string | undefined;
   /** Email of the user */
-  passwordRecoveryEmail?: string | Redacted.Redacted<string> | null;
+  passwordRecoveryEmail?: string | Redacted.Redacted<string> | null | undefined;
   /** Type of user created */
-  userType?: AuthUserTypeEnum | null;
+  userType?: AuthUserTypeEnum | null | undefined;
 }
 /** specific fields for USER_CREATED events */
 export interface AuditLogUserCreatedDetails {
   /** User details after creation */
-  new?: AuditLogUserDetails | null;
+  new?: AuditLogUserDetails | null | undefined;
   /** Login of the user */
-  user?: string;
+  user?: string | undefined;
   /** User's creation date */
-  userCreatedAt?: string | null;
+  userCreatedAt?: string | null | undefined;
   /** Type of user created */
-  userType?: AuthUserTypeEnum | null;
+  userType?: AuthUserTypeEnum | null | undefined;
 }
 /** specific fields for USER_DELETED events */
 export interface AuditLogUserDeletedDetails {
   /** User details before deletion */
-  old?: AuditLogUserDetails | null;
+  old?: AuditLogUserDetails | null | undefined;
   /** Login of the user */
-  user?: string;
+  user?: string | undefined;
   /** User's creation date */
-  userCreatedAt?: string | null;
+  userCreatedAt?: string | null | undefined;
   /** Type of user created */
-  userType?: AuthUserTypeEnum | null;
+  userType?: AuthUserTypeEnum | null | undefined;
 }
 /** specific fields for USER_MODIFIED events */
 export interface AuditLogUserModifiedDetails {
   /** User details after update */
-  new?: AuditLogUserDetails | null;
+  new?: AuditLogUserDetails | null | undefined;
   /** User details before update */
-  old?: AuditLogUserDetails | null;
+  old?: AuditLogUserDetails | null | undefined;
   /** Login of the user */
-  user?: string;
+  user?: string | undefined;
   /** User's creation date */
-  userCreatedAt?: string | null;
+  userCreatedAt?: string | null | undefined;
 }
 /** specific fields for USER_PASSWORD_CHANGED events */
 export interface AuditLogUserPasswordChangedDetails {
   /** User name */
-  user?: string;
+  user?: string | undefined;
   /** User's creation date */
-  userCreatedAt?: string | null;
+  userCreatedAt?: string | null | undefined;
 }
 /** An audit Log */
 export interface AuditLog {
   /** authentication details */
-  authDetails?: AuditLogAuthDetails | null;
+  authDetails?: AuditLogAuthDetails | null | undefined;
   /** event's date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** specific fields for GROUP_CREATED events */
-  groupCreatedDetails?: AuditLogGroupCreatedDetails | null;
+  groupCreatedDetails?: AuditLogGroupCreatedDetails | null | undefined;
   /** specific fields for GROUP_DELETED events */
-  groupDeletedDetails?: AuditLogGroupDeletedDetails | null;
+  groupDeletedDetails?: AuditLogGroupDeletedDetails | null | undefined;
   /** specific fields for GROUP_MODIFIED events */
-  groupModifiedDetails?: AuditLogGroupModifiedDetails | null;
+  groupModifiedDetails?: AuditLogGroupModifiedDetails | null | undefined;
   /** IP associated to this event */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** specific fields for LOGIN_SUCCESS events */
-  loginSuccessDetails?: AuditLogLoginSuccessDetails | null;
+  loginSuccessDetails?: AuditLogLoginSuccessDetails | null | undefined;
   /** specific fields for POLICY_CREATED events */
-  policyCreatedDetails?: AuditLogPolicyCreatedDetails | null;
+  policyCreatedDetails?: AuditLogPolicyCreatedDetails | null | undefined;
   /** specific fields for POLICY_DELETED events */
-  policyDeletedDetails?: AuditLogPolicyDeletedDetails | null;
+  policyDeletedDetails?: AuditLogPolicyDeletedDetails | null | undefined;
   /** specific fields for POLICY_MODIFIED events */
-  policyModifiedDetails?: AuditLogPolicyModifiedDetails | null;
+  policyModifiedDetails?: AuditLogPolicyModifiedDetails | null | undefined;
   /** specific fields for PROVIDER_CREATED events */
-  providerCreatedDetails?: AuditLogProviderCreatedDetails | null;
+  providerCreatedDetails?: AuditLogProviderCreatedDetails | null | undefined;
   /** specific fields for PROVIDER_DELETED events */
-  providerDeletedDetails?: AuditLogProviderDeletedDetails | null;
+  providerDeletedDetails?: AuditLogProviderDeletedDetails | null | undefined;
   /** specific fields for PROVIDER_MODIFIED events */
-  providerModifiedDetails?: AuditLogProviderModifiedDetails | null;
+  providerModifiedDetails?: AuditLogProviderModifiedDetails | null | undefined;
   /** specific fields for RESOURCE_GROUP_CREATED events */
-  resourceGroupCreatedDetails?: AuditLogResourceGroupCreatedDetails | null;
+  resourceGroupCreatedDetails?: AuditLogResourceGroupCreatedDetails | null | undefined;
   /** specific fields for RESOURCE_GROUP_DELETED events */
-  resourceGroupDeletedDetails?: AuditLogResourceGroupDeletedDetails | null;
+  resourceGroupDeletedDetails?: AuditLogResourceGroupDeletedDetails | null | undefined;
   /** specific fields for RESOURCE_GROUP_MODIFIED events */
-  resourceGroupModifiedDetails?: AuditLogResourceGroupModifiedDetails | null;
+  resourceGroupModifiedDetails?: AuditLogResourceGroupModifiedDetails | null | undefined;
   /** specific fields for TOKEN_CREATED events */
-  tokenCreatedDetails?: AuditLogTokenCreatedDetails | null;
+  tokenCreatedDetails?: AuditLogTokenCreatedDetails | null | undefined;
   /** specific fields for TOKEN_DELETED events */
-  tokenDeletedDetails?: AuditLogTokenDeletedDetails | null;
+  tokenDeletedDetails?: AuditLogTokenDeletedDetails | null | undefined;
   /** specific fields for TOKEN_MODIFIED events */
-  tokenModifiedDetails?: AuditLogTokenModifiedDetails | null;
+  tokenModifiedDetails?: AuditLogTokenModifiedDetails | null | undefined;
   /** type of event */
-  type?: AuditLogTypeEnum;
+  type?: AuditLogTypeEnum | undefined;
   /** specific fields for USER_CREATED events */
-  userCreatedDetails?: AuditLogUserCreatedDetails | null;
+  userCreatedDetails?: AuditLogUserCreatedDetails | null | undefined;
   /** specific fields for USER_DELETED events */
-  userDeletedDetails?: AuditLogUserDeletedDetails | null;
+  userDeletedDetails?: AuditLogUserDeletedDetails | null | undefined;
   /** specific fields for USER_MODIFIED events */
-  userModifiedDetails?: AuditLogUserModifiedDetails | null;
+  userModifiedDetails?: AuditLogUserModifiedDetails | null | undefined;
   /** specific fields for USER_PASSWORD_CHANGED events */
-  userPasswordChangedDetails?: AuditLogUserPasswordChangedDetails | null;
+  userPasswordChangedDetails?: AuditLogUserPasswordChangedDetails | null | undefined;
 }
 export type ListMeLogAuditResponseBodyList = Array<AuditLog>;
 export type ListMeLogAuditResponse = ListMeLogAuditResponseBodyList;
@@ -5160,7 +5160,7 @@ export type ListMeLogAuditLogKindResponseBodyList = Array<string>;
 export type ListMeLogAuditLogKindResponse = ListMeLogAuditLogKindResponseBodyList;
 export interface ListMeLogAuditLogSubscriptionRequest {
   /** Filter on a specific kind (e.g., audit) */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListMeLogAuditLogSubscriptionResponseBodyList = Array<string>;
 export type ListMeLogAuditLogSubscriptionResponse = ListMeLogAuditLogSubscriptionResponseBodyList;
@@ -5175,7 +5175,7 @@ export type ListMeLogServicesResponseBodyList = Array<number>;
 export type ListMeLogServicesResponse = ListMeLogServicesResponseBodyList;
 export interface ListMeLogSubscriptionRequest {
   /** Filter on a specific kind (e.g., audit) */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListMeLogSubscriptionResponseBodyList = Array<string>;
 export type ListMeLogSubscriptionResponse = ListMeLogSubscriptionResponseBodyList;
@@ -5203,9 +5203,9 @@ export type ListMeOauth2TokenResponseBodyList = Array<string>;
 export type ListMeOauth2TokenResponse = ListMeOauth2TokenResponseBodyList;
 export interface ListMeOrderRequest {
   /** Filter the value of date property (>=) */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Filter the value of date property (<=) */
-  date_to?: string;
+  date_to?: string | undefined;
 }
 export type ListMeOrderResponseBodyList = Array<number>;
 export type ListMeOrderResponse = ListMeOrderResponseBodyList;
@@ -5217,10 +5217,10 @@ export type BillingOrderAvailablePaymentMeanFieldOptionsList = Array<string>;
 export type BillingOrderPaymentMeanFieldTypeEnum = "hidden" | "select" | "text";
 /** All fields needed for a payment mean integration */
 export interface BillingOrderAvailablePaymentMeanField {
-  key?: string;
-  options?: BillingOrderAvailablePaymentMeanFieldOptionsList | null;
-  type?: BillingOrderPaymentMeanFieldTypeEnum;
-  value?: string | null;
+  key?: string | undefined;
+  options?: BillingOrderAvailablePaymentMeanFieldOptionsList | null | undefined;
+  type?: BillingOrderPaymentMeanFieldTypeEnum | undefined;
+  value?: string | null | undefined;
 }
 export type BillingOrderAvailablePaymentMeanFieldsList =
   Array<BillingOrderAvailablePaymentMeanField>;
@@ -5228,10 +5228,10 @@ export type BillingOrderAvailablePaymentMeanFieldsList =
 export type BillingOrderPaymentMeanIntegrationEnum = "GET_FORM" | "POST_FORM" | "REDIRECT";
 /** All data needed to use a payment mean */
 export interface BillingOrderAvailablePaymentMean {
-  fields?: BillingOrderAvailablePaymentMeanFieldsList | null;
-  integration?: BillingOrderPaymentMeanIntegrationEnum;
-  name?: string;
-  url?: string | null;
+  fields?: BillingOrderAvailablePaymentMeanFieldsList | null | undefined;
+  integration?: BillingOrderPaymentMeanIntegrationEnum | undefined;
+  name?: string | undefined;
+  url?: string | null | undefined;
 }
 export type ListMeOrderAvailablePaymentMeanResponseBodyList =
   Array<BillingOrderAvailablePaymentMean>;
@@ -5242,7 +5242,7 @@ export interface ListMeOrderAvailableRegisteredPaymentMeanRequest {
 }
 /** A registered payment mean */
 export interface BillingOrderRegisteredPaymentMean {
-  paymentMean?: BillingReusablePaymentMeanEnum;
+  paymentMean?: BillingReusablePaymentMeanEnum | undefined;
 }
 export type ListMeOrderAvailableRegisteredPaymentMeanResponseBodyList =
   Array<BillingOrderRegisteredPaymentMean>;
@@ -5256,7 +5256,7 @@ export type ListMeOrderBalanceResponse = ListMeOrderBalanceResponseBodyList;
 export interface ListMeOrderDebtOperationRequest {
   orderId: number;
   /** Filter the value of depositOrderId property (=) */
-  depositOrderId?: number;
+  depositOrderId?: number | undefined;
 }
 export type ListMeOrderDebtOperationResponseBodyList = Array<number>;
 export type ListMeOrderDebtOperationResponse = ListMeOrderDebtOperationResponseBodyList;
@@ -5286,11 +5286,11 @@ export type BillingOrderFollowUpHistoryStatusEnum =
 /** Step history of order follow-up */
 export interface BillingOrderFollowUpHistory {
   /** History date of order follow-up */
-  date?: string;
+  date?: string | undefined;
   /** History description of order follow-up */
-  description?: string;
+  description?: string | undefined;
   /** History label of order follow-up */
-  label?: BillingOrderFollowUpHistoryStatusEnum;
+  label?: BillingOrderFollowUpHistoryStatusEnum | undefined;
 }
 /** Step history of order follow-up */
 export type BillingOrderFollowUpHistoryList = Array<BillingOrderFollowUpHistory>;
@@ -5301,11 +5301,11 @@ export type BillingOrderFollowUpStepEnum = "AVAILABLE" | "DELIVERING" | "VALIDAT
 /** Follow up history of an order */
 export interface BillingOrderFollowUp {
   /** Step history of order follow-up */
-  history?: BillingOrderFollowUpHistoryList;
+  history?: BillingOrderFollowUpHistoryList | undefined;
   /** Step status of order follow-up */
-  status?: BillingOrderFollowUpStatusEnum;
+  status?: BillingOrderFollowUpStatusEnum | undefined;
   /** Step of order follow-up */
-  step?: BillingOrderFollowUpStepEnum;
+  step?: BillingOrderFollowUpStepEnum | undefined;
 }
 export type ListMeOrderFollowUpResponseBodyList = Array<BillingOrderFollowUp>;
 export type ListMeOrderFollowUpResponse = ListMeOrderFollowUpResponseBodyList;
@@ -5314,27 +5314,27 @@ export interface ListMeOrderPaymentMeansRequest {
 }
 /** Choice for an HTTP multi value parameter */
 export interface BillingOrderPaymentMeanHttpParameterChoice {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type BillingOrderPaymentMeanHttpParameterChoiceList =
   Array<BillingOrderPaymentMeanHttpParameterChoice>;
 /** Parameter to give to a payment page */
 export interface BillingOrderPaymentMeanHttpParameter {
-  choice?: BillingOrderPaymentMeanHttpParameterChoiceList | null;
-  name?: string;
-  value?: string | null;
+  choice?: BillingOrderPaymentMeanHttpParameterChoiceList | null | undefined;
+  name?: string | undefined;
+  value?: string | null | undefined;
 }
 export type BillingOrderPaymentMeanParametersList = Array<BillingOrderPaymentMeanHttpParameter>;
 /** All data needed to use a payment mean */
 export interface BillingOrderPaymentMean {
-  fee?: number;
-  htmlForm?: string | null;
-  httpMethod?: string;
-  logo?: string | null;
-  parameters?: BillingOrderPaymentMeanParametersList;
-  subType?: string | null;
-  url?: string;
+  fee?: number | undefined;
+  htmlForm?: string | null | undefined;
+  httpMethod?: string | undefined;
+  logo?: string | null | undefined;
+  parameters?: BillingOrderPaymentMeanParametersList | undefined;
+  subType?: string | null | undefined;
+  url?: string | undefined;
 }
 export type BillingOrderPaymentMeansCreditCardList = Array<BillingOrderPaymentMean>;
 export type BillingOrderPaymentMeansEdinarList = Array<BillingOrderPaymentMean>;
@@ -5346,14 +5346,14 @@ export type BillingOrderPaymentMeansPaypalList = Array<BillingOrderPaymentMean>;
 export type BillingOrderPaymentMeansPromotionList = Array<BillingOrderPaymentMean>;
 /** TODO */
 export interface BillingOrderPaymentMeans {
-  creditCard?: BillingOrderPaymentMeansCreditCardList | null;
-  edinar?: BillingOrderPaymentMeansEdinarList | null;
-  fidelityPoints?: BillingOrderPaymentMeansFidelityPointsList | null;
-  ideal?: BillingOrderPaymentMeansIdealList | null;
-  multibanco?: BillingOrderPaymentMeansMultibancoList | null;
-  ovhAccount?: BillingOrderPaymentMeansOvhAccountList | null;
-  paypal?: BillingOrderPaymentMeansPaypalList | null;
-  promotion?: BillingOrderPaymentMeansPromotionList | null;
+  creditCard?: BillingOrderPaymentMeansCreditCardList | null | undefined;
+  edinar?: BillingOrderPaymentMeansEdinarList | null | undefined;
+  fidelityPoints?: BillingOrderPaymentMeansFidelityPointsList | null | undefined;
+  ideal?: BillingOrderPaymentMeansIdealList | null | undefined;
+  multibanco?: BillingOrderPaymentMeansMultibancoList | null | undefined;
+  ovhAccount?: BillingOrderPaymentMeansOvhAccountList | null | undefined;
+  paypal?: BillingOrderPaymentMeansPaypalList | null | undefined;
+  promotion?: BillingOrderPaymentMeansPromotionList | null | undefined;
 }
 export interface ListMeOrderPaymentMethodsRequest {
   orderId: number;
@@ -5361,11 +5361,11 @@ export interface ListMeOrderPaymentMethodsRequest {
 /** Payment icon */
 export interface PaymentMethodIcon {
   /** Icon data in base64 */
-  data?: string | null;
+  data?: string | null | undefined;
   /** Icon name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Icon URL */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 /** Payment method integration type */
 export type PaymentMethodIntegrationType =
@@ -5380,25 +5380,25 @@ export type PaymentMethodIntegrationType =
 /** Available payment methods */
 export interface PaymentMethodAvailablePaymentMethod {
   /** Payment method session identifier */
-  formSessionId?: string | null;
+  formSessionId?: string | null | undefined;
   /** Payment method type icon */
-  icon?: PaymentMethodIcon;
+  icon?: PaymentMethodIcon | undefined;
   /** Graphical payment integration to use */
-  integration?: PaymentMethodIntegrationType;
+  integration?: PaymentMethodIntegrationType | undefined;
   /** Payment method merchant identifier */
-  merchantId?: string | null;
+  merchantId?: string | null | undefined;
   /** Payment method type is possible to pay in oneshot mode ? */
-  oneshot?: boolean;
+  oneshot?: boolean | undefined;
   /** Payment method organization identifier */
-  organizationId?: string | null;
+  organizationId?: string | null | undefined;
   /** Payment method subtype */
-  paymentSubType?: string | null;
+  paymentSubType?: string | null | undefined;
   /** Payment method type */
-  paymentType?: string;
+  paymentType?: string | undefined;
   /** Payment method type is registerable ? */
-  registerable?: boolean;
+  registerable?: boolean | undefined;
   /** Payment method type is registerable with the possibility to pay in same time an order ? */
-  registerableWithTransaction?: boolean;
+  registerableWithTransaction?: boolean | undefined;
 }
 /** Payment method available on this order */
 export type BillingOrderPaymentMethodsAvailableList = Array<PaymentMethodAvailablePaymentMethod>;
@@ -5438,39 +5438,39 @@ export type PaymentMethodStatusEnum =
 /** payment method */
 export interface PaymentMethodPaymentMethod {
   /** Associated billing contact ID */
-  billingContactId?: number | null;
+  billingContactId?: number | null | undefined;
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Indicates if payment method is the default one for this account */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Custom customer description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Expiration date */
-  expirationDate?: string | null;
+  expirationDate?: string | null | undefined;
   /** Form session ID */
-  formSessionId?: string | null;
+  formSessionId?: string | null | undefined;
   /** Payment method type icon */
-  icon?: PaymentMethodIcon;
+  icon?: PaymentMethodIcon | undefined;
   /** Payment method integration type */
-  integration?: PaymentMethodIntegrationType | null;
+  integration?: PaymentMethodIntegrationType | null | undefined;
   /** Payment method public label */
-  label?: string | null;
+  label?: string | null | undefined;
   /** Last update date */
-  lastUpdate?: string | null;
+  lastUpdate?: string | null | undefined;
   /** Merchant ID */
-  merchantId?: string | null;
+  merchantId?: string | null | undefined;
   /** Indicates if payment method support the oneclick functionality */
-  oneclick?: boolean | null;
+  oneclick?: boolean | null | undefined;
   /** Payment mean ID associated to this payment method */
-  paymentMeanId?: number | null;
+  paymentMeanId?: number | null | undefined;
   /** Payment method ID */
-  paymentMethodId?: number;
+  paymentMethodId?: number | undefined;
   /** Payment method sub type */
-  paymentSubType?: PaymentMethodSubTypeEnum | null;
+  paymentSubType?: PaymentMethodSubTypeEnum | null | undefined;
   /** Payment method type */
-  paymentType?: string;
+  paymentType?: string | undefined;
   /** Payment method status */
-  status?: PaymentMethodStatusEnum;
+  status?: PaymentMethodStatusEnum | undefined;
 }
 /** List of registered Payment methods usable on this order */
 export type BillingOrderPaymentMethodsPaymentMethodsList = Array<PaymentMethodPaymentMethod>;
@@ -5479,11 +5479,11 @@ export type BillingOrderPaymentMethodsRegisteredList = Array<number>;
 /** Payment methods */
 export interface BillingOrderPaymentMethods {
   /** Payment method available on this order */
-  available?: BillingOrderPaymentMethodsAvailableList;
+  available?: BillingOrderPaymentMethodsAvailableList | undefined;
   /** List of registered Payment methods usable on this order */
-  paymentMethods?: BillingOrderPaymentMethodsPaymentMethodsList;
+  paymentMethods?: BillingOrderPaymentMethodsPaymentMethodsList | undefined;
   /** IDs of registered payment method usable on this order */
-  registered?: BillingOrderPaymentMethodsRegisteredList;
+  registered?: BillingOrderPaymentMethodsRegisteredList | undefined;
 }
 export interface ListMeOvhAccountRequest {}
 export type ListMeOvhAccountResponseBodyList = Array<string>;
@@ -5491,9 +5491,9 @@ export type ListMeOvhAccountResponse = ListMeOvhAccountResponseBodyList;
 export interface ListMeOvhAccountMovementsRequest {
   ovhAccountId: string;
   /** Filter the value of date property (>=) */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Filter the value of date property (<=) */
-  date_to?: string;
+  date_to?: string | undefined;
 }
 export type ListMeOvhAccountMovementsResponseBodyList = Array<number>;
 export type ListMeOvhAccountMovementsResponse = ListMeOvhAccountMovementsResponseBodyList;
@@ -5501,25 +5501,25 @@ export interface ListMePaymentAvailableMethodsRequest {}
 /** Available payment method object */
 export interface MePaymentAvailablePaymentMethod {
   /** Form session ID */
-  formSessionId?: string | null;
+  formSessionId?: string | null | undefined;
   /** Payment method type icon */
-  icon?: MePaymentIcon;
+  icon?: MePaymentIcon | undefined;
   /** Payment method integration type */
-  integration?: MePaymentIntegrationEnum;
+  integration?: MePaymentIntegrationEnum | undefined;
   /** Merchant ID */
-  merchantId?: string | null;
+  merchantId?: string | null | undefined;
   /** Indicates if payment method type allows to process oneshot payment */
-  oneshot?: boolean;
+  oneshot?: boolean | undefined;
   /** Organization ID */
-  organizationId?: string | null;
+  organizationId?: string | null | undefined;
   /** Payment method sub-type */
-  paymentSubType?: MePaymentAvailableSubTypeEnum | null;
+  paymentSubType?: MePaymentAvailableSubTypeEnum | null | undefined;
   /** Payment method type */
-  paymentType?: string;
+  paymentType?: string | undefined;
   /** Indicates if payment method type is registerable ? */
-  registerable?: boolean;
+  registerable?: boolean | undefined;
   /** Indicates if payment method type allows payment and registration at the same time */
-  registerableWithTransaction?: boolean;
+  registerableWithTransaction?: boolean | undefined;
 }
 export type ListMePaymentAvailableMethodsResponseBodyList = Array<MePaymentAvailablePaymentMethod>;
 export type ListMePaymentAvailableMethodsResponse = ListMePaymentAvailableMethodsResponseBodyList;
@@ -5529,19 +5529,19 @@ export type ListMePaymentMeanDeferredPaymentAccountResponse =
   ListMePaymentMeanDeferredPaymentAccountResponseBodyList;
 export interface ListMePaymentMethodRequest {
   /** Filter on 'default' property */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Filter on 'paymentType' property */
-  paymentType?: string;
+  paymentType?: string | undefined;
   /** Filter on 'status' property */
-  status?: MePaymentMethodStatusEnum | (string & {});
+  status?: MePaymentMethodStatusEnum | (string & {}) | undefined;
 }
 export type ListMePaymentMethodResponseBodyList = Array<number>;
 export type ListMePaymentMethodResponse = ListMePaymentMethodResponseBodyList;
 export interface ListMePaymentTransactionRequest {
   /** Payment method ID */
-  paymentMethodId?: number;
+  paymentMethodId?: number | undefined;
   /** Status */
-  status?: MePaymentTransactionStatusEnum | (string & {});
+  status?: MePaymentTransactionStatusEnum | (string & {}) | undefined;
 }
 export type ListMePaymentTransactionResponseBodyList = Array<number>;
 export type ListMePaymentTransactionResponse = ListMePaymentTransactionResponseBodyList;
@@ -5558,18 +5558,18 @@ export type RecommendationsProductRangesEnum =
   | "web";
 export interface ListMeRecommendationsRequest {
   /** Maximum number of recommendations to be returned */
-  max?: number;
+  max?: number | undefined;
   /** Filter recommendations by product range */
-  range?: RecommendationsProductRangesEnum | (string & {});
+  range?: RecommendationsProductRangesEnum | (string & {}) | undefined;
 }
 /** Recommendation advice struct */
 export interface RecommendationsRecommendationAdvice {
   /** Product identifier, usually range>line>category>subCategory>marketingName */
-  id?: string;
+  id?: string | undefined;
   /** Recommendation score */
-  score?: number;
+  score?: number | undefined;
   /** Product page url */
-  url?: string;
+  url?: string | undefined;
 }
 export type RecommendationsRecommendationAdvicesList = Array<RecommendationsRecommendationAdvice>;
 /** Recommendation advices introduction and description sentences, indexed by supported locales */
@@ -5578,25 +5578,25 @@ export type RecommendationsRecommendationLocalizedDescriptionMap = {
 };
 /** Recommendation struct */
 export interface RecommendationsRecommendation {
-  advices?: RecommendationsRecommendationAdvicesList;
+  advices?: RecommendationsRecommendationAdvicesList | undefined;
   /** Recommendation advices introduction and description sentences, indexed by supported locales */
-  localizedDescription?: RecommendationsRecommendationLocalizedDescriptionMap;
+  localizedDescription?: RecommendationsRecommendationLocalizedDescriptionMap | undefined;
   /** Recommendation rank */
-  rank?: number;
+  rank?: number | undefined;
 }
 export type RecommendationsRecommendationsRecommendationsList =
   Array<RecommendationsRecommendation>;
 /** Array of Recommendation objects */
 export interface RecommendationsRecommendations {
-  recommendations?: RecommendationsRecommendationsRecommendationsList;
+  recommendations?: RecommendationsRecommendationsRecommendationsList | undefined;
 }
 export interface ListMeRefundRequest {
   /** Filter the value of date property (>=) */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Filter the value of date property (<=) */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Filter the value of orderId property (=) */
-  orderId?: number;
+  orderId?: number | undefined;
 }
 export type ListMeRefundResponseBodyList = Array<string>;
 export type ListMeRefundResponse = ListMeRefundResponseBodyList;
@@ -5613,56 +5613,56 @@ export type ServicesExpandedRouteVarsList = Array<ComplexTypeSafeKeyValueString>
 /** Route of the service */
 export interface ServicesExpandedRoute {
   /** Path to use in API */
-  path?: string | null;
+  path?: string | null | undefined;
   /** Path with variables applied */
-  url?: string | null;
+  url?: string | null | undefined;
   /** Variables to use in the path */
-  vars?: ServicesExpandedRouteVarsList;
+  vars?: ServicesExpandedRouteVarsList | undefined;
 }
 /** Description of a service being repricing */
 export interface MeRepricingService {
   /** Addons of the Service */
-  addons?: MeRepricingServiceAddonsList;
+  addons?: MeRepricingServiceAddonsList | undefined;
   /** Date of application of the repricing */
-  applicationDate?: string;
+  applicationDate?: string | undefined;
   /** Description of the Service */
-  description?: string;
+  description?: string | undefined;
   /** Custom name for the Service */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Duration for the price described in the payload (ISO8601) */
-  duration?: string;
+  duration?: string | undefined;
   /** Price after repricing, tax included */
-  priceAfterWithTax?: OrderPrice;
+  priceAfterWithTax?: OrderPrice | undefined;
   /** Price after repricing, tax excluded */
-  priceAfterWithoutTax?: OrderPrice;
+  priceAfterWithoutTax?: OrderPrice | undefined;
   /** Price before repricing, tax included */
-  priceBeforeWithTax?: OrderPrice;
+  priceBeforeWithTax?: OrderPrice | undefined;
   /** Price before repricing, tax excluded */
-  priceBeforeWithoutTax?: OrderPrice;
+  priceBeforeWithoutTax?: OrderPrice | undefined;
   /** Route */
-  route?: ServicesExpandedRoute | null;
+  route?: ServicesExpandedRoute | null | undefined;
   /** Service ID */
-  serviceId?: number;
+  serviceId?: number | undefined;
   /** Identifier of the service */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Total price (addons included) after repricing, tax included */
-  totalPriceAfterWithTax?: OrderPrice;
+  totalPriceAfterWithTax?: OrderPrice | undefined;
   /** Total price (addons included) after repricing, tax excluded */
-  totalPriceAfterWithoutTax?: OrderPrice;
+  totalPriceAfterWithoutTax?: OrderPrice | undefined;
   /** Total price (addons included) before repricing, tax included */
-  totalPriceBeforeWithTax?: OrderPrice;
+  totalPriceBeforeWithTax?: OrderPrice | undefined;
   /** Total price (addons included) before repricing, tax excluded */
-  totalPriceBeforeWithoutTax?: OrderPrice;
+  totalPriceBeforeWithoutTax?: OrderPrice | undefined;
 }
 export type ListMeRepricingFall22ResponseBodyList = Array<MeRepricingService>;
 export type ListMeRepricingFall22Response = ListMeRepricingFall22ResponseBodyList;
 export interface ListMeReverseBillRequest {
   /** Filter the value of date property (>=) */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Filter the value of date property (<=) */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Filter the value of orderId property (=) */
-  orderId?: number;
+  orderId?: number | undefined;
 }
 export type ListMeReverseBillResponseBodyList = Array<string>;
 export type ListMeReverseBillResponse = ListMeReverseBillResponseBodyList;
@@ -5681,13 +5681,13 @@ export interface ListMeSlaServicesRequest {
 /** Describe all services impacted by SLA */
 export interface BillingSlaOperationService {
   /** Service description */
-  description?: string;
+  description?: string | undefined;
   /** Impacted service name */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** SLA plan application */
-  slaApplication?: string;
+  slaApplication?: string | undefined;
   /** SLA plan description */
-  slaPlan?: string;
+  slaPlan?: string | undefined;
 }
 export type ListMeSlaServicesResponseBodyList = Array<BillingSlaOperationService>;
 export type ListMeSlaServicesResponse = ListMeSlaServicesResponseBodyList;
@@ -5708,45 +5708,45 @@ export type MeTagTagKeyTypeEnum = "ARRAY" | "DATE" | "ENUM" | "INTEGER" | "TEXT"
 /** Tag configuration key */
 export interface MeTagTagKey {
   /** Enum values */
-  enum?: MeTagTagKeyEnumList | null;
+  enum?: MeTagTagKeyEnumList | null | undefined;
   /** Tag key name */
-  key?: string;
+  key?: string | undefined;
   /** Maximum length for a text */
-  maxLength?: number | null;
+  maxLength?: number | null | undefined;
   /** Minimum value for a number */
-  minValue?: number | null;
+  minValue?: number | null | undefined;
   /** Tag key optional */
-  optional?: boolean;
+  optional?: boolean | undefined;
   /** Tag value regex pattern */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Tag key type */
-  type?: MeTagTagKeyTypeEnum;
+  type?: MeTagTagKeyTypeEnum | undefined;
 }
 /** Tag configuration keys */
 export type MeTagAvailableTagKeysList = Array<MeTagTagKey>;
 /** Available tag configuration object for creation */
 export interface MeTagAvailableTag {
   /** Tag configuration keys */
-  keys?: MeTagAvailableTagKeysList;
+  keys?: MeTagAvailableTagKeysList | undefined;
   /** Tag name */
-  name?: string;
+  name?: string | undefined;
 }
 export type ListMeTagAvailableResponseBodyList = Array<MeTagAvailableTag>;
 export type ListMeTagAvailableResponse = ListMeTagAvailableResponseBodyList;
 export interface ListMeTaskContactChangeRequest {
   /** Filter the value of askingAccount property (like) */
-  askingAccount?: string;
+  askingAccount?: string | undefined;
   /** Filter the value of state property (like) */
-  state?: NichandleChangeContactTaskStateEnum | (string & {});
+  state?: NichandleChangeContactTaskStateEnum | (string & {}) | undefined;
   /** Filter the value of toAccount property (like) */
-  toAccount?: string;
+  toAccount?: string | undefined;
 }
 export type ListMeTaskContactChangeResponseBodyList = Array<number>;
 export type ListMeTaskContactChangeResponse = ListMeTaskContactChangeResponseBodyList;
 export interface ListMeTaskDnsRequest {
-  function?: DomainTaskFunctionEnum | (string & {});
-  status?: DomainTaskStatusEnum | (string & {});
-  zone?: string;
+  function?: DomainTaskFunctionEnum | (string & {}) | undefined;
+  status?: DomainTaskStatusEnum | (string & {}) | undefined;
+  zone?: string | undefined;
 }
 export type ListMeTaskDnsResponseBodyList = Array<number>;
 export type ListMeTaskDnsResponse = ListMeTaskDnsResponseBodyList;
@@ -5790,13 +5790,13 @@ export type DomainOperationFunctionEnum =
   | "ZoneImport";
 export interface ListMeTaskDomainRequest {
   /** Filter the value of domain property (like) */
-  domain?: string;
+  domain?: string | undefined;
   /** Filter the value of function property (like) */
-  function?: DomainOperationFunctionEnum | (string & {});
+  function?: DomainOperationFunctionEnum | (string & {}) | undefined;
   /** Filter the value of status property (=) */
-  status?: DomainOperationStatusEnum | (string & {});
+  status?: DomainOperationStatusEnum | (string & {}) | undefined;
   /** Filter the value of type property (=) */
-  type?: DomainOperationTypeEnum | (string & {});
+  type?: DomainOperationTypeEnum | (string & {}) | undefined;
 }
 export type ListMeTaskDomainResponseBodyList = Array<number>;
 export type ListMeTaskDomainResponse = ListMeTaskDomainResponseBodyList;
@@ -5808,7 +5808,7 @@ export type ListMeTaskDomainArgumentResponseBodyList = Array<string>;
 export type ListMeTaskDomainArgumentResponse = ListMeTaskDomainArgumentResponseBodyList;
 export interface ListMeTaskEmailChangeRequest {
   /** Filter the value of state property (like) */
-  state?: NichandleChangeEmailTaskStateEnum | (string & {});
+  state?: NichandleChangeEmailTaskStateEnum | (string & {}) | undefined;
 }
 export type ListMeTaskEmailChangeResponseBodyList = Array<number>;
 export type ListMeTaskEmailChangeResponse = ListMeTaskEmailChangeResponseBodyList;
@@ -5822,19 +5822,19 @@ export type ListMeVoucherAccountResponse = ListMeVoucherAccountResponseBodyList;
 export interface ListMeVoucherAccountMovementsRequest {
   voucherAccountId: string;
   /** Filter the value of date property (>=) */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Filter the value of date property (<=) */
-  date_to?: string;
+  date_to?: string | undefined;
 }
 export type ListMeVoucherAccountMovementsResponseBodyList = Array<number>;
 export type ListMeVoucherAccountMovementsResponse = ListMeVoucherAccountMovementsResponseBodyList;
 export interface ListMeWithdrawalRequest {
   /** Filter the value of date property (>=) */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Filter the value of date property (<=) */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Filter the value of orderId property (=) */
-  orderId?: number;
+  orderId?: number | undefined;
 }
 export type ListMeWithdrawalResponseBodyList = Array<string>;
 export type ListMeWithdrawalResponse = ListMeWithdrawalResponseBodyList;
@@ -5847,18 +5847,18 @@ export type ListMeWithdrawalDetailsResponse = ListMeWithdrawalDetailsResponseBod
 export type MigrateMeIncidentSbgServicesRequestServiceIdsList = Array<number>;
 export interface MigrateMeIncidentSbgServicesRequest {
   /** If false, the order will be registered; if true, the order will be returned but not registered. Useful to compute prices */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
   /** IDs of the services to migrate */
-  serviceIds?: MigrateMeIncidentSbgServicesRequestServiceIdsList;
+  serviceIds?: MigrateMeIncidentSbgServicesRequestServiceIdsList | undefined;
 }
 /** A contract */
 export interface OrderContract {
   /** Terms of the contract */
-  content?: string;
+  content?: string | undefined;
   /** Name of the contract */
-  name?: string;
+  name?: string | undefined;
   /** URL to download the contract */
-  url?: string;
+  url?: string | undefined;
 }
 /** List of contracts related to the order */
 export type OrderOrderContractsList = Array<OrderContract>;
@@ -5869,153 +5869,153 @@ export type OrderReductionTypeEnum = "fixed_amount" | "forced_amount" | "percent
 /** Order detail reduction */
 export interface OrderReduction {
   /** In which context the reduction is applied */
-  context?: OrderReductionContextEnum;
+  context?: OrderReductionContextEnum | undefined;
   /** Promotion description */
-  description?: string;
+  description?: string | undefined;
   /** Reduction price applied with this promotion */
-  price?: OrderPrice;
+  price?: OrderPrice | undefined;
   /** Reduction description */
-  reductionDescription?: string;
+  reductionDescription?: string | undefined;
   /** Reduction effect, price modification */
-  type?: OrderReductionTypeEnum;
+  type?: OrderReductionTypeEnum | undefined;
   /** The reduction value */
-  value?: OrderPrice;
+  value?: OrderPrice | undefined;
 }
 /** List of reductions applied to the detail */
 export type OrderOrderDetailReductionsList = Array<OrderReduction>;
 /** Detail of an order */
 export interface OrderOrderDetail {
   /** Cart Item ID the details is related to */
-  cartItemID?: number | null;
+  cartItemID?: number | null | undefined;
   /** Description of the detail */
-  description?: string;
+  description?: string | undefined;
   /** Type of detail */
-  detailType?: OrderOrderDetailTypeEnum | null;
+  detailType?: OrderOrderDetailTypeEnum | null | undefined;
   /** Service name */
-  domain?: string;
+  domain?: string | undefined;
   /** Original price of the detail before reduction application */
-  originalTotalPrice?: OrderPrice;
+  originalTotalPrice?: OrderPrice | undefined;
   /** Quantity of the service */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Total price of the reduction */
-  reductionTotalPrice?: OrderPrice;
+  reductionTotalPrice?: OrderPrice | undefined;
   /** List of reductions applied to the detail */
-  reductions?: OrderOrderDetailReductionsList;
+  reductions?: OrderOrderDetailReductionsList | undefined;
   /** Price total of the services */
-  totalPrice?: OrderPrice;
+  totalPrice?: OrderPrice | undefined;
   /** Unitary price of the service */
-  unitPrice?: OrderPrice;
+  unitPrice?: OrderPrice | undefined;
 }
 /** Details of the order */
 export type OrderOrderDetailsList = Array<OrderOrderDetail>;
 /** Prices of an order */
 export interface OrderOrderPrices {
   /** Price before reduction application */
-  originalWithoutTax?: OrderPrice | null;
+  originalWithoutTax?: OrderPrice | null | undefined;
   /** Price concerning the reduced amount */
-  reduction?: OrderPrice | null;
+  reduction?: OrderPrice | null | undefined;
   /** Tax amount */
-  tax?: OrderPrice;
+  tax?: OrderPrice | undefined;
   /** Price with tax */
-  withTax?: OrderPrice;
+  withTax?: OrderPrice | undefined;
   /** Price without tax */
-  withoutTax?: OrderPrice;
+  withoutTax?: OrderPrice | undefined;
 }
 /** An order */
 export interface OrderOrder {
   /** List of contracts related to the order */
-  contracts?: OrderOrderContractsList;
+  contracts?: OrderOrderContractsList | undefined;
   /** Details of the order */
-  details?: OrderOrderDetailsList;
+  details?: OrderOrderDetailsList | undefined;
   /** Identifier of the order */
-  orderId?: number | null;
+  orderId?: number | null | undefined;
   /** Prices of the order including with and without taxes */
-  prices?: OrderOrderPrices;
+  prices?: OrderOrderPrices | undefined;
   /** URL to download the order */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 /** Order created in order to migrate a service */
 export interface MeIncidentOrder {
   /** Order created in order to migrate a service */
-  order?: OrderOrder;
+  order?: OrderOrder | undefined;
 }
 export interface PutMeAccessRestrictionDeveloperModeRequest {
   /** Allow login on your account on a development version of the Manager */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface PutMeAccessRestrictionDeveloperModeResponse {}
 export interface PutMeAccessRestrictionIpRequest {
   /** The Id of the restriction */
   id: number;
   /** Accept or deny IP access */
-  rule?: NichandleAccessRestrictionIpRestrictionRuleEnum | (string & {});
+  rule?: NichandleAccessRestrictionIpRestrictionRuleEnum | (string & {}) | undefined;
   /** Send an email if someone try to access with this IP address */
-  warning?: boolean;
+  warning?: boolean | undefined;
 }
 export interface PutMeAccessRestrictionIpResponse {}
 export interface PutMeAccessRestrictionIpDefaultRuleRequest {
   /** Accept or deny access */
-  rule?: NichandleAccessRestrictionIpRestrictionRuleEnum | (string & {});
+  rule?: NichandleAccessRestrictionIpRestrictionRuleEnum | (string & {}) | undefined;
   /** Send an email if someone try to access */
-  warning?: boolean;
+  warning?: boolean | undefined;
 }
 export interface PutMeAccessRestrictionIpDefaultRuleResponse {}
 export interface PutMeAccessRestrictionSmsRequest {
   /** The Id of the restriction */
   id: number;
   /** Description of this phone */
-  description?: string;
+  description?: string | undefined;
 }
 export interface PutMeAccessRestrictionSmsResponse {}
 export interface PutMeAccessRestrictionTotpRequest {
   /** The Id of the restriction */
   id: number;
   /** Description of this TOTP */
-  description?: string;
+  description?: string | undefined;
 }
 export interface PutMeAccessRestrictionTotpResponse {}
 export interface PutMeAccessRestrictionU2fRequest {
   /** The Id of the restriction */
   id: number;
   /** Description of this U2F key */
-  description?: string;
+  description?: string | undefined;
 }
 export interface PutMeAccessRestrictionU2fResponse {}
 export interface PutMeAutorenewRequest {
   /** Renewal active or not */
-  active?: boolean;
+  active?: boolean | undefined;
   /** give the renewal day */
-  renewDay?: number;
+  renewDay?: number | undefined;
 }
 export interface PutMeAutorenewResponse {}
 export interface PutMeBillingGroupRequest {
   /** Group ID */
   groupId: number;
   /** Contact ID from /me/contact */
-  contactId?: number | null;
+  contactId?: number | null | undefined;
   /** Billing group unique name */
-  name?: string;
+  name?: string | undefined;
   /** Payment method ID associated to the billing group */
-  paymentMethodId?: number | null;
+  paymentMethodId?: number | null | undefined;
 }
 export interface PutMeBillingGroupResponse {}
 export interface PutMeBillingPurchaseOrderRequest {
   /** Id */
   id: number;
   /** Active */
-  active?: boolean | null;
+  active?: boolean | null | undefined;
   /** Billing group identifier */
-  billingGroupId?: number | null;
+  billingGroupId?: number | null | undefined;
   /** Description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** End date */
-  endDate?: string | null;
+  endDate?: string | null | undefined;
   /** Reference */
-  reference?: string | null;
+  reference?: string | null | undefined;
   /** Start date */
-  startDate?: string | null;
+  startDate?: string | null | undefined;
   /** Type of a purchase order */
-  type?: MeBillingPurchaseOrderPurchaseOrderTypeEnum | (string & {}) | null;
+  type?: MeBillingPurchaseOrderPurchaseOrderTypeEnum | (string & {}) | null | undefined;
 }
 export interface PutMeBillingPurchaseOrderResponse {}
 export interface PutMeConsentDecisionRequest {
@@ -6029,47 +6029,47 @@ export interface PutMeContactRequest {
   /** Contact ID */
   contactId: number;
   /** Address for this contact */
-  address?: MeContactAddress;
+  address?: MeContactAddress | undefined;
   /** Birth city */
-  birthCity?: string | null;
+  birthCity?: string | null | undefined;
   /** Birth Country */
-  birthCountry?: NichandleCountryEnum | (string & {}) | null;
+  birthCountry?: NichandleCountryEnum | (string & {}) | null | undefined;
   /** Birth date */
-  birthDay?: string | null;
+  birthDay?: string | null | undefined;
   /** Birth Zipcode */
-  birthZip?: string | null;
+  birthZip?: string | null | undefined;
   /** Cellphone number */
-  cellPhone?: string | null;
+  cellPhone?: string | null | undefined;
   /** National identification number of your company */
-  companyNationalIdentificationNumber?: string | null;
+  companyNationalIdentificationNumber?: string | null | undefined;
   /** Email address */
-  email?: string;
+  email?: string | undefined;
   /** Fax number */
-  fax?: string | null;
+  fax?: string | null | undefined;
   /** First name */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Gender */
-  gender?: NichandleGenderEnum | (string & {}) | null;
+  gender?: NichandleGenderEnum | (string & {}) | null | undefined;
   /** Language */
-  language?: NichandleLanguageEnum | (string & {});
+  language?: NichandleLanguageEnum | (string & {}) | undefined;
   /** Last name */
-  lastName?: string;
+  lastName?: string | undefined;
   /** Legal form of the contact */
-  legalForm?: NichandleLegalFormEnum | (string & {});
+  legalForm?: NichandleLegalFormEnum | (string & {}) | undefined;
   /** National identification number of the contact */
-  nationalIdentificationNumber?: string | null;
+  nationalIdentificationNumber?: string | null | undefined;
   /** Nationality */
-  nationality?: NichandleCountryEnum | (string & {}) | null;
+  nationality?: NichandleCountryEnum | (string & {}) | null | undefined;
   /** Organisation name */
-  organisationName?: string | null;
+  organisationName?: string | null | undefined;
   /** Organisation type */
-  organisationType?: string | null;
+  organisationType?: string | null | undefined;
   /** Telephone number */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** Spare email address */
-  spareEmail?: string | null;
+  spareEmail?: string | null | undefined;
   /** VAT number */
-  vat?: string | null;
+  vat?: string | null | undefined;
 }
 /** If defined, list of ip blocks which are allowed to call API with this credential */
 export type PutMeCredentialRequestAllowedIPsList = Array<string>;
@@ -6077,51 +6077,51 @@ export interface PutMeCredentialRequest {
   /** Credential ID */
   credentialId: number;
   /** If defined, list of ip blocks which are allowed to call API with this credential */
-  allowedIPs?: PutMeCredentialRequestAllowedIPsList | null;
+  allowedIPs?: PutMeCredentialRequestAllowedIPsList | null | undefined;
 }
 export interface PutMeCredentialResponse {}
 export interface PutMeDocumentRequest {
   /** Document id */
   id: string;
   /** Document expiration */
-  expirationDate?: string | null;
+  expirationDate?: string | null | undefined;
 }
 export interface PutMeDocumentResponse {}
 export interface PutMeFidelityAccountRequest {
-  alertThreshold?: number | null;
+  alertThreshold?: number | null | undefined;
 }
 export interface PutMeFidelityAccountResponse {}
 export interface PutMeIdentityGroupRequest {
   /** Group */
   group: string;
   /** Group's description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Group's role */
-  role?: AuthRoleEnum | (string & {});
+  role?: AuthRoleEnum | (string & {}) | undefined;
 }
 export interface PutMeIdentityGroupResponse {}
 export interface PutMeIdentityProviderRequest {
   /** Whether account users should still be usable as a login method or not */
-  disableUsers?: boolean | null;
+  disableUsers?: boolean | null | undefined;
   /** SAML Extensions to embed inside the SAML requests */
-  extensions?: AuthProviderExtensions;
+  extensions?: AuthProviderExtensions | undefined;
   /** SAML Group attribute name */
-  groupAttributeName?: string;
+  groupAttributeName?: string | undefined;
   /** Whether SAML Authn Requests should be signed */
-  signRequests?: boolean | null;
+  signRequests?: boolean | null | undefined;
   /** SAML User attribute name */
-  userAttributeName?: string;
+  userAttributeName?: string | undefined;
 }
 export interface PutMeIdentityProviderResponse {}
 export interface PutMeIdentityUserRequest {
   /** User */
   user: string;
   /** User's description */
-  description?: string;
+  description?: string | undefined;
   /** User's email */
-  email?: string | null;
+  email?: string | null | undefined;
   /** User's main group */
-  group?: string;
+  group?: string | undefined;
 }
 export interface PutMeIdentityUserResponse {}
 export interface PutMeIdentityUserTokenRequest {
@@ -6130,36 +6130,36 @@ export interface PutMeIdentityUserTokenRequest {
   /** Name */
   name: string;
   /** Personal access token's description */
-  description?: string;
+  description?: string | undefined;
   /** Personal access token's expiration date */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** Duration (in seconds) of the token's validity */
-  expiresIn?: number | null;
+  expiresIn?: number | null | undefined;
 }
 export interface PutMeIpOrganisationRequest {
   organisationId: string;
-  abuse_mailbox?: string;
-  address?: string;
-  city?: string;
-  country?: NichandleCountryEnum | (string & {});
-  firstname?: string;
-  lastname?: string;
-  phone?: string;
-  state?: string | null;
-  zip?: string | null;
+  abuse_mailbox?: string | undefined;
+  address?: string | undefined;
+  city?: string | undefined;
+  country?: NichandleCountryEnum | (string & {}) | undefined;
+  firstname?: string | undefined;
+  lastname?: string | undefined;
+  phone?: string | undefined;
+  state?: string | null | undefined;
+  zip?: string | null | undefined;
 }
 export interface PutMeIpOrganisationResponse {}
 export interface PutMeMarketingRequest {
   /** Details for call marketing communication */
-  call?: MeMarketingConsentDetails;
+  call?: MeMarketingConsentDetails | undefined;
   /** Stop all marketing communication */
-  denyAll?: boolean;
+  denyAll?: boolean | undefined;
   /** Stop marketing communication until this date */
-  denyUntil?: string | null;
+  denyUntil?: string | null | undefined;
   /** Details for email marketing communication */
-  email?: MeMarketingConsentDetails;
+  email?: MeMarketingConsentDetails | undefined;
   /** Details for sms marketing communication */
-  sms?: MeMarketingConsentDetails;
+  sms?: MeMarketingConsentDetails | undefined;
 }
 /** allowed callback urls */
 export type PutMeOauth2ClientRequestCallbackUrlsList = Array<string>;
@@ -6167,45 +6167,45 @@ export interface PutMeOauth2ClientRequest {
   /** Client ID */
   clientId: string;
   /** allowed callback urls */
-  callbackUrls?: PutMeOauth2ClientRequestCallbackUrlsList | null;
+  callbackUrls?: PutMeOauth2ClientRequestCallbackUrlsList | null | undefined;
   /** client's description */
-  description?: string;
+  description?: string | undefined;
   /** client's name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface PutMeOauth2ClientResponse {}
 export interface PutMeOvhAccountRequest {
   ovhAccountId: string;
-  alertThreshold?: number | null;
+  alertThreshold?: number | null | undefined;
 }
 export interface PutMeOvhAccountResponse {}
 export interface PutMePaymentMeanDeferredPaymentAccountRequest {
   /** Id */
   id: number;
   /** Custom description of this deferred account */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export interface PutMePaymentMeanDeferredPaymentAccountResponse {}
 export interface PutMePaymentMethodRequest {
   /** Payment method ID */
   paymentMethodId: number;
   /** Indicates if payment method is the default one for this account */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Custom customer description */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export interface PutMePreferenceManagerRequest {
   /** This preference key */
   key: string;
   /** This preference value */
-  value?: string;
+  value?: string | undefined;
 }
 export interface PutMePreferenceManagerResponse {}
 export interface PutMeSubAccountRequest {
   /** Id of the object */
   id: number;
   /** This sub-account description */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export interface PutMeSubAccountResponse {}
 export interface PutMeTaskDomainArgumentRequest {
@@ -6214,7 +6214,7 @@ export interface PutMeTaskDomainArgumentRequest {
   /** Key */
   key: string;
   /** Value of the argument */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export interface PutMeTaskDomainArgumentResponse {}
 export interface ResendMeTaskContactChangeEmailRequest {
@@ -6227,7 +6227,7 @@ export interface SendMeAccessRestrictionSmsCodeRequest {
 }
 /** Send secret code */
 export interface NichandleAccessRestrictionSmsCode {
-  challenge?: string;
+  challenge?: string | undefined;
 }
 export interface SubscribeMeMailingListRequest {
   /** Email you want to subscribe to */
@@ -6242,7 +6242,7 @@ export interface ValidateMeAccessRestrictionBackupCodeRequest {
 }
 /** Describe SOTP validation status */
 export interface NichandleAccessRestrictionSOTPValidate {
-  remainingCodes?: number;
+  remainingCodes?: number | undefined;
 }
 export interface ValidateMeAccessRestrictionSmsRequest {
   /** The Id of the restriction */

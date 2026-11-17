@@ -31,17 +31,19 @@ export class RegistryNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<RegistryNotFound>()("RegistryNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
 
 export interface CreateRegistryRequest {
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** IAM role ARN for registry mTLS; supply with mtlsSecretArn, or set both to null to clear */
-  mtlsRoleArn?: string | null;
+  mtlsRoleArn?: string | null | undefined;
   /** Secrets Manager ARN for registry mTLS; supply with mtlsRoleArn, or set both to null to clear */
-  mtlsSecretArn?: string | null;
+  mtlsSecretArn?: string | null | undefined;
   /** Registry name */
   name: string;
   /** Registry URL */
@@ -51,7 +53,7 @@ export interface CreateRegistryRequest {
   /** Registry password */
   password: string | Redacted.Redacted<string>;
   /** Registry project */
-  project?: string;
+  project?: string | undefined;
 }
 /** Registry type */
 export type DockerRegistryRegistryType = "internal" | "organization" | "transient" | "backup";
@@ -81,20 +83,20 @@ export interface DeleteRegistryRequest {
   /** ID of the docker registry */
   id: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface DeleteRegistryResponse {}
 export interface GetRegistryRequest {
   /** ID of the docker registry */
   id: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface GetTransientPushAccessRequest {
   /** ID of the region where the snapshot will be available (defaults to organization default region) */
-  regionId?: string;
+  regionId?: string | undefined;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface RegistryPushAccessDto {
   /** Temporary username for registry authentication */
@@ -112,7 +114,7 @@ export interface RegistryPushAccessDto {
 }
 export interface ListRegistriesRequest {
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export type ListRegistriesResponseBodyList = Array<DockerRegistry2>;
 export type ListRegistriesResponse = ListRegistriesResponseBodyList;
@@ -120,11 +122,11 @@ export interface UpdateRegistryRequest {
   /** ID of the docker registry */
   id: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** IAM role ARN for registry mTLS; supply with mtlsSecretArn, or set both to null to clear */
-  mtlsRoleArn?: string | null;
+  mtlsRoleArn?: string | null | undefined;
   /** Secrets Manager ARN for registry mTLS; supply with mtlsRoleArn, or set both to null to clear */
-  mtlsSecretArn?: string | null;
+  mtlsSecretArn?: string | null | undefined;
   /** Registry name */
   name: string;
   /** Registry URL */
@@ -132,9 +134,9 @@ export interface UpdateRegistryRequest {
   /** Registry username */
   username: string;
   /** Registry password */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Registry project */
-  project?: string;
+  project?: string | undefined;
 }
 export type CreateRegistryError = DaytonaOpError;
 /** Create registry */

@@ -1,3 +1,4 @@
+import { loadModule } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 /**
@@ -99,7 +100,15 @@ export const assumeRole = (
   region: Region.RegionName,
 ): CredentialSource =>
   Effect.gen(function* () {
-    const STS = yield* Effect.promise(() => import("../services/sts.ts"));
+    const STS = yield* loadModule(() => import("../services/sts.ts")).pipe(
+      Effect.mapError(
+        (e) =>
+          new CredentialSourceError({
+            message: `could not load the STS client: ${e.message}`,
+            cause: e,
+          }),
+      ),
+    );
     const response = yield* STS.assumeRole(params).pipe(
       Effect.provideService(
         Credentials,
@@ -123,7 +132,15 @@ export const assumeRoleWithWebIdentity = (
   region: Region.RegionName,
 ): CredentialSource =>
   Effect.gen(function* () {
-    const STS = yield* Effect.promise(() => import("../services/sts.ts"));
+    const STS = yield* loadModule(() => import("../services/sts.ts")).pipe(
+      Effect.mapError(
+        (e) =>
+          new CredentialSourceError({
+            message: `could not load the STS client: ${e.message}`,
+            cause: e,
+          }),
+      ),
+    );
     const response = yield* STS.assumeRoleWithWebIdentity(params).pipe(
       Effect.provideService(
         Credentials,

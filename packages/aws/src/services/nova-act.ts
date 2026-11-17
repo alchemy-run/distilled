@@ -197,8 +197,8 @@ export interface CreateActRequest {
   workflowRunId: string;
   sessionId: string;
   task: string | redacted.Redacted<string>;
-  toolSpecs?: ToolSpec[];
-  clientToken?: string;
+  toolSpecs?: ToolSpec[] | undefined;
+  clientToken?: string | undefined;
 }
 export type ActStatus =
   | "RUNNING"
@@ -215,7 +215,7 @@ export interface CreateActResponse {
 export interface CreateSessionRequest {
   workflowDefinitionName: string;
   workflowRunId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CreateSessionResponse {
   sessionId: string;
@@ -225,13 +225,13 @@ export type S3BucketName = string;
 export type S3KeyPrefix = string;
 export interface WorkflowExportConfig {
   s3BucketName: string;
-  s3KeyPrefix?: string;
+  s3KeyPrefix?: string | undefined;
 }
 export interface CreateWorkflowDefinitionRequest {
   name: string;
-  description?: string | redacted.Redacted<string>;
-  exportConfig?: WorkflowExportConfig;
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  exportConfig?: WorkflowExportConfig | undefined;
+  clientToken?: string | undefined;
 }
 export type WorkflowDefinitionStatus = "ACTIVE" | "DELETING" | (string & {});
 export interface CreateWorkflowDefinitionResponse {
@@ -242,13 +242,13 @@ export type CloudWatchLogGroupName = string;
 export type NonBlankString = string;
 export interface ClientInfo {
   compatibilityVersion: number;
-  sdkVersion?: string;
+  sdkVersion?: string | undefined;
 }
 export interface CreateWorkflowRunRequest {
   workflowDefinitionName: string;
   modelId: string;
-  clientToken?: string;
-  logGroupName?: string;
+  clientToken?: string | undefined;
+  logGroupName?: string | undefined;
   clientInfo: ClientInfo;
 }
 export type WorkflowRunStatus =
@@ -283,8 +283,8 @@ export interface GetWorkflowDefinitionResponse {
   name: string;
   arn: string;
   createdAt: Date;
-  description?: string | redacted.Redacted<string>;
-  exportConfig?: WorkflowExportConfig;
+  description?: string | redacted.Redacted<string> | undefined;
+  exportConfig?: WorkflowExportConfig | undefined;
   status: WorkflowDefinitionStatus;
 }
 export interface GetWorkflowRunRequest {
@@ -297,15 +297,15 @@ export interface GetWorkflowRunResponse {
   workflowRunId: string;
   status: WorkflowRunStatus;
   startedAt: Date;
-  endedAt?: Date;
+  endedAt?: Date | undefined;
   modelId: string;
-  logGroupName?: string;
+  logGroupName?: string | undefined;
 }
 export type CallId = string;
 export type CallResultContent = { text: string };
 export type CallResultContents = CallResultContent[];
 export interface CallResult {
-  callId?: string;
+  callId?: string | undefined;
   content: CallResultContent[];
 }
 export type CallResults = CallResult[];
@@ -315,7 +315,7 @@ export interface InvokeActStepRequest {
   sessionId: string;
   actId: string;
   callResults: CallResult[];
-  previousStepId?: string;
+  previousStepId?: string | undefined;
 }
 export type SensitiveDocument = unknown;
 export interface Call {
@@ -333,11 +333,11 @@ export type NextToken = string;
 export type SortOrder = "Ascending" | "Descending" | (string & {});
 export interface ListActsRequest {
   workflowDefinitionName: string;
-  workflowRunId?: string;
-  sessionId?: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortOrder?: SortOrder;
+  workflowRunId?: string | undefined;
+  sessionId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortOrder?: SortOrder | undefined;
 }
 export type TraceLocationType = "S3" | (string & {});
 export interface TraceLocation {
@@ -350,13 +350,13 @@ export interface ActSummary {
   actId: string;
   status: ActStatus;
   startedAt: Date;
-  endedAt?: Date;
-  traceLocation?: TraceLocation;
+  endedAt?: Date | undefined;
+  traceLocation?: TraceLocation | undefined;
 }
 export type ActSummaries = ActSummary[];
 export interface ListActsResponse {
   actSummaries: ActSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListModelsRequest {
   clientCompatibilityVersion: number;
@@ -374,14 +374,14 @@ export type ModelSummaries = ModelSummary[];
 export interface ModelAlias {
   aliasName: string;
   latestModelId: string;
-  resolvedModelId?: string;
+  resolvedModelId?: string | undefined;
 }
 export type ModelAliases = ModelAlias[];
 export type ModelIdList = string[];
 export interface CompatibilityInformation {
   clientCompatibilityVersion: number;
   supportedModelIds: string[];
-  message?: string;
+  message?: string | undefined;
 }
 export interface ListModelsResponse {
   modelSummaries: ModelSummary[];
@@ -391,9 +391,9 @@ export interface ListModelsResponse {
 export interface ListSessionsRequest {
   workflowDefinitionName: string;
   workflowRunId: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortOrder?: SortOrder;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortOrder?: SortOrder | undefined;
 }
 export interface SessionSummary {
   sessionId: string;
@@ -401,12 +401,12 @@ export interface SessionSummary {
 export type SessionSummaries = SessionSummary[];
 export interface ListSessionsResponse {
   sessionSummaries: SessionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListWorkflowDefinitionsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  sortOrder?: SortOrder;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortOrder?: SortOrder | undefined;
 }
 export interface WorkflowDefinitionSummary {
   workflowDefinitionArn: string;
@@ -417,31 +417,31 @@ export interface WorkflowDefinitionSummary {
 export type WorkflowDefinitionSummaries = WorkflowDefinitionSummary[];
 export interface ListWorkflowDefinitionsResponse {
   workflowDefinitionSummaries: WorkflowDefinitionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListWorkflowRunsRequest {
   workflowDefinitionName: string;
-  maxResults?: number;
-  nextToken?: string;
-  sortOrder?: SortOrder;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sortOrder?: SortOrder | undefined;
 }
 export interface WorkflowRunSummary {
   workflowRunArn: string;
   workflowRunId: string;
   status: WorkflowRunStatus;
   startedAt: Date;
-  endedAt?: Date;
-  traceLocation?: TraceLocation;
+  endedAt?: Date | undefined;
+  traceLocation?: TraceLocation | undefined;
 }
 export type WorkflowRunSummaries = WorkflowRunSummary[];
 export interface ListWorkflowRunsResponse {
   workflowRunSummaries: WorkflowRunSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface ActError {
   message: string | redacted.Redacted<string>;
-  type?: string;
+  type?: string | undefined;
 }
 export interface UpdateActRequest {
   workflowDefinitionName: string;
@@ -449,7 +449,7 @@ export interface UpdateActRequest {
   sessionId: string;
   actId: string;
   status: ActStatus;
-  error?: ActError;
+  error?: ActError | undefined;
 }
 export interface UpdateActResponse {}
 export interface UpdateWorkflowRunRequest {

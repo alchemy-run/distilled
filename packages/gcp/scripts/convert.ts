@@ -24,7 +24,8 @@
  *     default `lowerFirst` export naming reproduces the v0 function names.
  *   • inputs `ns#<Op>Request`: path params → `smithy.api#httpLabel`
  *     (+required), query params → `smithy.api#httpQuery`, request body →
- *     optional `body` member with `smithy.api#httpPayload`.
+ *     optional `body` member with `smithy.api#httpPayload` (generate.ts
+ *     flattens a structure body into top-level input fields).
  *   • outputs reference the response schema directly (none → synthesized
  *     empty `<Op>Response`).
  *   • pagination → `smithy.api#paginated { inputToken: "pageToken",
@@ -45,9 +46,11 @@
 
 import * as fs from "node:fs";
 import * as path from "node:path";
+import { RETRY_POLICY_TRAIT } from "@distilled.cloud/dev/codegen/generator";
 import { clearModels, writeModel } from "@distilled.cloud/dev/codegen/models";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
 import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
+import { loadRetryTraits, type RetryTrait } from "./retry-configs.ts";
 
 // =============================================================================
 // Discovery document types (the subset the converter reads)
@@ -238,6 +241,7 @@ interface CollectedOperation {
   functionName: string;
   httpMethod: string;
   path: string;
+  flatPath?: string;
   parameters: Record<string, ParameterSchema>;
   requestRef?: string;
   responseRef?: string;
@@ -269,6 +273,7 @@ const collectOperations = (doc: DiscoveryDoc): CollectedOperation[] => {
       // Prefer `path` (templated, e.g. `v3/{+name}`) over `flatPath` —
       // flatPath's synthesized variable names don't match `parameters.*`.
       path: method.path ?? method.flatPath ?? "",
+      flatPath: method.flatPath ?? method.path,
       parameters,
       requestRef: method.request?.$ref,
       responseRef: method.response?.$ref,
@@ -311,7 +316,10 @@ const SIMPLE_SHAPE_BY_TYPE: Record<string, string> = {
   any: "document",
 };
 
-const convertDoc = (doc: DiscoveryDoc): object => {
+type RetryLookup = (host: string, httpMethod: string, flatPath: string) => RetryTrait | undefined;
+
+const convertDoc = (doc: DiscoveryDoc, retryOf: RetryLookup): object => {
+  const host = new URL(doc.rootUrl).host;
   const ns = `com.gcp.${ident(doc.name)}_${ident(doc.version)}`;
   const shapes: Record<string, any> = {};
   const takenLocals = new Set<string>();
@@ -608,6 +616,8 @@ const convertDoc = (doc: DiscoveryDoc): object => {
     if (op.description) {
       opTraits["smithy.api#documentation"] = op.description;
     }
+    const retry = op.flatPath === undefined ? undefined : retryOf(host, op.httpMethod, op.flatPath);
+    if (retry !== undefined) opTraits[RETRY_POLICY_TRAIT] = retry;
     if (isPaginated) {
       opTraits["smithy.api#paginated"] = {
         inputToken: "pageToken",
@@ -687,6 +697,8 @@ if (!serviceFilter) {
   clearModels(UNSTABLE_DIR);
 }
 
+const retryOf = loadRetryTraits(specsDir);
+
 let converted = 0;
 let failed = 0;
 const written = new Set<string>();
@@ -695,7 +707,7 @@ for (const entry of entries) {
     const doc: DiscoveryDoc = JSON.parse(
       fs.readFileSync(path.join(specsDir, entry.filename), "utf-8"),
     );
-    const model = convertDoc(doc);
+    const model = convertDoc(doc, retryOf);
     const outName = `${ident(entry.name)}_${ident(entry.version)}.json`;
     const outDir = entry.preferred ? STABLE_DIR : UNSTABLE_DIR;
     writeModel(path.join(outDir, outName), model);

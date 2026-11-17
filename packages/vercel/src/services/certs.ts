@@ -30,6 +30,8 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -39,6 +41,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -48,6 +52,8 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -57,6 +63,8 @@ export class PaymentRequired
     /*@__PURE__*/ S.TaggedError<PaymentRequired>()("PaymentRequired", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withQuotaError),
     [{ status: 402 }],
   ) {}
@@ -65,9 +73,9 @@ export interface GetCertRequest {
   /** The cert id */
   id: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetCertResponseCnsList = Array<string>;
 export interface GetCertResponse {
@@ -79,9 +87,9 @@ export interface GetCertResponse {
 }
 export interface GetCertsRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetCertsResponseCertsItemCnsList = Array<string>;
 export interface GetCertsResponseCertsItem {
@@ -109,11 +117,11 @@ export interface GetCertsResponse {
 export type IssueCertRequestCnsList = Array<string>;
 export interface IssueCertRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The common names the cert should be issued for */
-  cns?: IssueCertRequestCnsList;
+  cns?: IssueCertRequestCnsList | undefined;
 }
 export type IssueCertResponseCnsList = Array<string>;
 export interface IssueCertResponse {
@@ -127,16 +135,16 @@ export interface RemoveCertRequest {
   /** The cert id to remove */
   id: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type RemoveCertResponse = unknown;
 export interface UploadCertRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The certificate authority */
   ca: string;
   /** The certificate key */
@@ -144,7 +152,7 @@ export interface UploadCertRequest {
   /** The certificate */
   cert: string;
   /** Skip validation of the certificate */
-  skipValidation?: boolean;
+  skipValidation?: boolean | undefined;
 }
 export type UploadCertResponseCnsList = Array<string>;
 export interface UploadCertResponse {

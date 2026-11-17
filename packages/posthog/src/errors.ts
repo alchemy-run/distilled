@@ -26,6 +26,7 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -34,11 +35,10 @@ import * as Schema from "@distilled.cloud/core/schema-lite-typed";
  * (PostHog's DRF error envelope) for later cataloging.
  */
 export class UnknownPosthogError
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownPosthogError>()("UnknownPosthogError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownPosthogError>()(
+    "UnknownPosthogError",
+    UnknownErrorFields,
+  ) {}
 
 /** Schema parse error wrapper. */
 export class PosthogParseError

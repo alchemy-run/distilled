@@ -1,0 +1,119 @@
+{
+  "description": "Type the 400 file calls get for a missing path. Boat answers {\"code\": \"sandbox_direct_failed\", \"message\": \"ENOENT: no such file or directory, stat '/tmp/nope.txt'\"} (read) or \"No such file or directory: /tmp/nope\" (info, delete). Observed live 2026-11-07.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#FileNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "No file or directory at the path.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "body": {
+                "/code": "sandbox_direct_failed"
+              },
+              "message": {
+                "includes": "no such file or directory"
+              }
+            },
+            {
+              "status": 400,
+              "body": {
+                "/code": "sandbox_direct_failed"
+              },
+              "message": {
+                "includes": "No such file or directory"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#ReadFile/errors/-",
+      "value": {
+        "target": "com.boat.api#FileNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#WriteFile/errors/-",
+      "value": {
+        "target": "com.boat.api#FileNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#DeleteFile/errors/-",
+      "value": {
+        "target": "com.boat.api#FileNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#ListFiles/errors/-",
+      "value": {
+        "target": "com.boat.api#FileNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#GetFileInfo/errors/-",
+      "value": {
+        "target": "com.boat.api#FileNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#CreateFolder/errors/-",
+      "value": {
+        "target": "com.boat.api#FileNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#MoveFile/errors/-",
+      "value": {
+        "target": "com.boat.api#FileNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#SearchFiles/errors/-",
+      "value": {
+        "target": "com.boat.api#FileNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#FindInFiles/errors/-",
+      "value": {
+        "target": "com.boat.api#FileNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#SetFilePermissions/errors/-",
+      "value": {
+        "target": "com.boat.api#FileNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#ReplaceInFiles/errors/-",
+      "value": {
+        "target": "com.boat.api#FileNotFound"
+      }
+    }
+  ]
+}

@@ -42,10 +42,15 @@ export const base64urlDecode = (text: string): Uint8Array => {
 
 const base64urlJson = (value: unknown): string => base64url(encoder.encode(JSON.stringify(value)));
 
-const sha256 = (data: Uint8Array | string): Effect.Effect<Uint8Array> =>
-  Effect.promise(async () => {
-    const bytes = typeof data === "string" ? encoder.encode(data) : data;
-    return new Uint8Array(await crypto.subtle.digest("SHA-256", bytes as Uint8Array<ArrayBuffer>));
+const sha256 = (data: Uint8Array | string): Effect.Effect<Uint8Array, JoseError> =>
+  Effect.tryPromise({
+    try: async () => {
+      const bytes = typeof data === "string" ? encoder.encode(data) : data;
+      return new Uint8Array(
+        await crypto.subtle.digest("SHA-256", bytes as Uint8Array<ArrayBuffer>),
+      );
+    },
+    catch: (cause) => new JoseError({ message: "SHA-256 digest failed", cause }),
   });
 
 /** Detect the JWS algorithm for a JWK. */
@@ -62,22 +67,25 @@ const signAlgorithm = (alg: Algorithm) =>
 /** Generate a fresh account key as a private JWK (JSON text, Redacted). */
 export const generateAccountKey = (
   alg: Algorithm = "ES256",
-): Effect.Effect<Redacted.Redacted<string>> =>
-  Effect.promise(async () => {
-    const pair = await crypto.subtle.generateKey(
-      alg === "RS256"
-        ? {
-            name: "RSASSA-PKCS1-v1_5",
-            modulusLength: 2048,
-            publicExponent: new Uint8Array([1, 0, 1]),
-            hash: "SHA-256",
-          }
-        : { name: "ECDSA", namedCurve: "P-256" },
-      true,
-      ["sign", "verify"],
-    );
-    const jwk = await crypto.subtle.exportKey("jwk", pair.privateKey);
-    return Redacted.make(JSON.stringify(jwk));
+): Effect.Effect<Redacted.Redacted<string>, JoseError> =>
+  Effect.tryPromise({
+    try: async () => {
+      const pair = await crypto.subtle.generateKey(
+        alg === "RS256"
+          ? {
+              name: "RSASSA-PKCS1-v1_5",
+              modulusLength: 2048,
+              publicExponent: new Uint8Array([1, 0, 1]),
+              hash: "SHA-256",
+            }
+          : { name: "ECDSA", namedCurve: "P-256" },
+        true,
+        ["sign", "verify"],
+      );
+      const jwk = await crypto.subtle.exportKey("jwk", pair.privateKey);
+      return Redacted.make(JSON.stringify(jwk));
+    },
+    catch: (cause) => new JoseError({ message: `generating the ${alg} account key failed`, cause }),
   });
 
 /** Parse a private JWK from its JSON text. */
@@ -98,15 +106,15 @@ export const publicJwk = (jwk: Jwk): Jwk =>
     : { crv: jwk.crv, kty: "EC", x: jwk.x, y: jwk.y };
 
 /** RFC 7638 JWK thumbprint (base64url SHA-256 of the canonical public JWK). */
-export const thumbprint = (jwk: Jwk): Effect.Effect<string> =>
+export const thumbprint = (jwk: Jwk): Effect.Effect<string, JoseError> =>
   sha256(JSON.stringify(publicJwk(jwk))).pipe(Effect.map(base64url));
 
 /** `<token>.<thumbprint>` -- what a challenge proves the client holds. */
-export const keyAuthorization = (token: string, jwk: Jwk): Effect.Effect<string> =>
+export const keyAuthorization = (token: string, jwk: Jwk): Effect.Effect<string, JoseError> =>
   thumbprint(jwk).pipe(Effect.map((print) => `${token}.${print}`));
 
 /** The TXT record value for a DNS-01 challenge: base64url(SHA-256(keyAuthorization)). */
-export const dnsChallengeValue = (token: string, jwk: Jwk): Effect.Effect<string> =>
+export const dnsChallengeValue = (token: string, jwk: Jwk): Effect.Effect<string, JoseError> =>
   keyAuthorization(token, jwk).pipe(Effect.flatMap(sha256), Effect.map(base64url));
 
 export interface FlattenedJws {

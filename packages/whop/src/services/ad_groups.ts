@@ -30,36 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 /** IDs of saved audiences to exclude from delivery, prefixed `adaud_`. */
 export type AdGroupAudiencesBodyExcludeList = Array<string>;
@@ -68,9 +96,9 @@ export type AdGroupAudiencesBodyIncludeList = Array<string>;
 /** Saved audiences to deliver to or exclude. Can't be combined with demographics.automatic. */
 export interface AdGroupAudiencesBody {
   /** IDs of saved audiences to exclude from delivery, prefixed `adaud_`. */
-  exclude?: AdGroupAudiencesBodyExcludeList;
+  exclude?: AdGroupAudiencesBodyExcludeList | undefined;
   /** IDs of saved audiences to deliver to, prefixed `adaud_`. */
-  include?: AdGroupAudiencesBodyIncludeList;
+  include?: AdGroupAudiencesBodyIncludeList | undefined;
 }
 /** How delivery bids are set in the ad auction. Target-based strategies use `desired_cost_per_result`. */
 export type CreateAdGroupRequestBidType = "minimum_cost" | "average_target" | "maximum_target";
@@ -111,25 +139,25 @@ export type AdGroupDemographicsBodyGender = "all" | "male" | "female";
 /** Age, gender, and automatic-audience targeting. */
 export interface AdGroupDemographicsBody {
   /** Turn on automatic audience targeting (Advantage+ on Meta): the platform can deliver beyond the ages, genders, and detailed targeting you set, treating them as suggestions. */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** Gender to target. */
-  gender?: AdGroupDemographicsBodyGender | (string & {});
+  gender?: AdGroupDemographicsBodyGender | (string & {}) | undefined;
   /** Oldest age to target. */
-  maximum_age?: number;
+  maximum_age?: number | undefined;
   /** Youngest age to target. */
-  minimum_age?: number;
+  minimum_age?: number | undefined;
 }
 /** On ad platforms that scope behavior categories, what this one is measured on. Send back the value the targeting_options endpoint returned alongside the id. */
 export type AdGroupDetailedTargetingBodyBehaviorsItemBehaviorType = "video" | "creator" | "hashtag";
 export interface AdGroupDetailedTargetingBodyBehaviorsItem {
   /** On ad platforms that scope behavior categories, what this one is measured on. Send back the value the targeting_options endpoint returned alongside the id. */
-  behavior_type?: AdGroupDetailedTargetingBodyBehaviorsItemBehaviorType | (string & {});
+  behavior_type?: AdGroupDetailedTargetingBodyBehaviorsItemBehaviorType | (string & {}) | undefined;
   /** The ad platform's ID for the category in its targeting taxonomy. */
   id: string;
   /** Category name, such as `Frequent travelers`. */
-  name?: string;
+  name?: string | undefined;
   /** On ad platforms that scope behavior categories, how many days of activity the category covers. */
-  period?: number;
+  period?: number | undefined;
 }
 /** Behavior categories to target, such as frequent travelers. */
 export type AdGroupDetailedTargetingBodyBehaviorsList =
@@ -148,7 +176,7 @@ export interface AdGroupDetailedTargetingBodyDemographicsItem {
   /** The ad platform's ID for the category in its targeting taxonomy. */
   id: string;
   /** Category name, such as `Recently moved`. */
-  name?: string;
+  name?: string | undefined;
   /** Kind of demographic the category belongs to. */
   type: AdGroupDetailedTargetingBodyDemographicsItemType | (string & {});
 }
@@ -159,7 +187,7 @@ export interface AdGroupDetailedTargetingBodyInterestsItem {
   /** The ad platform's ID for the category in its targeting taxonomy. */
   id: string;
   /** Category name, such as `Movies`. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Interest categories to target, such as an interest in movies. */
 export type AdGroupDetailedTargetingBodyInterestsList =
@@ -167,17 +195,17 @@ export type AdGroupDetailedTargetingBodyInterestsList =
 /** Interest, behavior, and demographic targeting, using categories from the ad platform's targeting taxonomy. Entries across interests, behaviors, and demographics are OR'd together (anyone matching any entry is reached), matching Ads Manager's detailed-targeting box. At most 100 entries per section. Can't be combined with demographics.automatic, and unavailable to campaigns with special_ad_categories. */
 export interface AdGroupDetailedTargetingBody {
   /** Behavior categories to target, such as frequent travelers. */
-  behaviors?: AdGroupDetailedTargetingBodyBehaviorsList;
+  behaviors?: AdGroupDetailedTargetingBodyBehaviorsList | undefined;
   /** Demographic categories to target, such as life events, industries, work employers, job titles, schools, or majors. */
-  demographics?: AdGroupDetailedTargetingBodyDemographicsList;
+  demographics?: AdGroupDetailedTargetingBodyDemographicsList | undefined;
   /** Interest categories to target, such as an interest in movies. */
-  interests?: AdGroupDetailedTargetingBodyInterestsList;
+  interests?: AdGroupDetailedTargetingBodyInterestsList | undefined;
 }
 /** Operating system to target. */
 export type AdGroupDevicesBodyOperatingSystemsItemOs = "ios" | "android";
 export interface AdGroupDevicesBodyOperatingSystemsItem {
   /** Lowest OS version to target, such as `18.0`. Omit to target any version. */
-  minimum_version?: string;
+  minimum_version?: string | undefined;
   /** Operating system to target. */
   os: AdGroupDevicesBodyOperatingSystemsItemOs | (string & {});
 }
@@ -191,16 +219,16 @@ export type AdGroupDevicesBodyPlatformsList = Array<
 /** Device platforms and operating systems to target. */
 export interface AdGroupDevicesBody {
   /** Operating systems to target. Empty targets all operating systems. */
-  operating_systems?: AdGroupDevicesBodyOperatingSystemsList;
+  operating_systems?: AdGroupDevicesBodyOperatingSystemsList | undefined;
   /** Device types to target. Empty targets all devices. */
-  platforms?: AdGroupDevicesBodyPlatformsList;
+  platforms?: AdGroupDevicesBodyPlatformsList | undefined;
 }
 /** Cap on how often one person sees ads from this ad group. Only available on campaigns with the `awareness` objective. */
 export interface CreateAdGroupRequestFrequencyCap {
   /** Most times one person can be shown ads from this ad group within the window. */
-  maximum_impressions?: number;
+  maximum_impressions?: number | undefined;
   /** Length of the rolling window, in days. */
-  per_days?: number;
+  per_days?: number | undefined;
 }
 /** Languages to target, as ISO 639 codes such as `en` or `es`. Empty or omitted targets all languages. */
 export type CreateAdGroupRequestLanguagesList = Array<string>;
@@ -244,7 +272,7 @@ export interface CreateAdGroupRequestPlacementsCase1Item {
   /** Platform the ads run on. */
   platform: CreateAdGroupRequestPlacementsCase1ItemPlatform | (string & {});
   /** Positions to target within the platform, such as `feed` or `story`. Omit to target all of the platform's positions. */
-  positions?: CreateAdGroupRequestPlacementsCase1ItemPositionsList;
+  positions?: CreateAdGroupRequestPlacementsCase1ItemPositionsList | undefined;
 }
 export type CreateAdGroupRequestPlacementsCase1List =
   Array<CreateAdGroupRequestPlacementsCase1Item>;
@@ -256,7 +284,7 @@ export interface AdGroupGeoLocationsBodyCitiesItem {
   /** The ad platform's key for the city in its location taxonomy. */
   key: string;
   /** City name, such as `Austin`. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Cities, keyed by the ad platform's location taxonomy. */
 export type AdGroupGeoLocationsBodyCitiesList = Array<AdGroupGeoLocationsBodyCitiesItem>;
@@ -268,15 +296,18 @@ export type AdGroupGeoLocationsBodyCountryGroupsList = Array<string>;
 export type AdGroupGeoLocationsBodyCustomLocationsItemDistanceUnit = "mile" | "kilometer";
 export interface AdGroupGeoLocationsBodyCustomLocationsItem {
   /** ISO 3166-1 alpha-2 country the point falls in, as `DE`. Send it under a special ad category: the campaign must declare the countries its ad sets reach, and a coordinate names none. */
-  country_code?: string;
+  country_code?: string | undefined;
   /** Unit for `radius`. Defaults to `mile`. */
-  distance_unit?: AdGroupGeoLocationsBodyCustomLocationsItemDistanceUnit | (string & {});
+  distance_unit?:
+    | AdGroupGeoLocationsBodyCustomLocationsItemDistanceUnit
+    | (string & {})
+    | undefined;
   /** Latitude of the center point. */
   latitude: number;
   /** Longitude of the center point. */
   longitude: number;
   /** Label for the location, such as a city or address. */
-  name?: string;
+  name?: string | undefined;
   /** Radius around the center point: 1-50 miles or 1-80 kilometers. */
   radius: number;
 }
@@ -294,24 +325,24 @@ export type AdGroupGeoLocationsBodyZipsItem = string | AdGroupGeoLocationsBodyZi
 export type AdGroupGeoLocationsBodyZipsList = Array<AdGroupGeoLocationsBodyZipsItem>;
 export interface AdGroupGeoLocationsBody {
   /** Cities, keyed by the ad platform's location taxonomy. */
-  cities?: AdGroupGeoLocationsBodyCitiesList;
+  cities?: AdGroupGeoLocationsBodyCitiesList | undefined;
   /** Countries, as ISO 3166-1 alpha-2 codes such as `US`. */
-  countries?: AdGroupGeoLocationsBodyCountriesList;
+  countries?: AdGroupGeoLocationsBodyCountriesList | undefined;
   /** Multi-country groups such as `worldwide` or `europe`. Include-only -- groups can't be excluded. */
-  country_groups?: AdGroupGeoLocationsBodyCountryGroupsList;
+  country_groups?: AdGroupGeoLocationsBodyCountryGroupsList | undefined;
   /** Circular areas, each a coordinate plus a radius. At most 200 across include and exclude. */
-  custom_locations?: AdGroupGeoLocationsBodyCustomLocationsList;
+  custom_locations?: AdGroupGeoLocationsBodyCustomLocationsList | undefined;
   /** US states and DC, as ISO 3166-2 codes such as `US-CA`. US territories (`PR`, `GU`, `VI`, `AS`, `MP`) and everywhere outside the US are targeted through `countries`. */
-  regions?: AdGroupGeoLocationsBodyRegionsList;
+  regions?: AdGroupGeoLocationsBodyRegionsList | undefined;
   /** ZIP and postal codes, keyed by the ad platform's location taxonomy. Meta keys these `COUNTRY:CODE`, as `US:78756` -- a bare code is ambiguous, because the same one exists in several countries. TikTok takes the bare code. */
-  zips?: AdGroupGeoLocationsBodyZipsList;
+  zips?: AdGroupGeoLocationsBodyZipsList | undefined;
 }
 /** Locations to target and exclude. */
 export interface AdGroupRegionsBody {
   /** Locations excluded from targeting. Country groups can't be excluded. */
-  exclude?: AdGroupGeoLocationsBody;
+  exclude?: AdGroupGeoLocationsBody | undefined;
   /** Locations the ad group targets. */
-  include?: AdGroupGeoLocationsBody;
+  include?: AdGroupGeoLocationsBody | undefined;
 }
 /** Initial status (default: `active`). */
 export type CreateAdGroupRequestStatus = "active" | "paused";
@@ -319,52 +350,52 @@ export interface CreateAdGroupRequest {
   /** The ad campaign to create the ad group in, prefixed `adcamp_`. */
   ad_campaign_id: string;
   /** Saved audiences to deliver to or exclude. Can't be combined with demographics.automatic. */
-  audiences?: AdGroupAudiencesBody;
+  audiences?: AdGroupAudiencesBody | undefined;
   /** How delivery bids are set in the ad auction. Target-based strategies use `desired_cost_per_result`. */
-  bid_type?: CreateAdGroupRequestBidType | (string & {});
+  bid_type?: CreateAdGroupRequestBidType | (string & {}) | undefined;
   /** This ad group's budget in USD, which is what it is stored and billed in. Omit when the budget is set on the campaign instead. */
-  budget_amount?: number;
+  budget_amount?: number | undefined;
   /** This ad group's budget stated in the account's ads reporting currency (`budget_currency` on the response) instead of USD. Converted to USD at the current exchange rate and stored as budget_amount; on an update, an amount equal to the current budget_amount_local keeps the stored USD budget as is. Provide this or budget_amount, not both. */
-  budget_amount_local?: number;
+  budget_amount_local?: number | undefined;
   /** Whether budget_amount is spent per day (`daily`) or over the ad group's full run (`lifetime`). */
-  budget_type?: CreateAdGroupRequestBudgetType | (string & {});
-  conversion_event?: ConversionEvent | null;
+  budget_type?: CreateAdGroupRequestBudgetType | (string & {}) | undefined;
+  conversion_event?: ConversionEvent | null | undefined;
   /** Where the outcome being optimized for occurs, such as a website visit, social-profile visit, messaging conversation, ad interaction, or lead-form submission. The lead form itself is set on the ad. */
-  conversion_location?: CreateAdGroupRequestConversionLocation | (string & {});
+  conversion_location?: CreateAdGroupRequestConversionLocation | (string & {}) | undefined;
   /** Age, gender, and automatic-audience targeting. */
-  demographics?: AdGroupDemographicsBody;
+  demographics?: AdGroupDemographicsBody | undefined;
   /** Cost per result to aim for (`average_target`) or never exceed (`maximum_target`). */
-  desired_cost_per_result?: number;
+  desired_cost_per_result?: number | undefined;
   /** Interest, behavior, and demographic targeting, using categories from the ad platform's targeting taxonomy. Entries across interests, behaviors, and demographics are OR'd together (anyone matching any entry is reached), matching Ads Manager's detailed-targeting box. At most 100 entries per section. Can't be combined with demographics.automatic, and unavailable to campaigns with special_ad_categories. Send the complete intended state -- a section you omit is cleared. */
-  detailed_targeting?: AdGroupDetailedTargetingBody;
+  detailed_targeting?: AdGroupDetailedTargetingBody | undefined;
   /** Device platforms and operating systems to target. */
-  devices?: AdGroupDevicesBody;
+  devices?: AdGroupDevicesBody | undefined;
   /** Whether the ad platform automatically mixes and matches this ad group's creatives and copy to find the best-performing combinations. Meta has deprecated it and rejects `true`; ad groups already using it keep it, and it can't be changed afterward. */
-  dynamic_creative?: boolean;
+  dynamic_creative?: boolean | undefined;
   /** When the ad group stops delivering, as an ISO 8601 timestamp. Omit to run until paused. */
-  ends_at?: string;
+  ends_at?: string | undefined;
   /** Cap on how often one person sees ads from this ad group. Only available on campaigns with the `awareness` objective. */
-  frequency_cap?: CreateAdGroupRequestFrequencyCap;
+  frequency_cap?: CreateAdGroupRequestFrequencyCap | undefined;
   /** Languages to target, as ISO 639 codes such as `en` or `es`. Empty or omitted targets all languages. */
-  languages?: CreateAdGroupRequestLanguagesList;
+  languages?: CreateAdGroupRequestLanguagesList | undefined;
   /** Apps the conversation opens in. Required when setting `conversion_location` to `messaging`, and rejected unless the ad group's conversion location is `messaging`. */
-  message_apps?: CreateAdGroupRequestMessageAppsList;
+  message_apps?: CreateAdGroupRequestMessageAppsList | undefined;
   /** Minimum the ad group tries to spend each day. */
-  minimum_daily_spend?: number;
+  minimum_daily_spend?: number | undefined;
   /** The result the ad group's delivery is optimized to get the most of. */
-  optimization_goal?: CreateAdGroupRequestOptimizationGoal | (string & {});
+  optimization_goal?: CreateAdGroupRequestOptimizationGoal | (string & {}) | undefined;
   /** `automatic` to let the ad platform choose placements, or the list of platforms and positions to target. Omit a platform's positions to target all of them. Valid positions per platform: - `facebook`: `feed`, `right_hand_column`, `marketplace`, `search`, `profile_feed`, `notification`, `story`, `instream_video`, `facebook_reels`, `facebook_reels_overlay`, `biz_disco_feed` - `instagram`: `stream`, `story`, `explore`, `explore_home`, `reels`, `profile_feed`, `profile_reels`, `ig_search` - `messenger`: `story` - `audience_network`: `classic`, `rewarded_video` - `threads`: `threads_stream` - `whatsapp`: `status` */
-  placements?: CreateAdGroupRequestPlacements;
+  placements?: CreateAdGroupRequestPlacements | undefined;
   /** Locations to target and exclude. */
-  regions?: AdGroupRegionsBody;
+  regions?: AdGroupRegionsBody | undefined;
   /** When the ad group starts delivering, as an ISO 8601 timestamp. Omit to start as soon as it's active. */
-  starts_at?: string;
+  starts_at?: string | undefined;
   /** Initial status (default: `active`). */
-  status?: CreateAdGroupRequestStatus | (string & {});
+  status?: CreateAdGroupRequestStatus | (string & {}) | undefined;
   /** The display name of the ad group. */
-  title?: string;
+  title?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface AdEntityReference {
   /** The referenced entity's id. */
@@ -424,13 +455,13 @@ export interface AdGroupDemographics {
 export type AdGroupBehaviorCategoryBehaviorType = "video" | "creator" | "hashtag";
 export interface AdGroupBehaviorCategory {
   /** On ad platforms that scope behavior categories, what this one is measured on. Send back the value the targeting_options endpoint returned alongside the id. Absent on platforms that don't scope them. */
-  behavior_type?: AdGroupBehaviorCategoryBehaviorType;
+  behavior_type?: AdGroupBehaviorCategoryBehaviorType | undefined;
   /** The ad platform's ID for the category in its targeting taxonomy. */
   id: string;
   /** Category name, such as `Frequent travelers`. */
-  name?: string;
+  name?: string | undefined;
   /** On ad platforms that scope behavior categories, how many days of activity the category covers. Absent on platforms that don't scope them. */
-  period?: number;
+  period?: number | undefined;
 }
 export type AdGroupDetailedTargetingBehaviorsList = Array<AdGroupBehaviorCategory>;
 /** Kind of demographic the category belongs to. */
@@ -447,7 +478,7 @@ export interface AdGroupDemographicCategory {
   /** The ad platform's ID for the category in its targeting taxonomy. */
   id: string;
   /** Category name, such as `Recently moved`. */
-  name?: string;
+  name?: string | undefined;
   /** Kind of demographic the category belongs to. */
   type: AdGroupDemographicCategoryType;
 }
@@ -464,7 +495,7 @@ export interface AdGroupDetailedTargeting {
 export type AdGroupOperatingSystemOs = "ios" | "android";
 export interface AdGroupOperatingSystem {
   /** Lowest OS version targeted, such as `18.0`. Absent when any version qualifies. */
-  minimum_version?: string;
+  minimum_version?: string | undefined;
   /** Operating system targeted. */
   os: AdGroupOperatingSystemOs;
 }
@@ -540,7 +571,7 @@ export interface AdGroupCity {
   /** The ad platform's key for the city in its location taxonomy. */
   key: string;
   /** City name, such as `Austin`. Absent when the platform doesn't return one. */
-  name?: string;
+  name?: string | undefined;
 }
 export type AdGroupGeoLocationsCitiesList = Array<AdGroupCity>;
 export type AdGroupGeoLocationsCountriesList = Array<string>;
@@ -549,7 +580,7 @@ export type AdGroupGeoLocationsCountryGroupsList = Array<string>;
 export type AdGroupCustomLocationDistanceUnit = "mile" | "kilometer";
 export interface AdGroupCustomLocation {
   /** ISO 3166-1 alpha-2 country the point falls in. Send it under a special ad category, where the campaign must declare the countries its ad sets reach. */
-  country_code?: string;
+  country_code?: string | undefined;
   /** Unit for `radius`. */
   distance_unit: AdGroupCustomLocationDistanceUnit;
   /** Latitude of the center point. */
@@ -557,7 +588,7 @@ export interface AdGroupCustomLocation {
   /** Longitude of the center point. */
   longitude: number;
   /** Label for the location, such as a city or address. Absent when the location has no label. */
-  name?: string;
+  name?: string | undefined;
   /** Radius around the center point, in `distance_unit`. */
   radius: number;
 }
@@ -625,7 +656,7 @@ export interface AdGroup {
   contacts: number;
   conversion_event: ConversionEvent | null;
   /** Where the outcome being optimized for occurs, such as a website visit, social-profile visit, messaging conversation, ad interaction, or lead-form submission. */
-  conversion_location?: AdGroupConversionLocation | null;
+  conversion_location?: AdGroupConversionLocation | null | undefined;
   /** Spend divided by attributed add-to-cart events; null when they are not the goal and none are attributed. */
   cost_per_added_to_cart: number | null;
   /** Spend divided by clicks; 0 when there are no clicks. */
@@ -669,7 +700,7 @@ export interface AdGroup {
   /** Device platforms and operating systems targeted. */
   devices: AdGroupDevices;
   /** Whether the ad platform automatically mixes and matches this ad group's creatives and copy to find the best-performing combinations. */
-  dynamic_creative?: boolean;
+  dynamic_creative?: boolean | undefined;
   /** When the ad group stops delivering, as an ISO 8601 timestamp. `null` when it runs until paused. */
   ends_at: string | null;
   /** Platform-reported impressions divided by reach. */
@@ -688,9 +719,9 @@ export interface AdGroup {
   leads: number;
   /** Clicks on links in the ad that lead to your destination, as reported by the ad platform. A subset of clicks, which also counts likes, comments, and other interactions with the ad. */
   link_clicks: number;
-  message_apps?: AdGroupMessageAppsList;
+  message_apps?: AdGroupMessageAppsList | undefined;
   /** Minimum the ad group tries to spend each day. `null` when no floor is set. */
-  minimum_daily_spend?: number | null;
+  minimum_daily_spend?: number | null | undefined;
   /** The result the ad group's delivery is optimized to get the most of. */
   optimization_goal: AdGroupOptimizationGoal | null;
   placements: AdGroupPlacementsList;
@@ -755,13 +786,13 @@ export interface DuplicateAdGroupRequest {
   /** The ad group ID. */
   id: string;
   /** Number of copies to create (1-10). Defaults to 1. */
-  count?: number;
+  count?: number | undefined;
   /** Whether the copied ads keep the original posts' engagement (likes, comments, shares). Defaults to false. */
-  preserve_engagement?: boolean;
+  preserve_engagement?: boolean | undefined;
   /** Campaign to duplicate into. Defaults to the ad group's own campaign. */
-  target_ad_campaign_id?: string;
+  target_ad_campaign_id?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type DuplicateAdGroupResponseDataList = Array<AdGroup>;
 export interface DuplicateAdGroupResponse {
@@ -773,23 +804,23 @@ export type EstimateAdGroupReachRequestLanguagesList = Array<string>;
 export type EstimateAdGroupReachRequestPlatform = "meta";
 export interface EstimateAdGroupReachRequest {
   /** Account to estimate on behalf of. Defaults to the authenticated account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Saved audiences to deliver to or exclude. Can't be combined with demographics.automatic. */
-  audiences?: AdGroupAudiencesBody;
+  audiences?: AdGroupAudiencesBody | undefined;
   /** Age, gender, and automatic-audience targeting. */
-  demographics?: AdGroupDemographicsBody;
+  demographics?: AdGroupDemographicsBody | undefined;
   /** Interest, behavior, and demographic targeting, using categories from the ad platform's targeting taxonomy. At most 100 entries per section. */
-  detailed_targeting?: AdGroupDetailedTargetingBody;
+  detailed_targeting?: AdGroupDetailedTargetingBody | undefined;
   /** Device platforms and operating systems to target. */
-  devices?: AdGroupDevicesBody;
+  devices?: AdGroupDevicesBody | undefined;
   /** Languages to target, as ISO 639 codes such as `en` or `es`. Empty or omitted targets all languages. */
-  languages?: EstimateAdGroupReachRequestLanguagesList;
+  languages?: EstimateAdGroupReachRequestLanguagesList | undefined;
   /** The ad network the estimate runs on. */
   platform: EstimateAdGroupReachRequestPlatform | (string & {});
   /** Locations to target and exclude. */
-  regions?: AdGroupRegionsBody;
+  regions?: AdGroupRegionsBody | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface ReachEstimate {
   /** Low end of how many people the targeting can reach. Null when the platform couldn't produce an estimate. */
@@ -802,13 +833,13 @@ export interface GetAdGroupRequest {
   /** The ad group ID. */
   id: string;
   /** Start of the stats window. */
-  stats_from?: string;
+  stats_from?: string | undefined;
   /** End of the stats window. */
-  stats_to?: string;
+  stats_to?: string | undefined;
   /** IANA timezone the stats window is interpreted in. Defaults to UTC. */
-  time_zone?: string;
+  time_zone?: string | undefined;
   /** Attribution model the conversion stats count under (defaults to last_touch). Under both models a journey with any whop ad touch attributes to whop; the model picks which whop touch credits the entity and which non-whop source wins otherwise. */
-  attribution_model?: GetAdGroupRequestAttributionModel | (string & {});
+  attribution_model?: GetAdGroupRequestAttributionModel | (string & {}) | undefined;
 }
 export type ListAdGroupsRequestAdCampaignIdsList = Array<string>;
 export type ListAdGroupsRequestStatus = "active" | "paused" | "rejected" | "duplicating";
@@ -832,39 +863,39 @@ export type ListAdGroupsRequestDirection = "asc" | "desc";
 export type ListAdGroupsRequestAttributionModel = "last_touch" | "first_touch";
 export interface ListAdGroupsRequest {
   /** Account whose ad groups to list. Defaults to the authenticated account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Filter to ad groups in this campaign. */
-  ad_campaign_id?: string;
+  ad_campaign_id?: string | undefined;
   /** Filter to ad groups in these campaigns (max 100). Repeat the parameter for each id (ad_campaign_ids=a&ad_campaign_ids=b). */
-  ad_campaign_ids?: ListAdGroupsRequestAdCampaignIdsList;
+  ad_campaign_ids?: ListAdGroupsRequestAdCampaignIdsList | undefined;
   /** Filter to ad groups with this status. */
-  status?: ListAdGroupsRequestStatus | (string & {});
+  status?: ListAdGroupsRequestStatus | (string & {}) | undefined;
   /** Filter ad groups by a title or ID substring. */
-  query?: string;
+  query?: string | undefined;
   /** The field to sort by. Defaults to created_at. Stat columns (spend, impressions, ...) rank over the stats_from/stats_to window across the whole list, not just the current page. results, cost_per_result and return_on_ad_spend rank by the same Whop pixel-attributed values the response reports. */
-  order?: ListAdGroupsRequestOrder | (string & {});
+  order?: ListAdGroupsRequestOrder | (string & {}) | undefined;
   /** The sort direction. Defaults to desc. */
-  direction?: ListAdGroupsRequestDirection | (string & {});
+  direction?: ListAdGroupsRequestDirection | (string & {}) | undefined;
   /** Only return ad groups created before this timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only return ad groups created after this timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Start of the stats window. Defaults to all-time. */
-  stats_from?: string;
+  stats_from?: string | undefined;
   /** End of the stats window. Defaults to now. */
-  stats_to?: string;
+  stats_to?: string | undefined;
   /** IANA timezone (e.g. America/New_York) the stats window is interpreted in. Bare stats_from/stats_to dates resolve to day boundaries on this clock. Defaults to UTC. */
-  time_zone?: string;
+  time_zone?: string | undefined;
   /** Attribution model the conversion stats count under (defaults to last_touch). Under both models a journey with any whop ad touch attributes to whop; the model picks which whop touch credits the entity and which non-whop source wins otherwise. */
-  attribution_model?: ListAdGroupsRequestAttributionModel | (string & {});
+  attribution_model?: ListAdGroupsRequestAttributionModel | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListAdGroupsResponseDataList = Array<AdGroup>;
 export interface ListAdGroupsResponsePageInfo {
@@ -881,7 +912,7 @@ export interface PauseAdGroupRequest {
   /** The ad group ID. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type SearchAdGroupTargetingOptionsRequestPlatform = "meta";
 export type SearchAdGroupTargetingOptionsRequestTypesItem =
@@ -921,21 +952,21 @@ export type SearchAdGroupTargetingOptionsRequestSpecialAdCategoriesList = Array<
 >;
 export interface SearchAdGroupTargetingOptionsRequest {
   /** Account to search on behalf of. Defaults to the authenticated account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The ad network whose targeting taxonomy to search. */
   platform: SearchAdGroupTargetingOptionsRequestPlatform | (string & {});
   /** The search term. Blank browses the fixed lists; interests, work employers, job titles, schools, majors, and locations return nothing without one. */
-  query?: string;
+  query?: string | undefined;
   /** Kinds of targeting options to search. Defaults to all of them. */
-  types?: SearchAdGroupTargetingOptionsRequestTypesList;
+  types?: SearchAdGroupTargetingOptionsRequestTypesList | undefined;
   /** Narrow location results to these kinds of places. Only applies when `types` includes `locations`. */
-  location_types?: SearchAdGroupTargetingOptionsRequestLocationTypesList;
+  location_types?: SearchAdGroupTargetingOptionsRequestLocationTypesList | undefined;
   /** Narrow location results to one country, as an ISO 3166-1 code such as `US`. Only applies when `types` includes `locations`. */
-  country?: string;
+  country?: string | undefined;
   /** Maximum number of results per requested type. */
-  limit?: number;
+  limit?: number | undefined;
   /** The campaign's declared special ad categories. Under `housing`, `employment`, or `financial_products` the ad platform allows interests only, drawn from a short approved list, so results are narrowed to what such a campaign can launch with and other kinds return nothing. Blank `query` browses that approved list instead of the usual fixed lists. */
-  special_ad_categories?: SearchAdGroupTargetingOptionsRequestSpecialAdCategoriesList;
+  special_ad_categories?: SearchAdGroupTargetingOptionsRequestSpecialAdCategoriesList | undefined;
 }
 /** What a behavior category is measured on, on ad platforms that scope them. Send it back on the `detailed_targeting.behaviors` entry alongside the id. Null for options that aren't scoped. */
 export type DetailedTargetingOptionBehaviorType = "video" | "creator" | "hashtag";
@@ -1021,7 +1052,7 @@ export interface UnpauseAdGroupRequest {
   /** The ad group ID. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** How delivery bids are set in the ad auction. Target-based strategies use `desired_cost_per_result`. */
 export type UpdateAdGroupRequestBidType = "minimum_cost" | "average_target" | "maximum_target";
@@ -1082,7 +1113,7 @@ export interface UpdateAdGroupRequestPlacementsCase1Item {
   /** Platform the ads run on. */
   platform: UpdateAdGroupRequestPlacementsCase1ItemPlatform | (string & {});
   /** Positions to target within the platform, such as `feed` or `story`. Omit to target all of the platform's positions. */
-  positions?: UpdateAdGroupRequestPlacementsCase1ItemPositionsList;
+  positions?: UpdateAdGroupRequestPlacementsCase1ItemPositionsList | undefined;
 }
 export type UpdateAdGroupRequestPlacementsCase1List =
   Array<UpdateAdGroupRequestPlacementsCase1Item>;
@@ -1096,48 +1127,59 @@ export interface UpdateAdGroupRequest {
   /** The ad group ID. */
   id: string;
   /** Saved audiences to deliver to or exclude. Can't be combined with demographics.automatic. */
-  audiences?: AdGroupAudiencesBody;
+  audiences?: AdGroupAudiencesBody | undefined;
   /** How delivery bids are set in the ad auction. Target-based strategies use `desired_cost_per_result`. */
-  bid_type?: UpdateAdGroupRequestBidType | (string & {});
+  bid_type?: UpdateAdGroupRequestBidType | (string & {}) | undefined;
   /** This ad group's budget in USD, which is what it is stored and billed in. Omit when the budget is set on the campaign instead. */
-  budget_amount?: number;
+  budget_amount?: number | undefined;
   /** This ad group's budget stated in the account's ads reporting currency (`budget_currency` on the response) instead of USD. Converted to USD at the current exchange rate and stored as budget_amount; on an update, an amount equal to the current budget_amount_local keeps the stored USD budget as is. Provide this or budget_amount, not both. */
-  budget_amount_local?: number;
+  budget_amount_local?: number | undefined;
   /** Whether budget_amount is spent per day (`daily`) or over the ad group's full run (`lifetime`). */
-  budget_type?: UpdateAdGroupRequestBudgetType | (string & {});
-  conversion_event?: ConversionEvent | null;
+  budget_type?: UpdateAdGroupRequestBudgetType | (string & {}) | undefined;
+  conversion_event?: ConversionEvent | null | undefined;
   /** Where the outcome being optimized for occurs, such as a website visit, social-profile visit, messaging conversation, ad interaction, or lead-form submission. The lead form itself is set on the ad. */
-  conversion_location?: UpdateAdGroupRequestConversionLocation | (string & {});
+  conversion_location?: UpdateAdGroupRequestConversionLocation | (string & {}) | undefined;
   /** Age, gender, and automatic-audience targeting. */
-  demographics?: AdGroupDemographicsBody;
+  demographics?: AdGroupDemographicsBody | undefined;
   /** Cost per result to aim for (`average_target`) or never exceed (`maximum_target`). */
-  desired_cost_per_result?: number;
+  desired_cost_per_result?: number | undefined;
   /** Interest, behavior, and demographic targeting, using categories from the ad platform's targeting taxonomy. Entries across interests, behaviors, and demographics are OR'd together (anyone matching any entry is reached), matching Ads Manager's detailed-targeting box. At most 100 entries per section. Can't be combined with demographics.automatic, and unavailable to campaigns with special_ad_categories. Send the complete intended state -- a section you omit is cleared. */
-  detailed_targeting?: AdGroupDetailedTargetingBody;
+  detailed_targeting?: AdGroupDetailedTargetingBody | undefined;
   /** Device platforms and operating systems to target. */
-  devices?: AdGroupDevicesBody;
+  devices?: AdGroupDevicesBody | undefined;
   /** When the ad group stops delivering, as an ISO 8601 timestamp. Omit to run until paused. */
-  ends_at?: string;
+  ends_at?: string | undefined;
   /** Cap on how often one person sees ads from this ad group. Only available on campaigns with the `awareness` objective. */
-  frequency_cap?: CreateAdGroupRequestFrequencyCap;
+  frequency_cap?: CreateAdGroupRequestFrequencyCap | undefined;
   /** Languages to target, as ISO 639 codes such as `en` or `es`. Empty or omitted targets all languages. */
-  languages?: UpdateAdGroupRequestLanguagesList;
+  languages?: UpdateAdGroupRequestLanguagesList | undefined;
   /** Apps the conversation opens in. Required when setting `conversion_location` to `messaging`, and rejected unless the ad group's conversion location is `messaging`. */
-  message_apps?: UpdateAdGroupRequestMessageAppsList;
+  message_apps?: UpdateAdGroupRequestMessageAppsList | undefined;
   /** Minimum the ad group tries to spend each day. */
-  minimum_daily_spend?: number;
+  minimum_daily_spend?: number | undefined;
   /** The result the ad group's delivery is optimized to get the most of. */
-  optimization_goal?: UpdateAdGroupRequestOptimizationGoal | (string & {});
+  optimization_goal?: UpdateAdGroupRequestOptimizationGoal | (string & {}) | undefined;
   /** `automatic` to let the ad platform choose placements, or the list of platforms and positions to target. Omit a platform's positions to target all of them. Valid positions per platform: - `facebook`: `feed`, `right_hand_column`, `marketplace`, `search`, `profile_feed`, `notification`, `story`, `instream_video`, `facebook_reels`, `facebook_reels_overlay`, `biz_disco_feed` - `instagram`: `stream`, `story`, `explore`, `explore_home`, `reels`, `profile_feed`, `profile_reels`, `ig_search` - `messenger`: `story` - `audience_network`: `classic`, `rewarded_video` - `threads`: `threads_stream` - `whatsapp`: `status` */
-  placements?: UpdateAdGroupRequestPlacements;
+  placements?: UpdateAdGroupRequestPlacements | undefined;
   /** Locations to target and exclude. */
-  regions?: AdGroupRegionsBody;
+  regions?: AdGroupRegionsBody | undefined;
   /** When the ad group starts delivering, as an ISO 8601 timestamp. Omit to start as soon as it's active. */
-  starts_at?: string;
+  starts_at?: string | undefined;
   /** Initial status (default: `active`). */
-  status?: UpdateAdGroupRequestStatus | (string & {});
+  status?: UpdateAdGroupRequestStatus | (string & {}) | undefined;
   /** The display name of the ad group. */
-  title?: string;
+  title?: string | undefined;
+}
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
 }
 export type CreateAdGroupError = NotFound | Conflict | WhopOpError;
 /** Create an Ad Group Creates an ad group (ad set) in a campaign. */
@@ -1147,8 +1189,8 @@ export const createAdGroup: API.OperationMethod<
   CreateAdGroupError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<CreateAdGroupRequest>,
-  output: __S(142, __c8, 14) as any as S.Schema<AdGroup>,
+  input: __S(80, __c5, 0) as any as S.Schema<CreateAdGroupRequest>,
+  output: __S(158, __c9, 14) as any as S.Schema<AdGroup>,
   errors: [NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1164,8 +1206,8 @@ export const deleteAdGroup: API.OperationMethod<
   DeleteAdGroupError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<DeleteAdGroupRequest>,
-  output: __S(161, __c10, 1) as any as S.Schema<DeleteAdGroupResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<DeleteAdGroupRequest>,
+  output: __S(177, __c11, 1) as any as S.Schema<DeleteAdGroupResponse>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1181,8 +1223,8 @@ export const duplicateAdGroup: API.OperationMethod<
   DuplicateAdGroupError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<DuplicateAdGroupRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<DuplicateAdGroupResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<DuplicateAdGroupRequest>,
+  output: __S(193, __c12, 1) as any as S.Schema<DuplicateAdGroupResponse>,
   errors: [BadRequest, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1198,8 +1240,8 @@ export const estimateAdGroupReach: API.OperationMethod<
   EstimateAdGroupReachError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<EstimateAdGroupReachRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<ReachEstimate>,
+  input: __S(224, __c14, 0) as any as S.Schema<EstimateAdGroupReachRequest>,
+  output: __S(225, __c14, 1) as any as S.Schema<ReachEstimate>,
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1215,8 +1257,8 @@ export const getAdGroup: API.OperationMethod<
   GetAdGroupError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetAdGroupRequest>,
-  output: __S(142, __c8, 14) as any as S.Schema<AdGroup>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetAdGroupRequest>,
+  output: __S(158, __c9, 14) as any as S.Schema<AdGroup>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1234,8 +1276,8 @@ export const listAdGroups: API.PaginatedOperationMethod<
   AdGroup
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(240, __c15, 0) as any as S.Schema<ListAdGroupsRequest>,
-    output: __S(242, __c15, 2) as any as S.Schema<ListAdGroupsResponse>,
+    input: __S(256, __c16, 0) as any as S.Schema<ListAdGroupsRequest>,
+    output: __S(258, __c16, 2) as any as S.Schema<ListAdGroupsResponse>,
     errors: [],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -1261,8 +1303,8 @@ export const pauseAdGroup: API.OperationMethod<
   PauseAdGroupError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<PauseAdGroupRequest>,
-  output: __S(142, __c8, 14) as any as S.Schema<AdGroup>,
+  input: __S(16, __c1, 0) as any as S.Schema<PauseAdGroupRequest>,
+  output: __S(158, __c9, 14) as any as S.Schema<AdGroup>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1278,8 +1320,8 @@ export const searchAdGroupTargetingOptions: API.OperationMethod<
   SearchAdGroupTargetingOptionsError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<SearchAdGroupTargetingOptionsRequest>,
-  output: __S(18, __c1, 2) as any as S.Schema<SearchAdGroupTargetingOptionsResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<SearchAdGroupTargetingOptionsRequest>,
+  output: __S(34, __c2, 2) as any as S.Schema<SearchAdGroupTargetingOptionsResponse>,
   errors: [BadRequest, Forbidden],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1295,8 +1337,8 @@ export const unpauseAdGroup: API.OperationMethod<
   UnpauseAdGroupError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<UnpauseAdGroupRequest>,
-  output: __S(142, __c8, 14) as any as S.Schema<AdGroup>,
+  input: __S(48, __c3, 0) as any as S.Schema<UnpauseAdGroupRequest>,
+  output: __S(158, __c9, 14) as any as S.Schema<AdGroup>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1312,8 +1354,8 @@ export const updateAdGroup: API.OperationMethod<
   UpdateAdGroupError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<UpdateAdGroupRequest>,
-  output: __S(142, __c8, 14) as any as S.Schema<AdGroup>,
+  input: __S(64, __c4, 0) as any as S.Schema<UpdateAdGroupRequest>,
+  output: __S(158, __c9, 14) as any as S.Schema<AdGroup>,
   errors: [],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1327,10 +1369,17 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String.pipe(T.Label()),
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-        }).pipe(T.Http({ method: "POST", uri: "/ad_groups/{id}/pause", code: 200 })),
-      ).annotate({ identifier: "PauseAdGroupRequest" });
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
   }
 }
 function __c1(j: number): any {
@@ -1338,14 +1387,25 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.String.pipe(T.Label()),
+          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+        }).pipe(T.Http({ method: "POST", uri: "/ad_groups/{id}/pause", code: 200 })),
+      ).annotate({ identifier: "PauseAdGroupRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           account_id: S.optional(S.String.pipe(T.Query())),
           platform: S.String.pipe(T.Query()),
           query: S.optional(S.String.pipe(T.Query())),
-          types: S.optional(__S(96, __c6, 0).pipe(T.Query())),
-          location_types: S.optional(__S(96, __c6, 0).pipe(T.Query())),
+          types: S.optional(__S(112, __c7, 0).pipe(T.Query())),
+          location_types: S.optional(__S(112, __c7, 0).pipe(T.Query())),
           country: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
-          special_ad_categories: S.optional(__S(96, __c6, 0).pipe(T.Query())),
+          special_ad_categories: S.optional(__S(112, __c7, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/ad_groups/targeting_options", code: 200 })),
       ).annotate({ identifier: "SearchAdGroupTargetingOptionsRequest" });
     case 1:
@@ -1353,12 +1413,12 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(17, __c1, 1),
+          data: __S(33, __c2, 1),
         }),
       ).annotate({ identifier: "SearchAdGroupTargetingOptionsResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1369,31 +1429,31 @@ function __c2(j: number): any {
       ).annotate({ identifier: "UnpauseAdGroupRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          audiences: S.optional(__S(144, __c9, 0)),
+          audiences: S.optional(__S(160, __c10, 0)),
           bid_type: S.optional(S.String),
           budget_amount: S.optional(S.Number),
           budget_amount_local: S.optional(S.Number),
           budget_type: S.optional(S.String),
           conversion_event: S.optional(S.NullOr(S.Unknown)),
           conversion_location: S.optional(S.String),
-          demographics: S.optional(__S(145, __c9, 1)),
+          demographics: S.optional(__S(161, __c10, 1)),
           desired_cost_per_result: S.optional(S.Number),
-          detailed_targeting: S.optional(__S(146, __c9, 2)),
-          devices: S.optional(__S(147, __c9, 3)),
+          detailed_targeting: S.optional(__S(162, __c10, 2)),
+          devices: S.optional(__S(163, __c10, 3)),
           ends_at: S.optional(S.String),
-          frequency_cap: S.optional(__S(80, __c5, 0)),
-          languages: S.optional(__S(112, __c7, 0)),
-          message_apps: S.optional(__S(96, __c6, 0)),
+          frequency_cap: S.optional(__S(96, __c6, 0)),
+          languages: S.optional(__S(128, __c8, 0)),
+          message_apps: S.optional(__S(112, __c7, 0)),
           minimum_daily_spend: S.optional(S.Number),
           optimization_goal: S.optional(S.String),
           placements: S.optional(S.Unknown),
-          regions: S.optional(__S(152, __c9, 8)),
+          regions: S.optional(__S(168, __c10, 8)),
           starts_at: S.optional(S.String),
           status: S.optional(S.String),
           title: S.optional(S.String),
@@ -1401,32 +1461,32 @@ function __c3(j: number): any {
       ).annotate({ identifier: "UpdateAdGroupRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ad_campaign_id: S.String,
-          audiences: S.optional(__S(144, __c9, 0)),
+          audiences: S.optional(__S(160, __c10, 0)),
           bid_type: S.optional(S.String),
           budget_amount: S.optional(S.Number),
           budget_amount_local: S.optional(S.Number),
           budget_type: S.optional(S.String),
           conversion_event: S.optional(S.NullOr(S.Unknown)),
           conversion_location: S.optional(S.String),
-          demographics: S.optional(__S(145, __c9, 1)),
+          demographics: S.optional(__S(161, __c10, 1)),
           desired_cost_per_result: S.optional(S.Number),
-          detailed_targeting: S.optional(__S(146, __c9, 2)),
-          devices: S.optional(__S(147, __c9, 3)),
+          detailed_targeting: S.optional(__S(162, __c10, 2)),
+          devices: S.optional(__S(163, __c10, 3)),
           dynamic_creative: S.optional(S.Boolean),
           ends_at: S.optional(S.String),
-          frequency_cap: S.optional(__S(80, __c5, 0)),
-          languages: S.optional(__S(112, __c7, 0)),
-          message_apps: S.optional(__S(96, __c6, 0)),
+          frequency_cap: S.optional(__S(96, __c6, 0)),
+          languages: S.optional(__S(128, __c8, 0)),
+          message_apps: S.optional(__S(112, __c7, 0)),
           minimum_daily_spend: S.optional(S.Number),
           optimization_goal: S.optional(S.String),
           placements: S.optional(S.Unknown),
-          regions: S.optional(__S(152, __c9, 8)),
+          regions: S.optional(__S(168, __c10, 8)),
           starts_at: S.optional(S.String),
           status: S.optional(S.String),
           title: S.optional(S.String),
@@ -1435,7 +1495,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateAdGroupRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1446,13 +1506,13 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateAdGroupRequestFrequencyCap" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -1466,7 +1526,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "AdGroupDetailedTargetingBodyBehaviorsItem" });
     case 2:
-      return S.Array(__S(113, __c7, 1));
+      return S.Array(__S(129, __c8, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1476,7 +1536,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "AdGroupDetailedTargetingBodyDemographicsItem" });
     case 4:
-      return S.Array(__S(115, __c7, 3));
+      return S.Array(__S(131, __c8, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1485,7 +1545,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "AdGroupDetailedTargetingBodyInterestsItem" });
     case 6:
-      return S.Array(__S(117, __c7, 5));
+      return S.Array(__S(133, __c8, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -1494,7 +1554,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "AdGroupDevicesBodyOperatingSystemsItem" });
     case 8:
-      return S.Array(__S(119, __c7, 7));
+      return S.Array(__S(135, __c8, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -1503,10 +1563,10 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "AdGroupGeoLocationsBodyCitiesItem" });
     case 10:
-      return S.Array(__S(121, __c7, 9));
+      return S.Array(__S(137, __c8, 9));
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1517,8 +1577,8 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          exclude: __S(112, __c7, 0),
-          include: __S(112, __c7, 0),
+          exclude: __S(128, __c8, 0),
+          include: __S(128, __c8, 0),
         }),
       ).annotate({ identifier: "AdGroupAudiences" });
     case 2:
@@ -1533,16 +1593,16 @@ function __c8(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          behaviors: __S(114, __c7, 2),
-          demographics: __S(116, __c7, 4),
-          interests: __S(118, __c7, 6),
+          behaviors: __S(130, __c8, 2),
+          demographics: __S(132, __c8, 4),
+          interests: __S(134, __c8, 6),
         }),
       ).annotate({ identifier: "AdGroupDetailedTargeting" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          operating_systems: __S(120, __c7, 8),
-          platforms: __S(96, __c6, 0),
+          operating_systems: __S(136, __c8, 8),
+          platforms: __S(112, __c7, 0),
         }),
       ).annotate({ identifier: "AdGroupDevices" });
     case 5:
@@ -1562,16 +1622,16 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "AdPlatformIssue" });
     case 7:
-      return S.Array(__S(134, __c8, 6));
+      return S.Array(__S(150, __c9, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           platform: S.String,
-          positions: __S(112, __c7, 0),
+          positions: __S(128, __c8, 0),
         }),
       ).annotate({ identifier: "AdGroupPlacement" });
     case 9:
-      return S.Array(__S(136, __c8, 8));
+      return S.Array(__S(152, __c9, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -1584,32 +1644,32 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "AdGroupCustomLocation" });
     case 11:
-      return S.Array(__S(138, __c8, 10));
+      return S.Array(__S(154, __c9, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          cities: __S(122, __c7, 10),
-          countries: __S(112, __c7, 0),
-          country_groups: __S(112, __c7, 0),
-          custom_locations: __S(139, __c8, 11),
-          regions: __S(112, __c7, 0),
-          zips: __S(112, __c7, 0),
+          cities: __S(138, __c8, 10),
+          countries: __S(128, __c8, 0),
+          country_groups: __S(128, __c8, 0),
+          custom_locations: __S(155, __c9, 11),
+          regions: __S(128, __c8, 0),
+          zips: __S(128, __c8, 0),
         }),
       ).annotate({ identifier: "AdGroupGeoLocations" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          exclude: __S(140, __c8, 12),
-          include: __S(140, __c8, 12),
+          exclude: __S(156, __c9, 12),
+          include: __S(156, __c9, 12),
         }),
       ).annotate({ identifier: "AdGroupRegions" });
     case 14:
       return S.suspend(() =>
         S.Struct({
-          ad_campaign: __S(128, __c8, 0),
+          ad_campaign: __S(144, __c9, 0),
           added_to_cart_value: S.Number,
           added_to_carts: S.Number,
-          audiences: __S(129, __c8, 1),
+          audiences: __S(145, __c9, 1),
           bid_type: S.NullOr(S.String),
           budget_amount: S.NullOr(S.Number),
           budget_amount_local: S.NullOr(S.Number),
@@ -1640,30 +1700,30 @@ function __c8(j: number): any {
           custom_event_counts: S.Unknown,
           custom_event_values: S.Unknown,
           delivery_status: S.String,
-          demographics: __S(130, __c8, 2),
+          demographics: __S(146, __c9, 2),
           desired_cost_per_result: S.NullOr(S.Number),
-          detailed_targeting: __S(131, __c8, 3),
-          devices: __S(132, __c8, 4),
+          detailed_targeting: __S(147, __c9, 3),
+          devices: __S(148, __c9, 4),
           dynamic_creative: S.optional(S.Boolean),
           ends_at: S.NullOr(S.String),
           frequency: S.NullOr(S.Number),
-          frequency_cap: S.NullOr(__S(133, __c8, 5)),
+          frequency_cap: S.NullOr(__S(149, __c9, 5)),
           id: S.String,
           impressions: S.Number,
-          issues: __S(135, __c8, 7),
-          languages: __S(112, __c7, 0),
+          issues: __S(151, __c9, 7),
+          languages: __S(128, __c8, 0),
           lead_value: S.Number,
           leads: S.Number,
           link_clicks: S.Number,
-          message_apps: S.optional(__S(96, __c6, 0)),
+          message_apps: S.optional(__S(112, __c7, 0)),
           minimum_daily_spend: S.optional(S.NullOr(S.Number)),
           optimization_goal: S.NullOr(S.String),
-          placements: __S(137, __c8, 9),
+          placements: __S(153, __c9, 9),
           platform: S.String,
           purchase_value: S.Number,
           purchases: S.Number,
           reach: S.Number,
-          regions: __S(141, __c8, 13),
+          regions: __S(157, __c9, 13),
           result_event: S.NullOr(S.String),
           result_event_name: S.NullOr(S.String),
           results: S.NullOr(S.Number),
@@ -1686,13 +1746,13 @@ function __c8(j: number): any {
       ).annotate({ identifier: "AdGroup" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          exclude: S.optional(__S(112, __c7, 0)),
-          include: S.optional(__S(112, __c7, 0)),
+          exclude: S.optional(__S(128, __c8, 0)),
+          include: S.optional(__S(128, __c8, 0)),
         }),
       ).annotate({ identifier: "AdGroupAudiencesBody" });
     case 1:
@@ -1707,16 +1767,16 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          behaviors: S.optional(__S(114, __c7, 2)),
-          demographics: S.optional(__S(116, __c7, 4)),
-          interests: S.optional(__S(118, __c7, 6)),
+          behaviors: S.optional(__S(130, __c8, 2)),
+          demographics: S.optional(__S(132, __c8, 4)),
+          interests: S.optional(__S(134, __c8, 6)),
         }),
       ).annotate({ identifier: "AdGroupDetailedTargetingBody" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          operating_systems: S.optional(__S(120, __c7, 8)),
-          platforms: S.optional(__S(96, __c6, 0)),
+          operating_systems: S.optional(__S(136, __c8, 8)),
+          platforms: S.optional(__S(112, __c7, 0)),
         }),
       ).annotate({ identifier: "AdGroupDevicesBody" });
     case 4:
@@ -1731,30 +1791,30 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "AdGroupGeoLocationsBodyCustomLocationsItem" });
     case 5:
-      return S.Array(__S(148, __c9, 4));
+      return S.Array(__S(164, __c10, 4));
     case 6:
       return S.Array(S.Unknown);
     case 7:
       return S.suspend(() =>
         S.Struct({
-          cities: S.optional(__S(122, __c7, 10)),
-          countries: S.optional(__S(112, __c7, 0)),
-          country_groups: S.optional(__S(112, __c7, 0)),
-          custom_locations: S.optional(__S(149, __c9, 5)),
-          regions: S.optional(__S(112, __c7, 0)),
-          zips: S.optional(__S(150, __c9, 6)),
+          cities: S.optional(__S(138, __c8, 10)),
+          countries: S.optional(__S(128, __c8, 0)),
+          country_groups: S.optional(__S(128, __c8, 0)),
+          custom_locations: S.optional(__S(165, __c10, 5)),
+          regions: S.optional(__S(128, __c8, 0)),
+          zips: S.optional(__S(166, __c10, 6)),
         }),
       ).annotate({ identifier: "AdGroupGeoLocationsBody" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          exclude: S.optional(__S(151, __c9, 7)),
-          include: S.optional(__S(151, __c9, 7)),
+          exclude: S.optional(__S(167, __c10, 7)),
+          include: S.optional(__S(167, __c10, 7)),
         }),
       ).annotate({ identifier: "AdGroupRegionsBody" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1771,7 +1831,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteAdGroupResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1786,30 +1846,30 @@ function __c11(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(192, __c12, 0),
+          data: __S(208, __c13, 0),
         }),
       ).annotate({ identifier: "DuplicateAdGroupResponse" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(142, __c8, 14));
   }
 }
 function __c13(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(158, __c9, 14));
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           account_id: S.optional(S.String),
-          audiences: S.optional(__S(144, __c9, 0)),
-          demographics: S.optional(__S(145, __c9, 1)),
-          detailed_targeting: S.optional(__S(146, __c9, 2)),
-          devices: S.optional(__S(147, __c9, 3)),
-          languages: S.optional(__S(112, __c7, 0)),
+          audiences: S.optional(__S(160, __c10, 0)),
+          demographics: S.optional(__S(161, __c10, 1)),
+          detailed_targeting: S.optional(__S(162, __c10, 2)),
+          devices: S.optional(__S(163, __c10, 3)),
+          languages: S.optional(__S(128, __c8, 0)),
           platform: S.String,
-          regions: S.optional(__S(152, __c9, 8)),
+          regions: S.optional(__S(168, __c10, 8)),
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/ad_groups/estimate_reach", code: 200 })),
       ).annotate({ identifier: "EstimateAdGroupReachRequest" });
@@ -1822,7 +1882,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "ReachEstimate" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1836,14 +1896,14 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetAdGroupRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           account_id: S.optional(S.String.pipe(T.Query())),
           ad_campaign_id: S.optional(S.String.pipe(T.Query())),
-          ad_campaign_ids: S.optional(__S(112, __c7, 0).pipe(T.Query())),
+          ad_campaign_ids: S.optional(__S(128, __c8, 0).pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
           query: S.optional(S.String.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
@@ -1872,8 +1932,8 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(192, __c12, 0),
-          page_info: __S(241, __c15, 1),
+          data: __S(208, __c13, 0),
+          page_info: __S(257, __c16, 1),
         }),
       ).annotate({ identifier: "ListAdGroupsResponse" });
   }

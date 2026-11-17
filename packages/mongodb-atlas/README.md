@@ -20,10 +20,9 @@ const program = Effect.gen(function* () {
   return result;
 });
 
-const Live = Layer.mergeAll(
-  FetchHttpClient.layer,
-  MongodbAtlas.CredentialsFromEnv,
-  MongodbAtlas.MongodbAtlasProtocol,
+// The credentials exchange the client id and secret for a token through the HttpClient.
+const Live = Layer.mergeAll(MongodbAtlas.CredentialsFromEnv, MongodbAtlas.MongodbAtlasProtocol).pipe(
+  Layer.provideMerge(FetchHttpClient.layer),
 );
 
 program.pipe(Effect.provide(Live), Effect.runPromise);
@@ -31,4 +30,4 @@ program.pipe(Effect.provide(Live), Effect.runPromise);
 
 ## Auth
 
-Required: `MONGODB_ATLAS_CLIENT_ID`, `MONGODB_ATLAS_CLIENT_SECRET`. Optional: `MONGODB_ATLAS_API_BASE_URL`. Sent as `Authorization: Bearer`.
+Required: `MONGODB_ATLAS_CLIENT_ID`, `MONGODB_ATLAS_CLIENT_SECRET`. Optional: `MONGODB_ATLAS_API_BASE_URL`. They are exchanged for an OAuth access token through the `HttpClient` the layer is built with, and the token is sent as `Authorization: Bearer`.

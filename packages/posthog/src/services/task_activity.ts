@@ -27,11 +27,11 @@ export interface ListTaskActivityRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Activity timestamp from the final row of the previous page. */
-  before?: string;
+  before?: string | undefined;
   /** Activity ID from the final row of the previous page. */
-  before_id?: string;
+  before_id?: string | undefined;
   /** Maximum number of tasks to return (most recent activity first). */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** * `awaiting_input` - awaiting_input * `completed` - completed * `mention` - mention * `thread_reply` - thread_reply * `owned_item_comment` - owned_item_comment * `message` - message * `created` - created */
 export type ActivityKindEnum =
@@ -51,9 +51,9 @@ export interface TaskUserBasicInfo {
   first_name: string;
   last_name: string;
   email: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: TaskUserBasicInfoHedgehogConfigMap | null;
-  role_at_organization?: string | null;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: TaskUserBasicInfoHedgehogConfigMap | null | undefined;
+  role_at_organization?: string | null | undefined;
 }
 /** Response shape for one task in the requester's activity feed (one row per task). */
 export interface TaskActivityDTO {
@@ -68,11 +68,11 @@ export interface TaskActivityDTO {
   /** Content of the thread message or resource comment tied to the latest activity. */
   snippet: string;
   /** Author of the thread message tied to the latest activity, when one applies. */
-  latest_author?: TaskUserBasicInfo | null;
-  latest_message_id?: string | null;
-  latest_comment_id?: string | null;
-  latest_comment_scope?: string | null;
-  latest_comment_item_id?: string | null;
+  latest_author?: TaskUserBasicInfo | null | undefined;
+  latest_message_id?: string | null | undefined;
+  latest_comment_id?: string | null | undefined;
+  latest_comment_scope?: string | null | undefined;
+  latest_comment_item_id?: string | null | undefined;
   /** Whether the requester has yet to see this activity. Activity they caused themselves is never unread. */
   is_unread: boolean;
 }
@@ -85,15 +85,19 @@ export interface TaskActivityPageDTO {
   /** Unread tasks across the requester's whole feed, not just this page. Backs the sidebar badge. */
   unread_count: number;
   /** Activity timestamp to pass as before for the next page, or null on the final page. */
-  next_before?: string | null;
+  next_before?: string | null | undefined;
   /** Activity ID to pass as before_id for the next page, or null on the final page. */
-  next_before_id?: string | null;
+  next_before_id?: string | null | undefined;
+  /** URL of the next page, with before and before_id set, or null on the final page. */
+  next: string | null;
+  /** Always null: the feed pages forward only. */
+  previous: string | null;
 }
 export interface TaskActivityReadMarker {
   /** Task whose displayed activity should be marked read. Optional when activity_id is set. */
-  task_id?: string | null;
+  task_id?: string | null | undefined;
   /** Comment activity row to mark read. Omit for collapsed task activity. */
-  activity_id?: string | null;
+  activity_id?: string | null | undefined;
   /** Mark activity at or before this timestamp read without clearing newer activity. */
   seen_before: string;
 }
@@ -203,6 +207,8 @@ function __c0(j: number): any {
           unread_count: S.Number,
           next_before: S.optional(S.NullOr(S.String)),
           next_before_id: S.optional(S.NullOr(S.String)),
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "TaskActivityPageDTO" });
   }

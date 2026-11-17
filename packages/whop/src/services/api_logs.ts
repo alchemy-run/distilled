@@ -29,51 +29,58 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export type ListApiLogsRequestHttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 export type ListApiLogsRequestStatus = "success" | "error";
 export interface ListApiLogsRequest {
   /** The account (biz_*) whose API logs to list. Defaults to the authenticated account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only return requests served at or after this ISO 8601 timestamp. Defaults to 7 days before created_before, or 7 days ago. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Only return requests served before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only return requests for this operation, matched exactly against the operation_name shown on each log row (for example api/v1/products#create). */
-  operation_name?: string;
+  operation_name?: string | undefined;
   /** Only return requests made with this HTTP method. */
-  http_method?: ListApiLogsRequestHttpMethod | (string & {});
+  http_method?: ListApiLogsRequestHttpMethod | (string & {}) | undefined;
   /** Only return requests that finished with this status. */
-  status?: ListApiLogsRequestStatus | (string & {});
+  status?: ListApiLogsRequestStatus | (string & {}) | undefined;
   /** Only return requests made with this API key (apik_...). */
-  api_key_id?: string;
+  api_key_id?: string | undefined;
   /** Only return requests that took at least this many milliseconds. */
-  min_duration_ms?: number;
+  min_duration_ms?: number | undefined;
   /** Only return requests that took at most this many milliseconds. */
-  max_duration_ms?: number;
+  max_duration_ms?: number | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
 }
 export type ListApiLogsResponseDataItemHttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 export type ListApiLogsResponseDataItemStatus = "success" | "error";
 export interface ListApiLogsResponseDataItem {
-  api_key_id?: string | null;
+  api_key_id?: string | null | undefined;
   created_at: string;
-  duration_ms?: number | null;
-  http_method?: ListApiLogsResponseDataItemHttpMethod | null;
-  http_path?: string | null;
+  duration_ms?: number | null | undefined;
+  http_method?: ListApiLogsResponseDataItemHttpMethod | null | undefined;
+  http_path?: string | null | undefined;
   id: string;
-  ip_address?: string | null;
-  operation_name?: string | null;
-  resource_id?: string | null;
-  status?: ListApiLogsResponseDataItemStatus | null;
-  status_code?: number | null;
-  user_agent?: string | null;
+  ip_address?: string | null | undefined;
+  operation_name?: string | null | undefined;
+  resource_id?: string | null | undefined;
+  status?: ListApiLogsResponseDataItemStatus | null | undefined;
+  status_code?: number | null | undefined;
+  user_agent?: string | null | undefined;
 }
 export type ListApiLogsResponseDataList = Array<ListApiLogsResponseDataItem>;
 export interface ListApiLogsResponsePageInfo {
@@ -86,6 +93,17 @@ export interface ListApiLogsResponse {
   data: ListApiLogsResponseDataList;
   page_info: ListApiLogsResponsePageInfo;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type ListApiLogsError = Forbidden | WhopOpError;
 /** List Api Logs Lists the requests served by Whop's API with the account's API keys, newest first -- every surface (GraphQL, REST, and native /api/v1), reads and failed requests included. */
 export const listApiLogs: API.PaginatedOperationMethod<
@@ -96,8 +114,8 @@ export const listApiLogs: API.PaginatedOperationMethod<
   ListApiLogsResponseDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(0, __c0, 0) as any as S.Schema<ListApiLogsRequest>,
-    output: __S(4, __c0, 4) as any as S.Schema<ListApiLogsResponse>,
+    input: __S(8, __c1, 0) as any as S.Schema<ListApiLogsRequest>,
+    output: __S(12, __c1, 4) as any as S.Schema<ListApiLogsResponse>,
     errors: [Forbidden],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -117,6 +135,24 @@ export const listApiLogs: API.PaginatedOperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -152,7 +188,7 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "ListApiLogsResponseDataItem" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(9, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -165,8 +201,8 @@ function __c0(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2, __c0, 2),
-          page_info: __S(3, __c0, 3),
+          data: __S(10, __c1, 2),
+          page_info: __S(11, __c1, 3),
         }),
       ).annotate({ identifier: "ListApiLogsResponse" });
   }

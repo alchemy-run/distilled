@@ -40,15 +40,15 @@ export interface Sku_2 {
   /** The SKU name. */
   name: string;
   /** The SKU tier. */
-  tier?: string;
+  tier?: string | undefined;
   /** The SKU size. */
-  size?: string;
+  size?: string | undefined;
   /** The SKU family. */
-  family?: string;
+  family?: string | undefined;
   /** The SKU model. */
-  model?: string;
+  model?: string | undefined;
   /** The SKU capacity. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** The managed application lock level. */
 export type ApplicationLockLevel = "CanNotDelete" | "ReadOnly" | "None";
@@ -100,9 +100,9 @@ export type ApplicationPackageLockingPolicyDefinitionAllowedDataActionsList = Ar
 /** Managed application locking policy. */
 export interface ApplicationPackageLockingPolicyDefinition {
   /** The deny assignment excluded actions. */
-  allowedActions?: ApplicationPackageLockingPolicyDefinitionAllowedActionsList;
+  allowedActions?: ApplicationPackageLockingPolicyDefinitionAllowedActionsList | undefined;
   /** The deny assignment excluded data actions. */
-  allowedDataActions?: ApplicationPackageLockingPolicyDefinitionAllowedDataActionsList;
+  allowedDataActions?: ApplicationPackageLockingPolicyDefinitionAllowedDataActionsList | undefined;
 }
 /** The deployment mode. */
 export type DeploymentMode_2 = "NotSpecified" | "Incremental" | "Complete";
@@ -116,16 +116,16 @@ export type ApplicationManagementMode = "NotSpecified" | "Unmanaged" | "Managed"
 /** Managed application management policy. */
 export interface ApplicationManagementPolicy {
   /** The managed application management mode. */
-  mode?: ApplicationManagementMode | (string & {});
+  mode?: ApplicationManagementMode | (string & {}) | undefined;
 }
 /** Managed application policy. */
 export interface ApplicationPolicy {
   /** The policy name */
-  name?: string;
+  name?: string | undefined;
   /** The policy definition Id. */
-  policyDefinitionId?: string;
+  policyDefinitionId?: string | undefined;
   /** The policy parameters. */
-  parameters?: string;
+  parameters?: string | undefined;
 }
 /** The managed application provider policies. */
 export type ApplicationDefinitionPropertiesPoliciesList = Array<ApplicationPolicy>;
@@ -134,31 +134,31 @@ export interface ApplicationDefinitionProperties {
   /** The managed application lock level. */
   lockLevel: ApplicationLockLevel | (string & {});
   /** The managed application definition display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** A value indicating whether the package is enabled or not. */
-  isEnabled?: boolean;
+  isEnabled?: boolean | undefined;
   /** The managed application provider authorizations. */
-  authorizations?: ApplicationDefinitionPropertiesAuthorizationsList;
+  authorizations?: ApplicationDefinitionPropertiesAuthorizationsList | undefined;
   /** The collection of managed application artifacts. The portal will use the files specified as artifacts to construct the user experience of creating a managed application from a managed application definition. */
-  artifacts?: ApplicationDefinitionPropertiesArtifactsList;
+  artifacts?: ApplicationDefinitionPropertiesArtifactsList | undefined;
   /** The managed application definition description. */
-  description?: string;
+  description?: string | undefined;
   /** The managed application definition package file Uri. Use this element */
-  packageFileUri?: string;
+  packageFileUri?: string | undefined;
   /** The inline main template json which has resources to be provisioned. It can be a JObject or well-formed JSON string. */
-  mainTemplate?: unknown;
+  mainTemplate?: unknown | undefined;
   /** The createUiDefinition json for the backing template with Microsoft.Solutions/applications resource. It can be a JObject or well-formed JSON string. */
-  createUiDefinition?: unknown;
+  createUiDefinition?: unknown | undefined;
   /** The managed application notification policy. */
-  notificationPolicy?: ApplicationNotificationPolicy;
+  notificationPolicy?: ApplicationNotificationPolicy | undefined;
   /** The managed application locking policy. */
-  lockingPolicy?: ApplicationPackageLockingPolicyDefinition;
+  lockingPolicy?: ApplicationPackageLockingPolicyDefinition | undefined;
   /** The managed application deployment policy. */
-  deploymentPolicy?: ApplicationDeploymentPolicy;
+  deploymentPolicy?: ApplicationDeploymentPolicy | undefined;
   /** The managed application management policy that determines publisher's access to the managed resource group. */
-  managementPolicy?: ApplicationManagementPolicy;
+  managementPolicy?: ApplicationManagementPolicy | undefined;
   /** The managed application provider policies. */
-  policies?: ApplicationDefinitionPropertiesPoliciesList;
+  policies?: ApplicationDefinitionPropertiesPoliciesList | undefined;
 }
 export interface ApplicationDefinitionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -168,13 +168,13 @@ export interface ApplicationDefinitionsCreateOrUpdateRequest {
   /** The name of the managed application definition. */
   applicationDefinitionName: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: ApplicationDefinitionsCreateOrUpdateRequestTagsMap;
+  tags?: ApplicationDefinitionsCreateOrUpdateRequestTagsMap | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku_2;
+  sku?: Sku_2 | undefined;
   /** The managed application definition properties. */
   properties: ApplicationDefinitionProperties;
 }
@@ -184,19 +184,19 @@ export type ApplicationDefinitionsCreateOrUpdateResponseTagsMap = {
 };
 export interface ApplicationDefinitionsCreateOrUpdateResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: ApplicationDefinitionsCreateOrUpdateResponseTagsMap;
+  tags?: ApplicationDefinitionsCreateOrUpdateResponseTagsMap | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku_2;
+  sku?: Sku_2 | undefined;
   /** The managed application definition properties. */
   properties: ApplicationDefinitionProperties;
 }
@@ -211,9 +211,9 @@ export interface JitApproverDefinition {
   /** The approver service principal Id. */
   id: string;
   /** The approver type. */
-  type?: JitApproverDefinitionType | (string & {});
+  type?: JitApproverDefinitionType | (string & {}) | undefined;
   /** The approver display name. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** The JIT approvers */
 export type ApplicationJitAccessPolicyJitApproversList = Array<JitApproverDefinition>;
@@ -222,22 +222,22 @@ export interface ApplicationJitAccessPolicy {
   /** Whether the JIT access is enabled. */
   jitAccessEnabled: boolean;
   /** JIT approval mode. */
-  jitApprovalMode?: JitApprovalMode | (string & {});
+  jitApprovalMode?: JitApprovalMode | (string & {}) | undefined;
   /** The JIT approvers */
-  jitApprovers?: ApplicationJitAccessPolicyJitApproversList;
+  jitApprovers?: ApplicationJitAccessPolicyJitApproversList | undefined;
   /** The maximum duration JIT access is granted. This is an ISO8601 time period value. */
-  maximumJitAccessDuration?: string;
+  maximumJitAccessDuration?: string | undefined;
 }
 /** The managed application properties. */
 export interface ApplicationPropertiesInput {
   /** The managed resource group Id. */
-  managedResourceGroupId?: string;
+  managedResourceGroupId?: string | undefined;
   /** The fully qualified path of managed application definition Id. */
-  applicationDefinitionId?: string;
+  applicationDefinitionId?: string | undefined;
   /** Name and value pairs that define the managed application parameters. It can be a JObject or a well formed JSON string. */
-  parameters?: unknown;
+  parameters?: unknown | undefined;
   /** The managed application Jit access policy. */
-  jitAccessPolicy?: ApplicationJitAccessPolicy;
+  jitAccessPolicy?: ApplicationJitAccessPolicy | undefined;
 }
 /** Plan for the managed application. */
 export interface Plan_2 {
@@ -248,7 +248,7 @@ export interface Plan_2 {
   /** The product code. */
   product: string;
   /** The promotion code. */
-  promotionCode?: string;
+  promotionCode?: string | undefined;
   /** The plan's version. */
   version: string;
 }
@@ -267,9 +267,9 @@ export type IdentityInputUserAssignedIdentitiesMap_3 = {
 /** Identity for the resource. */
 export interface IdentityInput_3 {
   /** The identity type. */
-  type?: IdentityInputType | (string & {});
+  type?: IdentityInputType | (string & {}) | undefined;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap_3;
+  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap_3 | undefined;
 }
 export interface ApplicationsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -279,21 +279,21 @@ export interface ApplicationsCreateOrUpdateRequest {
   /** The name of the managed application. */
   applicationName: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: ApplicationsCreateOrUpdateRequestTagsMap;
+  tags?: ApplicationsCreateOrUpdateRequestTagsMap | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku_2;
+  sku?: Sku_2 | undefined;
   /** The managed application properties. */
   properties: ApplicationPropertiesInput;
   /** The plan information. */
-  plan?: Plan_2;
+  plan?: Plan_2 | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
   kind: string;
   /** The identity of the resource. */
-  identity?: IdentityInput_3;
+  identity?: IdentityInput_3 | undefined;
 }
 /** Resource tags */
 export type ApplicationsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -314,14 +314,14 @@ export type ProvisioningState_3 =
 /** Managed application billing details definition. */
 export interface ApplicationBillingDetailsDefinition {
   /** The managed application resource usage Id. */
-  resourceUsageId?: string;
+  resourceUsageId?: string | undefined;
 }
 /** The read-only authorizations property that is retrieved from the application package. */
 export type ApplicationPropertiesAuthorizationsList = Array<ApplicationAuthorization>;
 /** The application package contact information. */
 export interface ApplicationPackageContact {
   /** The contact name. */
-  contactName?: string;
+  contactName?: string | undefined;
   /** The contact email. */
   email: string;
   /** The contact phone number. */
@@ -330,9 +330,9 @@ export interface ApplicationPackageContact {
 /** The appliance package support URLs. */
 export interface ApplicationPackageSupportUrls {
   /** The public azure support URL. */
-  publicAzure?: string;
+  publicAzure?: string | undefined;
   /** The government cloud support URL. */
-  governmentCloud?: string;
+  governmentCloud?: string | undefined;
 }
 /** The managed application artifact name. */
 export type ApplicationArtifactName =
@@ -354,44 +354,44 @@ export type ApplicationPropertiesArtifactsList = Array<ApplicationArtifact>;
 /** The application client details to track the entity creating/updating the managed app resource. */
 export interface ApplicationClientDetails {
   /** The client Oid. */
-  oid?: string;
+  oid?: string | undefined;
   /** The client Puid */
-  puid?: string;
+  puid?: string | undefined;
   /** The client application Id. */
-  applicationId?: string;
+  applicationId?: string | undefined;
 }
 /** The managed application properties. */
 export interface ApplicationProperties {
   /** The managed resource group Id. */
-  managedResourceGroupId?: string;
+  managedResourceGroupId?: string | undefined;
   /** The fully qualified path of managed application definition Id. */
-  applicationDefinitionId?: string;
+  applicationDefinitionId?: string | undefined;
   /** Name and value pairs that define the managed application parameters. It can be a JObject or a well formed JSON string. */
-  parameters?: unknown;
+  parameters?: unknown | undefined;
   /** Name and value pairs that define the managed application outputs. */
-  outputs?: unknown;
+  outputs?: unknown | undefined;
   /** The managed application provisioning state. */
-  provisioningState?: ProvisioningState_3;
+  provisioningState?: ProvisioningState_3 | undefined;
   /** The managed application billing details. */
-  billingDetails?: ApplicationBillingDetailsDefinition;
+  billingDetails?: ApplicationBillingDetailsDefinition | undefined;
   /** The managed application Jit access policy. */
-  jitAccessPolicy?: ApplicationJitAccessPolicy;
+  jitAccessPolicy?: ApplicationJitAccessPolicy | undefined;
   /** The publisher tenant Id. */
-  publisherTenantId?: string;
+  publisherTenantId?: string | undefined;
   /** The read-only authorizations property that is retrieved from the application package. */
-  authorizations?: ApplicationPropertiesAuthorizationsList;
+  authorizations?: ApplicationPropertiesAuthorizationsList | undefined;
   /** The managed application management mode. */
-  managementMode?: ApplicationManagementMode;
+  managementMode?: ApplicationManagementMode | undefined;
   /** The read-only customer support property that is retrieved from the application package. */
-  customerSupport?: ApplicationPackageContact;
+  customerSupport?: ApplicationPackageContact | undefined;
   /** The read-only support URLs property that is retrieved from the application package. */
-  supportUrls?: ApplicationPackageSupportUrls;
+  supportUrls?: ApplicationPackageSupportUrls | undefined;
   /** The collection of managed application artifacts. */
-  artifacts?: ApplicationPropertiesArtifactsList;
+  artifacts?: ApplicationPropertiesArtifactsList | undefined;
   /** The client entity that created the JIT request. */
-  createdBy?: ApplicationClientDetails;
+  createdBy?: ApplicationClientDetails | undefined;
   /** The client entity that last updated the JIT request. */
-  updatedBy?: ApplicationClientDetails;
+  updatedBy?: ApplicationClientDetails | undefined;
 }
 /** The identity type. */
 export type IdentityType =
@@ -402,9 +402,9 @@ export type IdentityType =
 /** Represents the user assigned identity that is contained within the UserAssignedIdentities dictionary on ResourceIdentity */
 export interface UserAssignedResourceIdentity {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant id of user assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** The list of user identities associated with the resource. The user identity dictionary key references will be resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type IdentityUserAssignedIdentitiesMap_3 = {
@@ -413,37 +413,37 @@ export type IdentityUserAssignedIdentitiesMap_3 = {
 /** Identity for the resource. */
 export interface Identity_3 {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity type. */
-  type?: IdentityType;
+  type?: IdentityType | undefined;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap_3;
+  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap_3 | undefined;
 }
 export interface ApplicationsCreateOrUpdateResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: ApplicationsCreateOrUpdateResponseTagsMap;
+  tags?: ApplicationsCreateOrUpdateResponseTagsMap | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku_2;
+  sku?: Sku_2 | undefined;
   /** The managed application properties. */
   properties: ApplicationProperties;
   /** The plan information. */
-  plan?: Plan_2;
+  plan?: Plan_2 | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
   kind: string;
   /** The identity of the resource. */
-  identity?: Identity_3;
+  identity?: Identity_3 | undefined;
 }
 /** Resource tags */
 export type ApplicationsCreateOrUpdateByIdRequestTagsMap = { [key: string]: string | undefined };
@@ -451,47 +451,47 @@ export interface ApplicationsCreateOrUpdateByIdRequest {
   /** The fully qualified ID of the managed application, including the managed application name and the managed application resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name} */
   applicationId: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: ApplicationsCreateOrUpdateByIdRequestTagsMap;
+  tags?: ApplicationsCreateOrUpdateByIdRequestTagsMap | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku_2;
+  sku?: Sku_2 | undefined;
   /** The managed application properties. */
   properties: ApplicationPropertiesInput;
   /** The plan information. */
-  plan?: Plan_2;
+  plan?: Plan_2 | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
   kind: string;
   /** The identity of the resource. */
-  identity?: IdentityInput_3;
+  identity?: IdentityInput_3 | undefined;
 }
 /** Resource tags */
 export type ApplicationsCreateOrUpdateByIdResponseTagsMap = { [key: string]: string | undefined };
 export interface ApplicationsCreateOrUpdateByIdResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: ApplicationsCreateOrUpdateByIdResponseTagsMap;
+  tags?: ApplicationsCreateOrUpdateByIdResponseTagsMap | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku_2;
+  sku?: Sku_2 | undefined;
   /** The managed application properties. */
   properties: ApplicationProperties;
   /** The plan information. */
-  plan?: Plan_2;
+  plan?: Plan_2 | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
   kind: string;
   /** The identity of the resource. */
-  identity?: Identity_3;
+  identity?: Identity_3 | undefined;
 }
 export interface CancelDeploymentRequest {
   /** The ID of the target subscription. */
@@ -539,11 +539,11 @@ export type ResourceNameStatus = "Allowed" | "Reserved";
 /** Resource Name valid if not a reserved word, does not contain a reserved word and does not start with a reserved word */
 export interface CheckResourceNameResult {
   /** Name of Resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of Resource */
-  type?: string;
+  type?: string | undefined;
   /** Is the resource name Allowed or Reserved */
-  status?: ResourceNameStatus;
+  status?: ResourceNameStatus | undefined;
 }
 /** The peer Microsoft Azure subscription ID. */
 export type CheckSubscriptionZonePeersRequestSubscriptionIdsList = Array<string>;
@@ -551,41 +551,41 @@ export interface CheckSubscriptionZonePeersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The Microsoft location. */
-  location?: string;
+  location?: string | undefined;
   /** The peer Microsoft Azure subscription ID. */
-  subscriptionIds?: CheckSubscriptionZonePeersRequestSubscriptionIdsList;
+  subscriptionIds?: CheckSubscriptionZonePeersRequestSubscriptionIdsList | undefined;
 }
 /** Information about shared availability zone. */
 export interface Peers {
   /** The subscription ID. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The availabilityZone. */
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
 }
 /** Details of shared availability zone. */
 export type AvailabilityZonePeersPeersList = Array<Peers>;
 /** List of availability zones shared by the subscriptions. */
 export interface AvailabilityZonePeers {
   /** The availabilityZone. */
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
   /** Details of shared availability zone. */
-  peers?: AvailabilityZonePeersPeersList;
+  peers?: AvailabilityZonePeersPeersList | undefined;
 }
 /** The Availability Zones shared by the subscriptions. */
 export type CheckZonePeersResultAvailabilityZonePeersList = Array<AvailabilityZonePeers>;
 /** Result of the Check zone peers operation. */
 export interface CheckZonePeersResult {
   /** The subscription ID. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** the location of the subscription. */
-  location?: string;
+  location?: string | undefined;
   /** The Availability Zones shared by the subscriptions. */
-  availabilityZonePeers?: CheckZonePeersResultAvailabilityZonePeersList;
+  availabilityZonePeers?: CheckZonePeersResultAvailabilityZonePeersList | undefined;
 }
 /** Resource tags. */
-export type CreateDeploymentScriptRequestTagsMap = { [key: string]: string | undefined };
+export type AzureCliScriptInputTagsMap = { [key: string]: string | undefined };
 /** Type of the script. */
-export type ScriptType = "AzurePowerShell" | "AzureCLI";
+export type AzureCliScriptInputKind = "AzureCLI";
 /** Type of the managed identity. */
 export type ManagedServiceIdentityType = "UserAssigned";
 /** User-assigned managed identity. */
@@ -597,111 +597,150 @@ export type ManagedServiceIdentityInputUserAssignedIdentitiesMap = {
 /** Describes the managed identities for an Azure resource. */
 export interface ManagedServiceIdentityInput {
   /** Type of the managed identity. */
-  type?: ManagedServiceIdentityType | (string & {});
+  type?: ManagedServiceIdentityType | (string & {}) | undefined;
   /** The list of user-assigned managed identities associated with the resource. Key is the Azure resource Id of the managed identity. */
-  userAssignedIdentities?: ManagedServiceIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ManagedServiceIdentityInputUserAssignedIdentitiesMap | undefined;
 }
-/** Container group subnet information. */
-export interface DeploymentScriptContainerGroupSubnetId {
-  /** Resource ID of the subnet. */
-  id: string;
-  /** Friendly name for the subnet. */
-  name?: string;
-}
-/** The subnet IDs of the container group. */
-export type DeploymentScriptContainerGroupSubnetIdList =
-  Array<DeploymentScriptContainerGroupSubnetId>;
-/** Settings to customize ACI container instance. */
-export interface DeploymentScriptContainerConfiguration {
-  /** Container group name; if not specified the name is generated. */
-  containerGroupName?: string;
-  /** The subnet resource IDs for a container group. */
-  subnetIds?: DeploymentScriptContainerGroupSubnetIdList;
-}
-/** Settings to use an existing storage account. */
-export interface DeploymentScriptStorageAccountConfiguration {
-  /** The storage account name. */
-  storageAccountName?: string;
-  /** The storage account access key. */
-  storageAccountKey?: string;
-}
-/** The error detail. */
-export interface DeploymentScriptErrorDetail {
-  /** The error code. */
-  code?: string;
-  /** The error message. */
-  message?: string;
-  /** The error target. */
-  target?: string;
-}
-/** Error response. */
-export interface DeploymentScriptErrorResponse {
-  /** The error object. */
-  error?: DeploymentScriptErrorDetail;
-}
-/** Generic object modeling results of script execution. */
-export interface DeploymentScriptStatus {
-  /** ACI resource Id. */
-  containerInstanceId?: string;
-  /** Storage account resource Id. */
-  storageAccountId?: string;
-  /** Start time of the script execution. */
-  startTime?: string;
-  /** End time of the script execution. */
-  endTime?: string;
-  /** Time the deployment script resource will expire. */
-  expirationTime?: string;
-  /** Error that is relayed from the script execution. */
-  error?: DeploymentScriptErrorResponse;
-}
-/** A list of strings. */
-export type DeploymentScriptStringList = Array<string>;
+/** Supporting files for the external script. */
+export type AzureCliScriptPropertiesInputSupportingScriptUrisList = Array<string>;
 /** The environment variable to pass to the script in the container instance. */
-export interface DeploymentScriptEnvironmentVariable {
+export interface EnvironmentVariable {
   /** The name of the environment variable. */
   name: string;
   /** The value of the environment variable. */
-  value?: string;
+  value?: string | undefined;
   /** The value of the secure environment variable. */
-  secureValue?: string;
+  secureValue?: string | undefined;
 }
 /** The environment variables to pass over to the script. */
-export type DeploymentScriptEnvironmentVariableList = Array<DeploymentScriptEnvironmentVariable>;
-/** Properties of an AzureCLI or AzurePowerShell deployment script (union of both kinds). */
-export interface DeploymentScriptProperties {
-  /** Container settings. */
-  containerSettings?: DeploymentScriptContainerConfiguration;
-  /** Storage Account settings. */
-  storageAccountSettings?: DeploymentScriptStorageAccountConfiguration;
-  /** The clean up preference when the script execution gets in a terminal state: Always, OnSuccess or OnExpiration. */
-  cleanupPreference?: string;
-  /** State of the script execution (read-only). */
-  provisioningState?: string;
-  /** Contains the results of script execution (read-only). */
-  status?: DeploymentScriptStatus;
-  /** List of script outputs (read-only). */
-  outputs?: unknown;
-  /** Uri for the script. This is the entry point for the external script. */
-  primaryScriptUri?: string;
-  /** Supporting files for the external script. */
-  supportingScriptUris?: DeploymentScriptStringList;
-  /** Script body. */
-  scriptContent?: string;
-  /** Command line arguments to pass to the script. */
-  arguments?: string;
-  /** The environment variables to pass over to the script. */
-  environmentVariables?: DeploymentScriptEnvironmentVariableList;
-  /** Gets or sets how the deployment script should be forced to execute even if the script resource has not changed. */
-  forceUpdateTag?: string;
-  /** Interval for which the service retains the script resource after it reaches a terminal state (ISO 8601, e.g. P1D). */
-  retentionInterval?: string;
-  /** Maximum allowed script execution time (ISO 8601). Default is P1D. */
-  timeout?: string;
-  /** Azure CLI module version to be used (kind AzureCLI). */
-  azCliVersion?: string;
-  /** Azure PowerShell module version to be used (kind AzurePowerShell). */
-  azPowerShellVersion?: string;
+export type AzureCliScriptPropertiesInputEnvironmentVariablesList = Array<EnvironmentVariable>;
+/** Container group subnet information. */
+export interface ContainerGroupSubnetId {
+  /** Resource ID of subnet. */
+  id: string;
+  /** Friendly name for the subnet. */
+  name?: string | undefined;
 }
+/** The subnet resource IDs for a container group. */
+export type ContainerConfigurationSubnetIdsList = Array<ContainerGroupSubnetId>;
+/** Settings to customize ACI container instance. */
+export interface ContainerConfiguration {
+  /** Container group name, if not specified then the name will get auto-generated. Not specifying a 'containerGroupName' indicates the system to generate a unique name which might end up flagging an Azure Policy as non-compliant. Use 'containerGroupName' when you have an Azure Policy that expects a specific naming convention or when you want to fully control the name. 'containerGroupName' property must be between 1 and 63 characters long, must contain only lowercase letters, numbers, and dashes and it cannot start or end with a dash and consecutive dashes are not allowed. To specify a 'containerGroupName', add the following object to properties: { "containerSettings": { "containerGroupName": "contoso-container" } }. If you do not want to specify a 'containerGroupName' then do not add 'containerSettings' property. */
+  containerGroupName?: string | undefined;
+  /** The subnet resource IDs for a container group. */
+  subnetIds?: ContainerConfigurationSubnetIdsList | undefined;
+}
+/** Settings to use an existing storage account. Valid storage account kinds are: Storage, StorageV2 and FileStorage */
+export interface StorageAccountConfiguration {
+  /** The storage account name. */
+  storageAccountName?: string | undefined;
+  /** The storage account access key. */
+  storageAccountKey?: string | undefined;
+}
+/** The clean up preference when the script execution gets in a terminal state. Default setting is 'Always'. */
+export type AzureCliScriptPropertiesInputCleanupPreference =
+  | "Always"
+  | "OnSuccess"
+  | "OnExpiration";
+/** Properties of the Azure CLI script object. */
+export interface AzureCliScriptPropertiesInput {
+  /** Uri for the script. This is the entry point for the external script. */
+  primaryScriptUri?: string | undefined;
+  /** Supporting files for the external script. */
+  supportingScriptUris?: AzureCliScriptPropertiesInputSupportingScriptUrisList | undefined;
+  /** Script body. */
+  scriptContent?: string | undefined;
+  /** Command line arguments to pass to the script. Arguments are separated by spaces. ex: -Name blue* -Location 'West US 2' */
+  arguments?: string | undefined;
+  /** The environment variables to pass over to the script. */
+  environmentVariables?: AzureCliScriptPropertiesInputEnvironmentVariablesList | undefined;
+  /** Gets or sets how the deployment script should be forced to execute even if the script resource has not changed. Can be current time stamp or a GUID. */
+  forceUpdateTag?: string | undefined;
+  /** Interval for which the service retains the script resource after it reaches a terminal state. Resource will be deleted when this duration expires. Duration is based on ISO 8601 pattern (for example P1D means one day). */
+  retentionInterval: string;
+  /** Maximum allowed script execution time specified in ISO 8601 format. Default value is P1D */
+  timeout?: string | undefined;
+  /** Container settings. */
+  containerSettings?: ContainerConfiguration | undefined;
+  /** Storage Account settings. */
+  storageAccountSettings?: StorageAccountConfiguration | undefined;
+  /** The clean up preference when the script execution gets in a terminal state. Default setting is 'Always'. */
+  cleanupPreference?: AzureCliScriptPropertiesInputCleanupPreference | (string & {}) | undefined;
+  /** Azure CLI module version to be used. */
+  azCliVersion: string;
+}
+/** Object model for the Azure CLI script. */
+export interface AzureCliScriptInput {
+  /** Resource tags. */
+  tags?: AzureCliScriptInputTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** Type of the script. */
+  kind: AzureCliScriptInputKind;
+  /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
+  identity?: ManagedServiceIdentityInput | undefined;
+  /** Properties of the Azure CLI script object. */
+  properties: AzureCliScriptPropertiesInput;
+}
+/** Resource tags. */
+export type AzurePowerShellScriptInputTagsMap = { [key: string]: string | undefined };
+/** Type of the script. */
+export type AzurePowerShellScriptInputKind = "AzurePowerShell";
+/** Supporting files for the external script. */
+export type AzurePowerShellScriptPropertiesInputSupportingScriptUrisList = Array<string>;
+/** The environment variables to pass over to the script. */
+export type AzurePowerShellScriptPropertiesInputEnvironmentVariablesList =
+  Array<EnvironmentVariable>;
+/** The clean up preference when the script execution gets in a terminal state. Default setting is 'Always'. */
+export type AzurePowerShellScriptPropertiesInputCleanupPreference =
+  | "Always"
+  | "OnSuccess"
+  | "OnExpiration";
+/** Properties of the Azure PowerShell script object. */
+export interface AzurePowerShellScriptPropertiesInput {
+  /** Uri for the script. This is the entry point for the external script. */
+  primaryScriptUri?: string | undefined;
+  /** Supporting files for the external script. */
+  supportingScriptUris?: AzurePowerShellScriptPropertiesInputSupportingScriptUrisList | undefined;
+  /** Script body. */
+  scriptContent?: string | undefined;
+  /** Command line arguments to pass to the script. Arguments are separated by spaces. ex: -Name blue* -Location 'West US 2' */
+  arguments?: string | undefined;
+  /** The environment variables to pass over to the script. */
+  environmentVariables?: AzurePowerShellScriptPropertiesInputEnvironmentVariablesList | undefined;
+  /** Gets or sets how the deployment script should be forced to execute even if the script resource has not changed. Can be current time stamp or a GUID. */
+  forceUpdateTag?: string | undefined;
+  /** Interval for which the service retains the script resource after it reaches a terminal state. Resource will be deleted when this duration expires. Duration is based on ISO 8601 pattern (for example P1D means one day). */
+  retentionInterval: string;
+  /** Maximum allowed script execution time specified in ISO 8601 format. Default value is P1D */
+  timeout?: string | undefined;
+  /** Container settings. */
+  containerSettings?: ContainerConfiguration | undefined;
+  /** Storage Account settings. */
+  storageAccountSettings?: StorageAccountConfiguration | undefined;
+  /** The clean up preference when the script execution gets in a terminal state. Default setting is 'Always'. */
+  cleanupPreference?:
+    | AzurePowerShellScriptPropertiesInputCleanupPreference
+    | (string & {})
+    | undefined;
+  /** Azure PowerShell module version to be used. */
+  azPowerShellVersion: string;
+}
+/** Object model for the Azure PowerShell script. */
+export interface AzurePowerShellScriptInput {
+  /** Resource tags. */
+  tags?: AzurePowerShellScriptInputTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** Type of the script. */
+  kind: AzurePowerShellScriptInputKind;
+  /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
+  identity?: ManagedServiceIdentityInput | undefined;
+  /** Properties of the Azure PowerShell script object. */
+  properties: AzurePowerShellScriptPropertiesInput;
+}
+/** Deployment script object. */
+export type DeploymentScriptInput = AzureCliScriptInput | AzurePowerShellScriptInput;
 export interface CreateDeploymentScriptRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -709,16 +748,7 @@ export interface CreateDeploymentScriptRequest {
   resourceGroupName: string;
   /** Name of the deployment script. */
   scriptName: string;
-  /** Resource tags. */
-  tags?: CreateDeploymentScriptRequestTagsMap;
-  /** The geo-location where the resource lives */
-  location: string;
-  /** Type of the script. */
-  kind: ScriptType | (string & {});
-  /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
-  identity?: ManagedServiceIdentityInput;
-  /** Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...). */
-  properties?: DeploymentScriptProperties;
+  body: DeploymentScriptInput;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -727,26 +757,28 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
-export type CreateDeploymentScriptResponseTagsMap = { [key: string]: string | undefined };
+export type AzureCliScriptTagsMap = { [key: string]: string | undefined };
+/** Type of the script. */
+export type AzureCliScriptKind = "AzureCLI";
 /** User-assigned managed identity. */
 export interface UserAssignedIdentity {
   /** Azure Active Directory principal ID associated with this identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Client App Id associated with this identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The list of user-assigned managed identities associated with the resource. Key is the Azure resource Id of the managed identity. */
 export type ManagedServiceIdentityUserAssignedIdentitiesMap = {
@@ -755,42 +787,216 @@ export type ManagedServiceIdentityUserAssignedIdentitiesMap = {
 /** Describes the managed identities for an Azure resource. */
 export interface ManagedServiceIdentity {
   /** Type of the managed identity. */
-  type?: ManagedServiceIdentityType;
+  type?: ManagedServiceIdentityType | undefined;
   /** The tenant id of the managed identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The list of user-assigned managed identities associated with the resource. Key is the Azure resource Id of the managed identity. */
-  userAssignedIdentities?: ManagedServiceIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ManagedServiceIdentityUserAssignedIdentitiesMap | undefined;
 }
-export interface CreateDeploymentScriptResponse {
+/** Supporting files for the external script. */
+export type AzureCliScriptPropertiesSupportingScriptUrisList = Array<string>;
+/** The environment variables to pass over to the script. */
+export type AzureCliScriptPropertiesEnvironmentVariablesList = Array<EnvironmentVariable>;
+/** The clean up preference when the script execution gets in a terminal state. Default setting is 'Always'. */
+export type AzureCliScriptPropertiesCleanupPreference = "Always" | "OnSuccess" | "OnExpiration";
+/** State of the script execution. This only appears in the response. */
+export type ScriptProvisioningState =
+  | "Creating"
+  | "ProvisioningResources"
+  | "Running"
+  | "Succeeded"
+  | "Failed"
+  | "Canceled";
+/** The error details. */
+export type ErrorDetailDetailsList = Array<ErrorDetail>;
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /** The additional info type. */
+  type?: string | undefined;
+  /** The additional info. */
+  info?: unknown | undefined;
+}
+/** The error additional info. */
+export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
+/** The error detail. */
+export interface ErrorDetail {
+  /** The error code. */
+  code?: string | undefined;
+  /** The error message. */
+  message?: string | undefined;
+  /** The error target. */
+  target?: string | undefined;
+  /** The error details. */
+  details?: ErrorDetailDetailsList | undefined;
+  /** The error additional info. */
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
+}
+/** The error details. */
+export type ScriptStatusErrorDetailsList = Array<ErrorDetail>;
+/** The error additional info. */
+export type ScriptStatusErrorAdditionalInfoList = Array<ErrorAdditionalInfo>;
+/** The error detail. */
+export interface ScriptStatusError {
+  /** The error code. */
+  code?: string | undefined;
+  /** The error message. */
+  message?: string | undefined;
+  /** The error target. */
+  target?: string | undefined;
+  /** The error details. */
+  details?: ScriptStatusErrorDetailsList | undefined;
+  /** The error additional info. */
+  additionalInfo?: ScriptStatusErrorAdditionalInfoList | undefined;
+}
+/** Generic object modeling results of script execution. */
+export interface ScriptStatus {
+  /** ACI resource Id. */
+  containerInstanceId?: string | undefined;
+  /** Storage account resource Id. */
+  storageAccountId?: string | undefined;
+  /** Start time of the script execution. */
+  startTime?: string | undefined;
+  /** End time of the script execution. */
+  endTime?: string | undefined;
+  /** Time the deployment script resource will expire. */
+  expirationTime?: string | undefined;
+  /** The error detail. */
+  error?: ScriptStatusError | undefined;
+}
+/** List of script outputs. */
+export type AzureCliScriptPropertiesOutputsMap = { [key: string]: unknown | undefined };
+/** Properties of the Azure CLI script object. */
+export interface AzureCliScriptProperties {
+  /** Uri for the script. This is the entry point for the external script. */
+  primaryScriptUri?: string | undefined;
+  /** Supporting files for the external script. */
+  supportingScriptUris?: AzureCliScriptPropertiesSupportingScriptUrisList | undefined;
+  /** Script body. */
+  scriptContent?: string | undefined;
+  /** Command line arguments to pass to the script. Arguments are separated by spaces. ex: -Name blue* -Location 'West US 2' */
+  arguments?: string | undefined;
+  /** The environment variables to pass over to the script. */
+  environmentVariables?: AzureCliScriptPropertiesEnvironmentVariablesList | undefined;
+  /** Gets or sets how the deployment script should be forced to execute even if the script resource has not changed. Can be current time stamp or a GUID. */
+  forceUpdateTag?: string | undefined;
+  /** Interval for which the service retains the script resource after it reaches a terminal state. Resource will be deleted when this duration expires. Duration is based on ISO 8601 pattern (for example P1D means one day). */
+  retentionInterval: string;
+  /** Maximum allowed script execution time specified in ISO 8601 format. Default value is P1D */
+  timeout?: string | undefined;
+  /** Container settings. */
+  containerSettings?: ContainerConfiguration | undefined;
+  /** Storage Account settings. */
+  storageAccountSettings?: StorageAccountConfiguration | undefined;
+  /** The clean up preference when the script execution gets in a terminal state. Default setting is 'Always'. */
+  cleanupPreference?: AzureCliScriptPropertiesCleanupPreference | undefined;
+  /** State of the script execution. This only appears in the response. */
+  provisioningState?: ScriptProvisioningState | undefined;
+  /** Contains the results of script execution. */
+  status?: ScriptStatus | undefined;
+  /** List of script outputs. */
+  outputs?: AzureCliScriptPropertiesOutputsMap | undefined;
+  /** Azure CLI module version to be used. */
+  azCliVersion: string;
+}
+/** Object model for the Azure CLI script. */
+export interface AzureCliScript {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateDeploymentScriptResponseTagsMap;
+  tags?: AzureCliScriptTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Type of the script. */
-  kind: ScriptType;
+  kind: AzureCliScriptKind;
   /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
-  identity?: ManagedServiceIdentity;
-  /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
-  /** Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...). */
-  properties?: DeploymentScriptProperties;
+  identity?: ManagedServiceIdentity | undefined;
+  /** Properties of the Azure CLI script object. */
+  properties: AzureCliScriptProperties;
 }
+/** Resource tags. */
+export type AzurePowerShellScriptTagsMap = { [key: string]: string | undefined };
+/** Type of the script. */
+export type AzurePowerShellScriptKind = "AzurePowerShell";
+/** Supporting files for the external script. */
+export type AzurePowerShellScriptPropertiesSupportingScriptUrisList = Array<string>;
+/** The environment variables to pass over to the script. */
+export type AzurePowerShellScriptPropertiesEnvironmentVariablesList = Array<EnvironmentVariable>;
+/** The clean up preference when the script execution gets in a terminal state. Default setting is 'Always'. */
+export type AzurePowerShellScriptPropertiesCleanupPreference =
+  | "Always"
+  | "OnSuccess"
+  | "OnExpiration";
+/** List of script outputs. */
+export type AzurePowerShellScriptPropertiesOutputsMap = { [key: string]: unknown | undefined };
+/** Properties of the Azure PowerShell script object. */
+export interface AzurePowerShellScriptProperties {
+  /** Uri for the script. This is the entry point for the external script. */
+  primaryScriptUri?: string | undefined;
+  /** Supporting files for the external script. */
+  supportingScriptUris?: AzurePowerShellScriptPropertiesSupportingScriptUrisList | undefined;
+  /** Script body. */
+  scriptContent?: string | undefined;
+  /** Command line arguments to pass to the script. Arguments are separated by spaces. ex: -Name blue* -Location 'West US 2' */
+  arguments?: string | undefined;
+  /** The environment variables to pass over to the script. */
+  environmentVariables?: AzurePowerShellScriptPropertiesEnvironmentVariablesList | undefined;
+  /** Gets or sets how the deployment script should be forced to execute even if the script resource has not changed. Can be current time stamp or a GUID. */
+  forceUpdateTag?: string | undefined;
+  /** Interval for which the service retains the script resource after it reaches a terminal state. Resource will be deleted when this duration expires. Duration is based on ISO 8601 pattern (for example P1D means one day). */
+  retentionInterval: string;
+  /** Maximum allowed script execution time specified in ISO 8601 format. Default value is P1D */
+  timeout?: string | undefined;
+  /** Container settings. */
+  containerSettings?: ContainerConfiguration | undefined;
+  /** Storage Account settings. */
+  storageAccountSettings?: StorageAccountConfiguration | undefined;
+  /** The clean up preference when the script execution gets in a terminal state. Default setting is 'Always'. */
+  cleanupPreference?: AzurePowerShellScriptPropertiesCleanupPreference | undefined;
+  /** State of the script execution. This only appears in the response. */
+  provisioningState?: ScriptProvisioningState | undefined;
+  /** Contains the results of script execution. */
+  status?: ScriptStatus | undefined;
+  /** List of script outputs. */
+  outputs?: AzurePowerShellScriptPropertiesOutputsMap | undefined;
+  /** Azure PowerShell module version to be used. */
+  azPowerShellVersion: string;
+}
+/** Object model for the Azure PowerShell script. */
+export interface AzurePowerShellScript {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: AzurePowerShellScriptTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** Type of the script. */
+  kind: AzurePowerShellScriptKind;
+  /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
+  identity?: ManagedServiceIdentity | undefined;
+  /** Properties of the Azure PowerShell script object. */
+  properties: AzurePowerShellScriptProperties;
+}
+/** Deployment script object. */
+export type DeploymentScript = AzureCliScript | AzurePowerShellScript;
+export type CreateDeploymentScriptResponse = DeploymentScript;
 /** The policy's excluded scopes. */
 export type PolicyAssignmentPropertiesInputNotScopesList = Array<string>;
 /** The value of a parameter. */
 export interface ParameterValuesValue {
   /** The value of the parameter. */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 /** The parameter values for the assigned policy rule. The keys are the parameter names. */
 export type PolicyAssignmentPropertiesInputParametersMap = {
@@ -803,7 +1009,7 @@ export interface NonComplianceMessage {
   /** A message that describes why a resource is non-compliant with the policy. This is shown in 'deny' error messages and on resource's non-compliant compliance results. */
   message: string;
   /** The policy definition reference ID within a policy set definition the message is intended for. This is only applicable if the policy assignment assigns a policy set definition. If this is not provided the message applies to all policies assigned by this policy assignment. */
-  policyDefinitionReferenceId?: string;
+  policyDefinitionReferenceId?: string | undefined;
 }
 /** The messages that describe why a resource is non-compliant with the policy. */
 export type PolicyAssignmentPropertiesInputNonComplianceMessagesList = Array<NonComplianceMessage>;
@@ -823,22 +1029,22 @@ export type SelectorNotInList = Array<string>;
 /** The selector expression. */
 export interface Selector {
   /** The selector kind. */
-  kind?: SelectorKind | (string & {});
+  kind?: SelectorKind | (string & {}) | undefined;
   /** The list of values to filter in. */
-  in?: SelectorInList;
+  in?: SelectorInList | undefined;
   /** The list of values to filter out. */
-  notIn?: SelectorNotInList;
+  notIn?: SelectorNotInList | undefined;
   /** The percent of total resources that will be governed by the policy. */
-  progress?: number;
+  progress?: number | undefined;
 }
 /** The list of the selector expressions. */
 export type ResourceSelectorSelectorsList = Array<Selector>;
 /** The resource selector to filter policies by resource properties. */
 export interface ResourceSelector {
   /** The name of the resource selector. */
-  name?: string;
+  name?: string | undefined;
   /** The list of the selector expressions. */
-  selectors?: ResourceSelectorSelectorsList;
+  selectors?: ResourceSelectorSelectorsList | undefined;
 }
 /** The resource selector list to filter policies by resource properties. */
 export type PolicyAssignmentPropertiesInputResourceSelectorsList = Array<ResourceSelector>;
@@ -849,11 +1055,11 @@ export type OverrideSelectorsList = Array<Selector>;
 /** The policy property value override. */
 export interface Override {
   /** The override kind. */
-  kind?: OverrideKind | (string & {});
+  kind?: OverrideKind | (string & {}) | undefined;
   /** The value to override the policy property. */
-  value?: string;
+  value?: string | undefined;
   /** The list of the selector expressions. */
-  selectors?: OverrideSelectorsList;
+  selectors?: OverrideSelectorsList | undefined;
 }
 /** The policy property value override. */
 export type PolicyAssignmentPropertiesInputOverridesList = Array<Override>;
@@ -864,38 +1070,40 @@ export type SelfServeExemptionSettingsPolicyDefinitionReferenceIdsList = Array<s
 /** The self-serve exemption settings for a policy assignment. */
 export interface SelfServeExemptionSettings {
   /** Indicates whether self-serve exemption is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The policy definition reference IDs for self-serve exemption. */
-  policyDefinitionReferenceIds?: SelfServeExemptionSettingsPolicyDefinitionReferenceIdsList;
+  policyDefinitionReferenceIds?:
+    | SelfServeExemptionSettingsPolicyDefinitionReferenceIdsList
+    | undefined;
 }
 /** The policy assignment properties. */
 export interface PolicyAssignmentPropertiesInput {
   /** The display name of the policy assignment. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The ID of the policy definition or policy set definition being assigned. */
-  policyDefinitionId?: string;
+  policyDefinitionId?: string | undefined;
   /** The version of the policy definition to use. */
-  definitionVersion?: string;
+  definitionVersion?: string | undefined;
   /** The policy's excluded scopes. */
-  notScopes?: PolicyAssignmentPropertiesInputNotScopesList;
+  notScopes?: PolicyAssignmentPropertiesInputNotScopesList | undefined;
   /** The parameter values for the assigned policy rule. The keys are the parameter names. */
-  parameters?: PolicyAssignmentPropertiesInputParametersMap;
+  parameters?: PolicyAssignmentPropertiesInputParametersMap | undefined;
   /** This message will be part of response in case of policy violation. */
-  description?: string;
+  description?: string | undefined;
   /** The policy assignment metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The policy assignment enforcement mode. Possible values are Default, DoNotEnforce, and Enroll */
-  enforcementMode?: PolicyAssignmentPropertiesInputEnforcementMode | (string & {});
+  enforcementMode?: PolicyAssignmentPropertiesInputEnforcementMode | (string & {}) | undefined;
   /** The messages that describe why a resource is non-compliant with the policy. */
-  nonComplianceMessages?: PolicyAssignmentPropertiesInputNonComplianceMessagesList;
+  nonComplianceMessages?: PolicyAssignmentPropertiesInputNonComplianceMessagesList | undefined;
   /** The resource selector list to filter policies by resource properties. */
-  resourceSelectors?: PolicyAssignmentPropertiesInputResourceSelectorsList;
+  resourceSelectors?: PolicyAssignmentPropertiesInputResourceSelectorsList | undefined;
   /** The policy property value override. */
-  overrides?: PolicyAssignmentPropertiesInputOverridesList;
+  overrides?: PolicyAssignmentPropertiesInputOverridesList | undefined;
   /** The type of policy assignment. Possible values are NotSpecified, System, SystemHidden, and Custom. Immutable. */
-  assignmentType?: AssignmentType | (string & {});
+  assignmentType?: AssignmentType | (string & {}) | undefined;
   /** The self-serve exemption settings for the policy assignment. */
-  selfServeExemptionSettings?: SelfServeExemptionSettings;
+  selfServeExemptionSettings?: SelfServeExemptionSettings | undefined;
 }
 /** The identity type. This is the only required field when adding a system or user assigned identity to a resource. */
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
@@ -907,9 +1115,9 @@ export type IdentityInputUserAssignedIdentitiesMap = {
 /** Identity for the resource. Policy assignments support a maximum of one identity. That is either a system assigned identity or a single user assigned identity. */
 export interface IdentityInput {
   /** The identity type. This is the only required field when adding a system or user assigned identity to a resource. */
-  type?: ResourceIdentityType | (string & {});
+  type?: ResourceIdentityType | (string & {}) | undefined;
   /** The user identity associated with the policy. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface CreatePolicyAssignmentRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -917,11 +1125,11 @@ export interface CreatePolicyAssignmentRequest {
   /** The name of the policy assignment to get. */
   policyAssignmentName: string;
   /** Properties for the policy assignment. */
-  properties?: PolicyAssignmentPropertiesInput;
+  properties?: PolicyAssignmentPropertiesInput | undefined;
   /** The location of the policy assignment. Only required when utilizing managed identity. */
-  location?: string;
+  location?: string | undefined;
   /** The managed identity associated with the policy assignment. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
 }
 /** The policy's excluded scopes. */
 export type PolicyAssignmentPropertiesNotScopesList = Array<string>;
@@ -940,45 +1148,45 @@ export type PolicyAssignmentPropertiesOverridesList = Array<Override>;
 /** The policy assignment properties. */
 export interface PolicyAssignmentProperties {
   /** The display name of the policy assignment. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The ID of the policy definition or policy set definition being assigned. */
-  policyDefinitionId?: string;
+  policyDefinitionId?: string | undefined;
   /** The version of the policy definition to use. */
-  definitionVersion?: string;
+  definitionVersion?: string | undefined;
   /** The latest version of the policy definition available. This is only present if requested via the $expand query parameter. */
-  latestDefinitionVersion?: string;
+  latestDefinitionVersion?: string | undefined;
   /** The effective version of the policy definition in use. This is only present if requested via the $expand query parameter. */
-  effectiveDefinitionVersion?: string;
+  effectiveDefinitionVersion?: string | undefined;
   /** The scope for the policy assignment. */
-  scope?: string;
+  scope?: string | undefined;
   /** The policy's excluded scopes. */
-  notScopes?: PolicyAssignmentPropertiesNotScopesList;
+  notScopes?: PolicyAssignmentPropertiesNotScopesList | undefined;
   /** The parameter values for the assigned policy rule. The keys are the parameter names. */
-  parameters?: PolicyAssignmentPropertiesParametersMap;
+  parameters?: PolicyAssignmentPropertiesParametersMap | undefined;
   /** This message will be part of response in case of policy violation. */
-  description?: string;
+  description?: string | undefined;
   /** The policy assignment metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The policy assignment enforcement mode. Possible values are Default, DoNotEnforce, and Enroll */
-  enforcementMode?: PolicyAssignmentPropertiesEnforcementMode;
+  enforcementMode?: PolicyAssignmentPropertiesEnforcementMode | undefined;
   /** The messages that describe why a resource is non-compliant with the policy. */
-  nonComplianceMessages?: PolicyAssignmentPropertiesNonComplianceMessagesList;
+  nonComplianceMessages?: PolicyAssignmentPropertiesNonComplianceMessagesList | undefined;
   /** The resource selector list to filter policies by resource properties. */
-  resourceSelectors?: PolicyAssignmentPropertiesResourceSelectorsList;
+  resourceSelectors?: PolicyAssignmentPropertiesResourceSelectorsList | undefined;
   /** The policy property value override. */
-  overrides?: PolicyAssignmentPropertiesOverridesList;
+  overrides?: PolicyAssignmentPropertiesOverridesList | undefined;
   /** The type of policy assignment. Possible values are NotSpecified, System, SystemHidden, and Custom. Immutable. */
-  assignmentType?: AssignmentType;
+  assignmentType?: AssignmentType | undefined;
   /** The instance ID of the policy assignment. This ID only and always changes when the assignment is deleted and recreated. */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** The self-serve exemption settings for the policy assignment. */
-  selfServeExemptionSettings?: SelfServeExemptionSettings;
+  selfServeExemptionSettings?: SelfServeExemptionSettings | undefined;
 }
 export interface UserAssignedIdentitiesValue {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client id of user assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The user identity associated with the policy. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type IdentityUserAssignedIdentitiesMap = {
@@ -987,29 +1195,29 @@ export type IdentityUserAssignedIdentitiesMap = {
 /** Identity for the resource. Policy assignments support a maximum of one identity. That is either a system assigned identity or a single user assigned identity. */
 export interface Identity {
   /** The principal ID of the resource identity. This property will only be provided for a system assigned identity */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the resource identity. This property will only be provided for a system assigned identity */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity type. This is the only required field when adding a system or user assigned identity to a resource. */
-  type?: ResourceIdentityType;
+  type?: ResourceIdentityType | undefined;
   /** The user identity associated with the policy. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface CreatePolicyAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the policy assignment. */
-  properties?: PolicyAssignmentProperties;
+  properties?: PolicyAssignmentProperties | undefined;
   /** The location of the policy assignment. Only required when utilizing managed identity. */
-  location?: string;
+  location?: string | undefined;
   /** The managed identity associated with the policy assignment. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export interface DecompileBicepRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1020,9 +1228,9 @@ export interface DecompileBicepRequest {
 /** The definition of a file along with its contents */
 export interface FileDefinition {
   /** The file path of the Bicep file. */
-  path?: string;
+  path?: string | undefined;
   /** The contents of the Bicep file. */
-  contents?: string;
+  contents?: string | undefined;
 }
 /** An array of key-value pairs containing the entryPoint string as the key for the Bicep file decompiled from the ARM json template */
 export type DecompileOperationSuccessResponseFilesList = Array<FileDefinition>;
@@ -1066,9 +1274,9 @@ export interface DeleteDeploymentRequest {
 }
 export interface DeleteDeploymentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDeploymentAtManagementGroupScopeRequest {
   /** The management group ID. */
@@ -1078,9 +1286,9 @@ export interface DeleteDeploymentAtManagementGroupScopeRequest {
 }
 export interface DeleteDeploymentAtManagementGroupScopeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDeploymentAtScopeRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -1090,9 +1298,9 @@ export interface DeleteDeploymentAtScopeRequest {
 }
 export interface DeleteDeploymentAtScopeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDeploymentAtSubscriptionScopeRequest {
   /** The ID of the target subscription. */
@@ -1102,9 +1310,9 @@ export interface DeleteDeploymentAtSubscriptionScopeRequest {
 }
 export interface DeleteDeploymentAtSubscriptionScopeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDeploymentAtTenantScopeRequest {
   /** The name of the deployment. */
@@ -1112,9 +1320,9 @@ export interface DeleteDeploymentAtTenantScopeRequest {
 }
 export interface DeleteDeploymentAtTenantScopeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteDeploymentScriptRequest {
   /** The ID of the target subscription. */
@@ -1145,27 +1353,31 @@ export interface DeleteDeploymentStackAtManagementGroupRequest {
   /** Flag to indicate delete rather than detach for unmanaged resources. */
   unmanageAction_Resources?:
     | DeleteDeploymentStackAtManagementGroupRequestUnmanageActionResources
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Flag to indicate delete rather than detach for unmanaged resource groups. */
   unmanageAction_ResourceGroups?:
     | DeleteDeploymentStackAtManagementGroupRequestUnmanageActionResourceGroups
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Flag to indicate delete rather than detach for unmanaged management groups. */
   unmanageAction_ManagementGroups?:
     | DeleteDeploymentStackAtManagementGroupRequestUnmanageActionManagementGroups
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Some resources do not support deletion. This flag will denote how the stack should handle those resources. */
   unmanageAction_ResourcesWithoutDeleteSupport?:
     | DeleteDeploymentStackAtManagementGroupRequestUnmanageActionResourcesWithoutDeleteSupport
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
-  bypassStackOutOfSyncError?: boolean;
+  bypassStackOutOfSyncError?: boolean | undefined;
 }
 export interface DeleteDeploymentStackAtManagementGroupResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type DeleteDeploymentStackAtResourceGroupRequestUnmanageActionResources =
   | "delete"
@@ -1189,27 +1401,31 @@ export interface DeleteDeploymentStackAtResourceGroupRequest {
   /** Flag to indicate delete rather than detach for unmanaged resources. */
   unmanageAction_Resources?:
     | DeleteDeploymentStackAtResourceGroupRequestUnmanageActionResources
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Flag to indicate delete rather than detach for unmanaged resource groups. */
   unmanageAction_ResourceGroups?:
     | DeleteDeploymentStackAtResourceGroupRequestUnmanageActionResourceGroups
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Flag to indicate delete rather than detach for unmanaged management groups. */
   unmanageAction_ManagementGroups?:
     | DeleteDeploymentStackAtResourceGroupRequestUnmanageActionManagementGroups
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Some resources do not support deletion. This flag will denote how the stack should handle those resources. */
   unmanageAction_ResourcesWithoutDeleteSupport?:
     | DeleteDeploymentStackAtResourceGroupRequestUnmanageActionResourcesWithoutDeleteSupport
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
-  bypassStackOutOfSyncError?: boolean;
+  bypassStackOutOfSyncError?: boolean | undefined;
 }
 export interface DeleteDeploymentStackAtResourceGroupResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type DeleteDeploymentStackAtSubscriptionRequestUnmanageActionResources = "delete" | "detach";
 export type DeleteDeploymentStackAtSubscriptionRequestUnmanageActionResourceGroups =
@@ -1229,27 +1445,31 @@ export interface DeleteDeploymentStackAtSubscriptionRequest {
   /** Flag to indicate delete rather than detach for unmanaged resources. */
   unmanageAction_Resources?:
     | DeleteDeploymentStackAtSubscriptionRequestUnmanageActionResources
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Flag to indicate delete rather than detach for unmanaged resource groups. */
   unmanageAction_ResourceGroups?:
     | DeleteDeploymentStackAtSubscriptionRequestUnmanageActionResourceGroups
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Flag to indicate delete rather than detach for unmanaged management groups. */
   unmanageAction_ManagementGroups?:
     | DeleteDeploymentStackAtSubscriptionRequestUnmanageActionManagementGroups
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Some resources do not support deletion. This flag will denote how the stack should handle those resources. */
   unmanageAction_ResourcesWithoutDeleteSupport?:
     | DeleteDeploymentStackAtSubscriptionRequestUnmanageActionResourcesWithoutDeleteSupport
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
-  bypassStackOutOfSyncError?: boolean;
+  bypassStackOutOfSyncError?: boolean | undefined;
 }
 export interface DeleteDeploymentStackAtSubscriptionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type DeleteDeploymentStacksWhatIfResultsAtManagementGroupRequestUnmanageActionResources =
   | "delete"
@@ -1271,21 +1491,25 @@ export interface DeleteDeploymentStacksWhatIfResultsAtManagementGroupRequest {
   /** Flag to indicate delete rather than detach for unmanaged resources. */
   unmanageAction_Resources?:
     | DeleteDeploymentStacksWhatIfResultsAtManagementGroupRequestUnmanageActionResources
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Flag to indicate delete rather than detach for unmanaged resource groups. */
   unmanageAction_ResourceGroups?:
     | DeleteDeploymentStacksWhatIfResultsAtManagementGroupRequestUnmanageActionResourceGroups
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Flag to indicate delete rather than detach for unmanaged management groups. */
   unmanageAction_ManagementGroups?:
     | DeleteDeploymentStacksWhatIfResultsAtManagementGroupRequestUnmanageActionManagementGroups
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Some resources do not support deletion. This flag will denote how the stack should handle those resources. */
   unmanageAction_ResourcesWithoutDeleteSupport?:
     | DeleteDeploymentStacksWhatIfResultsAtManagementGroupRequestUnmanageActionResourcesWithoutDeleteSupport
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
-  bypassStackOutOfSyncError?: boolean;
+  bypassStackOutOfSyncError?: boolean | undefined;
 }
 export interface DeleteDeploymentStacksWhatIfResultsAtManagementGroupResponse {}
 export type DeleteDeploymentStacksWhatIfResultsAtResourceGroupRequestUnmanageActionResources =
@@ -1310,21 +1534,25 @@ export interface DeleteDeploymentStacksWhatIfResultsAtResourceGroupRequest {
   /** Flag to indicate delete rather than detach for unmanaged resources. */
   unmanageAction_Resources?:
     | DeleteDeploymentStacksWhatIfResultsAtResourceGroupRequestUnmanageActionResources
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Flag to indicate delete rather than detach for unmanaged resource groups. */
   unmanageAction_ResourceGroups?:
     | DeleteDeploymentStacksWhatIfResultsAtResourceGroupRequestUnmanageActionResourceGroups
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Flag to indicate delete rather than detach for unmanaged management groups. */
   unmanageAction_ManagementGroups?:
     | DeleteDeploymentStacksWhatIfResultsAtResourceGroupRequestUnmanageActionManagementGroups
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Some resources do not support deletion. This flag will denote how the stack should handle those resources. */
   unmanageAction_ResourcesWithoutDeleteSupport?:
     | DeleteDeploymentStacksWhatIfResultsAtResourceGroupRequestUnmanageActionResourcesWithoutDeleteSupport
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
-  bypassStackOutOfSyncError?: boolean;
+  bypassStackOutOfSyncError?: boolean | undefined;
 }
 export interface DeleteDeploymentStacksWhatIfResultsAtResourceGroupResponse {}
 export type DeleteDeploymentStacksWhatIfResultsAtSubscriptionRequestUnmanageActionResources =
@@ -1347,21 +1575,25 @@ export interface DeleteDeploymentStacksWhatIfResultsAtSubscriptionRequest {
   /** Flag to indicate delete rather than detach for unmanaged resources. */
   unmanageAction_Resources?:
     | DeleteDeploymentStacksWhatIfResultsAtSubscriptionRequestUnmanageActionResources
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Flag to indicate delete rather than detach for unmanaged resource groups. */
   unmanageAction_ResourceGroups?:
     | DeleteDeploymentStacksWhatIfResultsAtSubscriptionRequestUnmanageActionResourceGroups
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Flag to indicate delete rather than detach for unmanaged management groups. */
   unmanageAction_ManagementGroups?:
     | DeleteDeploymentStacksWhatIfResultsAtSubscriptionRequestUnmanageActionManagementGroups
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Some resources do not support deletion. This flag will denote how the stack should handle those resources. */
   unmanageAction_ResourcesWithoutDeleteSupport?:
     | DeleteDeploymentStacksWhatIfResultsAtSubscriptionRequestUnmanageActionResourcesWithoutDeleteSupport
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
-  bypassStackOutOfSyncError?: boolean;
+  bypassStackOutOfSyncError?: boolean | undefined;
 }
 export interface DeleteDeploymentStacksWhatIfResultsAtSubscriptionResponse {}
 export interface DeleteJitRequestRequest {
@@ -1421,19 +1653,19 @@ export interface DeletePolicyAssignmentRequest {
 }
 export interface DeletePolicyAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the policy assignment. */
-  properties?: PolicyAssignmentProperties;
+  properties?: PolicyAssignmentProperties | undefined;
   /** The location of the policy assignment. Only required when utilizing managed identity. */
-  location?: string;
+  location?: string | undefined;
   /** The managed identity associated with the policy assignment. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export interface DeletePolicyDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1522,18 +1754,18 @@ export interface DeleteResourceRequest {
 }
 export interface DeleteResourceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteResourceByIdRequest {
   resourceId: string;
 }
 export interface DeleteResourceByIdResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -1541,13 +1773,13 @@ export interface DeleteResourceGroupRequest {
   /** The name of the resource group to get. The name is case insensitive. */
   resourceGroupName: string;
   /** The resource types you want to force delete. Currently, only the following is supported: forceDeletionTypes=Microsoft.Compute/virtualMachines,Microsoft.Compute/virtualMachineScaleSets */
-  forceDeletionTypes?: string;
+  forceDeletionTypes?: string | undefined;
 }
 export interface DeleteResourceGroupResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteResourceLinkRequest {
   /** The fully qualified ID of the resource link. Use the format, /subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/{provider-namespace}/{resource-type}/{resource-name}/Microsoft.Resources/links/{link-name}. For example, /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup/Microsoft.Web/sites/mySite/Microsoft.Resources/links/myLink */
@@ -1585,9 +1817,9 @@ export interface DeleteTagAtScopeRequest {
 }
 export interface DeleteTagAtScopeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteTagValueRequest {
   /** The ID of the target subscription. */
@@ -1622,22 +1854,22 @@ export interface DeploymentsCalculateTemplateHashRequest {}
 /** Result of the request to calculate template hash. It contains a string of minified template and its hash. */
 export interface TemplateHashResult {
   /** The minified template string. */
-  minifiedTemplate?: string;
+  minifiedTemplate?: string | undefined;
   /** The template hash. */
-  templateHash?: string;
+  templateHash?: string | undefined;
 }
 /** Entity representing the reference to the template. */
 export interface TemplateLink {
   /** The URI of the template to deploy. Use either the uri or id property, but not both. */
-  uri?: string;
+  uri?: string | undefined;
   /** The resource id of a Template Spec. Use either the id or uri property, but not both. */
-  id?: string;
+  id?: string | undefined;
   /** The relativePath property can be used to deploy a linked template at a location relative to the parent. If the parent template was linked with a TemplateSpec, this will reference an artifact in the TemplateSpec. If the parent was linked with a URI, the child deployment will be a combination of the parent and relativePath URIs */
-  relativePath?: string;
+  relativePath?: string | undefined;
   /** If included, must match the ContentVersion in the template. */
-  contentVersion?: string;
+  contentVersion?: string | undefined;
   /** The query string (for example, a SAS token) to be used with the templateLink URI. */
-  queryString?: string;
+  queryString?: string | undefined;
 }
 /** Azure Key Vault reference. */
 export interface KeyVaultReference_2 {
@@ -1651,16 +1883,16 @@ export interface KeyVaultParameterReference_2 {
   /** Azure Key Vault secret name. */
   secretName: string;
   /** Azure Key Vault secret version. */
-  secretVersion?: string;
+  secretVersion?: string | undefined;
 }
 /** Deployment parameter for the template. */
 export interface DeploymentParameter_2 {
   /** Input value to the parameter . */
-  value?: unknown;
+  value?: unknown | undefined;
   /** Azure Key Vault parameter reference. */
-  reference?: KeyVaultParameterReference_2;
+  reference?: KeyVaultParameterReference_2 | undefined;
   /** Input expression to the parameter. */
-  expression?: string;
+  expression?: string | undefined;
 }
 /** Name and value pairs that define the deployment parameters for the template. You use this element when you want to provide the parameter values directly in the request rather than link to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. It can be a JObject or a well formed JSON string. */
 export type DeploymentPropertiesParametersMap = {
@@ -1680,7 +1912,7 @@ export interface DeploymentExternalInputDefinition {
   /** The kind of external input. */
   kind: string;
   /** Configuration for the external input. */
-  config?: unknown;
+  config?: unknown | undefined;
 }
 /** External input definitions, used by external tooling to define expected external input values. */
 export type DeploymentPropertiesExternalInputDefinitionsMap = {
@@ -1691,14 +1923,14 @@ export interface ParametersLink {
   /** The URI of the parameters file. */
   uri: string;
   /** If included, must match the ContentVersion in the template. */
-  contentVersion?: string;
+  contentVersion?: string | undefined;
 }
 /** Represents the value for an extension config property. */
 export interface DeploymentExtensionConfigItem_2 {
   /** The value of the extension config property. */
-  value?: unknown;
+  value?: unknown | undefined;
   /** The Azure Key Vault reference used to retrieve the secret value of the extension config property. */
-  keyVaultReference?: KeyVaultParameterReference_2;
+  keyVaultReference?: KeyVaultParameterReference_2 | undefined;
 }
 export type DeploymentPropertiesExtensionConfigsValueMap = {
   [key: string]: DeploymentExtensionConfigItem_2 | undefined;
@@ -1712,52 +1944,52 @@ export type DeploymentMode = "Incremental" | "Complete";
 /** The debug setting. */
 export interface DebugSetting {
   /** Specifies the type of information to log for debugging. The permitted values are none, requestContent, responseContent, or both requestContent and responseContent separated by a comma. The default is none. When setting this value, carefully consider the type of information you are passing in during deployment. By logging information about the request or response, you could potentially expose sensitive data that is retrieved through the deployment operations. */
-  detailLevel?: string;
+  detailLevel?: string | undefined;
 }
 /** The deployment on error behavior type. Possible values are LastSuccessful and SpecificDeployment. */
 export type OnErrorDeploymentType = "LastSuccessful" | "SpecificDeployment";
 /** Deployment on error behavior. */
 export interface OnErrorDeployment {
   /** The deployment on error behavior type. Possible values are LastSuccessful and SpecificDeployment. */
-  type?: OnErrorDeploymentType | (string & {});
+  type?: OnErrorDeploymentType | (string & {}) | undefined;
   /** The deployment to be used on error case. */
-  deploymentName?: string;
+  deploymentName?: string | undefined;
 }
 /** The scope to be used for evaluation of parameters, variables and functions in a nested template. */
 export type ExpressionEvaluationOptionsScopeType = "NotSpecified" | "Outer" | "Inner";
 /** Specifies whether template expressions are evaluated within the scope of the parent template or nested template. */
 export interface ExpressionEvaluationOptions {
   /** The scope to be used for evaluation of parameters, variables and functions in a nested template. */
-  scope?: ExpressionEvaluationOptionsScopeType | (string & {});
+  scope?: ExpressionEvaluationOptionsScopeType | (string & {}) | undefined;
 }
 /** The level of validation performed on the deployment. */
 export type ValidationLevel = "Template" | "Provider" | "ProviderNoRbac";
 /** Deployment properties. */
 export interface DeploymentProperties {
   /** The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both. */
-  template?: unknown;
+  template?: unknown | undefined;
   /** The URI of the template. Use either the templateLink property or the template property, but not both. */
-  templateLink?: TemplateLink;
+  templateLink?: TemplateLink | undefined;
   /** Name and value pairs that define the deployment parameters for the template. You use this element when you want to provide the parameter values directly in the request rather than link to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. It can be a JObject or a well formed JSON string. */
-  parameters?: DeploymentPropertiesParametersMap;
+  parameters?: DeploymentPropertiesParametersMap | undefined;
   /** External input values, used by external tooling for parameter evaluation. */
-  externalInputs?: DeploymentPropertiesExternalInputsMap;
+  externalInputs?: DeploymentPropertiesExternalInputsMap | undefined;
   /** External input definitions, used by external tooling to define expected external input values. */
-  externalInputDefinitions?: DeploymentPropertiesExternalInputDefinitionsMap;
+  externalInputDefinitions?: DeploymentPropertiesExternalInputDefinitionsMap | undefined;
   /** The URI of parameters file. You use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both. */
-  parametersLink?: ParametersLink;
+  parametersLink?: ParametersLink | undefined;
   /** The configurations to use for deployment extensions. The keys of this object are deployment extension aliases as defined in the deployment template. */
-  extensionConfigs?: DeploymentPropertiesExtensionConfigsMap;
+  extensionConfigs?: DeploymentPropertiesExtensionConfigsMap | undefined;
   /** The mode that is used to deploy resources. This value can be either Incremental or Complete. In Incremental mode, resources are deployed without deleting existing resources that are not included in the template. In Complete mode, resources are deployed and existing resources in the resource group that are not included in the template are deleted. Be careful when using Complete mode as you may unintentionally delete resources. */
   mode: DeploymentMode | (string & {});
   /** The debug setting of the deployment. */
-  debugSetting?: DebugSetting;
+  debugSetting?: DebugSetting | undefined;
   /** The deployment on error behavior. */
-  onErrorDeployment?: OnErrorDeployment;
+  onErrorDeployment?: OnErrorDeployment | undefined;
   /** Specifies whether template expressions are evaluated within the scope of the parent template or nested template. Only applicable to nested templates. If not specified, default value is outer. */
-  expressionEvaluationOptions?: ExpressionEvaluationOptions;
+  expressionEvaluationOptions?: ExpressionEvaluationOptions | undefined;
   /** The validation level of the deployment */
-  validationLevel?: ValidationLevel | (string & {});
+  validationLevel?: ValidationLevel | (string & {}) | undefined;
 }
 /** Deployment tags */
 export type DeploymentsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1774,7 +2006,7 @@ export interface DeploymentIdentityInput {
   /** The identity type. */
   type: DeploymentIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. */
-  userAssignedIdentities?: DeploymentIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: DeploymentIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface DeploymentsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1784,13 +2016,13 @@ export interface DeploymentsCreateOrUpdateRequest {
   /** The name of the deployment. */
   deploymentName: string;
   /** The location to store the deployment data. */
-  location?: string;
+  location?: string | undefined;
   /** The deployment properties. */
   properties: DeploymentProperties;
   /** Deployment tags */
-  tags?: DeploymentsCreateOrUpdateRequestTagsMap;
+  tags?: DeploymentsCreateOrUpdateRequestTagsMap | undefined;
   /** The Managed Identity configuration for a deployment. */
-  identity?: DeploymentIdentityInput;
+  identity?: DeploymentIdentityInput | undefined;
 }
 /** Denotes the state of provisioning. */
 export type ProvisioningState_2 =
@@ -1813,11 +2045,11 @@ export type ProviderExtendedLocationExtendedLocationsList = Array<string>;
 /** The provider extended location. */
 export interface ProviderExtendedLocation {
   /** The azure location. */
-  location?: string;
+  location?: string | undefined;
   /** The extended location type. */
-  type?: string;
+  type?: string | undefined;
   /** The extended locations for the azure location. */
-  extendedLocations?: ProviderExtendedLocationExtendedLocationsList;
+  extendedLocations?: ProviderExtendedLocationExtendedLocationsList | undefined;
 }
 /** The location mappings that are supported by this resource type. */
 export type ProviderResourceTypeLocationMappingsList = Array<ProviderExtendedLocation>;
@@ -1828,11 +2060,11 @@ export type AliasPatternType_2 = "NotSpecified" | "Extract";
 /** The type of the pattern for an alias path. */
 export interface AliasPattern_2 {
   /** The alias pattern phrase. */
-  phrase?: string;
+  phrase?: string | undefined;
   /** The alias pattern variable. */
-  variable?: string;
+  variable?: string | undefined;
   /** The type of alias pattern */
-  type?: AliasPatternType_2;
+  type?: AliasPatternType_2 | undefined;
 }
 /** The type of the token that the alias path is referring to. */
 export type AliasPathTokenType =
@@ -1848,20 +2080,20 @@ export type AliasPathTokenType =
 export type AliasPathAttributes = "None" | "Modifiable";
 export interface AliasPathMetadata_2 {
   /** The type of the token that the alias path is referring to. */
-  type?: AliasPathTokenType;
+  type?: AliasPathTokenType | undefined;
   /** The attributes of the token that the alias path is referring to. */
-  attributes?: AliasPathAttributes;
+  attributes?: AliasPathAttributes | undefined;
 }
 /** The type of the paths for alias. */
 export interface AliasPath_2 {
   /** The path of an alias. */
-  path?: string;
+  path?: string | undefined;
   /** The API versions. */
-  apiVersions?: AliasPathApiVersionsList;
+  apiVersions?: AliasPathApiVersionsList | undefined;
   /** The pattern for an alias path. */
-  pattern?: AliasPattern_2;
+  pattern?: AliasPattern_2 | undefined;
   /** The metadata of the alias path. If missing, fall back to the default metadata of the alias. */
-  metadata?: AliasPathMetadata_2;
+  metadata?: AliasPathMetadata_2 | undefined;
 }
 /** The paths for an alias. */
 export type AliasPathsList_2 = Array<AliasPath_2>;
@@ -1870,17 +2102,17 @@ export type AliasType = "NotSpecified" | "PlainText" | "Mask";
 /** The alias type. */
 export interface Alias_2 {
   /** The alias name. */
-  name?: string;
+  name?: string | undefined;
   /** The paths for an alias. */
-  paths?: AliasPathsList_2;
+  paths?: AliasPathsList_2 | undefined;
   /** The type of the alias. */
-  type?: AliasType;
+  type?: AliasType | undefined;
   /** The default path for an alias. */
-  defaultPath?: string;
+  defaultPath?: string | undefined;
   /** The default pattern for an alias. */
-  defaultPattern?: AliasPattern_2;
+  defaultPattern?: AliasPattern_2 | undefined;
   /** The default alias path metadata. Applies to the default path and to any alias path that doesn't have metadata */
-  defaultMetadata?: AliasPathMetadata_2;
+  defaultMetadata?: AliasPathMetadata_2 | undefined;
 }
 /** The aliases that are supported by this resource type. */
 export type ProviderResourceTypeAliasesList = Array<Alias_2>;
@@ -1889,15 +2121,15 @@ export type ProviderResourceTypeApiVersionsList = Array<string>;
 export type ZoneMappingZonesList = Array<string>;
 export interface ZoneMapping {
   /** The location of the zone mapping. */
-  location?: string;
-  zones?: ZoneMappingZonesList;
+  location?: string | undefined;
+  zones?: ZoneMappingZonesList | undefined;
 }
 export type ProviderResourceTypeZoneMappingsList = Array<ZoneMapping>;
 export interface ApiProfile {
   /** The profile version. */
-  profileVersion?: string;
+  profileVersion?: string | undefined;
   /** The API version. */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
 }
 /** The API profiles for the resource provider. */
 export type ProviderResourceTypeApiProfilesList = Array<ApiProfile>;
@@ -1906,24 +2138,24 @@ export type ProviderResourceTypePropertiesMap = { [key: string]: string | undefi
 /** Resource type managed by the resource provider. */
 export interface ProviderResourceType {
   /** The resource type. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The collection of locations where this resource type can be created. */
-  locations?: ProviderResourceTypeLocationsList;
+  locations?: ProviderResourceTypeLocationsList | undefined;
   /** The location mappings that are supported by this resource type. */
-  locationMappings?: ProviderResourceTypeLocationMappingsList;
+  locationMappings?: ProviderResourceTypeLocationMappingsList | undefined;
   /** The aliases that are supported by this resource type. */
-  aliases?: ProviderResourceTypeAliasesList;
+  aliases?: ProviderResourceTypeAliasesList | undefined;
   /** The API version. */
-  apiVersions?: ProviderResourceTypeApiVersionsList;
+  apiVersions?: ProviderResourceTypeApiVersionsList | undefined;
   /** The default API version. */
-  defaultApiVersion?: string;
-  zoneMappings?: ProviderResourceTypeZoneMappingsList;
+  defaultApiVersion?: string | undefined;
+  zoneMappings?: ProviderResourceTypeZoneMappingsList | undefined;
   /** The API profiles for the resource provider. */
-  apiProfiles?: ProviderResourceTypeApiProfilesList;
+  apiProfiles?: ProviderResourceTypeApiProfilesList | undefined;
   /** The additional capabilities offered by this resource type. */
-  capabilities?: string;
+  capabilities?: string | undefined;
   /** The properties. */
-  properties?: ProviderResourceTypePropertiesMap;
+  properties?: ProviderResourceTypePropertiesMap | undefined;
 }
 /** The collection of provider resource types. */
 export type ProviderResourceTypesList = Array<ProviderResourceType>;
@@ -1936,41 +2168,41 @@ export type ProviderAuthorizationConsentState =
 /** Resource provider information. */
 export interface Provider {
   /** The provider ID. */
-  id?: string;
+  id?: string | undefined;
   /** The namespace of the resource provider. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** The registration state of the resource provider. */
-  registrationState?: string;
+  registrationState?: string | undefined;
   /** The registration policy of the resource provider. */
-  registrationPolicy?: string;
+  registrationPolicy?: string | undefined;
   /** The collection of provider resource types. */
-  resourceTypes?: ProviderResourceTypesList;
+  resourceTypes?: ProviderResourceTypesList | undefined;
   /** The provider authorization consent state. */
-  providerAuthorizationConsentState?: ProviderAuthorizationConsentState;
+  providerAuthorizationConsentState?: ProviderAuthorizationConsentState | undefined;
 }
 /** The list of resource providers needed for the deployment. */
 export type DeploymentPropertiesExtendedProvidersList = Array<Provider>;
 /** Deployment dependency information. */
 export interface BasicDependency {
   /** The ID of the dependency. */
-  id?: string;
+  id?: string | undefined;
   /** The dependency resource type. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The dependency resource name. */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 /** The list of dependencies. */
 export type DependencyDependsOnList = Array<BasicDependency>;
 /** Deployment dependency information. */
 export interface Dependency {
   /** The list of dependencies. */
-  dependsOn?: DependencyDependsOnList;
+  dependsOn?: DependencyDependsOnList | undefined;
   /** The ID of the dependency. */
-  id?: string;
+  id?: string | undefined;
   /** The dependency resource type. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The dependency resource name. */
-  resourceName?: string;
+  resourceName?: string | undefined;
 }
 /** The list of deployment dependencies. */
 export type DeploymentPropertiesExtendedDependenciesList = Array<Dependency>;
@@ -1980,45 +2212,45 @@ export type DeploymentExtensionDefinitionConfigMap = {
 };
 export interface DeploymentExtensionDefinition {
   /** The alias of the extension as defined in the deployment template. */
-  alias?: string;
+  alias?: string | undefined;
   /** The extension name. */
-  name?: string;
+  name?: string | undefined;
   /** The extension version. */
-  version?: string;
+  version?: string | undefined;
   /** The extension configuration ID. It uniquely identifies a deployment target within an extension. */
-  configId?: string;
+  configId?: string | undefined;
   /** The extension configuration hash. Can be used to distinguish different configurations that have the same config ID. */
-  configHash?: string;
+  configHash?: string | undefined;
   /** The extension configuration. */
-  config?: DeploymentExtensionDefinitionConfigMap;
+  config?: DeploymentExtensionDefinitionConfigMap | undefined;
 }
 /** The extensions used in this deployment. */
 export type DeploymentPropertiesExtendedExtensionsList = Array<DeploymentExtensionDefinition>;
 /** Deployment on error behavior with additional details. */
 export interface OnErrorDeploymentExtended {
   /** The state of the provisioning for the on error deployment. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The deployment on error behavior type. Possible values are LastSuccessful and SpecificDeployment. */
-  type?: OnErrorDeploymentType;
+  type?: OnErrorDeploymentType | undefined;
   /** The deployment to be used on error case. */
-  deploymentName?: string;
+  deploymentName?: string | undefined;
 }
 /** The symbolic name path to the resource in the deployment template, including nested deployment(s) and extension if applicable. */
 export type ResourceReferenceSymbolicNamePathList = Array<string>;
 /** The resource Id model. */
 export interface ResourceReference_2 {
   /** The fully qualified Azure resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The extension the resource was deployed with. */
-  extension?: DeploymentExtensionDefinition;
+  extension?: DeploymentExtensionDefinition | undefined;
   /** The resource type. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The extensible resource identifiers. */
-  identifiers?: unknown;
+  identifiers?: unknown | undefined;
   /** The API version the resource was deployed with. */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** The symbolic name path to the resource in the deployment template, including nested deployment(s) and extension if applicable. */
-  symbolicNamePath?: ResourceReferenceSymbolicNamePathList;
+  symbolicNamePath?: ResourceReferenceSymbolicNamePathList | undefined;
 }
 /** Array of provisioned resources. */
 export type DeploymentPropertiesExtendedOutputResourcesList = Array<ResourceReference_2>;
@@ -2027,34 +2259,28 @@ export type DeploymentPropertiesExtendedValidatedResourcesList = Array<ResourceR
 /** The error details. */
 export type ErrorResponseDetailsList = Array<ErrorResponse>;
 /** The resource management error additional info. */
-export interface ErrorResponseAdditionalInfoItem {
-  /** The additional info type. */
-  type?: string;
-  /** The additional info. */
-  info?: unknown;
-}
+export type ErrorResponseAdditionalInfoItem = ErrorAdditionalInfo;
 /** The error additional info. */
-export type ErrorResponseAdditionalInfoList = Array<ErrorResponseAdditionalInfoItem>;
+export type ErrorResponseAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
 export interface ErrorResponse {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorResponseDetailsList;
+  details?: ErrorResponseDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorResponseAdditionalInfoList;
+  additionalInfo?: ErrorResponseAdditionalInfoList | undefined;
 }
 /** Denotes the additional response level. */
 export type Level = "Warning" | "Info" | "Error";
 /** The resource management error additional info. */
-export type DeploymentDiagnosticsDefinitionAdditionalInfoItem = ErrorResponseAdditionalInfoItem;
+export type DeploymentDiagnosticsDefinitionAdditionalInfoItem = ErrorAdditionalInfo;
 /** The error additional info. */
-export type DeploymentDiagnosticsDefinitionAdditionalInfoList =
-  Array<ErrorResponseAdditionalInfoItem>;
+export type DeploymentDiagnosticsDefinitionAdditionalInfoList = Array<ErrorAdditionalInfo>;
 export interface DeploymentDiagnosticsDefinition {
   /** Denotes the additional response level. */
   level: Level;
@@ -2063,76 +2289,76 @@ export interface DeploymentDiagnosticsDefinition {
   /** The error message. */
   message: string;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error additional info. */
-  additionalInfo?: DeploymentDiagnosticsDefinitionAdditionalInfoList;
+  additionalInfo?: DeploymentDiagnosticsDefinitionAdditionalInfoList | undefined;
 }
 /** Contains diagnostic information collected during validation process. */
 export type DeploymentPropertiesExtendedDiagnosticsList = Array<DeploymentDiagnosticsDefinition>;
 /** Deployment properties with additional details. */
 export interface DeploymentPropertiesExtended {
   /** Denotes the state of provisioning. */
-  provisioningState?: ProvisioningState_2;
+  provisioningState?: ProvisioningState_2 | undefined;
   /** The correlation ID of the deployment. */
-  correlationId?: string;
+  correlationId?: string | undefined;
   /** The timestamp of the template deployment. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** The duration of the template deployment. */
-  duration?: string;
+  duration?: string | undefined;
   /** Key/value pairs that represent deployment output. */
-  outputs?: unknown;
+  outputs?: unknown | undefined;
   /** The list of resource providers needed for the deployment. */
-  providers?: DeploymentPropertiesExtendedProvidersList;
+  providers?: DeploymentPropertiesExtendedProvidersList | undefined;
   /** The list of deployment dependencies. */
-  dependencies?: DeploymentPropertiesExtendedDependenciesList;
+  dependencies?: DeploymentPropertiesExtendedDependenciesList | undefined;
   /** The URI referencing the template. */
-  templateLink?: TemplateLink;
+  templateLink?: TemplateLink | undefined;
   /** Deployment parameters. */
-  parameters?: unknown;
+  parameters?: unknown | undefined;
   /** The URI referencing the parameters. */
-  parametersLink?: ParametersLink;
+  parametersLink?: ParametersLink | undefined;
   /** The extensions used in this deployment. */
-  extensions?: DeploymentPropertiesExtendedExtensionsList;
+  extensions?: DeploymentPropertiesExtendedExtensionsList | undefined;
   /** The deployment mode. Possible values are Incremental and Complete. */
-  mode?: DeploymentMode;
+  mode?: DeploymentMode | undefined;
   /** The debug setting of the deployment. */
-  debugSetting?: DebugSetting;
+  debugSetting?: DebugSetting | undefined;
   /** The deployment on error behavior. */
-  onErrorDeployment?: OnErrorDeploymentExtended;
+  onErrorDeployment?: OnErrorDeploymentExtended | undefined;
   /** The hash produced for the template. */
-  templateHash?: string;
+  templateHash?: string | undefined;
   /** Array of provisioned resources. */
-  outputResources?: DeploymentPropertiesExtendedOutputResourcesList;
+  outputResources?: DeploymentPropertiesExtendedOutputResourcesList | undefined;
   /** Array of validated resources. */
-  validatedResources?: DeploymentPropertiesExtendedValidatedResourcesList;
+  validatedResources?: DeploymentPropertiesExtendedValidatedResourcesList | undefined;
   /** The deployment error. */
-  error?: ErrorResponse;
+  error?: ErrorResponse | undefined;
   /** Contains diagnostic information collected during validation process. */
-  diagnostics?: DeploymentPropertiesExtendedDiagnosticsList;
+  diagnostics?: DeploymentPropertiesExtendedDiagnosticsList | undefined;
   /** The validation level of the deployment */
-  validationLevel?: ValidationLevel;
+  validationLevel?: ValidationLevel | undefined;
 }
 /** Deployment tags */
 export type DeploymentsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface DeploymentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Deployment properties. */
-  properties?: DeploymentPropertiesExtended;
+  properties?: DeploymentPropertiesExtended | undefined;
   /** the location of the deployment. */
-  location?: string;
+  location?: string | undefined;
   /** Deployment tags */
-  tags?: DeploymentsCreateOrUpdateResponseTagsMap;
+  tags?: DeploymentsCreateOrUpdateResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Deployment tags */
 export type DeploymentsCreateOrUpdateAtManagementGroupScopeRequestTagsMap = {
@@ -2148,7 +2374,7 @@ export interface DeploymentsCreateOrUpdateAtManagementGroupScopeRequest {
   /** The deployment properties. */
   properties: DeploymentProperties;
   /** Deployment tags */
-  tags?: DeploymentsCreateOrUpdateAtManagementGroupScopeRequestTagsMap;
+  tags?: DeploymentsCreateOrUpdateAtManagementGroupScopeRequestTagsMap | undefined;
 }
 /** Deployment tags */
 export type DeploymentsCreateOrUpdateAtManagementGroupScopeResponseTagsMap = {
@@ -2156,23 +2382,23 @@ export type DeploymentsCreateOrUpdateAtManagementGroupScopeResponseTagsMap = {
 };
 export interface DeploymentsCreateOrUpdateAtManagementGroupScopeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Deployment properties. */
-  properties?: DeploymentPropertiesExtended;
+  properties?: DeploymentPropertiesExtended | undefined;
   /** the location of the deployment. */
-  location?: string;
+  location?: string | undefined;
   /** Deployment tags */
-  tags?: DeploymentsCreateOrUpdateAtManagementGroupScopeResponseTagsMap;
+  tags?: DeploymentsCreateOrUpdateAtManagementGroupScopeResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Deployment tags */
 export type DeploymentsCreateOrUpdateAtScopeRequestTagsMap = { [key: string]: string | undefined };
@@ -2182,35 +2408,35 @@ export interface DeploymentsCreateOrUpdateAtScopeRequest {
   /** The name of the deployment. */
   deploymentName: string;
   /** The location to store the deployment data. */
-  location?: string;
+  location?: string | undefined;
   /** The deployment properties. */
   properties: DeploymentProperties;
   /** Deployment tags */
-  tags?: DeploymentsCreateOrUpdateAtScopeRequestTagsMap;
+  tags?: DeploymentsCreateOrUpdateAtScopeRequestTagsMap | undefined;
   /** The Managed Identity configuration for a deployment. */
-  identity?: DeploymentIdentityInput;
+  identity?: DeploymentIdentityInput | undefined;
 }
 /** Deployment tags */
 export type DeploymentsCreateOrUpdateAtScopeResponseTagsMap = { [key: string]: string | undefined };
 export interface DeploymentsCreateOrUpdateAtScopeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Deployment properties. */
-  properties?: DeploymentPropertiesExtended;
+  properties?: DeploymentPropertiesExtended | undefined;
   /** the location of the deployment. */
-  location?: string;
+  location?: string | undefined;
   /** Deployment tags */
-  tags?: DeploymentsCreateOrUpdateAtScopeResponseTagsMap;
+  tags?: DeploymentsCreateOrUpdateAtScopeResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Deployment tags */
 export type DeploymentsCreateOrUpdateAtSubscriptionScopeRequestTagsMap = {
@@ -2222,13 +2448,13 @@ export interface DeploymentsCreateOrUpdateAtSubscriptionScopeRequest {
   /** The name of the deployment. */
   deploymentName: string;
   /** The location to store the deployment data. */
-  location?: string;
+  location?: string | undefined;
   /** The deployment properties. */
   properties: DeploymentProperties;
   /** Deployment tags */
-  tags?: DeploymentsCreateOrUpdateAtSubscriptionScopeRequestTagsMap;
+  tags?: DeploymentsCreateOrUpdateAtSubscriptionScopeRequestTagsMap | undefined;
   /** The Managed Identity configuration for a deployment. */
-  identity?: DeploymentIdentityInput;
+  identity?: DeploymentIdentityInput | undefined;
 }
 /** Deployment tags */
 export type DeploymentsCreateOrUpdateAtSubscriptionScopeResponseTagsMap = {
@@ -2236,23 +2462,23 @@ export type DeploymentsCreateOrUpdateAtSubscriptionScopeResponseTagsMap = {
 };
 export interface DeploymentsCreateOrUpdateAtSubscriptionScopeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Deployment properties. */
-  properties?: DeploymentPropertiesExtended;
+  properties?: DeploymentPropertiesExtended | undefined;
   /** the location of the deployment. */
-  location?: string;
+  location?: string | undefined;
   /** Deployment tags */
-  tags?: DeploymentsCreateOrUpdateAtSubscriptionScopeResponseTagsMap;
+  tags?: DeploymentsCreateOrUpdateAtSubscriptionScopeResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Deployment tags */
 export type DeploymentsCreateOrUpdateAtTenantScopeRequestTagsMap = {
@@ -2266,7 +2492,7 @@ export interface DeploymentsCreateOrUpdateAtTenantScopeRequest {
   /** The deployment properties. */
   properties: DeploymentProperties;
   /** Deployment tags */
-  tags?: DeploymentsCreateOrUpdateAtTenantScopeRequestTagsMap;
+  tags?: DeploymentsCreateOrUpdateAtTenantScopeRequestTagsMap | undefined;
 }
 /** Deployment tags */
 export type DeploymentsCreateOrUpdateAtTenantScopeResponseTagsMap = {
@@ -2274,23 +2500,23 @@ export type DeploymentsCreateOrUpdateAtTenantScopeResponseTagsMap = {
 };
 export interface DeploymentsCreateOrUpdateAtTenantScopeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Deployment properties. */
-  properties?: DeploymentPropertiesExtended;
+  properties?: DeploymentPropertiesExtended | undefined;
   /** the location of the deployment. */
-  location?: string;
+  location?: string | undefined;
   /** Deployment tags */
-  tags?: DeploymentsCreateOrUpdateAtTenantScopeResponseTagsMap;
+  tags?: DeploymentsCreateOrUpdateAtTenantScopeResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The error detail. */
 export type DeploymentStackPropertiesInputError = UserAssignedResourceIdentityInput;
@@ -2299,15 +2525,15 @@ export type DeploymentStackPropertiesInputTemplateMap = { [key: string]: unknown
 /** Entity representing the reference to the template. */
 export interface DeploymentStacksTemplateLink {
   /** The URI of the template to deploy. Use either the uri or id property, but not both. */
-  uri?: string;
+  uri?: string | undefined;
   /** The resourceId of a Template Spec. Use either the id or uri property, but not both. */
-  id?: string;
+  id?: string | undefined;
   /** The relativePath property can be used to deploy a linked template at a location relative to the parent. If the parent template was linked with a TemplateSpec, this will reference an artifact in the TemplateSpec. If the parent was linked with a URI, the child deployment will be a combination of the parent and relativePath URIs. */
-  relativePath?: string;
+  relativePath?: string | undefined;
   /** The query string (for example, a SAS token) to be used with the templateLink URI. */
-  queryString?: string;
+  queryString?: string | undefined;
   /** If included, must match the ContentVersion in the template. */
-  contentVersion?: string;
+  contentVersion?: string | undefined;
 }
 /** Azure Key Vault reference. */
 export interface KeyVaultReference {
@@ -2321,18 +2547,18 @@ export interface KeyVaultParameterReference {
   /** Azure Key Vault secret name. */
   secretName: string;
   /** Azure Key Vault secret version. */
-  secretVersion?: string;
+  secretVersion?: string | undefined;
 }
 /** Deployment parameter for the template. */
 export interface DeploymentParameter {
   /** Input value to the parameter. */
-  value?: unknown;
+  value?: unknown | undefined;
   /** Type of the value. */
-  type?: string;
+  type?: string | undefined;
   /** Azure Key Vault parameter reference. */
-  reference?: KeyVaultParameterReference;
+  reference?: KeyVaultParameterReference | undefined;
   /** Input expression to the parameter. */
-  expression?: string;
+  expression?: string | undefined;
 }
 /** Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. */
 export type DeploymentStackPropertiesInputParametersMap = {
@@ -2343,9 +2569,9 @@ export type DeploymentStacksParametersLink = ParametersLink;
 /** The value or how to get a value for an extension config property. */
 export interface DeploymentExtensionConfigItemInput {
   /** The value of the config item. The type is determined by the extension config schema. */
-  value?: unknown;
+  value?: unknown | undefined;
   /** The key vault reference of the config item. */
-  keyVaultReference?: KeyVaultParameterReference;
+  keyVaultReference?: KeyVaultParameterReference | undefined;
 }
 /** The configuration of a deployment extension. The keys of this object should align with the extension config schema. */
 export type DeploymentExtensionConfigInput = {
@@ -2376,16 +2602,16 @@ export interface ActionOnUnmanage {
   /** Specifies an action for a newly unmanaged resource. */
   resources: UnmanageActionResourceMode | (string & {});
   /** Specifies an action for a newly unmanaged resource group. */
-  resourceGroups?: UnmanageActionResourceGroupMode | (string & {});
+  resourceGroups?: UnmanageActionResourceGroupMode | (string & {}) | undefined;
   /** Specifies an action for a newly unmanaged resource management group. */
-  managementGroups?: UnmanageActionManagementGroupMode | (string & {});
+  managementGroups?: UnmanageActionManagementGroupMode | (string & {}) | undefined;
   /** Some resources do not support deletion. This flag will denote how the stack should handle those resources. */
-  resourcesWithoutDeleteSupport?: ResourcesWithoutDeleteSupportAction | (string & {});
+  resourcesWithoutDeleteSupport?: ResourcesWithoutDeleteSupportAction | (string & {}) | undefined;
 }
 /** The debug setting. */
 export interface DeploymentStacksDebugSetting {
   /** Specifies the type of information to log for debugging. The permitted values are none, requestContent, responseContent, or both requestContent and responseContent separated by a comma. The default is none. When setting this value, carefully consider the type of information that is being passed in during deployment. By logging information about the request or response, sensitive data that is retrieved through the deployment operations could potentially be exposed. */
-  detailLevel?: string;
+  detailLevel?: string | undefined;
 }
 /** denySettings Mode that defines denied actions. */
 export type DenySettingsMode = "denyDelete" | "denyWriteAndDelete" | "none";
@@ -2398,44 +2624,44 @@ export interface DenySettings {
   /** denySettings Mode that defines denied actions. */
   mode: DenySettingsMode | (string & {});
   /** List of AAD principal IDs excluded from the lock. Up to 5 principals are permitted. */
-  excludedPrincipals?: DenySettingsExcludedPrincipalsList;
+  excludedPrincipals?: DenySettingsExcludedPrincipalsList | undefined;
   /** List of role-based management operations that are excluded from the denySettings. Up to 200 actions are permitted. If the denySetting mode is set to 'denyWriteAndDelete', then the following actions are automatically appended to 'excludedActions': '*\/read' and 'Microsoft.Authorization/locks/delete'. If the denySetting mode is set to 'denyDelete', then the following actions are automatically appended to 'excludedActions': 'Microsoft.Authorization/locks/delete'. Duplicate actions will be removed. */
-  excludedActions?: DenySettingsExcludedActionsList;
+  excludedActions?: DenySettingsExcludedActionsList | undefined;
   /** DenySettings will be applied to child resource scopes of every managed resource with a deny assignment. */
-  applyToChildScopes?: boolean;
+  applyToChildScopes?: boolean | undefined;
 }
 /** Deployment stack properties. */
 export interface DeploymentStackPropertiesInput {
   /** The error detail. */
-  error?: UserAssignedResourceIdentityInput;
+  error?: UserAssignedResourceIdentityInput | undefined;
   /** The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both. */
-  template?: DeploymentStackPropertiesInputTemplateMap;
+  template?: DeploymentStackPropertiesInputTemplateMap | undefined;
   /** The URI of the template. Use either the templateLink property or the template property, but not both. */
-  templateLink?: DeploymentStacksTemplateLink;
+  templateLink?: DeploymentStacksTemplateLink | undefined;
   /** Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. */
-  parameters?: DeploymentStackPropertiesInputParametersMap;
+  parameters?: DeploymentStackPropertiesInputParametersMap | undefined;
   /** The URI of parameters file. Use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both. */
-  parametersLink?: ParametersLink;
+  parametersLink?: ParametersLink | undefined;
   /** The deployment extension configs. Keys of this object are extension aliases as defined in the deployment template. */
-  extensionConfigs?: DeploymentStackPropertiesInputExtensionConfigsMap;
+  extensionConfigs?: DeploymentStackPropertiesInputExtensionConfigsMap | undefined;
   /** External input values, used by external tooling for parameter evaluation. */
-  externalInputs?: DeploymentStackPropertiesInputExternalInputsMap;
+  externalInputs?: DeploymentStackPropertiesInputExternalInputsMap | undefined;
   /** External input definitions, used by external tooling to define expected external input values. */
-  externalInputDefinitions?: DeploymentStackPropertiesInputExternalInputDefinitionsMap;
+  externalInputDefinitions?: DeploymentStackPropertiesInputExternalInputDefinitionsMap | undefined;
   /** Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted. */
   actionOnUnmanage: ActionOnUnmanage;
   /** The debug setting of the deployment. */
-  debugSetting?: DeploymentStacksDebugSetting;
+  debugSetting?: DeploymentStacksDebugSetting | undefined;
   /** The scope at which the initial deployment should be created. If a scope is not specified, it will default to the scope of the deployment stack. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroupId}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}'). */
-  deploymentScope?: string;
+  deploymentScope?: string | undefined;
   /** Deployment stack description. Max length of 4096 characters. */
-  description?: string;
+  description?: string | undefined;
   /** Defines how resources deployed by the stack are locked. */
   denySettings: DenySettings;
   /** The validation level of the deployment stack */
-  validationLevel?: ValidationLevel | (string & {});
+  validationLevel?: ValidationLevel | (string & {}) | undefined;
   /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
-  bypassStackOutOfSyncError?: boolean;
+  bypassStackOutOfSyncError?: boolean | undefined;
 }
 /** Resource tags. */
 export type DeploymentStacksCreateOrUpdateAtManagementGroupRequestTagsMap = {
@@ -2447,48 +2673,28 @@ export interface DeploymentStacksCreateOrUpdateAtManagementGroupRequest {
   /** Name of the deployment stack. */
   deploymentStackName: string;
   /** Deployment stack properties. */
-  properties?: DeploymentStackPropertiesInput;
+  properties?: DeploymentStackPropertiesInput | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: DeploymentStacksCreateOrUpdateAtManagementGroupRequestTagsMap;
-}
-/** The error details. */
-export type ErrorDetailDetailsList = Array<ErrorDetail>;
-/** The resource management error additional info. */
-export type ErrorAdditionalInfo = ErrorResponseAdditionalInfoItem;
-/** The error additional info. */
-export type ErrorDetailAdditionalInfoList = Array<ErrorResponseAdditionalInfoItem>;
-/** The error detail. */
-export interface ErrorDetail {
-  /** The error code. */
-  code?: string;
-  /** The error message. */
-  message?: string;
-  /** The error target. */
-  target?: string;
-  /** The error details. */
-  details?: ErrorDetailDetailsList;
-  /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  tags?: DeploymentStacksCreateOrUpdateAtManagementGroupRequestTagsMap | undefined;
 }
 /** The error details. */
 export type DeploymentStackPropertiesErrorDetailsList = Array<ErrorDetail>;
 /** The error additional info. */
-export type DeploymentStackPropertiesErrorAdditionalInfoList =
-  Array<ErrorResponseAdditionalInfoItem>;
+export type DeploymentStackPropertiesErrorAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface DeploymentStackPropertiesError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: DeploymentStackPropertiesErrorDetailsList;
+  details?: DeploymentStackPropertiesErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: DeploymentStackPropertiesErrorAdditionalInfoList;
+  additionalInfo?: DeploymentStackPropertiesErrorAdditionalInfoList | undefined;
 }
 /** The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both. */
 export type DeploymentStackPropertiesTemplateMap = { [key: string]: unknown | undefined };
@@ -2499,11 +2705,11 @@ export type DeploymentStackPropertiesParametersMap = {
 /** The value or how to get a value for an extension config property. */
 export interface DeploymentExtensionConfigItem {
   /** The type of the value. */
-  type?: string;
+  type?: string | undefined;
   /** The value of the config item. The type is determined by the extension config schema. */
-  value?: unknown;
+  value?: unknown | undefined;
   /** The key vault reference of the config item. */
-  keyVaultReference?: KeyVaultParameterReference;
+  keyVaultReference?: KeyVaultParameterReference | undefined;
 }
 /** The configuration of a deployment extension. The keys of this object should align with the extension config schema. */
 export type DeploymentExtensionConfig = {
@@ -2543,24 +2749,24 @@ export interface DeploymentExtension {
   /** The extension version. */
   version: string;
   /** The configuration ID of the extension usage. It uniquely identifies a target the extension deploys to. */
-  configId?: string;
+  configId?: string | undefined;
   /** The configuration used for deployment. The keys of this object should align with the extension config schema. */
-  config?: DeploymentExtensionConfig;
+  config?: DeploymentExtensionConfig | undefined;
 }
 /** The extensible resource identifiers. */
 export type ResourceReferenceIdentifiersMap = { [key: string]: unknown | undefined };
 /** The resourceId model. */
 export interface ResourceReference {
   /** The ARM Resource ID of a resource managed by the deployment stack. */
-  id?: string;
+  id?: string | undefined;
   /** The extension the resource was deployed with. */
-  extension?: DeploymentExtension;
+  extension?: DeploymentExtension | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The extensible resource identifiers. */
-  identifiers?: ResourceReferenceIdentifiersMap;
+  identifiers?: ResourceReferenceIdentifiersMap | undefined;
   /** The API version the resource was deployed with */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
 }
 /** An array of resources that were detached during the most recent Deployment stack update. Detached means that the resource was removed from the template, but no relevant deletion operations were specified. So, the resource still exists while no longer being associated with the stack. */
 export type DeploymentStackPropertiesDetachedResourcesList = Array<ResourceReference>;
@@ -2571,35 +2777,34 @@ export type ResourceReferenceExtendedIdentifiersMap = { [key: string]: unknown |
 /** The error details. */
 export type ResourceReferenceExtendedErrorDetailsList = Array<ErrorDetail>;
 /** The error additional info. */
-export type ResourceReferenceExtendedErrorAdditionalInfoList =
-  Array<ErrorResponseAdditionalInfoItem>;
+export type ResourceReferenceExtendedErrorAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ResourceReferenceExtendedError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ResourceReferenceExtendedErrorDetailsList;
+  details?: ResourceReferenceExtendedErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ResourceReferenceExtendedErrorAdditionalInfoList;
+  additionalInfo?: ResourceReferenceExtendedErrorAdditionalInfoList | undefined;
 }
 /** The resourceId extended model. This is used to document failed resources with a resourceId and a corresponding error. */
 export interface ResourceReferenceExtended {
   /** The ARM Resource ID of a resource managed by the deployment stack. */
-  id?: string;
+  id?: string | undefined;
   /** The extension the resource was deployed with. */
-  extension?: DeploymentExtension;
+  extension?: DeploymentExtension | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The extensible resource identifiers. */
-  identifiers?: ResourceReferenceExtendedIdentifiersMap;
+  identifiers?: ResourceReferenceExtendedIdentifiersMap | undefined;
   /** The API version the resource was deployed with */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** The error detail. */
-  error?: ResourceReferenceExtendedError;
+  error?: ResourceReferenceExtendedError | undefined;
 }
 /** An array of resources that failed to reach goal state during the most recent update. Each resourceId is accompanied by an error message. */
 export type DeploymentStackPropertiesFailedResourcesList = Array<ResourceReferenceExtended>;
@@ -2619,19 +2824,19 @@ export type ManagedResourceReferenceDenyStatus =
 /** The managed resource model. */
 export interface ManagedResourceReference {
   /** The ARM Resource ID of a resource managed by the deployment stack. */
-  id?: string;
+  id?: string | undefined;
   /** The extension the resource was deployed with. */
-  extension?: DeploymentExtension;
+  extension?: DeploymentExtension | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The extensible resource identifiers. */
-  identifiers?: ManagedResourceReferenceIdentifiersMap;
+  identifiers?: ManagedResourceReferenceIdentifiersMap | undefined;
   /** The API version the resource was deployed with */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** Current management state of the resource in the deployment stack. */
-  status?: ResourceStatusMode;
+  status?: ResourceStatusMode | undefined;
   /** denyAssignment settings applied to the resource. */
-  denyStatus?: ManagedResourceReferenceDenyStatus;
+  denyStatus?: ManagedResourceReferenceDenyStatus | undefined;
 }
 /** An array of resources currently managed by the deployment stack. */
 export type DeploymentStackPropertiesResourcesList = Array<ManagedResourceReference>;
@@ -2642,55 +2847,55 @@ export type DeploymentStackPropertiesOutputsMap = { [key: string]: unknown | und
 /** Deployment stack properties. */
 export interface DeploymentStackProperties {
   /** The error detail. */
-  error?: DeploymentStackPropertiesError;
+  error?: DeploymentStackPropertiesError | undefined;
   /** The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both. */
-  template?: DeploymentStackPropertiesTemplateMap;
+  template?: DeploymentStackPropertiesTemplateMap | undefined;
   /** The URI of the template. Use either the templateLink property or the template property, but not both. */
-  templateLink?: DeploymentStacksTemplateLink;
+  templateLink?: DeploymentStacksTemplateLink | undefined;
   /** Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. */
-  parameters?: DeploymentStackPropertiesParametersMap;
+  parameters?: DeploymentStackPropertiesParametersMap | undefined;
   /** The URI of parameters file. Use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both. */
-  parametersLink?: ParametersLink;
+  parametersLink?: ParametersLink | undefined;
   /** The deployment extension configs. Keys of this object are extension aliases as defined in the deployment template. */
-  extensionConfigs?: DeploymentStackPropertiesExtensionConfigsMap;
+  extensionConfigs?: DeploymentStackPropertiesExtensionConfigsMap | undefined;
   /** External input values, used by external tooling for parameter evaluation. */
-  externalInputs?: DeploymentStackPropertiesExternalInputsMap;
+  externalInputs?: DeploymentStackPropertiesExternalInputsMap | undefined;
   /** External input definitions, used by external tooling to define expected external input values. */
-  externalInputDefinitions?: DeploymentStackPropertiesExternalInputDefinitionsMap;
+  externalInputDefinitions?: DeploymentStackPropertiesExternalInputDefinitionsMap | undefined;
   /** Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted. */
   actionOnUnmanage: ActionOnUnmanage;
   /** The debug setting of the deployment. */
-  debugSetting?: DeploymentStacksDebugSetting;
+  debugSetting?: DeploymentStacksDebugSetting | undefined;
   /** The scope at which the initial deployment should be created. If a scope is not specified, it will default to the scope of the deployment stack. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroupId}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}'). */
-  deploymentScope?: string;
+  deploymentScope?: string | undefined;
   /** Deployment stack description. Max length of 4096 characters. */
-  description?: string;
+  description?: string | undefined;
   /** Defines how resources deployed by the stack are locked. */
   denySettings: DenySettings;
   /** State of the deployment stack. */
-  provisioningState?: DeploymentStackProvisioningState;
+  provisioningState?: DeploymentStackProvisioningState | undefined;
   /** The correlation id of the last Deployment stack upsert or delete operation. It is in GUID format and is used for tracing. */
-  correlationId?: string;
+  correlationId?: string | undefined;
   /** The validation level of the deployment stack */
-  validationLevel?: ValidationLevel;
+  validationLevel?: ValidationLevel | undefined;
   /** Flag to bypass service errors that indicate the stack resource list is not correctly synchronized. */
-  bypassStackOutOfSyncError?: boolean;
+  bypassStackOutOfSyncError?: boolean | undefined;
   /** An array of resources that were detached during the most recent Deployment stack update. Detached means that the resource was removed from the template, but no relevant deletion operations were specified. So, the resource still exists while no longer being associated with the stack. */
-  detachedResources?: DeploymentStackPropertiesDetachedResourcesList;
+  detachedResources?: DeploymentStackPropertiesDetachedResourcesList | undefined;
   /** An array of resources that were deleted during the most recent Deployment stack update. Deleted means that the resource was removed from the template and relevant deletion operations were specified. */
-  deletedResources?: DeploymentStackPropertiesDeletedResourcesList;
+  deletedResources?: DeploymentStackPropertiesDeletedResourcesList | undefined;
   /** An array of resources that failed to reach goal state during the most recent update. Each resourceId is accompanied by an error message. */
-  failedResources?: DeploymentStackPropertiesFailedResourcesList;
+  failedResources?: DeploymentStackPropertiesFailedResourcesList | undefined;
   /** An array of resources currently managed by the deployment stack. */
-  resources?: DeploymentStackPropertiesResourcesList;
+  resources?: DeploymentStackPropertiesResourcesList | undefined;
   /** The extensions used during deployment. Contains extension data for all extensible resources managed by the stack. */
-  deploymentExtensions?: DeploymentStackPropertiesDeploymentExtensionsList;
+  deploymentExtensions?: DeploymentStackPropertiesDeploymentExtensionsList | undefined;
   /** The resourceId of the deployment resource created by the deployment stack. */
-  deploymentId?: string;
+  deploymentId?: string | undefined;
   /** The outputs of the deployment resource created by the deployment stack. */
-  outputs?: DeploymentStackPropertiesOutputsMap;
+  outputs?: DeploymentStackPropertiesOutputsMap | undefined;
   /** The duration of the last successful Deployment stack update. */
-  duration?: string;
+  duration?: string | undefined;
 }
 /** Resource tags. */
 export type DeploymentStacksCreateOrUpdateAtManagementGroupResponseTagsMap = {
@@ -2698,23 +2903,23 @@ export type DeploymentStacksCreateOrUpdateAtManagementGroupResponseTagsMap = {
 };
 export interface DeploymentStacksCreateOrUpdateAtManagementGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Deployment stack properties. */
-  properties?: DeploymentStackProperties;
+  properties?: DeploymentStackProperties | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: DeploymentStacksCreateOrUpdateAtManagementGroupResponseTagsMap;
+  tags?: DeploymentStacksCreateOrUpdateAtManagementGroupResponseTagsMap | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type DeploymentStacksCreateOrUpdateAtResourceGroupRequestTagsMap = {
@@ -2728,11 +2933,11 @@ export interface DeploymentStacksCreateOrUpdateAtResourceGroupRequest {
   /** Name of the deployment stack. */
   deploymentStackName: string;
   /** Deployment stack properties. */
-  properties?: DeploymentStackPropertiesInput;
+  properties?: DeploymentStackPropertiesInput | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: DeploymentStacksCreateOrUpdateAtResourceGroupRequestTagsMap;
+  tags?: DeploymentStacksCreateOrUpdateAtResourceGroupRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type DeploymentStacksCreateOrUpdateAtResourceGroupResponseTagsMap = {
@@ -2740,23 +2945,23 @@ export type DeploymentStacksCreateOrUpdateAtResourceGroupResponseTagsMap = {
 };
 export interface DeploymentStacksCreateOrUpdateAtResourceGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Deployment stack properties. */
-  properties?: DeploymentStackProperties;
+  properties?: DeploymentStackProperties | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: DeploymentStacksCreateOrUpdateAtResourceGroupResponseTagsMap;
+  tags?: DeploymentStacksCreateOrUpdateAtResourceGroupResponseTagsMap | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type DeploymentStacksCreateOrUpdateAtSubscriptionRequestTagsMap = {
@@ -2768,11 +2973,11 @@ export interface DeploymentStacksCreateOrUpdateAtSubscriptionRequest {
   /** Name of the deployment stack. */
   deploymentStackName: string;
   /** Deployment stack properties. */
-  properties?: DeploymentStackPropertiesInput;
+  properties?: DeploymentStackPropertiesInput | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: DeploymentStacksCreateOrUpdateAtSubscriptionRequestTagsMap;
+  tags?: DeploymentStacksCreateOrUpdateAtSubscriptionRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type DeploymentStacksCreateOrUpdateAtSubscriptionResponseTagsMap = {
@@ -2780,23 +2985,23 @@ export type DeploymentStacksCreateOrUpdateAtSubscriptionResponseTagsMap = {
 };
 export interface DeploymentStacksCreateOrUpdateAtSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Deployment stack properties. */
-  properties?: DeploymentStackProperties;
+  properties?: DeploymentStackProperties | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: DeploymentStacksCreateOrUpdateAtSubscriptionResponseTagsMap;
+  tags?: DeploymentStacksCreateOrUpdateAtSubscriptionResponseTagsMap | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The error detail. */
 export type DeploymentStacksWhatIfResultPropertiesInputError = UserAssignedResourceIdentityInput;
@@ -2823,33 +3028,35 @@ export type DeploymentStacksWhatIfResultPropertiesInputExternalInputDefinitionsM
 /** DeploymentStack WhatIfResult Properties */
 export interface DeploymentStacksWhatIfResultPropertiesInput {
   /** The error detail. */
-  error?: UserAssignedResourceIdentityInput;
+  error?: UserAssignedResourceIdentityInput | undefined;
   /** The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both. */
-  template?: DeploymentStacksWhatIfResultPropertiesInputTemplateMap;
+  template?: DeploymentStacksWhatIfResultPropertiesInputTemplateMap | undefined;
   /** The URI of the template. Use either the templateLink property or the template property, but not both. */
-  templateLink?: DeploymentStacksTemplateLink;
+  templateLink?: DeploymentStacksTemplateLink | undefined;
   /** Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. */
-  parameters?: DeploymentStacksWhatIfResultPropertiesInputParametersMap;
+  parameters?: DeploymentStacksWhatIfResultPropertiesInputParametersMap | undefined;
   /** The URI of parameters file. Use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both. */
-  parametersLink?: ParametersLink;
+  parametersLink?: ParametersLink | undefined;
   /** The deployment extension configs. Keys of this object are extension aliases as defined in the deployment template. */
-  extensionConfigs?: DeploymentStacksWhatIfResultPropertiesInputExtensionConfigsMap;
+  extensionConfigs?: DeploymentStacksWhatIfResultPropertiesInputExtensionConfigsMap | undefined;
   /** External input values, used by external tooling for parameter evaluation. */
-  externalInputs?: DeploymentStacksWhatIfResultPropertiesInputExternalInputsMap;
+  externalInputs?: DeploymentStacksWhatIfResultPropertiesInputExternalInputsMap | undefined;
   /** External input definitions, used by external tooling to define expected external input values. */
-  externalInputDefinitions?: DeploymentStacksWhatIfResultPropertiesInputExternalInputDefinitionsMap;
+  externalInputDefinitions?:
+    | DeploymentStacksWhatIfResultPropertiesInputExternalInputDefinitionsMap
+    | undefined;
   /** Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted. */
   actionOnUnmanage: ActionOnUnmanage;
   /** The debug setting of the deployment. */
-  debugSetting?: DeploymentStacksDebugSetting;
+  debugSetting?: DeploymentStacksDebugSetting | undefined;
   /** The scope at which the initial deployment should be created. If a scope is not specified, it will default to the scope of the deployment stack. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroupId}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}'). */
-  deploymentScope?: string;
+  deploymentScope?: string | undefined;
   /** Deployment stack description. Max length of 4096 characters. */
-  description?: string;
+  description?: string | undefined;
   /** Defines how resources deployed by the stack are locked. */
   denySettings: DenySettings;
   /** The validation level of the deployment stack */
-  validationLevel?: ValidationLevel | (string & {});
+  validationLevel?: ValidationLevel | (string & {}) | undefined;
   /** The deployment stack id to use as the basis for comparison. */
   deploymentStackResourceId: string;
   /** The interval to persist the deployment stack what-if result in ISO 8601 format. */
@@ -2865,29 +3072,29 @@ export interface DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdateReq
   /** Name of the deployment stack what-if result. */
   deploymentStacksWhatIfResultName: string;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentStacksWhatIfResultPropertiesInput;
+  properties?: DeploymentStacksWhatIfResultPropertiesInput | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdateRequestTagsMap;
+  tags?: DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdateRequestTagsMap | undefined;
 }
 /** The error details. */
 export type DeploymentStacksWhatIfResultPropertiesErrorDetailsList = Array<ErrorDetail>;
 /** The error additional info. */
 export type DeploymentStacksWhatIfResultPropertiesErrorAdditionalInfoList =
-  Array<ErrorResponseAdditionalInfoItem>;
+  Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface DeploymentStacksWhatIfResultPropertiesError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: DeploymentStacksWhatIfResultPropertiesErrorDetailsList;
+  details?: DeploymentStacksWhatIfResultPropertiesErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: DeploymentStacksWhatIfResultPropertiesErrorAdditionalInfoList;
+  additionalInfo?: DeploymentStacksWhatIfResultPropertiesErrorAdditionalInfoList | undefined;
 }
 /** The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both. */
 export type DeploymentStacksWhatIfResultPropertiesTemplateMap = {
@@ -2928,9 +3135,9 @@ export type DeploymentStacksManagementStatus = "managed" | "unmanaged" | "unknow
 /** The predicted changes to the deployment stack management status of the resource. */
 export interface DeploymentStacksWhatIfResourceChangeManagementStatusChange {
   /** The predicted value before the deployment is executed. */
-  before?: DeploymentStacksManagementStatus;
+  before?: DeploymentStacksManagementStatus | undefined;
   /** The predicted value after the deployment is executed. */
-  after?: DeploymentStacksManagementStatus;
+  after?: DeploymentStacksManagementStatus | undefined;
 }
 /** denyAssignment settings applied to the resource. */
 export type DenyStatusMode =
@@ -2944,9 +3151,9 @@ export type DenyStatusMode =
 /** The predicted changes to the deployment stack deny status of the resource. */
 export interface DeploymentStacksWhatIfResourceChangeDenyStatusChange {
   /** The predicted value before the deployment is executed. */
-  before?: DenyStatusMode;
+  before?: DenyStatusMode | undefined;
   /** The predicted value after the deployment is executed. */
-  after?: DenyStatusMode;
+  after?: DenyStatusMode | undefined;
 }
 /** The predicted value before the deployment is executed. */
 export type DeploymentStacksWhatIfResourceChangeResourceConfigurationChangesBeforeMap = {
@@ -2969,15 +3176,15 @@ export type DeploymentStacksWhatIfPropertyChangeChildrenList =
 /** The predicted change to the resource property. */
 export interface DeploymentStacksWhatIfPropertyChange {
   /** The predicted value before the deployment is executed. */
-  before?: unknown;
+  before?: unknown | undefined;
   /** The predicted value after the deployment is executed. */
-  after?: unknown;
+  after?: unknown | undefined;
   /** Type of change that will be made to the resource when the deployment is executed. */
   path: string;
   /** Type of change that will be made to the resource when the deployment is executed. */
   changeType: DeploymentStacksWhatIfPropertyChangeType;
   /** Nested property changes. */
-  children?: DeploymentStacksWhatIfPropertyChangeChildrenList;
+  children?: DeploymentStacksWhatIfPropertyChangeChildrenList | undefined;
 }
 /** The predicted changes to the properties." */
 export type DeploymentStacksWhatIfResourceChangeResourceConfigurationChangesDeltaList =
@@ -2985,40 +3192,42 @@ export type DeploymentStacksWhatIfResourceChangeResourceConfigurationChangesDelt
 /** The predicted changes to the resource configuration. */
 export interface DeploymentStacksWhatIfResourceChangeResourceConfigurationChanges {
   /** The predicted value before the deployment is executed. */
-  before?: DeploymentStacksWhatIfResourceChangeResourceConfigurationChangesBeforeMap;
+  before?: DeploymentStacksWhatIfResourceChangeResourceConfigurationChangesBeforeMap | undefined;
   /** The predicted value after the deployment is executed. */
-  after?: DeploymentStacksWhatIfResourceChangeResourceConfigurationChangesAfterMap;
+  after?: DeploymentStacksWhatIfResourceChangeResourceConfigurationChangesAfterMap | undefined;
   /** The predicted changes to the properties." */
-  delta?: DeploymentStacksWhatIfResourceChangeResourceConfigurationChangesDeltaList;
+  delta?: DeploymentStacksWhatIfResourceChangeResourceConfigurationChangesDeltaList | undefined;
 }
 /** Information about a single resource change predicted by What-If operation. */
 export interface DeploymentStacksWhatIfResourceChange {
   /** The ARM Resource ID of a resource managed by the deployment stack. */
-  id?: string;
+  id?: string | undefined;
   /** The extension the resource was deployed with. */
-  extension?: DeploymentExtension;
+  extension?: DeploymentExtension | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The extensible resource identifiers. */
-  identifiers?: DeploymentStacksWhatIfResourceChangeIdentifiersMap;
+  identifiers?: DeploymentStacksWhatIfResourceChangeIdentifiersMap | undefined;
   /** The API version the resource was deployed with */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** The resource id of the Deployment responsible for this change. */
-  deploymentId?: string;
+  deploymentId?: string | undefined;
   /** The symbolic name of the resource being changed. */
-  symbolicName?: string;
+  symbolicName?: string | undefined;
   /** Type of change that will be made to the resource when the deployment is executed. */
   changeType: DeploymentStacksWhatIfChangeType;
   /** The confidence level of the predicted change. */
   changeCertainty: DeploymentStacksWhatIfChangeCertainty;
   /** The predicted changes to the deployment stack management status of the resource. */
-  managementStatusChange?: DeploymentStacksWhatIfResourceChangeManagementStatusChange;
+  managementStatusChange?: DeploymentStacksWhatIfResourceChangeManagementStatusChange | undefined;
   /** The predicted changes to the deployment stack deny status of the resource. */
-  denyStatusChange?: DeploymentStacksWhatIfResourceChangeDenyStatusChange;
+  denyStatusChange?: DeploymentStacksWhatIfResourceChangeDenyStatusChange | undefined;
   /** The explanation about why the resource is unsupported by What-If. */
-  unsupportedReason?: string;
+  unsupportedReason?: string | undefined;
   /** The predicted changes to the resource configuration. */
-  resourceConfigurationChanges?: DeploymentStacksWhatIfResourceChangeResourceConfigurationChanges;
+  resourceConfigurationChanges?:
+    | DeploymentStacksWhatIfResourceChangeResourceConfigurationChanges
+    | undefined;
 }
 /** List of resource changes predicted by What-If operation. */
 export type DeploymentStacksWhatIfChangeResourceChangesList =
@@ -3029,18 +3238,18 @@ export type DeploymentStacksWhatIfChangeDenySettingsChangeDeltaList =
 /** Predicted changes to the deployment stack deny settings. */
 export interface DeploymentStacksWhatIfChangeDenySettingsChange {
   /** The predicted value before the deployment is executed. */
-  before?: DenySettings;
+  before?: DenySettings | undefined;
   /** The predicted value after the deployment is executed. */
-  after?: DenySettings;
+  after?: DenySettings | undefined;
   /** The predicted changes to the properties." */
-  delta?: DeploymentStacksWhatIfChangeDenySettingsChangeDeltaList;
+  delta?: DeploymentStacksWhatIfChangeDenySettingsChangeDeltaList | undefined;
 }
 /** Predicted changes to the deployment scope for the deployment stack. */
 export interface DeploymentStacksWhatIfChangeDeploymentScopeChange {
   /** The predicted value before the deployment is executed. */
-  before?: string;
+  before?: string | undefined;
   /** The predicted value after the deployment is executed. */
-  after?: string;
+  after?: string | undefined;
 }
 /** Changes predicted to the deployment stack as a result of the what-if operation. */
 export interface DeploymentStacksWhatIfChange {
@@ -3049,14 +3258,14 @@ export interface DeploymentStacksWhatIfChange {
   /** Predicted changes to the deployment stack deny settings. */
   denySettingsChange: DeploymentStacksWhatIfChangeDenySettingsChange;
   /** Predicted changes to the deployment scope for the deployment stack. */
-  deploymentScopeChange?: DeploymentStacksWhatIfChangeDeploymentScopeChange;
+  deploymentScopeChange?: DeploymentStacksWhatIfChangeDeploymentScopeChange | undefined;
 }
 /** Denotes the additional response level. */
 export type DeploymentStacksDiagnosticLevel = "info" | "warning" | "error";
 /** The resource management error additional info. */
-export type DeploymentStacksDiagnosticAdditionalInfoItem = ErrorResponseAdditionalInfoItem;
+export type DeploymentStacksDiagnosticAdditionalInfoItem = ErrorAdditionalInfo;
 /** Additional error information. */
-export type DeploymentStacksDiagnosticAdditionalInfoList = Array<ErrorResponseAdditionalInfoItem>;
+export type DeploymentStacksDiagnosticAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error additional info */
 export interface DeploymentStacksDiagnostic {
   /** Denotes the additional response level. */
@@ -3066,9 +3275,9 @@ export interface DeploymentStacksDiagnostic {
   /** The error message. */
   message: string;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** Additional error information. */
-  additionalInfo?: DeploymentStacksDiagnosticAdditionalInfoList;
+  additionalInfo?: DeploymentStacksDiagnosticAdditionalInfoList | undefined;
 }
 /** List of resource diagnostics detected by What-If operation. */
 export type DeploymentStacksWhatIfResultPropertiesDiagnosticsList =
@@ -3076,47 +3285,49 @@ export type DeploymentStacksWhatIfResultPropertiesDiagnosticsList =
 /** DeploymentStack WhatIfResult Properties */
 export interface DeploymentStacksWhatIfResultProperties {
   /** The error detail. */
-  error?: DeploymentStacksWhatIfResultPropertiesError;
+  error?: DeploymentStacksWhatIfResultPropertiesError | undefined;
   /** The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both. */
-  template?: DeploymentStacksWhatIfResultPropertiesTemplateMap;
+  template?: DeploymentStacksWhatIfResultPropertiesTemplateMap | undefined;
   /** The URI of the template. Use either the templateLink property or the template property, but not both. */
-  templateLink?: DeploymentStacksTemplateLink;
+  templateLink?: DeploymentStacksTemplateLink | undefined;
   /** Name and value pairs that define the deployment parameters for the template. Use this element when providing the parameter values directly in the request, rather than linking to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. */
-  parameters?: DeploymentStacksWhatIfResultPropertiesParametersMap;
+  parameters?: DeploymentStacksWhatIfResultPropertiesParametersMap | undefined;
   /** The URI of parameters file. Use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both. */
-  parametersLink?: ParametersLink;
+  parametersLink?: ParametersLink | undefined;
   /** The deployment extension configs. Keys of this object are extension aliases as defined in the deployment template. */
-  extensionConfigs?: DeploymentStacksWhatIfResultPropertiesExtensionConfigsMap;
+  extensionConfigs?: DeploymentStacksWhatIfResultPropertiesExtensionConfigsMap | undefined;
   /** External input values, used by external tooling for parameter evaluation. */
-  externalInputs?: DeploymentStacksWhatIfResultPropertiesExternalInputsMap;
+  externalInputs?: DeploymentStacksWhatIfResultPropertiesExternalInputsMap | undefined;
   /** External input definitions, used by external tooling to define expected external input values. */
-  externalInputDefinitions?: DeploymentStacksWhatIfResultPropertiesExternalInputDefinitionsMap;
+  externalInputDefinitions?:
+    | DeploymentStacksWhatIfResultPropertiesExternalInputDefinitionsMap
+    | undefined;
   /** Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted. */
   actionOnUnmanage: ActionOnUnmanage;
   /** The debug setting of the deployment. */
-  debugSetting?: DeploymentStacksDebugSetting;
+  debugSetting?: DeploymentStacksDebugSetting | undefined;
   /** The scope at which the initial deployment should be created. If a scope is not specified, it will default to the scope of the deployment stack. Valid scopes are: management group (format: '/providers/Microsoft.Management/managementGroups/{managementGroupId}'), subscription (format: '/subscriptions/{subscriptionId}'), resource group (format: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}'). */
-  deploymentScope?: string;
+  deploymentScope?: string | undefined;
   /** Deployment stack description. Max length of 4096 characters. */
-  description?: string;
+  description?: string | undefined;
   /** Defines how resources deployed by the stack are locked. */
   denySettings: DenySettings;
   /** State of the deployment stack. */
-  provisioningState?: DeploymentStackProvisioningState;
+  provisioningState?: DeploymentStackProvisioningState | undefined;
   /** The correlation id of the last Deployment stack upsert or delete operation. It is in GUID format and is used for tracing. */
-  correlationId?: string;
+  correlationId?: string | undefined;
   /** The validation level of the deployment stack */
-  validationLevel?: ValidationLevel;
+  validationLevel?: ValidationLevel | undefined;
   /** The deployment stack id to use as the basis for comparison. */
   deploymentStackResourceId: string;
   /** The timestamp for when the deployment stack was last modified. This can be used to determine if the what-if data is still current. */
-  deploymentStackLastModified?: string;
+  deploymentStackLastModified?: string | undefined;
   /** The interval to persist the deployment stack what-if result in ISO 8601 format. */
   retentionInterval: string;
   /** All of the changes predicted by the deployment stack what-if operation. */
-  changes?: DeploymentStacksWhatIfChange;
+  changes?: DeploymentStacksWhatIfChange | undefined;
   /** List of resource diagnostics detected by What-If operation. */
-  diagnostics?: DeploymentStacksWhatIfResultPropertiesDiagnosticsList;
+  diagnostics?: DeploymentStacksWhatIfResultPropertiesDiagnosticsList | undefined;
 }
 /** Resource tags. */
 export type DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdateResponseTagsMap = {
@@ -3124,23 +3335,23 @@ export type DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdateResponse
 };
 export interface DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentStacksWhatIfResultProperties;
+  properties?: DeploymentStacksWhatIfResultProperties | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdateResponseTagsMap;
+  tags?: DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdateResponseTagsMap | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeploymentStacksWhatIfResultsAtManagementGroupWhatIfRequest {
   /** The management group ID. */
@@ -3154,23 +3365,23 @@ export type DeploymentStacksWhatIfResultsAtManagementGroupWhatIfResponseTagsMap 
 };
 export interface DeploymentStacksWhatIfResultsAtManagementGroupWhatIfResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentStacksWhatIfResultProperties;
+  properties?: DeploymentStacksWhatIfResultProperties | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: DeploymentStacksWhatIfResultsAtManagementGroupWhatIfResponseTagsMap;
+  tags?: DeploymentStacksWhatIfResultsAtManagementGroupWhatIfResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateRequestTagsMap = {
@@ -3184,11 +3395,11 @@ export interface DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateReque
   /** Name of the deployment stack what-if result. */
   deploymentStacksWhatIfResultName: string;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentStacksWhatIfResultPropertiesInput;
+  properties?: DeploymentStacksWhatIfResultPropertiesInput | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateRequestTagsMap;
+  tags?: DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateResponseTagsMap = {
@@ -3196,23 +3407,23 @@ export type DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateResponseTa
 };
 export interface DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentStacksWhatIfResultProperties;
+  properties?: DeploymentStacksWhatIfResultProperties | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateResponseTagsMap;
+  tags?: DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateResponseTagsMap | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeploymentStacksWhatIfResultsAtResourceGroupWhatIfRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3228,23 +3439,23 @@ export type DeploymentStacksWhatIfResultsAtResourceGroupWhatIfResponseTagsMap = 
 };
 export interface DeploymentStacksWhatIfResultsAtResourceGroupWhatIfResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentStacksWhatIfResultProperties;
+  properties?: DeploymentStacksWhatIfResultProperties | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: DeploymentStacksWhatIfResultsAtResourceGroupWhatIfResponseTagsMap;
+  tags?: DeploymentStacksWhatIfResultsAtResourceGroupWhatIfResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdateRequestTagsMap = {
@@ -3256,11 +3467,11 @@ export interface DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdateReques
   /** Name of the deployment stack what-if result. */
   deploymentStacksWhatIfResultName: string;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentStacksWhatIfResultPropertiesInput;
+  properties?: DeploymentStacksWhatIfResultPropertiesInput | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdateRequestTagsMap;
+  tags?: DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdateResponseTagsMap = {
@@ -3268,23 +3479,23 @@ export type DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdateResponseTag
 };
 export interface DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentStacksWhatIfResultProperties;
+  properties?: DeploymentStacksWhatIfResultProperties | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdateResponseTagsMap;
+  tags?: DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdateResponseTagsMap | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeploymentStacksWhatIfResultsAtSubscriptionWhatIfRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3298,23 +3509,23 @@ export type DeploymentStacksWhatIfResultsAtSubscriptionWhatIfResponseTagsMap = {
 };
 export interface DeploymentStacksWhatIfResultsAtSubscriptionWhatIfResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentStacksWhatIfResultProperties;
+  properties?: DeploymentStacksWhatIfResultProperties | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: DeploymentStacksWhatIfResultsAtSubscriptionWhatIfResponseTagsMap;
+  tags?: DeploymentStacksWhatIfResultsAtSubscriptionWhatIfResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Name and value pairs that define the deployment parameters for the template. You use this element when you want to provide the parameter values directly in the request rather than link to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. It can be a JObject or a well formed JSON string. */
 export type DeploymentWhatIfPropertiesInputParametersMap = {
@@ -3340,7 +3551,7 @@ export type WhatIfResultFormat = "ResourceIdOnly" | "FullResourcePayloads";
 /** Deployment What-If operation settings. */
 export interface DeploymentWhatIfSettings {
   /** The format of the What-If results */
-  resultFormat?: WhatIfResultFormat | (string & {});
+  resultFormat?: WhatIfResultFormat | (string & {}) | undefined;
 }
 /** The symbolic name path to the resource in the deployment template, including nested deployment(s) and extension if applicable. */
 export type DeploymentResourceWhatIfPredictionInputSymbolicNamePathList = Array<string>;
@@ -3350,15 +3561,15 @@ export interface DeploymentResourceWhatIfPredictionInput {
   /** The symbolic name path to the resource in the deployment template, including nested deployment(s) and extension if applicable. */
   symbolicNamePath: DeploymentResourceWhatIfPredictionInputSymbolicNamePathList;
   /** The predicted fully-qualified Azure resource ID. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The predicted extension usage. */
-  extension?: UserAssignedResourceIdentityInput;
+  extension?: UserAssignedResourceIdentityInput | undefined;
   /** The predicted resource type. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The predicted extensible resource identifiers. */
-  identifiers?: unknown;
+  identifiers?: unknown | undefined;
   /** The predicted API version. */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
 }
 /** Resource predictions that can be utilized by what-if to produce potential modification changes. */
 export type DeploymentWhatIfPropertiesInputResourcePredictionsList =
@@ -3366,33 +3577,33 @@ export type DeploymentWhatIfPropertiesInputResourcePredictionsList =
 /** Deployment What-if properties. */
 export interface DeploymentWhatIfPropertiesInput {
   /** The template content. You use this element when you want to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both. */
-  template?: unknown;
+  template?: unknown | undefined;
   /** The URI of the template. Use either the templateLink property or the template property, but not both. */
-  templateLink?: TemplateLink;
+  templateLink?: TemplateLink | undefined;
   /** Name and value pairs that define the deployment parameters for the template. You use this element when you want to provide the parameter values directly in the request rather than link to an existing parameter file. Use either the parametersLink property or the parameters property, but not both. It can be a JObject or a well formed JSON string. */
-  parameters?: DeploymentWhatIfPropertiesInputParametersMap;
+  parameters?: DeploymentWhatIfPropertiesInputParametersMap | undefined;
   /** External input values, used by external tooling for parameter evaluation. */
-  externalInputs?: DeploymentWhatIfPropertiesInputExternalInputsMap;
+  externalInputs?: DeploymentWhatIfPropertiesInputExternalInputsMap | undefined;
   /** External input definitions, used by external tooling to define expected external input values. */
-  externalInputDefinitions?: DeploymentWhatIfPropertiesInputExternalInputDefinitionsMap;
+  externalInputDefinitions?: DeploymentWhatIfPropertiesInputExternalInputDefinitionsMap | undefined;
   /** The URI of parameters file. You use this element to link to an existing parameters file. Use either the parametersLink property or the parameters property, but not both. */
-  parametersLink?: ParametersLink;
+  parametersLink?: ParametersLink | undefined;
   /** The configurations to use for deployment extensions. The keys of this object are deployment extension aliases as defined in the deployment template. */
-  extensionConfigs?: DeploymentWhatIfPropertiesInputExtensionConfigsMap;
+  extensionConfigs?: DeploymentWhatIfPropertiesInputExtensionConfigsMap | undefined;
   /** The mode that is used to deploy resources. This value can be either Incremental or Complete. In Incremental mode, resources are deployed without deleting existing resources that are not included in the template. In Complete mode, resources are deployed and existing resources in the resource group that are not included in the template are deleted. Be careful when using Complete mode as you may unintentionally delete resources. */
   mode: DeploymentMode | (string & {});
   /** The debug setting of the deployment. */
-  debugSetting?: DebugSetting;
+  debugSetting?: DebugSetting | undefined;
   /** The deployment on error behavior. */
-  onErrorDeployment?: OnErrorDeployment;
+  onErrorDeployment?: OnErrorDeployment | undefined;
   /** Specifies whether template expressions are evaluated within the scope of the parent template or nested template. Only applicable to nested templates. If not specified, default value is outer. */
-  expressionEvaluationOptions?: ExpressionEvaluationOptions;
+  expressionEvaluationOptions?: ExpressionEvaluationOptions | undefined;
   /** The validation level of the deployment */
-  validationLevel?: ValidationLevel | (string & {});
+  validationLevel?: ValidationLevel | (string & {}) | undefined;
   /** Optional What-If operation settings. */
-  whatIfSettings?: DeploymentWhatIfSettings;
+  whatIfSettings?: DeploymentWhatIfSettings | undefined;
   /** Resource predictions that can be utilized by what-if to produce potential modification changes. */
-  resourcePredictions?: DeploymentWhatIfPropertiesInputResourcePredictionsList;
+  resourcePredictions?: DeploymentWhatIfPropertiesInputResourcePredictionsList | undefined;
 }
 export interface DeploymentsWhatIfRequest {
   /** The ID of the target subscription. */
@@ -3402,7 +3613,7 @@ export interface DeploymentsWhatIfRequest {
   /** The name of the deployment. */
   deploymentName: string;
   /** The location to store the deployment data. */
-  location?: string;
+  location?: string | undefined;
   /** The deployment properties. */
   properties: DeploymentWhatIfPropertiesInput;
 }
@@ -3426,38 +3637,38 @@ export interface WhatIfPropertyChange {
   /** The type of property change. */
   propertyChangeType: PropertyChangeType;
   /** The value of the property before the deployment is executed. */
-  before?: unknown;
+  before?: unknown | undefined;
   /** The value of the property after the deployment is executed. */
-  after?: unknown;
+  after?: unknown | undefined;
   /** Nested property changes. */
-  children?: WhatIfPropertyChangeChildrenList;
+  children?: WhatIfPropertyChangeChildrenList | undefined;
 }
 /** The predicted changes to resource properties. */
 export type WhatIfChangeDeltaList = Array<WhatIfPropertyChange>;
 /** Information about a single resource change predicted by What-If operation. */
 export interface WhatIfChange {
   /** The fully-qualified ARM resource ID for this change. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The resource id of the Deployment responsible for this change. */
-  deploymentId?: string;
+  deploymentId?: string | undefined;
   /** The symbolic name of the resource responsible for this change. */
-  symbolicName?: string;
+  symbolicName?: string | undefined;
   /** The resource type of the resource. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** A subset of properties that uniquely identify a Bicep extensible resource because it lacks a resource id like an Azure resource has. */
-  identifiers?: unknown;
+  identifiers?: unknown | undefined;
   /** The extension the resource was deployed with. */
-  extension?: DeploymentExtensionDefinition;
+  extension?: DeploymentExtensionDefinition | undefined;
   /** Type of change that will be made to the resource when the deployment is executed. */
   changeType: ChangeType;
   /** The explanation about why the resource is unsupported by What-If. */
-  unsupportedReason?: string;
+  unsupportedReason?: string | undefined;
   /** The snapshot of the resource before the deployment is executed. */
-  before?: unknown;
+  before?: unknown | undefined;
   /** The predicted snapshot of the resource after the deployment is executed. */
-  after?: unknown;
+  after?: unknown | undefined;
   /** The predicted changes to resource properties. */
-  delta?: WhatIfChangeDeltaList;
+  delta?: WhatIfChangeDeltaList | undefined;
 }
 /** List of resource changes predicted by What-If operation. */
 export type WhatIfOperationPropertiesChangesList = Array<WhatIfChange>;
@@ -3468,24 +3679,24 @@ export type WhatIfOperationPropertiesDiagnosticsList = Array<DeploymentDiagnosti
 /** Deployment operation properties. */
 export interface WhatIfOperationProperties {
   /** List of resource changes predicted by What-If operation. */
-  changes?: WhatIfOperationPropertiesChangesList;
+  changes?: WhatIfOperationPropertiesChangesList | undefined;
   /** List of resource changes predicted by What-If operation. */
-  potentialChanges?: WhatIfOperationPropertiesPotentialChangesList;
+  potentialChanges?: WhatIfOperationPropertiesPotentialChangesList | undefined;
   /** List of resource diagnostics detected by What-If operation. */
-  diagnostics?: WhatIfOperationPropertiesDiagnosticsList;
+  diagnostics?: WhatIfOperationPropertiesDiagnosticsList | undefined;
 }
 /** Result of the What-If operation. Contains a list of predicted changes and a URL link to get to the next set of results. */
 export interface WhatIfOperationResult {
   /** Status of the What-If operation. */
-  status?: string;
+  status?: string | undefined;
   /** What-If operation properties. */
-  properties?: WhatIfOperationProperties;
+  properties?: WhatIfOperationProperties | undefined;
   /** Error when What-If operation fails. */
-  error?: ErrorResponse;
+  error?: ErrorResponse | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeploymentsWhatIfAtManagementGroupScopeRequest {
   /** The management group ID. */
@@ -3503,7 +3714,7 @@ export interface DeploymentsWhatIfAtSubscriptionScopeRequest {
   /** The name of the deployment. */
   deploymentName: string;
   /** The location to store the deployment data. */
-  location?: string;
+  location?: string | undefined;
   /** The deployment properties. */
   properties: DeploymentWhatIfPropertiesInput;
 }
@@ -3526,9 +3737,9 @@ export type DeploymentStackTemplateDefinitionTemplateMap = { [key: string]: unkn
 /** Export Template specific properties of the Deployment stack. */
 export interface DeploymentStackTemplateDefinition {
   /** The template content. Use this element to pass the template syntax directly in the request rather than link to an existing template. It can be a JObject or well-formed JSON string. Use either the templateLink property or the template property, but not both. */
-  template?: DeploymentStackTemplateDefinitionTemplateMap;
+  template?: DeploymentStackTemplateDefinitionTemplateMap | undefined;
   /** The URI of the template. Use either the templateLink property or the template property, but not both. */
-  templateLink?: DeploymentStacksTemplateLink;
+  templateLink?: DeploymentStacksTemplateLink | undefined;
 }
 export interface ExportDeploymentStackTemplateAtResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3555,7 +3766,7 @@ export interface ExportDeploymentTemplateRequest {
 /** The deployment export result. */
 export interface DeploymentExportResult {
   /** The template content. */
-  template?: unknown;
+  template?: unknown | undefined;
 }
 export interface ExportDeploymentTemplateAtManagementGroupScopeRequest {
   /** The management group ID. */
@@ -3589,42 +3800,41 @@ export interface ExportResourceGroupTemplateRequest {
   /** The name of the resource group to get. The name is case insensitive. */
   resourceGroupName: string;
   /** The IDs of the resources to filter the export by. To export all resources, supply an array with single entry '*'. */
-  resources?: ExportResourceGroupTemplateRequestResourcesList;
+  resources?: ExportResourceGroupTemplateRequestResourcesList | undefined;
   /** The export template options. A CSV-formatted list containing zero or more of the following: 'IncludeParameterDefaultValue', 'IncludeComments', 'SkipResourceNameParameterization', 'SkipAllParameterization' */
-  options?: string;
+  options?: string | undefined;
   /** The output format for the exported resources. */
-  outputFormat?: ExportTemplateOutputFormat | (string & {});
+  outputFormat?: ExportTemplateOutputFormat | (string & {}) | undefined;
 }
 /** The error details. */
 export type ResourceGroupExportResultErrorDetailsList = Array<ErrorDetail>;
 /** The error additional info. */
-export type ResourceGroupExportResultErrorAdditionalInfoList =
-  Array<ErrorResponseAdditionalInfoItem>;
+export type ResourceGroupExportResultErrorAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ResourceGroupExportResultError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ResourceGroupExportResultErrorDetailsList;
+  details?: ResourceGroupExportResultErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ResourceGroupExportResultErrorAdditionalInfoList;
+  additionalInfo?: ResourceGroupExportResultErrorAdditionalInfoList | undefined;
 }
 /** Resource group export result. */
 export interface ResourceGroupExportResult {
   /** The template content. Used if outputFormat is empty or set to 'Json'. */
-  template?: unknown;
+  template?: unknown | undefined;
   /** The formatted export content. Used if outputFormat is set to 'Bicep'. */
-  output?: string;
+  output?: string | undefined;
   /** The error detail. */
-  error?: ResourceGroupExportResultError;
+  error?: ResourceGroupExportResultError | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetApplicationRequest {
   /** The ID of the target subscription. */
@@ -3638,27 +3848,27 @@ export interface GetApplicationRequest {
 export type GetApplicationResponseTagsMap = { [key: string]: string | undefined };
 export interface GetApplicationResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: GetApplicationResponseTagsMap;
+  tags?: GetApplicationResponseTagsMap | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku_2;
+  sku?: Sku_2 | undefined;
   /** The managed application properties. */
   properties: ApplicationProperties;
   /** The plan information. */
-  plan?: Plan_2;
+  plan?: Plan_2 | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
   kind: string;
   /** The identity of the resource. */
-  identity?: Identity_3;
+  identity?: Identity_3 | undefined;
 }
 export interface GetApplicationByIdRequest {
   /** The fully qualified ID of the managed application, including the managed application name and the managed application resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name} */
@@ -3668,27 +3878,27 @@ export interface GetApplicationByIdRequest {
 export type GetApplicationByIdResponseTagsMap = { [key: string]: string | undefined };
 export interface GetApplicationByIdResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: GetApplicationByIdResponseTagsMap;
+  tags?: GetApplicationByIdResponseTagsMap | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku_2;
+  sku?: Sku_2 | undefined;
   /** The managed application properties. */
   properties: ApplicationProperties;
   /** The plan information. */
-  plan?: Plan_2;
+  plan?: Plan_2 | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
   kind: string;
   /** The identity of the resource. */
-  identity?: Identity_3;
+  identity?: Identity_3 | undefined;
 }
 export interface GetApplicationDefinitionRequest {
   /** The ID of the target subscription. */
@@ -3702,19 +3912,19 @@ export interface GetApplicationDefinitionRequest {
 export type GetApplicationDefinitionResponseTagsMap = { [key: string]: string | undefined };
 export interface GetApplicationDefinitionResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: GetApplicationDefinitionResponseTagsMap;
+  tags?: GetApplicationDefinitionResponseTagsMap | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku_2;
+  sku?: Sku_2 | undefined;
   /** The managed application definition properties. */
   properties: ApplicationDefinitionProperties;
 }
@@ -3737,15 +3947,15 @@ export type ChangePropertiesChangeType = "Update" | "Delete" | "Create";
 /** Details about the change resource */
 export interface ChangeAttributes {
   /** The ARM correlation ID of the change resource */
-  correlationId?: string;
+  correlationId?: string | undefined;
   /** The time the change(s) on the target resource ocurred */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** The number of changes this resource captures */
-  changesCount?: number;
+  changesCount?: number | undefined;
   /** The GUID of the previous snapshot */
-  previousResourceSnapshotId?: string;
+  previousResourceSnapshotId?: string | undefined;
   /** The GUID of the new snapshot */
-  newResourceSnapshotId?: string;
+  newResourceSnapshotId?: string | undefined;
 }
 /** The type of change that occurred */
 export type ChangeBasePropertyChangeType = "Insert" | "Update" | "Remove";
@@ -3754,35 +3964,35 @@ export type ChangeBaseChangeCategory = "User" | "System";
 /** An individual change on the target resource */
 export interface ChangeBase {
   /** The type of change that occurred */
-  propertyChangeType?: ChangeBasePropertyChangeType;
+  propertyChangeType?: ChangeBasePropertyChangeType | undefined;
   /** The entity that made the change */
-  changeCategory?: ChangeBaseChangeCategory;
+  changeCategory?: ChangeBaseChangeCategory | undefined;
   /** The target resource property value before the change */
-  previousValue?: string;
+  previousValue?: string | undefined;
   /** The target resource property value after the change */
-  newValue?: string;
+  newValue?: string | undefined;
 }
 /** A dictionary with changed property name as a key and the change details as the value */
 export type ChangesDictionary = { [key: string]: ChangeBase | undefined };
 /** The properties of a change */
 export interface ChangeProperties {
   /** The fully qualified ID of the target resource that was changed */
-  targetResourceId?: string;
+  targetResourceId?: string | undefined;
   /** The namespace and type of the resource */
-  targetResourceType?: string;
+  targetResourceType?: string | undefined;
   /** The type of change that was captured in the resource */
-  changeType?: ChangePropertiesChangeType;
-  changeAttributes?: ChangeAttributes;
-  changes?: ChangesDictionary;
+  changeType?: ChangePropertiesChangeType | undefined;
+  changeAttributes?: ChangeAttributes | undefined;
+  changes?: ChangesDictionary | undefined;
 }
 export interface GetChangeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  properties?: ChangeProperties;
+  type?: string | undefined;
+  properties?: ChangeProperties | undefined;
 }
 export type GetDataBoundaryScopeRequestDefault = "default";
 export interface GetDataBoundaryScopeRequest {
@@ -3805,21 +4015,21 @@ export type ProvisioningState =
 /** Data boundary properties */
 export interface DataBoundaryProperties {
   /** The data boundary definition. */
-  dataBoundary?: DataBoundary | (string & {});
+  dataBoundary?: DataBoundary | (string & {}) | undefined;
   /** Denotes the state of provisioning. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
 }
 export interface GetDataBoundaryScopeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Data boundary properties */
-  properties?: DataBoundaryProperties;
+  properties?: DataBoundaryProperties | undefined;
 }
 export type GetDataBoundaryTenantRequestDefault = "default";
 export interface GetDataBoundaryTenantRequest {
@@ -3828,15 +4038,15 @@ export interface GetDataBoundaryTenantRequest {
 }
 export interface GetDataBoundaryTenantResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Data boundary properties */
-  properties?: DataBoundaryProperties;
+  properties?: DataBoundaryProperties | undefined;
 }
 export interface GetDataPolicyManifestByPolicyModeRequest {
   /** The policy mode of the data policy manifest to get. */
@@ -3849,59 +4059,59 @@ export type AliasPatternType = "NotSpecified" | "Extract";
 /** The type of the pattern for an alias path. */
 export interface AliasPattern {
   /** The alias pattern phrase. */
-  phrase?: string;
+  phrase?: string | undefined;
   /** The alias pattern variable. */
-  variable?: string;
+  variable?: string | undefined;
   /** The pattern for an alias path. */
-  type?: AliasPatternType;
+  type?: AliasPatternType | undefined;
 }
 /** The alias path metadata. */
 export type AliasPathMetadata = AliasPathMetadata_2;
 /** The type of the paths for alias. */
 export interface AliasPath {
   /** The path of an alias. */
-  path?: string;
+  path?: string | undefined;
   /** The API versions. */
-  apiVersions?: AliasPathApiVersionsList;
+  apiVersions?: AliasPathApiVersionsList | undefined;
   /** The pattern for an alias path. */
-  pattern?: AliasPattern;
+  pattern?: AliasPattern | undefined;
   /** The metadata of the alias path. If missing, fall back to the default metadata of the alias. */
-  metadata?: AliasPathMetadata_2;
+  metadata?: AliasPathMetadata_2 | undefined;
 }
 /** The paths for an alias. */
 export type AliasPathsList = Array<AliasPath>;
 /** The alias type. */
 export interface Alias {
   /** The alias name. */
-  name?: string;
+  name?: string | undefined;
   /** The paths for an alias. */
-  paths?: AliasPathsList;
+  paths?: AliasPathsList | undefined;
   /** The type of the alias. */
-  type?: AliasType;
+  type?: AliasType | undefined;
   /** The default path for an alias. */
-  defaultPath?: string;
+  defaultPath?: string | undefined;
   /** The default pattern for an alias. */
-  defaultPattern?: AliasPattern;
+  defaultPattern?: AliasPattern | undefined;
   /** The default alias path metadata. Applies to the default path and to any alias path that doesn't have metadata. */
-  defaultMetadata?: AliasPathMetadata_2;
+  defaultMetadata?: AliasPathMetadata_2 | undefined;
 }
 /** The aliases for property names. */
 export type ResourceTypeAliasesAliasesList = Array<Alias>;
 /** The resource type aliases definition. */
 export interface ResourceTypeAliases {
   /** The resource type name. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The aliases for property names. */
-  aliases?: ResourceTypeAliasesAliasesList;
+  aliases?: ResourceTypeAliasesAliasesList | undefined;
 }
 /** An array of resource type aliases. */
 export type DataPolicyManifestPropertiesResourceTypeAliasesList = Array<ResourceTypeAliases>;
 /** The data effect definition. */
 export interface DataEffect {
   /** The data effect name. */
-  name?: string;
+  name?: string | undefined;
   /** The data effect details schema. */
-  detailsSchema?: unknown;
+  detailsSchema?: unknown | undefined;
 }
 /** The effect definition. */
 export type DataPolicyManifestPropertiesEffectsList = Array<DataEffect>;
@@ -3914,13 +4124,13 @@ export type DataManifestCustomResourceFunctionDefinitionDefaultPropertiesList = 
 /** The custom resource function definition. */
 export interface DataManifestCustomResourceFunctionDefinition {
   /** The function name as it will appear in the policy rule. eg - 'vault'. */
-  name?: string;
+  name?: string | undefined;
   /** The fully qualified control plane resource type that this function represents. eg - 'Microsoft.KeyVault/vaults'. */
-  fullyQualifiedResourceType?: string;
+  fullyQualifiedResourceType?: string | undefined;
   /** The top-level properties that can be selected on the function's output. eg - [ \"name\", \"location\" ] if vault().name and vault().location are supported. */
-  defaultProperties?: DataManifestCustomResourceFunctionDefinitionDefaultPropertiesList;
+  defaultProperties?: DataManifestCustomResourceFunctionDefinitionDefaultPropertiesList | undefined;
   /** A value indicating whether the custom properties within the property bag are allowed. Needs api-version to be specified in the policy rule eg - vault('2019-06-01'). */
-  allowCustomProperties?: boolean;
+  allowCustomProperties?: boolean | undefined;
 }
 /** An array of data manifest custom resource definitions. */
 export type DataManifestResourceFunctionsDefinitionCustomList =
@@ -3928,38 +4138,38 @@ export type DataManifestResourceFunctionsDefinitionCustomList =
 /** The resource functions supported by a manifest. */
 export interface DataManifestResourceFunctionsDefinition {
   /** The standard resource functions (subscription and/or resourceGroup). */
-  standard?: DataManifestResourceFunctionsDefinitionStandardList;
+  standard?: DataManifestResourceFunctionsDefinitionStandardList | undefined;
   /** An array of data manifest custom resource definitions. */
-  custom?: DataManifestResourceFunctionsDefinitionCustomList;
+  custom?: DataManifestResourceFunctionsDefinitionCustomList | undefined;
 }
 /** The properties of the data policy manifest. */
 export interface DataPolicyManifestProperties {
   /** The list of namespaces for the data policy manifest. */
-  namespaces?: DataPolicyManifestPropertiesNamespacesList;
+  namespaces?: DataPolicyManifestPropertiesNamespacesList | undefined;
   /** The policy mode of the data policy manifest. */
-  policyMode?: string;
+  policyMode?: string | undefined;
   /** A value indicating whether policy mode is allowed only in built-in definitions. */
-  isBuiltInOnly?: boolean;
+  isBuiltInOnly?: boolean | undefined;
   /** An array of resource type aliases. */
-  resourceTypeAliases?: DataPolicyManifestPropertiesResourceTypeAliasesList;
+  resourceTypeAliases?: DataPolicyManifestPropertiesResourceTypeAliasesList | undefined;
   /** The effect definition. */
-  effects?: DataPolicyManifestPropertiesEffectsList;
+  effects?: DataPolicyManifestPropertiesEffectsList | undefined;
   /** The non-alias field accessor values that can be used in the policy rule. */
-  fieldValues?: DataPolicyManifestPropertiesFieldValuesList;
+  fieldValues?: DataPolicyManifestPropertiesFieldValuesList | undefined;
   /** The resource functions definition specified in the data manifest. */
-  resourceFunctions?: DataManifestResourceFunctionsDefinition;
+  resourceFunctions?: DataManifestResourceFunctionsDefinition | undefined;
 }
 export interface GetDataPolicyManifestByPolicyModeResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DataPolicyManifestProperties;
+  properties?: DataPolicyManifestProperties | undefined;
 }
 export interface GetDeploymentRequest {
   /** The ID of the target subscription. */
@@ -3973,19 +4183,19 @@ export interface GetDeploymentRequest {
 export type GetDeploymentResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDeploymentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Deployment properties. */
-  properties?: DeploymentPropertiesExtended;
+  properties?: DeploymentPropertiesExtended | undefined;
   /** the location of the deployment. */
-  location?: string;
+  location?: string | undefined;
   /** Deployment tags */
-  tags?: GetDeploymentResponseTagsMap;
+  tags?: GetDeploymentResponseTagsMap | undefined;
 }
 export interface GetDeploymentAtManagementGroupScopeRequest {
   /** The management group ID. */
@@ -3999,19 +4209,19 @@ export type GetDeploymentAtManagementGroupScopeResponseTagsMap = {
 };
 export interface GetDeploymentAtManagementGroupScopeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Deployment properties. */
-  properties?: DeploymentPropertiesExtended;
+  properties?: DeploymentPropertiesExtended | undefined;
   /** the location of the deployment. */
-  location?: string;
+  location?: string | undefined;
   /** Deployment tags */
-  tags?: GetDeploymentAtManagementGroupScopeResponseTagsMap;
+  tags?: GetDeploymentAtManagementGroupScopeResponseTagsMap | undefined;
 }
 export interface GetDeploymentAtScopeRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -4023,19 +4233,19 @@ export interface GetDeploymentAtScopeRequest {
 export type GetDeploymentAtScopeResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDeploymentAtScopeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Deployment properties. */
-  properties?: DeploymentPropertiesExtended;
+  properties?: DeploymentPropertiesExtended | undefined;
   /** the location of the deployment. */
-  location?: string;
+  location?: string | undefined;
   /** Deployment tags */
-  tags?: GetDeploymentAtScopeResponseTagsMap;
+  tags?: GetDeploymentAtScopeResponseTagsMap | undefined;
 }
 export interface GetDeploymentAtSubscriptionScopeRequest {
   /** The ID of the target subscription. */
@@ -4047,19 +4257,19 @@ export interface GetDeploymentAtSubscriptionScopeRequest {
 export type GetDeploymentAtSubscriptionScopeResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDeploymentAtSubscriptionScopeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Deployment properties. */
-  properties?: DeploymentPropertiesExtended;
+  properties?: DeploymentPropertiesExtended | undefined;
   /** the location of the deployment. */
-  location?: string;
+  location?: string | undefined;
   /** Deployment tags */
-  tags?: GetDeploymentAtSubscriptionScopeResponseTagsMap;
+  tags?: GetDeploymentAtSubscriptionScopeResponseTagsMap | undefined;
 }
 export interface GetDeploymentAtTenantScopeRequest {
   /** The name of the deployment. */
@@ -4069,19 +4279,19 @@ export interface GetDeploymentAtTenantScopeRequest {
 export type GetDeploymentAtTenantScopeResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDeploymentAtTenantScopeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Deployment properties. */
-  properties?: DeploymentPropertiesExtended;
+  properties?: DeploymentPropertiesExtended | undefined;
   /** the location of the deployment. */
-  location?: string;
+  location?: string | undefined;
   /** Deployment tags */
-  tags?: GetDeploymentAtTenantScopeResponseTagsMap;
+  tags?: GetDeploymentAtTenantScopeResponseTagsMap | undefined;
 }
 export interface GetDeploymentOperationRequest {
   /** The ID of the target subscription. */
@@ -4108,67 +4318,67 @@ export type ProvisioningOperation =
 /** Operation status message object. */
 export interface StatusMessage {
   /** Status of the deployment operation. */
-  status?: string;
+  status?: string | undefined;
   /** The error reported by the operation. */
-  error?: ErrorResponse;
+  error?: ErrorResponse | undefined;
 }
 /** The symbolic name path to the resource in the deployment template, including nested deployment(s) and extension if applicable. */
 export type TargetResourceSymbolicNamePathList = Array<string>;
 /** Target resource. */
 export interface TargetResource {
   /** The Azure resource ID of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** The type of the resource. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The extension the resource was deployed with. */
-  extension?: DeploymentExtensionDefinition;
+  extension?: DeploymentExtensionDefinition | undefined;
   /** The extensible resource identifiers. */
-  identifiers?: unknown;
+  identifiers?: unknown | undefined;
   /** The API version the resource was deployed with. */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** The symbolic name of the resource as defined in the deployment template. */
-  symbolicName?: string;
+  symbolicName?: string | undefined;
   /** The symbolic name path to the resource in the deployment template, including nested deployment(s) and extension if applicable. */
-  symbolicNamePath?: TargetResourceSymbolicNamePathList;
+  symbolicNamePath?: TargetResourceSymbolicNamePathList | undefined;
 }
 /** HTTP message. */
 export interface HttpMessage {
   /** HTTP message content. */
-  content?: unknown;
+  content?: unknown | undefined;
 }
 /** Deployment operation properties. */
 export interface DeploymentOperationProperties {
   /** The name of the current provisioning operation. */
-  provisioningOperation?: ProvisioningOperation;
+  provisioningOperation?: ProvisioningOperation | undefined;
   /** The state of the provisioning. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The date and time of the operation. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** The duration of the operation. */
-  duration?: string;
+  duration?: string | undefined;
   /** Deployment operation service request id. */
-  serviceRequestId?: string;
+  serviceRequestId?: string | undefined;
   /** Operation status code from the resource provider. This property may not be set if a response has not yet been received. */
-  statusCode?: string;
+  statusCode?: string | undefined;
   /** Operation status message from the resource provider. This property is optional. It will only be provided if an error was received from the resource provider. */
-  statusMessage?: StatusMessage;
+  statusMessage?: StatusMessage | undefined;
   /** The target resource. */
-  targetResource?: TargetResource;
+  targetResource?: TargetResource | undefined;
   /** The HTTP request message. */
-  request?: HttpMessage;
+  request?: HttpMessage | undefined;
   /** The HTTP response message. */
-  response?: HttpMessage;
+  response?: HttpMessage | undefined;
 }
 /** Deployment operation information. */
 export interface DeploymentOperation {
   /** Full deployment operation ID. */
-  id?: string;
+  id?: string | undefined;
   /** Deployment operation ID. */
-  operationId?: string;
+  operationId?: string | undefined;
   /** Deployment properties. */
-  properties?: DeploymentOperationProperties;
+  properties?: DeploymentOperationProperties | undefined;
 }
 export interface GetDeploymentOperationAtManagementGroupScopeRequest {
   /** The management group ID. */
@@ -4208,28 +4418,7 @@ export interface GetDeploymentScriptRequest {
   /** Name of the deployment script. */
   scriptName: string;
 }
-/** Resource tags. */
-export type GetDeploymentScriptResponseTagsMap = { [key: string]: string | undefined };
-export interface GetDeploymentScriptResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Resource tags. */
-  tags?: GetDeploymentScriptResponseTagsMap;
-  /** The geo-location where the resource lives */
-  location: string;
-  /** Type of the script. */
-  kind: ScriptType;
-  /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
-  identity?: ManagedServiceIdentity;
-  /** Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...). */
-  properties?: DeploymentScriptProperties;
-}
+export type GetDeploymentScriptResponse = DeploymentScript;
 export interface GetDeploymentScriptLogsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -4241,27 +4430,27 @@ export interface GetDeploymentScriptLogsRequest {
 /** Script log properties. */
 export interface LogProperties {
   /** Script execution logs in text format. */
-  log?: string;
+  log?: string | undefined;
 }
 /** Script execution log object. */
 export interface ScriptLog {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Script log properties. */
-  properties?: LogProperties;
+  properties?: LogProperties | undefined;
 }
 /** Deployment scripts logs. */
 export type ScriptLogsListValueList = Array<ScriptLog>;
 /** Deployment script execution logs. */
 export interface ScriptLogsList {
   /** Deployment scripts logs. */
-  value?: ScriptLogsListValueList;
+  value?: ScriptLogsListValueList | undefined;
 }
 export interface GetDeploymentScriptLogsDefaultRequest {
   /** The ID of the target subscription. */
@@ -4271,19 +4460,19 @@ export interface GetDeploymentScriptLogsDefaultRequest {
   /** Name of the deployment script. */
   scriptName: string;
   /** The number of lines to show from the tail of the deployment script log. Valid value is a positive number up to 1000. If 'tail' is not provided, all available logs are shown up to container instance log capacity of 4mb. */
-  tail?: number;
+  tail?: number | undefined;
 }
 export interface GetDeploymentScriptLogsDefaultResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Script log properties. */
-  properties?: LogProperties;
+  properties?: LogProperties | undefined;
 }
 export interface GetDeploymentStackAtManagementGroupRequest {
   /** The management group ID. */
@@ -4297,19 +4486,19 @@ export type GetDeploymentStackAtManagementGroupResponseTagsMap = {
 };
 export interface GetDeploymentStackAtManagementGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Deployment stack properties. */
-  properties?: DeploymentStackProperties;
+  properties?: DeploymentStackProperties | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: GetDeploymentStackAtManagementGroupResponseTagsMap;
+  tags?: GetDeploymentStackAtManagementGroupResponseTagsMap | undefined;
 }
 export interface GetDeploymentStackAtResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4325,19 +4514,19 @@ export type GetDeploymentStackAtResourceGroupResponseTagsMap = {
 };
 export interface GetDeploymentStackAtResourceGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Deployment stack properties. */
-  properties?: DeploymentStackProperties;
+  properties?: DeploymentStackProperties | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: GetDeploymentStackAtResourceGroupResponseTagsMap;
+  tags?: GetDeploymentStackAtResourceGroupResponseTagsMap | undefined;
 }
 export interface GetDeploymentStackAtSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4349,19 +4538,19 @@ export interface GetDeploymentStackAtSubscriptionRequest {
 export type GetDeploymentStackAtSubscriptionResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDeploymentStackAtSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Deployment stack properties. */
-  properties?: DeploymentStackProperties;
+  properties?: DeploymentStackProperties | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: GetDeploymentStackAtSubscriptionResponseTagsMap;
+  tags?: GetDeploymentStackAtSubscriptionResponseTagsMap | undefined;
 }
 export interface GetDeploymentStacksWhatIfResultsAtManagementGroupRequest {
   /** The management group ID. */
@@ -4375,19 +4564,19 @@ export type GetDeploymentStacksWhatIfResultsAtManagementGroupResponseTagsMap = {
 };
 export interface GetDeploymentStacksWhatIfResultsAtManagementGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentStacksWhatIfResultProperties;
+  properties?: DeploymentStacksWhatIfResultProperties | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: GetDeploymentStacksWhatIfResultsAtManagementGroupResponseTagsMap;
+  tags?: GetDeploymentStacksWhatIfResultsAtManagementGroupResponseTagsMap | undefined;
 }
 export interface GetDeploymentStacksWhatIfResultsAtResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4403,19 +4592,19 @@ export type GetDeploymentStacksWhatIfResultsAtResourceGroupResponseTagsMap = {
 };
 export interface GetDeploymentStacksWhatIfResultsAtResourceGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentStacksWhatIfResultProperties;
+  properties?: DeploymentStacksWhatIfResultProperties | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: GetDeploymentStacksWhatIfResultsAtResourceGroupResponseTagsMap;
+  tags?: GetDeploymentStacksWhatIfResultsAtResourceGroupResponseTagsMap | undefined;
 }
 export interface GetDeploymentStacksWhatIfResultsAtSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4429,19 +4618,19 @@ export type GetDeploymentStacksWhatIfResultsAtSubscriptionResponseTagsMap = {
 };
 export interface GetDeploymentStacksWhatIfResultsAtSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentStacksWhatIfResultProperties;
+  properties?: DeploymentStacksWhatIfResultProperties | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: GetDeploymentStacksWhatIfResultsAtSubscriptionResponseTagsMap;
+  tags?: GetDeploymentStacksWhatIfResultsAtSubscriptionResponseTagsMap | undefined;
 }
 export interface GetFeatureRequest {
   /** The Azure subscription ID. */
@@ -4454,18 +4643,18 @@ export interface GetFeatureRequest {
 /** Information about feature. */
 export interface FeatureProperties {
   /** The registration state of the feature for the subscription. */
-  state?: string;
+  state?: string | undefined;
 }
 /** Previewed feature information. */
 export interface FeatureResult {
   /** The name of the feature. */
-  name?: string;
+  name?: string | undefined;
   /** Properties of the previewed feature. */
-  properties?: FeatureProperties;
+  properties?: FeatureProperties | undefined;
   /** The resource ID of the feature. */
-  id?: string;
+  id?: string | undefined;
   /** The resource type of the feature. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface GetJitRequestRequest {
   /** The ID of the target subscription. */
@@ -4511,33 +4700,33 @@ export interface JitRequestProperties {
   /** The parent application id. */
   applicationResourceId: string;
   /** The publisher tenant id. */
-  publisherTenantId?: string;
+  publisherTenantId?: string | undefined;
   /** The JIT authorization policies. */
   jitAuthorizationPolicies: JitRequestPropertiesJitAuthorizationPoliciesList;
   /** The JIT request properties. */
   jitSchedulingPolicy: JitSchedulingPolicy;
   /** The JIT request provisioning state. */
-  provisioningState?: ProvisioningState_3;
+  provisioningState?: ProvisioningState_3 | undefined;
   /** The JIT request state. */
-  jitRequestState?: JitRequestState;
+  jitRequestState?: JitRequestState | undefined;
   /** The client entity that created the JIT request. */
-  createdBy?: ApplicationClientDetails;
+  createdBy?: ApplicationClientDetails | undefined;
   /** The client entity that last updated the JIT request. */
-  updatedBy?: ApplicationClientDetails;
+  updatedBy?: ApplicationClientDetails | undefined;
 }
 export interface GetJitRequestResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: GetJitRequestResponseTagsMap;
+  tags?: GetJitRequestResponseTagsMap | undefined;
   /** The JIT request properties. */
-  properties?: JitRequestProperties;
+  properties?: JitRequestProperties | undefined;
 }
 export interface GetManagementLockAtResourceGroupLevelRequest {
   /** The ID of the target subscription. */
@@ -4552,7 +4741,7 @@ export type ManagementLockPropertiesLevel = "NotSpecified" | "CanNotDelete" | "R
 /** Lock owner properties. */
 export interface ManagementLockOwner {
   /** The application ID of the lock owner. */
-  applicationId?: string;
+  applicationId?: string | undefined;
 }
 /** The owners of the lock. */
 export type ManagementLockPropertiesOwnersList = Array<ManagementLockOwner>;
@@ -4561,9 +4750,9 @@ export interface ManagementLockProperties {
   /** The level of the lock. Possible values are: NotSpecified, CanNotDelete, ReadOnly. CanNotDelete means authorized users are able to read and modify the resources, but not delete. ReadOnly means authorized users can only read from a resource, but they can't modify or delete it. */
   level: ManagementLockPropertiesLevel | (string & {});
   /** Notes about the lock. Maximum of 512 characters. */
-  notes?: string;
+  notes?: string | undefined;
   /** The owners of the lock. */
-  owners?: ManagementLockPropertiesOwnersList;
+  owners?: ManagementLockPropertiesOwnersList | undefined;
 }
 /** The type of identity that created the resource. */
 export type ManagementLockObjectSystemDataCreatedByType =
@@ -4580,30 +4769,30 @@ export type ManagementLockObjectSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ManagementLockObjectSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ManagementLockObjectSystemDataCreatedByType;
+  createdByType?: ManagementLockObjectSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ManagementLockObjectSystemDataLastModifiedByType;
+  lastModifiedByType?: ManagementLockObjectSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The lock information. */
 export interface ManagementLockObject {
   /** The properties of the lock. */
   properties: ManagementLockProperties;
   /** The resource ID of the lock. */
-  id?: string;
+  id?: string | undefined;
   /** The resource type of the lock - Microsoft.Authorization/locks. */
-  type?: string;
+  type?: string | undefined;
   /** The name of the lock. */
-  name?: string;
+  name?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ManagementLockObjectSystemData;
+  systemData?: ManagementLockObjectSystemData | undefined;
 }
 export interface GetManagementLockAtResourceLevelRequest {
   /** The ID of the target subscription. */
@@ -4639,23 +4828,23 @@ export interface GetPolicyAssignmentRequest {
   /** The name of the policy assignment to get. */
   policyAssignmentName: string;
   /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface GetPolicyAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the policy assignment. */
-  properties?: PolicyAssignmentProperties;
+  properties?: PolicyAssignmentProperties | undefined;
   /** The location of the policy assignment. Only required when utilizing managed identity. */
-  location?: string;
+  location?: string | undefined;
   /** The managed identity associated with the policy assignment. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 export interface GetPolicyDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4679,27 +4868,27 @@ export type ParameterDefinitionsValueAllowedValuesList = Array<unknown>;
 /** General metadata for the parameter. */
 export interface ParameterDefinitionsValueMetadata {
   /** The display name for the parameter. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The description of the parameter. */
-  description?: string;
+  description?: string | undefined;
   /** Used when assigning the policy definition through the portal. Provides a context aware list of values for the user to choose from. */
-  strongType?: string;
+  strongType?: string | undefined;
   /** Set to true to have Azure portal create role assignments on the resource ID or resource scope value of this parameter during policy assignment. This property is useful in case you wish to assign permissions outside the assignment scope. */
-  assignPermissions?: boolean;
+  assignPermissions?: boolean | undefined;
   [key: string]: unknown;
 }
 /** The definition of a parameter that can be provided to the policy. */
 export interface ParameterDefinitionsValue {
   /** The data type of the parameter. */
-  type?: ParameterType | (string & {});
+  type?: ParameterType | (string & {}) | undefined;
   /** The allowed values for the parameter. */
-  allowedValues?: ParameterDefinitionsValueAllowedValuesList;
+  allowedValues?: ParameterDefinitionsValueAllowedValuesList | undefined;
   /** The default value for the parameter if no value is provided. */
-  defaultValue?: unknown;
+  defaultValue?: unknown | undefined;
   /** Provides validation of parameter inputs during assignment using a self-defined JSON schema. This property is only supported for object-type parameters and follows the Json.NET Schema 2019-09 implementation. You can learn more about using schemas at https://json-schema.org/ and test draft schemas at https://www.jsonschemavalidator.net/. */
-  schema?: unknown;
+  schema?: unknown | undefined;
   /** General metadata for the parameter. */
-  metadata?: ParameterDefinitionsValueMetadata;
+  metadata?: ParameterDefinitionsValueMetadata | undefined;
 }
 /** The parameter definitions for parameters used in the policy rule. The keys are the parameter names. */
 export type PolicyDefinitionPropertiesParametersMap = {
@@ -4710,57 +4899,57 @@ export type PolicyDefinitionPropertiesVersionsList = Array<string>;
 /** The settings of an external endpoint providing evaluation results. */
 export interface ExternalEvaluationEndpointSettings {
   /** The kind of the endpoint. */
-  kind?: string;
+  kind?: string | undefined;
   /** The details of the endpoint. */
-  details?: unknown;
+  details?: unknown | undefined;
 }
 /** An array of the role definition Ids the assignment's MSI will need in order to invoke the endpoint. */
 export type ExternalEvaluationEnforcementSettingsRoleDefinitionIdsList = Array<string>;
 /** The details of the source of external evaluation results required by the policy during enforcement evaluation. */
 export interface ExternalEvaluationEnforcementSettings {
   /** What to do when evaluating an enforcement policy that requires an external evaluation and the token is missing. Possible values are Audit and Deny and language expressions are supported. */
-  missingTokenAction?: string;
+  missingTokenAction?: string | undefined;
   /** The lifespan of the endpoint invocation result after which it's no longer valid. Value is expected to follow the ISO 8601 duration format and language expressions are supported. */
-  resultLifespan?: string;
+  resultLifespan?: string | undefined;
   /** The settings of an external endpoint providing evaluation results. */
-  endpointSettings?: ExternalEvaluationEndpointSettings;
+  endpointSettings?: ExternalEvaluationEndpointSettings | undefined;
   /** An array of the role definition Ids the assignment's MSI will need in order to invoke the endpoint. */
-  roleDefinitionIds?: ExternalEvaluationEnforcementSettingsRoleDefinitionIdsList;
+  roleDefinitionIds?: ExternalEvaluationEnforcementSettingsRoleDefinitionIdsList | undefined;
 }
 /** The policy definition properties. */
 export interface PolicyDefinitionProperties {
   /** The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static. */
-  policyType?: PolicyType | (string & {});
+  policyType?: PolicyType | (string & {}) | undefined;
   /** The policy definition mode. Some examples are All, Indexed, Microsoft.KeyVault.Data. */
-  mode?: string;
+  mode?: string | undefined;
   /** The display name of the policy definition. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The policy definition description. */
-  description?: string;
+  description?: string | undefined;
   /** The policy rule. */
-  policyRule?: unknown;
+  policyRule?: unknown | undefined;
   /** The policy definition metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The parameter definitions for parameters used in the policy rule. The keys are the parameter names. */
-  parameters?: PolicyDefinitionPropertiesParametersMap;
+  parameters?: PolicyDefinitionPropertiesParametersMap | undefined;
   /** The policy definition version in #.#.# format. */
-  version?: string;
+  version?: string | undefined;
   /** A list of available versions for this policy definition. */
-  versions?: PolicyDefinitionPropertiesVersionsList;
+  versions?: PolicyDefinitionPropertiesVersionsList | undefined;
   /** The details of the source of external evaluation results required by the policy during enforcement evaluation. */
-  externalEvaluationEnforcementSettings?: ExternalEvaluationEnforcementSettings;
+  externalEvaluationEnforcementSettings?: ExternalEvaluationEnforcementSettings | undefined;
 }
 export interface GetPolicyDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy definition properties. */
-  properties?: PolicyDefinitionProperties;
+  properties?: PolicyDefinitionProperties | undefined;
 }
 export interface GetPolicyDefinitionAtManagementGroupRequest {
   /** The ID of the management group. */
@@ -4770,15 +4959,15 @@ export interface GetPolicyDefinitionAtManagementGroupRequest {
 }
 export interface GetPolicyDefinitionAtManagementGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy definition properties. */
-  properties?: PolicyDefinitionProperties;
+  properties?: PolicyDefinitionProperties | undefined;
 }
 export interface GetPolicyDefinitionBuiltInRequest {
   /** The name of the built-in policy definition to get. */
@@ -4786,15 +4975,15 @@ export interface GetPolicyDefinitionBuiltInRequest {
 }
 export interface GetPolicyDefinitionBuiltInResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy definition properties. */
-  properties?: PolicyDefinitionProperties;
+  properties?: PolicyDefinitionProperties | undefined;
 }
 export interface GetPolicyDefinitionVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4811,35 +5000,35 @@ export type PolicyDefinitionVersionPropertiesParametersMap = {
 /** The policy definition properties. */
 export interface PolicyDefinitionVersionProperties {
   /** The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static. */
-  policyType?: PolicyType | (string & {});
+  policyType?: PolicyType | (string & {}) | undefined;
   /** The policy definition mode. Some examples are All, Indexed, Microsoft.KeyVault.Data. */
-  mode?: string;
+  mode?: string | undefined;
   /** The display name of the policy definition. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The policy definition description. */
-  description?: string;
+  description?: string | undefined;
   /** The policy rule. */
-  policyRule?: unknown;
+  policyRule?: unknown | undefined;
   /** The policy definition metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The parameter definitions for parameters used in the policy rule. The keys are the parameter names. */
-  parameters?: PolicyDefinitionVersionPropertiesParametersMap;
+  parameters?: PolicyDefinitionVersionPropertiesParametersMap | undefined;
   /** The policy definition version in #.#.# format. */
-  version?: string;
+  version?: string | undefined;
   /** The details of the source of external evaluation results required by the policy during enforcement evaluation. */
-  externalEvaluationEnforcementSettings?: ExternalEvaluationEnforcementSettings;
+  externalEvaluationEnforcementSettings?: ExternalEvaluationEnforcementSettings | undefined;
 }
 export interface GetPolicyDefinitionVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy definition version properties. */
-  properties?: PolicyDefinitionVersionProperties;
+  properties?: PolicyDefinitionVersionProperties | undefined;
 }
 export interface GetPolicyDefinitionVersionAtManagementGroupRequest {
   /** The name of the management group. The name is case insensitive. */
@@ -4851,15 +5040,15 @@ export interface GetPolicyDefinitionVersionAtManagementGroupRequest {
 }
 export interface GetPolicyDefinitionVersionAtManagementGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy definition version properties. */
-  properties?: PolicyDefinitionVersionProperties;
+  properties?: PolicyDefinitionVersionProperties | undefined;
 }
 export interface GetPolicyDefinitionVersionBuiltInRequest {
   /** The name of the policy definition. */
@@ -4869,15 +5058,15 @@ export interface GetPolicyDefinitionVersionBuiltInRequest {
 }
 export interface GetPolicyDefinitionVersionBuiltInResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy definition version properties. */
-  properties?: PolicyDefinitionVersionProperties;
+  properties?: PolicyDefinitionVersionProperties | undefined;
 }
 export interface GetPolicySetDefinitionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4885,7 +5074,7 @@ export interface GetPolicySetDefinitionRequest {
   /** The name of the policy set definition to get. */
   policySetDefinitionName: string;
   /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** The policy set definition parameters that can be used in policy definition references. */
 export type PolicySetDefinitionPropertiesParametersMap = {
@@ -4902,17 +5091,17 @@ export interface PolicyDefinitionReference {
   /** The ID of the policy definition or policy set definition. */
   policyDefinitionId: string;
   /** The version of the policy definition to use. */
-  definitionVersion?: string;
+  definitionVersion?: string | undefined;
   /** The latest version of the policy definition available. This is only present if requested via the $expand query parameter. */
-  latestDefinitionVersion?: string;
+  latestDefinitionVersion?: string | undefined;
   /** The effective version of the policy definition in use. This is only present if requested via the $expand query parameter. */
-  effectiveDefinitionVersion?: string;
+  effectiveDefinitionVersion?: string | undefined;
   /** The parameter values for the referenced policy rule. The keys are the parameter names. */
-  parameters?: PolicyDefinitionReferenceParametersMap;
+  parameters?: PolicyDefinitionReferenceParametersMap | undefined;
   /** A unique id (within the policy set definition) for this policy definition reference. */
-  policyDefinitionReferenceId?: string;
+  policyDefinitionReferenceId?: string | undefined;
   /** The name of the groups that this policy definition reference belongs to. */
-  groupNames?: PolicyDefinitionReferenceGroupNamesList;
+  groupNames?: PolicyDefinitionReferenceGroupNamesList | undefined;
 }
 /** An array of policy definition references. */
 export type PolicySetDefinitionPropertiesPolicyDefinitionsList = Array<PolicyDefinitionReference>;
@@ -4921,13 +5110,13 @@ export interface PolicyDefinitionGroup {
   /** The name of the group. */
   name: string;
   /** The group's display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The group's category. */
-  category?: string;
+  category?: string | undefined;
   /** The group's description. */
-  description?: string;
+  description?: string | undefined;
   /** A resource ID of a resource that contains additional metadata about the group. */
-  additionalMetadataId?: string;
+  additionalMetadataId?: string | undefined;
 }
 /** The metadata describing groups of policy definition references within the policy set definition. */
 export type PolicySetDefinitionPropertiesPolicyDefinitionGroupsList = Array<PolicyDefinitionGroup>;
@@ -4936,35 +5125,35 @@ export type PolicySetDefinitionPropertiesVersionsList = Array<string>;
 /** The policy set definition properties. */
 export interface PolicySetDefinitionProperties {
   /** The type of policy set definition. Possible values are NotSpecified, BuiltIn, Custom, and Static. */
-  policyType?: PolicyType;
+  policyType?: PolicyType | undefined;
   /** The display name of the policy set definition. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The policy set definition description. */
-  description?: string;
+  description?: string | undefined;
   /** The policy set definition metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The policy set definition parameters that can be used in policy definition references. */
-  parameters?: PolicySetDefinitionPropertiesParametersMap;
+  parameters?: PolicySetDefinitionPropertiesParametersMap | undefined;
   /** An array of policy definition references. */
   policyDefinitions: PolicySetDefinitionPropertiesPolicyDefinitionsList;
   /** The metadata describing groups of policy definition references within the policy set definition. */
-  policyDefinitionGroups?: PolicySetDefinitionPropertiesPolicyDefinitionGroupsList;
+  policyDefinitionGroups?: PolicySetDefinitionPropertiesPolicyDefinitionGroupsList | undefined;
   /** The policy set definition version in #.#.# format. */
-  version?: string;
+  version?: string | undefined;
   /** A list of available versions for this policy set definition. */
-  versions?: PolicySetDefinitionPropertiesVersionsList;
+  versions?: PolicySetDefinitionPropertiesVersionsList | undefined;
 }
 export interface GetPolicySetDefinitionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy set definition properties. */
-  properties?: PolicySetDefinitionProperties;
+  properties?: PolicySetDefinitionProperties | undefined;
 }
 export interface GetPolicySetDefinitionAtManagementGroupRequest {
   /** The ID of the management group. */
@@ -4972,37 +5161,37 @@ export interface GetPolicySetDefinitionAtManagementGroupRequest {
   /** The name of the policy set definition to get. */
   policySetDefinitionName: string;
   /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface GetPolicySetDefinitionAtManagementGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy set definition properties. */
-  properties?: PolicySetDefinitionProperties;
+  properties?: PolicySetDefinitionProperties | undefined;
 }
 export interface GetPolicySetDefinitionBuiltInRequest {
   /** The name of the policy set definition to get. */
   policySetDefinitionName: string;
   /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface GetPolicySetDefinitionBuiltInResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy set definition properties. */
-  properties?: PolicySetDefinitionProperties;
+  properties?: PolicySetDefinitionProperties | undefined;
 }
 export interface GetPolicySetDefinitionVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5012,7 +5201,7 @@ export interface GetPolicySetDefinitionVersionRequest {
   /** The policy set definition version. The format is x.y.z where x is the major version number, y is the minor version number, and z is the patch number */
   policyDefinitionVersion: string;
   /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** The policy set definition parameters that can be used in policy definition references. */
 export type PolicySetDefinitionVersionPropertiesParametersMap = {
@@ -5027,33 +5216,35 @@ export type PolicySetDefinitionVersionPropertiesPolicyDefinitionGroupsList =
 /** The policy set definition properties. */
 export interface PolicySetDefinitionVersionProperties {
   /** The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static. */
-  policyType?: PolicyType;
+  policyType?: PolicyType | undefined;
   /** The display name of the policy set definition. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The policy set definition description. */
-  description?: string;
+  description?: string | undefined;
   /** The policy set definition metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The policy set definition parameters that can be used in policy definition references. */
-  parameters?: PolicySetDefinitionVersionPropertiesParametersMap;
+  parameters?: PolicySetDefinitionVersionPropertiesParametersMap | undefined;
   /** An array of policy definition references. */
   policyDefinitions: PolicySetDefinitionVersionPropertiesPolicyDefinitionsList;
   /** The metadata describing groups of policy definition references within the policy set definition. */
-  policyDefinitionGroups?: PolicySetDefinitionVersionPropertiesPolicyDefinitionGroupsList;
+  policyDefinitionGroups?:
+    | PolicySetDefinitionVersionPropertiesPolicyDefinitionGroupsList
+    | undefined;
   /** The policy set definition version in #.#.# format. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetPolicySetDefinitionVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy set definition version properties. */
-  properties?: PolicySetDefinitionVersionProperties;
+  properties?: PolicySetDefinitionVersionProperties | undefined;
 }
 export interface GetPolicySetDefinitionVersionAtManagementGroupRequest {
   /** The name of the management group. The name is case insensitive. */
@@ -5063,19 +5254,19 @@ export interface GetPolicySetDefinitionVersionAtManagementGroupRequest {
   /** The policy set definition version. The format is x.y.z where x is the major version number, y is the minor version number, and z is the patch number */
   policyDefinitionVersion: string;
   /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface GetPolicySetDefinitionVersionAtManagementGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy set definition version properties. */
-  properties?: PolicySetDefinitionVersionProperties;
+  properties?: PolicySetDefinitionVersionProperties | undefined;
 }
 export interface GetPolicySetDefinitionVersionBuiltInRequest {
   /** The name of the policy set definition. */
@@ -5083,19 +5274,19 @@ export interface GetPolicySetDefinitionVersionBuiltInRequest {
   /** The policy set definition version. The format is x.y.z where x is the major version number, y is the minor version number, and z is the patch number */
   policyDefinitionVersion: string;
   /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface GetPolicySetDefinitionVersionBuiltInResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy set definition version properties. */
-  properties?: PolicySetDefinitionVersionProperties;
+  properties?: PolicySetDefinitionVersionProperties | undefined;
 }
 export interface GetPrivateLinkAssociationRequest {
   /** The management group ID. */
@@ -5107,22 +5298,22 @@ export type PrivateLinkAssociationPropertiesExpandedPublicNetworkAccess = "Enabl
 /** Private Link Association Properties. */
 export interface PrivateLinkAssociationPropertiesExpanded {
   /** The rmpl Resource ID. */
-  privateLink?: string;
-  publicNetworkAccess?: PrivateLinkAssociationPropertiesExpandedPublicNetworkAccess;
+  privateLink?: string | undefined;
+  publicNetworkAccess?: PrivateLinkAssociationPropertiesExpandedPublicNetworkAccess | undefined;
   /** The TenantID. */
-  tenantID?: string;
+  tenantID?: string | undefined;
   /** The scope of the private link association. */
-  scope?: string;
+  scope?: string | undefined;
 }
 export interface PrivateLinkAssociation {
   /** The private link association properties. */
-  properties?: PrivateLinkAssociationPropertiesExpanded;
+  properties?: PrivateLinkAssociationPropertiesExpanded | undefined;
   /** The plaResourceID. */
-  id?: string;
+  id?: string | undefined;
   /** The operation type. */
-  type?: string;
+  type?: string | undefined;
   /** The pla name. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetProviderRequest {
   /** The ID of the target subscription. */
@@ -5130,13 +5321,13 @@ export interface GetProviderRequest {
   /** The namespace of the resource provider. */
   resourceProviderNamespace: string;
   /** The $expand query parameter. For example, to include property aliases in response, use $expand=resourceTypes/aliases. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface GetProviderAtTenantScopeRequest {
   /** The namespace of the resource provider. */
   resourceProviderNamespace: string;
   /** The $expand query parameter. For example, to include property aliases in response, use $expand=resourceTypes/aliases. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface GetResourceRequest {
   /** The ID of the target subscription. */
@@ -5155,30 +5346,30 @@ export interface GetResourceRequest {
 /** Plan for the resource. */
 export interface Plan {
   /** The plan ID. */
-  name?: string;
+  name?: string | undefined;
   /** The publisher ID. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** The offer ID. */
-  product?: string;
+  product?: string | undefined;
   /** The promotion code. */
-  promotionCode?: string;
+  promotionCode?: string | undefined;
   /** The plan's version. */
-  version?: string;
+  version?: string | undefined;
 }
 /** SKU for the resource. */
 export interface Sku {
   /** The SKU name. */
-  name?: string;
+  name?: string | undefined;
   /** The SKU tier. */
-  tier?: string;
+  tier?: string | undefined;
   /** The SKU size. */
-  size?: string;
+  size?: string | undefined;
   /** The SKU family. */
-  family?: string;
+  family?: string | undefined;
   /** The SKU model. */
-  model?: string;
+  model?: string | undefined;
   /** The SKU capacity. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** The identity type. */
 export type ResourceIdentityType_2 =
@@ -5194,52 +5385,52 @@ export type IdentityUserAssignedIdentitiesMap_2 = {
 /** Identity for the resource. */
 export interface Identity_2 {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity type. */
-  type?: ResourceIdentityType_2;
+  type?: ResourceIdentityType_2 | undefined;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap_2;
+  userAssignedIdentities?: IdentityUserAssignedIdentitiesMap_2 | undefined;
 }
 /** The extended location type. */
 export type ExtendedLocationType = "EdgeZone";
 /** Resource extended location. */
 export interface ExtendedLocation {
   /** The extended location type. */
-  type?: ExtendedLocationType | (string & {});
+  type?: ExtendedLocationType | (string & {}) | undefined;
   /** The extended location name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Resource tags */
 export type GetResourceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** The plan of the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The kind of the resource. */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The identity of the resource. */
-  identity?: Identity_2;
+  identity?: Identity_2 | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Resource tags */
-  tags?: GetResourceResponseTagsMap;
+  tags?: GetResourceResponseTagsMap | undefined;
 }
 export interface GetResourceByIdRequest {
   resourceId: string;
@@ -5248,31 +5439,31 @@ export interface GetResourceByIdRequest {
 export type GetResourceByIdResponseTagsMap = { [key: string]: string | undefined };
 export interface GetResourceByIdResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** The plan of the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The kind of the resource. */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The identity of the resource. */
-  identity?: Identity_2;
+  identity?: Identity_2 | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Resource tags */
-  tags?: GetResourceByIdResponseTagsMap;
+  tags?: GetResourceByIdResponseTagsMap | undefined;
 }
 export interface GetResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -5285,25 +5476,25 @@ export type GetResourceGroupResponseTagsMap = { [key: string]: string | undefine
 /** The resource group properties. */
 export interface ResourceGroupProperties {
   /** The provisioning state. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface GetResourceGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetResourceGroupResponseTagsMap;
+  tags?: GetResourceGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource group properties. */
-  properties?: ResourceGroupProperties;
+  properties?: ResourceGroupProperties | undefined;
   /** The ID of the resource that manages this resource group. */
-  managedBy?: string;
+  managedBy?: string | undefined;
 }
 export interface GetResourceLinkRequest {
   /** The fully qualified Id of the resource link. For example, /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup/Microsoft.Web/sites/mySite/Microsoft.Resources/links/myLink */
@@ -5312,22 +5503,22 @@ export interface GetResourceLinkRequest {
 /** The resource link properties. */
 export interface ResourceLinkProperties {
   /** The fully qualified ID of the source resource in the link. */
-  sourceId?: string;
+  sourceId?: string | undefined;
   /** The fully qualified ID of the target resource in the link. */
   targetId: string;
   /** Notes about the resource link. */
-  notes?: string;
+  notes?: string | undefined;
 }
 /** The resource link. */
 export interface ResourceLink {
   /** The fully qualified ID of the resource link. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource link. */
-  name?: string;
+  name?: string | undefined;
   /** The resource link object. */
-  type?: unknown;
+  type?: unknown | undefined;
   /** Properties for resource link. */
-  properties?: ResourceLinkProperties;
+  properties?: ResourceLinkProperties | undefined;
 }
 export interface GetResourceManagementPrivateLinkRequest {
   /** The ID of the target subscription. */
@@ -5342,18 +5533,20 @@ export type ResourceManagementPrivateLinkEndpointConnectionsPrivateEndpointConne
   Array<string>;
 export interface ResourceManagementPrivateLinkEndpointConnections {
   /** The private endpoint connections. */
-  privateEndpointConnections?: ResourceManagementPrivateLinkEndpointConnectionsPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | ResourceManagementPrivateLinkEndpointConnectionsPrivateEndpointConnectionsList
+    | undefined;
 }
 export interface ResourceManagementPrivateLink {
-  properties?: ResourceManagementPrivateLinkEndpointConnections;
+  properties?: ResourceManagementPrivateLinkEndpointConnections | undefined;
   /** The rmplResourceID. */
-  id?: string;
+  id?: string | undefined;
   /** The rmpl Name. */
-  name?: string;
+  name?: string | undefined;
   /** The operation type. */
-  type?: string;
+  type?: string | undefined;
   /** the region of the rmpl */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -5366,16 +5559,16 @@ export type SpendingLimit = "On" | "Off" | "CurrentPeriodOff";
 /** Subscription policies. */
 export interface SubscriptionPolicies {
   /** The subscription location placement ID. The ID indicates which regions are visible for a subscription. For example, a subscription with a location placement Id of Public_2014-09-01 has access to Azure public regions. */
-  locationPlacementId?: string;
+  locationPlacementId?: string | undefined;
   /** The subscription quota ID. */
-  quotaId?: string;
+  quotaId?: string | undefined;
   /** The subscription spending limit. */
-  spendingLimit?: SpendingLimit;
+  spendingLimit?: SpendingLimit | undefined;
 }
 /** Information about a tenant managing the subscription. */
 export interface ManagedByTenant {
   /** The tenant ID of the managing tenant. This is a GUID. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** An array containing the tenants managing the subscription. */
 export type SubscriptionManagedByTenantsList = Array<ManagedByTenant>;
@@ -5384,23 +5577,23 @@ export type SubscriptionTagsMap = { [key: string]: string | undefined };
 /** Subscription information. */
 export interface Subscription {
   /** The fully qualified ID for the subscription. For example, /subscriptions/8d65815f-a5b6-402f-9298-045155da7d74 */
-  id?: string;
+  id?: string | undefined;
   /** The subscription ID. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The subscription display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The subscription tenant ID. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The subscription state. Possible values are Enabled, Warned, PastDue, Disabled, and Deleted. */
-  state?: SubscriptionState;
+  state?: SubscriptionState | undefined;
   /** The subscription policies. */
-  subscriptionPolicies?: SubscriptionPolicies;
+  subscriptionPolicies?: SubscriptionPolicies | undefined;
   /** The authorization source of the request. Valid values are one or more combinations of Legacy, RoleBased, Bypassed, Direct and Management. For example, 'Legacy, RoleBased'. */
-  authorizationSource?: string;
+  authorizationSource?: string | undefined;
   /** An array containing the tenants managing the subscription. */
-  managedByTenants?: SubscriptionManagedByTenantsList;
+  managedByTenants?: SubscriptionManagedByTenantsList | undefined;
   /** The tags attached to the subscription. */
-  tags?: SubscriptionTagsMap;
+  tags?: SubscriptionTagsMap | undefined;
 }
 export interface GetSubscriptionFeatureRegistrationRequest {
   /** The Azure subscription ID. */
@@ -5422,15 +5615,15 @@ export type GetSubscriptionFeatureRegistrationResponsePropertiesState =
 /** Authorization Profile */
 export interface AuthorizationProfile {
   /** The requested time */
-  requestedTime?: string;
+  requestedTime?: string | undefined;
   /** The requester */
-  requester?: string;
+  requester?: string | undefined;
   /** The requester object id */
-  requesterObjectId?: string;
+  requesterObjectId?: string | undefined;
   /** The approved time */
-  approvedTime?: string;
+  approvedTime?: string | undefined;
   /** The approver */
-  approver?: string;
+  approver?: string | undefined;
 }
 /** Key-value pairs for meta data. */
 export type GetSubscriptionFeatureRegistrationResponsePropertiesMetadataMap = {
@@ -5443,41 +5636,41 @@ export type GetSubscriptionFeatureRegistrationResponsePropertiesApprovalType =
   | "AutoApproval";
 export interface GetSubscriptionFeatureRegistrationResponseProperties {
   /** The tenantId. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The subscriptionId. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The featureName. */
-  featureName?: string;
+  featureName?: string | undefined;
   /** The featureDisplayName. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The providerNamespace. */
-  providerNamespace?: string;
+  providerNamespace?: string | undefined;
   /** The state. */
-  state?: GetSubscriptionFeatureRegistrationResponsePropertiesState;
-  authorizationProfile?: AuthorizationProfile;
+  state?: GetSubscriptionFeatureRegistrationResponsePropertiesState | undefined;
+  authorizationProfile?: AuthorizationProfile | undefined;
   /** Key-value pairs for meta data. */
-  metadata?: GetSubscriptionFeatureRegistrationResponsePropertiesMetadataMap;
+  metadata?: GetSubscriptionFeatureRegistrationResponsePropertiesMetadataMap | undefined;
   /** The feature release date. */
-  releaseDate?: string;
+  releaseDate?: string | undefined;
   /** The feature registration date. */
-  registrationDate?: string;
+  registrationDate?: string | undefined;
   /** The feature documentation link. */
-  documentationLink?: string;
+  documentationLink?: string | undefined;
   /** The feature approval type. */
-  approvalType?: GetSubscriptionFeatureRegistrationResponsePropertiesApprovalType;
+  approvalType?: GetSubscriptionFeatureRegistrationResponsePropertiesApprovalType | undefined;
   /** Indicates whether feature should be displayed in Portal. */
-  shouldFeatureDisplayInPortal?: boolean;
+  shouldFeatureDisplayInPortal?: boolean | undefined;
   /** The feature description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface GetSubscriptionFeatureRegistrationResponse {
   /** Azure resource Id. */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Azure resource type. */
-  type?: string;
-  properties?: GetSubscriptionFeatureRegistrationResponseProperties;
+  type?: string | undefined;
+  properties?: GetSubscriptionFeatureRegistrationResponseProperties | undefined;
 }
 export interface GetTagAtScopeRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -5488,17 +5681,17 @@ export type TagsTagsMap = { [key: string]: string | undefined };
 /** A dictionary of name and value pairs. */
 export interface Tags {
   /** Dictionary of <string> */
-  tags?: TagsTagsMap;
+  tags?: TagsTagsMap | undefined;
 }
 export interface GetTagAtScopeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The set of tags. */
   properties: Tags;
 }
@@ -5511,7 +5704,7 @@ export interface GetTemplateSpecRequest {
   /** Name of the Template Spec. */
   templateSpecName: string;
   /** Allows for expansion of additional Template Spec details in the response. Optional. */
-  _expand?: GetTemplateSpecRequestExpand | (string & {});
+  _expand?: GetTemplateSpecRequestExpand | (string & {}) | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetTemplateSpecResponseSystemDataCreatedByType =
@@ -5528,26 +5721,26 @@ export type GetTemplateSpecResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetTemplateSpecResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetTemplateSpecResponseSystemDataCreatedByType;
+  createdByType?: GetTemplateSpecResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetTemplateSpecResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetTemplateSpecResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** High-level information about a Template Spec version. */
 export interface TemplateSpecVersionInfo {
   /** Template Spec version description. */
-  description?: string;
+  description?: string | undefined;
   /** The timestamp of when the version was created. */
-  timeCreated?: string;
+  timeCreated?: string | undefined;
   /** The timestamp of when the version was last modified. */
-  timeModified?: string;
+  timeModified?: string | undefined;
 }
 /** High-level information about the versions within this Template Spec. The keys are the version names. Only populated if the $expand query parameter is set to 'versions'. */
 export type TemplateSpecPropertiesVersionsMap = {
@@ -5556,38 +5749,38 @@ export type TemplateSpecPropertiesVersionsMap = {
 /** Template Spec properties. */
 export interface TemplateSpecProperties {
   /** Template Spec description. */
-  description?: string;
+  description?: string | undefined;
   /** Template Spec display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The Template Spec metadata. Metadata is an open-ended object and is typically a collection of key-value pairs. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** High-level information about the versions within this Template Spec. The keys are the version names. Only populated if the $expand query parameter is set to 'versions'. */
-  versions?: TemplateSpecPropertiesVersionsMap;
+  versions?: TemplateSpecPropertiesVersionsMap | undefined;
 }
 /** Resource tags. */
 export type GetTemplateSpecResponseTagsMap = { [key: string]: string | undefined };
 export interface GetTemplateSpecResponse {
   /** String Id used to locate any resource on Azure. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of this resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetTemplateSpecResponseSystemData;
+  systemData?: GetTemplateSpecResponseSystemData | undefined;
   /** The location of the Template Spec. It cannot be changed after Template Spec creation. It must be one of the supported Azure locations. */
   location: string;
   /** Template Spec properties. */
-  properties?: TemplateSpecProperties;
+  properties?: TemplateSpecProperties | undefined;
   /** Resource tags. */
-  tags?: GetTemplateSpecResponseTagsMap;
+  tags?: GetTemplateSpecResponseTagsMap | undefined;
 }
 export type GetTemplateSpecBuiltInRequestExpand = "versions";
 export interface GetTemplateSpecBuiltInRequest {
   /** Name of the Template Spec. */
   templateSpecName: string;
   /** Allows for expansion of additional Template Spec details in the response. Optional. */
-  _expand?: GetTemplateSpecBuiltInRequestExpand | (string & {});
+  _expand?: GetTemplateSpecBuiltInRequestExpand | (string & {}) | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetTemplateSpecBuiltInResponseSystemDataCreatedByType =
@@ -5604,35 +5797,35 @@ export type GetTemplateSpecBuiltInResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetTemplateSpecBuiltInResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetTemplateSpecBuiltInResponseSystemDataCreatedByType;
+  createdByType?: GetTemplateSpecBuiltInResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetTemplateSpecBuiltInResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetTemplateSpecBuiltInResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type GetTemplateSpecBuiltInResponseTagsMap = { [key: string]: string | undefined };
 export interface GetTemplateSpecBuiltInResponse {
   /** String Id used to locate any resource on Azure. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of this resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetTemplateSpecBuiltInResponseSystemData;
+  systemData?: GetTemplateSpecBuiltInResponseSystemData | undefined;
   /** The location of the Template Spec. It cannot be changed after Template Spec creation. It must be one of the supported Azure locations. */
   location: string;
   /** Template Spec properties. */
-  properties?: TemplateSpecProperties;
+  properties?: TemplateSpecProperties | undefined;
   /** Resource tags. */
-  tags?: GetTemplateSpecBuiltInResponseTagsMap;
+  tags?: GetTemplateSpecBuiltInResponseTagsMap | undefined;
 }
 export interface GetTemplateSpecVersionRequest {
   /** Subscription Id which forms part of the URI for every service call. */
@@ -5659,17 +5852,17 @@ export type GetTemplateSpecVersionResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetTemplateSpecVersionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetTemplateSpecVersionResponseSystemDataCreatedByType;
+  createdByType?: GetTemplateSpecVersionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetTemplateSpecVersionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetTemplateSpecVersionResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Represents a Template Spec artifact containing an embedded Azure Resource Manager template for use as a linked template. */
 export interface LinkedTemplateArtifact {
@@ -5683,33 +5876,33 @@ export type TemplateSpecVersionPropertiesLinkedTemplatesList = Array<LinkedTempl
 /** Template Spec Version properties. */
 export interface TemplateSpecVersionProperties {
   /** Template Spec version description. */
-  description?: string;
+  description?: string | undefined;
   /** An array of linked template artifacts. */
-  linkedTemplates?: TemplateSpecVersionPropertiesLinkedTemplatesList;
+  linkedTemplates?: TemplateSpecVersionPropertiesLinkedTemplatesList | undefined;
   /** The version metadata. Metadata is an open-ended object and is typically a collection of key-value pairs. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The main Azure Resource Manager template content. */
-  mainTemplate?: unknown;
+  mainTemplate?: unknown | undefined;
   /** The Azure Resource Manager template UI definition content. */
-  uiFormDefinition?: unknown;
+  uiFormDefinition?: unknown | undefined;
 }
 /** Resource tags. */
 export type GetTemplateSpecVersionResponseTagsMap = { [key: string]: string | undefined };
 export interface GetTemplateSpecVersionResponse {
   /** String Id used to locate any resource on Azure. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of this resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetTemplateSpecVersionResponseSystemData;
+  systemData?: GetTemplateSpecVersionResponseSystemData | undefined;
   /** The location of the Template Spec Version. It must match the location of the parent Template Spec. */
   location: string;
   /** Template Spec Version properties. */
   properties: TemplateSpecVersionProperties;
   /** Resource tags. */
-  tags?: GetTemplateSpecVersionResponseTagsMap;
+  tags?: GetTemplateSpecVersionResponseTagsMap | undefined;
 }
 export interface GetTemplateSpecVersionBuiltInRequest {
   /** Name of the Template Spec. */
@@ -5732,35 +5925,37 @@ export type GetTemplateSpecVersionBuiltInResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetTemplateSpecVersionBuiltInResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetTemplateSpecVersionBuiltInResponseSystemDataCreatedByType;
+  createdByType?: GetTemplateSpecVersionBuiltInResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetTemplateSpecVersionBuiltInResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetTemplateSpecVersionBuiltInResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type GetTemplateSpecVersionBuiltInResponseTagsMap = { [key: string]: string | undefined };
 export interface GetTemplateSpecVersionBuiltInResponse {
   /** String Id used to locate any resource on Azure. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of this resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetTemplateSpecVersionBuiltInResponseSystemData;
+  systemData?: GetTemplateSpecVersionBuiltInResponseSystemData | undefined;
   /** The location of the Template Spec Version. It must match the location of the parent Template Spec. */
   location: string;
   /** Template Spec Version properties. */
   properties: TemplateSpecVersionProperties;
   /** Resource tags. */
-  tags?: GetTemplateSpecVersionBuiltInResponseTagsMap;
+  tags?: GetTemplateSpecVersionBuiltInResponseTagsMap | undefined;
 }
 /** Resource tags */
 export type JitRequestsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -5789,27 +5984,27 @@ export interface JitRequestsCreateOrUpdateRequest {
   /** The name of the JIT request. */
   jitRequestName: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: JitRequestsCreateOrUpdateRequestTagsMap;
+  tags?: JitRequestsCreateOrUpdateRequestTagsMap | undefined;
   /** The JIT request properties. */
-  properties?: JitRequestPropertiesInput;
+  properties?: JitRequestPropertiesInput | undefined;
 }
 /** Resource tags */
 export type JitRequestsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface JitRequestsCreateOrUpdateResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: JitRequestsCreateOrUpdateResponseTagsMap;
+  tags?: JitRequestsCreateOrUpdateResponseTagsMap | undefined;
   /** The JIT request properties. */
-  properties?: JitRequestProperties;
+  properties?: JitRequestProperties | undefined;
 }
 export interface ListApplicationByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -5822,36 +6017,36 @@ export type ApplicationTagsMap = { [key: string]: string | undefined };
 /** Information about managed application. */
 export interface Application {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: ApplicationTagsMap;
+  tags?: ApplicationTagsMap | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku_2;
+  sku?: Sku_2 | undefined;
   /** The managed application properties. */
   properties: ApplicationProperties;
   /** The plan information. */
-  plan?: Plan_2;
+  plan?: Plan_2 | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
   kind: string;
   /** The identity of the resource. */
-  identity?: Identity_3;
+  identity?: Identity_3 | undefined;
 }
 /** The array of managed applications. */
 export type ApplicationListResultValueList = Array<Application>;
 /** List of managed applications. */
 export interface ApplicationListResult {
   /** The array of managed applications. */
-  value?: ApplicationListResultValueList;
+  value?: ApplicationListResultValueList | undefined;
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApplicationBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -5868,19 +6063,19 @@ export type ApplicationDefinitionTagsMap = { [key: string]: string | undefined }
 /** Information about managed application definition. */
 export interface ApplicationDefinition {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: ApplicationDefinitionTagsMap;
+  tags?: ApplicationDefinitionTagsMap | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku_2;
+  sku?: Sku_2 | undefined;
   /** The managed application definition properties. */
   properties: ApplicationDefinitionProperties;
 }
@@ -5889,35 +6084,35 @@ export type ApplicationDefinitionListResultValueList = Array<ApplicationDefiniti
 /** List of managed application definitions. */
 export interface ApplicationDefinitionListResult {
   /** The array of managed application definitions. */
-  value?: ApplicationDefinitionListResultValueList;
+  value?: ApplicationDefinitionListResultValueList | undefined;
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAuthorizationOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft.Authorization */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed: Profile, endpoint, etc. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation type: Read, write, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
 }
 /** Microsoft.Authorization operation */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** The object that represents the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** List of Microsoft.Authorization operations. */
 export type OperationListResultValueList = Array<Operation>;
 /** Result of the request to list Microsoft.Authorization operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of Microsoft.Authorization operations. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListChangesRequest {
   /** The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000) */
@@ -5931,45 +6126,45 @@ export interface ListChangesRequest {
   /** The name of the resource. */
   resourceName: string;
   /** (Optional) Set the maximum number of results per response. */
-  _top?: number;
+  _top?: number | undefined;
   /** (Optional) The page-continuation token */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Change Resource */
 export interface ChangeResourceResult {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  properties?: ChangeProperties;
+  type?: string | undefined;
+  properties?: ChangeProperties | undefined;
 }
 /** The list of resources */
 export type ChangeResourceListResultValueList = Array<ChangeResourceResult>;
 /** The list of resources */
 export interface ChangeResourceListResult {
   /** The link used to get the next page of Change Resources */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of resources */
-  value?: ChangeResourceListResultValueList;
+  value?: ChangeResourceListResultValueList | undefined;
 }
 export interface ListDataPolicyManifestsRequest {
   /** The filter to apply on the operation. Valid values for $filter are: \"namespace eq '{value}'\". If $filter is not provided, no filtering is performed. If $filter=namespace eq '{value}' is provided, the returned list only includes all data policy manifests that have a namespace matching the provided value. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The data policy manifest. */
 export interface DataPolicyManifest {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DataPolicyManifestProperties;
+  properties?: DataPolicyManifestProperties | undefined;
 }
 /** The DataPolicyManifest items on this page */
 export type DataPolicyManifestListResultValueList = Array<DataPolicyManifest>;
@@ -5978,34 +6173,34 @@ export interface DataPolicyManifestListResult {
   /** The DataPolicyManifest items on this page */
   value: DataPolicyManifestListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentAtManagementGroupScopeRequest {
   /** The management group ID. */
   groupId: string;
   /** The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to get. If null is passed, returns all deployments. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Deployment tags */
 export type DeploymentExtendedTagsMap = { [key: string]: string | undefined };
 /** Deployment information. */
 export interface DeploymentExtended {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Deployment properties. */
-  properties?: DeploymentPropertiesExtended;
+  properties?: DeploymentPropertiesExtended | undefined;
   /** the location of the deployment. */
-  location?: string;
+  location?: string | undefined;
   /** Deployment tags */
-  tags?: DeploymentExtendedTagsMap;
+  tags?: DeploymentExtendedTagsMap | undefined;
 }
 /** The DeploymentExtended items on this page */
 export type DeploymentListResultValueList = Array<DeploymentExtended>;
@@ -6014,29 +6209,29 @@ export interface DeploymentListResult {
   /** The DeploymentExtended items on this page */
   value: DeploymentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentAtScopeRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   scope: string;
   /** The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to get. If null is passed, returns all deployments. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListDeploymentAtSubscriptionScopeRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to get. If null is passed, returns all deployments. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListDeploymentAtTenantScopeRequest {
   /** The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to get. If null is passed, returns all deployments. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListDeploymentByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -6044,9 +6239,9 @@ export interface ListDeploymentByResourceGroupRequest {
   /** The name of the resource group. */
   resourceGroupName: string;
   /** The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to get. If null is passed, returns all deployments. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListDeploymentOperationAtManagementGroupScopeRequest {
   /** The management group ID. */
@@ -6054,7 +6249,7 @@ export interface ListDeploymentOperationAtManagementGroupScopeRequest {
   /** The name of the deployment. */
   deploymentName: string;
   /** The number of results to return. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The DeploymentOperation items on this page */
 export type DeploymentOperationsListResultValueList = Array<DeploymentOperation>;
@@ -6063,7 +6258,7 @@ export interface DeploymentOperationsListResult {
   /** The DeploymentOperation items on this page */
   value: DeploymentOperationsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentOperationAtScopeRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -6071,7 +6266,7 @@ export interface ListDeploymentOperationAtScopeRequest {
   /** The name of the deployment. */
   deploymentName: string;
   /** The number of results to return. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListDeploymentOperationAtSubscriptionScopeRequest {
   /** The ID of the target subscription. */
@@ -6079,13 +6274,13 @@ export interface ListDeploymentOperationAtSubscriptionScopeRequest {
   /** The name of the deployment. */
   deploymentName: string;
   /** The number of results to return. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListDeploymentOperationAtTenantScopeRequest {
   /** The name of the deployment. */
   deploymentName: string;
   /** The number of results to return. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListDeploymentOperationsRequest {
   /** The ID of the target subscription. */
@@ -6095,7 +6290,7 @@ export interface ListDeploymentOperationsRequest {
   /** The name of the deployment. */
   deploymentName: string;
   /** The number of results to return. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListDeploymentScriptByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -6103,37 +6298,14 @@ export interface ListDeploymentScriptByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
 }
-/** Resource tags. */
-export type DeploymentScriptTagsMap = { [key: string]: string | undefined };
-/** Deployment script object. */
-export interface DeploymentScript {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Resource tags. */
-  tags?: DeploymentScriptTagsMap;
-  /** The geo-location where the resource lives */
-  location: string;
-  /** Type of the script. */
-  kind: ScriptType;
-  /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
-  identity?: ManagedServiceIdentity;
-  /** Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...). */
-  properties?: DeploymentScriptProperties;
-}
 /** An array of deployment scripts. */
 export type DeploymentScriptListResultValueList = Array<DeploymentScript>;
 /** List of deployment scripts. */
 export interface DeploymentScriptListResult {
   /** An array of deployment scripts. */
-  value?: DeploymentScriptListResultValueList;
+  value?: DeploymentScriptListResultValueList | undefined;
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentScriptBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -6148,19 +6320,19 @@ export type DeploymentStackTagsMap = { [key: string]: string | undefined };
 /** Deployment stack object. */
 export interface DeploymentStack {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Deployment stack properties. */
-  properties?: DeploymentStackProperties;
+  properties?: DeploymentStackProperties | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: DeploymentStackTagsMap;
+  tags?: DeploymentStackTagsMap | undefined;
 }
 /** The DeploymentStack items on this page */
 export type DeploymentStackListResultValueList = Array<DeploymentStack>;
@@ -6169,7 +6341,7 @@ export interface DeploymentStackListResult {
   /** The DeploymentStack items on this page */
   value: DeploymentStackListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentStackAtResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6190,19 +6362,19 @@ export type DeploymentStacksWhatIfResultTagsMap = { [key: string]: string | unde
 /** Deployment stack object. */
 export interface DeploymentStacksWhatIfResult {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: DeploymentStacksWhatIfResultProperties;
+  properties?: DeploymentStacksWhatIfResultProperties | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: DeploymentStacksWhatIfResultTagsMap;
+  tags?: DeploymentStacksWhatIfResultTagsMap | undefined;
 }
 /** The DeploymentStacksWhatIfResult items on this page */
 export type DeploymentStacksWhatIfResultListResultValueList = Array<DeploymentStacksWhatIfResult>;
@@ -6211,7 +6383,7 @@ export interface DeploymentStacksWhatIfResultListResult {
   /** The DeploymentStacksWhatIfResult items on this page */
   value: DeploymentStacksWhatIfResultListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentStacksWhatIfResultsAtResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6232,9 +6404,9 @@ export type FeatureOperationsListResultValueList = Array<FeatureResult>;
 /** List of previewed features. */
 export interface FeatureOperationsListResult {
   /** The array of features. */
-  value?: FeatureOperationsListResultValueList;
+  value?: FeatureOperationsListResultValueList | undefined;
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFeaturesRequest {
   /** The Azure subscription ID. */
@@ -6253,26 +6425,26 @@ export type JitRequestDefinitionTagsMap = { [key: string]: string | undefined };
 /** Information about JIT request definition. */
 export interface JitRequestDefinition {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: JitRequestDefinitionTagsMap;
+  tags?: JitRequestDefinitionTagsMap | undefined;
   /** The JIT request properties. */
-  properties?: JitRequestProperties;
+  properties?: JitRequestProperties | undefined;
 }
 /** The array of Jit request definition. */
 export type JitRequestDefinitionListResultValueList = Array<JitRequestDefinition>;
 /** List of JIT requests. */
 export interface JitRequestDefinitionListResult {
   /** The array of Jit request definition. */
-  value?: JitRequestDefinitionListResultValueList;
+  value?: JitRequestDefinitionListResultValueList | undefined;
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListJitRequestBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -6284,16 +6456,16 @@ export interface ListManagementLockAtResourceGroupLevelRequest {
   /** The name of the resource group containing the locks to get. */
   resourceGroupName: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The list of locks. */
 export type ManagementLockListResultValueList = Array<ManagementLockObject>;
 /** The list of locks. */
 export interface ManagementLockListResult {
   /** The list of locks. */
-  value?: ManagementLockListResultValueList;
+  value?: ManagementLockListResultValueList | undefined;
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagementLockAtResourceLevelRequest {
   /** The ID of the target subscription. */
@@ -6309,72 +6481,72 @@ export interface ListManagementLockAtResourceLevelRequest {
   /** The name of the locked resource. */
   resourceName: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListManagementLockAtSubscriptionLevelRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListManagementLockByScopeRequest {
   /** The scope for the lock. When providing a scope for the assignment, use '/subscriptions/{subscriptionId}' for subscriptions, '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}' for resource groups, and '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePathIfPresent}/{resourceType}/{resourceName}' for resources. */
   scope: string;
   /** The filter to apply on the operation. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay_2 {
   /** Service provider: Microsoft.Features */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed: Profile, endpoint, etc. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation type: Read, write, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
 }
 /** Microsoft.Features operation */
 export interface Operation_2 {
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** The object that represents the operation. */
-  display?: OperationDisplay_2;
+  display?: OperationDisplay_2 | undefined;
 }
 /** List of Microsoft.Features operations. */
 export type OperationListResultValueList_2 = Array<Operation_2>;
 /** Result of the request to list Microsoft.Features operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult_2 {
   /** List of Microsoft.Features operations. */
-  value?: OperationListResultValueList_2;
+  value?: OperationListResultValueList_2 | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPolicyAssignmentForManagementGroupRequest {
   /** The management group ID. */
   managementGroupId: string;
   /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atScope() is provided, the returned list only includes all policy assignments that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the given scope. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value}. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The policy assignment. */
 export interface PolicyAssignment {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the policy assignment. */
-  properties?: PolicyAssignmentProperties;
+  properties?: PolicyAssignmentProperties | undefined;
   /** The location of the policy assignment. Only required when utilizing managed identity. */
-  location?: string;
+  location?: string | undefined;
   /** The managed identity associated with the policy assignment. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 /** The PolicyAssignment items on this page */
 export type PolicyAssignmentListResultValueList = Array<PolicyAssignment>;
@@ -6383,7 +6555,7 @@ export interface PolicyAssignmentListResult {
   /** The PolicyAssignment items on this page */
   value: PolicyAssignmentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPolicyAssignmentForResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6399,11 +6571,11 @@ export interface ListPolicyAssignmentForResourceRequest {
   /** The name of the resource. */
   resourceName: string;
   /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atScope() is provided, the returned list only includes all policy assignments that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the given scope. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value}. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListPolicyAssignmentForResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6411,40 +6583,40 @@ export interface ListPolicyAssignmentForResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atScope() is provided, the returned list only includes all policy assignments that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the given scope. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value}. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListPolicyAssignmentsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The filter to apply on the operation. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atScope() is provided, the returned list only includes all policy assignments that apply to the scope, which is everything in the unfiltered list except those applied to sub scopes contained within the given scope. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the given scope. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value}. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListPolicyDefinitionBuiltInRequest {
   /** The filter to apply on the operation. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy definitions that at the given scope. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy definitions whose category match the {value}. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The policy definition. */
 export interface PolicyDefinition {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy definition properties. */
-  properties?: PolicyDefinitionProperties;
+  properties?: PolicyDefinitionProperties | undefined;
 }
 /** The PolicyDefinition items on this page */
 export type PolicyDefinitionListResultValueList = Array<PolicyDefinition>;
@@ -6453,23 +6625,23 @@ export interface PolicyDefinitionListResult {
   /** The PolicyDefinition items on this page */
   value: PolicyDefinitionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPolicyDefinitionByManagementGroupRequest {
   /** The ID of the management group. */
   managementGroupId: string;
   /** The filter to apply on the operation. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy definitions that at the given scope. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy definitions whose category match the {value}. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListPolicyDefinitionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The filter to apply on the operation. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy definitions that at the given scope. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy definitions whose category match the {value}. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListPolicyDefinitionVersionAllRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6478,15 +6650,15 @@ export interface ListPolicyDefinitionVersionAllRequest {
 /** The ID of the policy definition version. */
 export interface PolicyDefinitionVersion {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy definition version properties. */
-  properties?: PolicyDefinitionVersionProperties;
+  properties?: PolicyDefinitionVersionProperties | undefined;
 }
 /** The PolicyDefinitionVersion items on this page */
 export type PolicyDefinitionVersionListResultValueList = Array<PolicyDefinitionVersion>;
@@ -6495,7 +6667,7 @@ export interface PolicyDefinitionVersionListResult {
   /** The PolicyDefinitionVersion items on this page */
   value: PolicyDefinitionVersionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPolicyDefinitionVersionAllAtManagementGroupRequest {
   /** The name of the management group. The name is case insensitive. */
@@ -6506,7 +6678,7 @@ export interface ListPolicyDefinitionVersionBuiltInRequest {
   /** The name of the policy definition. */
   policyDefinitionName: string;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListPolicyDefinitionVersionByManagementGroupRequest {
   /** The name of the management group. The name is case insensitive. */
@@ -6514,7 +6686,7 @@ export interface ListPolicyDefinitionVersionByManagementGroupRequest {
   /** The name of the policy definition. */
   policyDefinitionName: string;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListPolicyDefinitionVersionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6522,28 +6694,28 @@ export interface ListPolicyDefinitionVersionsRequest {
   /** The name of the policy definition. */
   policyDefinitionName: string;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListPolicySetDefinitionBuiltInRequest {
   /** The filter to apply on the operation. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy set definitions that at the given scope. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy set definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy set definitions whose category match the {value}. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** The policy set definition. */
 export interface PolicySetDefinition {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy set definition properties. */
-  properties?: PolicySetDefinitionProperties;
+  properties?: PolicySetDefinitionProperties | undefined;
 }
 /** The PolicySetDefinition items on this page */
 export type PolicySetDefinitionListResultValueList = Array<PolicySetDefinition>;
@@ -6552,27 +6724,27 @@ export interface PolicySetDefinitionListResult {
   /** The PolicySetDefinition items on this page */
   value: PolicySetDefinitionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPolicySetDefinitionByManagementGroupRequest {
   /** The ID of the management group. */
   managementGroupId: string;
   /** The filter to apply on the operation. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy set definitions that at the given scope. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy set definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy set definitions whose category match the {value}. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListPolicySetDefinitionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The filter to apply on the operation. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy set definitions that at the given scope. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy set definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy set definitions whose category match the {value}. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListPolicySetDefinitionVersionAllRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6581,15 +6753,15 @@ export interface ListPolicySetDefinitionVersionAllRequest {
 /** The policy set definition version. */
 export interface PolicySetDefinitionVersion {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy set definition version properties. */
-  properties?: PolicySetDefinitionVersionProperties;
+  properties?: PolicySetDefinitionVersionProperties | undefined;
 }
 /** The PolicySetDefinitionVersion items on this page */
 export type PolicySetDefinitionVersionListResultValueList = Array<PolicySetDefinitionVersion>;
@@ -6598,7 +6770,7 @@ export interface PolicySetDefinitionVersionListResult {
   /** The PolicySetDefinitionVersion items on this page */
   value: PolicySetDefinitionVersionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPolicySetDefinitionVersionAllAtManagementGroupRequest {
   /** The name of the management group. The name is case insensitive. */
@@ -6609,9 +6781,9 @@ export interface ListPolicySetDefinitionVersionBuiltInRequest {
   /** The name of the policy set definition. */
   policySetDefinitionName: string;
   /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListPolicySetDefinitionVersionByManagementGroupRequest {
   /** The name of the management group. The name is case insensitive. */
@@ -6619,9 +6791,9 @@ export interface ListPolicySetDefinitionVersionByManagementGroupRequest {
   /** The name of the policy set definition. */
   policySetDefinitionName: string;
   /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListPolicySetDefinitionVersionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6629,9 +6801,9 @@ export interface ListPolicySetDefinitionVersionsRequest {
   /** The name of the policy set definition. */
   policySetDefinitionName: string;
   /** Comma-separated list of additional properties to be included in the response. Supported values are 'LatestDefinitionVersion, EffectiveDefinitionVersion'. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListPrivateLinkAssociationRequest {
   /** The management group ID. */
@@ -6642,11 +6814,11 @@ export type PrivateLinkAssociationGetResultValueList = Array<PrivateLinkAssociat
 /** Result of the request to get PLA for a MG scope. */
 export interface PrivateLinkAssociationGetResult {
   /** private link association information. */
-  value?: PrivateLinkAssociationGetResultValueList;
+  value?: PrivateLinkAssociationGetResultValueList | undefined;
 }
 export interface ListProviderAtTenantScopeRequest {
   /** The properties to include in the results. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** The Provider items on this page */
 export type ProviderListResultValueList = Array<Provider>;
@@ -6655,7 +6827,7 @@ export interface ProviderListResult {
   /** The Provider items on this page */
   value: ProviderListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProviderResourceTypesRequest {
   /** The ID of the target subscription. */
@@ -6663,7 +6835,7 @@ export interface ListProviderResourceTypesRequest {
   /** The namespace of the resource provider. */
   resourceProviderNamespace: string;
   /** The $expand query parameter. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** The ProviderResourceType items on this page */
 export type ProviderResourceTypeListResultValueList = Array<ProviderResourceType>;
@@ -6672,13 +6844,13 @@ export interface ProviderResourceTypeListResult {
   /** The ProviderResourceType items on this page */
   value: ProviderResourceTypeListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProvidersRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The properties to include in the results. For example, use &$expand=metadata in the query string to retrieve resource provider metadata. To include property aliases in response, use $expand=resourceTypes/aliases. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 export interface ListResourceByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -6686,48 +6858,48 @@ export interface ListResourceByResourceGroupRequest {
   /** The name of the resource group to get. The name is case insensitive. */
   resourceGroupName: string;
   /** The filter to apply on the operation.<br><br>The properties you can use for eq (equals) or ne (not equals) are: location, resourceType, name, resourceGroup, identity, identity/principalId, plan, plan/publisher, plan/product, plan/name, plan/version, and plan/promotionCode.<br><br>For example, to filter by a resource type, use: $filter=resourceType eq 'Microsoft.Network/virtualNetworks'<br><br>You can use substringof(value, property) in the filter. The properties you can use for substring are: name and resourceGroup.<br><br>For example, to get all resources with 'demo' anywhere in the name, use: $filter=substringof('demo', name)<br><br>You can link more than one substringof together by adding and/or operators.<br><br>You can filter by tag names and values. For example, to filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq 'Value1'. When you filter by a tag name and value, the tags for each resource are not returned in the results.<br><br>You can use some properties together when filtering. The combinations you can use are: substringof and/or resourceType, plan and plan/publisher and plan/name, identity and identity/principalId. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Comma-separated list of additional properties to be included in the response. Valid values include `createdTime`, `changedTime` and `provisioningState`. For example, `$expand=createdTime,changedTime`. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The number of results to return. If null is passed, returns all resources. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags */
 export type GenericResourceExpandedTagsMap = { [key: string]: string | undefined };
 /** Resource information. */
 export interface GenericResourceExpanded {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** The plan of the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The kind of the resource. */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The identity of the resource. */
-  identity?: Identity_2;
+  identity?: Identity_2 | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Resource tags */
-  tags?: GenericResourceExpandedTagsMap;
+  tags?: GenericResourceExpandedTagsMap | undefined;
   /** The created time of the resource. This is only present if requested via the $expand query parameter. */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** The changed time of the resource. This is only present if requested via the $expand query parameter. */
-  changedTime?: string;
+  changedTime?: string | undefined;
   /** The provisioning state of the resource. This is only present if requested via the $expand query parameter. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 /** The GenericResourceExpanded items on this page */
 export type ResourceListResultValueList = Array<GenericResourceExpanded>;
@@ -6736,36 +6908,36 @@ export interface ResourceListResult {
   /** The GenericResourceExpanded items on this page */
   value: ResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListResourceGroupsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The filter to apply on the operation.<br><br>You can filter by tag names and values. For example, to filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq 'Value1' */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The number of results to return. If null is passed, returns all resource groups. */
-  _top?: number;
+  _top?: number | undefined;
 }
 /** Resource tags. */
 export type ResourceGroupTagsMap = { [key: string]: string | undefined };
 /** Resource group information. */
 export interface ResourceGroup {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ResourceGroupTagsMap;
+  tags?: ResourceGroupTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource group properties. */
-  properties?: ResourceGroupProperties;
+  properties?: ResourceGroupProperties | undefined;
   /** The ID of the resource that manages this resource group. */
-  managedBy?: string;
+  managedBy?: string | undefined;
 }
 /** The ResourceGroup items on this page */
 export type ResourceGroupListResultValueList = Array<ResourceGroup>;
@@ -6774,14 +6946,14 @@ export interface ResourceGroupListResult {
   /** The ResourceGroup items on this page */
   value: ResourceGroupListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListResourceLinkAtSourceScopeRequestFilter = "atScope()";
 export interface ListResourceLinkAtSourceScopeRequest {
   /** The fully qualified ID of the scope for getting the resource links. For example, to list resource links at and under a resource group, set the scope to /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup. */
   scope: string;
   /** The filter to apply when getting resource links. To get links only at the specified scope (not below the scope), use Filter.atScope(). */
-  _filter?: ListResourceLinkAtSourceScopeRequestFilter | (string & {});
+  _filter?: ListResourceLinkAtSourceScopeRequestFilter | (string & {}) | undefined;
 }
 /** An array of resource links. */
 export type ResourceLinkResultValueList = Array<ResourceLink>;
@@ -6790,13 +6962,13 @@ export interface ResourceLinkResult {
   /** An array of resource links. */
   value: ResourceLinkResultValueList;
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListResourceLinkAtSubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The filter to apply on the list resource links operation. The supported filter for list resource links is targetId. For example, $filter=targetId eq {value} */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListResourceManagementPrivateLinkRequest {
   /** The ID of the target subscription. */
@@ -6806,7 +6978,7 @@ export interface ListResourceManagementPrivateLinkRequest {
 export type ResourceManagementPrivateLinkListResultValueList = Array<ResourceManagementPrivateLink>;
 export interface ResourceManagementPrivateLinkListResult {
   /** An array of resource management private links. */
-  value?: ResourceManagementPrivateLinkListResultValueList;
+  value?: ResourceManagementPrivateLinkListResultValueList | undefined;
 }
 export interface ListResourceManagementPrivateLinkByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -6818,11 +6990,11 @@ export interface ListResourcesRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The filter to apply on the operation.<br><br>Filter comparison operators include `eq` (equals) and `ne` (not equals) and may be used with the following properties: `location`, `resourceType`, `name`, `resourceGroup`, `identity`, `identity/principalId`, `plan`, `plan/publisher`, `plan/product`, `plan/name`, `plan/version`, and `plan/promotionCode`.<br><br>For example, to filter by a resource type, use `$filter=resourceType eq 'Microsoft.Network/virtualNetworks'`<br><br><br>`substringof(value, property)` can be used to filter for substrings of the following currently-supported properties: `name` and `resourceGroup`<br><br>For example, to get all resources with 'demo' anywhere in the resource name, use `$filter=substringof('demo', name)`<br><br>Multiple substring operations can also be combined using `and`/`or` operators.<br><br>Note that any truncated number of results queried via `$top` may also not be compatible when using a filter.<br><br><br>Resources can be filtered by tag names and values. For example, to filter for a tag name and value, use `$filter=tagName eq 'tag1' and tagValue eq 'Value1'`. Note that when resources are filtered by tag name and value, <b>the original tags for each resource will not be returned in the results.</b> Any list of additional properties queried via `$expand` may also not be compatible when filtering by tag names/values. <br><br>For tag names only, resources can be filtered by prefix using the following syntax: `$filter=startswith(tagName, 'depart')`. This query will return all resources with a tag name prefixed by the phrase `depart` (i.e.`department`, `departureDate`, `departureTime`, etc.)<br><br><br>Note that some properties can be combined when filtering resources, which include the following: `substringof() and/or resourceType`, `plan and plan/publisher and plan/name`, and `identity and identity/principalId`. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Comma-separated list of additional properties to be included in the response. Valid values include `createdTime`, `changedTime` and `provisioningState`. For example, `$expand=createdTime,changedTime`. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** The number of recommendations per page if a paged version of this API is being used. */
-  _top?: number;
+  _top?: number | undefined;
 }
 export interface ListSubscriptionFeatureRegistrationAllBySubscriptionRequest {
   /** The Azure subscription ID. */
@@ -6848,51 +7020,51 @@ export type SubscriptionFeatureRegistrationPropertiesApprovalType =
   | "AutoApproval";
 export interface SubscriptionFeatureRegistrationProperties {
   /** The tenantId. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The subscriptionId. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The featureName. */
-  featureName?: string;
+  featureName?: string | undefined;
   /** The featureDisplayName. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The providerNamespace. */
-  providerNamespace?: string;
+  providerNamespace?: string | undefined;
   /** The state. */
-  state?: SubscriptionFeatureRegistrationPropertiesState;
-  authorizationProfile?: AuthorizationProfile;
+  state?: SubscriptionFeatureRegistrationPropertiesState | undefined;
+  authorizationProfile?: AuthorizationProfile | undefined;
   /** Key-value pairs for meta data. */
-  metadata?: SubscriptionFeatureRegistrationPropertiesMetadataMap;
+  metadata?: SubscriptionFeatureRegistrationPropertiesMetadataMap | undefined;
   /** The feature release date. */
-  releaseDate?: string;
+  releaseDate?: string | undefined;
   /** The feature registration date. */
-  registrationDate?: string;
+  registrationDate?: string | undefined;
   /** The feature documentation link. */
-  documentationLink?: string;
+  documentationLink?: string | undefined;
   /** The feature approval type. */
-  approvalType?: SubscriptionFeatureRegistrationPropertiesApprovalType;
+  approvalType?: SubscriptionFeatureRegistrationPropertiesApprovalType | undefined;
   /** Indicates whether feature should be displayed in Portal. */
-  shouldFeatureDisplayInPortal?: boolean;
+  shouldFeatureDisplayInPortal?: boolean | undefined;
   /** The feature description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Subscription feature registration details */
 export interface SubscriptionFeatureRegistration {
   /** Azure resource Id. */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Azure resource type. */
-  type?: string;
-  properties?: SubscriptionFeatureRegistrationProperties;
+  type?: string | undefined;
+  properties?: SubscriptionFeatureRegistrationProperties | undefined;
 }
 /** The list of subscription feature registrations. */
 export type SubscriptionFeatureRegistrationListValueList = Array<SubscriptionFeatureRegistration>;
 /** The list of subscription feature registrations. */
 export interface SubscriptionFeatureRegistrationList {
   /** The link used to get the next page of subscription feature registrations list. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of subscription feature registrations. */
-  value?: SubscriptionFeatureRegistrationListValueList;
+  value?: SubscriptionFeatureRegistrationListValueList | undefined;
 }
 export interface ListSubscriptionFeatureRegistrationBySubscriptionRequest {
   /** The Azure subscription ID. */
@@ -6904,7 +7076,7 @@ export interface ListSubscriptionLocationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** Whether to include extended locations. */
-  includeExtendedLocations?: boolean;
+  includeExtendedLocations?: boolean | undefined;
 }
 /** The location type. */
 export type LocationType = "Region" | "EdgeZone";
@@ -6915,71 +7087,71 @@ export type RegionCategory = "Recommended" | "Extended" | "Other";
 /** Information regarding paired region. */
 export interface PairedRegion {
   /** The name of the paired region. */
-  name?: string;
+  name?: string | undefined;
   /** The fully qualified ID of the location. For example, /subscriptions/8d65815f-a5b6-402f-9298-045155da7d74/locations/westus. */
-  id?: string;
+  id?: string | undefined;
   /** The subscription ID. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
 }
 /** The regions paired to this region. */
 export type LocationMetadataPairedRegionList = Array<PairedRegion>;
 /** Location metadata information */
 export interface LocationMetadata {
   /** The type of the region. */
-  regionType?: RegionType;
+  regionType?: RegionType | undefined;
   /** The category of the region. */
-  regionCategory?: RegionCategory;
+  regionCategory?: RegionCategory | undefined;
   /** The geography of the location. */
-  geography?: string;
+  geography?: string | undefined;
   /** The geography group of the location. */
-  geographyGroup?: string;
+  geographyGroup?: string | undefined;
   /** The longitude of the location. */
-  longitude?: string;
+  longitude?: string | undefined;
   /** The latitude of the location. */
-  latitude?: string;
+  latitude?: string | undefined;
   /** The physical location of the Azure location. */
-  physicalLocation?: string;
+  physicalLocation?: string | undefined;
   /** The regions paired to this region. */
-  pairedRegion?: LocationMetadataPairedRegionList;
+  pairedRegion?: LocationMetadataPairedRegionList | undefined;
   /** The home location of an edge zone. */
-  homeLocation?: string;
+  homeLocation?: string | undefined;
 }
 /** Availability zone mappings for the region */
 export interface AvailabilityZoneMappings {
   /** The logical zone id for the availability zone */
-  logicalZone?: string;
+  logicalZone?: string | undefined;
   /** The fully qualified physical zone id of availability zone to which logical zone id is mapped to */
-  physicalZone?: string;
+  physicalZone?: string | undefined;
 }
 /** The availability zone mappings for this region. */
 export type LocationAvailabilityZoneMappingsList = Array<AvailabilityZoneMappings>;
 /** Location information. */
 export interface Location {
   /** The fully qualified ID of the location. For example, /subscriptions/8d65815f-a5b6-402f-9298-045155da7d74/locations/westus. */
-  id?: string;
+  id?: string | undefined;
   /** The subscription ID. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The location name. */
-  name?: string;
+  name?: string | undefined;
   /** The location type. */
-  type?: LocationType;
+  type?: LocationType | undefined;
   /** The display name of the location. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The display name of the location and its region. */
-  regionalDisplayName?: string;
+  regionalDisplayName?: string | undefined;
   /** Metadata of the location, such as lat/long, paired region, and others. */
-  metadata?: LocationMetadata;
+  metadata?: LocationMetadata | undefined;
   /** The availability zone mappings for this region. */
-  availabilityZoneMappings?: LocationAvailabilityZoneMappingsList;
+  availabilityZoneMappings?: LocationAvailabilityZoneMappingsList | undefined;
 }
 /** An array of locations. */
 export type LocationListResultValueList = Array<Location>;
 /** Location list operation response. */
 export interface LocationListResult {
   /** An array of locations. */
-  value?: LocationListResultValueList;
+  value?: LocationListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSubscriptionsRequest {}
 /** The Subscription items on this page */
@@ -6989,7 +7161,7 @@ export interface SubscriptionListResult {
   /** The Subscription items on this page */
   value: SubscriptionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTagsRequest {
   /** The ID of the target subscription. */
@@ -6998,31 +7170,31 @@ export interface ListTagsRequest {
 /** Tag count. */
 export interface TagCount {
   /** Type of count. */
-  type?: string;
+  type?: string | undefined;
   /** Value of count. */
-  value?: number;
+  value?: number | undefined;
 }
 /** Tag information. */
 export interface TagValue {
   /** The tag value ID. */
-  id?: string;
+  id?: string | undefined;
   /** The tag value. */
-  tagValue?: string;
+  tagValue?: string | undefined;
   /** The tag value count. */
-  count?: TagCount;
+  count?: TagCount | undefined;
 }
 /** The list of tag values. */
 export type TagDetailsValuesList = Array<TagValue>;
 /** Tag details. */
 export interface TagDetails {
   /** The tag name ID. */
-  id?: string;
+  id?: string | undefined;
   /** The tag name. */
-  tagName?: string;
+  tagName?: string | undefined;
   /** The total number of resources that use the resource tag. When a tag is initially created and has no associated resources, the value is 0. */
-  count?: TagCount;
+  count?: TagCount | undefined;
   /** The list of tag values. */
-  values?: TagDetailsValuesList;
+  values?: TagDetailsValuesList | undefined;
 }
 /** The TagDetails items on this page */
 export type TagsListResultValueList = Array<TagDetails>;
@@ -7031,12 +7203,12 @@ export interface TagsListResult {
   /** The TagDetails items on this page */
   value: TagsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListTemplateSpecBuiltInsRequestExpand = "versions";
 export interface ListTemplateSpecBuiltInsRequest {
   /** Allows for expansion of additional Template Spec details in the response. Optional. */
-  _expand?: ListTemplateSpecBuiltInsRequestExpand | (string & {});
+  _expand?: ListTemplateSpecBuiltInsRequestExpand | (string & {}) | undefined;
 }
 /** The type of identity that created the resource. */
 export type TemplateSpecSystemDataCreatedByType =
@@ -7053,45 +7225,45 @@ export type TemplateSpecSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface TemplateSpecSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: TemplateSpecSystemDataCreatedByType;
+  createdByType?: TemplateSpecSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: TemplateSpecSystemDataLastModifiedByType;
+  lastModifiedByType?: TemplateSpecSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type TemplateSpecTagsMap = { [key: string]: string | undefined };
 /** Template Spec object. */
 export interface TemplateSpec {
   /** String Id used to locate any resource on Azure. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of this resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: TemplateSpecSystemData;
+  systemData?: TemplateSpecSystemData | undefined;
   /** The location of the Template Spec. It cannot be changed after Template Spec creation. It must be one of the supported Azure locations. */
   location: string;
   /** Template Spec properties. */
-  properties?: TemplateSpecProperties;
+  properties?: TemplateSpecProperties | undefined;
   /** Resource tags. */
-  tags?: TemplateSpecTagsMap;
+  tags?: TemplateSpecTagsMap | undefined;
 }
 /** An array of Template Specs. */
 export type TemplateSpecsListResultValueList = Array<TemplateSpec>;
 /** List of Template Specs. */
 export interface TemplateSpecsListResult {
   /** An array of Template Specs. */
-  value?: TemplateSpecsListResultValueList;
+  value?: TemplateSpecsListResultValueList | undefined;
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListTemplateSpecByResourceGroupRequestExpand = "versions";
 export interface ListTemplateSpecByResourceGroupRequest {
@@ -7100,14 +7272,14 @@ export interface ListTemplateSpecByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Allows for expansion of additional Template Spec details in the response. Optional. */
-  _expand?: ListTemplateSpecByResourceGroupRequestExpand | (string & {});
+  _expand?: ListTemplateSpecByResourceGroupRequestExpand | (string & {}) | undefined;
 }
 export type ListTemplateSpecBySubscriptionRequestExpand = "versions";
 export interface ListTemplateSpecBySubscriptionRequest {
   /** Subscription Id which forms part of the URI for every service call. */
   subscriptionId: string;
   /** Allows for expansion of additional Template Spec details in the response. Optional. */
-  _expand?: ListTemplateSpecBySubscriptionRequestExpand | (string & {});
+  _expand?: ListTemplateSpecBySubscriptionRequestExpand | (string & {}) | undefined;
 }
 export interface ListTemplateSpecVersionBuiltInsRequest {
   /** Name of the Template Spec. */
@@ -7128,45 +7300,45 @@ export type TemplateSpecVersionSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface TemplateSpecVersionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: TemplateSpecVersionSystemDataCreatedByType;
+  createdByType?: TemplateSpecVersionSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: TemplateSpecVersionSystemDataLastModifiedByType;
+  lastModifiedByType?: TemplateSpecVersionSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type TemplateSpecVersionTagsMap = { [key: string]: string | undefined };
 /** Template Spec Version object. */
 export interface TemplateSpecVersion {
   /** String Id used to locate any resource on Azure. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of this resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: TemplateSpecVersionSystemData;
+  systemData?: TemplateSpecVersionSystemData | undefined;
   /** The location of the Template Spec Version. It must match the location of the parent Template Spec. */
   location: string;
   /** Template Spec Version properties. */
   properties: TemplateSpecVersionProperties;
   /** Resource tags. */
-  tags?: TemplateSpecVersionTagsMap;
+  tags?: TemplateSpecVersionTagsMap | undefined;
 }
 /** An array of Template Spec versions. */
 export type TemplateSpecVersionsListResultValueList = Array<TemplateSpecVersion>;
 /** List of Template Specs versions */
 export interface TemplateSpecVersionsListResult {
   /** An array of Template Spec versions. */
-  value?: TemplateSpecVersionsListResultValueList;
+  value?: TemplateSpecVersionsListResultValueList | undefined;
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListTemplateSpecVersionsRequest {
   /** Subscription Id which forms part of the URI for every service call. */
@@ -7184,25 +7356,25 @@ export type TenantIdDescriptionDomainsList = Array<string>;
 /** Tenant Id information. */
 export interface TenantIdDescription {
   /** The fully qualified ID of the tenant. For example, /tenants/8d65815f-a5b6-402f-9298-045155da7d74 */
-  id?: string;
+  id?: string | undefined;
   /** The tenant ID. For example, 8d65815f-a5b6-402f-9298-045155da7d74 */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Category of the tenant. */
-  tenantCategory?: TenantCategory;
+  tenantCategory?: TenantCategory | undefined;
   /** Country/region name of the address for the tenant. */
-  country?: string;
+  country?: string | undefined;
   /** Country/region abbreviation for the tenant. */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** The display name of the tenant. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The list of domains for the tenant. */
-  domains?: TenantIdDescriptionDomainsList;
+  domains?: TenantIdDescriptionDomainsList | undefined;
   /** The default domain for the tenant. */
-  defaultDomain?: string;
+  defaultDomain?: string | undefined;
   /** The tenant type. Only available for 'Home' tenant category. */
-  tenantType?: string;
+  tenantType?: string | undefined;
   /** The tenant's branding logo URL. Only available for 'Home' tenant category. */
-  tenantBrandingLogoUrl?: string;
+  tenantBrandingLogoUrl?: string | undefined;
 }
 /** The TenantIdDescription items on this page */
 export type TenantListResultValueList = Array<TenantIdDescription>;
@@ -7211,7 +7383,7 @@ export interface TenantListResult {
   /** The TenantIdDescription items on this page */
   value: TenantListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ManagementLocksCreateOrUpdateAtResourceGroupLevelRequest {
   /** The ID of the target subscription. */
@@ -7265,13 +7437,13 @@ export interface MoveResourceResourcesRequest {
   /** The name of the resource group to get. The name is case insensitive. */
   sourceResourceGroupName: string;
   /** The IDs of the resources. */
-  resources?: MoveResourceResourcesRequestResourcesList;
+  resources?: MoveResourceResourcesRequestResourcesList | undefined;
   /** The target resource group. */
-  targetResourceGroup?: string;
+  targetResourceGroup?: string | undefined;
 }
 export interface MoveResourceResourcesResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface PolicyDefinitionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7279,19 +7451,19 @@ export interface PolicyDefinitionsCreateOrUpdateRequest {
   /** The name of the policy definition to get. */
   policyDefinitionName: string;
   /** The policy definition properties. */
-  properties?: PolicyDefinitionProperties;
+  properties?: PolicyDefinitionProperties | undefined;
 }
 export interface PolicyDefinitionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy definition properties. */
-  properties?: PolicyDefinitionProperties;
+  properties?: PolicyDefinitionProperties | undefined;
 }
 export interface PolicyDefinitionsCreateOrUpdateAtManagementGroupRequest {
   /** The ID of the management group. */
@@ -7299,19 +7471,19 @@ export interface PolicyDefinitionsCreateOrUpdateAtManagementGroupRequest {
   /** The name of the policy definition to get. */
   policyDefinitionName: string;
   /** The policy definition properties. */
-  properties?: PolicyDefinitionProperties;
+  properties?: PolicyDefinitionProperties | undefined;
 }
 export interface PolicyDefinitionsCreateOrUpdateAtManagementGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy definition properties. */
-  properties?: PolicyDefinitionProperties;
+  properties?: PolicyDefinitionProperties | undefined;
 }
 export interface PolicyDefinitionVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7321,19 +7493,19 @@ export interface PolicyDefinitionVersionsCreateOrUpdateRequest {
   /** The policy definition version. The format is x.y.z where x is the major version number, y is the minor version number, and z is the patch number */
   policyDefinitionVersion: string;
   /** The policy definition version properties. */
-  properties?: PolicyDefinitionVersionProperties;
+  properties?: PolicyDefinitionVersionProperties | undefined;
 }
 export interface PolicyDefinitionVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy definition version properties. */
-  properties?: PolicyDefinitionVersionProperties;
+  properties?: PolicyDefinitionVersionProperties | undefined;
 }
 export interface PolicyDefinitionVersionsCreateOrUpdateAtManagementGroupRequest {
   /** The name of the management group. The name is case insensitive. */
@@ -7343,19 +7515,19 @@ export interface PolicyDefinitionVersionsCreateOrUpdateAtManagementGroupRequest 
   /** The policy definition version. The format is x.y.z where x is the major version number, y is the minor version number, and z is the patch number */
   policyDefinitionVersion: string;
   /** The policy definition version properties. */
-  properties?: PolicyDefinitionVersionProperties;
+  properties?: PolicyDefinitionVersionProperties | undefined;
 }
 export interface PolicyDefinitionVersionsCreateOrUpdateAtManagementGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy definition version properties. */
-  properties?: PolicyDefinitionVersionProperties;
+  properties?: PolicyDefinitionVersionProperties | undefined;
 }
 /** The policy set definition parameters that can be used in policy definition references. */
 export type PolicySetDefinitionPropertiesInputParametersMap = {
@@ -7372,13 +7544,13 @@ export interface PolicyDefinitionReferenceInput {
   /** The ID of the policy definition or policy set definition. */
   policyDefinitionId: string;
   /** The version of the policy definition to use. */
-  definitionVersion?: string;
+  definitionVersion?: string | undefined;
   /** The parameter values for the referenced policy rule. The keys are the parameter names. */
-  parameters?: PolicyDefinitionReferenceInputParametersMap;
+  parameters?: PolicyDefinitionReferenceInputParametersMap | undefined;
   /** A unique id (within the policy set definition) for this policy definition reference. */
-  policyDefinitionReferenceId?: string;
+  policyDefinitionReferenceId?: string | undefined;
   /** The name of the groups that this policy definition reference belongs to. */
-  groupNames?: PolicyDefinitionReferenceInputGroupNamesList;
+  groupNames?: PolicyDefinitionReferenceInputGroupNamesList | undefined;
 }
 /** An array of policy definition references. */
 export type PolicySetDefinitionPropertiesInputPolicyDefinitionsList =
@@ -7391,23 +7563,23 @@ export type PolicySetDefinitionPropertiesInputVersionsList = Array<string>;
 /** The policy set definition properties. */
 export interface PolicySetDefinitionPropertiesInput {
   /** The type of policy set definition. Possible values are NotSpecified, BuiltIn, Custom, and Static. */
-  policyType?: PolicyType | (string & {});
+  policyType?: PolicyType | (string & {}) | undefined;
   /** The display name of the policy set definition. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The policy set definition description. */
-  description?: string;
+  description?: string | undefined;
   /** The policy set definition metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The policy set definition parameters that can be used in policy definition references. */
-  parameters?: PolicySetDefinitionPropertiesInputParametersMap;
+  parameters?: PolicySetDefinitionPropertiesInputParametersMap | undefined;
   /** An array of policy definition references. */
   policyDefinitions: PolicySetDefinitionPropertiesInputPolicyDefinitionsList;
   /** The metadata describing groups of policy definition references within the policy set definition. */
-  policyDefinitionGroups?: PolicySetDefinitionPropertiesInputPolicyDefinitionGroupsList;
+  policyDefinitionGroups?: PolicySetDefinitionPropertiesInputPolicyDefinitionGroupsList | undefined;
   /** The policy set definition version in #.#.# format. */
-  version?: string;
+  version?: string | undefined;
   /** A list of available versions for this policy set definition. */
-  versions?: PolicySetDefinitionPropertiesInputVersionsList;
+  versions?: PolicySetDefinitionPropertiesInputVersionsList | undefined;
 }
 export interface PolicySetDefinitionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7415,19 +7587,19 @@ export interface PolicySetDefinitionsCreateOrUpdateRequest {
   /** The name of the policy set definition to get. */
   policySetDefinitionName: string;
   /** The policy set definition properties. */
-  properties?: PolicySetDefinitionPropertiesInput;
+  properties?: PolicySetDefinitionPropertiesInput | undefined;
 }
 export interface PolicySetDefinitionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy set definition properties. */
-  properties?: PolicySetDefinitionProperties;
+  properties?: PolicySetDefinitionProperties | undefined;
 }
 export interface PolicySetDefinitionsCreateOrUpdateAtManagementGroupRequest {
   /** The ID of the management group. */
@@ -7435,19 +7607,19 @@ export interface PolicySetDefinitionsCreateOrUpdateAtManagementGroupRequest {
   /** The name of the policy set definition to get. */
   policySetDefinitionName: string;
   /** The policy set definition properties. */
-  properties?: PolicySetDefinitionPropertiesInput;
+  properties?: PolicySetDefinitionPropertiesInput | undefined;
 }
 export interface PolicySetDefinitionsCreateOrUpdateAtManagementGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy set definition properties. */
-  properties?: PolicySetDefinitionProperties;
+  properties?: PolicySetDefinitionProperties | undefined;
 }
 /** The policy set definition parameters that can be used in policy definition references. */
 export type PolicySetDefinitionVersionPropertiesInputParametersMap = {
@@ -7462,21 +7634,23 @@ export type PolicySetDefinitionVersionPropertiesInputPolicyDefinitionGroupsList 
 /** The policy set definition properties. */
 export interface PolicySetDefinitionVersionPropertiesInput {
   /** The type of policy definition. Possible values are NotSpecified, BuiltIn, Custom, and Static. */
-  policyType?: PolicyType | (string & {});
+  policyType?: PolicyType | (string & {}) | undefined;
   /** The display name of the policy set definition. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The policy set definition description. */
-  description?: string;
+  description?: string | undefined;
   /** The policy set definition metadata. Metadata is an open ended object and is typically a collection of key value pairs. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   /** The policy set definition parameters that can be used in policy definition references. */
-  parameters?: PolicySetDefinitionVersionPropertiesInputParametersMap;
+  parameters?: PolicySetDefinitionVersionPropertiesInputParametersMap | undefined;
   /** An array of policy definition references. */
   policyDefinitions: PolicySetDefinitionVersionPropertiesInputPolicyDefinitionsList;
   /** The metadata describing groups of policy definition references within the policy set definition. */
-  policyDefinitionGroups?: PolicySetDefinitionVersionPropertiesInputPolicyDefinitionGroupsList;
+  policyDefinitionGroups?:
+    | PolicySetDefinitionVersionPropertiesInputPolicyDefinitionGroupsList
+    | undefined;
   /** The policy set definition version in #.#.# format. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface PolicySetDefinitionVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7486,19 +7660,19 @@ export interface PolicySetDefinitionVersionsCreateOrUpdateRequest {
   /** The policy set definition version. The format is x.y.z where x is the major version number, y is the minor version number, and z is the patch number */
   policyDefinitionVersion: string;
   /** The policy set definition version properties. */
-  properties?: PolicySetDefinitionVersionPropertiesInput;
+  properties?: PolicySetDefinitionVersionPropertiesInput | undefined;
 }
 export interface PolicySetDefinitionVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy set definition version properties. */
-  properties?: PolicySetDefinitionVersionProperties;
+  properties?: PolicySetDefinitionVersionProperties | undefined;
 }
 export interface PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroupRequest {
   /** The name of the management group. The name is case insensitive. */
@@ -7508,19 +7682,19 @@ export interface PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroupReque
   /** The policy set definition version. The format is x.y.z where x is the major version number, y is the minor version number, and z is the patch number */
   policyDefinitionVersion: string;
   /** The policy set definition version properties. */
-  properties?: PolicySetDefinitionVersionPropertiesInput;
+  properties?: PolicySetDefinitionVersionPropertiesInput | undefined;
 }
 export interface PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The policy set definition version properties. */
-  properties?: PolicySetDefinitionVersionProperties;
+  properties?: PolicySetDefinitionVersionProperties | undefined;
 }
 /** The resource operation to acquire a token for. */
 export interface PolicyTokenOperation {
@@ -7529,7 +7703,7 @@ export interface PolicyTokenOperation {
   /** The http method of the resource operation. */
   httpMethod: string;
   /** The payload of the resource operation. */
-  content?: unknown;
+  content?: unknown | undefined;
 }
 export interface PolicyTokensAcquireRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7537,7 +7711,7 @@ export interface PolicyTokensAcquireRequest {
   /** The resource operation to acquire a token for. */
   operation: PolicyTokenOperation;
   /** The change reference. */
-  changeReference?: string;
+  changeReference?: string | undefined;
 }
 /** The result of the completed token acquisition operation. Possible values are Succeeded and Failed. */
 export type PolicyTokenResult = "Succeeded" | "Failed";
@@ -7559,29 +7733,29 @@ export interface PolicyTokenEvaluatedRequestDetails {
 /** The policy log info. */
 export interface PolicyLogInfo {
   /** The policy definition Id. */
-  policyDefinitionId?: string;
+  policyDefinitionId?: string | undefined;
   /** The policy set definition Id. */
-  policySetDefinitionId?: string;
+  policySetDefinitionId?: string | undefined;
   /** The policy definition instance Id inside a policy set. */
-  policyDefinitionReferenceId?: string;
+  policyDefinitionReferenceId?: string | undefined;
   /** The policy set definition name. */
-  policySetDefinitionName?: string;
+  policySetDefinitionName?: string | undefined;
   /** The policy set definition version. */
-  policySetDefinitionVersion?: string;
+  policySetDefinitionVersion?: string | undefined;
   /** The policy definition name. */
-  policyDefinitionName?: string;
+  policyDefinitionName?: string | undefined;
   /** The policy definition version. */
-  policyDefinitionVersion?: string;
+  policyDefinitionVersion?: string | undefined;
   /** The policy definition action. */
-  policyDefinitionEffect?: string;
+  policyDefinitionEffect?: string | undefined;
   /** The policy assignment Id. */
-  policyAssignmentId?: string;
+  policyAssignmentId?: string | undefined;
   /** The policy assignment name. */
-  policyAssignmentName?: string;
+  policyAssignmentName?: string | undefined;
   /** The policy assignment version. */
-  policyAssignmentVersion?: string;
+  policyAssignmentVersion?: string | undefined;
   /** The policy assignment scope. */
-  policyAssignmentScope?: string;
+  policyAssignmentScope?: string | undefined;
 }
 /** The result of the external endpoint. Possible values are Succeeded and Failed. */
 export type ExternalEndpointResult = "Succeeded" | "Failed";
@@ -7602,50 +7776,50 @@ export type ComplianceState =
 /** The external evaluation endpoint invocation results. */
 export interface ExternalEvaluationEndpointInvocationResult {
   /** The details of the policy requiring the external endpoint invocation. */
-  policyInfo?: PolicyLogInfo;
+  policyInfo?: PolicyLogInfo | undefined;
   /** The result of the external endpoint. Possible values are Succeeded and Failed. */
-  result?: ExternalEndpointResult;
+  result?: ExternalEndpointResult | undefined;
   /** The external evaluation endpoint kind. */
-  endpointKind?: string;
+  endpointKind?: string | undefined;
   /** The status message with additional details about the invocation result. */
-  message?: string;
+  message?: string | undefined;
   /** The date and time after which a failed endpoint invocation can be retried. */
-  retryAfter?: string;
+  retryAfter?: string | undefined;
   /** The set of claims that will be attached to the policy token as an attestation for the result of the endpoint invocation. */
-  claims?: unknown;
+  claims?: unknown | undefined;
   /** The effective outcome of the policy evaluation based on both the policy effect and evaluation result. Possible values are Unknown, Allow, Audit, Deny, Error. */
-  policyAction?: PolicyAction;
+  policyAction?: PolicyAction | undefined;
   /** The evaluation details returned by the policy evaluation engine. */
-  policyEvaluationDetails?: unknown;
+  policyEvaluationDetails?: unknown | undefined;
   /** The endpoint specific metadata. */
-  additionalInfo?: unknown;
+  additionalInfo?: unknown | undefined;
   /** The compliance state of the resource against the policy. Possible values are NotSpecified, NonCompliant, Conflict, NotApplicable, Compliant, Error, Unknown, and Exempt. */
-  complianceState?: ComplianceState;
+  complianceState?: ComplianceState | undefined;
   /** The expiration of the results. */
-  expiration?: string;
+  expiration?: string | undefined;
 }
 /** An array of external evaluation endpoint invocation results. */
 export type PolicyTokenResponseResultsList = Array<ExternalEvaluationEndpointInvocationResult>;
 /** The policy token response properties. */
 export interface PolicyTokenResponse {
   /** The result of the completed token acquisition operation. Possible values are Succeeded and Failed. */
-  result?: PolicyTokenResult;
+  result?: PolicyTokenResult | undefined;
   /** The external evaluation request details. */
-  requestDetails?: PolicyTokenEvaluatedRequestDetails;
+  requestDetails?: PolicyTokenEvaluatedRequestDetails | undefined;
   /** Status message with additional details about the token acquisition operation result. */
-  message?: string;
+  message?: string | undefined;
   /** The date and time after which the client can try to acquire a token again in the case of retry-able failures. */
-  retryAfter?: string;
+  retryAfter?: string | undefined;
   /** An array of external evaluation endpoint invocation results. */
-  results?: PolicyTokenResponseResultsList;
+  results?: PolicyTokenResponseResultsList | undefined;
   /** The change reference associated with the operation for which the token is acquired. */
-  changeReference?: string;
+  changeReference?: string | undefined;
   /** The issued policy token. */
-  token?: string;
+  token?: string | undefined;
   /** The unique Id assigned to the policy token. */
-  tokenId?: string;
+  tokenId?: string | undefined;
   /** The expiration of the policy token. */
-  expiration?: string;
+  expiration?: string | undefined;
 }
 export interface PolicyTokensAcquireAtManagementGroupRequest {
   /** The name of the management group. The name is case insensitive. */
@@ -7653,7 +7827,7 @@ export interface PolicyTokensAcquireAtManagementGroupRequest {
   /** The resource operation to acquire a token for. */
   operation: PolicyTokenOperation;
   /** The change reference. */
-  changeReference?: string;
+  changeReference?: string | undefined;
 }
 export interface PolicyTokensAcquireAtResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7663,7 +7837,7 @@ export interface PolicyTokensAcquireAtResourceGroupRequest {
   /** The resource operation to acquire a token for. */
   operation: PolicyTokenOperation;
   /** The change reference. */
-  changeReference?: string;
+  changeReference?: string | undefined;
 }
 export interface ProvidersProviderPermissionsRequest {
   /** The ID of the target subscription. */
@@ -7682,13 +7856,13 @@ export type PermissionNotDataActionsList = Array<string>;
 /** Role definition permissions. */
 export interface Permission {
   /** Allowed actions. */
-  actions?: PermissionActionsList;
+  actions?: PermissionActionsList | undefined;
   /** Denied actions. */
-  notActions?: PermissionNotActionsList;
+  notActions?: PermissionNotActionsList | undefined;
   /** Allowed Data actions. */
-  dataActions?: PermissionDataActionsList;
+  dataActions?: PermissionDataActionsList | undefined;
   /** Denied Data actions. */
-  notDataActions?: PermissionNotDataActionsList;
+  notDataActions?: PermissionNotDataActionsList | undefined;
 }
 /** Role definition permissions. */
 export type RoleDefinitionPermissionsList = Array<Permission>;
@@ -7697,26 +7871,26 @@ export type RoleDefinitionScopesList = Array<string>;
 /** Role definition properties. */
 export interface RoleDefinition {
   /** The role definition ID. */
-  id?: string;
+  id?: string | undefined;
   /** The role definition name. */
-  name?: string;
+  name?: string | undefined;
   /** If this is a service role. */
-  isServiceRole?: boolean;
+  isServiceRole?: boolean | undefined;
   /** Role definition permissions. */
-  permissions?: RoleDefinitionPermissionsList;
+  permissions?: RoleDefinitionPermissionsList | undefined;
   /** Role definition assignable scopes. */
-  scopes?: RoleDefinitionScopesList;
+  scopes?: RoleDefinitionScopesList | undefined;
 }
 /** The provider permission */
 export interface ProviderPermission {
   /** The application id. */
-  applicationId?: string;
+  applicationId?: string | undefined;
   /** Role definition properties. */
-  roleDefinition?: RoleDefinition;
+  roleDefinition?: RoleDefinition | undefined;
   /** Role definition properties. */
-  managedByRoleDefinition?: RoleDefinition;
+  managedByRoleDefinition?: RoleDefinition | undefined;
   /** The provider authorization consent state. */
-  providerAuthorizationConsentState?: ProviderAuthorizationConsentState;
+  providerAuthorizationConsentState?: ProviderAuthorizationConsentState | undefined;
 }
 /** The ProviderPermission items on this page */
 export type ProviderPermissionListResultValueList = Array<ProviderPermission>;
@@ -7725,32 +7899,35 @@ export interface ProviderPermissionListResult {
   /** The ProviderPermission items on this page */
   value: ProviderPermissionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type PutDataBoundaryRequestDefault = "default";
 export interface PutDataBoundaryRequest {
   /** Default string modeled as parameter for auto generation to work correctly. */
   default: PutDataBoundaryRequestDefault | (string & {});
   /** Data boundary properties */
-  properties?: DataBoundaryProperties;
+  properties?: DataBoundaryProperties | undefined;
 }
 export interface PutDataBoundaryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Data boundary properties */
-  properties?: DataBoundaryProperties;
+  properties?: DataBoundaryProperties | undefined;
 }
 export type PrivateLinkAssociationPropertiesPublicNetworkAccess = "Enabled" | "Disabled";
 export interface PrivateLinkAssociationProperties {
   /** The rmpl Resource ID. */
-  privateLink?: string;
-  publicNetworkAccess?: PrivateLinkAssociationPropertiesPublicNetworkAccess | (string & {});
+  privateLink?: string | undefined;
+  publicNetworkAccess?:
+    | PrivateLinkAssociationPropertiesPublicNetworkAccess
+    | (string & {})
+    | undefined;
 }
 export interface PutPrivateLinkAssociationRequest {
   /** The management group ID. */
@@ -7758,7 +7935,7 @@ export interface PutPrivateLinkAssociationRequest {
   /** The ID of the PLA */
   plaId: string;
   /** The properties of the PrivateLinkAssociation. */
-  properties?: PrivateLinkAssociationProperties;
+  properties?: PrivateLinkAssociationProperties | undefined;
 }
 export interface PutResourceManagementPrivateLinkRequest {
   /** The ID of the target subscription. */
@@ -7768,7 +7945,7 @@ export interface PutResourceManagementPrivateLinkRequest {
   /** The name of the resource management private link. */
   rmplName: string;
   /** the region to create private link association. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface RefreshApplicationPermissionsRequest {
   /** The ID of the target subscription. */
@@ -7790,7 +7967,7 @@ export interface RegisterFeatureRequest {
 /** The provider consent. */
 export interface ProviderConsentDefinition {
   /** A value indicating whether authorization is consented or not. */
-  consentToAuthorization?: boolean;
+  consentToAuthorization?: boolean | undefined;
 }
 export interface RegisterProviderRequest {
   /** The ID of the target subscription. */
@@ -7798,7 +7975,7 @@ export interface RegisterProviderRequest {
   /** The namespace of the resource provider to register. */
   resourceProviderNamespace: string;
   /** The provider consent. */
-  thirdPartyProviderConsent?: ProviderConsentDefinition;
+  thirdPartyProviderConsent?: ProviderConsentDefinition | undefined;
 }
 export interface RegisterProviderAtManagementGroupScopeRequest {
   groupId: string;
@@ -7816,46 +7993,46 @@ export interface ResourceGroupsCreateOrUpdateRequest {
   /** The name of the resource group to get. The name is case insensitive. */
   resourceGroupName: string;
   /** Resource tags. */
-  tags?: ResourceGroupsCreateOrUpdateRequestTagsMap;
+  tags?: ResourceGroupsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource group properties. */
-  properties?: UserAssignedResourceIdentityInput;
+  properties?: UserAssignedResourceIdentityInput | undefined;
   /** The ID of the resource that manages this resource group. */
-  managedBy?: string;
+  managedBy?: string | undefined;
 }
 /** Resource tags. */
 export type ResourceGroupsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ResourceGroupsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ResourceGroupsCreateOrUpdateResponseTagsMap;
+  tags?: ResourceGroupsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource group properties. */
-  properties?: ResourceGroupProperties;
+  properties?: ResourceGroupProperties | undefined;
   /** The ID of the resource that manages this resource group. */
-  managedBy?: string;
+  managedBy?: string | undefined;
 }
 /** The resource link properties. */
 export interface ResourceLinkPropertiesInput {
   /** The fully qualified ID of the target resource in the link. */
   targetId: string;
   /** Notes about the resource link. */
-  notes?: string;
+  notes?: string | undefined;
 }
 export interface ResourceLinksCreateOrUpdateRequest {
   /** The fully qualified ID of the resource link. Use the format, /subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/{provider-namespace}/{resource-type}/{resource-name}/Microsoft.Resources/links/{link-name}. For example, /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup/Microsoft.Web/sites/mySite/Microsoft.Resources/links/myLink */
   linkId: string;
   /** Properties for resource link. */
-  properties?: ResourceLinkPropertiesInput;
+  properties?: ResourceLinkPropertiesInput | undefined;
 }
 export type IdentityUserAssignedIdentitiesValueInput = UserAssignedResourceIdentityInput;
 /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
@@ -7865,9 +8042,9 @@ export type IdentityInputUserAssignedIdentitiesMap_2 = {
 /** Identity for the resource. */
 export interface IdentityInput_2 {
   /** The identity type. */
-  type?: ResourceIdentityType_2 | (string & {});
+  type?: ResourceIdentityType_2 | (string & {}) | undefined;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap_2;
+  userAssignedIdentities?: IdentityInputUserAssignedIdentitiesMap_2 | undefined;
 }
 /** Resource tags */
 export type ResourcesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -7885,114 +8062,114 @@ export interface ResourcesCreateOrUpdateRequest {
   /** The name of the resource to check whether it exists. */
   resourceName: string;
   /** The resource-specific properties for this resource. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** The plan of the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The kind of the resource. */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The identity of the resource. */
-  identity?: IdentityInput_2;
+  identity?: IdentityInput_2 | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Resource tags */
-  tags?: ResourcesCreateOrUpdateRequestTagsMap;
+  tags?: ResourcesCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Resource tags */
 export type ResourcesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ResourcesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** The plan of the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The kind of the resource. */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The identity of the resource. */
-  identity?: Identity_2;
+  identity?: Identity_2 | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Resource tags */
-  tags?: ResourcesCreateOrUpdateResponseTagsMap;
+  tags?: ResourcesCreateOrUpdateResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type ResourcesCreateOrUpdateByIdRequestTagsMap = { [key: string]: string | undefined };
 export interface ResourcesCreateOrUpdateByIdRequest {
   resourceId: string;
   /** The resource-specific properties for this resource. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** The plan of the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The kind of the resource. */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The identity of the resource. */
-  identity?: IdentityInput_2;
+  identity?: IdentityInput_2 | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Resource tags */
-  tags?: ResourcesCreateOrUpdateByIdRequestTagsMap;
+  tags?: ResourcesCreateOrUpdateByIdRequestTagsMap | undefined;
 }
 /** Resource tags */
 export type ResourcesCreateOrUpdateByIdResponseTagsMap = { [key: string]: string | undefined };
 export interface ResourcesCreateOrUpdateByIdResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** The plan of the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The kind of the resource. */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The identity of the resource. */
-  identity?: Identity_2;
+  identity?: Identity_2 | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Resource tags */
-  tags?: ResourcesCreateOrUpdateByIdResponseTagsMap;
+  tags?: ResourcesCreateOrUpdateByIdResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The IDs of the resources. */
 export type ResourcesValidateMoveResourcesRequestResourcesList = Array<string>;
@@ -8002,13 +8179,13 @@ export interface ResourcesValidateMoveResourcesRequest {
   /** The name of the resource group to get. The name is case insensitive. */
   sourceResourceGroupName: string;
   /** The IDs of the resources. */
-  resources?: ResourcesValidateMoveResourcesRequestResourcesList;
+  resources?: ResourcesValidateMoveResourcesRequestResourcesList | undefined;
   /** The target resource group. */
-  targetResourceGroup?: string;
+  targetResourceGroup?: string | undefined;
 }
 export interface ResourcesValidateMoveResourcesResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The state. */
 export type SubscriptionFeatureRegistrationsCreateOrUpdateRequestPropertiesState =
@@ -8027,14 +8204,17 @@ export type SubscriptionFeatureRegistrationsCreateOrUpdateRequestPropertiesMetad
 };
 export interface SubscriptionFeatureRegistrationsCreateOrUpdateRequestProperties {
   /** The state. */
-  state?: SubscriptionFeatureRegistrationsCreateOrUpdateRequestPropertiesState | (string & {});
-  authorizationProfile?: UserAssignedResourceIdentityInput;
+  state?:
+    | SubscriptionFeatureRegistrationsCreateOrUpdateRequestPropertiesState
+    | (string & {})
+    | undefined;
+  authorizationProfile?: UserAssignedResourceIdentityInput | undefined;
   /** Key-value pairs for meta data. */
-  metadata?: SubscriptionFeatureRegistrationsCreateOrUpdateRequestPropertiesMetadataMap;
+  metadata?: SubscriptionFeatureRegistrationsCreateOrUpdateRequestPropertiesMetadataMap | undefined;
   /** Indicates whether feature should be displayed in Portal. */
-  shouldFeatureDisplayInPortal?: boolean;
+  shouldFeatureDisplayInPortal?: boolean | undefined;
   /** The feature description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface SubscriptionFeatureRegistrationsCreateOrUpdateRequest {
   /** The Azure subscription ID. */
@@ -8043,7 +8223,7 @@ export interface SubscriptionFeatureRegistrationsCreateOrUpdateRequest {
   providerNamespace: string;
   /** The feature name. */
   featureName: string;
-  properties?: SubscriptionFeatureRegistrationsCreateOrUpdateRequestProperties;
+  properties?: SubscriptionFeatureRegistrationsCreateOrUpdateRequestProperties | undefined;
 }
 /** The state. */
 export type SubscriptionFeatureRegistrationsCreateOrUpdateResponsePropertiesState =
@@ -8065,41 +8245,45 @@ export type SubscriptionFeatureRegistrationsCreateOrUpdateResponsePropertiesAppr
   | "AutoApproval";
 export interface SubscriptionFeatureRegistrationsCreateOrUpdateResponseProperties {
   /** The tenantId. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The subscriptionId. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The featureName. */
-  featureName?: string;
+  featureName?: string | undefined;
   /** The featureDisplayName. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The providerNamespace. */
-  providerNamespace?: string;
+  providerNamespace?: string | undefined;
   /** The state. */
-  state?: SubscriptionFeatureRegistrationsCreateOrUpdateResponsePropertiesState;
-  authorizationProfile?: AuthorizationProfile;
+  state?: SubscriptionFeatureRegistrationsCreateOrUpdateResponsePropertiesState | undefined;
+  authorizationProfile?: AuthorizationProfile | undefined;
   /** Key-value pairs for meta data. */
-  metadata?: SubscriptionFeatureRegistrationsCreateOrUpdateResponsePropertiesMetadataMap;
+  metadata?:
+    | SubscriptionFeatureRegistrationsCreateOrUpdateResponsePropertiesMetadataMap
+    | undefined;
   /** The feature release date. */
-  releaseDate?: string;
+  releaseDate?: string | undefined;
   /** The feature registration date. */
-  registrationDate?: string;
+  registrationDate?: string | undefined;
   /** The feature documentation link. */
-  documentationLink?: string;
+  documentationLink?: string | undefined;
   /** The feature approval type. */
-  approvalType?: SubscriptionFeatureRegistrationsCreateOrUpdateResponsePropertiesApprovalType;
+  approvalType?:
+    | SubscriptionFeatureRegistrationsCreateOrUpdateResponsePropertiesApprovalType
+    | undefined;
   /** Indicates whether feature should be displayed in Portal. */
-  shouldFeatureDisplayInPortal?: boolean;
+  shouldFeatureDisplayInPortal?: boolean | undefined;
   /** The feature description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface SubscriptionFeatureRegistrationsCreateOrUpdateResponse {
   /** Azure resource Id. */
-  id?: string;
+  id?: string | undefined;
   /** Azure resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Azure resource type. */
-  type?: string;
-  properties?: SubscriptionFeatureRegistrationsCreateOrUpdateResponseProperties;
+  type?: string | undefined;
+  properties?: SubscriptionFeatureRegistrationsCreateOrUpdateResponseProperties | undefined;
 }
 export interface TagsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -8115,19 +8299,19 @@ export interface TagsCreateOrUpdateAtScopeRequest {
 }
 export interface TagsCreateOrUpdateAtScopeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The set of tags. */
   properties: Tags;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface TagsCreateOrUpdateValueRequest {
   /** The ID of the target subscription. */
@@ -8140,11 +8324,11 @@ export interface TagsCreateOrUpdateValueRequest {
 /** Template Spec properties. */
 export interface TemplateSpecPropertiesInput {
   /** Template Spec description. */
-  description?: string;
+  description?: string | undefined;
   /** Template Spec display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The Template Spec metadata. Metadata is an open-ended object and is typically a collection of key-value pairs. */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 /** Resource tags. */
 export type TemplateSpecsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -8158,9 +8342,9 @@ export interface TemplateSpecsCreateOrUpdateRequest {
   /** The location of the Template Spec. It cannot be changed after Template Spec creation. It must be one of the supported Azure locations. */
   location: string;
   /** Template Spec properties. */
-  properties?: TemplateSpecPropertiesInput;
+  properties?: TemplateSpecPropertiesInput | undefined;
   /** Resource tags. */
-  tags?: TemplateSpecsCreateOrUpdateRequestTagsMap;
+  tags?: TemplateSpecsCreateOrUpdateRequestTagsMap | undefined;
 }
 /** The type of identity that created the resource. */
 export type TemplateSpecsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -8177,35 +8361,35 @@ export type TemplateSpecsCreateOrUpdateResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface TemplateSpecsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: TemplateSpecsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: TemplateSpecsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: TemplateSpecsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: TemplateSpecsCreateOrUpdateResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type TemplateSpecsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface TemplateSpecsCreateOrUpdateResponse {
   /** String Id used to locate any resource on Azure. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of this resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: TemplateSpecsCreateOrUpdateResponseSystemData;
+  systemData?: TemplateSpecsCreateOrUpdateResponseSystemData | undefined;
   /** The location of the Template Spec. It cannot be changed after Template Spec creation. It must be one of the supported Azure locations. */
   location: string;
   /** Template Spec properties. */
-  properties?: TemplateSpecProperties;
+  properties?: TemplateSpecProperties | undefined;
   /** Resource tags. */
-  tags?: TemplateSpecsCreateOrUpdateResponseTagsMap;
+  tags?: TemplateSpecsCreateOrUpdateResponseTagsMap | undefined;
 }
 /** Resource tags. */
 export type TemplateSpecVersionsCreateOrUpdateRequestTagsMap = {
@@ -8225,7 +8409,7 @@ export interface TemplateSpecVersionsCreateOrUpdateRequest {
   /** Template Spec Version properties. */
   properties: TemplateSpecVersionProperties;
   /** Resource tags. */
-  tags?: TemplateSpecVersionsCreateOrUpdateRequestTagsMap;
+  tags?: TemplateSpecVersionsCreateOrUpdateRequestTagsMap | undefined;
 }
 /** The type of identity that created the resource. */
 export type TemplateSpecVersionsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -8242,17 +8426,19 @@ export type TemplateSpecVersionsCreateOrUpdateResponseSystemDataLastModifiedByTy
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface TemplateSpecVersionsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: TemplateSpecVersionsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?: TemplateSpecVersionsCreateOrUpdateResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: TemplateSpecVersionsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | TemplateSpecVersionsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type TemplateSpecVersionsCreateOrUpdateResponseTagsMap = {
@@ -8260,19 +8446,19 @@ export type TemplateSpecVersionsCreateOrUpdateResponseTagsMap = {
 };
 export interface TemplateSpecVersionsCreateOrUpdateResponse {
   /** String Id used to locate any resource on Azure. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of this resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: TemplateSpecVersionsCreateOrUpdateResponseSystemData;
+  systemData?: TemplateSpecVersionsCreateOrUpdateResponseSystemData | undefined;
   /** The location of the Template Spec Version. It must match the location of the parent Template Spec. */
   location: string;
   /** Template Spec Version properties. */
   properties: TemplateSpecVersionProperties;
   /** Resource tags. */
-  tags?: TemplateSpecVersionsCreateOrUpdateResponseTagsMap;
+  tags?: TemplateSpecVersionsCreateOrUpdateResponseTagsMap | undefined;
 }
 export interface UnregisterFeatureRequest {
   /** The Azure subscription ID. */
@@ -8293,15 +8479,15 @@ export type UpdateApplicationRequestTagsMap = { [key: string]: string | undefine
 /** Plan for the managed application. */
 export interface PlanPatchable {
   /** The plan name. */
-  name?: string;
+  name?: string | undefined;
   /** The publisher ID. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** The product code. */
-  product?: string;
+  product?: string | undefined;
   /** The promotion code. */
-  promotionCode?: string;
+  promotionCode?: string | undefined;
   /** The plan's version. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface UpdateApplicationRequest {
   /** The ID of the target subscription. */
@@ -8311,47 +8497,47 @@ export interface UpdateApplicationRequest {
   /** The name of the managed application. */
   applicationName: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateApplicationRequestTagsMap;
+  tags?: UpdateApplicationRequestTagsMap | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku_2;
+  sku?: Sku_2 | undefined;
   /** The managed application properties. */
-  properties?: ApplicationPropertiesInput;
+  properties?: ApplicationPropertiesInput | undefined;
   /** The plan information. */
-  plan?: PlanPatchable;
+  plan?: PlanPatchable | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
-  kind?: string;
+  kind?: string | undefined;
   /** The identity of the resource. */
-  identity?: IdentityInput_3;
+  identity?: IdentityInput_3 | undefined;
 }
 /** Resource tags */
 export type UpdateApplicationResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateApplicationResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateApplicationResponseTagsMap;
+  tags?: UpdateApplicationResponseTagsMap | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku_2;
+  sku?: Sku_2 | undefined;
   /** The managed application properties. */
   properties: ApplicationProperties;
   /** The plan information. */
-  plan?: Plan_2;
+  plan?: Plan_2 | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
   kind: string;
   /** The identity of the resource. */
-  identity?: Identity_3;
+  identity?: Identity_3 | undefined;
 }
 /** Resource tags */
 export type UpdateApplicationByIdRequestTagsMap = { [key: string]: string | undefined };
@@ -8359,47 +8545,47 @@ export interface UpdateApplicationByIdRequest {
   /** The fully qualified ID of the managed application, including the managed application name and the managed application resource type. Use the format, /subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.Solutions/applications/{application-name} */
   applicationId: string;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateApplicationByIdRequestTagsMap;
+  tags?: UpdateApplicationByIdRequestTagsMap | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku_2;
+  sku?: Sku_2 | undefined;
   /** The managed application properties. */
   properties: ApplicationPropertiesInput;
   /** The plan information. */
-  plan?: Plan_2;
+  plan?: Plan_2 | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
   kind: string;
   /** The identity of the resource. */
-  identity?: IdentityInput_3;
+  identity?: IdentityInput_3 | undefined;
 }
 /** Resource tags */
 export type UpdateApplicationByIdResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateApplicationByIdResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateApplicationByIdResponseTagsMap;
+  tags?: UpdateApplicationByIdResponseTagsMap | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku_2;
+  sku?: Sku_2 | undefined;
   /** The managed application properties. */
   properties: ApplicationProperties;
   /** The plan information. */
-  plan?: Plan_2;
+  plan?: Plan_2 | undefined;
   /** The kind of the managed application. Allowed values are MarketPlace and ServiceCatalog. */
   kind: string;
   /** The identity of the resource. */
-  identity?: Identity_3;
+  identity?: Identity_3 | undefined;
 }
 /** Resource tags to be updated. */
 export type UpdateDeploymentScriptRequestTagsMap = { [key: string]: string | undefined };
@@ -8411,30 +8597,9 @@ export interface UpdateDeploymentScriptRequest {
   /** Name of the deployment script. */
   scriptName: string;
   /** Resource tags to be updated. */
-  tags?: UpdateDeploymentScriptRequestTagsMap;
+  tags?: UpdateDeploymentScriptRequestTagsMap | undefined;
 }
-/** Resource tags. */
-export type UpdateDeploymentScriptResponseTagsMap = { [key: string]: string | undefined };
-export interface UpdateDeploymentScriptResponse {
-  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
-  /** The name of the resource */
-  name?: string;
-  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
-  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
-  /** Resource tags. */
-  tags?: UpdateDeploymentScriptResponseTagsMap;
-  /** The geo-location where the resource lives */
-  location: string;
-  /** Type of the script. */
-  kind: ScriptType;
-  /** Optional property. Managed identity to be used for this deployment script. Currently, only user-assigned MSI is supported. */
-  identity?: ManagedServiceIdentity;
-  /** Properties of the deployment script (scriptContent, azCliVersion, retentionInterval, status, outputs, ...). */
-  properties?: DeploymentScriptProperties;
-}
+export type UpdateDeploymentScriptResponse = DeploymentScript;
 /** Jit request tags */
 export type UpdateJitRequestRequestTagsMap = { [key: string]: string | undefined };
 export interface UpdateJitRequestRequest {
@@ -8445,23 +8610,23 @@ export interface UpdateJitRequestRequest {
   /** The name of the JIT request. */
   jitRequestName: string;
   /** Jit request tags */
-  tags?: UpdateJitRequestRequestTagsMap;
+  tags?: UpdateJitRequestRequestTagsMap | undefined;
 }
 /** Resource tags */
 export type UpdateJitRequestResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateJitRequestResponse {
   /** Resource ID */
-  id?: string;
+  id?: string | undefined;
   /** Resource name */
-  name?: string;
+  name?: string | undefined;
   /** Resource type */
-  type?: string;
+  type?: string | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags */
-  tags?: UpdateJitRequestResponseTagsMap;
+  tags?: UpdateJitRequestResponseTagsMap | undefined;
   /** The JIT request properties. */
-  properties?: JitRequestProperties;
+  properties?: JitRequestProperties | undefined;
 }
 /** The resource selector list to filter policies by resource properties. */
 export type PolicyAssignmentUpdatePropertiesResourceSelectorsList = Array<ResourceSelector>;
@@ -8470,11 +8635,11 @@ export type PolicyAssignmentUpdatePropertiesOverridesList = Array<Override>;
 /** The policy assignment properties for Patch request. */
 export interface PolicyAssignmentUpdateProperties {
   /** The resource selector list to filter policies by resource properties. */
-  resourceSelectors?: PolicyAssignmentUpdatePropertiesResourceSelectorsList;
+  resourceSelectors?: PolicyAssignmentUpdatePropertiesResourceSelectorsList | undefined;
   /** The policy property value override. */
-  overrides?: PolicyAssignmentUpdatePropertiesOverridesList;
+  overrides?: PolicyAssignmentUpdatePropertiesOverridesList | undefined;
   /** The self-serve exemption settings for the policy assignment. */
-  selfServeExemptionSettings?: SelfServeExemptionSettings;
+  selfServeExemptionSettings?: SelfServeExemptionSettings | undefined;
 }
 export interface UpdatePolicyAssignmentRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -8482,27 +8647,27 @@ export interface UpdatePolicyAssignmentRequest {
   /** The name of the policy assignment to get. */
   policyAssignmentName: string;
   /** The policy assignment properties for Patch request. */
-  properties?: PolicyAssignmentUpdateProperties;
+  properties?: PolicyAssignmentUpdateProperties | undefined;
   /** The location of the policy assignment. Only required when utilizing managed identity. */
-  location?: string;
+  location?: string | undefined;
   /** The managed identity associated with the policy assignment. */
-  identity?: IdentityInput;
+  identity?: IdentityInput | undefined;
 }
 export interface UpdatePolicyAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties for the policy assignment. */
-  properties?: PolicyAssignmentProperties;
+  properties?: PolicyAssignmentProperties | undefined;
   /** The location of the policy assignment. Only required when utilizing managed identity. */
-  location?: string;
+  location?: string | undefined;
   /** The managed identity associated with the policy assignment. */
-  identity?: Identity;
+  identity?: Identity | undefined;
 }
 /** Resource tags */
 export type UpdateResourceRequestTagsMap = { [key: string]: string | undefined };
@@ -8520,114 +8685,114 @@ export interface UpdateResourceRequest {
   /** The name of the resource to check whether it exists. */
   resourceName: string;
   /** The resource-specific properties for this resource. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** The plan of the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The kind of the resource. */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The identity of the resource. */
-  identity?: IdentityInput_2;
+  identity?: IdentityInput_2 | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Resource tags */
-  tags?: UpdateResourceRequestTagsMap;
+  tags?: UpdateResourceRequestTagsMap | undefined;
 }
 /** Resource tags */
 export type UpdateResourceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** The plan of the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The kind of the resource. */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The identity of the resource. */
-  identity?: Identity_2;
+  identity?: Identity_2 | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Resource tags */
-  tags?: UpdateResourceResponseTagsMap;
+  tags?: UpdateResourceResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags */
 export type UpdateResourceByIdRequestTagsMap = { [key: string]: string | undefined };
 export interface UpdateResourceByIdRequest {
   resourceId: string;
   /** The resource-specific properties for this resource. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** The plan of the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The kind of the resource. */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The identity of the resource. */
-  identity?: IdentityInput_2;
+  identity?: IdentityInput_2 | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Resource tags */
-  tags?: UpdateResourceByIdRequestTagsMap;
+  tags?: UpdateResourceByIdRequestTagsMap | undefined;
 }
 /** Resource tags */
 export type UpdateResourceByIdResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateResourceByIdResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** The plan of the resource. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The kind of the resource. */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of the resource that manages this resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The SKU of the resource. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The identity of the resource. */
-  identity?: Identity_2;
+  identity?: Identity_2 | undefined;
   /** Resource location */
-  location?: string;
+  location?: string | undefined;
   /** Resource extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** Resource tags */
-  tags?: UpdateResourceByIdResponseTagsMap;
+  tags?: UpdateResourceByIdResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The tags attached to the resource group. */
 export type UpdateResourceGroupRequestTagsMap = { [key: string]: string | undefined };
@@ -8637,33 +8802,33 @@ export interface UpdateResourceGroupRequest {
   /** The name of the resource group to get. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the resource group. */
-  name?: string;
+  name?: string | undefined;
   /** The resource group properties. */
-  properties?: UserAssignedResourceIdentityInput;
+  properties?: UserAssignedResourceIdentityInput | undefined;
   /** The ID of the resource that manages this resource group. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** The tags attached to the resource group. */
-  tags?: UpdateResourceGroupRequestTagsMap;
+  tags?: UpdateResourceGroupRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateResourceGroupResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateResourceGroupResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateResourceGroupResponseTagsMap;
+  tags?: UpdateResourceGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource group properties. */
-  properties?: ResourceGroupProperties;
+  properties?: ResourceGroupProperties | undefined;
   /** The ID of the resource that manages this resource group. */
-  managedBy?: string;
+  managedBy?: string | undefined;
 }
 /** The operation type for the patch API. */
 export type TagsPatchOperation = "Replace" | "Merge" | "Delete";
@@ -8671,25 +8836,25 @@ export interface UpdateTagAtScopeRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   scope: string;
   /** The operation type for the patch API. */
-  operation?: TagsPatchOperation | (string & {});
+  operation?: TagsPatchOperation | (string & {}) | undefined;
   /** The set of tags. */
-  properties?: Tags;
+  properties?: Tags | undefined;
 }
 export interface UpdateTagAtScopeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The set of tags. */
   properties: Tags;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateTemplateSpecRequestTagsMap = { [key: string]: string | undefined };
@@ -8701,7 +8866,7 @@ export interface UpdateTemplateSpecRequest {
   /** Name of the Template Spec. */
   templateSpecName: string;
   /** Resource tags. */
-  tags?: UpdateTemplateSpecRequestTagsMap;
+  tags?: UpdateTemplateSpecRequestTagsMap | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdateTemplateSpecResponseSystemDataCreatedByType =
@@ -8718,35 +8883,35 @@ export type UpdateTemplateSpecResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateTemplateSpecResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateTemplateSpecResponseSystemDataCreatedByType;
+  createdByType?: UpdateTemplateSpecResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateTemplateSpecResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateTemplateSpecResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateTemplateSpecResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateTemplateSpecResponse {
   /** String Id used to locate any resource on Azure. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of this resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateTemplateSpecResponseSystemData;
+  systemData?: UpdateTemplateSpecResponseSystemData | undefined;
   /** The location of the Template Spec. It cannot be changed after Template Spec creation. It must be one of the supported Azure locations. */
   location: string;
   /** Template Spec properties. */
-  properties?: TemplateSpecProperties;
+  properties?: TemplateSpecProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateTemplateSpecResponseTagsMap;
+  tags?: UpdateTemplateSpecResponseTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateTemplateSpecVersionRequestTagsMap = { [key: string]: string | undefined };
@@ -8760,7 +8925,7 @@ export interface UpdateTemplateSpecVersionRequest {
   /** The version of the Template Spec. */
   templateSpecVersion: string;
   /** Resource tags. */
-  tags?: UpdateTemplateSpecVersionRequestTagsMap;
+  tags?: UpdateTemplateSpecVersionRequestTagsMap | undefined;
 }
 /** The type of identity that created the resource. */
 export type UpdateTemplateSpecVersionResponseSystemDataCreatedByType =
@@ -8777,35 +8942,35 @@ export type UpdateTemplateSpecVersionResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateTemplateSpecVersionResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateTemplateSpecVersionResponseSystemDataCreatedByType;
+  createdByType?: UpdateTemplateSpecVersionResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateTemplateSpecVersionResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateTemplateSpecVersionResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateTemplateSpecVersionResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateTemplateSpecVersionResponse {
   /** String Id used to locate any resource on Azure. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of this resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateTemplateSpecVersionResponseSystemData;
+  systemData?: UpdateTemplateSpecVersionResponseSystemData | undefined;
   /** The location of the Template Spec Version. It must match the location of the parent Template Spec. */
   location: string;
   /** Template Spec Version properties. */
   properties: TemplateSpecVersionProperties;
   /** Resource tags. */
-  tags?: UpdateTemplateSpecVersionResponseTagsMap;
+  tags?: UpdateTemplateSpecVersionResponseTagsMap | undefined;
 }
 /** Deployment tags */
 export type ValidateDeploymentRequestTagsMap = { [key: string]: string | undefined };
@@ -8817,30 +8982,30 @@ export interface ValidateDeploymentRequest {
   /** The name of the deployment. */
   deploymentName: string;
   /** The location to store the deployment data. */
-  location?: string;
+  location?: string | undefined;
   /** The deployment properties. */
   properties: DeploymentProperties;
   /** Deployment tags */
-  tags?: ValidateDeploymentRequestTagsMap;
+  tags?: ValidateDeploymentRequestTagsMap | undefined;
   /** The Managed Identity configuration for a deployment. */
-  identity?: DeploymentIdentityInput;
+  identity?: DeploymentIdentityInput | undefined;
 }
 /** Information from validate template deployment response. */
 export interface DeploymentValidateResult {
   /** The deployment validation error. */
-  error?: ErrorResponse;
+  error?: ErrorResponse | undefined;
   /** The ID of the deployment. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the deployment. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the deployment. */
-  type?: string;
+  type?: string | undefined;
   /** The template deployment properties. */
-  properties?: DeploymentPropertiesExtended;
+  properties?: DeploymentPropertiesExtended | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Deployment tags */
 export type ValidateDeploymentAtManagementGroupScopeRequestTagsMap = {
@@ -8856,7 +9021,7 @@ export interface ValidateDeploymentAtManagementGroupScopeRequest {
   /** The deployment properties. */
   properties: DeploymentProperties;
   /** Deployment tags */
-  tags?: ValidateDeploymentAtManagementGroupScopeRequestTagsMap;
+  tags?: ValidateDeploymentAtManagementGroupScopeRequestTagsMap | undefined;
 }
 /** Deployment tags */
 export type ValidateDeploymentAtScopeRequestTagsMap = { [key: string]: string | undefined };
@@ -8866,13 +9031,13 @@ export interface ValidateDeploymentAtScopeRequest {
   /** The name of the deployment. */
   deploymentName: string;
   /** The location to store the deployment data. */
-  location?: string;
+  location?: string | undefined;
   /** The deployment properties. */
   properties: DeploymentProperties;
   /** Deployment tags */
-  tags?: ValidateDeploymentAtScopeRequestTagsMap;
+  tags?: ValidateDeploymentAtScopeRequestTagsMap | undefined;
   /** The Managed Identity configuration for a deployment. */
-  identity?: DeploymentIdentityInput;
+  identity?: DeploymentIdentityInput | undefined;
 }
 /** Deployment tags */
 export type ValidateDeploymentAtSubscriptionScopeRequestTagsMap = {
@@ -8884,13 +9049,13 @@ export interface ValidateDeploymentAtSubscriptionScopeRequest {
   /** The name of the deployment. */
   deploymentName: string;
   /** The location to store the deployment data. */
-  location?: string;
+  location?: string | undefined;
   /** The deployment properties. */
   properties: DeploymentProperties;
   /** Deployment tags */
-  tags?: ValidateDeploymentAtSubscriptionScopeRequestTagsMap;
+  tags?: ValidateDeploymentAtSubscriptionScopeRequestTagsMap | undefined;
   /** The Managed Identity configuration for a deployment. */
-  identity?: DeploymentIdentityInput;
+  identity?: DeploymentIdentityInput | undefined;
 }
 /** Deployment tags */
 export type ValidateDeploymentAtTenantScopeRequestTagsMap = { [key: string]: string | undefined };
@@ -8902,7 +9067,7 @@ export interface ValidateDeploymentAtTenantScopeRequest {
   /** The deployment properties. */
   properties: DeploymentProperties;
   /** Deployment tags */
-  tags?: ValidateDeploymentAtTenantScopeRequestTagsMap;
+  tags?: ValidateDeploymentAtTenantScopeRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type ValidateDeploymentStackStackAtManagementGroupRequestTagsMap = {
@@ -8914,11 +9079,11 @@ export interface ValidateDeploymentStackStackAtManagementGroupRequest {
   /** Name of the deployment stack. */
   deploymentStackName: string;
   /** Deployment stack properties. */
-  properties?: DeploymentStackPropertiesInput;
+  properties?: DeploymentStackPropertiesInput | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: ValidateDeploymentStackStackAtManagementGroupRequestTagsMap;
+  tags?: ValidateDeploymentStackStackAtManagementGroupRequestTagsMap | undefined;
 }
 /** The type of identity that created the resource. */
 export type DeploymentStackValidateResultSystemDataCreatedByType =
@@ -8935,35 +9100,34 @@ export type DeploymentStackValidateResultSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface DeploymentStackValidateResultSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: DeploymentStackValidateResultSystemDataCreatedByType;
+  createdByType?: DeploymentStackValidateResultSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: DeploymentStackValidateResultSystemDataLastModifiedByType;
+  lastModifiedByType?: DeploymentStackValidateResultSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The error details. */
 export type DeploymentStackValidateResultErrorDetailsList = Array<ErrorDetail>;
 /** The error additional info. */
-export type DeploymentStackValidateResultErrorAdditionalInfoList =
-  Array<ErrorResponseAdditionalInfoItem>;
+export type DeploymentStackValidateResultErrorAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface DeploymentStackValidateResultError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: DeploymentStackValidateResultErrorDetailsList;
+  details?: DeploymentStackValidateResultErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: DeploymentStackValidateResultErrorAdditionalInfoList;
+  additionalInfo?: DeploymentStackValidateResultErrorAdditionalInfoList | undefined;
 }
 /** Deployment parameters. */
 export type DeploymentStackValidatePropertiesParametersMap = {
@@ -8976,44 +9140,44 @@ export type DeploymentStackValidatePropertiesDeploymentExtensionsList = Array<De
 /** The Deployment stack validation result details. */
 export interface DeploymentStackValidateProperties {
   /** Defines the behavior of resources that are no longer managed after the Deployment stack is updated or deleted. */
-  actionOnUnmanage?: ActionOnUnmanage;
+  actionOnUnmanage?: ActionOnUnmanage | undefined;
   /** The correlation id of the Deployment stack validate operation. It is in GUID format and is used for tracing. */
-  correlationId?: string;
+  correlationId?: string | undefined;
   /** The Deployment stack deny settings. */
-  denySettings?: DenySettings;
+  denySettings?: DenySettings | undefined;
   /** The Deployment stack deployment scope. */
-  deploymentScope?: string;
+  deploymentScope?: string | undefined;
   /** The Deployment stack validation description. */
-  description?: string;
+  description?: string | undefined;
   /** Deployment parameters. */
-  parameters?: DeploymentStackValidatePropertiesParametersMap;
+  parameters?: DeploymentStackValidatePropertiesParametersMap | undefined;
   /** The URI of the template. */
-  templateLink?: DeploymentStacksTemplateLink;
+  templateLink?: DeploymentStacksTemplateLink | undefined;
   /** The array of resources that were validated. */
-  validatedResources?: DeploymentStackValidatePropertiesValidatedResourcesList;
+  validatedResources?: DeploymentStackValidatePropertiesValidatedResourcesList | undefined;
   /** The deployment extensions. */
-  deploymentExtensions?: DeploymentStackValidatePropertiesDeploymentExtensionsList;
+  deploymentExtensions?: DeploymentStackValidatePropertiesDeploymentExtensionsList | undefined;
   /** The validation level of the deployment stack */
-  validationLevel?: ValidationLevel;
+  validationLevel?: ValidationLevel | undefined;
 }
 /** The Deployment stack validation result. */
 export interface DeploymentStackValidateResult {
   /** String Id used to locate any resource on Azure. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of this resource. */
-  type?: string;
+  type?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: DeploymentStackValidateResultSystemData;
+  systemData?: DeploymentStackValidateResultSystemData | undefined;
   /** The error detail. */
-  error?: DeploymentStackValidateResultError;
+  error?: DeploymentStackValidateResultError | undefined;
   /** The validation result details. */
-  properties?: DeploymentStackValidateProperties;
+  properties?: DeploymentStackValidateProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type ValidateDeploymentStackStackAtResourceGroupRequestTagsMap = {
@@ -9027,11 +9191,11 @@ export interface ValidateDeploymentStackStackAtResourceGroupRequest {
   /** Name of the deployment stack. */
   deploymentStackName: string;
   /** Deployment stack properties. */
-  properties?: DeploymentStackPropertiesInput;
+  properties?: DeploymentStackPropertiesInput | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: ValidateDeploymentStackStackAtResourceGroupRequestTagsMap;
+  tags?: ValidateDeploymentStackStackAtResourceGroupRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type ValidateDeploymentStackStackAtSubscriptionRequestTagsMap = {
@@ -9043,18 +9207,18 @@ export interface ValidateDeploymentStackStackAtSubscriptionRequest {
   /** Name of the deployment stack. */
   deploymentStackName: string;
   /** Deployment stack properties. */
-  properties?: DeploymentStackPropertiesInput;
+  properties?: DeploymentStackPropertiesInput | undefined;
   /** The geo-location where the resource lives. Required for subscription and management group scoped stacks. The location is inherited from the resource group for resource group scoped stacks. */
-  location?: string;
+  location?: string | undefined;
   /** Resource tags. */
-  tags?: ValidateDeploymentStackStackAtSubscriptionRequestTagsMap;
+  tags?: ValidateDeploymentStackStackAtSubscriptionRequestTagsMap | undefined;
 }
 /** The body of the resource to validate. In most cases, this should be the exact same resource body as on an ARM resource PUT request plus the apiVersion property. */
 export interface ResourceValidationRequestResource {
   /** The API version to use with this resource. */
   apiVersion: string;
   /** Set this to true if this resource is meant to be provisioned only if it does not exist. */
-  onlyIfNotExists?: boolean;
+  onlyIfNotExists?: boolean | undefined;
   [key: string]: unknown;
 }
 /** The list of resources to validate. Each resource in the list must have the same namespace, type, and location. The namespace and type on each resource must match the corresponding values in the top-level request. The location on each resource must match the top-level location in the request if specified. */
@@ -9068,15 +9232,15 @@ export interface ValidateResourceValidatorResourcesRequest {
   /** The type of the resources being validated */
   type: string;
   /** The optional location for the resources being validated */
-  location?: string;
+  location?: string | undefined;
   /** The scope of the resources being validated */
   scope: string;
   /** The list of resources to validate. Each resource in the list must have the same namespace, type, and location. The namespace and type on each resource must match the corresponding values in the top-level request. The location on each resource must match the top-level location in the request if specified. */
   resources: ValidateResourceValidatorResourcesRequestResourcesList;
   /** The type of resource validation to perform */
-  validationType?: ResourceValidationType | (string & {});
+  validationType?: ResourceValidationType | (string & {}) | undefined;
   /** If true, the validation will be performed without checking RBAC write permissions. */
-  performPreflightWithoutRbacWriteCheck?: boolean;
+  performPreflightWithoutRbacWriteCheck?: boolean | undefined;
 }
 /** List of ARM resource IDs corresponding to the resources that were successfully validated */
 export type ResourceValidationResponsePropertiesValidatedResourcesList = Array<string>;
@@ -9138,7 +9302,7 @@ export const ApplicationsCreateOrUpdateById: API.OperationMethod<
   ApplicationsCreateOrUpdateByIdError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2736, __c171, 0) as any as S.Schema<ApplicationsCreateOrUpdateByIdRequest>,
+  input: __S(2800, __c175, 0) as any as S.Schema<ApplicationsCreateOrUpdateByIdRequest>,
   output: __S(203, __c12, 11) as any as S.Schema<ApplicationsCreateOrUpdateByIdResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9158,7 +9322,7 @@ export const CancelDeployment: API.OperationMethod<
   CancelDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c276, 0) as any as S.Schema<CancelDeploymentRequest>,
+  input: __S(4480, __c280, 0) as any as S.Schema<CancelDeploymentRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<CancelDeploymentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9178,7 +9342,7 @@ export const CancelDeploymentAtManagementGroupScope: API.OperationMethod<
   CancelDeploymentAtManagementGroupScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4592, __c287, 0) as any as S.Schema<CancelDeploymentAtManagementGroupScopeRequest>,
+  input: __S(4656, __c291, 0) as any as S.Schema<CancelDeploymentAtManagementGroupScopeRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<CancelDeploymentAtManagementGroupScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9198,7 +9362,7 @@ export const CancelDeploymentAtScope: API.OperationMethod<
   CancelDeploymentAtScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c298, 0) as any as S.Schema<CancelDeploymentAtScopeRequest>,
+  input: __S(4832, __c302, 0) as any as S.Schema<CancelDeploymentAtScopeRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<CancelDeploymentAtScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9221,7 +9385,7 @@ export const CancelDeploymentAtSubscriptionScope: API.OperationMethod<
   CancelDeploymentAtSubscriptionScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5232, __c327, 0) as any as S.Schema<CancelDeploymentAtSubscriptionScopeRequest>,
+  input: __S(5280, __c330, 0) as any as S.Schema<CancelDeploymentAtSubscriptionScopeRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<CancelDeploymentAtSubscriptionScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9241,7 +9405,7 @@ export const CancelDeploymentAtTenantScope: API.OperationMethod<
   CancelDeploymentAtTenantScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c350, 0) as any as S.Schema<CancelDeploymentAtTenantScopeRequest>,
+  input: __S(5632, __c352, 0) as any as S.Schema<CancelDeploymentAtTenantScopeRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<CancelDeploymentAtTenantScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9261,8 +9425,8 @@ export const CheckResourceName: API.OperationMethod<
   CheckResourceNameError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5808, __c363, 0) as any as S.Schema<CheckResourceNameRequest>,
-  output: __S(5809, __c363, 1) as any as S.Schema<CheckResourceNameResult>,
+  input: __S(5840, __c365, 0) as any as S.Schema<CheckResourceNameRequest>,
+  output: __S(5841, __c365, 1) as any as S.Schema<CheckResourceNameResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9281,8 +9445,8 @@ export const CheckSubscriptionZonePeers: API.OperationMethod<
   CheckSubscriptionZonePeersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c378, 0) as any as S.Schema<CheckSubscriptionZonePeersRequest>,
-  output: __S(6053, __c378, 5) as any as S.Schema<CheckZonePeersResult>,
+  input: __S(6080, __c380, 0) as any as S.Schema<CheckSubscriptionZonePeersRequest>,
+  output: __S(6085, __c380, 5) as any as S.Schema<CheckZonePeersResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9301,8 +9465,8 @@ export const CreateDeploymentScript: API.OperationMethod<
   CreateDeploymentScriptError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<CreateDeploymentScriptRequest>,
-  output: __S(209, __c13, 1) as any as S.Schema<CreateDeploymentScriptResponse>,
+  input: __S(213, __c13, 5) as any as S.Schema<CreateDeploymentScriptRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<CreateDeploymentScriptResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9321,8 +9485,8 @@ export const CreatePolicyAssignment: API.OperationMethod<
   CreatePolicyAssignmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(513, __c32, 1) as any as S.Schema<CreatePolicyAssignmentRequest>,
-  output: __S(570, __c35, 10) as any as S.Schema<CreatePolicyAssignmentResponse>,
+  input: __S(577, __c36, 1) as any as S.Schema<CreatePolicyAssignmentRequest>,
+  output: __S(634, __c39, 10) as any as S.Schema<CreatePolicyAssignmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9345,8 +9509,8 @@ export const DecompileBicep: API.OperationMethod<
   DecompileBicepError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<DecompileBicepRequest>,
-  output: __S(819, __c51, 3) as any as S.Schema<DecompileOperationSuccessResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<DecompileBicepRequest>,
+  output: __S(883, __c55, 3) as any as S.Schema<DecompileOperationSuccessResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9365,7 +9529,7 @@ export const DeleteApplication: API.OperationMethod<
   DeleteApplicationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<DeleteApplicationRequest>,
+  input: __S(1120, __c70, 0) as any as S.Schema<DeleteApplicationRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteApplicationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9385,7 +9549,7 @@ export const DeleteApplicationById: API.OperationMethod<
   DeleteApplicationByIdError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<DeleteApplicationByIdRequest>,
+  input: __S(1456, __c91, 0) as any as S.Schema<DeleteApplicationByIdRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteApplicationByIdResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9402,7 +9566,7 @@ export const DeleteApplicationDefinition: API.OperationMethod<
   DeleteApplicationDefinitionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<DeleteApplicationDefinitionRequest>,
+  input: __S(1696, __c106, 0) as any as S.Schema<DeleteApplicationDefinitionRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteApplicationDefinitionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9422,8 +9586,8 @@ export const DeleteDeployment: API.OperationMethod<
   DeleteDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<DeleteDeploymentRequest>,
-  output: __S(1856, __c116, 0) as any as S.Schema<DeleteDeploymentResponse>,
+  input: __S(1904, __c119, 0) as any as S.Schema<DeleteDeploymentRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<DeleteDeploymentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9442,8 +9606,8 @@ export const DeleteDeploymentAtManagementGroupScope: API.OperationMethod<
   DeleteDeploymentAtManagementGroupScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<DeleteDeploymentAtManagementGroupScopeRequest>,
-  output: __S(1856, __c116, 0) as any as S.Schema<DeleteDeploymentAtManagementGroupScopeResponse>,
+  input: __S(2160, __c135, 0) as any as S.Schema<DeleteDeploymentAtManagementGroupScopeRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<DeleteDeploymentAtManagementGroupScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9462,8 +9626,8 @@ export const DeleteDeploymentAtScope: API.OperationMethod<
   DeleteDeploymentAtScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<DeleteDeploymentAtScopeRequest>,
-  output: __S(1856, __c116, 0) as any as S.Schema<DeleteDeploymentAtScopeResponse>,
+  input: __S(2368, __c148, 0) as any as S.Schema<DeleteDeploymentAtScopeRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<DeleteDeploymentAtScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9485,8 +9649,8 @@ export const DeleteDeploymentAtSubscriptionScope: API.OperationMethod<
   DeleteDeploymentAtSubscriptionScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c158, 0) as any as S.Schema<DeleteDeploymentAtSubscriptionScopeRequest>,
-  output: __S(1856, __c116, 0) as any as S.Schema<DeleteDeploymentAtSubscriptionScopeResponse>,
+  input: __S(2592, __c162, 0) as any as S.Schema<DeleteDeploymentAtSubscriptionScopeRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<DeleteDeploymentAtSubscriptionScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9505,8 +9669,8 @@ export const DeleteDeploymentAtTenantScope: API.OperationMethod<
   DeleteDeploymentAtTenantScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c172, 0) as any as S.Schema<DeleteDeploymentAtTenantScopeRequest>,
-  output: __S(1856, __c116, 0) as any as S.Schema<DeleteDeploymentAtTenantScopeResponse>,
+  input: __S(2816, __c176, 0) as any as S.Schema<DeleteDeploymentAtTenantScopeRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<DeleteDeploymentAtTenantScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9525,7 +9689,7 @@ export const DeleteDeploymentScript: API.OperationMethod<
   DeleteDeploymentScriptError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2992, __c187, 0) as any as S.Schema<DeleteDeploymentScriptRequest>,
+  input: __S(3056, __c191, 0) as any as S.Schema<DeleteDeploymentScriptRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteDeploymentScriptResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9545,8 +9709,8 @@ export const DeleteDeploymentStackAtManagementGroup: API.OperationMethod<
   DeleteDeploymentStackAtManagementGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c202, 0) as any as S.Schema<DeleteDeploymentStackAtManagementGroupRequest>,
-  output: __S(1856, __c116, 0) as any as S.Schema<DeleteDeploymentStackAtManagementGroupResponse>,
+  input: __S(3296, __c206, 0) as any as S.Schema<DeleteDeploymentStackAtManagementGroupRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<DeleteDeploymentStackAtManagementGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9565,8 +9729,8 @@ export const DeleteDeploymentStackAtResourceGroup: API.OperationMethod<
   DeleteDeploymentStackAtResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c216, 0) as any as S.Schema<DeleteDeploymentStackAtResourceGroupRequest>,
-  output: __S(1856, __c116, 0) as any as S.Schema<DeleteDeploymentStackAtResourceGroupResponse>,
+  input: __S(3520, __c220, 0) as any as S.Schema<DeleteDeploymentStackAtResourceGroupRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<DeleteDeploymentStackAtResourceGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9585,8 +9749,8 @@ export const DeleteDeploymentStackAtSubscription: API.OperationMethod<
   DeleteDeploymentStackAtSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3664, __c229, 0) as any as S.Schema<DeleteDeploymentStackAtSubscriptionRequest>,
-  output: __S(1856, __c116, 0) as any as S.Schema<DeleteDeploymentStackAtSubscriptionResponse>,
+  input: __S(3728, __c233, 0) as any as S.Schema<DeleteDeploymentStackAtSubscriptionRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<DeleteDeploymentStackAtSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9606,8 +9770,8 @@ export const DeleteDeploymentStacksWhatIfResultsAtManagementGroup: API.Operation
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3856,
-    __c241,
+    3920,
+    __c245,
     0,
   ) as any as S.Schema<DeleteDeploymentStacksWhatIfResultsAtManagementGroupRequest>,
   output: __S(
@@ -9634,8 +9798,8 @@ export const DeleteDeploymentStacksWhatIfResultsAtResourceGroup: API.OperationMe
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4048,
-    __c253,
+    4112,
+    __c257,
     0,
   ) as any as S.Schema<DeleteDeploymentStacksWhatIfResultsAtResourceGroupRequest>,
   output: __S(
@@ -9662,8 +9826,8 @@ export const DeleteDeploymentStacksWhatIfResultsAtSubscription: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4240,
-    __c265,
+    4304,
+    __c269,
     0,
   ) as any as S.Schema<DeleteDeploymentStacksWhatIfResultsAtSubscriptionRequest>,
   output: __S(
@@ -9689,7 +9853,7 @@ export const DeleteJitRequest: API.OperationMethod<
   DeleteJitRequestError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c274, 0) as any as S.Schema<DeleteJitRequestRequest>,
+  input: __S(4448, __c278, 0) as any as S.Schema<DeleteJitRequestRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteJitRequestResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9709,7 +9873,7 @@ export const DeleteManagementLockAtResourceGroupLevel: API.OperationMethod<
   DeleteManagementLockAtResourceGroupLevelError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4400, __c275, 0) as any as S.Schema<DeleteManagementLockAtResourceGroupLevelRequest>,
+  input: __S(4464, __c279, 0) as any as S.Schema<DeleteManagementLockAtResourceGroupLevelRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteManagementLockAtResourceGroupLevelResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9729,7 +9893,7 @@ export const DeleteManagementLockAtResourceLevel: API.OperationMethod<
   DeleteManagementLockAtResourceLevelError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4432, __c277, 0) as any as S.Schema<DeleteManagementLockAtResourceLevelRequest>,
+  input: __S(4496, __c281, 0) as any as S.Schema<DeleteManagementLockAtResourceLevelRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteManagementLockAtResourceLevelResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9749,7 +9913,7 @@ export const DeleteManagementLockAtSubscriptionLevel: API.OperationMethod<
   DeleteManagementLockAtSubscriptionLevelError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c278, 0) as any as S.Schema<DeleteManagementLockAtSubscriptionLevelRequest>,
+  input: __S(4512, __c282, 0) as any as S.Schema<DeleteManagementLockAtSubscriptionLevelRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteManagementLockAtSubscriptionLevelResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9769,7 +9933,7 @@ export const DeleteManagementLockByScope: API.OperationMethod<
   DeleteManagementLockByScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4464, __c279, 0) as any as S.Schema<DeleteManagementLockByScopeRequest>,
+  input: __S(4528, __c283, 0) as any as S.Schema<DeleteManagementLockByScopeRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteManagementLockByScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9792,8 +9956,8 @@ export const DeletePolicyAssignment: API.OperationMethod<
   DeletePolicyAssignmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c280, 0) as any as S.Schema<DeletePolicyAssignmentRequest>,
-  output: __S(570, __c35, 10) as any as S.Schema<DeletePolicyAssignmentResponse>,
+  input: __S(4544, __c284, 0) as any as S.Schema<DeletePolicyAssignmentRequest>,
+  output: __S(634, __c39, 10) as any as S.Schema<DeletePolicyAssignmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9816,7 +9980,7 @@ export const DeletePolicyDefinition: API.OperationMethod<
   DeletePolicyDefinitionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4496, __c281, 0) as any as S.Schema<DeletePolicyDefinitionRequest>,
+  input: __S(4560, __c285, 0) as any as S.Schema<DeletePolicyDefinitionRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeletePolicyDefinitionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9836,7 +10000,7 @@ export const DeletePolicyDefinitionAtManagementGroup: API.OperationMethod<
   DeletePolicyDefinitionAtManagementGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c282, 0) as any as S.Schema<DeletePolicyDefinitionAtManagementGroupRequest>,
+  input: __S(4576, __c286, 0) as any as S.Schema<DeletePolicyDefinitionAtManagementGroupRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeletePolicyDefinitionAtManagementGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9856,7 +10020,7 @@ export const DeletePolicyDefinitionVersion: API.OperationMethod<
   DeletePolicyDefinitionVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4528, __c283, 0) as any as S.Schema<DeletePolicyDefinitionVersionRequest>,
+  input: __S(4592, __c287, 0) as any as S.Schema<DeletePolicyDefinitionVersionRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeletePolicyDefinitionVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9877,8 +10041,8 @@ export const DeletePolicyDefinitionVersionAtManagementGroup: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4544,
-    __c284,
+    4608,
+    __c288,
     0,
   ) as any as S.Schema<DeletePolicyDefinitionVersionAtManagementGroupRequest>,
   output: __S(
@@ -9904,7 +10068,7 @@ export const DeletePolicySetDefinition: API.OperationMethod<
   DeletePolicySetDefinitionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4560, __c285, 0) as any as S.Schema<DeletePolicySetDefinitionRequest>,
+  input: __S(4624, __c289, 0) as any as S.Schema<DeletePolicySetDefinitionRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeletePolicySetDefinitionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9924,7 +10088,7 @@ export const DeletePolicySetDefinitionAtManagementGroup: API.OperationMethod<
   DeletePolicySetDefinitionAtManagementGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c286, 0) as any as S.Schema<DeletePolicySetDefinitionAtManagementGroupRequest>,
+  input: __S(4640, __c290, 0) as any as S.Schema<DeletePolicySetDefinitionAtManagementGroupRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeletePolicySetDefinitionAtManagementGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9944,7 +10108,7 @@ export const DeletePolicySetDefinitionVersion: API.OperationMethod<
   DeletePolicySetDefinitionVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c288, 0) as any as S.Schema<DeletePolicySetDefinitionVersionRequest>,
+  input: __S(4672, __c292, 0) as any as S.Schema<DeletePolicySetDefinitionVersionRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeletePolicySetDefinitionVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9965,8 +10129,8 @@ export const DeletePolicySetDefinitionVersionAtManagementGroup: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4624,
-    __c289,
+    4688,
+    __c293,
     0,
   ) as any as S.Schema<DeletePolicySetDefinitionVersionAtManagementGroupRequest>,
   output: __S(
@@ -9992,7 +10156,7 @@ export const DeletePrivateLinkAssociation: API.OperationMethod<
   DeletePrivateLinkAssociationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c290, 0) as any as S.Schema<DeletePrivateLinkAssociationRequest>,
+  input: __S(4704, __c294, 0) as any as S.Schema<DeletePrivateLinkAssociationRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeletePrivateLinkAssociationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -10012,8 +10176,8 @@ export const DeleteResource: API.OperationMethod<
   DeleteResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4656, __c291, 0) as any as S.Schema<DeleteResourceRequest>,
-  output: __S(1856, __c116, 0) as any as S.Schema<DeleteResourceResponse>,
+  input: __S(4720, __c295, 0) as any as S.Schema<DeleteResourceRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<DeleteResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10029,8 +10193,8 @@ export const DeleteResourceById: API.OperationMethod<
   DeleteResourceByIdError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c292, 0) as any as S.Schema<DeleteResourceByIdRequest>,
-  output: __S(1856, __c116, 0) as any as S.Schema<DeleteResourceByIdResponse>,
+  input: __S(4736, __c296, 0) as any as S.Schema<DeleteResourceByIdRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<DeleteResourceByIdResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10046,8 +10210,8 @@ export const DeleteResourceGroup: API.OperationMethod<
   DeleteResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4688, __c293, 0) as any as S.Schema<DeleteResourceGroupRequest>,
-  output: __S(1856, __c116, 0) as any as S.Schema<DeleteResourceGroupResponse>,
+  input: __S(4752, __c297, 0) as any as S.Schema<DeleteResourceGroupRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<DeleteResourceGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10063,7 +10227,7 @@ export const DeleteResourceLink: API.OperationMethod<
   DeleteResourceLinkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c294, 0) as any as S.Schema<DeleteResourceLinkRequest>,
+  input: __S(4768, __c298, 0) as any as S.Schema<DeleteResourceLinkRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteResourceLinkResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -10080,7 +10244,7 @@ export const DeleteResourceManagementPrivateLink: API.OperationMethod<
   DeleteResourceManagementPrivateLinkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4720, __c295, 0) as any as S.Schema<DeleteResourceManagementPrivateLinkRequest>,
+  input: __S(4784, __c299, 0) as any as S.Schema<DeleteResourceManagementPrivateLinkRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteResourceManagementPrivateLinkResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -10100,7 +10264,7 @@ export const DeleteSubscriptionFeatureRegistration: API.OperationMethod<
   DeleteSubscriptionFeatureRegistrationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c296, 0) as any as S.Schema<DeleteSubscriptionFeatureRegistrationRequest>,
+  input: __S(4800, __c300, 0) as any as S.Schema<DeleteSubscriptionFeatureRegistrationRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteSubscriptionFeatureRegistrationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -10120,7 +10284,7 @@ export const DeleteTag: API.OperationMethod<
   DeleteTagError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4752, __c297, 0) as any as S.Schema<DeleteTagRequest>,
+  input: __S(4816, __c301, 0) as any as S.Schema<DeleteTagRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteTagResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -10137,8 +10301,8 @@ export const DeleteTagAtScope: API.OperationMethod<
   DeleteTagAtScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4784, __c299, 0) as any as S.Schema<DeleteTagAtScopeRequest>,
-  output: __S(1856, __c116, 0) as any as S.Schema<DeleteTagAtScopeResponse>,
+  input: __S(4848, __c303, 0) as any as S.Schema<DeleteTagAtScopeRequest>,
+  output: __S(1920, __c120, 0) as any as S.Schema<DeleteTagAtScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10160,7 +10324,7 @@ export const DeleteTagValue: API.OperationMethod<
   DeleteTagValueError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c300, 0) as any as S.Schema<DeleteTagValueRequest>,
+  input: __S(4864, __c304, 0) as any as S.Schema<DeleteTagValueRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteTagValueResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -10177,7 +10341,7 @@ export const DeleteTemplateSpec: API.OperationMethod<
   DeleteTemplateSpecError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4816, __c301, 0) as any as S.Schema<DeleteTemplateSpecRequest>,
+  input: __S(4880, __c305, 0) as any as S.Schema<DeleteTemplateSpecRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteTemplateSpecResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -10197,7 +10361,7 @@ export const DeleteTemplateSpecVersion: API.OperationMethod<
   DeleteTemplateSpecVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c302, 0) as any as S.Schema<DeleteTemplateSpecVersionRequest>,
+  input: __S(4896, __c306, 0) as any as S.Schema<DeleteTemplateSpecVersionRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<DeleteTemplateSpecVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -10217,8 +10381,8 @@ export const DeploymentsCalculateTemplateHash: API.OperationMethod<
   DeploymentsCalculateTemplateHashError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4848, __c303, 0) as any as S.Schema<DeploymentsCalculateTemplateHashRequest>,
-  output: __S(4849, __c303, 1) as any as S.Schema<TemplateHashResult>,
+  input: __S(4912, __c307, 0) as any as S.Schema<DeploymentsCalculateTemplateHashRequest>,
+  output: __S(4913, __c307, 1) as any as S.Schema<TemplateHashResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10237,8 +10401,8 @@ export const DeploymentsCreateOrUpdate: API.OperationMethod<
   DeploymentsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c304, 0) as any as S.Schema<DeploymentsCreateOrUpdateRequest>,
-  output: __S(4880, __c305, 0) as any as S.Schema<DeploymentsCreateOrUpdateResponse>,
+  input: __S(4928, __c308, 0) as any as S.Schema<DeploymentsCreateOrUpdateRequest>,
+  output: __S(4944, __c309, 0) as any as S.Schema<DeploymentsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10258,13 +10422,13 @@ export const DeploymentsCreateOrUpdateAtManagementGroupScope: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5168,
-    __c323,
+    5216,
+    __c326,
     0,
   ) as any as S.Schema<DeploymentsCreateOrUpdateAtManagementGroupScopeRequest>,
   output: __S(
-    4880,
-    __c305,
+    4944,
+    __c309,
     0,
   ) as any as S.Schema<DeploymentsCreateOrUpdateAtManagementGroupScopeResponse>,
   errors: [UnknownAzureError],
@@ -10285,8 +10449,8 @@ export const DeploymentsCreateOrUpdateAtScope: API.OperationMethod<
   DeploymentsCreateOrUpdateAtScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c324, 0) as any as S.Schema<DeploymentsCreateOrUpdateAtScopeRequest>,
-  output: __S(4880, __c305, 0) as any as S.Schema<DeploymentsCreateOrUpdateAtScopeResponse>,
+  input: __S(5232, __c327, 0) as any as S.Schema<DeploymentsCreateOrUpdateAtScopeRequest>,
+  output: __S(4944, __c309, 0) as any as S.Schema<DeploymentsCreateOrUpdateAtScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10309,13 +10473,13 @@ export const DeploymentsCreateOrUpdateAtSubscriptionScope: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5200,
-    __c325,
+    5248,
+    __c328,
     0,
   ) as any as S.Schema<DeploymentsCreateOrUpdateAtSubscriptionScopeRequest>,
   output: __S(
-    4880,
-    __c305,
+    4944,
+    __c309,
     0,
   ) as any as S.Schema<DeploymentsCreateOrUpdateAtSubscriptionScopeResponse>,
   errors: [UnknownAzureError],
@@ -10336,8 +10500,8 @@ export const DeploymentsCreateOrUpdateAtTenantScope: API.OperationMethod<
   DeploymentsCreateOrUpdateAtTenantScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c326, 0) as any as S.Schema<DeploymentsCreateOrUpdateAtTenantScopeRequest>,
-  output: __S(4880, __c305, 0) as any as S.Schema<DeploymentsCreateOrUpdateAtTenantScopeResponse>,
+  input: __S(5264, __c329, 0) as any as S.Schema<DeploymentsCreateOrUpdateAtTenantScopeRequest>,
+  output: __S(4944, __c309, 0) as any as S.Schema<DeploymentsCreateOrUpdateAtTenantScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10357,13 +10521,13 @@ export const DeploymentStacksCreateOrUpdateAtManagementGroup: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5248,
-    __c328,
+    5296,
+    __c331,
     0,
   ) as any as S.Schema<DeploymentStacksCreateOrUpdateAtManagementGroupRequest>,
   output: __S(
-    5264,
-    __c329,
+    5312,
+    __c332,
     0,
   ) as any as S.Schema<DeploymentStacksCreateOrUpdateAtManagementGroupResponse>,
   errors: [UnknownAzureError],
@@ -10385,13 +10549,13 @@ export const DeploymentStacksCreateOrUpdateAtResourceGroup: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5392,
-    __c337,
+    5424,
+    __c339,
     0,
   ) as any as S.Schema<DeploymentStacksCreateOrUpdateAtResourceGroupRequest>,
   output: __S(
-    5264,
-    __c329,
+    5312,
+    __c332,
     0,
   ) as any as S.Schema<DeploymentStacksCreateOrUpdateAtResourceGroupResponse>,
   errors: [UnknownAzureError],
@@ -10413,13 +10577,13 @@ export const DeploymentStacksCreateOrUpdateAtSubscription: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5408,
-    __c338,
+    5440,
+    __c340,
     0,
   ) as any as S.Schema<DeploymentStacksCreateOrUpdateAtSubscriptionRequest>,
   output: __S(
-    5264,
-    __c329,
+    5312,
+    __c332,
     0,
   ) as any as S.Schema<DeploymentStacksCreateOrUpdateAtSubscriptionResponse>,
   errors: [UnknownAzureError],
@@ -10441,13 +10605,13 @@ export const DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdate: API.O
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5424,
-    __c339,
+    5456,
+    __c341,
     0,
   ) as any as S.Schema<DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdateRequest>,
   output: __S(
-    5457,
-    __c341,
+    5489,
+    __c343,
     1,
   ) as any as S.Schema<DeploymentStacksWhatIfResultsAtManagementGroupCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
@@ -10469,13 +10633,13 @@ export const DeploymentStacksWhatIfResultsAtManagementGroupWhatIf: API.Operation
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5472,
-    __c342,
+    5504,
+    __c344,
     0,
   ) as any as S.Schema<DeploymentStacksWhatIfResultsAtManagementGroupWhatIfRequest>,
   output: __S(
-    5488,
-    __c343,
+    5520,
+    __c345,
     0,
   ) as any as S.Schema<DeploymentStacksWhatIfResultsAtManagementGroupWhatIfResponse>,
   errors: [UnknownAzureError],
@@ -10497,13 +10661,13 @@ export const DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdate: API.Ope
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5504,
-    __c344,
+    5536,
+    __c346,
     0,
   ) as any as S.Schema<DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateRequest>,
   output: __S(
-    5457,
-    __c341,
+    5489,
+    __c343,
     1,
   ) as any as S.Schema<DeploymentStacksWhatIfResultsAtResourceGroupCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
@@ -10525,13 +10689,13 @@ export const DeploymentStacksWhatIfResultsAtResourceGroupWhatIf: API.OperationMe
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5520,
-    __c345,
+    5552,
+    __c347,
     0,
   ) as any as S.Schema<DeploymentStacksWhatIfResultsAtResourceGroupWhatIfRequest>,
   output: __S(
-    5488,
-    __c343,
+    5520,
+    __c345,
     0,
   ) as any as S.Schema<DeploymentStacksWhatIfResultsAtResourceGroupWhatIfResponse>,
   errors: [UnknownAzureError],
@@ -10553,13 +10717,13 @@ export const DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdate: API.Oper
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5536,
-    __c346,
+    5568,
+    __c348,
     0,
   ) as any as S.Schema<DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdateRequest>,
   output: __S(
-    5457,
-    __c341,
+    5489,
+    __c343,
     1,
   ) as any as S.Schema<DeploymentStacksWhatIfResultsAtSubscriptionCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
@@ -10581,13 +10745,13 @@ export const DeploymentStacksWhatIfResultsAtSubscriptionWhatIf: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5552,
-    __c347,
+    5584,
+    __c349,
     0,
   ) as any as S.Schema<DeploymentStacksWhatIfResultsAtSubscriptionWhatIfRequest>,
   output: __S(
-    5488,
-    __c343,
+    5520,
+    __c345,
     0,
   ) as any as S.Schema<DeploymentStacksWhatIfResultsAtSubscriptionWhatIfResponse>,
   errors: [UnknownAzureError],
@@ -10608,8 +10772,8 @@ export const DeploymentsWhatIf: API.OperationMethod<
   DeploymentsWhatIfError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c348, 0) as any as S.Schema<DeploymentsWhatIfRequest>,
-  output: __S(5594, __c349, 10) as any as S.Schema<WhatIfOperationResult>,
+  input: __S(5600, __c350, 0) as any as S.Schema<DeploymentsWhatIfRequest>,
+  output: __S(5626, __c351, 10) as any as S.Schema<WhatIfOperationResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10628,8 +10792,8 @@ export const DeploymentsWhatIfAtManagementGroupScope: API.OperationMethod<
   DeploymentsWhatIfAtManagementGroupScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5616, __c351, 0) as any as S.Schema<DeploymentsWhatIfAtManagementGroupScopeRequest>,
-  output: __S(5594, __c349, 10) as any as S.Schema<WhatIfOperationResult>,
+  input: __S(5648, __c353, 0) as any as S.Schema<DeploymentsWhatIfAtManagementGroupScopeRequest>,
+  output: __S(5626, __c351, 10) as any as S.Schema<WhatIfOperationResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10648,8 +10812,8 @@ export const DeploymentsWhatIfAtSubscriptionScope: API.OperationMethod<
   DeploymentsWhatIfAtSubscriptionScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c352, 0) as any as S.Schema<DeploymentsWhatIfAtSubscriptionScopeRequest>,
-  output: __S(5594, __c349, 10) as any as S.Schema<WhatIfOperationResult>,
+  input: __S(5664, __c354, 0) as any as S.Schema<DeploymentsWhatIfAtSubscriptionScopeRequest>,
+  output: __S(5626, __c351, 10) as any as S.Schema<WhatIfOperationResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10668,8 +10832,8 @@ export const DeploymentsWhatIfAtTenantScope: API.OperationMethod<
   DeploymentsWhatIfAtTenantScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5648, __c353, 0) as any as S.Schema<DeploymentsWhatIfAtTenantScopeRequest>,
-  output: __S(5594, __c349, 10) as any as S.Schema<WhatIfOperationResult>,
+  input: __S(5680, __c355, 0) as any as S.Schema<DeploymentsWhatIfAtTenantScopeRequest>,
+  output: __S(5626, __c351, 10) as any as S.Schema<WhatIfOperationResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10689,11 +10853,11 @@ export const ExportDeploymentStackTemplateAtManagementGroup: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5664,
-    __c354,
+    5696,
+    __c356,
     0,
   ) as any as S.Schema<ExportDeploymentStackTemplateAtManagementGroupRequest>,
-  output: __S(5680, __c355, 0) as any as S.Schema<DeploymentStackTemplateDefinition>,
+  output: __S(5712, __c357, 0) as any as S.Schema<DeploymentStackTemplateDefinition>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10713,11 +10877,11 @@ export const ExportDeploymentStackTemplateAtResourceGroup: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5696,
-    __c356,
+    5728,
+    __c358,
     0,
   ) as any as S.Schema<ExportDeploymentStackTemplateAtResourceGroupRequest>,
-  output: __S(5680, __c355, 0) as any as S.Schema<DeploymentStackTemplateDefinition>,
+  output: __S(5712, __c357, 0) as any as S.Schema<DeploymentStackTemplateDefinition>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10737,11 +10901,11 @@ export const ExportDeploymentStackTemplateAtSubscription: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5712,
-    __c357,
+    5744,
+    __c359,
     0,
   ) as any as S.Schema<ExportDeploymentStackTemplateAtSubscriptionRequest>,
-  output: __S(5680, __c355, 0) as any as S.Schema<DeploymentStackTemplateDefinition>,
+  output: __S(5712, __c357, 0) as any as S.Schema<DeploymentStackTemplateDefinition>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10760,8 +10924,8 @@ export const ExportDeploymentTemplate: API.OperationMethod<
   ExportDeploymentTemplateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c358, 0) as any as S.Schema<ExportDeploymentTemplateRequest>,
-  output: __S(5744, __c359, 0) as any as S.Schema<DeploymentExportResult>,
+  input: __S(5760, __c360, 0) as any as S.Schema<ExportDeploymentTemplateRequest>,
+  output: __S(5776, __c361, 0) as any as S.Schema<DeploymentExportResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10781,11 +10945,11 @@ export const ExportDeploymentTemplateAtManagementGroupScope: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5760,
-    __c360,
+    5792,
+    __c362,
     0,
   ) as any as S.Schema<ExportDeploymentTemplateAtManagementGroupScopeRequest>,
-  output: __S(5744, __c359, 0) as any as S.Schema<DeploymentExportResult>,
+  output: __S(5776, __c361, 0) as any as S.Schema<DeploymentExportResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10804,8 +10968,8 @@ export const ExportDeploymentTemplateAtScope: API.OperationMethod<
   ExportDeploymentTemplateAtScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5776, __c361, 0) as any as S.Schema<ExportDeploymentTemplateAtScopeRequest>,
-  output: __S(5744, __c359, 0) as any as S.Schema<DeploymentExportResult>,
+  input: __S(5808, __c363, 0) as any as S.Schema<ExportDeploymentTemplateAtScopeRequest>,
+  output: __S(5776, __c361, 0) as any as S.Schema<DeploymentExportResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10829,11 +10993,11 @@ export const ExportDeploymentTemplateAtSubscriptionScope: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5792,
-    __c362,
+    5824,
+    __c364,
     0,
   ) as any as S.Schema<ExportDeploymentTemplateAtSubscriptionScopeRequest>,
-  output: __S(5744, __c359, 0) as any as S.Schema<DeploymentExportResult>,
+  output: __S(5776, __c361, 0) as any as S.Schema<DeploymentExportResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10852,8 +11016,8 @@ export const ExportDeploymentTemplateAtTenantScope: API.OperationMethod<
   ExportDeploymentTemplateAtTenantScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c364, 0) as any as S.Schema<ExportDeploymentTemplateAtTenantScopeRequest>,
-  output: __S(5744, __c359, 0) as any as S.Schema<DeploymentExportResult>,
+  input: __S(5856, __c366, 0) as any as S.Schema<ExportDeploymentTemplateAtTenantScopeRequest>,
+  output: __S(5776, __c361, 0) as any as S.Schema<DeploymentExportResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10872,8 +11036,8 @@ export const ExportResourceGroupTemplate: API.OperationMethod<
   ExportResourceGroupTemplateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5840, __c365, 0) as any as S.Schema<ExportResourceGroupTemplateRequest>,
-  output: __S(5841, __c365, 1) as any as S.Schema<ResourceGroupExportResult>,
+  input: __S(5872, __c367, 0) as any as S.Schema<ExportResourceGroupTemplateRequest>,
+  output: __S(5873, __c367, 1) as any as S.Schema<ResourceGroupExportResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10889,7 +11053,7 @@ export const GetApplication: API.OperationMethod<
   GetApplicationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c366, 0) as any as S.Schema<GetApplicationRequest>,
+  input: __S(5888, __c368, 0) as any as S.Schema<GetApplicationRequest>,
   output: __S(203, __c12, 11) as any as S.Schema<GetApplicationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -10909,7 +11073,7 @@ export const GetApplicationById: API.OperationMethod<
   GetApplicationByIdError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5872, __c367, 0) as any as S.Schema<GetApplicationByIdRequest>,
+  input: __S(5904, __c369, 0) as any as S.Schema<GetApplicationByIdRequest>,
   output: __S(203, __c12, 11) as any as S.Schema<GetApplicationByIdResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -10926,7 +11090,7 @@ export const GetApplicationDefinition: API.OperationMethod<
   GetApplicationDefinitionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c368, 0) as any as S.Schema<GetApplicationDefinitionRequest>,
+  input: __S(5920, __c370, 0) as any as S.Schema<GetApplicationDefinitionRequest>,
   output: __S(73, __c4, 9) as any as S.Schema<GetApplicationDefinitionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -10946,8 +11110,8 @@ export const GetChange: API.OperationMethod<
   GetChangeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5904, __c369, 0) as any as S.Schema<GetChangeRequest>,
-  output: __S(5924, __c370, 4) as any as S.Schema<GetChangeResponse>,
+  input: __S(5936, __c371, 0) as any as S.Schema<GetChangeRequest>,
+  output: __S(5956, __c372, 4) as any as S.Schema<GetChangeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10966,8 +11130,8 @@ export const GetDataBoundaryScope: API.OperationMethod<
   GetDataBoundaryScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5936, __c371, 0) as any as S.Schema<GetDataBoundaryScopeRequest>,
-  output: __S(5953, __c372, 1) as any as S.Schema<GetDataBoundaryScopeResponse>,
+  input: __S(5968, __c373, 0) as any as S.Schema<GetDataBoundaryScopeRequest>,
+  output: __S(5985, __c374, 1) as any as S.Schema<GetDataBoundaryScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10989,8 +11153,8 @@ export const GetDataBoundaryTenant: API.OperationMethod<
   GetDataBoundaryTenantError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5968, __c373, 0) as any as S.Schema<GetDataBoundaryTenantRequest>,
-  output: __S(5953, __c372, 1) as any as S.Schema<GetDataBoundaryTenantResponse>,
+  input: __S(6000, __c375, 0) as any as S.Schema<GetDataBoundaryTenantRequest>,
+  output: __S(5985, __c374, 1) as any as S.Schema<GetDataBoundaryTenantResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11009,8 +11173,8 @@ export const GetDataPolicyManifestByPolicyMode: API.OperationMethod<
   GetDataPolicyManifestByPolicyModeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c374, 0) as any as S.Schema<GetDataPolicyManifestByPolicyModeRequest>,
-  output: __S(6008, __c375, 8) as any as S.Schema<GetDataPolicyManifestByPolicyModeResponse>,
+  input: __S(6016, __c376, 0) as any as S.Schema<GetDataPolicyManifestByPolicyModeRequest>,
+  output: __S(6040, __c377, 8) as any as S.Schema<GetDataPolicyManifestByPolicyModeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11029,8 +11193,8 @@ export const GetDeployment: API.OperationMethod<
   GetDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c376, 0) as any as S.Schema<GetDeploymentRequest>,
-  output: __S(6032, __c377, 0) as any as S.Schema<GetDeploymentResponse>,
+  input: __S(6048, __c378, 0) as any as S.Schema<GetDeploymentRequest>,
+  output: __S(6064, __c379, 0) as any as S.Schema<GetDeploymentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11049,8 +11213,8 @@ export const GetDeploymentAtManagementGroupScope: API.OperationMethod<
   GetDeploymentAtManagementGroupScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6064, __c379, 0) as any as S.Schema<GetDeploymentAtManagementGroupScopeRequest>,
-  output: __S(6032, __c377, 0) as any as S.Schema<GetDeploymentAtManagementGroupScopeResponse>,
+  input: __S(6096, __c381, 0) as any as S.Schema<GetDeploymentAtManagementGroupScopeRequest>,
+  output: __S(6064, __c379, 0) as any as S.Schema<GetDeploymentAtManagementGroupScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11069,8 +11233,8 @@ export const GetDeploymentAtScope: API.OperationMethod<
   GetDeploymentAtScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c380, 0) as any as S.Schema<GetDeploymentAtScopeRequest>,
-  output: __S(6032, __c377, 0) as any as S.Schema<GetDeploymentAtScopeResponse>,
+  input: __S(6112, __c382, 0) as any as S.Schema<GetDeploymentAtScopeRequest>,
+  output: __S(6064, __c379, 0) as any as S.Schema<GetDeploymentAtScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11092,8 +11256,8 @@ export const GetDeploymentAtSubscriptionScope: API.OperationMethod<
   GetDeploymentAtSubscriptionScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6096, __c381, 0) as any as S.Schema<GetDeploymentAtSubscriptionScopeRequest>,
-  output: __S(6032, __c377, 0) as any as S.Schema<GetDeploymentAtSubscriptionScopeResponse>,
+  input: __S(6128, __c383, 0) as any as S.Schema<GetDeploymentAtSubscriptionScopeRequest>,
+  output: __S(6064, __c379, 0) as any as S.Schema<GetDeploymentAtSubscriptionScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11112,8 +11276,8 @@ export const GetDeploymentAtTenantScope: API.OperationMethod<
   GetDeploymentAtTenantScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c382, 0) as any as S.Schema<GetDeploymentAtTenantScopeRequest>,
-  output: __S(6032, __c377, 0) as any as S.Schema<GetDeploymentAtTenantScopeResponse>,
+  input: __S(6144, __c384, 0) as any as S.Schema<GetDeploymentAtTenantScopeRequest>,
+  output: __S(6064, __c379, 0) as any as S.Schema<GetDeploymentAtTenantScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11132,8 +11296,8 @@ export const GetDeploymentOperation: API.OperationMethod<
   GetDeploymentOperationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6128, __c383, 0) as any as S.Schema<GetDeploymentOperationRequest>,
-  output: __S(6148, __c384, 4) as any as S.Schema<DeploymentOperation>,
+  input: __S(6160, __c385, 0) as any as S.Schema<GetDeploymentOperationRequest>,
+  output: __S(6180, __c386, 4) as any as S.Schema<DeploymentOperation>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11150,11 +11314,11 @@ export const GetDeploymentOperationAtManagementGroupScope: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6160,
-    __c385,
+    6192,
+    __c387,
     0,
   ) as any as S.Schema<GetDeploymentOperationAtManagementGroupScopeRequest>,
-  output: __S(6148, __c384, 4) as any as S.Schema<DeploymentOperation>,
+  output: __S(6180, __c386, 4) as any as S.Schema<DeploymentOperation>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11173,8 +11337,8 @@ export const GetDeploymentOperationAtScope: API.OperationMethod<
   GetDeploymentOperationAtScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c386, 0) as any as S.Schema<GetDeploymentOperationAtScopeRequest>,
-  output: __S(6148, __c384, 4) as any as S.Schema<DeploymentOperation>,
+  input: __S(6208, __c388, 0) as any as S.Schema<GetDeploymentOperationAtScopeRequest>,
+  output: __S(6180, __c386, 4) as any as S.Schema<DeploymentOperation>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11197,8 +11361,8 @@ export const GetDeploymentOperationAtSubscriptionScope: API.OperationMethod<
   GetDeploymentOperationAtSubscriptionScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6192, __c387, 0) as any as S.Schema<GetDeploymentOperationAtSubscriptionScopeRequest>,
-  output: __S(6148, __c384, 4) as any as S.Schema<DeploymentOperation>,
+  input: __S(6224, __c389, 0) as any as S.Schema<GetDeploymentOperationAtSubscriptionScopeRequest>,
+  output: __S(6180, __c386, 4) as any as S.Schema<DeploymentOperation>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11217,8 +11381,8 @@ export const GetDeploymentOperationAtTenantScope: API.OperationMethod<
   GetDeploymentOperationAtTenantScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c388, 0) as any as S.Schema<GetDeploymentOperationAtTenantScopeRequest>,
-  output: __S(6148, __c384, 4) as any as S.Schema<DeploymentOperation>,
+  input: __S(6240, __c390, 0) as any as S.Schema<GetDeploymentOperationAtTenantScopeRequest>,
+  output: __S(6180, __c386, 4) as any as S.Schema<DeploymentOperation>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11237,8 +11401,8 @@ export const GetDeploymentScript: API.OperationMethod<
   GetDeploymentScriptError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6224, __c389, 0) as any as S.Schema<GetDeploymentScriptRequest>,
-  output: __S(6240, __c390, 0) as any as S.Schema<GetDeploymentScriptResponse>,
+  input: __S(6256, __c391, 0) as any as S.Schema<GetDeploymentScriptRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<GetDeploymentScriptResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11257,8 +11421,8 @@ export const GetDeploymentScriptLogs: API.OperationMethod<
   GetDeploymentScriptLogsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetDeploymentScriptLogsRequest>,
-  output: __S(274, __c17, 2) as any as S.Schema<ScriptLogsList>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetDeploymentScriptLogsRequest>,
+  output: __S(338, __c21, 2) as any as S.Schema<ScriptLogsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11277,8 +11441,8 @@ export const GetDeploymentScriptLogsDefault: API.OperationMethod<
   GetDeploymentScriptLogsDefaultError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetDeploymentScriptLogsDefaultRequest>,
-  output: __S(289, __c18, 1) as any as S.Schema<GetDeploymentScriptLogsDefaultResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<GetDeploymentScriptLogsDefaultRequest>,
+  output: __S(353, __c22, 1) as any as S.Schema<GetDeploymentScriptLogsDefaultResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11297,8 +11461,8 @@ export const GetDeploymentStackAtManagementGroup: API.OperationMethod<
   GetDeploymentStackAtManagementGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetDeploymentStackAtManagementGroupRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<GetDeploymentStackAtManagementGroupResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<GetDeploymentStackAtManagementGroupRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<GetDeploymentStackAtManagementGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11317,8 +11481,8 @@ export const GetDeploymentStackAtResourceGroup: API.OperationMethod<
   GetDeploymentStackAtResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetDeploymentStackAtResourceGroupRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<GetDeploymentStackAtResourceGroupResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<GetDeploymentStackAtResourceGroupRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<GetDeploymentStackAtResourceGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11337,8 +11501,8 @@ export const GetDeploymentStackAtSubscription: API.OperationMethod<
   GetDeploymentStackAtSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetDeploymentStackAtSubscriptionRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<GetDeploymentStackAtSubscriptionResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetDeploymentStackAtSubscriptionRequest>,
+  output: __S(400, __c25, 0) as any as S.Schema<GetDeploymentStackAtSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11358,13 +11522,13 @@ export const GetDeploymentStacksWhatIfResultsAtManagementGroup: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    384,
-    __c24,
+    448,
+    __c28,
     0,
   ) as any as S.Schema<GetDeploymentStacksWhatIfResultsAtManagementGroupRequest>,
   output: __S(
-    400,
-    __c25,
+    464,
+    __c29,
     0,
   ) as any as S.Schema<GetDeploymentStacksWhatIfResultsAtManagementGroupResponse>,
   errors: [UnknownAzureError],
@@ -11386,13 +11550,13 @@ export const GetDeploymentStacksWhatIfResultsAtResourceGroup: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    416,
-    __c26,
+    480,
+    __c30,
     0,
   ) as any as S.Schema<GetDeploymentStacksWhatIfResultsAtResourceGroupRequest>,
   output: __S(
-    400,
-    __c25,
+    464,
+    __c29,
     0,
   ) as any as S.Schema<GetDeploymentStacksWhatIfResultsAtResourceGroupResponse>,
   errors: [UnknownAzureError],
@@ -11414,13 +11578,13 @@ export const GetDeploymentStacksWhatIfResultsAtSubscription: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    432,
-    __c27,
+    496,
+    __c31,
     0,
   ) as any as S.Schema<GetDeploymentStacksWhatIfResultsAtSubscriptionRequest>,
   output: __S(
-    400,
-    __c25,
+    464,
+    __c29,
     0,
   ) as any as S.Schema<GetDeploymentStacksWhatIfResultsAtSubscriptionResponse>,
   errors: [UnknownAzureError],
@@ -11441,8 +11605,8 @@ export const GetFeature: API.OperationMethod<
   GetFeatureError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetFeatureRequest>,
-  output: __S(465, __c29, 1) as any as S.Schema<FeatureResult>,
+  input: __S(512, __c32, 0) as any as S.Schema<GetFeatureRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<FeatureResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11461,8 +11625,8 @@ export const GetJitRequest: API.OperationMethod<
   GetJitRequestError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetJitRequestRequest>,
-  output: __S(498, __c31, 2) as any as S.Schema<GetJitRequestResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<GetJitRequestRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<GetJitRequestResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11481,8 +11645,8 @@ export const GetManagementLockAtResourceGroupLevel: API.OperationMethod<
   GetManagementLockAtResourceGroupLevelError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<GetManagementLockAtResourceGroupLevelRequest>,
-  output: __S(595, __c37, 3) as any as S.Schema<ManagementLockObject>,
+  input: __S(640, __c40, 0) as any as S.Schema<GetManagementLockAtResourceGroupLevelRequest>,
+  output: __S(659, __c41, 3) as any as S.Schema<ManagementLockObject>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11501,8 +11665,8 @@ export const GetManagementLockAtResourceLevel: API.OperationMethod<
   GetManagementLockAtResourceLevelError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<GetManagementLockAtResourceLevelRequest>,
-  output: __S(595, __c37, 3) as any as S.Schema<ManagementLockObject>,
+  input: __S(672, __c42, 0) as any as S.Schema<GetManagementLockAtResourceLevelRequest>,
+  output: __S(659, __c41, 3) as any as S.Schema<ManagementLockObject>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11521,8 +11685,8 @@ export const GetManagementLockAtSubscriptionLevel: API.OperationMethod<
   GetManagementLockAtSubscriptionLevelError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<GetManagementLockAtSubscriptionLevelRequest>,
-  output: __S(595, __c37, 3) as any as S.Schema<ManagementLockObject>,
+  input: __S(688, __c43, 0) as any as S.Schema<GetManagementLockAtSubscriptionLevelRequest>,
+  output: __S(659, __c41, 3) as any as S.Schema<ManagementLockObject>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11541,8 +11705,8 @@ export const GetManagementLockByScope: API.OperationMethod<
   GetManagementLockByScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<GetManagementLockByScopeRequest>,
-  output: __S(595, __c37, 3) as any as S.Schema<ManagementLockObject>,
+  input: __S(704, __c44, 0) as any as S.Schema<GetManagementLockByScopeRequest>,
+  output: __S(659, __c41, 3) as any as S.Schema<ManagementLockObject>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11564,8 +11728,8 @@ export const GetPolicyAssignment: API.OperationMethod<
   GetPolicyAssignmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<GetPolicyAssignmentRequest>,
-  output: __S(570, __c35, 10) as any as S.Schema<GetPolicyAssignmentResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<GetPolicyAssignmentRequest>,
+  output: __S(634, __c39, 10) as any as S.Schema<GetPolicyAssignmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11588,8 +11752,8 @@ export const GetPolicyDefinition: API.OperationMethod<
   GetPolicyDefinitionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<GetPolicyDefinitionRequest>,
-  output: __S(721, __c45, 1) as any as S.Schema<GetPolicyDefinitionResponse>,
+  input: __S(736, __c46, 0) as any as S.Schema<GetPolicyDefinitionRequest>,
+  output: __S(785, __c49, 1) as any as S.Schema<GetPolicyDefinitionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11608,8 +11772,8 @@ export const GetPolicyDefinitionAtManagementGroup: API.OperationMethod<
   GetPolicyDefinitionAtManagementGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<GetPolicyDefinitionAtManagementGroupRequest>,
-  output: __S(721, __c45, 1) as any as S.Schema<GetPolicyDefinitionAtManagementGroupResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<GetPolicyDefinitionAtManagementGroupRequest>,
+  output: __S(785, __c49, 1) as any as S.Schema<GetPolicyDefinitionAtManagementGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11628,8 +11792,8 @@ export const GetPolicyDefinitionBuiltIn: API.OperationMethod<
   GetPolicyDefinitionBuiltInError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<GetPolicyDefinitionBuiltInRequest>,
-  output: __S(721, __c45, 1) as any as S.Schema<GetPolicyDefinitionBuiltInResponse>,
+  input: __S(816, __c51, 0) as any as S.Schema<GetPolicyDefinitionBuiltInRequest>,
+  output: __S(785, __c49, 1) as any as S.Schema<GetPolicyDefinitionBuiltInResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11648,8 +11812,8 @@ export const GetPolicyDefinitionVersion: API.OperationMethod<
   GetPolicyDefinitionVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<GetPolicyDefinitionVersionRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<GetPolicyDefinitionVersionResponse>,
+  input: __S(832, __c52, 0) as any as S.Schema<GetPolicyDefinitionVersionRequest>,
+  output: __S(849, __c53, 1) as any as S.Schema<GetPolicyDefinitionVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11668,10 +11832,10 @@ export const GetPolicyDefinitionVersionAtManagementGroup: API.OperationMethod<
   GetPolicyDefinitionVersionAtManagementGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<GetPolicyDefinitionVersionAtManagementGroupRequest>,
+  input: __S(864, __c54, 0) as any as S.Schema<GetPolicyDefinitionVersionAtManagementGroupRequest>,
   output: __S(
-    785,
-    __c49,
+    849,
+    __c53,
     1,
   ) as any as S.Schema<GetPolicyDefinitionVersionAtManagementGroupResponse>,
   errors: [UnknownAzureError],
@@ -11692,8 +11856,8 @@ export const GetPolicyDefinitionVersionBuiltIn: API.OperationMethod<
   GetPolicyDefinitionVersionBuiltInError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<GetPolicyDefinitionVersionBuiltInRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<GetPolicyDefinitionVersionBuiltInResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<GetPolicyDefinitionVersionBuiltInRequest>,
+  output: __S(849, __c53, 1) as any as S.Schema<GetPolicyDefinitionVersionBuiltInResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11712,8 +11876,8 @@ export const GetPolicySetDefinition: API.OperationMethod<
   GetPolicySetDefinitionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<GetPolicySetDefinitionRequest>,
-  output: __S(881, __c55, 1) as any as S.Schema<GetPolicySetDefinitionResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<GetPolicySetDefinitionRequest>,
+  output: __S(945, __c59, 1) as any as S.Schema<GetPolicySetDefinitionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11732,8 +11896,8 @@ export const GetPolicySetDefinitionAtManagementGroup: API.OperationMethod<
   GetPolicySetDefinitionAtManagementGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<GetPolicySetDefinitionAtManagementGroupRequest>,
-  output: __S(881, __c55, 1) as any as S.Schema<GetPolicySetDefinitionAtManagementGroupResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<GetPolicySetDefinitionAtManagementGroupRequest>,
+  output: __S(945, __c59, 1) as any as S.Schema<GetPolicySetDefinitionAtManagementGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11752,8 +11916,8 @@ export const GetPolicySetDefinitionBuiltIn: API.OperationMethod<
   GetPolicySetDefinitionBuiltInError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<GetPolicySetDefinitionBuiltInRequest>,
-  output: __S(881, __c55, 1) as any as S.Schema<GetPolicySetDefinitionBuiltInResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<GetPolicySetDefinitionBuiltInRequest>,
+  output: __S(945, __c59, 1) as any as S.Schema<GetPolicySetDefinitionBuiltInResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11772,8 +11936,8 @@ export const GetPolicySetDefinitionVersion: API.OperationMethod<
   GetPolicySetDefinitionVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<GetPolicySetDefinitionVersionRequest>,
-  output: __S(945, __c59, 1) as any as S.Schema<GetPolicySetDefinitionVersionResponse>,
+  input: __S(992, __c62, 0) as any as S.Schema<GetPolicySetDefinitionVersionRequest>,
+  output: __S(1009, __c63, 1) as any as S.Schema<GetPolicySetDefinitionVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11793,13 +11957,13 @@ export const GetPolicySetDefinitionVersionAtManagementGroup: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    960,
-    __c60,
+    1024,
+    __c64,
     0,
   ) as any as S.Schema<GetPolicySetDefinitionVersionAtManagementGroupRequest>,
   output: __S(
-    945,
-    __c59,
+    1009,
+    __c63,
     1,
   ) as any as S.Schema<GetPolicySetDefinitionVersionAtManagementGroupResponse>,
   errors: [UnknownAzureError],
@@ -11820,8 +11984,8 @@ export const GetPolicySetDefinitionVersionBuiltIn: API.OperationMethod<
   GetPolicySetDefinitionVersionBuiltInError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<GetPolicySetDefinitionVersionBuiltInRequest>,
-  output: __S(945, __c59, 1) as any as S.Schema<GetPolicySetDefinitionVersionBuiltInResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<GetPolicySetDefinitionVersionBuiltInRequest>,
+  output: __S(1009, __c63, 1) as any as S.Schema<GetPolicySetDefinitionVersionBuiltInResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11840,8 +12004,8 @@ export const GetPrivateLinkAssociation: API.OperationMethod<
   GetPrivateLinkAssociationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<GetPrivateLinkAssociationRequest>,
-  output: __S(1009, __c63, 1) as any as S.Schema<PrivateLinkAssociation>,
+  input: __S(1056, __c66, 0) as any as S.Schema<GetPrivateLinkAssociationRequest>,
+  output: __S(1073, __c67, 1) as any as S.Schema<PrivateLinkAssociation>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11860,8 +12024,8 @@ export const GetProvider: API.OperationMethod<
   GetProviderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<GetProviderRequest>,
-  output: __S(5104, __c319, 0) as any as S.Schema<Provider>,
+  input: __S(1088, __c68, 0) as any as S.Schema<GetProviderRequest>,
+  output: __S(5152, __c322, 0) as any as S.Schema<Provider>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11877,8 +12041,8 @@ export const GetProviderAtTenantScope: API.OperationMethod<
   GetProviderAtTenantScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<GetProviderAtTenantScopeRequest>,
-  output: __S(5104, __c319, 0) as any as S.Schema<Provider>,
+  input: __S(1104, __c69, 0) as any as S.Schema<GetProviderAtTenantScopeRequest>,
+  output: __S(5152, __c322, 0) as any as S.Schema<Provider>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11894,8 +12058,8 @@ export const GetResource: API.OperationMethod<
   GetResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<GetResourceRequest>,
-  output: __S(1088, __c68, 0) as any as S.Schema<GetResourceResponse>,
+  input: __S(1136, __c71, 0) as any as S.Schema<GetResourceRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<GetResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11911,8 +12075,8 @@ export const GetResourceById: API.OperationMethod<
   GetResourceByIdError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<GetResourceByIdRequest>,
-  output: __S(1088, __c68, 0) as any as S.Schema<GetResourceByIdResponse>,
+  input: __S(1200, __c75, 0) as any as S.Schema<GetResourceByIdRequest>,
+  output: __S(1152, __c72, 0) as any as S.Schema<GetResourceByIdResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11928,8 +12092,8 @@ export const GetResourceGroup: API.OperationMethod<
   GetResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<GetResourceGroupRequest>,
-  output: __S(1169, __c73, 1) as any as S.Schema<GetResourceGroupResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<GetResourceGroupRequest>,
+  output: __S(1233, __c77, 1) as any as S.Schema<GetResourceGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11945,8 +12109,8 @@ export const GetResourceLink: API.OperationMethod<
   GetResourceLinkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c74, 0) as any as S.Schema<GetResourceLinkRequest>,
-  output: __S(1201, __c75, 1) as any as S.Schema<ResourceLink>,
+  input: __S(1248, __c78, 0) as any as S.Schema<GetResourceLinkRequest>,
+  output: __S(1265, __c79, 1) as any as S.Schema<ResourceLink>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11962,8 +12126,8 @@ export const GetResourceManagementPrivateLink: API.OperationMethod<
   GetResourceManagementPrivateLinkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<GetResourceManagementPrivateLinkRequest>,
-  output: __S(1233, __c77, 1) as any as S.Schema<ResourceManagementPrivateLink>,
+  input: __S(1280, __c80, 0) as any as S.Schema<GetResourceManagementPrivateLinkRequest>,
+  output: __S(1297, __c81, 1) as any as S.Schema<ResourceManagementPrivateLink>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11982,8 +12146,8 @@ export const GetSubscription: API.OperationMethod<
   GetSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<GetSubscriptionRequest>,
-  output: __S(1267, __c79, 3) as any as S.Schema<Subscription>,
+  input: __S(1312, __c82, 0) as any as S.Schema<GetSubscriptionRequest>,
+  output: __S(1331, __c83, 3) as any as S.Schema<Subscription>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11999,8 +12163,8 @@ export const GetSubscriptionFeatureRegistration: API.OperationMethod<
   GetSubscriptionFeatureRegistrationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<GetSubscriptionFeatureRegistrationRequest>,
-  output: __S(1298, __c81, 2) as any as S.Schema<GetSubscriptionFeatureRegistrationResponse>,
+  input: __S(1344, __c84, 0) as any as S.Schema<GetSubscriptionFeatureRegistrationRequest>,
+  output: __S(1362, __c85, 2) as any as S.Schema<GetSubscriptionFeatureRegistrationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12019,8 +12183,8 @@ export const GetTagAtScope: API.OperationMethod<
   GetTagAtScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<GetTagAtScopeRequest>,
-  output: __S(1313, __c82, 1) as any as S.Schema<GetTagAtScopeResponse>,
+  input: __S(1376, __c86, 0) as any as S.Schema<GetTagAtScopeRequest>,
+  output: __S(1377, __c86, 1) as any as S.Schema<GetTagAtScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12042,8 +12206,8 @@ export const GetTemplateSpec: API.OperationMethod<
   GetTemplateSpecError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<GetTemplateSpecRequest>,
-  output: __S(1363, __c85, 3) as any as S.Schema<GetTemplateSpecResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<GetTemplateSpecRequest>,
+  output: __S(1427, __c89, 3) as any as S.Schema<GetTemplateSpecResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12062,8 +12226,8 @@ export const GetTemplateSpecBuiltIn: API.OperationMethod<
   GetTemplateSpecBuiltInError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<GetTemplateSpecBuiltInRequest>,
-  output: __S(1363, __c85, 3) as any as S.Schema<GetTemplateSpecBuiltInResponse>,
+  input: __S(1440, __c90, 0) as any as S.Schema<GetTemplateSpecBuiltInRequest>,
+  output: __S(1427, __c89, 3) as any as S.Schema<GetTemplateSpecBuiltInResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12082,8 +12246,8 @@ export const GetTemplateSpecVersion: API.OperationMethod<
   GetTemplateSpecVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<GetTemplateSpecVersionRequest>,
-  output: __S(1427, __c89, 3) as any as S.Schema<GetTemplateSpecVersionResponse>,
+  input: __S(1472, __c92, 0) as any as S.Schema<GetTemplateSpecVersionRequest>,
+  output: __S(1491, __c93, 3) as any as S.Schema<GetTemplateSpecVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12102,8 +12266,8 @@ export const GetTemplateSpecVersionBuiltIn: API.OperationMethod<
   GetTemplateSpecVersionBuiltInError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<GetTemplateSpecVersionBuiltInRequest>,
-  output: __S(1427, __c89, 3) as any as S.Schema<GetTemplateSpecVersionBuiltInResponse>,
+  input: __S(1504, __c94, 0) as any as S.Schema<GetTemplateSpecVersionBuiltInRequest>,
+  output: __S(1491, __c93, 3) as any as S.Schema<GetTemplateSpecVersionBuiltInResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12122,8 +12286,8 @@ export const JitRequestsCreateOrUpdate: API.OperationMethod<
   JitRequestsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1458, __c91, 2) as any as S.Schema<JitRequestsCreateOrUpdateRequest>,
-  output: __S(498, __c31, 2) as any as S.Schema<JitRequestsCreateOrUpdateResponse>,
+  input: __S(1522, __c95, 2) as any as S.Schema<JitRequestsCreateOrUpdateRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<JitRequestsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12142,8 +12306,8 @@ export const ListApplicationByResourceGroup: API.OperationMethod<
   ListApplicationByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<ListApplicationByResourceGroupRequest>,
-  output: __S(1489, __c93, 1) as any as S.Schema<ApplicationListResult>,
+  input: __S(1536, __c96, 0) as any as S.Schema<ListApplicationByResourceGroupRequest>,
+  output: __S(1553, __c97, 1) as any as S.Schema<ApplicationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12162,8 +12326,8 @@ export const ListApplicationBySubscription: API.OperationMethod<
   ListApplicationBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<ListApplicationBySubscriptionRequest>,
-  output: __S(1489, __c93, 1) as any as S.Schema<ApplicationListResult>,
+  input: __S(1568, __c98, 0) as any as S.Schema<ListApplicationBySubscriptionRequest>,
+  output: __S(1553, __c97, 1) as any as S.Schema<ApplicationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12182,8 +12346,8 @@ export const ListApplicationDefinitionByResourceGroup: API.OperationMethod<
   ListApplicationDefinitionByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<ListApplicationDefinitionByResourceGroupRequest>,
-  output: __S(1522, __c95, 2) as any as S.Schema<ApplicationDefinitionListResult>,
+  input: __S(1584, __c99, 0) as any as S.Schema<ListApplicationDefinitionByResourceGroupRequest>,
+  output: __S(1586, __c99, 2) as any as S.Schema<ApplicationDefinitionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12202,8 +12366,8 @@ export const ListAuthorizationOperations: API.OperationMethod<
   ListAuthorizationOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<ListAuthorizationOperationsRequest>,
-  output: __S(1555, __c97, 3) as any as S.Schema<OperationListResult>,
+  input: __S(1600, __c100, 0) as any as S.Schema<ListAuthorizationOperationsRequest>,
+  output: __S(1619, __c101, 3) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12222,8 +12386,8 @@ export const ListChanges: API.OperationMethod<
   ListChangesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<ListChangesRequest>,
-  output: __S(1570, __c98, 2) as any as S.Schema<ChangeResourceListResult>,
+  input: __S(1632, __c102, 0) as any as S.Schema<ListChangesRequest>,
+  output: __S(1634, __c102, 2) as any as S.Schema<ChangeResourceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12242,8 +12406,8 @@ export const ListDataPolicyManifests: API.OperationMethod<
   ListDataPolicyManifestsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<ListDataPolicyManifestsRequest>,
-  output: __S(1586, __c99, 2) as any as S.Schema<DataPolicyManifestListResult>,
+  input: __S(1648, __c103, 0) as any as S.Schema<ListDataPolicyManifestsRequest>,
+  output: __S(1650, __c103, 2) as any as S.Schema<DataPolicyManifestListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12262,8 +12426,8 @@ export const ListDeploymentAtManagementGroupScope: API.OperationMethod<
   ListDeploymentAtManagementGroupScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<ListDeploymentAtManagementGroupScopeRequest>,
-  output: __S(1617, __c101, 1) as any as S.Schema<DeploymentListResult>,
+  input: __S(1664, __c104, 0) as any as S.Schema<ListDeploymentAtManagementGroupScopeRequest>,
+  output: __S(1681, __c105, 1) as any as S.Schema<DeploymentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12282,8 +12446,8 @@ export const ListDeploymentAtScope: API.OperationMethod<
   ListDeploymentAtScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<ListDeploymentAtScopeRequest>,
-  output: __S(1617, __c101, 1) as any as S.Schema<DeploymentListResult>,
+  input: __S(1712, __c107, 0) as any as S.Schema<ListDeploymentAtScopeRequest>,
+  output: __S(1681, __c105, 1) as any as S.Schema<DeploymentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12305,8 +12469,8 @@ export const ListDeploymentAtSubscriptionScope: API.OperationMethod<
   ListDeploymentAtSubscriptionScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<ListDeploymentAtSubscriptionScopeRequest>,
-  output: __S(1617, __c101, 1) as any as S.Schema<DeploymentListResult>,
+  input: __S(1728, __c108, 0) as any as S.Schema<ListDeploymentAtSubscriptionScopeRequest>,
+  output: __S(1681, __c105, 1) as any as S.Schema<DeploymentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12325,8 +12489,8 @@ export const ListDeploymentAtTenantScope: API.OperationMethod<
   ListDeploymentAtTenantScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<ListDeploymentAtTenantScopeRequest>,
-  output: __S(1617, __c101, 1) as any as S.Schema<DeploymentListResult>,
+  input: __S(1744, __c109, 0) as any as S.Schema<ListDeploymentAtTenantScopeRequest>,
+  output: __S(1681, __c105, 1) as any as S.Schema<DeploymentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12345,8 +12509,8 @@ export const ListDeploymentByResourceGroup: API.OperationMethod<
   ListDeploymentByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<ListDeploymentByResourceGroupRequest>,
-  output: __S(1617, __c101, 1) as any as S.Schema<DeploymentListResult>,
+  input: __S(1760, __c110, 0) as any as S.Schema<ListDeploymentByResourceGroupRequest>,
+  output: __S(1681, __c105, 1) as any as S.Schema<DeploymentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12366,11 +12530,11 @@ export const ListDeploymentOperationAtManagementGroupScope: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1712,
-    __c107,
+    1776,
+    __c111,
     0,
   ) as any as S.Schema<ListDeploymentOperationAtManagementGroupScopeRequest>,
-  output: __S(1729, __c108, 1) as any as S.Schema<DeploymentOperationsListResult>,
+  output: __S(1793, __c112, 1) as any as S.Schema<DeploymentOperationsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12389,8 +12553,8 @@ export const ListDeploymentOperationAtScope: API.OperationMethod<
   ListDeploymentOperationAtScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<ListDeploymentOperationAtScopeRequest>,
-  output: __S(1729, __c108, 1) as any as S.Schema<DeploymentOperationsListResult>,
+  input: __S(1808, __c113, 0) as any as S.Schema<ListDeploymentOperationAtScopeRequest>,
+  output: __S(1793, __c112, 1) as any as S.Schema<DeploymentOperationsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12413,8 +12577,8 @@ export const ListDeploymentOperationAtSubscriptionScope: API.OperationMethod<
   ListDeploymentOperationAtSubscriptionScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<ListDeploymentOperationAtSubscriptionScopeRequest>,
-  output: __S(1729, __c108, 1) as any as S.Schema<DeploymentOperationsListResult>,
+  input: __S(1824, __c114, 0) as any as S.Schema<ListDeploymentOperationAtSubscriptionScopeRequest>,
+  output: __S(1793, __c112, 1) as any as S.Schema<DeploymentOperationsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12433,8 +12597,8 @@ export const ListDeploymentOperationAtTenantScope: API.OperationMethod<
   ListDeploymentOperationAtTenantScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<ListDeploymentOperationAtTenantScopeRequest>,
-  output: __S(1729, __c108, 1) as any as S.Schema<DeploymentOperationsListResult>,
+  input: __S(1840, __c115, 0) as any as S.Schema<ListDeploymentOperationAtTenantScopeRequest>,
+  output: __S(1793, __c112, 1) as any as S.Schema<DeploymentOperationsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12453,8 +12617,8 @@ export const ListDeploymentOperations: API.OperationMethod<
   ListDeploymentOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<ListDeploymentOperationsRequest>,
-  output: __S(1729, __c108, 1) as any as S.Schema<DeploymentOperationsListResult>,
+  input: __S(1856, __c116, 0) as any as S.Schema<ListDeploymentOperationsRequest>,
+  output: __S(1793, __c112, 1) as any as S.Schema<DeploymentOperationsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12470,8 +12634,8 @@ export const ListDeploymentScriptByResourceGroup: API.OperationMethod<
   ListDeploymentScriptByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<ListDeploymentScriptByResourceGroupRequest>,
-  output: __S(1825, __c114, 1) as any as S.Schema<DeploymentScriptListResult>,
+  input: __S(1872, __c117, 0) as any as S.Schema<ListDeploymentScriptByResourceGroupRequest>,
+  output: __S(1889, __c118, 1) as any as S.Schema<DeploymentScriptListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12490,8 +12654,8 @@ export const ListDeploymentScriptBySubscription: API.OperationMethod<
   ListDeploymentScriptBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<ListDeploymentScriptBySubscriptionRequest>,
-  output: __S(1825, __c114, 1) as any as S.Schema<DeploymentScriptListResult>,
+  input: __S(1936, __c121, 0) as any as S.Schema<ListDeploymentScriptBySubscriptionRequest>,
+  output: __S(1889, __c118, 1) as any as S.Schema<DeploymentScriptListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12510,8 +12674,8 @@ export const ListDeploymentStackAtManagementGroup: API.OperationMethod<
   ListDeploymentStackAtManagementGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<ListDeploymentStackAtManagementGroupRequest>,
-  output: __S(1905, __c119, 1) as any as S.Schema<DeploymentStackListResult>,
+  input: __S(1952, __c122, 0) as any as S.Schema<ListDeploymentStackAtManagementGroupRequest>,
+  output: __S(1969, __c123, 1) as any as S.Schema<DeploymentStackListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12530,8 +12694,8 @@ export const ListDeploymentStackAtResourceGroup: API.OperationMethod<
   ListDeploymentStackAtResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<ListDeploymentStackAtResourceGroupRequest>,
-  output: __S(1905, __c119, 1) as any as S.Schema<DeploymentStackListResult>,
+  input: __S(1984, __c124, 0) as any as S.Schema<ListDeploymentStackAtResourceGroupRequest>,
+  output: __S(1969, __c123, 1) as any as S.Schema<DeploymentStackListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12550,8 +12714,8 @@ export const ListDeploymentStackAtSubscription: API.OperationMethod<
   ListDeploymentStackAtSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<ListDeploymentStackAtSubscriptionRequest>,
-  output: __S(1905, __c119, 1) as any as S.Schema<DeploymentStackListResult>,
+  input: __S(2000, __c125, 0) as any as S.Schema<ListDeploymentStackAtSubscriptionRequest>,
+  output: __S(1969, __c123, 1) as any as S.Schema<DeploymentStackListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12571,11 +12735,11 @@ export const ListDeploymentStacksWhatIfResultsAtManagementGroup: API.OperationMe
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1952,
-    __c122,
+    2016,
+    __c126,
     0,
   ) as any as S.Schema<ListDeploymentStacksWhatIfResultsAtManagementGroupRequest>,
-  output: __S(1969, __c123, 1) as any as S.Schema<DeploymentStacksWhatIfResultListResult>,
+  output: __S(2033, __c127, 1) as any as S.Schema<DeploymentStacksWhatIfResultListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12595,11 +12759,11 @@ export const ListDeploymentStacksWhatIfResultsAtResourceGroup: API.OperationMeth
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    1984,
-    __c124,
+    2048,
+    __c128,
     0,
   ) as any as S.Schema<ListDeploymentStacksWhatIfResultsAtResourceGroupRequest>,
-  output: __S(1969, __c123, 1) as any as S.Schema<DeploymentStacksWhatIfResultListResult>,
+  output: __S(2033, __c127, 1) as any as S.Schema<DeploymentStacksWhatIfResultListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12619,11 +12783,11 @@ export const ListDeploymentStacksWhatIfResultsAtSubscription: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2000,
-    __c125,
+    2064,
+    __c129,
     0,
   ) as any as S.Schema<ListDeploymentStacksWhatIfResultsAtSubscriptionRequest>,
-  output: __S(1969, __c123, 1) as any as S.Schema<DeploymentStacksWhatIfResultListResult>,
+  output: __S(2033, __c127, 1) as any as S.Schema<DeploymentStacksWhatIfResultListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12642,8 +12806,8 @@ export const ListFeatureAll: API.OperationMethod<
   ListFeatureAllError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<ListFeatureAllRequest>,
-  output: __S(2033, __c127, 1) as any as S.Schema<FeatureOperationsListResult>,
+  input: __S(2080, __c130, 0) as any as S.Schema<ListFeatureAllRequest>,
+  output: __S(2097, __c131, 1) as any as S.Schema<FeatureOperationsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12662,8 +12826,8 @@ export const ListFeatures: API.OperationMethod<
   ListFeaturesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<ListFeaturesRequest>,
-  output: __S(2033, __c127, 1) as any as S.Schema<FeatureOperationsListResult>,
+  input: __S(2112, __c132, 0) as any as S.Schema<ListFeaturesRequest>,
+  output: __S(2097, __c131, 1) as any as S.Schema<FeatureOperationsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12682,8 +12846,8 @@ export const ListJitRequestByResourceGroup: API.OperationMethod<
   ListJitRequestByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<ListJitRequestByResourceGroupRequest>,
-  output: __S(2081, __c130, 1) as any as S.Schema<JitRequestDefinitionListResult>,
+  input: __S(2128, __c133, 0) as any as S.Schema<ListJitRequestByResourceGroupRequest>,
+  output: __S(2145, __c134, 1) as any as S.Schema<JitRequestDefinitionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12702,8 +12866,8 @@ export const ListJitRequestBySubscription: API.OperationMethod<
   ListJitRequestBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<ListJitRequestBySubscriptionRequest>,
-  output: __S(2081, __c130, 1) as any as S.Schema<JitRequestDefinitionListResult>,
+  input: __S(2176, __c136, 0) as any as S.Schema<ListJitRequestBySubscriptionRequest>,
+  output: __S(2145, __c134, 1) as any as S.Schema<JitRequestDefinitionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12722,8 +12886,8 @@ export const ListManagementLockAtResourceGroupLevel: API.OperationMethod<
   ListManagementLockAtResourceGroupLevelError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<ListManagementLockAtResourceGroupLevelRequest>,
-  output: __S(2145, __c134, 1) as any as S.Schema<ManagementLockListResult>,
+  input: __S(2192, __c137, 0) as any as S.Schema<ListManagementLockAtResourceGroupLevelRequest>,
+  output: __S(2209, __c138, 1) as any as S.Schema<ManagementLockListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12742,8 +12906,8 @@ export const ListManagementLockAtResourceLevel: API.OperationMethod<
   ListManagementLockAtResourceLevelError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<ListManagementLockAtResourceLevelRequest>,
-  output: __S(2145, __c134, 1) as any as S.Schema<ManagementLockListResult>,
+  input: __S(2224, __c139, 0) as any as S.Schema<ListManagementLockAtResourceLevelRequest>,
+  output: __S(2209, __c138, 1) as any as S.Schema<ManagementLockListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12762,8 +12926,8 @@ export const ListManagementLockAtSubscriptionLevel: API.OperationMethod<
   ListManagementLockAtSubscriptionLevelError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<ListManagementLockAtSubscriptionLevelRequest>,
-  output: __S(2145, __c134, 1) as any as S.Schema<ManagementLockListResult>,
+  input: __S(2240, __c140, 0) as any as S.Schema<ListManagementLockAtSubscriptionLevelRequest>,
+  output: __S(2209, __c138, 1) as any as S.Schema<ManagementLockListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12782,8 +12946,8 @@ export const ListManagementLockByScope: API.OperationMethod<
   ListManagementLockByScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<ListManagementLockByScopeRequest>,
-  output: __S(2145, __c134, 1) as any as S.Schema<ManagementLockListResult>,
+  input: __S(2256, __c141, 0) as any as S.Schema<ListManagementLockByScopeRequest>,
+  output: __S(2209, __c138, 1) as any as S.Schema<ManagementLockListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12805,8 +12969,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(1555, __c97, 3) as any as S.Schema<OperationListResult_2>,
+  input: __S(2272, __c142, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(1619, __c101, 3) as any as S.Schema<OperationListResult_2>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12825,8 +12989,8 @@ export const ListPolicyAssignmentForManagementGroup: API.OperationMethod<
   ListPolicyAssignmentForManagementGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<ListPolicyAssignmentForManagementGroupRequest>,
-  output: __S(2241, __c140, 1) as any as S.Schema<PolicyAssignmentListResult>,
+  input: __S(2288, __c143, 0) as any as S.Schema<ListPolicyAssignmentForManagementGroupRequest>,
+  output: __S(2305, __c144, 1) as any as S.Schema<PolicyAssignmentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12845,8 +13009,8 @@ export const ListPolicyAssignmentForResource: API.OperationMethod<
   ListPolicyAssignmentForResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<ListPolicyAssignmentForResourceRequest>,
-  output: __S(2241, __c140, 1) as any as S.Schema<PolicyAssignmentListResult>,
+  input: __S(2320, __c145, 0) as any as S.Schema<ListPolicyAssignmentForResourceRequest>,
+  output: __S(2305, __c144, 1) as any as S.Schema<PolicyAssignmentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12865,8 +13029,8 @@ export const ListPolicyAssignmentForResourceGroup: API.OperationMethod<
   ListPolicyAssignmentForResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<ListPolicyAssignmentForResourceGroupRequest>,
-  output: __S(2241, __c140, 1) as any as S.Schema<PolicyAssignmentListResult>,
+  input: __S(2336, __c146, 0) as any as S.Schema<ListPolicyAssignmentForResourceGroupRequest>,
+  output: __S(2305, __c144, 1) as any as S.Schema<PolicyAssignmentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12885,8 +13049,8 @@ export const ListPolicyAssignments: API.OperationMethod<
   ListPolicyAssignmentsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<ListPolicyAssignmentsRequest>,
-  output: __S(2241, __c140, 1) as any as S.Schema<PolicyAssignmentListResult>,
+  input: __S(2352, __c147, 0) as any as S.Schema<ListPolicyAssignmentsRequest>,
+  output: __S(2305, __c144, 1) as any as S.Schema<PolicyAssignmentListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12905,8 +13069,8 @@ export const ListPolicyDefinitionBuiltIn: API.OperationMethod<
   ListPolicyDefinitionBuiltInError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<ListPolicyDefinitionBuiltInRequest>,
-  output: __S(2337, __c146, 1) as any as S.Schema<PolicyDefinitionListResult>,
+  input: __S(2384, __c149, 0) as any as S.Schema<ListPolicyDefinitionBuiltInRequest>,
+  output: __S(2401, __c150, 1) as any as S.Schema<PolicyDefinitionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12925,8 +13089,8 @@ export const ListPolicyDefinitionByManagementGroup: API.OperationMethod<
   ListPolicyDefinitionByManagementGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2352, __c147, 0) as any as S.Schema<ListPolicyDefinitionByManagementGroupRequest>,
-  output: __S(2337, __c146, 1) as any as S.Schema<PolicyDefinitionListResult>,
+  input: __S(2416, __c151, 0) as any as S.Schema<ListPolicyDefinitionByManagementGroupRequest>,
+  output: __S(2401, __c150, 1) as any as S.Schema<PolicyDefinitionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12945,8 +13109,8 @@ export const ListPolicyDefinitions: API.OperationMethod<
   ListPolicyDefinitionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c148, 0) as any as S.Schema<ListPolicyDefinitionsRequest>,
-  output: __S(2337, __c146, 1) as any as S.Schema<PolicyDefinitionListResult>,
+  input: __S(2432, __c152, 0) as any as S.Schema<ListPolicyDefinitionsRequest>,
+  output: __S(2401, __c150, 1) as any as S.Schema<PolicyDefinitionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12965,8 +13129,8 @@ export const ListPolicyDefinitionVersionAll: API.OperationMethod<
   ListPolicyDefinitionVersionAllError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2384, __c149, 0) as any as S.Schema<ListPolicyDefinitionVersionAllRequest>,
-  output: __S(2401, __c150, 1) as any as S.Schema<PolicyDefinitionVersionListResult>,
+  input: __S(2448, __c153, 0) as any as S.Schema<ListPolicyDefinitionVersionAllRequest>,
+  output: __S(2465, __c154, 1) as any as S.Schema<PolicyDefinitionVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12986,11 +13150,11 @@ export const ListPolicyDefinitionVersionAllAtManagementGroup: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2416,
-    __c151,
+    2480,
+    __c155,
     0,
   ) as any as S.Schema<ListPolicyDefinitionVersionAllAtManagementGroupRequest>,
-  output: __S(2401, __c150, 1) as any as S.Schema<PolicyDefinitionVersionListResult>,
+  output: __S(2465, __c154, 1) as any as S.Schema<PolicyDefinitionVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13009,8 +13173,8 @@ export const ListPolicyDefinitionVersionAllBuiltins: API.OperationMethod<
   ListPolicyDefinitionVersionAllBuiltinsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c152, 0) as any as S.Schema<ListPolicyDefinitionVersionAllBuiltinsRequest>,
-  output: __S(2401, __c150, 1) as any as S.Schema<PolicyDefinitionVersionListResult>,
+  input: __S(2496, __c156, 0) as any as S.Schema<ListPolicyDefinitionVersionAllBuiltinsRequest>,
+  output: __S(2465, __c154, 1) as any as S.Schema<PolicyDefinitionVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13029,8 +13193,8 @@ export const ListPolicyDefinitionVersionBuiltIn: API.OperationMethod<
   ListPolicyDefinitionVersionBuiltInError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2448, __c153, 0) as any as S.Schema<ListPolicyDefinitionVersionBuiltInRequest>,
-  output: __S(2401, __c150, 1) as any as S.Schema<PolicyDefinitionVersionListResult>,
+  input: __S(2512, __c157, 0) as any as S.Schema<ListPolicyDefinitionVersionBuiltInRequest>,
+  output: __S(2465, __c154, 1) as any as S.Schema<PolicyDefinitionVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13050,11 +13214,11 @@ export const ListPolicyDefinitionVersionByManagementGroup: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2464,
-    __c154,
+    2528,
+    __c158,
     0,
   ) as any as S.Schema<ListPolicyDefinitionVersionByManagementGroupRequest>,
-  output: __S(2401, __c150, 1) as any as S.Schema<PolicyDefinitionVersionListResult>,
+  output: __S(2465, __c154, 1) as any as S.Schema<PolicyDefinitionVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13073,8 +13237,8 @@ export const ListPolicyDefinitionVersions: API.OperationMethod<
   ListPolicyDefinitionVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2480, __c155, 0) as any as S.Schema<ListPolicyDefinitionVersionsRequest>,
-  output: __S(2401, __c150, 1) as any as S.Schema<PolicyDefinitionVersionListResult>,
+  input: __S(2544, __c159, 0) as any as S.Schema<ListPolicyDefinitionVersionsRequest>,
+  output: __S(2465, __c154, 1) as any as S.Schema<PolicyDefinitionVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13093,8 +13257,8 @@ export const ListPolicySetDefinitionBuiltIn: API.OperationMethod<
   ListPolicySetDefinitionBuiltInError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c156, 0) as any as S.Schema<ListPolicySetDefinitionBuiltInRequest>,
-  output: __S(2513, __c157, 1) as any as S.Schema<PolicySetDefinitionListResult>,
+  input: __S(2560, __c160, 0) as any as S.Schema<ListPolicySetDefinitionBuiltInRequest>,
+  output: __S(2577, __c161, 1) as any as S.Schema<PolicySetDefinitionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13113,8 +13277,8 @@ export const ListPolicySetDefinitionByManagementGroup: API.OperationMethod<
   ListPolicySetDefinitionByManagementGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2544, __c159, 0) as any as S.Schema<ListPolicySetDefinitionByManagementGroupRequest>,
-  output: __S(2513, __c157, 1) as any as S.Schema<PolicySetDefinitionListResult>,
+  input: __S(2608, __c163, 0) as any as S.Schema<ListPolicySetDefinitionByManagementGroupRequest>,
+  output: __S(2577, __c161, 1) as any as S.Schema<PolicySetDefinitionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13133,8 +13297,8 @@ export const ListPolicySetDefinitions: API.OperationMethod<
   ListPolicySetDefinitionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c160, 0) as any as S.Schema<ListPolicySetDefinitionsRequest>,
-  output: __S(2513, __c157, 1) as any as S.Schema<PolicySetDefinitionListResult>,
+  input: __S(2624, __c164, 0) as any as S.Schema<ListPolicySetDefinitionsRequest>,
+  output: __S(2577, __c161, 1) as any as S.Schema<PolicySetDefinitionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13153,8 +13317,8 @@ export const ListPolicySetDefinitionVersionAll: API.OperationMethod<
   ListPolicySetDefinitionVersionAllError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2576, __c161, 0) as any as S.Schema<ListPolicySetDefinitionVersionAllRequest>,
-  output: __S(2593, __c162, 1) as any as S.Schema<PolicySetDefinitionVersionListResult>,
+  input: __S(2640, __c165, 0) as any as S.Schema<ListPolicySetDefinitionVersionAllRequest>,
+  output: __S(2657, __c166, 1) as any as S.Schema<PolicySetDefinitionVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13174,11 +13338,11 @@ export const ListPolicySetDefinitionVersionAllAtManagementGroup: API.OperationMe
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2608,
-    __c163,
+    2672,
+    __c167,
     0,
   ) as any as S.Schema<ListPolicySetDefinitionVersionAllAtManagementGroupRequest>,
-  output: __S(2593, __c162, 1) as any as S.Schema<PolicySetDefinitionVersionListResult>,
+  output: __S(2657, __c166, 1) as any as S.Schema<PolicySetDefinitionVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13197,8 +13361,8 @@ export const ListPolicySetDefinitionVersionAllBuiltins: API.OperationMethod<
   ListPolicySetDefinitionVersionAllBuiltinsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c164, 0) as any as S.Schema<ListPolicySetDefinitionVersionAllBuiltinsRequest>,
-  output: __S(2593, __c162, 1) as any as S.Schema<PolicySetDefinitionVersionListResult>,
+  input: __S(2688, __c168, 0) as any as S.Schema<ListPolicySetDefinitionVersionAllBuiltinsRequest>,
+  output: __S(2657, __c166, 1) as any as S.Schema<PolicySetDefinitionVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13217,8 +13381,8 @@ export const ListPolicySetDefinitionVersionBuiltIn: API.OperationMethod<
   ListPolicySetDefinitionVersionBuiltInError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2640, __c165, 0) as any as S.Schema<ListPolicySetDefinitionVersionBuiltInRequest>,
-  output: __S(2593, __c162, 1) as any as S.Schema<PolicySetDefinitionVersionListResult>,
+  input: __S(2704, __c169, 0) as any as S.Schema<ListPolicySetDefinitionVersionBuiltInRequest>,
+  output: __S(2657, __c166, 1) as any as S.Schema<PolicySetDefinitionVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13238,11 +13402,11 @@ export const ListPolicySetDefinitionVersionByManagementGroup: API.OperationMetho
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2656,
-    __c166,
+    2720,
+    __c170,
     0,
   ) as any as S.Schema<ListPolicySetDefinitionVersionByManagementGroupRequest>,
-  output: __S(2593, __c162, 1) as any as S.Schema<PolicySetDefinitionVersionListResult>,
+  output: __S(2657, __c166, 1) as any as S.Schema<PolicySetDefinitionVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13261,8 +13425,8 @@ export const ListPolicySetDefinitionVersions: API.OperationMethod<
   ListPolicySetDefinitionVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2672, __c167, 0) as any as S.Schema<ListPolicySetDefinitionVersionsRequest>,
-  output: __S(2593, __c162, 1) as any as S.Schema<PolicySetDefinitionVersionListResult>,
+  input: __S(2736, __c171, 0) as any as S.Schema<ListPolicySetDefinitionVersionsRequest>,
+  output: __S(2657, __c166, 1) as any as S.Schema<PolicySetDefinitionVersionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13281,8 +13445,8 @@ export const ListPrivateLinkAssociation: API.OperationMethod<
   ListPrivateLinkAssociationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c168, 0) as any as S.Schema<ListPrivateLinkAssociationRequest>,
-  output: __S(2690, __c168, 2) as any as S.Schema<PrivateLinkAssociationGetResult>,
+  input: __S(2752, __c172, 0) as any as S.Schema<ListPrivateLinkAssociationRequest>,
+  output: __S(2754, __c172, 2) as any as S.Schema<PrivateLinkAssociationGetResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13301,8 +13465,8 @@ export const ListProviderAtTenantScope: API.OperationMethod<
   ListProviderAtTenantScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2704, __c169, 0) as any as S.Schema<ListProviderAtTenantScopeRequest>,
-  output: __S(2720, __c170, 0) as any as S.Schema<ProviderListResult>,
+  input: __S(2768, __c173, 0) as any as S.Schema<ListProviderAtTenantScopeRequest>,
+  output: __S(2784, __c174, 0) as any as S.Schema<ProviderListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13318,8 +13482,8 @@ export const ListProviderResourceTypes: API.OperationMethod<
   ListProviderResourceTypesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2768, __c173, 0) as any as S.Schema<ListProviderResourceTypesRequest>,
-  output: __S(2769, __c173, 1) as any as S.Schema<ProviderResourceTypeListResult>,
+  input: __S(2832, __c177, 0) as any as S.Schema<ListProviderResourceTypesRequest>,
+  output: __S(2833, __c177, 1) as any as S.Schema<ProviderResourceTypeListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13335,8 +13499,8 @@ export const ListProviders: API.OperationMethod<
   ListProvidersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c174, 0) as any as S.Schema<ListProvidersRequest>,
-  output: __S(2720, __c170, 0) as any as S.Schema<ProviderListResult>,
+  input: __S(2848, __c178, 0) as any as S.Schema<ListProvidersRequest>,
+  output: __S(2784, __c174, 0) as any as S.Schema<ProviderListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13352,8 +13516,8 @@ export const ListResourceByResourceGroup: API.OperationMethod<
   ListResourceByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2800, __c175, 0) as any as S.Schema<ListResourceByResourceGroupRequest>,
-  output: __S(2818, __c176, 2) as any as S.Schema<ResourceListResult>,
+  input: __S(2864, __c179, 0) as any as S.Schema<ListResourceByResourceGroupRequest>,
+  output: __S(2882, __c180, 2) as any as S.Schema<ResourceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13369,8 +13533,8 @@ export const ListResourceGroups: API.OperationMethod<
   ListResourceGroupsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2832, __c177, 0) as any as S.Schema<ListResourceGroupsRequest>,
-  output: __S(2834, __c177, 2) as any as S.Schema<ResourceGroupListResult>,
+  input: __S(2896, __c181, 0) as any as S.Schema<ListResourceGroupsRequest>,
+  output: __S(2898, __c181, 2) as any as S.Schema<ResourceGroupListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13386,8 +13550,8 @@ export const ListResourceLinkAtSourceScope: API.OperationMethod<
   ListResourceLinkAtSourceScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c178, 0) as any as S.Schema<ListResourceLinkAtSourceScopeRequest>,
-  output: __S(2865, __c179, 1) as any as S.Schema<ResourceLinkResult>,
+  input: __S(2912, __c182, 0) as any as S.Schema<ListResourceLinkAtSourceScopeRequest>,
+  output: __S(2929, __c183, 1) as any as S.Schema<ResourceLinkResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13409,8 +13573,8 @@ export const ListResourceLinkAtSubscription: API.OperationMethod<
   ListResourceLinkAtSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c180, 0) as any as S.Schema<ListResourceLinkAtSubscriptionRequest>,
-  output: __S(2865, __c179, 1) as any as S.Schema<ResourceLinkResult>,
+  input: __S(2944, __c184, 0) as any as S.Schema<ListResourceLinkAtSubscriptionRequest>,
+  output: __S(2929, __c183, 1) as any as S.Schema<ResourceLinkResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13429,8 +13593,8 @@ export const ListResourceManagementPrivateLink: API.OperationMethod<
   ListResourceManagementPrivateLinkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2896, __c181, 0) as any as S.Schema<ListResourceManagementPrivateLinkRequest>,
-  output: __S(2913, __c182, 1) as any as S.Schema<ResourceManagementPrivateLinkListResult>,
+  input: __S(2960, __c185, 0) as any as S.Schema<ListResourceManagementPrivateLinkRequest>,
+  output: __S(2977, __c186, 1) as any as S.Schema<ResourceManagementPrivateLinkListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13450,11 +13614,11 @@ export const ListResourceManagementPrivateLinkByResourceGroup: API.OperationMeth
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2928,
-    __c183,
+    2992,
+    __c187,
     0,
   ) as any as S.Schema<ListResourceManagementPrivateLinkByResourceGroupRequest>,
-  output: __S(2913, __c182, 1) as any as S.Schema<ResourceManagementPrivateLinkListResult>,
+  output: __S(2977, __c186, 1) as any as S.Schema<ResourceManagementPrivateLinkListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13473,8 +13637,8 @@ export const ListResources: API.OperationMethod<
   ListResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c184, 0) as any as S.Schema<ListResourcesRequest>,
-  output: __S(2818, __c176, 2) as any as S.Schema<ResourceListResult>,
+  input: __S(3008, __c188, 0) as any as S.Schema<ListResourcesRequest>,
+  output: __S(2882, __c180, 2) as any as S.Schema<ResourceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13491,11 +13655,11 @@ export const ListSubscriptionFeatureRegistrationAllBySubscription: API.Operation
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2960,
-    __c185,
+    3024,
+    __c189,
     0,
   ) as any as S.Schema<ListSubscriptionFeatureRegistrationAllBySubscriptionRequest>,
-  output: __S(2977, __c186, 1) as any as S.Schema<SubscriptionFeatureRegistrationList>,
+  output: __S(3041, __c190, 1) as any as S.Schema<SubscriptionFeatureRegistrationList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13515,11 +13679,11 @@ export const ListSubscriptionFeatureRegistrationBySubscription: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3008,
-    __c188,
+    3072,
+    __c192,
     0,
   ) as any as S.Schema<ListSubscriptionFeatureRegistrationBySubscriptionRequest>,
-  output: __S(2977, __c186, 1) as any as S.Schema<SubscriptionFeatureRegistrationList>,
+  output: __S(3041, __c190, 1) as any as S.Schema<SubscriptionFeatureRegistrationList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13538,8 +13702,8 @@ export const ListSubscriptionLocations: API.OperationMethod<
   ListSubscriptionLocationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3024, __c189, 0) as any as S.Schema<ListSubscriptionLocationsRequest>,
-  output: __S(3032, __c189, 8) as any as S.Schema<LocationListResult>,
+  input: __S(3088, __c193, 0) as any as S.Schema<ListSubscriptionLocationsRequest>,
+  output: __S(3096, __c193, 8) as any as S.Schema<LocationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13555,8 +13719,8 @@ export const ListSubscriptions: API.OperationMethod<
   ListSubscriptionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c190, 0) as any as S.Schema<ListSubscriptionsRequest>,
-  output: __S(3042, __c190, 2) as any as S.Schema<SubscriptionListResult>,
+  input: __S(3104, __c194, 0) as any as S.Schema<ListSubscriptionsRequest>,
+  output: __S(3106, __c194, 2) as any as S.Schema<SubscriptionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13572,8 +13736,8 @@ export const ListTags: API.OperationMethod<
   ListTagsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3056, __c191, 0) as any as S.Schema<ListTagsRequest>,
-  output: __S(3058, __c191, 2) as any as S.Schema<TagsListResult>,
+  input: __S(3120, __c195, 0) as any as S.Schema<ListTagsRequest>,
+  output: __S(3122, __c195, 2) as any as S.Schema<TagsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13589,8 +13753,8 @@ export const ListTemplateSpecBuiltIns: API.OperationMethod<
   ListTemplateSpecBuiltInsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c194, 0) as any as S.Schema<ListTemplateSpecBuiltInsRequest>,
-  output: __S(3121, __c195, 1) as any as S.Schema<TemplateSpecsListResult>,
+  input: __S(3168, __c198, 0) as any as S.Schema<ListTemplateSpecBuiltInsRequest>,
+  output: __S(3185, __c199, 1) as any as S.Schema<TemplateSpecsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13609,8 +13773,8 @@ export const ListTemplateSpecByResourceGroup: API.OperationMethod<
   ListTemplateSpecByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c196, 0) as any as S.Schema<ListTemplateSpecByResourceGroupRequest>,
-  output: __S(3121, __c195, 1) as any as S.Schema<TemplateSpecsListResult>,
+  input: __S(3200, __c200, 0) as any as S.Schema<ListTemplateSpecByResourceGroupRequest>,
+  output: __S(3185, __c199, 1) as any as S.Schema<TemplateSpecsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13629,8 +13793,8 @@ export const ListTemplateSpecBySubscription: API.OperationMethod<
   ListTemplateSpecBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3152, __c197, 0) as any as S.Schema<ListTemplateSpecBySubscriptionRequest>,
-  output: __S(3121, __c195, 1) as any as S.Schema<TemplateSpecsListResult>,
+  input: __S(3216, __c201, 0) as any as S.Schema<ListTemplateSpecBySubscriptionRequest>,
+  output: __S(3185, __c199, 1) as any as S.Schema<TemplateSpecsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13649,8 +13813,8 @@ export const ListTemplateSpecVersionBuiltIns: API.OperationMethod<
   ListTemplateSpecVersionBuiltInsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c198, 0) as any as S.Schema<ListTemplateSpecVersionBuiltInsRequest>,
-  output: __S(3185, __c199, 1) as any as S.Schema<TemplateSpecVersionsListResult>,
+  input: __S(3232, __c202, 0) as any as S.Schema<ListTemplateSpecVersionBuiltInsRequest>,
+  output: __S(3249, __c203, 1) as any as S.Schema<TemplateSpecVersionsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13669,8 +13833,8 @@ export const ListTemplateSpecVersions: API.OperationMethod<
   ListTemplateSpecVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c200, 0) as any as S.Schema<ListTemplateSpecVersionsRequest>,
-  output: __S(3185, __c199, 1) as any as S.Schema<TemplateSpecVersionsListResult>,
+  input: __S(3264, __c204, 0) as any as S.Schema<ListTemplateSpecVersionsRequest>,
+  output: __S(3249, __c203, 1) as any as S.Schema<TemplateSpecVersionsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13689,8 +13853,8 @@ export const ListTenants: API.OperationMethod<
   ListTenantsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3216, __c201, 0) as any as S.Schema<ListTenantsRequest>,
-  output: __S(3219, __c201, 3) as any as S.Schema<TenantListResult>,
+  input: __S(3280, __c205, 0) as any as S.Schema<ListTenantsRequest>,
+  output: __S(3283, __c205, 3) as any as S.Schema<TenantListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13707,11 +13871,11 @@ export const ManagementLocksCreateOrUpdateAtResourceGroupLevel: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3248,
-    __c203,
+    3312,
+    __c207,
     0,
   ) as any as S.Schema<ManagementLocksCreateOrUpdateAtResourceGroupLevelRequest>,
-  output: __S(595, __c37, 3) as any as S.Schema<ManagementLockObject>,
+  output: __S(659, __c41, 3) as any as S.Schema<ManagementLockObject>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13731,11 +13895,11 @@ export const ManagementLocksCreateOrUpdateAtResourceLevel: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3264,
-    __c204,
+    3328,
+    __c208,
     0,
   ) as any as S.Schema<ManagementLocksCreateOrUpdateAtResourceLevelRequest>,
-  output: __S(595, __c37, 3) as any as S.Schema<ManagementLockObject>,
+  output: __S(659, __c41, 3) as any as S.Schema<ManagementLockObject>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13755,11 +13919,11 @@ export const ManagementLocksCreateOrUpdateAtSubscriptionLevel: API.OperationMeth
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3280,
-    __c205,
+    3344,
+    __c209,
     0,
   ) as any as S.Schema<ManagementLocksCreateOrUpdateAtSubscriptionLevelRequest>,
-  output: __S(595, __c37, 3) as any as S.Schema<ManagementLockObject>,
+  output: __S(659, __c41, 3) as any as S.Schema<ManagementLockObject>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13778,8 +13942,8 @@ export const ManagementLocksCreateOrUpdateByScope: API.OperationMethod<
   ManagementLocksCreateOrUpdateByScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c206, 0) as any as S.Schema<ManagementLocksCreateOrUpdateByScopeRequest>,
-  output: __S(595, __c37, 3) as any as S.Schema<ManagementLockObject>,
+  input: __S(3360, __c210, 0) as any as S.Schema<ManagementLocksCreateOrUpdateByScopeRequest>,
+  output: __S(659, __c41, 3) as any as S.Schema<ManagementLockObject>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13801,8 +13965,8 @@ export const MoveResourceResources: API.OperationMethod<
   MoveResourceResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3312, __c207, 0) as any as S.Schema<MoveResourceResourcesRequest>,
-  output: __S(3328, __c208, 0) as any as S.Schema<MoveResourceResourcesResponse>,
+  input: __S(3376, __c211, 0) as any as S.Schema<MoveResourceResourcesRequest>,
+  output: __S(3392, __c212, 0) as any as S.Schema<MoveResourceResourcesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13818,8 +13982,8 @@ export const PolicyDefinitionsCreateOrUpdate: API.OperationMethod<
   PolicyDefinitionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3344, __c209, 0) as any as S.Schema<PolicyDefinitionsCreateOrUpdateRequest>,
-  output: __S(721, __c45, 1) as any as S.Schema<PolicyDefinitionsCreateOrUpdateResponse>,
+  input: __S(3408, __c213, 0) as any as S.Schema<PolicyDefinitionsCreateOrUpdateRequest>,
+  output: __S(785, __c49, 1) as any as S.Schema<PolicyDefinitionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13839,13 +14003,13 @@ export const PolicyDefinitionsCreateOrUpdateAtManagementGroup: API.OperationMeth
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3360,
-    __c210,
+    3424,
+    __c214,
     0,
   ) as any as S.Schema<PolicyDefinitionsCreateOrUpdateAtManagementGroupRequest>,
   output: __S(
-    721,
-    __c45,
+    785,
+    __c49,
     1,
   ) as any as S.Schema<PolicyDefinitionsCreateOrUpdateAtManagementGroupResponse>,
   errors: [UnknownAzureError],
@@ -13866,8 +14030,8 @@ export const PolicyDefinitionVersionsCreateOrUpdate: API.OperationMethod<
   PolicyDefinitionVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3376, __c211, 0) as any as S.Schema<PolicyDefinitionVersionsCreateOrUpdateRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<PolicyDefinitionVersionsCreateOrUpdateResponse>,
+  input: __S(3440, __c215, 0) as any as S.Schema<PolicyDefinitionVersionsCreateOrUpdateRequest>,
+  output: __S(849, __c53, 1) as any as S.Schema<PolicyDefinitionVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13887,13 +14051,13 @@ export const PolicyDefinitionVersionsCreateOrUpdateAtManagementGroup: API.Operat
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3392,
-    __c212,
+    3456,
+    __c216,
     0,
   ) as any as S.Schema<PolicyDefinitionVersionsCreateOrUpdateAtManagementGroupRequest>,
   output: __S(
-    785,
-    __c49,
+    849,
+    __c53,
     1,
   ) as any as S.Schema<PolicyDefinitionVersionsCreateOrUpdateAtManagementGroupResponse>,
   errors: [UnknownAzureError],
@@ -13914,8 +14078,8 @@ export const PolicySetDefinitionsCreateOrUpdate: API.OperationMethod<
   PolicySetDefinitionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3408, __c213, 0) as any as S.Schema<PolicySetDefinitionsCreateOrUpdateRequest>,
-  output: __S(881, __c55, 1) as any as S.Schema<PolicySetDefinitionsCreateOrUpdateResponse>,
+  input: __S(3472, __c217, 0) as any as S.Schema<PolicySetDefinitionsCreateOrUpdateRequest>,
+  output: __S(945, __c59, 1) as any as S.Schema<PolicySetDefinitionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13935,13 +14099,13 @@ export const PolicySetDefinitionsCreateOrUpdateAtManagementGroup: API.OperationM
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3472,
-    __c217,
+    3536,
+    __c221,
     0,
   ) as any as S.Schema<PolicySetDefinitionsCreateOrUpdateAtManagementGroupRequest>,
   output: __S(
-    881,
-    __c55,
+    945,
+    __c59,
     1,
   ) as any as S.Schema<PolicySetDefinitionsCreateOrUpdateAtManagementGroupResponse>,
   errors: [UnknownAzureError],
@@ -13962,8 +14126,8 @@ export const PolicySetDefinitionVersionsCreateOrUpdate: API.OperationMethod<
   PolicySetDefinitionVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c218, 0) as any as S.Schema<PolicySetDefinitionVersionsCreateOrUpdateRequest>,
-  output: __S(945, __c59, 1) as any as S.Schema<PolicySetDefinitionVersionsCreateOrUpdateResponse>,
+  input: __S(3552, __c222, 0) as any as S.Schema<PolicySetDefinitionVersionsCreateOrUpdateRequest>,
+  output: __S(1009, __c63, 1) as any as S.Schema<PolicySetDefinitionVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -13983,13 +14147,13 @@ export const PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroup: API.Ope
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3520,
-    __c220,
+    3584,
+    __c224,
     0,
   ) as any as S.Schema<PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroupRequest>,
   output: __S(
-    945,
-    __c59,
+    1009,
+    __c63,
     1,
   ) as any as S.Schema<PolicySetDefinitionVersionsCreateOrUpdateAtManagementGroupResponse>,
   errors: [UnknownAzureError],
@@ -14010,8 +14174,8 @@ export const PolicyTokensAcquire: API.OperationMethod<
   PolicyTokensAcquireError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3536, __c221, 0) as any as S.Schema<PolicyTokensAcquireRequest>,
-  output: __S(3557, __c222, 5) as any as S.Schema<PolicyTokenResponse>,
+  input: __S(3600, __c225, 0) as any as S.Schema<PolicyTokensAcquireRequest>,
+  output: __S(3621, __c226, 5) as any as S.Schema<PolicyTokenResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14030,8 +14194,8 @@ export const PolicyTokensAcquireAtManagementGroup: API.OperationMethod<
   PolicyTokensAcquireAtManagementGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3568, __c223, 0) as any as S.Schema<PolicyTokensAcquireAtManagementGroupRequest>,
-  output: __S(3557, __c222, 5) as any as S.Schema<PolicyTokenResponse>,
+  input: __S(3632, __c227, 0) as any as S.Schema<PolicyTokensAcquireAtManagementGroupRequest>,
+  output: __S(3621, __c226, 5) as any as S.Schema<PolicyTokenResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14050,8 +14214,8 @@ export const PolicyTokensAcquireAtResourceGroup: API.OperationMethod<
   PolicyTokensAcquireAtResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c224, 0) as any as S.Schema<PolicyTokensAcquireAtResourceGroupRequest>,
-  output: __S(3557, __c222, 5) as any as S.Schema<PolicyTokenResponse>,
+  input: __S(3648, __c228, 0) as any as S.Schema<PolicyTokensAcquireAtResourceGroupRequest>,
+  output: __S(3621, __c226, 5) as any as S.Schema<PolicyTokenResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14070,8 +14234,8 @@ export const ProvidersProviderPermissions: API.OperationMethod<
   ProvidersProviderPermissionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3600, __c225, 0) as any as S.Schema<ProvidersProviderPermissionsRequest>,
-  output: __S(3606, __c225, 6) as any as S.Schema<ProviderPermissionListResult>,
+  input: __S(3664, __c229, 0) as any as S.Schema<ProvidersProviderPermissionsRequest>,
+  output: __S(3670, __c229, 6) as any as S.Schema<ProviderPermissionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14087,8 +14251,8 @@ export const PutDataBoundary: API.OperationMethod<
   PutDataBoundaryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c226, 0) as any as S.Schema<PutDataBoundaryRequest>,
-  output: __S(5953, __c372, 1) as any as S.Schema<PutDataBoundaryResponse>,
+  input: __S(3680, __c230, 0) as any as S.Schema<PutDataBoundaryRequest>,
+  output: __S(5985, __c374, 1) as any as S.Schema<PutDataBoundaryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14107,8 +14271,8 @@ export const PutPrivateLinkAssociation: API.OperationMethod<
   PutPrivateLinkAssociationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3633, __c227, 1) as any as S.Schema<PutPrivateLinkAssociationRequest>,
-  output: __S(1009, __c63, 1) as any as S.Schema<PrivateLinkAssociation>,
+  input: __S(3697, __c231, 1) as any as S.Schema<PutPrivateLinkAssociationRequest>,
+  output: __S(1073, __c67, 1) as any as S.Schema<PrivateLinkAssociation>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14127,8 +14291,8 @@ export const PutResourceManagementPrivateLink: API.OperationMethod<
   PutResourceManagementPrivateLinkError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c228, 0) as any as S.Schema<PutResourceManagementPrivateLinkRequest>,
-  output: __S(1233, __c77, 1) as any as S.Schema<ResourceManagementPrivateLink>,
+  input: __S(3712, __c232, 0) as any as S.Schema<PutResourceManagementPrivateLinkRequest>,
+  output: __S(1297, __c81, 1) as any as S.Schema<ResourceManagementPrivateLink>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14147,7 +14311,7 @@ export const RefreshApplicationPermissions: API.OperationMethod<
   RefreshApplicationPermissionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c230, 0) as any as S.Schema<RefreshApplicationPermissionsRequest>,
+  input: __S(3744, __c234, 0) as any as S.Schema<RefreshApplicationPermissionsRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<RefreshApplicationPermissionsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -14167,8 +14331,8 @@ export const RegisterFeature: API.OperationMethod<
   RegisterFeatureError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3696, __c231, 0) as any as S.Schema<RegisterFeatureRequest>,
-  output: __S(465, __c29, 1) as any as S.Schema<FeatureResult>,
+  input: __S(3760, __c235, 0) as any as S.Schema<RegisterFeatureRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<FeatureResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14187,8 +14351,8 @@ export const RegisterProvider: API.OperationMethod<
   RegisterProviderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3713, __c232, 1) as any as S.Schema<RegisterProviderRequest>,
-  output: __S(5104, __c319, 0) as any as S.Schema<Provider>,
+  input: __S(3777, __c236, 1) as any as S.Schema<RegisterProviderRequest>,
+  output: __S(5152, __c322, 0) as any as S.Schema<Provider>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14204,7 +14368,7 @@ export const RegisterProviderAtManagementGroupScope: API.OperationMethod<
   RegisterProviderAtManagementGroupScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3728, __c233, 0) as any as S.Schema<RegisterProviderAtManagementGroupScopeRequest>,
+  input: __S(3792, __c237, 0) as any as S.Schema<RegisterProviderAtManagementGroupScopeRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<RegisterProviderAtManagementGroupScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -14224,8 +14388,8 @@ export const ResourceGroupsCreateOrUpdate: API.OperationMethod<
   ResourceGroupsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c234, 0) as any as S.Schema<ResourceGroupsCreateOrUpdateRequest>,
-  output: __S(1169, __c73, 1) as any as S.Schema<ResourceGroupsCreateOrUpdateResponse>,
+  input: __S(3808, __c238, 0) as any as S.Schema<ResourceGroupsCreateOrUpdateRequest>,
+  output: __S(1233, __c77, 1) as any as S.Schema<ResourceGroupsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14241,8 +14405,8 @@ export const ResourceLinksCreateOrUpdate: API.OperationMethod<
   ResourceLinksCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3761, __c235, 1) as any as S.Schema<ResourceLinksCreateOrUpdateRequest>,
-  output: __S(1201, __c75, 1) as any as S.Schema<ResourceLink>,
+  input: __S(3825, __c239, 1) as any as S.Schema<ResourceLinksCreateOrUpdateRequest>,
+  output: __S(1265, __c79, 1) as any as S.Schema<ResourceLink>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14258,8 +14422,8 @@ export const ResourcesCreateOrUpdate: API.OperationMethod<
   ResourcesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c236, 0) as any as S.Schema<ResourcesCreateOrUpdateRequest>,
-  output: __S(3792, __c237, 0) as any as S.Schema<ResourcesCreateOrUpdateResponse>,
+  input: __S(3840, __c240, 0) as any as S.Schema<ResourcesCreateOrUpdateRequest>,
+  output: __S(3856, __c241, 0) as any as S.Schema<ResourcesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14275,8 +14439,8 @@ export const ResourcesCreateOrUpdateById: API.OperationMethod<
   ResourcesCreateOrUpdateByIdError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c238, 0) as any as S.Schema<ResourcesCreateOrUpdateByIdRequest>,
-  output: __S(3792, __c237, 0) as any as S.Schema<ResourcesCreateOrUpdateByIdResponse>,
+  input: __S(3872, __c242, 0) as any as S.Schema<ResourcesCreateOrUpdateByIdRequest>,
+  output: __S(3856, __c241, 0) as any as S.Schema<ResourcesCreateOrUpdateByIdResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14292,8 +14456,8 @@ export const ResourcesValidateMoveResources: API.OperationMethod<
   ResourcesValidateMoveResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3824, __c239, 0) as any as S.Schema<ResourcesValidateMoveResourcesRequest>,
-  output: __S(3328, __c208, 0) as any as S.Schema<ResourcesValidateMoveResourcesResponse>,
+  input: __S(3888, __c243, 0) as any as S.Schema<ResourcesValidateMoveResourcesRequest>,
+  output: __S(3392, __c212, 0) as any as S.Schema<ResourcesValidateMoveResourcesResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14310,13 +14474,13 @@ export const SubscriptionFeatureRegistrationsCreateOrUpdate: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3841,
-    __c240,
+    3905,
+    __c244,
     1,
   ) as any as S.Schema<SubscriptionFeatureRegistrationsCreateOrUpdateRequest>,
   output: __S(
-    1298,
-    __c81,
+    1362,
+    __c85,
     2,
   ) as any as S.Schema<SubscriptionFeatureRegistrationsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
@@ -14337,8 +14501,8 @@ export const TagsCreateOrUpdate: API.OperationMethod<
   TagsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c242, 0) as any as S.Schema<TagsCreateOrUpdateRequest>,
-  output: __S(3073, __c192, 1) as any as S.Schema<TagDetails>,
+  input: __S(3936, __c246, 0) as any as S.Schema<TagsCreateOrUpdateRequest>,
+  output: __S(3137, __c196, 1) as any as S.Schema<TagDetails>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14354,8 +14518,8 @@ export const TagsCreateOrUpdateAtScope: API.OperationMethod<
   TagsCreateOrUpdateAtScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3888, __c243, 0) as any as S.Schema<TagsCreateOrUpdateAtScopeRequest>,
-  output: __S(3904, __c244, 0) as any as S.Schema<TagsCreateOrUpdateAtScopeResponse>,
+  input: __S(3952, __c247, 0) as any as S.Schema<TagsCreateOrUpdateAtScopeRequest>,
+  output: __S(3968, __c248, 0) as any as S.Schema<TagsCreateOrUpdateAtScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14377,8 +14541,8 @@ export const TagsCreateOrUpdateValue: API.OperationMethod<
   TagsCreateOrUpdateValueError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3920, __c245, 0) as any as S.Schema<TagsCreateOrUpdateValueRequest>,
-  output: __S(3089, __c193, 1) as any as S.Schema<TagValue>,
+  input: __S(3984, __c249, 0) as any as S.Schema<TagsCreateOrUpdateValueRequest>,
+  output: __S(3153, __c197, 1) as any as S.Schema<TagValue>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14394,8 +14558,8 @@ export const TemplateSpecsCreateOrUpdate: API.OperationMethod<
   TemplateSpecsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3937, __c246, 1) as any as S.Schema<TemplateSpecsCreateOrUpdateRequest>,
-  output: __S(1363, __c85, 3) as any as S.Schema<TemplateSpecsCreateOrUpdateResponse>,
+  input: __S(4001, __c250, 1) as any as S.Schema<TemplateSpecsCreateOrUpdateRequest>,
+  output: __S(1427, __c89, 3) as any as S.Schema<TemplateSpecsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14414,8 +14578,8 @@ export const TemplateSpecVersionsCreateOrUpdate: API.OperationMethod<
   TemplateSpecVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3952, __c247, 0) as any as S.Schema<TemplateSpecVersionsCreateOrUpdateRequest>,
-  output: __S(1427, __c89, 3) as any as S.Schema<TemplateSpecVersionsCreateOrUpdateResponse>,
+  input: __S(4016, __c251, 0) as any as S.Schema<TemplateSpecVersionsCreateOrUpdateRequest>,
+  output: __S(1491, __c93, 3) as any as S.Schema<TemplateSpecVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14434,8 +14598,8 @@ export const UnregisterFeature: API.OperationMethod<
   UnregisterFeatureError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c248, 0) as any as S.Schema<UnregisterFeatureRequest>,
-  output: __S(465, __c29, 1) as any as S.Schema<FeatureResult>,
+  input: __S(4032, __c252, 0) as any as S.Schema<UnregisterFeatureRequest>,
+  output: __S(529, __c33, 1) as any as S.Schema<FeatureResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14454,8 +14618,8 @@ export const UnregisterProvider: API.OperationMethod<
   UnregisterProviderError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3984, __c249, 0) as any as S.Schema<UnregisterProviderRequest>,
-  output: __S(5104, __c319, 0) as any as S.Schema<Provider>,
+  input: __S(4048, __c253, 0) as any as S.Schema<UnregisterProviderRequest>,
+  output: __S(5152, __c322, 0) as any as S.Schema<Provider>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14471,7 +14635,7 @@ export const UpdateApplication: API.OperationMethod<
   UpdateApplicationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c250, 0) as any as S.Schema<UpdateApplicationRequest>,
+  input: __S(4064, __c254, 0) as any as S.Schema<UpdateApplicationRequest>,
   output: __S(203, __c12, 11) as any as S.Schema<UpdateApplicationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -14491,7 +14655,7 @@ export const UpdateApplicationById: API.OperationMethod<
   UpdateApplicationByIdError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4016, __c251, 0) as any as S.Schema<UpdateApplicationByIdRequest>,
+  input: __S(4080, __c255, 0) as any as S.Schema<UpdateApplicationByIdRequest>,
   output: __S(203, __c12, 11) as any as S.Schema<UpdateApplicationByIdResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -14508,8 +14672,8 @@ export const UpdateDeploymentScript: API.OperationMethod<
   UpdateDeploymentScriptError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c252, 0) as any as S.Schema<UpdateDeploymentScriptRequest>,
-  output: __S(6240, __c390, 0) as any as S.Schema<UpdateDeploymentScriptResponse>,
+  input: __S(4096, __c256, 0) as any as S.Schema<UpdateDeploymentScriptRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<UpdateDeploymentScriptResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14528,8 +14692,8 @@ export const UpdateJitRequest: API.OperationMethod<
   UpdateJitRequestError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c254, 0) as any as S.Schema<UpdateJitRequestRequest>,
-  output: __S(498, __c31, 2) as any as S.Schema<UpdateJitRequestResponse>,
+  input: __S(4128, __c258, 0) as any as S.Schema<UpdateJitRequestRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<UpdateJitRequestResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14548,8 +14712,8 @@ export const UpdatePolicyAssignment: API.OperationMethod<
   UpdatePolicyAssignmentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4081, __c255, 1) as any as S.Schema<UpdatePolicyAssignmentRequest>,
-  output: __S(570, __c35, 10) as any as S.Schema<UpdatePolicyAssignmentResponse>,
+  input: __S(4145, __c259, 1) as any as S.Schema<UpdatePolicyAssignmentRequest>,
+  output: __S(634, __c39, 10) as any as S.Schema<UpdatePolicyAssignmentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14572,8 +14736,8 @@ export const UpdateResource: API.OperationMethod<
   UpdateResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c256, 0) as any as S.Schema<UpdateResourceRequest>,
-  output: __S(3792, __c237, 0) as any as S.Schema<UpdateResourceResponse>,
+  input: __S(4160, __c260, 0) as any as S.Schema<UpdateResourceRequest>,
+  output: __S(3856, __c241, 0) as any as S.Schema<UpdateResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14589,8 +14753,8 @@ export const UpdateResourceById: API.OperationMethod<
   UpdateResourceByIdError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4112, __c257, 0) as any as S.Schema<UpdateResourceByIdRequest>,
-  output: __S(3792, __c237, 0) as any as S.Schema<UpdateResourceByIdResponse>,
+  input: __S(4176, __c261, 0) as any as S.Schema<UpdateResourceByIdRequest>,
+  output: __S(3856, __c241, 0) as any as S.Schema<UpdateResourceByIdResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14606,8 +14770,8 @@ export const UpdateResourceGroup: API.OperationMethod<
   UpdateResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c258, 0) as any as S.Schema<UpdateResourceGroupRequest>,
-  output: __S(1169, __c73, 1) as any as S.Schema<UpdateResourceGroupResponse>,
+  input: __S(4192, __c262, 0) as any as S.Schema<UpdateResourceGroupRequest>,
+  output: __S(1233, __c77, 1) as any as S.Schema<UpdateResourceGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14623,8 +14787,8 @@ export const UpdateTagAtScope: API.OperationMethod<
   UpdateTagAtScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4144, __c259, 0) as any as S.Schema<UpdateTagAtScopeRequest>,
-  output: __S(3904, __c244, 0) as any as S.Schema<UpdateTagAtScopeResponse>,
+  input: __S(4208, __c263, 0) as any as S.Schema<UpdateTagAtScopeRequest>,
+  output: __S(3968, __c248, 0) as any as S.Schema<UpdateTagAtScopeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14646,8 +14810,8 @@ export const UpdateTemplateSpec: API.OperationMethod<
   UpdateTemplateSpecError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c260, 0) as any as S.Schema<UpdateTemplateSpecRequest>,
-  output: __S(1363, __c85, 3) as any as S.Schema<UpdateTemplateSpecResponse>,
+  input: __S(4224, __c264, 0) as any as S.Schema<UpdateTemplateSpecRequest>,
+  output: __S(1427, __c89, 3) as any as S.Schema<UpdateTemplateSpecResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14666,8 +14830,8 @@ export const UpdateTemplateSpecVersion: API.OperationMethod<
   UpdateTemplateSpecVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4176, __c261, 0) as any as S.Schema<UpdateTemplateSpecVersionRequest>,
-  output: __S(1427, __c89, 3) as any as S.Schema<UpdateTemplateSpecVersionResponse>,
+  input: __S(4240, __c265, 0) as any as S.Schema<UpdateTemplateSpecVersionRequest>,
+  output: __S(1491, __c93, 3) as any as S.Schema<UpdateTemplateSpecVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14686,8 +14850,8 @@ export const ValidateDeployment: API.OperationMethod<
   ValidateDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c262, 0) as any as S.Schema<ValidateDeploymentRequest>,
-  output: __S(4208, __c263, 0) as any as S.Schema<DeploymentValidateResult>,
+  input: __S(4256, __c266, 0) as any as S.Schema<ValidateDeploymentRequest>,
+  output: __S(4272, __c267, 0) as any as S.Schema<DeploymentValidateResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14706,8 +14870,8 @@ export const ValidateDeploymentAtManagementGroupScope: API.OperationMethod<
   ValidateDeploymentAtManagementGroupScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c264, 0) as any as S.Schema<ValidateDeploymentAtManagementGroupScopeRequest>,
-  output: __S(4208, __c263, 0) as any as S.Schema<DeploymentValidateResult>,
+  input: __S(4288, __c268, 0) as any as S.Schema<ValidateDeploymentAtManagementGroupScopeRequest>,
+  output: __S(4272, __c267, 0) as any as S.Schema<DeploymentValidateResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14726,8 +14890,8 @@ export const ValidateDeploymentAtScope: API.OperationMethod<
   ValidateDeploymentAtScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c266, 0) as any as S.Schema<ValidateDeploymentAtScopeRequest>,
-  output: __S(4208, __c263, 0) as any as S.Schema<DeploymentValidateResult>,
+  input: __S(4320, __c270, 0) as any as S.Schema<ValidateDeploymentAtScopeRequest>,
+  output: __S(4272, __c267, 0) as any as S.Schema<DeploymentValidateResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14750,8 +14914,8 @@ export const ValidateDeploymentAtSubscriptionScope: API.OperationMethod<
   ValidateDeploymentAtSubscriptionScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4272, __c267, 0) as any as S.Schema<ValidateDeploymentAtSubscriptionScopeRequest>,
-  output: __S(4208, __c263, 0) as any as S.Schema<DeploymentValidateResult>,
+  input: __S(4336, __c271, 0) as any as S.Schema<ValidateDeploymentAtSubscriptionScopeRequest>,
+  output: __S(4272, __c267, 0) as any as S.Schema<DeploymentValidateResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14770,8 +14934,8 @@ export const ValidateDeploymentAtTenantScope: API.OperationMethod<
   ValidateDeploymentAtTenantScopeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c268, 0) as any as S.Schema<ValidateDeploymentAtTenantScopeRequest>,
-  output: __S(4208, __c263, 0) as any as S.Schema<DeploymentValidateResult>,
+  input: __S(4352, __c272, 0) as any as S.Schema<ValidateDeploymentAtTenantScopeRequest>,
+  output: __S(4272, __c267, 0) as any as S.Schema<DeploymentValidateResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14791,11 +14955,11 @@ export const ValidateDeploymentStackStackAtManagementGroup: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4304,
-    __c269,
+    4368,
+    __c273,
     0,
   ) as any as S.Schema<ValidateDeploymentStackStackAtManagementGroupRequest>,
-  output: __S(4321, __c270, 1) as any as S.Schema<DeploymentStackValidateResult>,
+  output: __S(4385, __c274, 1) as any as S.Schema<DeploymentStackValidateResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14815,11 +14979,11 @@ export const ValidateDeploymentStackStackAtResourceGroup: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4336,
-    __c271,
+    4400,
+    __c275,
     0,
   ) as any as S.Schema<ValidateDeploymentStackStackAtResourceGroupRequest>,
-  output: __S(4321, __c270, 1) as any as S.Schema<DeploymentStackValidateResult>,
+  output: __S(4385, __c274, 1) as any as S.Schema<DeploymentStackValidateResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14838,8 +15002,8 @@ export const ValidateDeploymentStackStackAtSubscription: API.OperationMethod<
   ValidateDeploymentStackStackAtSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c272, 0) as any as S.Schema<ValidateDeploymentStackStackAtSubscriptionRequest>,
-  output: __S(4321, __c270, 1) as any as S.Schema<DeploymentStackValidateResult>,
+  input: __S(4416, __c276, 0) as any as S.Schema<ValidateDeploymentStackStackAtSubscriptionRequest>,
+  output: __S(4385, __c274, 1) as any as S.Schema<DeploymentStackValidateResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -14858,8 +15022,8 @@ export const ValidateResourceValidatorResources: API.OperationMethod<
   ValidateResourceValidatorResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4370, __c273, 2) as any as S.Schema<ValidateResourceValidatorResourcesRequest>,
-  output: __S(4372, __c273, 4) as any as S.Schema<ResourceValidationResponse>,
+  input: __S(4434, __c277, 2) as any as S.Schema<ValidateResourceValidatorResourcesRequest>,
+  output: __S(4436, __c277, 4) as any as S.Schema<ResourceValidationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -15214,14 +15378,66 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          scriptName: S.String.pipe(T.Label()),
+          primaryScriptUri: S.optional(S.String),
+          supportingScriptUris: S.optional(__S(80, __c5, 0)),
+          scriptContent: S.optional(S.String),
+          arguments: S.optional(S.String),
+          environmentVariables: S.optional(__S(305, __c19, 1)),
+          forceUpdateTag: S.optional(S.String),
+          retentionInterval: S.String,
+          timeout: S.optional(S.String),
+          containerSettings: S.optional(__S(308, __c19, 4)),
+          storageAccountSettings: S.optional(__S(309, __c19, 5)),
+          cleanupPreference: S.optional(S.String),
+          azCliVersion: S.String,
+        }),
+      ).annotate({ identifier: "AzureCliScriptPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           tags: S.optional(__S(16, __c1, 0)),
           location: S.String,
           kind: S.String,
           identity: S.optional(__S(112, __c7, 0)),
-          properties: S.optional(__S(265, __c16, 9)),
+          properties: __S(208, __c13, 0),
+        }),
+      ).annotate({ identifier: "AzureCliScriptInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          primaryScriptUri: S.optional(S.String),
+          supportingScriptUris: S.optional(__S(80, __c5, 0)),
+          scriptContent: S.optional(S.String),
+          arguments: S.optional(S.String),
+          environmentVariables: S.optional(__S(305, __c19, 1)),
+          forceUpdateTag: S.optional(S.String),
+          retentionInterval: S.String,
+          timeout: S.optional(S.String),
+          containerSettings: S.optional(__S(308, __c19, 4)),
+          storageAccountSettings: S.optional(__S(309, __c19, 5)),
+          cleanupPreference: S.optional(S.String),
+          azPowerShellVersion: S.String,
+        }),
+      ).annotate({ identifier: "AzurePowerShellScriptPropertiesInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          tags: S.optional(__S(16, __c1, 0)),
+          location: S.String,
+          kind: S.String,
+          identity: S.optional(__S(112, __c7, 0)),
+          properties: __S(210, __c13, 2),
+        }),
+      ).annotate({ identifier: "AzurePowerShellScriptInput" });
+    case 4:
+      return S.Union([__S(209, __c13, 1), __S(211, __c13, 3)]);
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          scriptName: S.String.pipe(T.Label()),
+          body: __S(212, __c13, 4).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -15231,22 +15447,6 @@ function __c13(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CreateDeploymentScriptRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(224, __c14, 0)),
-          tags: S.optional(__S(16, __c1, 0)),
-          location: S.String,
-          kind: S.String,
-          identity: S.optional(__S(266, __c16, 10)),
-          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
-          properties: S.optional(__S(265, __c16, 9)),
-        }),
-      ).annotate({ identifier: "CreateDeploymentScriptResponse" });
   }
 }
 function __c14(j: number): any {
@@ -15282,83 +15482,84 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String,
-          name: S.optional(S.String),
+          type: S.optional(S.String),
+          info: S.optional(S.Unknown),
         }),
-      ).annotate({ identifier: "DeploymentScriptContainerGroupSubnetId" });
+      ).annotate({ identifier: "ErrorAdditionalInfo" });
     case 1:
       return S.Array(__S(256, __c16, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          containerGroupName: S.optional(S.String),
-          subnetIds: S.optional(__S(257, __c16, 1)),
-        }),
-      ).annotate({ identifier: "DeploymentScriptContainerConfiguration" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          storageAccountName: S.optional(S.String),
-          storageAccountKey: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DeploymentScriptStorageAccountConfiguration" });
-    case 4:
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(289, __c18, 1)));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
           target: S.optional(S.String),
+          details: S.optional(__S(288, __c18, 0)),
+          additionalInfo: S.optional(__S(257, __c16, 1)),
         }),
-      ).annotate({ identifier: "DeploymentScriptErrorDetail" });
-    case 5:
+      ).annotate({ identifier: "ErrorDetail" });
+    case 2:
+      return S.Array(__S(289, __c18, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(260, __c16, 4)),
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+          target: S.optional(S.String),
+          details: S.optional(__S(290, __c18, 2)),
+          additionalInfo: S.optional(__S(257, __c16, 1)),
         }),
-      ).annotate({ identifier: "DeploymentScriptErrorResponse" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          containerInstanceId: S.optional(S.String),
-          storageAccountId: S.optional(S.String),
-          startTime: S.optional(S.String),
-          endTime: S.optional(S.String),
-          expirationTime: S.optional(S.String),
-          error: S.optional(__S(261, __c16, 5)),
-        }),
-      ).annotate({ identifier: "DeploymentScriptStatus" });
-    case 7:
+      ).annotate({ identifier: "ScriptStatusError" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           value: S.optional(S.String),
           secureValue: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DeploymentScriptEnvironmentVariable" });
-    case 8:
-      return S.Array(__S(263, __c16, 7));
-    case 9:
+      ).annotate({ identifier: "EnvironmentVariable" });
+    case 1:
+      return S.Array(__S(304, __c19, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          containerSettings: S.optional(__S(258, __c16, 2)),
-          storageAccountSettings: S.optional(__S(259, __c16, 3)),
-          cleanupPreference: S.optional(S.String),
-          provisioningState: S.optional(S.String),
-          status: S.optional(__S(262, __c16, 6)),
-          outputs: S.optional(S.Unknown),
-          primaryScriptUri: S.optional(S.String),
-          supportingScriptUris: S.optional(__S(80, __c5, 0)),
-          scriptContent: S.optional(S.String),
-          arguments: S.optional(S.String),
-          environmentVariables: S.optional(__S(264, __c16, 8)),
-          forceUpdateTag: S.optional(S.String),
-          retentionInterval: S.optional(S.String),
-          timeout: S.optional(S.String),
-          azCliVersion: S.optional(S.String),
-          azPowerShellVersion: S.optional(S.String),
+          id: S.String,
+          name: S.optional(S.String),
         }),
-      ).annotate({ identifier: "DeploymentScriptProperties" });
-    case 10:
+      ).annotate({ identifier: "ContainerGroupSubnetId" });
+    case 3:
+      return S.Array(__S(306, __c19, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          containerGroupName: S.optional(S.String),
+          subnetIds: S.optional(__S(307, __c19, 3)),
+        }),
+      ).annotate({ identifier: "ContainerConfiguration" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          storageAccountName: S.optional(S.String),
+          storageAccountKey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StorageAccountConfiguration" });
+    case 6:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
@@ -15366,9 +15567,98 @@ function __c16(j: number): any {
           userAssignedIdentities: S.optional(__S(241, __c15, 1)),
         }),
       ).annotate({ identifier: "ManagedServiceIdentity" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          containerInstanceId: S.optional(S.String),
+          storageAccountId: S.optional(S.String),
+          startTime: S.optional(S.String),
+          endTime: S.optional(S.String),
+          expirationTime: S.optional(S.String),
+          error: S.optional(__S(291, __c18, 3)),
+        }),
+      ).annotate({ identifier: "ScriptStatus" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          primaryScriptUri: S.optional(S.String),
+          supportingScriptUris: S.optional(__S(80, __c5, 0)),
+          scriptContent: S.optional(S.String),
+          arguments: S.optional(S.String),
+          environmentVariables: S.optional(__S(305, __c19, 1)),
+          forceUpdateTag: S.optional(S.String),
+          retentionInterval: S.String,
+          timeout: S.optional(S.String),
+          containerSettings: S.optional(__S(308, __c19, 4)),
+          storageAccountSettings: S.optional(__S(309, __c19, 5)),
+          cleanupPreference: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          status: S.optional(__S(311, __c19, 7)),
+          outputs: S.optional(__S(272, __c17, 0)),
+          azCliVersion: S.String,
+        }),
+      ).annotate({ identifier: "AzureCliScriptProperties" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(224, __c14, 0)),
+          tags: S.optional(__S(16, __c1, 0)),
+          location: S.String,
+          kind: S.String,
+          identity: S.optional(__S(310, __c19, 6)),
+          properties: __S(312, __c19, 8),
+        }),
+      ).annotate({ identifier: "AzureCliScript" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          primaryScriptUri: S.optional(S.String),
+          supportingScriptUris: S.optional(__S(80, __c5, 0)),
+          scriptContent: S.optional(S.String),
+          arguments: S.optional(S.String),
+          environmentVariables: S.optional(__S(305, __c19, 1)),
+          forceUpdateTag: S.optional(S.String),
+          retentionInterval: S.String,
+          timeout: S.optional(S.String),
+          containerSettings: S.optional(__S(308, __c19, 4)),
+          storageAccountSettings: S.optional(__S(309, __c19, 5)),
+          cleanupPreference: S.optional(S.String),
+          provisioningState: S.optional(S.String),
+          status: S.optional(__S(311, __c19, 7)),
+          outputs: S.optional(__S(272, __c17, 0)),
+          azPowerShellVersion: S.String,
+        }),
+      ).annotate({ identifier: "AzurePowerShellScriptProperties" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(224, __c14, 0)),
+          tags: S.optional(__S(16, __c1, 0)),
+          location: S.String,
+          kind: S.String,
+          identity: S.optional(__S(310, __c19, 6)),
+          properties: __S(314, __c19, 10),
+        }),
+      ).annotate({ identifier: "AzurePowerShellScript" });
+    case 12:
+      return S.Union([__S(313, __c19, 9), __S(315, __c19, 11)]);
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => __S(316, __c19, 12).pipe(T.RawResponseRoot())).annotate({
+        identifier: "CreateDeploymentScriptResponse",
+      });
+  }
+}
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15386,16 +15676,16 @@ function __c17(j: number): any {
         ),
       ).annotate({ identifier: "GetDeploymentScriptLogsRequest" });
     case 1:
-      return S.Array(__S(289, __c18, 1));
+      return S.Array(__S(353, __c22, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(273, __c17, 1)),
+          value: S.optional(__S(337, __c21, 1)),
         }),
       ).annotate({ identifier: "ScriptLogsList" });
   }
 }
-function __c18(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15410,12 +15700,12 @@ function __c18(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
-          properties: S.optional(__S(288, __c18, 0)),
+          properties: S.optional(__S(352, __c22, 0)),
         }),
       ).annotate({ identifier: "ScriptLog" });
   }
 }
-function __c19(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15435,7 +15725,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetDeploymentScriptLogsDefaultRequest" });
   }
 }
-function __c20(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15453,7 +15743,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetDeploymentStackAtManagementGroupRequest" });
   }
 }
-function __c21(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15462,14 +15752,14 @@ function __c21(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
-          properties: S.optional(__S(5284, __c330, 4)),
+          properties: S.optional(__S(5332, __c333, 4)),
           location: S.optional(S.String),
           tags: S.optional(__S(16, __c1, 0)),
         }),
       ).annotate({ identifier: "GetDeploymentStackAtManagementGroupResponse" });
   }
 }
-function __c22(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15488,7 +15778,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetDeploymentStackAtResourceGroupRequest" });
   }
 }
-function __c23(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15506,7 +15796,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetDeploymentStackAtSubscriptionRequest" });
   }
 }
-function __c24(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15524,7 +15814,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetDeploymentStacksWhatIfResultsAtManagementGroupRequest" });
   }
 }
-function __c25(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15533,14 +15823,14 @@ function __c25(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
-          properties: S.optional(__S(5450, __c340, 10)),
+          properties: S.optional(__S(5482, __c342, 10)),
           location: S.optional(S.String),
           tags: S.optional(__S(16, __c1, 0)),
         }),
       ).annotate({ identifier: "GetDeploymentStacksWhatIfResultsAtManagementGroupResponse" });
   }
 }
-function __c26(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15559,7 +15849,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetDeploymentStacksWhatIfResultsAtResourceGroupRequest" });
   }
 }
-function __c27(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15577,7 +15867,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetDeploymentStacksWhatIfResultsAtSubscriptionRequest" });
   }
 }
-function __c28(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15596,7 +15886,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetFeatureRequest" });
   }
 }
-function __c29(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15608,14 +15898,14 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          properties: S.optional(__S(464, __c29, 0)),
+          properties: S.optional(__S(528, __c33, 0)),
           id: S.optional(S.String),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "FeatureResult" });
   }
 }
-function __c30(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15634,7 +15924,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetJitRequestRequest" });
   }
 }
-function __c31(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15650,7 +15940,7 @@ function __c31(j: number): any {
           applicationResourceId: S.String,
           publisherTenantId: S.optional(S.String),
           jitAuthorizationPolicies: __S(33, __c2, 1),
-          jitSchedulingPolicy: __S(496, __c31, 0),
+          jitSchedulingPolicy: __S(560, __c35, 0),
           provisioningState: S.optional(S.String),
           jitRequestState: S.optional(S.String),
           createdBy: S.optional(__S(176, __c11, 0)),
@@ -15665,12 +15955,12 @@ function __c31(j: number): any {
           type: S.optional(S.String),
           location: S.optional(S.String),
           tags: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(497, __c31, 1)),
+          properties: S.optional(__S(561, __c35, 1)),
         }),
       ).annotate({ identifier: "GetJitRequestResponse" });
   }
 }
-function __c32(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15679,15 +15969,15 @@ function __c32(j: number): any {
           policyDefinitionId: S.optional(S.String),
           definitionVersion: S.optional(S.String),
           notScopes: S.optional(__S(80, __c5, 0)),
-          parameters: S.optional(__S(529, __c33, 1)),
+          parameters: S.optional(__S(593, __c37, 1)),
           description: S.optional(S.String),
           metadata: S.optional(S.Unknown),
           enforcementMode: S.optional(S.String),
-          nonComplianceMessages: S.optional(__S(561, __c35, 1)),
-          resourceSelectors: S.optional(__S(565, __c35, 5)),
-          overrides: S.optional(__S(567, __c35, 7)),
+          nonComplianceMessages: S.optional(__S(625, __c39, 1)),
+          resourceSelectors: S.optional(__S(629, __c39, 5)),
+          overrides: S.optional(__S(631, __c39, 7)),
           assignmentType: S.optional(S.String),
-          selfServeExemptionSettings: S.optional(__S(568, __c35, 8)),
+          selfServeExemptionSettings: S.optional(__S(632, __c39, 8)),
         }),
       ).annotate({ identifier: "PolicyAssignmentPropertiesInput" });
     case 1:
@@ -15695,7 +15985,7 @@ function __c32(j: number): any {
         S.Struct({
           scope: S.String.pipe(T.Label()),
           policyAssignmentName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(512, __c32, 0)),
+          properties: S.optional(__S(576, __c36, 0)),
           location: S.optional(S.String),
           identity: S.optional(__S(112, __c7, 0)),
         }).pipe(
@@ -15709,7 +15999,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "CreatePolicyAssignmentRequest" });
   }
 }
-function __c33(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15718,10 +16008,10 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "ParameterValuesValue" });
     case 1:
-      return S.Record(S.String, __S(528, __c33, 0));
+      return S.Record(S.String, __S(592, __c37, 0));
   }
 }
-function __c34(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15734,7 +16024,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "Identity" });
   }
 }
-function __c35(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15744,7 +16034,7 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "NonComplianceMessage" });
     case 1:
-      return S.Array(__S(560, __c35, 0));
+      return S.Array(__S(624, __c39, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15755,26 +16045,26 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "Selector" });
     case 3:
-      return S.Array(__S(562, __c35, 2));
+      return S.Array(__S(626, __c39, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          selectors: S.optional(__S(563, __c35, 3)),
+          selectors: S.optional(__S(627, __c39, 3)),
         }),
       ).annotate({ identifier: "ResourceSelector" });
     case 5:
-      return S.Array(__S(564, __c35, 4));
+      return S.Array(__S(628, __c39, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           kind: S.optional(S.String),
           value: S.optional(S.String),
-          selectors: S.optional(__S(563, __c35, 3)),
+          selectors: S.optional(__S(627, __c39, 3)),
         }),
       ).annotate({ identifier: "Override" });
     case 7:
-      return S.Array(__S(566, __c35, 6));
+      return S.Array(__S(630, __c39, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -15792,16 +16082,16 @@ function __c35(j: number): any {
           effectiveDefinitionVersion: S.optional(S.String),
           scope: S.optional(S.String),
           notScopes: S.optional(__S(80, __c5, 0)),
-          parameters: S.optional(__S(529, __c33, 1)),
+          parameters: S.optional(__S(593, __c37, 1)),
           description: S.optional(S.String),
           metadata: S.optional(S.Unknown),
           enforcementMode: S.optional(S.String),
-          nonComplianceMessages: S.optional(__S(561, __c35, 1)),
-          resourceSelectors: S.optional(__S(565, __c35, 5)),
-          overrides: S.optional(__S(567, __c35, 7)),
+          nonComplianceMessages: S.optional(__S(625, __c39, 1)),
+          resourceSelectors: S.optional(__S(629, __c39, 5)),
+          overrides: S.optional(__S(631, __c39, 7)),
           assignmentType: S.optional(S.String),
           instanceId: S.optional(S.String),
-          selfServeExemptionSettings: S.optional(__S(568, __c35, 8)),
+          selfServeExemptionSettings: S.optional(__S(632, __c39, 8)),
         }),
       ).annotate({ identifier: "PolicyAssignmentProperties" });
     case 10:
@@ -15811,14 +16101,14 @@ function __c35(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
-          properties: S.optional(__S(569, __c35, 9)),
+          properties: S.optional(__S(633, __c39, 9)),
           location: S.optional(S.String),
-          identity: S.optional(__S(544, __c34, 0)),
+          identity: S.optional(__S(608, __c38, 0)),
         }),
       ).annotate({ identifier: "CreatePolicyAssignmentResponse" });
   }
 }
-function __c36(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15837,7 +16127,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetManagementLockAtResourceGroupLevelRequest" });
   }
 }
-function __c37(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15846,19 +16136,19 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "ManagementLockOwner" });
     case 1:
-      return S.Array(__S(592, __c37, 0));
+      return S.Array(__S(656, __c41, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           level: S.String,
           notes: S.optional(S.String),
-          owners: S.optional(__S(593, __c37, 1)),
+          owners: S.optional(__S(657, __c41, 1)),
         }),
       ).annotate({ identifier: "ManagementLockProperties" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(594, __c37, 2),
+          properties: __S(658, __c41, 2),
           id: S.optional(S.String),
           type: S.optional(S.String),
           name: S.optional(S.String),
@@ -15867,7 +16157,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "ManagementLockObject" });
   }
 }
-function __c38(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15890,7 +16180,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "GetManagementLockAtResourceLevelRequest" });
   }
 }
-function __c39(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15908,7 +16198,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GetManagementLockAtSubscriptionLevelRequest" });
   }
 }
-function __c40(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15926,7 +16216,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetManagementLockByScopeRequest" });
   }
 }
-function __c41(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15945,7 +16235,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "GetPolicyAssignmentRequest" });
   }
 }
-function __c42(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15963,7 +16253,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetPolicyDefinitionRequest" });
   }
 }
-function __c43(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -15983,17 +16273,17 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          allowedValues: S.optional(__S(688, __c43, 0)),
+          allowedValues: S.optional(__S(752, __c47, 0)),
           defaultValue: S.optional(S.Unknown),
           schema: S.optional(S.Unknown),
-          metadata: S.optional(__S(689, __c43, 1)),
+          metadata: S.optional(__S(753, __c47, 1)),
         }),
       ).annotate({ identifier: "ParameterDefinitionsValue" });
     case 3:
-      return S.Record(S.String, __S(690, __c43, 2));
+      return S.Record(S.String, __S(754, __c47, 2));
   }
 }
-function __c44(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16007,13 +16297,13 @@ function __c44(j: number): any {
         S.Struct({
           missingTokenAction: S.optional(S.String),
           resultLifespan: S.optional(S.String),
-          endpointSettings: S.optional(__S(704, __c44, 0)),
+          endpointSettings: S.optional(__S(768, __c48, 0)),
           roleDefinitionIds: S.optional(__S(80, __c5, 0)),
         }),
       ).annotate({ identifier: "ExternalEvaluationEnforcementSettings" });
   }
 }
-function __c45(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16024,10 +16314,10 @@ function __c45(j: number): any {
           description: S.optional(S.String),
           policyRule: S.optional(S.Unknown),
           metadata: S.optional(S.Unknown),
-          parameters: S.optional(__S(691, __c43, 3)),
+          parameters: S.optional(__S(755, __c47, 3)),
           version: S.optional(S.String),
           versions: S.optional(__S(80, __c5, 0)),
-          externalEvaluationEnforcementSettings: S.optional(__S(705, __c44, 1)),
+          externalEvaluationEnforcementSettings: S.optional(__S(769, __c48, 1)),
         }),
       ).annotate({ identifier: "PolicyDefinitionProperties" });
     case 1:
@@ -16037,12 +16327,12 @@ function __c45(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
-          properties: S.optional(__S(720, __c45, 0)),
+          properties: S.optional(__S(784, __c49, 0)),
         }),
       ).annotate({ identifier: "GetPolicyDefinitionResponse" });
   }
 }
-function __c46(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16060,7 +16350,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetPolicyDefinitionAtManagementGroupRequest" });
   }
 }
-function __c47(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16077,7 +16367,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetPolicyDefinitionBuiltInRequest" });
   }
 }
-function __c48(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16096,7 +16386,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "GetPolicyDefinitionVersionRequest" });
   }
 }
-function __c49(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16107,9 +16397,9 @@ function __c49(j: number): any {
           description: S.optional(S.String),
           policyRule: S.optional(S.Unknown),
           metadata: S.optional(S.Unknown),
-          parameters: S.optional(__S(691, __c43, 3)),
+          parameters: S.optional(__S(755, __c47, 3)),
           version: S.optional(S.String),
-          externalEvaluationEnforcementSettings: S.optional(__S(705, __c44, 1)),
+          externalEvaluationEnforcementSettings: S.optional(__S(769, __c48, 1)),
         }),
       ).annotate({ identifier: "PolicyDefinitionVersionProperties" });
     case 1:
@@ -16119,12 +16409,12 @@ function __c49(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
-          properties: S.optional(__S(784, __c49, 0)),
+          properties: S.optional(__S(848, __c53, 0)),
         }),
       ).annotate({ identifier: "GetPolicyDefinitionVersionResponse" });
   }
 }
-function __c50(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16143,7 +16433,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetPolicyDefinitionVersionAtManagementGroupRequest" });
   }
 }
-function __c51(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16167,17 +16457,17 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "FileDefinition" });
     case 2:
-      return S.Array(__S(817, __c51, 1));
+      return S.Array(__S(881, __c55, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          files: __S(818, __c51, 2),
+          files: __S(882, __c55, 2),
           entryPoint: S.String,
         }),
       ).annotate({ identifier: "DecompileOperationSuccessResponse" });
   }
 }
-function __c52(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16195,7 +16485,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "GetPolicyDefinitionVersionBuiltInRequest" });
   }
 }
-function __c53(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16214,7 +16504,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetPolicySetDefinitionRequest" });
   }
 }
-function __c54(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16223,13 +16513,13 @@ function __c54(j: number): any {
           definitionVersion: S.optional(S.String),
           latestDefinitionVersion: S.optional(S.String),
           effectiveDefinitionVersion: S.optional(S.String),
-          parameters: S.optional(__S(529, __c33, 1)),
+          parameters: S.optional(__S(593, __c37, 1)),
           policyDefinitionReferenceId: S.optional(S.String),
           groupNames: S.optional(__S(80, __c5, 0)),
         }),
       ).annotate({ identifier: "PolicyDefinitionReference" });
     case 1:
-      return S.Array(__S(864, __c54, 0));
+      return S.Array(__S(928, __c58, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16241,10 +16531,10 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "PolicyDefinitionGroup" });
     case 3:
-      return S.Array(__S(866, __c54, 2));
+      return S.Array(__S(930, __c58, 2));
   }
 }
-function __c55(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16253,9 +16543,9 @@ function __c55(j: number): any {
           displayName: S.optional(S.String),
           description: S.optional(S.String),
           metadata: S.optional(S.Unknown),
-          parameters: S.optional(__S(691, __c43, 3)),
-          policyDefinitions: __S(865, __c54, 1),
-          policyDefinitionGroups: S.optional(__S(867, __c54, 3)),
+          parameters: S.optional(__S(755, __c47, 3)),
+          policyDefinitions: __S(929, __c58, 1),
+          policyDefinitionGroups: S.optional(__S(931, __c58, 3)),
           version: S.optional(S.String),
           versions: S.optional(__S(80, __c5, 0)),
         }),
@@ -16267,12 +16557,12 @@ function __c55(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
-          properties: S.optional(__S(880, __c55, 0)),
+          properties: S.optional(__S(944, __c59, 0)),
         }),
       ).annotate({ identifier: "GetPolicySetDefinitionResponse" });
   }
 }
-function __c56(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16291,7 +16581,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GetPolicySetDefinitionAtManagementGroupRequest" });
   }
 }
-function __c57(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16309,7 +16599,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "GetPolicySetDefinitionBuiltInRequest" });
   }
 }
-function __c58(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16329,7 +16619,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GetPolicySetDefinitionVersionRequest" });
   }
 }
-function __c59(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16338,9 +16628,9 @@ function __c59(j: number): any {
           displayName: S.optional(S.String),
           description: S.optional(S.String),
           metadata: S.optional(S.Unknown),
-          parameters: S.optional(__S(691, __c43, 3)),
-          policyDefinitions: __S(865, __c54, 1),
-          policyDefinitionGroups: S.optional(__S(867, __c54, 3)),
+          parameters: S.optional(__S(755, __c47, 3)),
+          policyDefinitions: __S(929, __c58, 1),
+          policyDefinitionGroups: S.optional(__S(931, __c58, 3)),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "PolicySetDefinitionVersionProperties" });
@@ -16351,12 +16641,12 @@ function __c59(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
-          properties: S.optional(__S(944, __c59, 0)),
+          properties: S.optional(__S(1008, __c63, 0)),
         }),
       ).annotate({ identifier: "GetPolicySetDefinitionVersionResponse" });
   }
 }
-function __c60(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16376,7 +16666,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "GetPolicySetDefinitionVersionAtManagementGroupRequest" });
   }
 }
-function __c61(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16395,7 +16685,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "GetPolicySetDefinitionVersionBuiltInRequest" });
   }
 }
-function __c62(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16413,7 +16703,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "GetPrivateLinkAssociationRequest" });
   }
 }
-function __c63(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16427,7 +16717,7 @@ function __c63(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(1008, __c63, 0)),
+          properties: S.optional(__S(1072, __c67, 0)),
           id: S.optional(S.String),
           type: S.optional(S.String),
           name: S.optional(S.String),
@@ -16435,7 +16725,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "PrivateLinkAssociation" });
   }
 }
-function __c64(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16454,7 +16744,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetProviderRequest" });
   }
 }
-function __c65(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16472,7 +16762,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "GetProviderAtTenantScopeRequest" });
   }
 }
-function __c66(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16491,7 +16781,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "DeleteApplicationRequest" });
   }
 }
-function __c67(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16513,7 +16803,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "GetResourceRequest" });
   }
 }
-function __c68(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16523,19 +16813,19 @@ function __c68(j: number): any {
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
           properties: S.optional(S.Unknown),
-          plan: S.optional(__S(1104, __c69, 0)),
+          plan: S.optional(__S(1168, __c73, 0)),
           kind: S.optional(S.String),
           managedBy: S.optional(S.String),
-          sku: S.optional(__S(1120, __c70, 0)),
-          identity: S.optional(__S(544, __c34, 0)),
+          sku: S.optional(__S(1184, __c74, 0)),
+          identity: S.optional(__S(608, __c38, 0)),
           location: S.optional(S.String),
-          extendedLocation: S.optional(__S(1121, __c70, 1)),
+          extendedLocation: S.optional(__S(1185, __c74, 1)),
           tags: S.optional(__S(16, __c1, 0)),
         }),
       ).annotate({ identifier: "GetResourceResponse" });
   }
 }
-function __c69(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16549,7 +16839,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "Plan" });
   }
 }
-function __c70(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16571,7 +16861,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "ExtendedLocation" });
   }
 }
-function __c71(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16583,7 +16873,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "GetResourceByIdRequest" });
   }
 }
-function __c72(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16601,7 +16891,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "GetResourceGroupRequest" });
   }
 }
-function __c73(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16618,13 +16908,13 @@ function __c73(j: number): any {
           systemData: S.optional(__S(224, __c14, 0)),
           tags: S.optional(__S(16, __c1, 0)),
           location: S.String,
-          properties: S.optional(__S(1168, __c73, 0)),
+          properties: S.optional(__S(1232, __c77, 0)),
           managedBy: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetResourceGroupResponse" });
   }
 }
-function __c74(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16634,7 +16924,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "GetResourceLinkRequest" });
   }
 }
-function __c75(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16650,12 +16940,12 @@ function __c75(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.Unknown),
-          properties: S.optional(__S(1200, __c75, 0)),
+          properties: S.optional(__S(1264, __c79, 0)),
         }),
       ).annotate({ identifier: "ResourceLink" });
   }
 }
-function __c76(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16674,7 +16964,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "GetResourceManagementPrivateLinkRequest" });
   }
 }
-function __c77(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16685,7 +16975,7 @@ function __c77(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(1232, __c77, 0)),
+          properties: S.optional(__S(1296, __c81, 0)),
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
@@ -16694,7 +16984,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "ResourceManagementPrivateLink" });
   }
 }
-function __c78(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16711,7 +17001,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "GetSubscriptionRequest" });
   }
 }
-function __c79(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16728,7 +17018,7 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "ManagedByTenant" });
     case 2:
-      return S.Array(__S(1265, __c79, 1));
+      return S.Array(__S(1329, __c83, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -16737,15 +17027,15 @@ function __c79(j: number): any {
           displayName: S.optional(S.String),
           tenantId: S.optional(S.String),
           state: S.optional(S.String),
-          subscriptionPolicies: S.optional(__S(1264, __c79, 0)),
+          subscriptionPolicies: S.optional(__S(1328, __c83, 0)),
           authorizationSource: S.optional(S.String),
-          managedByTenants: S.optional(__S(1266, __c79, 2)),
+          managedByTenants: S.optional(__S(1330, __c83, 2)),
           tags: S.optional(__S(16, __c1, 0)),
         }),
       ).annotate({ identifier: "Subscription" });
   }
 }
-function __c80(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16764,7 +17054,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "GetSubscriptionFeatureRegistrationRequest" });
   }
 }
-function __c81(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16785,7 +17075,7 @@ function __c81(j: number): any {
           displayName: S.optional(S.String),
           providerNamespace: S.optional(S.String),
           state: S.optional(S.String),
-          authorizationProfile: S.optional(__S(1296, __c81, 0)),
+          authorizationProfile: S.optional(__S(1360, __c85, 0)),
           metadata: S.optional(__S(16, __c1, 0)),
           releaseDate: S.optional(S.String),
           registrationDate: S.optional(S.String),
@@ -16801,12 +17091,12 @@ function __c81(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(1297, __c81, 1)),
+          properties: S.optional(__S(1361, __c85, 1)),
         }),
       ).annotate({ identifier: "GetSubscriptionFeatureRegistrationResponse" });
   }
 }
-function __c82(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16828,12 +17118,12 @@ function __c82(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
-          properties: __S(1328, __c83, 0),
+          properties: __S(1392, __c87, 0),
         }),
       ).annotate({ identifier: "GetTagAtScopeResponse" });
   }
 }
-function __c83(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16843,7 +17133,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "Tags" });
   }
 }
-function __c84(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16863,7 +17153,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "GetTemplateSpecRequest" });
   }
 }
-function __c85(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16874,14 +17164,14 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "TemplateSpecVersionInfo" });
     case 1:
-      return S.Record(S.String, __S(1360, __c85, 0));
+      return S.Record(S.String, __S(1424, __c89, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           displayName: S.optional(S.String),
           metadata: S.optional(S.Unknown),
-          versions: S.optional(__S(1361, __c85, 1)),
+          versions: S.optional(__S(1425, __c89, 1)),
         }),
       ).annotate({ identifier: "TemplateSpecProperties" });
     case 3:
@@ -16892,13 +17182,13 @@ function __c85(j: number): any {
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
           location: S.String,
-          properties: S.optional(__S(1362, __c85, 2)),
+          properties: S.optional(__S(1426, __c89, 2)),
           tags: S.optional(__S(16, __c1, 0)),
         }),
       ).annotate({ identifier: "GetTemplateSpecResponse" });
   }
 }
-function __c86(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16916,7 +17206,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "GetTemplateSpecBuiltInRequest" });
   }
 }
-function __c87(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16933,7 +17223,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "DeleteApplicationByIdRequest" });
   }
 }
-function __c88(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16953,7 +17243,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "GetTemplateSpecVersionRequest" });
   }
 }
-function __c89(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16963,12 +17253,12 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "LinkedTemplateArtifact" });
     case 1:
-      return S.Array(__S(1424, __c89, 0));
+      return S.Array(__S(1488, __c93, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          linkedTemplates: S.optional(__S(1425, __c89, 1)),
+          linkedTemplates: S.optional(__S(1489, __c93, 1)),
           metadata: S.optional(S.Unknown),
           mainTemplate: S.optional(S.Unknown),
           uiFormDefinition: S.optional(S.Unknown),
@@ -16982,13 +17272,13 @@ function __c89(j: number): any {
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
           location: S.String,
-          properties: __S(1426, __c89, 2),
+          properties: __S(1490, __c93, 2),
           tags: S.optional(__S(16, __c1, 0)),
         }),
       ).annotate({ identifier: "GetTemplateSpecVersionResponse" });
   }
 }
-function __c90(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17006,7 +17296,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "GetTemplateSpecVersionBuiltInRequest" });
   }
 }
-function __c91(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17020,7 +17310,7 @@ function __c91(j: number): any {
         S.Struct({
           applicationResourceId: S.String,
           jitAuthorizationPolicies: __S(33, __c2, 1),
-          jitSchedulingPolicy: __S(1456, __c91, 0),
+          jitSchedulingPolicy: __S(1520, __c95, 0),
         }),
       ).annotate({ identifier: "JitRequestPropertiesInput" });
     case 2:
@@ -17031,7 +17321,7 @@ function __c91(j: number): any {
           jitRequestName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
           tags: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1457, __c91, 1)),
+          properties: S.optional(__S(1521, __c95, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -17043,7 +17333,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "JitRequestsCreateOrUpdateRequest" });
   }
 }
-function __c92(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17061,20 +17351,20 @@ function __c92(j: number): any {
       ).annotate({ identifier: "ListApplicationByResourceGroupRequest" });
   }
 }
-function __c93(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(203, __c12, 11));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1488, __c93, 0)),
+          value: S.optional(__S(1552, __c97, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApplicationListResult" });
   }
 }
-function __c94(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17091,7 +17381,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "ListApplicationBySubscriptionRequest" });
   }
 }
-function __c95(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17112,13 +17402,13 @@ function __c95(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1521, __c95, 1)),
+          value: S.optional(__S(1585, __c99, 1)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApplicationDefinitionListResult" });
   }
 }
-function __c96(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17133,7 +17423,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "ListAuthorizationOperationsRequest" });
   }
 }
-function __c97(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17147,21 +17437,21 @@ function __c97(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          display: S.optional(__S(1552, __c97, 0)),
+          display: S.optional(__S(1616, __c101, 0)),
         }),
       ).annotate({ identifier: "Operation" });
     case 2:
-      return S.Array(__S(1553, __c97, 1));
+      return S.Array(__S(1617, __c101, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1554, __c97, 2)),
+          value: S.optional(__S(1618, __c101, 2)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
   }
 }
-function __c98(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17183,17 +17473,17 @@ function __c98(j: number): any {
         ),
       ).annotate({ identifier: "ListChangesRequest" });
     case 1:
-      return S.Array(__S(5924, __c370, 4));
+      return S.Array(__S(5956, __c372, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(1569, __c98, 1)),
+          value: S.optional(__S(1633, __c102, 1)),
         }),
       ).annotate({ identifier: "ChangeResourceListResult" });
   }
 }
-function __c99(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17209,17 +17499,17 @@ function __c99(j: number): any {
         ),
       ).annotate({ identifier: "ListDataPolicyManifestsRequest" });
     case 1:
-      return S.Array(__S(6008, __c375, 8));
+      return S.Array(__S(6040, __c377, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1585, __c99, 1),
+          value: __S(1649, __c103, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataPolicyManifestListResult" });
   }
 }
-function __c100(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17238,20 +17528,20 @@ function __c100(j: number): any {
       ).annotate({ identifier: "ListDeploymentAtManagementGroupScopeRequest" });
   }
 }
-function __c101(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6032, __c377, 0));
+      return S.Array(__S(6064, __c379, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1616, __c101, 0),
+          value: __S(1680, __c105, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeploymentListResult" });
   }
 }
-function __c102(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17270,7 +17560,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "DeleteApplicationDefinitionRequest" });
   }
 }
-function __c103(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17289,7 +17579,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "ListDeploymentAtScopeRequest" });
   }
 }
-function __c104(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17308,7 +17598,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "ListDeploymentAtSubscriptionScopeRequest" });
   }
 }
-function __c105(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17326,7 +17616,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "ListDeploymentAtTenantScopeRequest" });
   }
 }
-function __c106(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17346,7 +17636,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "ListDeploymentByResourceGroupRequest" });
   }
 }
-function __c107(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17365,20 +17655,20 @@ function __c107(j: number): any {
       ).annotate({ identifier: "ListDeploymentOperationAtManagementGroupScopeRequest" });
   }
 }
-function __c108(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6148, __c384, 4));
+      return S.Array(__S(6180, __c386, 4));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1728, __c108, 0),
+          value: __S(1792, __c112, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeploymentOperationsListResult" });
   }
 }
-function __c109(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17397,7 +17687,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "ListDeploymentOperationAtScopeRequest" });
   }
 }
-function __c110(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17416,7 +17706,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "ListDeploymentOperationAtSubscriptionScopeRequest" });
   }
 }
-function __c111(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17434,7 +17724,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "ListDeploymentOperationAtTenantScopeRequest" });
   }
 }
-function __c112(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17454,7 +17744,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "ListDeploymentOperationsRequest" });
   }
 }
-function __c113(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17472,20 +17762,20 @@ function __c113(j: number): any {
       ).annotate({ identifier: "ListDeploymentScriptByResourceGroupRequest" });
   }
 }
-function __c114(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6240, __c390, 0));
+      return S.Array(__S(316, __c19, 12));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1824, __c114, 0)),
+          value: S.optional(__S(1888, __c118, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeploymentScriptListResult" });
   }
 }
-function __c115(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17504,7 +17794,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "DeleteDeploymentRequest" });
   }
 }
-function __c116(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17515,7 +17805,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "DeleteDeploymentResponse" });
   }
 }
-function __c117(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17532,7 +17822,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "ListDeploymentScriptBySubscriptionRequest" });
   }
 }
-function __c118(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17549,20 +17839,20 @@ function __c118(j: number): any {
       ).annotate({ identifier: "ListDeploymentStackAtManagementGroupRequest" });
   }
 }
-function __c119(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(336, __c21, 0));
+      return S.Array(__S(400, __c25, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1904, __c119, 0),
+          value: __S(1968, __c123, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeploymentStackListResult" });
   }
 }
-function __c120(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17580,7 +17870,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "ListDeploymentStackAtResourceGroupRequest" });
   }
 }
-function __c121(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17597,7 +17887,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "ListDeploymentStackAtSubscriptionRequest" });
   }
 }
-function __c122(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17614,20 +17904,20 @@ function __c122(j: number): any {
       ).annotate({ identifier: "ListDeploymentStacksWhatIfResultsAtManagementGroupRequest" });
   }
 }
-function __c123(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(400, __c25, 0));
+      return S.Array(__S(464, __c29, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1968, __c123, 0),
+          value: __S(2032, __c127, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeploymentStacksWhatIfResultListResult" });
   }
 }
-function __c124(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17645,7 +17935,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "ListDeploymentStacksWhatIfResultsAtResourceGroupRequest" });
   }
 }
-function __c125(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17662,7 +17952,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "ListDeploymentStacksWhatIfResultsAtSubscriptionRequest" });
   }
 }
-function __c126(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17679,20 +17969,20 @@ function __c126(j: number): any {
       ).annotate({ identifier: "ListFeatureAllRequest" });
   }
 }
-function __c127(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(465, __c29, 1));
+      return S.Array(__S(529, __c33, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2032, __c127, 0)),
+          value: S.optional(__S(2096, __c131, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FeatureOperationsListResult" });
   }
 }
-function __c128(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17710,7 +18000,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "ListFeaturesRequest" });
   }
 }
-function __c129(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17728,20 +18018,20 @@ function __c129(j: number): any {
       ).annotate({ identifier: "ListJitRequestByResourceGroupRequest" });
   }
 }
-function __c130(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(498, __c31, 2));
+      return S.Array(__S(562, __c35, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2080, __c130, 0)),
+          value: S.optional(__S(2144, __c134, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "JitRequestDefinitionListResult" });
   }
 }
-function __c131(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17759,7 +18049,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "DeleteDeploymentAtManagementGroupScopeRequest" });
   }
 }
-function __c132(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17776,7 +18066,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "ListJitRequestBySubscriptionRequest" });
   }
 }
-function __c133(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17795,20 +18085,20 @@ function __c133(j: number): any {
       ).annotate({ identifier: "ListManagementLockAtResourceGroupLevelRequest" });
   }
 }
-function __c134(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(595, __c37, 3));
+      return S.Array(__S(659, __c41, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2144, __c134, 0)),
+          value: S.optional(__S(2208, __c138, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ManagementLockListResult" });
   }
 }
-function __c135(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17831,7 +18121,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "ListManagementLockAtResourceLevelRequest" });
   }
 }
-function __c136(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17849,7 +18139,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "ListManagementLockAtSubscriptionLevelRequest" });
   }
 }
-function __c137(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17867,7 +18157,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "ListManagementLockByScopeRequest" });
   }
 }
-function __c138(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17882,7 +18172,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "ListOperationsRequest" });
   }
 }
-function __c139(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17902,20 +18192,20 @@ function __c139(j: number): any {
       ).annotate({ identifier: "ListPolicyAssignmentForManagementGroupRequest" });
   }
 }
-function __c140(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(570, __c35, 10));
+      return S.Array(__S(634, __c39, 10));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2240, __c140, 0),
+          value: __S(2304, __c144, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PolicyAssignmentListResult" });
   }
 }
-function __c141(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17940,7 +18230,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "ListPolicyAssignmentForResourceRequest" });
   }
 }
-function __c142(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17961,7 +18251,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "ListPolicyAssignmentForResourceGroupRequest" });
   }
 }
-function __c143(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17981,7 +18271,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "ListPolicyAssignmentsRequest" });
   }
 }
-function __c144(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17999,7 +18289,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "DeleteDeploymentAtScopeRequest" });
   }
 }
-function __c145(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18017,20 +18307,20 @@ function __c145(j: number): any {
       ).annotate({ identifier: "ListPolicyDefinitionBuiltInRequest" });
   }
 }
-function __c146(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(721, __c45, 1));
+      return S.Array(__S(785, __c49, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2336, __c146, 0),
+          value: __S(2400, __c150, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PolicyDefinitionListResult" });
   }
 }
-function __c147(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18049,7 +18339,7 @@ function __c147(j: number): any {
       ).annotate({ identifier: "ListPolicyDefinitionByManagementGroupRequest" });
   }
 }
-function __c148(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18068,7 +18358,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "ListPolicyDefinitionsRequest" });
   }
 }
-function __c149(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18085,20 +18375,20 @@ function __c149(j: number): any {
       ).annotate({ identifier: "ListPolicyDefinitionVersionAllRequest" });
   }
 }
-function __c150(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(785, __c49, 1));
+      return S.Array(__S(849, __c53, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2400, __c150, 0),
+          value: __S(2464, __c154, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PolicyDefinitionVersionListResult" });
   }
 }
-function __c151(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18115,7 +18405,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "ListPolicyDefinitionVersionAllAtManagementGroupRequest" });
   }
 }
-function __c152(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18130,7 +18420,7 @@ function __c152(j: number): any {
       ).annotate({ identifier: "ListPolicyDefinitionVersionAllBuiltinsRequest" });
   }
 }
-function __c153(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18148,7 +18438,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "ListPolicyDefinitionVersionBuiltInRequest" });
   }
 }
-function __c154(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18167,7 +18457,7 @@ function __c154(j: number): any {
       ).annotate({ identifier: "ListPolicyDefinitionVersionByManagementGroupRequest" });
   }
 }
-function __c155(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18186,7 +18476,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "ListPolicyDefinitionVersionsRequest" });
   }
 }
-function __c156(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18205,20 +18495,20 @@ function __c156(j: number): any {
       ).annotate({ identifier: "ListPolicySetDefinitionBuiltInRequest" });
   }
 }
-function __c157(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(881, __c55, 1));
+      return S.Array(__S(945, __c59, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2512, __c157, 0),
+          value: __S(2576, __c161, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PolicySetDefinitionListResult" });
   }
 }
-function __c158(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18236,7 +18526,7 @@ function __c158(j: number): any {
       ).annotate({ identifier: "DeleteDeploymentAtSubscriptionScopeRequest" });
   }
 }
-function __c159(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18256,7 +18546,7 @@ function __c159(j: number): any {
       ).annotate({ identifier: "ListPolicySetDefinitionByManagementGroupRequest" });
   }
 }
-function __c160(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18276,7 +18566,7 @@ function __c160(j: number): any {
       ).annotate({ identifier: "ListPolicySetDefinitionsRequest" });
   }
 }
-function __c161(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18293,20 +18583,20 @@ function __c161(j: number): any {
       ).annotate({ identifier: "ListPolicySetDefinitionVersionAllRequest" });
   }
 }
-function __c162(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(945, __c59, 1));
+      return S.Array(__S(1009, __c63, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2592, __c162, 0),
+          value: __S(2656, __c166, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PolicySetDefinitionVersionListResult" });
   }
 }
-function __c163(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18323,7 +18613,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "ListPolicySetDefinitionVersionAllAtManagementGroupRequest" });
   }
 }
-function __c164(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18338,7 +18628,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "ListPolicySetDefinitionVersionAllBuiltinsRequest" });
   }
 }
-function __c165(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18357,7 +18647,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "ListPolicySetDefinitionVersionBuiltInRequest" });
   }
 }
-function __c166(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18377,7 +18667,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "ListPolicySetDefinitionVersionByManagementGroupRequest" });
   }
 }
-function __c167(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18397,7 +18687,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "ListPolicySetDefinitionVersionsRequest" });
   }
 }
-function __c168(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18413,16 +18703,16 @@ function __c168(j: number): any {
         ),
       ).annotate({ identifier: "ListPrivateLinkAssociationRequest" });
     case 1:
-      return S.Array(__S(1009, __c63, 1));
+      return S.Array(__S(1073, __c67, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2689, __c168, 1)),
+          value: S.optional(__S(2753, __c172, 1)),
         }),
       ).annotate({ identifier: "PrivateLinkAssociationGetResult" });
   }
 }
-function __c169(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18432,18 +18722,18 @@ function __c169(j: number): any {
       ).annotate({ identifier: "ListProviderAtTenantScopeRequest" });
   }
 }
-function __c170(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: __S(5120, __c320, 0),
+          value: __S(5168, __c323, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProviderListResult" });
   }
 }
-function __c171(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18463,7 +18753,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "ApplicationsCreateOrUpdateByIdRequest" });
   }
 }
-function __c172(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18480,7 +18770,7 @@ function __c172(j: number): any {
       ).annotate({ identifier: "DeleteDeploymentAtTenantScopeRequest" });
   }
 }
-function __c173(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18500,13 +18790,13 @@ function __c173(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(5095, __c318, 7),
+          value: __S(5143, __c321, 7),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProviderResourceTypeListResult" });
   }
 }
-function __c174(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18524,7 +18814,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "ListProvidersRequest" });
   }
 }
-function __c175(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18545,7 +18835,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "ListResourceByResourceGroupRequest" });
   }
 }
-function __c176(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18555,13 +18845,13 @@ function __c176(j: number): any {
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
           properties: S.optional(S.Unknown),
-          plan: S.optional(__S(1104, __c69, 0)),
+          plan: S.optional(__S(1168, __c73, 0)),
           kind: S.optional(S.String),
           managedBy: S.optional(S.String),
-          sku: S.optional(__S(1120, __c70, 0)),
-          identity: S.optional(__S(544, __c34, 0)),
+          sku: S.optional(__S(1184, __c74, 0)),
+          identity: S.optional(__S(608, __c38, 0)),
           location: S.optional(S.String),
-          extendedLocation: S.optional(__S(1121, __c70, 1)),
+          extendedLocation: S.optional(__S(1185, __c74, 1)),
           tags: S.optional(__S(16, __c1, 0)),
           createdTime: S.optional(S.String),
           changedTime: S.optional(S.String),
@@ -18569,17 +18859,17 @@ function __c176(j: number): any {
         }),
       ).annotate({ identifier: "GenericResourceExpanded" });
     case 1:
-      return S.Array(__S(2816, __c176, 0));
+      return S.Array(__S(2880, __c180, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2817, __c176, 1),
+          value: __S(2881, __c180, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceListResult" });
   }
 }
-function __c177(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18597,17 +18887,17 @@ function __c177(j: number): any {
         ),
       ).annotate({ identifier: "ListResourceGroupsRequest" });
     case 1:
-      return S.Array(__S(1169, __c73, 1));
+      return S.Array(__S(1233, __c77, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2833, __c177, 1),
+          value: __S(2897, __c181, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceGroupListResult" });
   }
 }
-function __c178(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18625,20 +18915,20 @@ function __c178(j: number): any {
       ).annotate({ identifier: "ListResourceLinkAtSourceScopeRequest" });
   }
 }
-function __c179(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1201, __c75, 1));
+      return S.Array(__S(1265, __c79, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2864, __c179, 0),
+          value: __S(2928, __c183, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceLinkResult" });
   }
 }
-function __c180(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18656,7 +18946,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "ListResourceLinkAtSubscriptionRequest" });
   }
 }
-function __c181(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18673,19 +18963,19 @@ function __c181(j: number): any {
       ).annotate({ identifier: "ListResourceManagementPrivateLinkRequest" });
   }
 }
-function __c182(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1233, __c77, 1));
+      return S.Array(__S(1297, __c81, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2912, __c182, 0)),
+          value: S.optional(__S(2976, __c186, 0)),
         }),
       ).annotate({ identifier: "ResourceManagementPrivateLinkListResult" });
   }
 }
-function __c183(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18703,7 +18993,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "ListResourceManagementPrivateLinkByResourceGroupRequest" });
   }
 }
-function __c184(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18723,7 +19013,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "ListResourcesRequest" });
   }
 }
-function __c185(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18740,20 +19030,20 @@ function __c185(j: number): any {
       ).annotate({ identifier: "ListSubscriptionFeatureRegistrationAllBySubscriptionRequest" });
   }
 }
-function __c186(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1298, __c81, 2));
+      return S.Array(__S(1362, __c85, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2976, __c186, 0)),
+          value: S.optional(__S(3040, __c190, 0)),
         }),
       ).annotate({ identifier: "SubscriptionFeatureRegistrationList" });
   }
 }
-function __c187(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18772,7 +19062,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "DeleteDeploymentScriptRequest" });
   }
 }
-function __c188(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18790,7 +19080,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "ListSubscriptionFeatureRegistrationBySubscriptionRequest" });
   }
 }
-function __c189(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18815,7 +19105,7 @@ function __c189(j: number): any {
         }),
       ).annotate({ identifier: "PairedRegion" });
     case 2:
-      return S.Array(__S(3025, __c189, 1));
+      return S.Array(__S(3089, __c193, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -18826,7 +19116,7 @@ function __c189(j: number): any {
           longitude: S.optional(S.String),
           latitude: S.optional(S.String),
           physicalLocation: S.optional(S.String),
-          pairedRegion: S.optional(__S(3026, __c189, 2)),
+          pairedRegion: S.optional(__S(3090, __c193, 2)),
           homeLocation: S.optional(S.String),
         }),
       ).annotate({ identifier: "LocationMetadata" });
@@ -18838,7 +19128,7 @@ function __c189(j: number): any {
         }),
       ).annotate({ identifier: "AvailabilityZoneMappings" });
     case 5:
-      return S.Array(__S(3028, __c189, 4));
+      return S.Array(__S(3092, __c193, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -18848,22 +19138,22 @@ function __c189(j: number): any {
           type: S.optional(S.String),
           displayName: S.optional(S.String),
           regionalDisplayName: S.optional(S.String),
-          metadata: S.optional(__S(3027, __c189, 3)),
-          availabilityZoneMappings: S.optional(__S(3029, __c189, 5)),
+          metadata: S.optional(__S(3091, __c193, 3)),
+          availabilityZoneMappings: S.optional(__S(3093, __c193, 5)),
         }),
       ).annotate({ identifier: "Location" });
     case 7:
-      return S.Array(__S(3030, __c189, 6));
+      return S.Array(__S(3094, __c193, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3031, __c189, 7)),
+          value: S.optional(__S(3095, __c193, 7)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "LocationListResult" });
   }
 }
-function __c190(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18872,17 +19162,17 @@ function __c190(j: number): any {
         ),
       ).annotate({ identifier: "ListSubscriptionsRequest" });
     case 1:
-      return S.Array(__S(1267, __c79, 3));
+      return S.Array(__S(1331, __c83, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3041, __c190, 1),
+          value: __S(3105, __c194, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SubscriptionListResult" });
   }
 }
-function __c191(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18898,32 +19188,32 @@ function __c191(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsRequest" });
     case 1:
-      return S.Array(__S(3073, __c192, 1));
+      return S.Array(__S(3137, __c196, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3057, __c191, 1),
+          value: __S(3121, __c195, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TagsListResult" });
   }
 }
-function __c192(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(3089, __c193, 1));
+      return S.Array(__S(3153, __c197, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           tagName: S.optional(S.String),
-          count: S.optional(__S(3088, __c193, 0)),
-          values: S.optional(__S(3072, __c192, 0)),
+          count: S.optional(__S(3152, __c197, 0)),
+          values: S.optional(__S(3136, __c196, 0)),
         }),
       ).annotate({ identifier: "TagDetails" });
   }
 }
-function __c193(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18937,12 +19227,12 @@ function __c193(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           tagValue: S.optional(S.String),
-          count: S.optional(__S(3088, __c193, 0)),
+          count: S.optional(__S(3152, __c197, 0)),
         }),
       ).annotate({ identifier: "TagValue" });
   }
 }
-function __c194(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18959,20 +19249,20 @@ function __c194(j: number): any {
       ).annotate({ identifier: "ListTemplateSpecBuiltInsRequest" });
   }
 }
-function __c195(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1363, __c85, 3));
+      return S.Array(__S(1427, __c89, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3120, __c195, 0)),
+          value: S.optional(__S(3184, __c199, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TemplateSpecsListResult" });
   }
 }
-function __c196(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18991,7 +19281,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "ListTemplateSpecByResourceGroupRequest" });
   }
 }
-function __c197(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19009,7 +19299,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "ListTemplateSpecBySubscriptionRequest" });
   }
 }
-function __c198(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19026,20 +19316,20 @@ function __c198(j: number): any {
       ).annotate({ identifier: "ListTemplateSpecVersionBuiltInsRequest" });
   }
 }
-function __c199(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1427, __c89, 3));
+      return S.Array(__S(1491, __c93, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3184, __c199, 0)),
+          value: S.optional(__S(3248, __c203, 0)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TemplateSpecVersionsListResult" });
   }
 }
-function __c200(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19058,7 +19348,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "ListTemplateSpecVersionsRequest" });
   }
 }
-function __c201(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19082,17 +19372,17 @@ function __c201(j: number): any {
         }),
       ).annotate({ identifier: "TenantIdDescription" });
     case 2:
-      return S.Array(__S(3217, __c201, 1));
+      return S.Array(__S(3281, __c205, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3218, __c201, 2),
+          value: __S(3282, __c205, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TenantListResult" });
   }
 }
-function __c202(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19121,7 +19411,7 @@ function __c202(j: number): any {
       ).annotate({ identifier: "DeleteDeploymentStackAtManagementGroupRequest" });
   }
 }
-function __c203(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19129,7 +19419,7 @@ function __c203(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           lockName: S.String.pipe(T.Label()),
-          properties: __S(594, __c37, 2),
+          properties: __S(658, __c41, 2),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -19141,7 +19431,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "ManagementLocksCreateOrUpdateAtResourceGroupLevelRequest" });
   }
 }
-function __c204(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19153,7 +19443,7 @@ function __c204(j: number): any {
           resourceType: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           lockName: S.String.pipe(T.Label()),
-          properties: __S(594, __c37, 2),
+          properties: __S(658, __c41, 2),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -19165,14 +19455,14 @@ function __c204(j: number): any {
       ).annotate({ identifier: "ManagementLocksCreateOrUpdateAtResourceLevelRequest" });
   }
 }
-function __c205(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           lockName: S.String.pipe(T.Label()),
-          properties: __S(594, __c37, 2),
+          properties: __S(658, __c41, 2),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -19184,14 +19474,14 @@ function __c205(j: number): any {
       ).annotate({ identifier: "ManagementLocksCreateOrUpdateAtSubscriptionLevelRequest" });
   }
 }
-function __c206(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           scope: S.String.pipe(T.Label()),
           lockName: S.String.pipe(T.Label()),
-          properties: __S(594, __c37, 2),
+          properties: __S(658, __c41, 2),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -19203,7 +19493,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "ManagementLocksCreateOrUpdateByScopeRequest" });
   }
 }
-function __c207(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19223,7 +19513,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "MoveResourceResourcesRequest" });
   }
 }
-function __c208(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19233,14 +19523,14 @@ function __c208(j: number): any {
       ).annotate({ identifier: "MoveResourceResourcesResponse" });
   }
 }
-function __c209(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           policyDefinitionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(720, __c45, 0)),
+          properties: S.optional(__S(784, __c49, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -19252,14 +19542,14 @@ function __c209(j: number): any {
       ).annotate({ identifier: "PolicyDefinitionsCreateOrUpdateRequest" });
   }
 }
-function __c210(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           managementGroupId: S.String.pipe(T.Label()),
           policyDefinitionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(720, __c45, 0)),
+          properties: S.optional(__S(784, __c49, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -19271,7 +19561,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "PolicyDefinitionsCreateOrUpdateAtManagementGroupRequest" });
   }
 }
-function __c211(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19279,7 +19569,7 @@ function __c211(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           policyDefinitionName: S.String.pipe(T.Label()),
           policyDefinitionVersion: S.String.pipe(T.Label()),
-          properties: S.optional(__S(784, __c49, 0)),
+          properties: S.optional(__S(848, __c53, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -19291,7 +19581,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "PolicyDefinitionVersionsCreateOrUpdateRequest" });
   }
 }
-function __c212(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19299,7 +19589,7 @@ function __c212(j: number): any {
           managementGroupName: S.String.pipe(T.Label()),
           policyDefinitionName: S.String.pipe(T.Label()),
           policyDefinitionVersion: S.String.pipe(T.Label()),
-          properties: S.optional(__S(784, __c49, 0)),
+          properties: S.optional(__S(848, __c53, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -19311,14 +19601,14 @@ function __c212(j: number): any {
       ).annotate({ identifier: "PolicyDefinitionVersionsCreateOrUpdateAtManagementGroupRequest" });
   }
 }
-function __c213(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           policySetDefinitionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3424, __c214, 0)),
+          properties: S.optional(__S(3488, __c218, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -19330,7 +19620,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "PolicySetDefinitionsCreateOrUpdateRequest" });
   }
 }
-function __c214(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19339,32 +19629,32 @@ function __c214(j: number): any {
           displayName: S.optional(S.String),
           description: S.optional(S.String),
           metadata: S.optional(S.Unknown),
-          parameters: S.optional(__S(691, __c43, 3)),
-          policyDefinitions: __S(3441, __c215, 1),
-          policyDefinitionGroups: S.optional(__S(867, __c54, 3)),
+          parameters: S.optional(__S(755, __c47, 3)),
+          policyDefinitions: __S(3505, __c219, 1),
+          policyDefinitionGroups: S.optional(__S(931, __c58, 3)),
           version: S.optional(S.String),
           versions: S.optional(__S(80, __c5, 0)),
         }),
       ).annotate({ identifier: "PolicySetDefinitionPropertiesInput" });
   }
 }
-function __c215(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           policyDefinitionId: S.String,
           definitionVersion: S.optional(S.String),
-          parameters: S.optional(__S(529, __c33, 1)),
+          parameters: S.optional(__S(593, __c37, 1)),
           policyDefinitionReferenceId: S.optional(S.String),
           groupNames: S.optional(__S(80, __c5, 0)),
         }),
       ).annotate({ identifier: "PolicyDefinitionReferenceInput" });
     case 1:
-      return S.Array(__S(3440, __c215, 0));
+      return S.Array(__S(3504, __c219, 0));
   }
 }
-function __c216(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19394,14 +19684,14 @@ function __c216(j: number): any {
       ).annotate({ identifier: "DeleteDeploymentStackAtResourceGroupRequest" });
   }
 }
-function __c217(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           managementGroupId: S.String.pipe(T.Label()),
           policySetDefinitionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3424, __c214, 0)),
+          properties: S.optional(__S(3488, __c218, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -19413,7 +19703,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "PolicySetDefinitionsCreateOrUpdateAtManagementGroupRequest" });
   }
 }
-function __c218(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19421,7 +19711,7 @@ function __c218(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           policySetDefinitionName: S.String.pipe(T.Label()),
           policyDefinitionVersion: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3504, __c219, 0)),
+          properties: S.optional(__S(3568, __c223, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -19433,7 +19723,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "PolicySetDefinitionVersionsCreateOrUpdateRequest" });
   }
 }
-function __c219(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19442,15 +19732,15 @@ function __c219(j: number): any {
           displayName: S.optional(S.String),
           description: S.optional(S.String),
           metadata: S.optional(S.Unknown),
-          parameters: S.optional(__S(691, __c43, 3)),
-          policyDefinitions: __S(3441, __c215, 1),
-          policyDefinitionGroups: S.optional(__S(867, __c54, 3)),
+          parameters: S.optional(__S(755, __c47, 3)),
+          policyDefinitions: __S(3505, __c219, 1),
+          policyDefinitionGroups: S.optional(__S(931, __c58, 3)),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "PolicySetDefinitionVersionPropertiesInput" });
   }
 }
-function __c220(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19458,7 +19748,7 @@ function __c220(j: number): any {
           managementGroupName: S.String.pipe(T.Label()),
           policySetDefinitionName: S.String.pipe(T.Label()),
           policyDefinitionVersion: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3504, __c219, 0)),
+          properties: S.optional(__S(3568, __c223, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -19472,13 +19762,13 @@ function __c220(j: number): any {
       });
   }
 }
-function __c221(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
-          operation: __S(3552, __c222, 0),
+          operation: __S(3616, __c226, 0),
           changeReference: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -19491,7 +19781,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "PolicyTokensAcquireRequest" });
   }
 }
-function __c222(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19532,7 +19822,7 @@ function __c222(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          policyInfo: S.optional(__S(3554, __c222, 2)),
+          policyInfo: S.optional(__S(3618, __c226, 2)),
           result: S.optional(S.String),
           endpointKind: S.optional(S.String),
           message: S.optional(S.String),
@@ -19546,15 +19836,15 @@ function __c222(j: number): any {
         }),
       ).annotate({ identifier: "ExternalEvaluationEndpointInvocationResult" });
     case 4:
-      return S.Array(__S(3555, __c222, 3));
+      return S.Array(__S(3619, __c226, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           result: S.optional(S.String),
-          requestDetails: S.optional(__S(3553, __c222, 1)),
+          requestDetails: S.optional(__S(3617, __c226, 1)),
           message: S.optional(S.String),
           retryAfter: S.optional(S.String),
-          results: S.optional(__S(3556, __c222, 4)),
+          results: S.optional(__S(3620, __c226, 4)),
           changeReference: S.optional(S.String),
           token: S.optional(S.String),
           tokenId: S.optional(S.String),
@@ -19563,13 +19853,13 @@ function __c222(j: number): any {
       ).annotate({ identifier: "PolicyTokenResponse" });
   }
 }
-function __c223(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           managementGroupName: S.String.pipe(T.Label()),
-          operation: __S(3552, __c222, 0),
+          operation: __S(3616, __c226, 0),
           changeReference: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -19582,14 +19872,14 @@ function __c223(j: number): any {
       ).annotate({ identifier: "PolicyTokensAcquireAtManagementGroupRequest" });
   }
 }
-function __c224(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
-          operation: __S(3552, __c222, 0),
+          operation: __S(3616, __c226, 0),
           changeReference: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -19602,7 +19892,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "PolicyTokensAcquireAtResourceGroupRequest" });
   }
 }
-function __c225(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19628,14 +19918,14 @@ function __c225(j: number): any {
         }),
       ).annotate({ identifier: "Permission" });
     case 2:
-      return S.Array(__S(3601, __c225, 1));
+      return S.Array(__S(3665, __c229, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           isServiceRole: S.optional(S.Boolean),
-          permissions: S.optional(__S(3602, __c225, 2)),
+          permissions: S.optional(__S(3666, __c229, 2)),
           scopes: S.optional(__S(80, __c5, 0)),
         }),
       ).annotate({ identifier: "RoleDefinition" });
@@ -19643,29 +19933,29 @@ function __c225(j: number): any {
       return S.suspend(() =>
         S.Struct({
           applicationId: S.optional(S.String),
-          roleDefinition: S.optional(__S(3603, __c225, 3)),
-          managedByRoleDefinition: S.optional(__S(3603, __c225, 3)),
+          roleDefinition: S.optional(__S(3667, __c229, 3)),
+          managedByRoleDefinition: S.optional(__S(3667, __c229, 3)),
           providerAuthorizationConsentState: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProviderPermission" });
     case 5:
-      return S.Array(__S(3604, __c225, 4));
+      return S.Array(__S(3668, __c229, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3605, __c225, 5),
+          value: __S(3669, __c229, 5),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProviderPermissionListResult" });
   }
 }
-function __c226(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           default: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5952, __c372, 0)),
+          properties: S.optional(__S(5984, __c374, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -19677,7 +19967,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "PutDataBoundaryRequest" });
   }
 }
-function __c227(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19691,7 +19981,7 @@ function __c227(j: number): any {
         S.Struct({
           groupId: S.String.pipe(T.Label()),
           plaId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3632, __c227, 0)),
+          properties: S.optional(__S(3696, __c231, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -19703,7 +19993,7 @@ function __c227(j: number): any {
       ).annotate({ identifier: "PutPrivateLinkAssociationRequest" });
   }
 }
-function __c228(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19723,7 +20013,7 @@ function __c228(j: number): any {
       ).annotate({ identifier: "PutResourceManagementPrivateLinkRequest" });
   }
 }
-function __c229(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19752,7 +20042,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "DeleteDeploymentStackAtSubscriptionRequest" });
   }
 }
-function __c230(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19771,7 +20061,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "RefreshApplicationPermissionsRequest" });
   }
 }
-function __c231(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19790,7 +20080,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "RegisterFeatureRequest" });
   }
 }
-function __c232(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19803,7 +20093,7 @@ function __c232(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceProviderNamespace: S.String.pipe(T.Label()),
-          thirdPartyProviderConsent: S.optional(__S(3712, __c232, 0)),
+          thirdPartyProviderConsent: S.optional(__S(3776, __c236, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19815,7 +20105,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "RegisterProviderRequest" });
   }
 }
-function __c233(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19833,7 +20123,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "RegisterProviderAtManagementGroupScopeRequest" });
   }
 }
-function __c234(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19855,7 +20145,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "ResourceGroupsCreateOrUpdateRequest" });
   }
 }
-function __c235(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19868,12 +20158,12 @@ function __c235(j: number): any {
       return S.suspend(() =>
         S.Struct({
           linkId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3760, __c235, 0)),
+          properties: S.optional(__S(3824, __c239, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/{linkId+}", code: 200, apiVersion: "2016-09-01" })),
       ).annotate({ identifier: "ResourceLinksCreateOrUpdateRequest" });
   }
 }
-function __c236(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19885,13 +20175,13 @@ function __c236(j: number): any {
           resourceType: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           properties: S.optional(S.Unknown),
-          plan: S.optional(__S(1104, __c69, 0)),
+          plan: S.optional(__S(1168, __c73, 0)),
           kind: S.optional(S.String),
           managedBy: S.optional(S.String),
-          sku: S.optional(__S(1120, __c70, 0)),
+          sku: S.optional(__S(1184, __c74, 0)),
           identity: S.optional(__S(112, __c7, 0)),
           location: S.optional(S.String),
-          extendedLocation: S.optional(__S(1121, __c70, 1)),
+          extendedLocation: S.optional(__S(1185, __c74, 1)),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
           T.Http({
@@ -19904,7 +20194,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "ResourcesCreateOrUpdateRequest" });
   }
 }
-function __c237(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19914,13 +20204,13 @@ function __c237(j: number): any {
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
           properties: S.optional(S.Unknown),
-          plan: S.optional(__S(1104, __c69, 0)),
+          plan: S.optional(__S(1168, __c73, 0)),
           kind: S.optional(S.String),
           managedBy: S.optional(S.String),
-          sku: S.optional(__S(1120, __c70, 0)),
-          identity: S.optional(__S(544, __c34, 0)),
+          sku: S.optional(__S(1184, __c74, 0)),
+          identity: S.optional(__S(608, __c38, 0)),
           location: S.optional(S.String),
-          extendedLocation: S.optional(__S(1121, __c70, 1)),
+          extendedLocation: S.optional(__S(1185, __c74, 1)),
           tags: S.optional(__S(16, __c1, 0)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -19928,20 +20218,20 @@ function __c237(j: number): any {
       ).annotate({ identifier: "ResourcesCreateOrUpdateResponse" });
   }
 }
-function __c238(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceId: S.String.pipe(T.Label()),
           properties: S.optional(S.Unknown),
-          plan: S.optional(__S(1104, __c69, 0)),
+          plan: S.optional(__S(1168, __c73, 0)),
           kind: S.optional(S.String),
           managedBy: S.optional(S.String),
-          sku: S.optional(__S(1120, __c70, 0)),
+          sku: S.optional(__S(1184, __c74, 0)),
           identity: S.optional(__S(112, __c7, 0)),
           location: S.optional(S.String),
-          extendedLocation: S.optional(__S(1121, __c70, 1)),
+          extendedLocation: S.optional(__S(1185, __c74, 1)),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/{resourceId+}", code: 200, apiVersion: "2025-04-01" }),
@@ -19949,7 +20239,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "ResourcesCreateOrUpdateByIdRequest" });
   }
 }
-function __c239(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19969,7 +20259,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "ResourcesValidateMoveResourcesRequest" });
   }
 }
-function __c240(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19987,7 +20277,7 @@ function __c240(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           providerNamespace: S.String.pipe(T.Label()),
           featureName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3840, __c240, 0)),
+          properties: S.optional(__S(3904, __c244, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -19999,7 +20289,7 @@ function __c240(j: number): any {
       ).annotate({ identifier: "SubscriptionFeatureRegistrationsCreateOrUpdateRequest" });
   }
 }
-function __c241(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20028,7 +20318,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "DeleteDeploymentStacksWhatIfResultsAtManagementGroupRequest" });
   }
 }
-function __c242(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20046,13 +20336,13 @@ function __c242(j: number): any {
       ).annotate({ identifier: "TagsCreateOrUpdateRequest" });
   }
 }
-function __c243(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           scope: S.String.pipe(T.Label()),
-          properties: __S(1328, __c83, 0),
+          properties: __S(1392, __c87, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -20064,7 +20354,7 @@ function __c243(j: number): any {
       ).annotate({ identifier: "TagsCreateOrUpdateAtScopeRequest" });
   }
 }
-function __c244(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20073,14 +20363,14 @@ function __c244(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
-          properties: __S(1328, __c83, 0),
+          properties: __S(1392, __c87, 0),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "TagsCreateOrUpdateAtScopeResponse" });
   }
 }
-function __c245(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20099,7 +20389,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "TagsCreateOrUpdateValueRequest" });
   }
 }
-function __c246(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20116,7 +20406,7 @@ function __c246(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           templateSpecName: S.String.pipe(T.Label()),
           location: S.String,
-          properties: S.optional(__S(3936, __c246, 0)),
+          properties: S.optional(__S(4000, __c250, 0)),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
           T.Http({
@@ -20129,7 +20419,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "TemplateSpecsCreateOrUpdateRequest" });
   }
 }
-function __c247(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20139,7 +20429,7 @@ function __c247(j: number): any {
           templateSpecName: S.String.pipe(T.Label()),
           templateSpecVersion: S.String.pipe(T.Label()),
           location: S.String,
-          properties: __S(1426, __c89, 2),
+          properties: __S(1490, __c93, 2),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
           T.Http({
@@ -20152,7 +20442,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "TemplateSpecVersionsCreateOrUpdateRequest" });
   }
 }
-function __c248(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20171,7 +20461,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "UnregisterFeatureRequest" });
   }
 }
-function __c249(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20189,7 +20479,7 @@ function __c249(j: number): any {
       ).annotate({ identifier: "UnregisterProviderRequest" });
   }
 }
-function __c250(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20202,7 +20492,7 @@ function __c250(j: number): any {
           managedBy: S.optional(S.String),
           sku: S.optional(__S(48, __c3, 0)),
           properties: S.optional(__S(144, __c9, 0)),
-          plan: S.optional(__S(1104, __c69, 0)),
+          plan: S.optional(__S(1168, __c73, 0)),
           kind: S.optional(S.String),
           identity: S.optional(__S(112, __c7, 0)),
         }).pipe(
@@ -20216,7 +20506,7 @@ function __c250(j: number): any {
       ).annotate({ identifier: "UpdateApplicationRequest" });
   }
 }
-function __c251(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20241,7 +20531,7 @@ function __c251(j: number): any {
       ).annotate({ identifier: "UpdateApplicationByIdRequest" });
   }
 }
-function __c252(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20261,7 +20551,7 @@ function __c252(j: number): any {
       ).annotate({ identifier: "UpdateDeploymentScriptRequest" });
   }
 }
-function __c253(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20291,7 +20581,7 @@ function __c253(j: number): any {
       ).annotate({ identifier: "DeleteDeploymentStacksWhatIfResultsAtResourceGroupRequest" });
   }
 }
-function __c254(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20311,14 +20601,14 @@ function __c254(j: number): any {
       ).annotate({ identifier: "UpdateJitRequestRequest" });
   }
 }
-function __c255(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resourceSelectors: S.optional(__S(565, __c35, 5)),
-          overrides: S.optional(__S(567, __c35, 7)),
-          selfServeExemptionSettings: S.optional(__S(568, __c35, 8)),
+          resourceSelectors: S.optional(__S(629, __c39, 5)),
+          overrides: S.optional(__S(631, __c39, 7)),
+          selfServeExemptionSettings: S.optional(__S(632, __c39, 8)),
         }),
       ).annotate({ identifier: "PolicyAssignmentUpdateProperties" });
     case 1:
@@ -20326,7 +20616,7 @@ function __c255(j: number): any {
         S.Struct({
           scope: S.String.pipe(T.Label()),
           policyAssignmentName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(4080, __c255, 0)),
+          properties: S.optional(__S(4144, __c259, 0)),
           location: S.optional(S.String),
           identity: S.optional(__S(112, __c7, 0)),
         }).pipe(
@@ -20340,7 +20630,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "UpdatePolicyAssignmentRequest" });
   }
 }
-function __c256(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20352,13 +20642,13 @@ function __c256(j: number): any {
           resourceType: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           properties: S.optional(S.Unknown),
-          plan: S.optional(__S(1104, __c69, 0)),
+          plan: S.optional(__S(1168, __c73, 0)),
           kind: S.optional(S.String),
           managedBy: S.optional(S.String),
-          sku: S.optional(__S(1120, __c70, 0)),
+          sku: S.optional(__S(1184, __c74, 0)),
           identity: S.optional(__S(112, __c7, 0)),
           location: S.optional(S.String),
-          extendedLocation: S.optional(__S(1121, __c70, 1)),
+          extendedLocation: S.optional(__S(1185, __c74, 1)),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
           T.Http({
@@ -20371,20 +20661,20 @@ function __c256(j: number): any {
       ).annotate({ identifier: "UpdateResourceRequest" });
   }
 }
-function __c257(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceId: S.String.pipe(T.Label()),
           properties: S.optional(S.Unknown),
-          plan: S.optional(__S(1104, __c69, 0)),
+          plan: S.optional(__S(1168, __c73, 0)),
           kind: S.optional(S.String),
           managedBy: S.optional(S.String),
-          sku: S.optional(__S(1120, __c70, 0)),
+          sku: S.optional(__S(1184, __c74, 0)),
           identity: S.optional(__S(112, __c7, 0)),
           location: S.optional(S.String),
-          extendedLocation: S.optional(__S(1121, __c70, 1)),
+          extendedLocation: S.optional(__S(1185, __c74, 1)),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/{resourceId+}", code: 200, apiVersion: "2025-04-01" }),
@@ -20392,7 +20682,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "UpdateResourceByIdRequest" });
   }
 }
-function __c258(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20414,14 +20704,14 @@ function __c258(j: number): any {
       ).annotate({ identifier: "UpdateResourceGroupRequest" });
   }
 }
-function __c259(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           scope: S.String.pipe(T.Label()),
           operation: S.optional(S.String),
-          properties: S.optional(__S(1328, __c83, 0)),
+          properties: S.optional(__S(1392, __c87, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -20433,7 +20723,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "UpdateTagAtScopeRequest" });
   }
 }
-function __c260(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20453,7 +20743,7 @@ function __c260(j: number): any {
       ).annotate({ identifier: "UpdateTemplateSpecRequest" });
   }
 }
-function __c261(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20474,7 +20764,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "UpdateTemplateSpecVersionRequest" });
   }
 }
-function __c262(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20483,9 +20773,9 @@ function __c262(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
-          properties: __S(4896, __c306, 0),
+          properties: __S(4960, __c310, 0),
           tags: S.optional(__S(16, __c1, 0)),
-          identity: S.optional(__S(5152, __c322, 0)),
+          identity: S.optional(__S(5200, __c325, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20497,23 +20787,23 @@ function __c262(j: number): any {
       ).annotate({ identifier: "ValidateDeploymentRequest" });
   }
 }
-function __c263(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(5058, __c316, 2)),
+          error: S.optional(__S(5106, __c319, 2)),
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(5144, __c321, 8)),
+          properties: S.optional(__S(5192, __c324, 8)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "DeploymentValidateResult" });
   }
 }
-function __c264(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20521,7 +20811,7 @@ function __c264(j: number): any {
           groupId: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
           location: S.String,
-          properties: __S(4896, __c306, 0),
+          properties: __S(4960, __c310, 0),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
           T.Http({
@@ -20534,7 +20824,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "ValidateDeploymentAtManagementGroupScopeRequest" });
   }
 }
-function __c265(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20563,7 +20853,7 @@ function __c265(j: number): any {
       ).annotate({ identifier: "DeleteDeploymentStacksWhatIfResultsAtSubscriptionRequest" });
   }
 }
-function __c266(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20571,9 +20861,9 @@ function __c266(j: number): any {
           scope: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
-          properties: __S(4896, __c306, 0),
+          properties: __S(4960, __c310, 0),
           tags: S.optional(__S(16, __c1, 0)),
-          identity: S.optional(__S(5152, __c322, 0)),
+          identity: S.optional(__S(5200, __c325, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20585,7 +20875,7 @@ function __c266(j: number): any {
       ).annotate({ identifier: "ValidateDeploymentAtScopeRequest" });
   }
 }
-function __c267(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20593,9 +20883,9 @@ function __c267(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
-          properties: __S(4896, __c306, 0),
+          properties: __S(4960, __c310, 0),
           tags: S.optional(__S(16, __c1, 0)),
-          identity: S.optional(__S(5152, __c322, 0)),
+          identity: S.optional(__S(5200, __c325, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -20607,14 +20897,14 @@ function __c267(j: number): any {
       ).annotate({ identifier: "ValidateDeploymentAtSubscriptionScopeRequest" });
   }
 }
-function __c268(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           deploymentName: S.String.pipe(T.Label()),
           location: S.String,
-          properties: __S(4896, __c306, 0),
+          properties: __S(4960, __c310, 0),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
           T.Http({
@@ -20627,14 +20917,14 @@ function __c268(j: number): any {
       ).annotate({ identifier: "ValidateDeploymentAtTenantScopeRequest" });
   }
 }
-function __c269(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           managementGroupId: S.String.pipe(T.Label()),
           deploymentStackName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5312, __c332, 0)),
+          properties: S.optional(__S(5360, __c335, 0)),
           location: S.optional(S.String),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
@@ -20648,20 +20938,20 @@ function __c269(j: number): any {
       ).annotate({ identifier: "ValidateDeploymentStackStackAtManagementGroupRequest" });
   }
 }
-function __c270(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          actionOnUnmanage: S.optional(__S(5346, __c334, 2)),
+          actionOnUnmanage: S.optional(__S(5394, __c337, 2)),
           correlationId: S.optional(S.String),
-          denySettings: S.optional(__S(5347, __c334, 3)),
+          denySettings: S.optional(__S(5395, __c337, 3)),
           deploymentScope: S.optional(S.String),
           description: S.optional(S.String),
-          parameters: S.optional(__S(5345, __c334, 1)),
-          templateLink: S.optional(__S(5361, __c335, 1)),
-          validatedResources: S.optional(__S(5297, __c331, 1)),
-          deploymentExtensions: S.optional(__S(5298, __c331, 2)),
+          parameters: S.optional(__S(5393, __c337, 1)),
+          templateLink: S.optional(__S(5408, __c338, 0)),
+          validatedResources: S.optional(__S(5345, __c334, 1)),
+          deploymentExtensions: S.optional(__S(5346, __c334, 2)),
           validationLevel: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeploymentStackValidateProperties" });
@@ -20672,15 +20962,15 @@ function __c270(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
-          error: S.optional(__S(5379, __c336, 3)),
-          properties: S.optional(__S(4320, __c270, 0)),
+          error: S.optional(__S(291, __c18, 3)),
+          properties: S.optional(__S(4384, __c274, 0)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "DeploymentStackValidateResult" });
   }
 }
-function __c271(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20688,7 +20978,7 @@ function __c271(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deploymentStackName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5312, __c332, 0)),
+          properties: S.optional(__S(5360, __c335, 0)),
           location: S.optional(S.String),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
@@ -20702,14 +20992,14 @@ function __c271(j: number): any {
       ).annotate({ identifier: "ValidateDeploymentStackStackAtResourceGroupRequest" });
   }
 }
-function __c272(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           deploymentStackName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5312, __c332, 0)),
+          properties: S.optional(__S(5360, __c335, 0)),
           location: S.optional(S.String),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
@@ -20723,7 +21013,7 @@ function __c272(j: number): any {
       ).annotate({ identifier: "ValidateDeploymentStackStackAtSubscriptionRequest" });
   }
 }
-function __c273(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20736,7 +21026,7 @@ function __c273(j: number): any {
         ),
       ).annotate({ identifier: "ResourceValidationRequestResource" });
     case 1:
-      return S.Array(__S(4368, __c273, 0));
+      return S.Array(__S(4432, __c277, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -20744,7 +21034,7 @@ function __c273(j: number): any {
           type: S.String,
           location: S.optional(S.String),
           scope: S.String,
-          resources: __S(4369, __c273, 1),
+          resources: __S(4433, __c277, 1),
           validationType: S.optional(S.String),
           performPreflightWithoutRbacWriteCheck: S.optional(S.Boolean),
         }).pipe(
@@ -20765,12 +21055,12 @@ function __c273(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(4371, __c273, 3),
+          properties: __S(4435, __c277, 3),
         }),
       ).annotate({ identifier: "ResourceValidationResponse" });
   }
 }
-function __c274(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20789,7 +21079,7 @@ function __c274(j: number): any {
       ).annotate({ identifier: "DeleteJitRequestRequest" });
   }
 }
-function __c275(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20808,7 +21098,7 @@ function __c275(j: number): any {
       ).annotate({ identifier: "DeleteManagementLockAtResourceGroupLevelRequest" });
   }
 }
-function __c276(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20827,7 +21117,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "CancelDeploymentRequest" });
   }
 }
-function __c277(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20850,7 +21140,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "DeleteManagementLockAtResourceLevelRequest" });
   }
 }
-function __c278(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20868,7 +21158,7 @@ function __c278(j: number): any {
       ).annotate({ identifier: "DeleteManagementLockAtSubscriptionLevelRequest" });
   }
 }
-function __c279(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20886,7 +21176,7 @@ function __c279(j: number): any {
       ).annotate({ identifier: "DeleteManagementLockByScopeRequest" });
   }
 }
-function __c280(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20904,7 +21194,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "DeletePolicyAssignmentRequest" });
   }
 }
-function __c281(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20922,7 +21212,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "DeletePolicyDefinitionRequest" });
   }
 }
-function __c282(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20940,7 +21230,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "DeletePolicyDefinitionAtManagementGroupRequest" });
   }
 }
-function __c283(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20959,7 +21249,7 @@ function __c283(j: number): any {
       ).annotate({ identifier: "DeletePolicyDefinitionVersionRequest" });
   }
 }
-function __c284(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20978,7 +21268,7 @@ function __c284(j: number): any {
       ).annotate({ identifier: "DeletePolicyDefinitionVersionAtManagementGroupRequest" });
   }
 }
-function __c285(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20996,7 +21286,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "DeletePolicySetDefinitionRequest" });
   }
 }
-function __c286(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21014,7 +21304,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "DeletePolicySetDefinitionAtManagementGroupRequest" });
   }
 }
-function __c287(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21032,7 +21322,7 @@ function __c287(j: number): any {
       ).annotate({ identifier: "CancelDeploymentAtManagementGroupScopeRequest" });
   }
 }
-function __c288(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21051,7 +21341,7 @@ function __c288(j: number): any {
       ).annotate({ identifier: "DeletePolicySetDefinitionVersionRequest" });
   }
 }
-function __c289(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21070,7 +21360,7 @@ function __c289(j: number): any {
       ).annotate({ identifier: "DeletePolicySetDefinitionVersionAtManagementGroupRequest" });
   }
 }
-function __c290(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21088,7 +21378,7 @@ function __c290(j: number): any {
       ).annotate({ identifier: "DeletePrivateLinkAssociationRequest" });
   }
 }
-function __c291(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21110,7 +21400,7 @@ function __c291(j: number): any {
       ).annotate({ identifier: "DeleteResourceRequest" });
   }
 }
-function __c292(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21122,7 +21412,7 @@ function __c292(j: number): any {
       ).annotate({ identifier: "DeleteResourceByIdRequest" });
   }
 }
-function __c293(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21141,7 +21431,7 @@ function __c293(j: number): any {
       ).annotate({ identifier: "DeleteResourceGroupRequest" });
   }
 }
-function __c294(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21153,7 +21443,7 @@ function __c294(j: number): any {
       ).annotate({ identifier: "DeleteResourceLinkRequest" });
   }
 }
-function __c295(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21172,7 +21462,7 @@ function __c295(j: number): any {
       ).annotate({ identifier: "DeleteResourceManagementPrivateLinkRequest" });
   }
 }
-function __c296(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21191,7 +21481,7 @@ function __c296(j: number): any {
       ).annotate({ identifier: "DeleteSubscriptionFeatureRegistrationRequest" });
   }
 }
-function __c297(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21209,7 +21499,7 @@ function __c297(j: number): any {
       ).annotate({ identifier: "DeleteTagRequest" });
   }
 }
-function __c298(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21227,7 +21517,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "CancelDeploymentAtScopeRequest" });
   }
 }
-function __c299(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21244,7 +21534,7 @@ function __c299(j: number): any {
       ).annotate({ identifier: "DeleteTagAtScopeRequest" });
   }
 }
-function __c300(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21263,7 +21553,7 @@ function __c300(j: number): any {
       ).annotate({ identifier: "DeleteTagValueRequest" });
   }
 }
-function __c301(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21282,7 +21572,7 @@ function __c301(j: number): any {
       ).annotate({ identifier: "DeleteTemplateSpecRequest" });
   }
 }
-function __c302(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21302,7 +21592,7 @@ function __c302(j: number): any {
       ).annotate({ identifier: "DeleteTemplateSpecVersionRequest" });
   }
 }
-function __c303(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21324,7 +21614,7 @@ function __c303(j: number): any {
       ).annotate({ identifier: "TemplateHashResult" });
   }
 }
-function __c304(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21333,9 +21623,9 @@ function __c304(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
-          properties: __S(4896, __c306, 0),
+          properties: __S(4960, __c310, 0),
           tags: S.optional(__S(16, __c1, 0)),
-          identity: S.optional(__S(5152, __c322, 0)),
+          identity: S.optional(__S(5200, __c325, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -21347,7 +21637,7 @@ function __c304(j: number): any {
       ).annotate({ identifier: "DeploymentsCreateOrUpdateRequest" });
   }
 }
-function __c305(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21356,7 +21646,7 @@ function __c305(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
-          properties: S.optional(__S(5144, __c321, 8)),
+          properties: S.optional(__S(5192, __c324, 8)),
           location: S.optional(S.String),
           tags: S.optional(__S(16, __c1, 0)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
@@ -21365,28 +21655,28 @@ function __c305(j: number): any {
       ).annotate({ identifier: "DeploymentsCreateOrUpdateResponse" });
   }
 }
-function __c306(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           template: S.optional(S.Unknown),
-          templateLink: S.optional(__S(5040, __c315, 0)),
-          parameters: S.optional(__S(5025, __c314, 1)),
-          externalInputs: S.optional(__S(4913, __c307, 1)),
-          externalInputDefinitions: S.optional(__S(4915, __c307, 3)),
-          parametersLink: S.optional(__S(4944, __c309, 0)),
-          extensionConfigs: S.optional(__S(4976, __c311, 0)),
+          templateLink: S.optional(__S(5088, __c318, 0)),
+          parameters: S.optional(__S(5073, __c317, 1)),
+          externalInputs: S.optional(__S(4977, __c311, 1)),
+          externalInputDefinitions: S.optional(__S(4979, __c311, 3)),
+          parametersLink: S.optional(__S(4992, __c312, 0)),
+          extensionConfigs: S.optional(__S(5024, __c314, 0)),
           mode: S.String,
-          debugSetting: S.optional(__S(4945, __c309, 1)),
-          onErrorDeployment: S.optional(__S(5026, __c314, 2)),
-          expressionEvaluationOptions: S.optional(__S(5027, __c314, 3)),
+          debugSetting: S.optional(__S(4993, __c312, 1)),
+          onErrorDeployment: S.optional(__S(5074, __c317, 2)),
+          expressionEvaluationOptions: S.optional(__S(5075, __c317, 3)),
           validationLevel: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeploymentProperties" });
   }
 }
-function __c307(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21395,7 +21685,7 @@ function __c307(j: number): any {
         }),
       ).annotate({ identifier: "DeploymentExternalInput" });
     case 1:
-      return S.Record(S.String, __S(4912, __c307, 0));
+      return S.Record(S.String, __S(4976, __c311, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21404,23 +21694,10 @@ function __c307(j: number): any {
         }),
       ).annotate({ identifier: "DeploymentExternalInputDefinition" });
     case 3:
-      return S.Record(S.String, __S(4914, __c307, 2));
+      return S.Record(S.String, __S(4978, __c311, 2));
   }
 }
-function __c308(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          info: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "ErrorResponseAdditionalInfoItem" });
-    case 1:
-      return S.Array(__S(4928, __c308, 0));
-  }
-}
-function __c309(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21437,7 +21714,7 @@ function __c309(j: number): any {
       ).annotate({ identifier: "DebugSetting" });
   }
 }
-function __c310(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21448,33 +21725,33 @@ function __c310(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          keyVault: __S(4960, __c310, 0),
+          keyVault: __S(5008, __c313, 0),
           secretName: S.String,
           secretVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "KeyVaultParameterReference_2" });
   }
 }
-function __c311(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(4993, __c312, 1));
+      return S.Record(S.String, __S(5041, __c315, 1));
   }
 }
-function __c312(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.Unknown),
-          keyVaultReference: S.optional(__S(4961, __c310, 1)),
+          keyVaultReference: S.optional(__S(5009, __c313, 1)),
         }),
       ).annotate({ identifier: "DeploymentExtensionConfigItem_2" });
     case 1:
-      return S.Record(S.String, __S(4992, __c312, 0));
+      return S.Record(S.String, __S(5040, __c315, 0));
   }
 }
-function __c313(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21483,25 +21760,25 @@ function __c313(j: number): any {
           code: S.String,
           message: S.String,
           target: S.optional(S.String),
-          additionalInfo: S.optional(__S(4929, __c308, 1)),
+          additionalInfo: S.optional(__S(257, __c16, 1)),
         }),
       ).annotate({ identifier: "DeploymentDiagnosticsDefinition" });
     case 1:
-      return S.Array(__S(5008, __c313, 0));
+      return S.Array(__S(5056, __c316, 0));
   }
 }
-function __c314(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.Unknown),
-          reference: S.optional(__S(4961, __c310, 1)),
+          reference: S.optional(__S(5009, __c313, 1)),
           expression: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeploymentParameter_2" });
     case 1:
-      return S.Record(S.String, __S(5024, __c314, 0));
+      return S.Record(S.String, __S(5072, __c317, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21517,7 +21794,7 @@ function __c314(j: number): any {
       ).annotate({ identifier: "ExpressionEvaluationOptions" });
   }
 }
-function __c315(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21531,7 +21808,7 @@ function __c315(j: number): any {
       ).annotate({ identifier: "TemplateLink" });
   }
 }
-function __c316(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21541,24 +21818,24 @@ function __c316(j: number): any {
           version: S.optional(S.String),
           configId: S.optional(S.String),
           configHash: S.optional(S.String),
-          config: S.optional(__S(4993, __c312, 1)),
+          config: S.optional(__S(5041, __c315, 1)),
         }),
       ).annotate({ identifier: "DeploymentExtensionDefinition" });
     case 1:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(5058, __c316, 2)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(5106, __c319, 2)));
     case 2:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
           target: S.optional(S.String),
-          details: S.optional(__S(5057, __c316, 1)),
-          additionalInfo: S.optional(__S(4929, __c308, 1)),
+          details: S.optional(__S(5105, __c319, 1)),
+          additionalInfo: S.optional(__S(257, __c16, 1)),
         }),
       ).annotate({ identifier: "ErrorResponse" });
   }
 }
-function __c317(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21580,28 +21857,28 @@ function __c317(j: number): any {
         S.Struct({
           path: S.optional(S.String),
           apiVersions: S.optional(__S(80, __c5, 0)),
-          pattern: S.optional(__S(5072, __c317, 0)),
-          metadata: S.optional(__S(5073, __c317, 1)),
+          pattern: S.optional(__S(5120, __c320, 0)),
+          metadata: S.optional(__S(5121, __c320, 1)),
         }),
       ).annotate({ identifier: "AliasPath_2" });
     case 3:
-      return S.Array(__S(5074, __c317, 2));
+      return S.Array(__S(5122, __c320, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          paths: S.optional(__S(5075, __c317, 3)),
+          paths: S.optional(__S(5123, __c320, 3)),
           type: S.optional(S.String),
           defaultPath: S.optional(S.String),
-          defaultPattern: S.optional(__S(5072, __c317, 0)),
-          defaultMetadata: S.optional(__S(5073, __c317, 1)),
+          defaultPattern: S.optional(__S(5120, __c320, 0)),
+          defaultMetadata: S.optional(__S(5121, __c320, 1)),
         }),
       ).annotate({ identifier: "Alias_2" });
     case 5:
-      return S.Array(__S(5076, __c317, 4));
+      return S.Array(__S(5124, __c320, 4));
   }
 }
-function __c318(j: number): any {
+function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21612,7 +21889,7 @@ function __c318(j: number): any {
         }),
       ).annotate({ identifier: "ProviderExtendedLocation" });
     case 1:
-      return S.Array(__S(5088, __c318, 0));
+      return S.Array(__S(5136, __c321, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21621,7 +21898,7 @@ function __c318(j: number): any {
         }),
       ).annotate({ identifier: "ZoneMapping" });
     case 3:
-      return S.Array(__S(5090, __c318, 2));
+      return S.Array(__S(5138, __c321, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -21630,27 +21907,27 @@ function __c318(j: number): any {
         }),
       ).annotate({ identifier: "ApiProfile" });
     case 5:
-      return S.Array(__S(5092, __c318, 4));
+      return S.Array(__S(5140, __c321, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           resourceType: S.optional(S.String),
           locations: S.optional(__S(80, __c5, 0)),
-          locationMappings: S.optional(__S(5089, __c318, 1)),
-          aliases: S.optional(__S(5077, __c317, 5)),
+          locationMappings: S.optional(__S(5137, __c321, 1)),
+          aliases: S.optional(__S(5125, __c320, 5)),
           apiVersions: S.optional(__S(80, __c5, 0)),
           defaultApiVersion: S.optional(S.String),
-          zoneMappings: S.optional(__S(5091, __c318, 3)),
-          apiProfiles: S.optional(__S(5093, __c318, 5)),
+          zoneMappings: S.optional(__S(5139, __c321, 3)),
+          apiProfiles: S.optional(__S(5141, __c321, 5)),
           capabilities: S.optional(S.String),
           properties: S.optional(__S(16, __c1, 0)),
         }),
       ).annotate({ identifier: "ProviderResourceType" });
     case 7:
-      return S.Array(__S(5094, __c318, 6));
+      return S.Array(__S(5142, __c321, 6));
   }
 }
-function __c319(j: number): any {
+function __c322(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21659,19 +21936,19 @@ function __c319(j: number): any {
           namespace: S.optional(S.String),
           registrationState: S.optional(S.String),
           registrationPolicy: S.optional(S.String),
-          resourceTypes: S.optional(__S(5095, __c318, 7)),
+          resourceTypes: S.optional(__S(5143, __c321, 7)),
           providerAuthorizationConsentState: S.optional(S.String),
         }),
       ).annotate({ identifier: "Provider" });
   }
 }
-function __c320(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5104, __c319, 0));
+      return S.Array(__S(5152, __c322, 0));
   }
 }
-function __c321(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21682,20 +21959,20 @@ function __c321(j: number): any {
         }),
       ).annotate({ identifier: "BasicDependency" });
     case 1:
-      return S.Array(__S(5136, __c321, 0));
+      return S.Array(__S(5184, __c324, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dependsOn: S.optional(__S(5137, __c321, 1)),
+          dependsOn: S.optional(__S(5185, __c324, 1)),
           id: S.optional(S.String),
           resourceType: S.optional(S.String),
           resourceName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Dependency" });
     case 3:
-      return S.Array(__S(5138, __c321, 2));
+      return S.Array(__S(5186, __c324, 2));
     case 4:
-      return S.Array(__S(5056, __c316, 0));
+      return S.Array(__S(5104, __c319, 0));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -21708,7 +21985,7 @@ function __c321(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          extension: S.optional(__S(5056, __c316, 0)),
+          extension: S.optional(__S(5104, __c319, 0)),
           resourceType: S.optional(S.String),
           identifiers: S.optional(S.Unknown),
           apiVersion: S.optional(S.String),
@@ -21716,7 +21993,7 @@ function __c321(j: number): any {
         }),
       ).annotate({ identifier: "ResourceReference_2" });
     case 7:
-      return S.Array(__S(5142, __c321, 6));
+      return S.Array(__S(5190, __c324, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -21725,26 +22002,26 @@ function __c321(j: number): any {
           timestamp: S.optional(S.String),
           duration: S.optional(S.String),
           outputs: S.optional(S.Unknown),
-          providers: S.optional(__S(5120, __c320, 0)),
-          dependencies: S.optional(__S(5139, __c321, 3)),
-          templateLink: S.optional(__S(5040, __c315, 0)),
+          providers: S.optional(__S(5168, __c323, 0)),
+          dependencies: S.optional(__S(5187, __c324, 3)),
+          templateLink: S.optional(__S(5088, __c318, 0)),
           parameters: S.optional(S.Unknown),
-          parametersLink: S.optional(__S(4944, __c309, 0)),
-          extensions: S.optional(__S(5140, __c321, 4)),
+          parametersLink: S.optional(__S(4992, __c312, 0)),
+          extensions: S.optional(__S(5188, __c324, 4)),
           mode: S.optional(S.String),
-          debugSetting: S.optional(__S(4945, __c309, 1)),
-          onErrorDeployment: S.optional(__S(5141, __c321, 5)),
+          debugSetting: S.optional(__S(4993, __c312, 1)),
+          onErrorDeployment: S.optional(__S(5189, __c324, 5)),
           templateHash: S.optional(S.String),
-          outputResources: S.optional(__S(5143, __c321, 7)),
-          validatedResources: S.optional(__S(5143, __c321, 7)),
-          error: S.optional(__S(5058, __c316, 2)),
-          diagnostics: S.optional(__S(5009, __c313, 1)),
+          outputResources: S.optional(__S(5191, __c324, 7)),
+          validatedResources: S.optional(__S(5191, __c324, 7)),
+          error: S.optional(__S(5106, __c319, 2)),
+          diagnostics: S.optional(__S(5057, __c316, 1)),
           validationLevel: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeploymentPropertiesExtended" });
   }
 }
-function __c322(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21755,7 +22032,7 @@ function __c322(j: number): any {
       ).annotate({ identifier: "DeploymentIdentityInput" });
   }
 }
-function __c323(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21763,7 +22040,7 @@ function __c323(j: number): any {
           groupId: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
           location: S.String,
-          properties: __S(4896, __c306, 0),
+          properties: __S(4960, __c310, 0),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
           T.Http({
@@ -21776,7 +22053,7 @@ function __c323(j: number): any {
       ).annotate({ identifier: "DeploymentsCreateOrUpdateAtManagementGroupScopeRequest" });
   }
 }
-function __c324(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21784,9 +22061,9 @@ function __c324(j: number): any {
           scope: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
-          properties: __S(4896, __c306, 0),
+          properties: __S(4960, __c310, 0),
           tags: S.optional(__S(16, __c1, 0)),
-          identity: S.optional(__S(5152, __c322, 0)),
+          identity: S.optional(__S(5200, __c325, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -21798,7 +22075,7 @@ function __c324(j: number): any {
       ).annotate({ identifier: "DeploymentsCreateOrUpdateAtScopeRequest" });
   }
 }
-function __c325(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21806,9 +22083,9 @@ function __c325(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
-          properties: __S(4896, __c306, 0),
+          properties: __S(4960, __c310, 0),
           tags: S.optional(__S(16, __c1, 0)),
-          identity: S.optional(__S(5152, __c322, 0)),
+          identity: S.optional(__S(5200, __c325, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -21820,14 +22097,14 @@ function __c325(j: number): any {
       ).annotate({ identifier: "DeploymentsCreateOrUpdateAtSubscriptionScopeRequest" });
   }
 }
-function __c326(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           deploymentName: S.String.pipe(T.Label()),
           location: S.String,
-          properties: __S(4896, __c306, 0),
+          properties: __S(4960, __c310, 0),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
           T.Http({
@@ -21840,7 +22117,7 @@ function __c326(j: number): any {
       ).annotate({ identifier: "DeploymentsCreateOrUpdateAtTenantScopeRequest" });
   }
 }
-function __c327(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21858,14 +22135,14 @@ function __c327(j: number): any {
       ).annotate({ identifier: "CancelDeploymentAtSubscriptionScopeRequest" });
   }
 }
-function __c328(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           managementGroupId: S.String.pipe(T.Label()),
           deploymentStackName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5312, __c332, 0)),
+          properties: S.optional(__S(5360, __c335, 0)),
           location: S.optional(S.String),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
@@ -21879,7 +22156,7 @@ function __c328(j: number): any {
       ).annotate({ identifier: "DeploymentStacksCreateOrUpdateAtManagementGroupRequest" });
   }
 }
-function __c329(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21888,7 +22165,7 @@ function __c329(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
-          properties: S.optional(__S(5284, __c330, 4)),
+          properties: S.optional(__S(5332, __c333, 4)),
           location: S.optional(S.String),
           tags: S.optional(__S(16, __c1, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
@@ -21897,113 +22174,65 @@ function __c329(j: number): any {
       ).annotate({ identifier: "DeploymentStacksCreateOrUpdateAtManagementGroupResponse" });
   }
 }
-function __c330(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          extension: S.optional(__S(5350, __c334, 6)),
+          extension: S.optional(__S(5398, __c337, 6)),
           type: S.optional(S.String),
-          identifiers: S.optional(__S(5360, __c335, 0)),
+          identifiers: S.optional(__S(272, __c17, 0)),
           apiVersion: S.optional(S.String),
-          error: S.optional(__S(5379, __c336, 3)),
+          error: S.optional(__S(291, __c18, 3)),
         }),
       ).annotate({ identifier: "ResourceReferenceExtended" });
     case 1:
-      return S.Array(__S(5280, __c330, 0));
+      return S.Array(__S(5328, __c333, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          extension: S.optional(__S(5350, __c334, 6)),
+          extension: S.optional(__S(5398, __c337, 6)),
           type: S.optional(S.String),
-          identifiers: S.optional(__S(5360, __c335, 0)),
+          identifiers: S.optional(__S(272, __c17, 0)),
           apiVersion: S.optional(S.String),
           status: S.optional(S.String),
           denyStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "ManagedResourceReference" });
     case 3:
-      return S.Array(__S(5282, __c330, 2));
+      return S.Array(__S(5330, __c333, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(5379, __c336, 3)),
-          template: S.optional(__S(5360, __c335, 0)),
-          templateLink: S.optional(__S(5361, __c335, 1)),
-          parameters: S.optional(__S(5345, __c334, 1)),
-          parametersLink: S.optional(__S(4944, __c309, 0)),
-          extensionConfigs: S.optional(__S(5328, __c333, 0)),
-          externalInputs: S.optional(__S(4913, __c307, 1)),
-          externalInputDefinitions: S.optional(__S(4915, __c307, 3)),
-          actionOnUnmanage: __S(5346, __c334, 2),
-          debugSetting: S.optional(__S(4945, __c309, 1)),
+          error: S.optional(__S(291, __c18, 3)),
+          template: S.optional(__S(272, __c17, 0)),
+          templateLink: S.optional(__S(5408, __c338, 0)),
+          parameters: S.optional(__S(5393, __c337, 1)),
+          parametersLink: S.optional(__S(4992, __c312, 0)),
+          extensionConfigs: S.optional(__S(5376, __c336, 0)),
+          externalInputs: S.optional(__S(4977, __c311, 1)),
+          externalInputDefinitions: S.optional(__S(4979, __c311, 3)),
+          actionOnUnmanage: __S(5394, __c337, 2),
+          debugSetting: S.optional(__S(4993, __c312, 1)),
           deploymentScope: S.optional(S.String),
           description: S.optional(S.String),
-          denySettings: __S(5347, __c334, 3),
+          denySettings: __S(5395, __c337, 3),
           provisioningState: S.optional(S.String),
           correlationId: S.optional(S.String),
           validationLevel: S.optional(S.String),
           bypassStackOutOfSyncError: S.optional(S.Boolean),
-          detachedResources: S.optional(__S(5297, __c331, 1)),
-          deletedResources: S.optional(__S(5297, __c331, 1)),
-          failedResources: S.optional(__S(5281, __c330, 1)),
-          resources: S.optional(__S(5283, __c330, 3)),
-          deploymentExtensions: S.optional(__S(5298, __c331, 2)),
+          detachedResources: S.optional(__S(5345, __c334, 1)),
+          deletedResources: S.optional(__S(5345, __c334, 1)),
+          failedResources: S.optional(__S(5329, __c333, 1)),
+          resources: S.optional(__S(5331, __c333, 3)),
+          deploymentExtensions: S.optional(__S(5346, __c334, 2)),
           deploymentId: S.optional(S.String),
-          outputs: S.optional(__S(5360, __c335, 0)),
+          outputs: S.optional(__S(272, __c17, 0)),
           duration: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeploymentStackProperties" });
-  }
-}
-function __c331(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          extension: S.optional(__S(5350, __c334, 6)),
-          type: S.optional(S.String),
-          identifiers: S.optional(__S(5360, __c335, 0)),
-          apiVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResourceReference" });
-    case 1:
-      return S.Array(__S(5296, __c331, 0));
-    case 2:
-      return S.Array(__S(5350, __c334, 6));
-  }
-}
-function __c332(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          error: S.optional(__S(160, __c10, 0)),
-          template: S.optional(__S(5360, __c335, 0)),
-          templateLink: S.optional(__S(5361, __c335, 1)),
-          parameters: S.optional(__S(5345, __c334, 1)),
-          parametersLink: S.optional(__S(4944, __c309, 0)),
-          extensionConfigs: S.optional(__S(4976, __c311, 0)),
-          externalInputs: S.optional(__S(4913, __c307, 1)),
-          externalInputDefinitions: S.optional(__S(4915, __c307, 3)),
-          actionOnUnmanage: __S(5346, __c334, 2),
-          debugSetting: S.optional(__S(4945, __c309, 1)),
-          deploymentScope: S.optional(S.String),
-          description: S.optional(S.String),
-          denySettings: __S(5347, __c334, 3),
-          validationLevel: S.optional(S.String),
-          bypassStackOutOfSyncError: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "DeploymentStackPropertiesInput" });
-  }
-}
-function __c333(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, __S(5349, __c334, 5));
   }
 }
 function __c334(j: number): any {
@@ -22011,14 +22240,62 @@ function __c334(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.optional(S.String),
+          extension: S.optional(__S(5398, __c337, 6)),
+          type: S.optional(S.String),
+          identifiers: S.optional(__S(272, __c17, 0)),
+          apiVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceReference" });
+    case 1:
+      return S.Array(__S(5344, __c334, 0));
+    case 2:
+      return S.Array(__S(5398, __c337, 6));
+  }
+}
+function __c335(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          error: S.optional(__S(160, __c10, 0)),
+          template: S.optional(__S(272, __c17, 0)),
+          templateLink: S.optional(__S(5408, __c338, 0)),
+          parameters: S.optional(__S(5393, __c337, 1)),
+          parametersLink: S.optional(__S(4992, __c312, 0)),
+          extensionConfigs: S.optional(__S(5024, __c314, 0)),
+          externalInputs: S.optional(__S(4977, __c311, 1)),
+          externalInputDefinitions: S.optional(__S(4979, __c311, 3)),
+          actionOnUnmanage: __S(5394, __c337, 2),
+          debugSetting: S.optional(__S(4993, __c312, 1)),
+          deploymentScope: S.optional(S.String),
+          description: S.optional(S.String),
+          denySettings: __S(5395, __c337, 3),
+          validationLevel: S.optional(S.String),
+          bypassStackOutOfSyncError: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DeploymentStackPropertiesInput" });
+  }
+}
+function __c336(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, __S(5397, __c337, 5));
+  }
+}
+function __c337(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           value: S.optional(S.Unknown),
           type: S.optional(S.String),
-          reference: S.optional(__S(4961, __c310, 1)),
+          reference: S.optional(__S(5009, __c313, 1)),
           expression: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeploymentParameter" });
     case 1:
-      return S.Record(S.String, __S(5344, __c334, 0));
+      return S.Record(S.String, __S(5392, __c337, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -22042,27 +22319,25 @@ function __c334(j: number): any {
         S.Struct({
           type: S.optional(S.String),
           value: S.optional(S.Unknown),
-          keyVaultReference: S.optional(__S(4961, __c310, 1)),
+          keyVaultReference: S.optional(__S(5009, __c313, 1)),
         }),
       ).annotate({ identifier: "DeploymentExtensionConfigItem" });
     case 5:
-      return S.Record(S.String, __S(5348, __c334, 4));
+      return S.Record(S.String, __S(5396, __c337, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           version: S.String,
           configId: S.optional(S.String),
-          config: S.optional(__S(5349, __c334, 5)),
+          config: S.optional(__S(5397, __c337, 5)),
         }),
       ).annotate({ identifier: "DeploymentExtension" });
   }
 }
-function __c335(j: number): any {
+function __c338(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           uri: S.optional(S.String),
@@ -22074,35 +22349,7 @@ function __c335(j: number): any {
       ).annotate({ identifier: "DeploymentStacksTemplateLink" });
   }
 }
-function __c336(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(5377, __c336, 1)));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.String),
-          message: S.optional(S.String),
-          target: S.optional(S.String),
-          details: S.optional(__S(5376, __c336, 0)),
-          additionalInfo: S.optional(__S(4929, __c308, 1)),
-        }),
-      ).annotate({ identifier: "ErrorDetail" });
-    case 2:
-      return S.Array(__S(5377, __c336, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.String),
-          message: S.optional(S.String),
-          target: S.optional(S.String),
-          details: S.optional(__S(5378, __c336, 2)),
-          additionalInfo: S.optional(__S(4929, __c308, 1)),
-        }),
-      ).annotate({ identifier: "DeploymentStackPropertiesError" });
-  }
-}
-function __c337(j: number): any {
+function __c339(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22110,7 +22357,7 @@ function __c337(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deploymentStackName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5312, __c332, 0)),
+          properties: S.optional(__S(5360, __c335, 0)),
           location: S.optional(S.String),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
@@ -22124,14 +22371,14 @@ function __c337(j: number): any {
       ).annotate({ identifier: "DeploymentStacksCreateOrUpdateAtResourceGroupRequest" });
   }
 }
-function __c338(j: number): any {
+function __c340(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           deploymentStackName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5312, __c332, 0)),
+          properties: S.optional(__S(5360, __c335, 0)),
           location: S.optional(S.String),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
@@ -22145,14 +22392,14 @@ function __c338(j: number): any {
       ).annotate({ identifier: "DeploymentStacksCreateOrUpdateAtSubscriptionRequest" });
   }
 }
-function __c339(j: number): any {
+function __c341(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           managementGroupId: S.String.pipe(T.Label()),
           deploymentStacksWhatIfResultName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5456, __c341, 0)),
+          properties: S.optional(__S(5488, __c343, 0)),
           location: S.optional(S.String),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
@@ -22168,7 +22415,7 @@ function __c339(j: number): any {
       });
   }
 }
-function __c340(j: number): any {
+function __c342(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22178,7 +22425,7 @@ function __c340(j: number): any {
         }),
       ).annotate({ identifier: "DeploymentStacksWhatIfResourceChangeManagementStatusChange" });
     case 1:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(5442, __c340, 2)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(5474, __c342, 2)));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -22186,17 +22433,17 @@ function __c340(j: number): any {
           after: S.optional(S.Unknown),
           path: S.String,
           changeType: S.String,
-          children: S.optional(__S(5441, __c340, 1)),
+          children: S.optional(__S(5473, __c342, 1)),
         }),
       ).annotate({ identifier: "DeploymentStacksWhatIfPropertyChange" });
     case 3:
-      return S.Array(__S(5442, __c340, 2));
+      return S.Array(__S(5474, __c342, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          before: S.optional(__S(5360, __c335, 0)),
-          after: S.optional(__S(5360, __c335, 0)),
-          delta: S.optional(__S(5443, __c340, 3)),
+          before: S.optional(__S(272, __c17, 0)),
+          after: S.optional(__S(272, __c17, 0)),
+          delta: S.optional(__S(5475, __c342, 3)),
         }),
       ).annotate({
         identifier: "DeploymentStacksWhatIfResourceChangeResourceConfigurationChanges",
@@ -22205,28 +22452,28 @@ function __c340(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          extension: S.optional(__S(5350, __c334, 6)),
+          extension: S.optional(__S(5398, __c337, 6)),
           type: S.optional(S.String),
-          identifiers: S.optional(__S(5360, __c335, 0)),
+          identifiers: S.optional(__S(272, __c17, 0)),
           apiVersion: S.optional(S.String),
           deploymentId: S.optional(S.String),
           symbolicName: S.optional(S.String),
           changeType: S.String,
           changeCertainty: S.String,
-          managementStatusChange: S.optional(__S(5440, __c340, 0)),
-          denyStatusChange: S.optional(__S(5440, __c340, 0)),
+          managementStatusChange: S.optional(__S(5472, __c342, 0)),
+          denyStatusChange: S.optional(__S(5472, __c342, 0)),
           unsupportedReason: S.optional(S.String),
-          resourceConfigurationChanges: S.optional(__S(5444, __c340, 4)),
+          resourceConfigurationChanges: S.optional(__S(5476, __c342, 4)),
         }),
       ).annotate({ identifier: "DeploymentStacksWhatIfResourceChange" });
     case 6:
-      return S.Array(__S(5445, __c340, 5));
+      return S.Array(__S(5477, __c342, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          before: S.optional(__S(5347, __c334, 3)),
-          after: S.optional(__S(5347, __c334, 3)),
-          delta: S.optional(__S(5443, __c340, 3)),
+          before: S.optional(__S(5395, __c337, 3)),
+          after: S.optional(__S(5395, __c337, 3)),
+          delta: S.optional(__S(5475, __c342, 3)),
         }),
       ).annotate({ identifier: "DeploymentStacksWhatIfChangeDenySettingsChange" });
     case 8:
@@ -22239,57 +22486,57 @@ function __c340(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          resourceChanges: __S(5446, __c340, 6),
-          denySettingsChange: __S(5447, __c340, 7),
-          deploymentScopeChange: S.optional(__S(5448, __c340, 8)),
+          resourceChanges: __S(5478, __c342, 6),
+          denySettingsChange: __S(5479, __c342, 7),
+          deploymentScopeChange: S.optional(__S(5480, __c342, 8)),
         }),
       ).annotate({ identifier: "DeploymentStacksWhatIfChange" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(5379, __c336, 3)),
-          template: S.optional(__S(5360, __c335, 0)),
-          templateLink: S.optional(__S(5361, __c335, 1)),
-          parameters: S.optional(__S(5345, __c334, 1)),
-          parametersLink: S.optional(__S(4944, __c309, 0)),
-          extensionConfigs: S.optional(__S(5328, __c333, 0)),
-          externalInputs: S.optional(__S(4913, __c307, 1)),
-          externalInputDefinitions: S.optional(__S(4915, __c307, 3)),
-          actionOnUnmanage: __S(5346, __c334, 2),
-          debugSetting: S.optional(__S(4945, __c309, 1)),
+          error: S.optional(__S(291, __c18, 3)),
+          template: S.optional(__S(272, __c17, 0)),
+          templateLink: S.optional(__S(5408, __c338, 0)),
+          parameters: S.optional(__S(5393, __c337, 1)),
+          parametersLink: S.optional(__S(4992, __c312, 0)),
+          extensionConfigs: S.optional(__S(5376, __c336, 0)),
+          externalInputs: S.optional(__S(4977, __c311, 1)),
+          externalInputDefinitions: S.optional(__S(4979, __c311, 3)),
+          actionOnUnmanage: __S(5394, __c337, 2),
+          debugSetting: S.optional(__S(4993, __c312, 1)),
           deploymentScope: S.optional(S.String),
           description: S.optional(S.String),
-          denySettings: __S(5347, __c334, 3),
+          denySettings: __S(5395, __c337, 3),
           provisioningState: S.optional(S.String),
           correlationId: S.optional(S.String),
           validationLevel: S.optional(S.String),
           deploymentStackResourceId: S.String,
           deploymentStackLastModified: S.optional(S.String),
           retentionInterval: S.String,
-          changes: S.optional(__S(5449, __c340, 9)),
-          diagnostics: S.optional(__S(5009, __c313, 1)),
+          changes: S.optional(__S(5481, __c342, 9)),
+          diagnostics: S.optional(__S(5057, __c316, 1)),
         }),
       ).annotate({ identifier: "DeploymentStacksWhatIfResultProperties" });
   }
 }
-function __c341(j: number): any {
+function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           error: S.optional(__S(160, __c10, 0)),
-          template: S.optional(__S(5360, __c335, 0)),
-          templateLink: S.optional(__S(5361, __c335, 1)),
-          parameters: S.optional(__S(5345, __c334, 1)),
-          parametersLink: S.optional(__S(4944, __c309, 0)),
-          extensionConfigs: S.optional(__S(4976, __c311, 0)),
-          externalInputs: S.optional(__S(4913, __c307, 1)),
-          externalInputDefinitions: S.optional(__S(4915, __c307, 3)),
-          actionOnUnmanage: __S(5346, __c334, 2),
-          debugSetting: S.optional(__S(4945, __c309, 1)),
+          template: S.optional(__S(272, __c17, 0)),
+          templateLink: S.optional(__S(5408, __c338, 0)),
+          parameters: S.optional(__S(5393, __c337, 1)),
+          parametersLink: S.optional(__S(4992, __c312, 0)),
+          extensionConfigs: S.optional(__S(5024, __c314, 0)),
+          externalInputs: S.optional(__S(4977, __c311, 1)),
+          externalInputDefinitions: S.optional(__S(4979, __c311, 3)),
+          actionOnUnmanage: __S(5394, __c337, 2),
+          debugSetting: S.optional(__S(4993, __c312, 1)),
           deploymentScope: S.optional(S.String),
           description: S.optional(S.String),
-          denySettings: __S(5347, __c334, 3),
+          denySettings: __S(5395, __c337, 3),
           validationLevel: S.optional(S.String),
           deploymentStackResourceId: S.String,
           retentionInterval: S.String,
@@ -22302,7 +22549,7 @@ function __c341(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
-          properties: S.optional(__S(5450, __c340, 10)),
+          properties: S.optional(__S(5482, __c342, 10)),
           location: S.optional(S.String),
           tags: S.optional(__S(16, __c1, 0)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
@@ -22313,7 +22560,7 @@ function __c341(j: number): any {
       });
   }
 }
-function __c342(j: number): any {
+function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22331,7 +22578,7 @@ function __c342(j: number): any {
       ).annotate({ identifier: "DeploymentStacksWhatIfResultsAtManagementGroupWhatIfRequest" });
   }
 }
-function __c343(j: number): any {
+function __c345(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22340,7 +22587,7 @@ function __c343(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
-          properties: S.optional(__S(5450, __c340, 10)),
+          properties: S.optional(__S(5482, __c342, 10)),
           location: S.optional(S.String),
           tags: S.optional(__S(16, __c1, 0)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
@@ -22349,7 +22596,7 @@ function __c343(j: number): any {
       ).annotate({ identifier: "DeploymentStacksWhatIfResultsAtManagementGroupWhatIfResponse" });
   }
 }
-function __c344(j: number): any {
+function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22357,7 +22604,7 @@ function __c344(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           deploymentStacksWhatIfResultName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5456, __c341, 0)),
+          properties: S.optional(__S(5488, __c343, 0)),
           location: S.optional(S.String),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
@@ -22373,7 +22620,7 @@ function __c344(j: number): any {
       });
   }
 }
-function __c345(j: number): any {
+function __c347(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22392,14 +22639,14 @@ function __c345(j: number): any {
       ).annotate({ identifier: "DeploymentStacksWhatIfResultsAtResourceGroupWhatIfRequest" });
   }
 }
-function __c346(j: number): any {
+function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           deploymentStacksWhatIfResultName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5456, __c341, 0)),
+          properties: S.optional(__S(5488, __c343, 0)),
           location: S.optional(S.String),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
@@ -22415,7 +22662,7 @@ function __c346(j: number): any {
       });
   }
 }
-function __c347(j: number): any {
+function __c349(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22433,7 +22680,7 @@ function __c347(j: number): any {
       ).annotate({ identifier: "DeploymentStacksWhatIfResultsAtSubscriptionWhatIfRequest" });
   }
 }
-function __c348(j: number): any {
+function __c350(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22442,7 +22689,7 @@ function __c348(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
-          properties: __S(5587, __c349, 3),
+          properties: __S(5619, __c351, 3),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22454,7 +22701,7 @@ function __c348(j: number): any {
       ).annotate({ identifier: "DeploymentsWhatIfRequest" });
   }
 }
-function __c349(j: number): any {
+function __c351(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22474,28 +22721,28 @@ function __c349(j: number): any {
         }),
       ).annotate({ identifier: "DeploymentResourceWhatIfPredictionInput" });
     case 2:
-      return S.Array(__S(5585, __c349, 1));
+      return S.Array(__S(5617, __c351, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           template: S.optional(S.Unknown),
-          templateLink: S.optional(__S(5040, __c315, 0)),
-          parameters: S.optional(__S(5025, __c314, 1)),
-          externalInputs: S.optional(__S(4913, __c307, 1)),
-          externalInputDefinitions: S.optional(__S(4915, __c307, 3)),
-          parametersLink: S.optional(__S(4944, __c309, 0)),
-          extensionConfigs: S.optional(__S(4976, __c311, 0)),
+          templateLink: S.optional(__S(5088, __c318, 0)),
+          parameters: S.optional(__S(5073, __c317, 1)),
+          externalInputs: S.optional(__S(4977, __c311, 1)),
+          externalInputDefinitions: S.optional(__S(4979, __c311, 3)),
+          parametersLink: S.optional(__S(4992, __c312, 0)),
+          extensionConfigs: S.optional(__S(5024, __c314, 0)),
           mode: S.String,
-          debugSetting: S.optional(__S(4945, __c309, 1)),
-          onErrorDeployment: S.optional(__S(5026, __c314, 2)),
-          expressionEvaluationOptions: S.optional(__S(5027, __c314, 3)),
+          debugSetting: S.optional(__S(4993, __c312, 1)),
+          onErrorDeployment: S.optional(__S(5074, __c317, 2)),
+          expressionEvaluationOptions: S.optional(__S(5075, __c317, 3)),
           validationLevel: S.optional(S.String),
-          whatIfSettings: S.optional(__S(5584, __c349, 0)),
-          resourcePredictions: S.optional(__S(5586, __c349, 2)),
+          whatIfSettings: S.optional(__S(5616, __c351, 0)),
+          resourcePredictions: S.optional(__S(5618, __c351, 2)),
         }),
       ).annotate({ identifier: "DeploymentWhatIfPropertiesInput" });
     case 4:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(5589, __c349, 5)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(5621, __c351, 5)));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -22503,11 +22750,11 @@ function __c349(j: number): any {
           propertyChangeType: S.String,
           before: S.optional(S.Unknown),
           after: S.optional(S.Unknown),
-          children: S.optional(__S(5588, __c349, 4)),
+          children: S.optional(__S(5620, __c351, 4)),
         }),
       ).annotate({ identifier: "WhatIfPropertyChange" });
     case 6:
-      return S.Array(__S(5589, __c349, 5));
+      return S.Array(__S(5621, __c351, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -22516,37 +22763,37 @@ function __c349(j: number): any {
           symbolicName: S.optional(S.String),
           resourceType: S.optional(S.String),
           identifiers: S.optional(S.Unknown),
-          extension: S.optional(__S(5056, __c316, 0)),
+          extension: S.optional(__S(5104, __c319, 0)),
           changeType: S.String,
           unsupportedReason: S.optional(S.String),
           before: S.optional(S.Unknown),
           after: S.optional(S.Unknown),
-          delta: S.optional(__S(5590, __c349, 6)),
+          delta: S.optional(__S(5622, __c351, 6)),
         }),
       ).annotate({ identifier: "WhatIfChange" });
     case 8:
-      return S.Array(__S(5591, __c349, 7));
+      return S.Array(__S(5623, __c351, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          changes: S.optional(__S(5592, __c349, 8)),
-          potentialChanges: S.optional(__S(5592, __c349, 8)),
-          diagnostics: S.optional(__S(5009, __c313, 1)),
+          changes: S.optional(__S(5624, __c351, 8)),
+          potentialChanges: S.optional(__S(5624, __c351, 8)),
+          diagnostics: S.optional(__S(5057, __c316, 1)),
         }),
       ).annotate({ identifier: "WhatIfOperationProperties" });
     case 10:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          properties: S.optional(__S(5593, __c349, 9)),
-          error: S.optional(__S(5058, __c316, 2)),
+          properties: S.optional(__S(5625, __c351, 9)),
+          error: S.optional(__S(5106, __c319, 2)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "WhatIfOperationResult" });
   }
 }
-function __c350(j: number): any {
+function __c352(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22563,7 +22810,7 @@ function __c350(j: number): any {
       ).annotate({ identifier: "CancelDeploymentAtTenantScopeRequest" });
   }
 }
-function __c351(j: number): any {
+function __c353(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22571,7 +22818,7 @@ function __c351(j: number): any {
           groupId: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
           location: S.String,
-          properties: __S(5587, __c349, 3),
+          properties: __S(5619, __c351, 3),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22583,7 +22830,7 @@ function __c351(j: number): any {
       ).annotate({ identifier: "DeploymentsWhatIfAtManagementGroupScopeRequest" });
   }
 }
-function __c352(j: number): any {
+function __c354(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22591,7 +22838,7 @@ function __c352(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
           location: S.optional(S.String),
-          properties: __S(5587, __c349, 3),
+          properties: __S(5619, __c351, 3),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22603,14 +22850,14 @@ function __c352(j: number): any {
       ).annotate({ identifier: "DeploymentsWhatIfAtSubscriptionScopeRequest" });
   }
 }
-function __c353(j: number): any {
+function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           deploymentName: S.String.pipe(T.Label()),
           location: S.String,
-          properties: __S(5587, __c349, 3),
+          properties: __S(5619, __c351, 3),
         }).pipe(
           T.Http({
             method: "POST",
@@ -22622,7 +22869,7 @@ function __c353(j: number): any {
       ).annotate({ identifier: "DeploymentsWhatIfAtTenantScopeRequest" });
   }
 }
-function __c354(j: number): any {
+function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22640,18 +22887,18 @@ function __c354(j: number): any {
       ).annotate({ identifier: "ExportDeploymentStackTemplateAtManagementGroupRequest" });
   }
 }
-function __c355(j: number): any {
+function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          template: S.optional(__S(5360, __c335, 0)),
-          templateLink: S.optional(__S(5361, __c335, 1)),
+          template: S.optional(__S(272, __c17, 0)),
+          templateLink: S.optional(__S(5408, __c338, 0)),
         }),
       ).annotate({ identifier: "DeploymentStackTemplateDefinition" });
   }
 }
-function __c356(j: number): any {
+function __c358(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22670,7 +22917,7 @@ function __c356(j: number): any {
       ).annotate({ identifier: "ExportDeploymentStackTemplateAtResourceGroupRequest" });
   }
 }
-function __c357(j: number): any {
+function __c359(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22688,7 +22935,7 @@ function __c357(j: number): any {
       ).annotate({ identifier: "ExportDeploymentStackTemplateAtSubscriptionRequest" });
   }
 }
-function __c358(j: number): any {
+function __c360(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22707,7 +22954,7 @@ function __c358(j: number): any {
       ).annotate({ identifier: "ExportDeploymentTemplateRequest" });
   }
 }
-function __c359(j: number): any {
+function __c361(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22717,7 +22964,7 @@ function __c359(j: number): any {
       ).annotate({ identifier: "DeploymentExportResult" });
   }
 }
-function __c360(j: number): any {
+function __c362(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22735,7 +22982,7 @@ function __c360(j: number): any {
       ).annotate({ identifier: "ExportDeploymentTemplateAtManagementGroupScopeRequest" });
   }
 }
-function __c361(j: number): any {
+function __c363(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22753,7 +23000,7 @@ function __c361(j: number): any {
       ).annotate({ identifier: "ExportDeploymentTemplateAtScopeRequest" });
   }
 }
-function __c362(j: number): any {
+function __c364(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22771,7 +23018,7 @@ function __c362(j: number): any {
       ).annotate({ identifier: "ExportDeploymentTemplateAtSubscriptionScopeRequest" });
   }
 }
-function __c363(j: number): any {
+function __c365(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22797,7 +23044,7 @@ function __c363(j: number): any {
       ).annotate({ identifier: "CheckResourceNameResult" });
   }
 }
-function __c364(j: number): any {
+function __c366(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22814,7 +23061,7 @@ function __c364(j: number): any {
       ).annotate({ identifier: "ExportDeploymentTemplateAtTenantScopeRequest" });
   }
 }
-function __c365(j: number): any {
+function __c367(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22838,14 +23085,14 @@ function __c365(j: number): any {
         S.Struct({
           template: S.optional(S.Unknown),
           output: S.optional(S.String),
-          error: S.optional(__S(5379, __c336, 3)),
+          error: S.optional(__S(291, __c18, 3)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "ResourceGroupExportResult" });
   }
 }
-function __c366(j: number): any {
+function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22864,7 +23111,7 @@ function __c366(j: number): any {
       ).annotate({ identifier: "GetApplicationRequest" });
   }
 }
-function __c367(j: number): any {
+function __c369(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22876,7 +23123,7 @@ function __c367(j: number): any {
       ).annotate({ identifier: "GetApplicationByIdRequest" });
   }
 }
-function __c368(j: number): any {
+function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22895,7 +23142,7 @@ function __c368(j: number): any {
       ).annotate({ identifier: "GetApplicationDefinitionRequest" });
   }
 }
-function __c369(j: number): any {
+function __c371(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22917,7 +23164,7 @@ function __c369(j: number): any {
       ).annotate({ identifier: "GetChangeRequest" });
   }
 }
-function __c370(j: number): any {
+function __c372(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22939,15 +23186,15 @@ function __c370(j: number): any {
         }),
       ).annotate({ identifier: "ChangeBase" });
     case 2:
-      return S.Record(S.String, __S(5921, __c370, 1));
+      return S.Record(S.String, __S(5953, __c372, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           targetResourceId: S.optional(S.String),
           targetResourceType: S.optional(S.String),
           changeType: S.optional(S.String),
-          changeAttributes: S.optional(__S(5920, __c370, 0)),
-          changes: S.optional(__S(5922, __c370, 2)),
+          changeAttributes: S.optional(__S(5952, __c372, 0)),
+          changes: S.optional(__S(5954, __c372, 2)),
         }),
       ).annotate({ identifier: "ChangeProperties" });
     case 4:
@@ -22956,12 +23203,12 @@ function __c370(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: S.optional(__S(5923, __c370, 3)),
+          properties: S.optional(__S(5955, __c372, 3)),
         }),
       ).annotate({ identifier: "GetChangeResponse" });
   }
 }
-function __c371(j: number): any {
+function __c373(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22979,7 +23226,7 @@ function __c371(j: number): any {
       ).annotate({ identifier: "GetDataBoundaryScopeRequest" });
   }
 }
-function __c372(j: number): any {
+function __c374(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22995,12 +23242,12 @@ function __c372(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
-          properties: S.optional(__S(5952, __c372, 0)),
+          properties: S.optional(__S(5984, __c374, 0)),
         }),
       ).annotate({ identifier: "GetDataBoundaryScopeResponse" });
   }
 }
-function __c373(j: number): any {
+function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23017,7 +23264,7 @@ function __c373(j: number): any {
       ).annotate({ identifier: "GetDataBoundaryTenantRequest" });
   }
 }
-function __c374(j: number): any {
+function __c376(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23034,17 +23281,17 @@ function __c374(j: number): any {
       ).annotate({ identifier: "GetDataPolicyManifestByPolicyModeRequest" });
   }
 }
-function __c375(j: number): any {
+function __c377(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceType: S.optional(S.String),
-          aliases: S.optional(__S(5077, __c317, 5)),
+          aliases: S.optional(__S(5125, __c320, 5)),
         }),
       ).annotate({ identifier: "ResourceTypeAliases" });
     case 1:
-      return S.Array(__S(6000, __c375, 0));
+      return S.Array(__S(6032, __c377, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -23053,7 +23300,7 @@ function __c375(j: number): any {
         }),
       ).annotate({ identifier: "DataEffect" });
     case 3:
-      return S.Array(__S(6002, __c375, 2));
+      return S.Array(__S(6034, __c377, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -23064,12 +23311,12 @@ function __c375(j: number): any {
         }),
       ).annotate({ identifier: "DataManifestCustomResourceFunctionDefinition" });
     case 5:
-      return S.Array(__S(6004, __c375, 4));
+      return S.Array(__S(6036, __c377, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           standard: S.optional(__S(80, __c5, 0)),
-          custom: S.optional(__S(6005, __c375, 5)),
+          custom: S.optional(__S(6037, __c377, 5)),
         }),
       ).annotate({ identifier: "DataManifestResourceFunctionsDefinition" });
     case 7:
@@ -23078,10 +23325,10 @@ function __c375(j: number): any {
           namespaces: S.optional(__S(80, __c5, 0)),
           policyMode: S.optional(S.String),
           isBuiltInOnly: S.optional(S.Boolean),
-          resourceTypeAliases: S.optional(__S(6001, __c375, 1)),
-          effects: S.optional(__S(6003, __c375, 3)),
+          resourceTypeAliases: S.optional(__S(6033, __c377, 1)),
+          effects: S.optional(__S(6035, __c377, 3)),
           fieldValues: S.optional(__S(80, __c5, 0)),
-          resourceFunctions: S.optional(__S(6006, __c375, 6)),
+          resourceFunctions: S.optional(__S(6038, __c377, 6)),
         }),
       ).annotate({ identifier: "DataPolicyManifestProperties" });
     case 8:
@@ -23091,12 +23338,12 @@ function __c375(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
-          properties: S.optional(__S(6007, __c375, 7)),
+          properties: S.optional(__S(6039, __c377, 7)),
         }),
       ).annotate({ identifier: "GetDataPolicyManifestByPolicyModeResponse" });
   }
 }
-function __c376(j: number): any {
+function __c378(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23115,7 +23362,7 @@ function __c376(j: number): any {
       ).annotate({ identifier: "GetDeploymentRequest" });
   }
 }
-function __c377(j: number): any {
+function __c379(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23124,14 +23371,14 @@ function __c377(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(224, __c14, 0)),
-          properties: S.optional(__S(5144, __c321, 8)),
+          properties: S.optional(__S(5192, __c324, 8)),
           location: S.optional(S.String),
           tags: S.optional(__S(16, __c1, 0)),
         }),
       ).annotate({ identifier: "GetDeploymentResponse" });
   }
 }
-function __c378(j: number): any {
+function __c380(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23156,27 +23403,27 @@ function __c378(j: number): any {
         }),
       ).annotate({ identifier: "Peers" });
     case 2:
-      return S.Array(__S(6049, __c378, 1));
+      return S.Array(__S(6081, __c380, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           availabilityZone: S.optional(S.String),
-          peers: S.optional(__S(6050, __c378, 2)),
+          peers: S.optional(__S(6082, __c380, 2)),
         }),
       ).annotate({ identifier: "AvailabilityZonePeers" });
     case 4:
-      return S.Array(__S(6051, __c378, 3));
+      return S.Array(__S(6083, __c380, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.optional(S.String),
           location: S.optional(S.String),
-          availabilityZonePeers: S.optional(__S(6052, __c378, 4)),
+          availabilityZonePeers: S.optional(__S(6084, __c380, 4)),
         }),
       ).annotate({ identifier: "CheckZonePeersResult" });
   }
 }
-function __c379(j: number): any {
+function __c381(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23194,7 +23441,7 @@ function __c379(j: number): any {
       ).annotate({ identifier: "GetDeploymentAtManagementGroupScopeRequest" });
   }
 }
-function __c380(j: number): any {
+function __c382(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23212,7 +23459,7 @@ function __c380(j: number): any {
       ).annotate({ identifier: "GetDeploymentAtScopeRequest" });
   }
 }
-function __c381(j: number): any {
+function __c383(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23230,7 +23477,7 @@ function __c381(j: number): any {
       ).annotate({ identifier: "GetDeploymentAtSubscriptionScopeRequest" });
   }
 }
-function __c382(j: number): any {
+function __c384(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23247,7 +23494,7 @@ function __c382(j: number): any {
       ).annotate({ identifier: "GetDeploymentAtTenantScopeRequest" });
   }
 }
-function __c383(j: number): any {
+function __c385(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23267,13 +23514,13 @@ function __c383(j: number): any {
       ).annotate({ identifier: "GetDeploymentOperationRequest" });
   }
 }
-function __c384(j: number): any {
+function __c386(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          error: S.optional(__S(5058, __c316, 2)),
+          error: S.optional(__S(5106, __c319, 2)),
         }),
       ).annotate({ identifier: "StatusMessage" });
     case 1:
@@ -23282,7 +23529,7 @@ function __c384(j: number): any {
           id: S.optional(S.String),
           resourceName: S.optional(S.String),
           resourceType: S.optional(S.String),
-          extension: S.optional(__S(5056, __c316, 0)),
+          extension: S.optional(__S(5104, __c319, 0)),
           identifiers: S.optional(S.Unknown),
           apiVersion: S.optional(S.String),
           symbolicName: S.optional(S.String),
@@ -23304,10 +23551,10 @@ function __c384(j: number): any {
           duration: S.optional(S.String),
           serviceRequestId: S.optional(S.String),
           statusCode: S.optional(S.String),
-          statusMessage: S.optional(__S(6144, __c384, 0)),
-          targetResource: S.optional(__S(6145, __c384, 1)),
-          request: S.optional(__S(6146, __c384, 2)),
-          response: S.optional(__S(6146, __c384, 2)),
+          statusMessage: S.optional(__S(6176, __c386, 0)),
+          targetResource: S.optional(__S(6177, __c386, 1)),
+          request: S.optional(__S(6178, __c386, 2)),
+          response: S.optional(__S(6178, __c386, 2)),
         }),
       ).annotate({ identifier: "DeploymentOperationProperties" });
     case 4:
@@ -23315,12 +23562,12 @@ function __c384(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           operationId: S.optional(S.String),
-          properties: S.optional(__S(6147, __c384, 3)),
+          properties: S.optional(__S(6179, __c386, 3)),
         }),
       ).annotate({ identifier: "DeploymentOperation" });
   }
 }
-function __c385(j: number): any {
+function __c387(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23339,7 +23586,7 @@ function __c385(j: number): any {
       ).annotate({ identifier: "GetDeploymentOperationAtManagementGroupScopeRequest" });
   }
 }
-function __c386(j: number): any {
+function __c388(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23358,7 +23605,7 @@ function __c386(j: number): any {
       ).annotate({ identifier: "GetDeploymentOperationAtScopeRequest" });
   }
 }
-function __c387(j: number): any {
+function __c389(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23377,7 +23624,7 @@ function __c387(j: number): any {
       ).annotate({ identifier: "GetDeploymentOperationAtSubscriptionScopeRequest" });
   }
 }
-function __c388(j: number): any {
+function __c390(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23395,7 +23642,7 @@ function __c388(j: number): any {
       ).annotate({ identifier: "GetDeploymentOperationAtTenantScopeRequest" });
   }
 }
-function __c389(j: number): any {
+function __c391(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23412,24 +23659,6 @@ function __c389(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetDeploymentScriptRequest" });
-  }
-}
-function __c390(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(224, __c14, 0)),
-          tags: S.optional(__S(16, __c1, 0)),
-          location: S.String,
-          kind: S.String,
-          identity: S.optional(__S(266, __c16, 10)),
-          properties: S.optional(__S(265, __c16, 9)),
-        }),
-      ).annotate({ identifier: "GetDeploymentScriptResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

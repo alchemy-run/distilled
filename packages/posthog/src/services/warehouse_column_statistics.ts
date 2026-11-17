@@ -62,17 +62,17 @@ export interface ListWarehouseColumnStatisticsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Only return statistics for this data warehouse table. */
-  table_id?: string;
+  table_id?: string | undefined;
 }
 export type PaginatedWarehouseColumnStatisticsListResultsList = Array<WarehouseColumnStatistics2>;
 export interface PaginatedWarehouseColumnStatisticsList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedWarehouseColumnStatisticsListResultsList;
 }
 export type GetWarehouseColumnStatisticsError = PosthogOpError;

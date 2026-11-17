@@ -30,40 +30,68 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export interface AcceptResolutionCenterCaseRequestAttachmentsItem {
-  direct_upload_id?: string;
-  id?: string;
+  direct_upload_id?: string | undefined;
+  id?: string | undefined;
 }
 /** Up to 3 evidence files, by existing file `id` or `direct_upload_id`. */
 export type AcceptResolutionCenterCaseRequestAttachmentsList =
@@ -72,13 +100,13 @@ export interface AcceptResolutionCenterCaseRequest {
   /** The resolution center case ID (`reso_` tag). */
   id: string;
   /** Up to 3 evidence files, by existing file `id` or `direct_upload_id`. */
-  attachments?: AcceptResolutionCenterCaseRequestAttachmentsList;
+  attachments?: AcceptResolutionCenterCaseRequestAttachmentsList | undefined;
   /** An optional note to the customer, recorded on the case timeline. */
-  message?: string;
+  message?: string | undefined;
   /** Whether to also terminate the customer's membership. */
-  terminate_membership?: boolean;
+  terminate_membership?: boolean | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface AccountSummary {
   /** Account ID, prefixed `biz_`. */
@@ -213,11 +241,11 @@ export interface AppealResolutionCenterCaseRequest {
   /** The resolution center case ID (`reso_` tag). */
   id: string;
   /** Up to 3 evidence files, by existing file `id` or `direct_upload_id`. */
-  attachments?: AppealResolutionCenterCaseRequestAttachmentsList;
+  attachments?: AppealResolutionCenterCaseRequestAttachmentsList | undefined;
   /** Why you are appealing the decision. */
   message: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type CreateResolutionCenterCaseRequestAttachmentsItem =
   AcceptResolutionCenterCaseRequestAttachmentsItem;
@@ -231,7 +259,7 @@ export type CreateResolutionCenterCaseRequestReason =
   | "product_unacceptable"
   | "subscription_canceled";
 export interface CreateResolutionCenterCaseRequest {
-  attachments?: CreateResolutionCenterCaseRequestAttachmentsList;
+  attachments?: CreateResolutionCenterCaseRequestAttachmentsList | undefined;
   /** The customer's explanation. */
   message: string;
   /** What went wrong. Uses the same vocabulary as `/disputes`. */
@@ -239,7 +267,7 @@ export interface CreateResolutionCenterCaseRequest {
   /** The payment to open the case against (`pay_` tag). */
   receipt_id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type DenyResolutionCenterCaseRequestAttachmentsItem =
   AcceptResolutionCenterCaseRequestAttachmentsItem;
@@ -250,11 +278,11 @@ export interface DenyResolutionCenterCaseRequest {
   /** The resolution center case ID (`reso_` tag). */
   id: string;
   /** Up to 3 evidence files, by existing file `id` or `direct_upload_id`. */
-  attachments?: DenyResolutionCenterCaseRequestAttachmentsList;
+  attachments?: DenyResolutionCenterCaseRequestAttachmentsList | undefined;
   /** Why the claim is being denied. Shown to the customer. */
   message: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface GetResolutionCenterCaseRequest {
   /** The resolution center case ID (`reso_` tag). */
@@ -290,21 +318,21 @@ export type GetResolutionCenterCaseSummaryRequestOutcomeList = Array<
 >;
 export interface GetResolutionCenterCaseSummaryRequest {
   /** Which breakdowns to return, keyed by these names under `groups`. Repeat the parameter to ask for several; omit it for all of them. */
-  groups?: GetResolutionCenterCaseSummaryRequestGroupsList;
+  groups?: GetResolutionCenterCaseSummaryRequestGroupsList | undefined;
   /** The account to summarize cases for (`biz_` tag). */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only cases opened by this customer -- a `user_` tag, or `me` for the calling user. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Only cases in these statuses. */
-  status?: GetResolutionCenterCaseSummaryRequestStatusList;
+  status?: GetResolutionCenterCaseSummaryRequestStatusList | undefined;
   /** Only cases opened for these reasons. */
-  reason?: GetResolutionCenterCaseSummaryRequestReasonList;
+  reason?: GetResolutionCenterCaseSummaryRequestReasonList | undefined;
   /** Only closed cases that ended these ways. */
-  outcome?: GetResolutionCenterCaseSummaryRequestOutcomeList;
+  outcome?: GetResolutionCenterCaseSummaryRequestOutcomeList | undefined;
   /** Only count cases created before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only count cases created after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
 }
 /** How many of the matching cases ended each way. Every outcome is present, including those with a count of zero; open cases are counted in none of them. */
 export interface GetResolutionCenterCaseSummaryResponseGroupsOutcome {
@@ -330,11 +358,11 @@ export interface GetResolutionCenterCaseSummaryResponseGroupsStatus {
 /** One entry per requested breakdown, keyed by the field it groups on. A field you did not ask for is absent. */
 export interface GetResolutionCenterCaseSummaryResponseGroups {
   /** How many of the matching cases ended each way. Every outcome is present, including those with a count of zero; open cases are counted in none of them. */
-  outcome?: GetResolutionCenterCaseSummaryResponseGroupsOutcome;
+  outcome?: GetResolutionCenterCaseSummaryResponseGroupsOutcome | undefined;
   /** How many of the matching cases were opened for each reason. Every reason is present, including those with a count of zero. */
-  reason?: GetResolutionCenterCaseSummaryResponseGroupsReason;
+  reason?: GetResolutionCenterCaseSummaryResponseGroupsReason | undefined;
   /** How many of the matching cases are in each status. Every status is present, including those with a count of zero. */
-  status?: GetResolutionCenterCaseSummaryResponseGroupsStatus;
+  status?: GetResolutionCenterCaseSummaryResponseGroupsStatus | undefined;
 }
 export interface GetResolutionCenterCaseSummaryResponse {
   /** One entry per requested breakdown, keyed by the field it groups on. A field you did not ask for is absent. */
@@ -346,13 +374,13 @@ export interface ListResolutionCenterCaseEventsRequest {
   /** The resolution center case ID (`reso_` tag). */
   id: string;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The action recorded in this event. */
 export type ResolutionEventAction =
@@ -436,31 +464,31 @@ export type ListResolutionCenterCasesRequestOutcomeList = Array<
 >;
 export interface ListResolutionCenterCasesRequest {
   /** Only cases filed against this account (`biz_` tag). With read access to the account this lists its whole queue; without, only the cases you opened against it. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only cases opened by this customer -- a `user_` tag, or `me` for the calling user. It narrows what you can already read, so `me` lists the cases you opened without the ones on accounts you are a team member of. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
   /** The field to sort cases by. */
-  order?: ListResolutionCenterCasesRequestOrder | (string & {});
+  order?: ListResolutionCenterCasesRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListResolutionCenterCasesRequestDirection | (string & {});
+  direction?: ListResolutionCenterCasesRequestDirection | (string & {}) | undefined;
   /** Only cases in these statuses. Repeat the parameter to pass several -- one paginated list covers all of them. */
-  status?: ListResolutionCenterCasesRequestStatusList;
+  status?: ListResolutionCenterCasesRequestStatusList | undefined;
   /** Only cases opened for these reasons. Repeat the parameter to pass several. */
-  reason?: ListResolutionCenterCasesRequestReasonList;
+  reason?: ListResolutionCenterCasesRequestReasonList | undefined;
   /** Only closed cases that ended these ways. Repeat the parameter to pass several. */
-  outcome?: ListResolutionCenterCasesRequestOutcomeList;
+  outcome?: ListResolutionCenterCasesRequestOutcomeList | undefined;
   /** Only cases created before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only cases created after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
 }
 export type ListResolutionCenterCasesResponseDataList = Array<ResolutionCenterCase>;
 export type ListResolutionCenterCasesResponsePageInfo =
@@ -478,11 +506,11 @@ export interface ReplyToResolutionCenterCaseRequest {
   /** The resolution center case ID (`reso_` tag). */
   id: string;
   /** Up to 3 evidence files, by existing file `id` or `direct_upload_id`. */
-  attachments?: ReplyToResolutionCenterCaseRequestAttachmentsList;
+  attachments?: ReplyToResolutionCenterCaseRequestAttachmentsList | undefined;
   /** The reply to add to the case. */
   message: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type RequestResolutionCenterCaseInfoRequestAttachmentsItem =
   AcceptResolutionCenterCaseRequestAttachmentsItem;
@@ -493,17 +521,28 @@ export interface RequestResolutionCenterCaseInfoRequest {
   /** The resolution center case ID (`reso_` tag). */
   id: string;
   /** Up to 3 evidence files, by existing file `id` or `direct_upload_id`. */
-  attachments?: RequestResolutionCenterCaseInfoRequestAttachmentsList;
+  attachments?: RequestResolutionCenterCaseInfoRequestAttachmentsList | undefined;
   /** What you need from the customer. */
-  message?: string;
+  message?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface WithdrawResolutionCenterCaseRequest {
   /** The resolution center case ID (`reso_` tag). */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
+}
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
 }
 export type AcceptResolutionCenterCaseError = Forbidden | Conflict | WhopOpError;
 /** Accept a Case Accepts the case in the customer's favor, as the merchant: refunds the payment in full and closes the case. */
@@ -513,8 +552,8 @@ export const acceptResolutionCenterCase: API.OperationMethod<
   AcceptResolutionCenterCaseError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<AcceptResolutionCenterCaseRequest>,
-  output: __S(70, __c8, 6) as any as S.Schema<ResolutionCenterCase>,
+  input: __S(56, __c7, 0) as any as S.Schema<AcceptResolutionCenterCaseRequest>,
+  output: __S(78, __c9, 6) as any as S.Schema<ResolutionCenterCase>,
   errors: [Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -530,8 +569,8 @@ export const appealResolutionCenterCase: API.OperationMethod<
   AppealResolutionCenterCaseError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<AppealResolutionCenterCaseRequest>,
-  output: __S(70, __c8, 6) as any as S.Schema<ResolutionCenterCase>,
+  input: __S(88, __c11, 0) as any as S.Schema<AppealResolutionCenterCaseRequest>,
+  output: __S(78, __c9, 6) as any as S.Schema<ResolutionCenterCase>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -547,8 +586,8 @@ export const createResolutionCenterCase: API.OperationMethod<
   CreateResolutionCenterCaseError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<CreateResolutionCenterCaseRequest>,
-  output: __S(70, __c8, 6) as any as S.Schema<ResolutionCenterCase>,
+  input: __S(96, __c12, 0) as any as S.Schema<CreateResolutionCenterCaseRequest>,
+  output: __S(78, __c9, 6) as any as S.Schema<ResolutionCenterCase>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -564,8 +603,8 @@ export const denyResolutionCenterCase: API.OperationMethod<
   DenyResolutionCenterCaseError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<DenyResolutionCenterCaseRequest>,
-  output: __S(70, __c8, 6) as any as S.Schema<ResolutionCenterCase>,
+  input: __S(104, __c13, 0) as any as S.Schema<DenyResolutionCenterCaseRequest>,
+  output: __S(78, __c9, 6) as any as S.Schema<ResolutionCenterCase>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -581,8 +620,8 @@ export const getResolutionCenterCase: API.OperationMethod<
   GetResolutionCenterCaseError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<GetResolutionCenterCaseRequest>,
-  output: __S(70, __c8, 6) as any as S.Schema<ResolutionCenterCase>,
+  input: __S(112, __c14, 0) as any as S.Schema<GetResolutionCenterCaseRequest>,
+  output: __S(78, __c9, 6) as any as S.Schema<ResolutionCenterCase>,
   errors: [NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -598,8 +637,8 @@ export const getResolutionCenterCaseSummary: API.OperationMethod<
   GetResolutionCenterCaseSummaryError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetResolutionCenterCaseSummaryRequest>,
-  output: __S(117, __c14, 5) as any as S.Schema<GetResolutionCenterCaseSummaryResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<GetResolutionCenterCaseSummaryRequest>,
+  output: __S(125, __c15, 5) as any as S.Schema<GetResolutionCenterCaseSummaryResponse>,
   errors: [BadRequest],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -617,8 +656,8 @@ export const listResolutionCenterCaseEvents: API.PaginatedOperationMethod<
   ResolutionEvent
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(0, __c0, 0) as any as S.Schema<ListResolutionCenterCaseEventsRequest>,
-    output: __S(5, __c0, 5) as any as S.Schema<ListResolutionCenterCaseEventsResponse>,
+    input: __S(8, __c1, 0) as any as S.Schema<ListResolutionCenterCaseEventsRequest>,
+    output: __S(13, __c1, 5) as any as S.Schema<ListResolutionCenterCaseEventsResponse>,
     errors: [NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -646,8 +685,8 @@ export const listResolutionCenterCases: API.PaginatedOperationMethod<
   ResolutionCenterCase
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(16, __c2, 0) as any as S.Schema<ListResolutionCenterCasesRequest>,
-    output: __S(18, __c2, 2) as any as S.Schema<ListResolutionCenterCasesResponse>,
+    input: __S(24, __c3, 0) as any as S.Schema<ListResolutionCenterCasesRequest>,
+    output: __S(26, __c3, 2) as any as S.Schema<ListResolutionCenterCasesResponse>,
     errors: [Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -673,8 +712,8 @@ export const replyToResolutionCenterCase: API.OperationMethod<
   ReplyToResolutionCenterCaseError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<ReplyToResolutionCenterCaseRequest>,
-  output: __S(70, __c8, 6) as any as S.Schema<ResolutionCenterCase>,
+  input: __S(32, __c4, 0) as any as S.Schema<ReplyToResolutionCenterCaseRequest>,
+  output: __S(78, __c9, 6) as any as S.Schema<ResolutionCenterCase>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -690,8 +729,8 @@ export const requestResolutionCenterCaseInfo: API.OperationMethod<
   RequestResolutionCenterCaseInfoError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<RequestResolutionCenterCaseInfoRequest>,
-  output: __S(70, __c8, 6) as any as S.Schema<ResolutionCenterCase>,
+  input: __S(40, __c5, 0) as any as S.Schema<RequestResolutionCenterCaseInfoRequest>,
+  output: __S(78, __c9, 6) as any as S.Schema<ResolutionCenterCase>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -707,8 +746,8 @@ export const withdrawResolutionCenterCase: API.OperationMethod<
   WithdrawResolutionCenterCaseError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<WithdrawResolutionCenterCaseRequest>,
-  output: __S(70, __c8, 6) as any as S.Schema<ResolutionCenterCase>,
+  input: __S(48, __c6, 0) as any as S.Schema<WithdrawResolutionCenterCaseRequest>,
+  output: __S(78, __c9, 6) as any as S.Schema<ResolutionCenterCase>,
   errors: [Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -718,6 +757,24 @@ export const withdrawResolutionCenterCase: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -739,12 +796,12 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "ResolutionAttachment" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(9, __c1, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
-          attachments: __S(2, __c0, 2),
+          attachments: __S(10, __c1, 2),
           created_at: S.String,
           details: S.NullOr(S.String),
           id: S.String,
@@ -754,17 +811,17 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "ResolutionEvent" });
     case 4:
-      return S.Array(__S(3, __c0, 3));
+      return S.Array(__S(11, __c1, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(4, __c0, 4),
-          page_info: __S(8, __c1, 0),
+          data: __S(12, __c1, 4),
+          page_info: __S(16, __c2, 0),
         }),
       ).annotate({ identifier: "ListResolutionCenterCaseEventsResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -777,7 +834,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ListResolutionCenterCaseEventsResponsePageInfo" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -790,35 +847,22 @@ function __c2(j: number): any {
           before: S.optional(S.String.pipe(T.Query())),
           order: S.optional(S.String.pipe(T.Query())),
           direction: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(__S(72, __c9, 0).pipe(T.Query())),
-          reason: S.optional(__S(72, __c9, 0).pipe(T.Query())),
-          outcome: S.optional(__S(72, __c9, 0).pipe(T.Query())),
+          status: S.optional(__S(80, __c10, 0).pipe(T.Query())),
+          reason: S.optional(__S(80, __c10, 0).pipe(T.Query())),
+          outcome: S.optional(__S(80, __c10, 0).pipe(T.Query())),
           created_before: S.optional(S.String.pipe(T.Query())),
           created_after: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/resolution_center_cases", code: 200 })),
       ).annotate({ identifier: "ListResolutionCenterCasesRequest" });
     case 1:
-      return S.Array(__S(70, __c8, 6));
+      return S.Array(__S(78, __c9, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(17, __c2, 1),
-          page_info: __S(8, __c1, 0),
+          data: __S(25, __c3, 1),
+          page_info: __S(16, __c2, 0),
         }),
       ).annotate({ identifier: "ListResolutionCenterCasesResponse" });
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          attachments: S.optional(__S(57, __c7, 1)),
-          message: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-        }).pipe(T.Http({ method: "POST", uri: "/resolution_center_cases/{id}/reply", code: 200 })),
-      ).annotate({ identifier: "ReplyToResolutionCenterCaseRequest" });
   }
 }
 function __c4(j: number): any {
@@ -827,7 +871,20 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          attachments: S.optional(__S(57, __c7, 1)),
+          attachments: S.optional(__S(65, __c8, 1)),
+          message: S.String,
+          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+        }).pipe(T.Http({ method: "POST", uri: "/resolution_center_cases/{id}/reply", code: 200 })),
+      ).annotate({ identifier: "ReplyToResolutionCenterCaseRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          attachments: S.optional(__S(65, __c8, 1)),
           message: S.optional(S.String),
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(
@@ -836,7 +893,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "RequestResolutionCenterCaseInfoRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -849,13 +906,13 @@ function __c5(j: number): any {
       ).annotate({ identifier: "WithdrawResolutionCenterCaseRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          attachments: S.optional(__S(57, __c7, 1)),
+          attachments: S.optional(__S(65, __c8, 1)),
           message: S.optional(S.String),
           terminate_membership: S.optional(S.Boolean),
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
@@ -863,7 +920,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "AcceptResolutionCenterCaseRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -873,10 +930,10 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "AcceptResolutionCenterCaseRequestAttachmentsItem" });
     case 1:
-      return S.Array(__S(56, __c7, 0));
+      return S.Array(__S(64, __c8, 0));
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -914,11 +971,11 @@ function __c8(j: number): any {
           product_id: S.NullOr(S.String),
           product_title: S.NullOr(S.String),
           quantity: S.Number,
-          subtotal: S.NullOr(__S(66, __c8, 2)),
+          subtotal: S.NullOr(__S(74, __c9, 2)),
         }),
       ).annotate({ identifier: "ReceiptLineItem" });
     case 4:
-      return S.Array(__S(67, __c8, 3));
+      return S.Array(__S(75, __c9, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -932,18 +989,18 @@ function __c8(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          account: S.NullOr(__S(64, __c8, 0)),
+          account: S.NullOr(__S(72, __c9, 0)),
           amount: S.Number,
-          available_actions: __S(72, __c9, 0),
-          buyer: __S(65, __c8, 1),
+          available_actions: __S(80, __c10, 0),
+          buyer: __S(73, __c9, 1),
           created_at: S.String,
           currency: S.NullOr(S.String),
           customer_appealed: S.Boolean,
           escalated: S.Boolean,
           id: S.String,
-          line_items: __S(68, __c8, 4),
+          line_items: __S(76, __c9, 4),
           outcome: S.NullOr(S.String),
-          payment: __S(69, __c8, 5),
+          payment: __S(77, __c9, 5),
           plan_id: S.NullOr(S.String),
           product_id: S.NullOr(S.String),
           reason: S.String,
@@ -955,23 +1012,10 @@ function __c8(j: number): any {
       ).annotate({ identifier: "ResolutionCenterCase" });
   }
 }
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
 function __c10(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          attachments: S.optional(__S(57, __c7, 1)),
-          message: S.String,
-          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
-        }).pipe(T.Http({ method: "POST", uri: "/resolution_center_cases/{id}/appeal", code: 200 })),
-      ).annotate({ identifier: "AppealResolutionCenterCaseRequest" });
+      return S.Array(S.String);
   }
 }
 function __c11(j: number): any {
@@ -979,7 +1023,20 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          attachments: S.optional(__S(57, __c7, 1)),
+          id: S.String.pipe(T.Label()),
+          attachments: S.optional(__S(65, __c8, 1)),
+          message: S.String,
+          idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+        }).pipe(T.Http({ method: "POST", uri: "/resolution_center_cases/{id}/appeal", code: 200 })),
+      ).annotate({ identifier: "AppealResolutionCenterCaseRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          attachments: S.optional(__S(65, __c8, 1)),
           message: S.String,
           reason: S.String,
           receipt_id: S.String,
@@ -988,20 +1045,20 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateResolutionCenterCaseRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          attachments: S.optional(__S(57, __c7, 1)),
+          attachments: S.optional(__S(65, __c8, 1)),
           message: S.String,
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
         }).pipe(T.Http({ method: "POST", uri: "/resolution_center_cases/{id}/deny", code: 200 })),
       ).annotate({ identifier: "DenyResolutionCenterCaseRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1011,17 +1068,17 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetResolutionCenterCaseRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          groups: S.optional(__S(72, __c9, 0).pipe(T.Query())),
+          groups: S.optional(__S(80, __c10, 0).pipe(T.Query())),
           account_id: S.optional(S.String.pipe(T.Query())),
           user_id: S.optional(S.String.pipe(T.Query())),
-          status: S.optional(__S(72, __c9, 0).pipe(T.Query())),
-          reason: S.optional(__S(72, __c9, 0).pipe(T.Query())),
-          outcome: S.optional(__S(72, __c9, 0).pipe(T.Query())),
+          status: S.optional(__S(80, __c10, 0).pipe(T.Query())),
+          reason: S.optional(__S(80, __c10, 0).pipe(T.Query())),
+          outcome: S.optional(__S(80, __c10, 0).pipe(T.Query())),
           created_before: S.optional(S.String.pipe(T.Query())),
           created_after: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/resolution_center_cases/summary", code: 200 })),
@@ -1056,15 +1113,15 @@ function __c14(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          outcome: S.optional(__S(113, __c14, 1)),
-          reason: S.optional(__S(114, __c14, 2)),
-          status: S.optional(__S(115, __c14, 3)),
+          outcome: S.optional(__S(121, __c15, 1)),
+          reason: S.optional(__S(122, __c15, 2)),
+          status: S.optional(__S(123, __c15, 3)),
         }),
       ).annotate({ identifier: "GetResolutionCenterCaseSummaryResponseGroups" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          groups: __S(116, __c14, 4),
+          groups: __S(124, __c15, 4),
           total: S.Number,
         }),
       ).annotate({ identifier: "GetResolutionCenterCaseSummaryResponse" });

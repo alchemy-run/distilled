@@ -1,0 +1,10 @@
+{
+  "description": "GET /context/inspect answers with `presigned_url`, a time-limited signed URL (spec example `https://storage.hydradb.com/sources/HydraDoc1234?sig=...`) that downloads the stored source content without the API key for up to `expiry_seconds` (60 s to 7 days). It is a bearer credential for the content, but the spec carries no sensitive mark, so the SDK would hand it back as a plain string that ends up in logs and traces. Source: the `fetch.V2SourceFetchResponse.presigned_url` description and example in https://docs.hydradb.com/api-reference/v2/openapi.json (fetched 2026-11-14).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.hydradb.api#FetchV2SourceFetchResponse/members/presigned_url/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

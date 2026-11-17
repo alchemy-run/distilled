@@ -135,7 +135,7 @@ export class LimitExceededException
     "LimitExceededException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(400),
-  ).pipe(C.withBadRequestError) {}
+  ).pipe(C.withBadRequestError, C.withThrottlingError, C.withRetryableError) {}
 export class ResourceNotFoundException
   extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
     "ResourceNotFoundException",
@@ -148,9 +148,15 @@ export class ThrottledRequestException
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(429), /*@__PURE__*/ T.Retryable()),
   ).pipe(C.withThrottlingError, C.withRetryableError) {}
+export class ValidationException
+  extends /*@__PURE__*/ S.TaggedError<ValidationException>()(
+    "ValidationException",
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
+  ).pipe(C.withBadRequestError) {}
 export interface WhatsAppSignupCallback {
   accessToken: string | redacted.Redacted<string>;
-  callbackUrl?: string;
+  callbackUrl?: string | undefined;
 }
 export type AssociateInProgressToken = string | redacted.Redacted<string>;
 export type WhatsAppPhoneNumber = string;
@@ -158,14 +164,14 @@ export type TwoFactorPin = string | redacted.Redacted<string>;
 export type IsoCountryCode = string;
 export interface Tag {
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface WabaPhoneNumberSetupFinalization {
   id: string;
   twoFactorPin: string | redacted.Redacted<string>;
-  dataLocalizationRegion?: string;
-  tags?: Tag[];
+  dataLocalizationRegion?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type WabaPhoneNumberSetupFinalizationList = WabaPhoneNumberSetupFinalization[];
 export type LinkedWhatsAppBusinessAccountId = string;
@@ -174,23 +180,23 @@ export type EventDestinationArn = string;
 export type RoleArn = string;
 export interface WhatsAppBusinessAccountEventDestination {
   eventDestinationArn: string;
-  roleArn?: string;
+  roleArn?: string | undefined;
 }
 export type WhatsAppBusinessAccountEventDestinations = WhatsAppBusinessAccountEventDestination[];
 export interface WabaSetupFinalization {
-  id?: string;
-  eventDestinations?: WhatsAppBusinessAccountEventDestination[];
-  tags?: Tag[];
+  id?: string | undefined;
+  eventDestinations?: WhatsAppBusinessAccountEventDestination[] | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface WhatsAppSetupFinalization {
   associateInProgressToken: string | redacted.Redacted<string>;
   phoneNumbers: WabaPhoneNumberSetupFinalization[];
-  phoneNumberParent?: string;
-  waba?: WabaSetupFinalization;
+  phoneNumberParent?: string | undefined;
+  waba?: WabaSetupFinalization | undefined;
 }
 export interface AssociateWhatsAppBusinessAccountInput {
-  signupCallback?: WhatsAppSignupCallback;
-  setupFinalization?: WhatsAppSetupFinalization;
+  signupCallback?: WhatsAppSignupCallback | undefined;
+  setupFinalization?: WhatsAppSetupFinalization | undefined;
 }
 export type WhatsAppBusinessAccountName = string;
 export type RegistrationStatus = "COMPLETE" | "INCOMPLETE" | (string & {});
@@ -208,28 +214,28 @@ export interface WhatsAppPhoneNumberDetail {
   displayPhoneNumberName: string;
   displayPhoneNumber: string;
   qualityRating: string;
-  dataLocalizationRegion?: string;
+  dataLocalizationRegion?: string | undefined;
 }
 export type WhatsAppPhoneNumberDetailList = WhatsAppPhoneNumberDetail[];
 export interface LinkedWhatsAppBusinessAccountIdMetaData {
-  accountName?: string;
-  registrationStatus?: RegistrationStatus;
-  unregisteredWhatsAppPhoneNumbers?: WhatsAppPhoneNumberDetail[];
-  wabaId?: string;
+  accountName?: string | undefined;
+  registrationStatus?: RegistrationStatus | undefined;
+  unregisteredWhatsAppPhoneNumbers?: WhatsAppPhoneNumberDetail[] | undefined;
+  wabaId?: string | undefined;
 }
 export type LinkedAccountWithIncompleteSetup = {
   [key: string]: LinkedWhatsAppBusinessAccountIdMetaData | undefined;
 };
 export interface WhatsAppSignupCallbackResult {
-  associateInProgressToken?: string | redacted.Redacted<string>;
-  linkedAccountsWithIncompleteSetup?: {
-    [key: string]: LinkedWhatsAppBusinessAccountIdMetaData | undefined;
-  };
+  associateInProgressToken?: string | redacted.Redacted<string> | undefined;
+  linkedAccountsWithIncompleteSetup?:
+    | { [key: string]: LinkedWhatsAppBusinessAccountIdMetaData | undefined }
+    | undefined;
 }
 export interface AssociateWhatsAppBusinessAccountOutput {
-  signupCallbackResult?: WhatsAppSignupCallbackResult;
-  statusCode?: number;
-  linkedWhatsAppBusinessAccountId?: string;
+  signupCallbackResult?: WhatsAppSignupCallbackResult | undefined;
+  statusCode?: number | undefined;
+  linkedWhatsAppBusinessAccountId?: string | undefined;
 }
 export interface CreateWhatsAppDatasetInput {
   id: string;
@@ -258,16 +264,16 @@ export interface CreateWhatsAppFlowInput {
   id: string;
   flowName: string;
   categories: MetaFlowCategory[];
-  flowJson?: Uint8Array;
-  publish?: boolean;
-  cloneFlowId?: string;
-  endpointUri?: string;
+  flowJson?: Uint8Array | undefined;
+  publish?: boolean | undefined;
+  cloneFlowId?: string | undefined;
+  endpointUri?: string | undefined;
 }
 export type MetaFlowValidationError = string;
 export type ValidationErrorList = string[];
 export interface CreateWhatsAppFlowOutput {
-  flowId?: string;
-  validationErrors?: string[];
+  flowId?: string | undefined;
+  validationErrors?: string[] | undefined;
 }
 export type MetaTemplateDefinition = Uint8Array;
 export interface CreateWhatsAppMessageTemplateInput {
@@ -277,9 +283,9 @@ export interface CreateWhatsAppMessageTemplateInput {
 export type MetaTemplateId = string;
 export type MetaTemplateCategory = string;
 export interface CreateWhatsAppMessageTemplateOutput {
-  metaTemplateId?: string;
-  templateStatus?: string;
-  category?: string;
+  metaTemplateId?: string | undefined;
+  templateStatus?: string | undefined;
+  category?: string | undefined;
 }
 export type MetaTemplateName = string;
 export type MetaTemplateLanguage = string;
@@ -290,12 +296,12 @@ export type ZeroTapTermsAccepted = boolean;
 export type SupportedApp = { [key: string]: string | undefined };
 export type SupportedApps = { [key: string]: string | undefined }[];
 export interface LibraryTemplateButtonInput {
-  type?: string;
-  phoneNumber?: string;
-  url?: { [key: string]: string | undefined };
-  otpType?: string;
-  zeroTapTermsAccepted?: boolean;
-  supportedApps?: { [key: string]: string | undefined }[];
+  type?: string | undefined;
+  phoneNumber?: string | undefined;
+  url?: { [key: string]: string | undefined } | undefined;
+  otpType?: string | undefined;
+  zeroTapTermsAccepted?: boolean | undefined;
+  supportedApps?: { [key: string]: string | undefined }[] | undefined;
 }
 export type MetaLibraryTemplateButtonInputs = LibraryTemplateButtonInput[];
 export type AddContactNumber = boolean;
@@ -304,28 +310,28 @@ export type AddSecurityRecommendation = boolean;
 export type AddTrackPackageLink = boolean;
 export type CodeExpirationMinutes = number;
 export interface LibraryTemplateBodyInputs {
-  addContactNumber?: boolean;
-  addLearnMoreLink?: boolean;
-  addSecurityRecommendation?: boolean;
-  addTrackPackageLink?: boolean;
-  codeExpirationMinutes?: number;
+  addContactNumber?: boolean | undefined;
+  addLearnMoreLink?: boolean | undefined;
+  addSecurityRecommendation?: boolean | undefined;
+  addTrackPackageLink?: boolean | undefined;
+  codeExpirationMinutes?: number | undefined;
 }
 export interface MetaLibraryTemplate {
   templateName: string;
   libraryTemplateName: string;
   templateCategory: string;
   templateLanguage: string;
-  libraryTemplateButtonInputs?: LibraryTemplateButtonInput[];
-  libraryTemplateBodyInputs?: LibraryTemplateBodyInputs;
+  libraryTemplateButtonInputs?: LibraryTemplateButtonInput[] | undefined;
+  libraryTemplateBodyInputs?: LibraryTemplateBodyInputs | undefined;
 }
 export interface CreateWhatsAppMessageTemplateFromLibraryInput {
   metaLibraryTemplate: MetaLibraryTemplate;
   id: string;
 }
 export interface CreateWhatsAppMessageTemplateFromLibraryOutput {
-  metaTemplateId?: string;
-  templateStatus?: string;
-  category?: string;
+  metaTemplateId?: string | undefined;
+  templateStatus?: string | undefined;
+  category?: string | undefined;
 }
 export interface S3File {
   bucketName: string;
@@ -333,10 +339,10 @@ export interface S3File {
 }
 export interface CreateWhatsAppMessageTemplateMediaInput {
   id: string;
-  sourceS3File?: S3File;
+  sourceS3File?: S3File | undefined;
 }
 export interface CreateWhatsAppMessageTemplateMediaOutput {
-  metaHeaderHandle?: string;
+  metaHeaderHandle?: string | undefined;
 }
 export interface DeleteWhatsAppFlowInput {
   id: string;
@@ -349,12 +355,12 @@ export interface DeleteWhatsAppMessageMediaInput {
   originationPhoneNumberId: string;
 }
 export interface DeleteWhatsAppMessageMediaOutput {
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export type DeleteAllLanguages = boolean;
 export interface DeleteWhatsAppMessageTemplateInput {
-  metaTemplateId?: string;
-  deleteAllLanguages?: boolean;
+  metaTemplateId?: string | undefined;
+  deleteAllLanguages?: boolean | undefined;
   id: string;
   templateName: string;
 }
@@ -374,6 +380,8 @@ export interface GetLinkedWhatsAppBusinessAccountInput {
 export type LinkedWhatsAppBusinessAccountArn = string;
 export type WhatsAppBusinessAccountLinkDate = Date;
 export type WhatsAppBusinessAccountMarketingMessagesOnboardingStatus = string;
+export type DirectSendEnforcementStatus = string;
+export type DirectSendEnforcementStatusExpiresAt = Date;
 export interface WhatsAppPhoneNumberSummary {
   arn: string;
   phoneNumber: string;
@@ -382,7 +390,7 @@ export interface WhatsAppPhoneNumberSummary {
   displayPhoneNumberName: string;
   displayPhoneNumber: string;
   qualityRating: string;
-  dataLocalizationRegion?: string;
+  dataLocalizationRegion?: string | undefined;
 }
 export type WhatsAppPhoneNumberSummaryList = WhatsAppPhoneNumberSummary[];
 export interface LinkedWhatsAppBusinessAccount {
@@ -393,12 +401,14 @@ export interface LinkedWhatsAppBusinessAccount {
   linkDate: Date;
   wabaName: string;
   eventDestinations: WhatsAppBusinessAccountEventDestination[];
-  marketingMessagesOnboardingStatus?: string;
-  datasetId?: string;
+  marketingMessagesOnboardingStatus?: string | undefined;
+  directSendEnforcementStatus?: string | undefined;
+  directSendEnforcementStatusExpiresAt?: Date | undefined;
+  datasetId?: string | undefined;
   phoneNumbers: WhatsAppPhoneNumberSummary[];
 }
 export interface GetLinkedWhatsAppBusinessAccountOutput {
-  account?: LinkedWhatsAppBusinessAccount;
+  account?: LinkedWhatsAppBusinessAccount | undefined;
 }
 export interface GetLinkedWhatsAppBusinessAccountPhoneNumberInput {
   id: string;
@@ -434,20 +444,20 @@ export interface WhatsAppCallHours {
   enabled: boolean;
   timezone: string;
   weeklyOperatingHours: WhatsAppWeeklyOperatingHoursEntry[];
-  holidaySchedule?: WhatsAppHolidayScheduleEntry[];
+  holidaySchedule?: WhatsAppHolidayScheduleEntry[] | undefined;
 }
 export type WhatsAppCallIconVisibility = string;
 export type WhatsAppCallbackPermissionStatus = string;
 export interface WhatsAppCallSettings {
   callEnabled: boolean;
-  callHours?: WhatsAppCallHours;
-  callIconVisibility?: string;
-  callbackPermissionStatus?: string;
+  callHours?: WhatsAppCallHours | undefined;
+  callIconVisibility?: string | undefined;
+  callbackPermissionStatus?: string | undefined;
 }
 export interface GetLinkedWhatsAppBusinessAccountPhoneNumberOutput {
-  phoneNumber?: WhatsAppPhoneNumberDetail;
-  linkedWhatsAppBusinessAccountId?: string;
-  callSettings?: WhatsAppCallSettings;
+  phoneNumber?: WhatsAppPhoneNumberDetail | undefined;
+  linkedWhatsAppBusinessAccountId?: string | undefined;
+  callSettings?: WhatsAppCallSettings | undefined;
 }
 export interface GetWhatsAppBusinessPublicKeyInput {
   originationPhoneNumberId: string;
@@ -455,20 +465,20 @@ export interface GetWhatsAppBusinessPublicKeyInput {
 export type BusinessPublicKeyPem = string;
 export type BusinessPublicKeySignatureStatus = string;
 export interface GetWhatsAppBusinessPublicKeyOutput {
-  businessPublicKey?: string;
-  businessPublicKeySignatureStatus?: string;
+  businessPublicKey?: string | undefined;
+  businessPublicKeySignatureStatus?: string | undefined;
 }
 export type WhatsAppDestinationPhoneNumber = string | redacted.Redacted<string>;
 export type WhatsAppBusinessScopedUserId = string | redacted.Redacted<string>;
 export interface GetWhatsAppCallPermissionInput {
   originationPhoneNumberId: string;
-  destinationPhoneNumber?: string | redacted.Redacted<string>;
-  endUserBsuid?: string | redacted.Redacted<string>;
+  destinationPhoneNumber?: string | redacted.Redacted<string> | undefined;
+  endUserBsuid?: string | redacted.Redacted<string> | undefined;
 }
 export type WhatsAppCallPermissionStatus = string;
 export interface WhatsAppCallPermission {
   status: string;
-  expirationTime?: Date;
+  expirationTime?: Date | undefined;
 }
 export type WhatsAppCallPermissionActionName = string;
 export type Iso8601Duration = string;
@@ -476,7 +486,7 @@ export interface WhatsAppCallPermissionLimit {
   timePeriod: string;
   maxAllowed: number;
   currentUsage: number;
-  limitExpirationTime?: Date;
+  limitExpirationTime?: Date | undefined;
 }
 export type WhatsAppCallPermissionLimitList = WhatsAppCallPermissionLimit[];
 export interface WhatsAppCallPermissionAction {
@@ -508,15 +518,15 @@ export type MetaFlowWabaTemplateNamespace = string;
 export interface MetaFlowWhatsAppBusinessAccountInfo {
   id: string;
   name: string;
-  currency?: string;
-  timezoneId?: string;
-  messageTemplateNamespace?: string;
+  currency?: string | undefined;
+  timezoneId?: string | undefined;
+  messageTemplateNamespace?: string | undefined;
 }
 export type MetaFlowApplicationLink = string;
 export type MetaFlowApplicationName = string;
 export type MetaFlowApplicationId = string;
 export interface MetaFlowApplicationInfo {
-  link?: string;
+  link?: string | undefined;
   name: string;
   id: string;
 }
@@ -530,26 +540,26 @@ export interface MetaFlowHealthEntity {
 export type MetaFlowHealthEntityList = MetaFlowHealthEntity[];
 export interface MetaFlowHealthStatus {
   canSendMessage: string;
-  entities?: MetaFlowHealthEntity[];
+  entities?: MetaFlowHealthEntity[] | undefined;
 }
 export interface GetWhatsAppFlowOutput {
   flowId: string;
   flowName: string;
   flowStatus: string;
-  categories?: MetaFlowCategory[];
-  validationErrors?: string[];
-  jsonVersion?: string;
-  dataApiVersion?: string;
-  endpointUri?: string;
-  preview?: MetaFlowPreviewInfo;
-  whatsAppBusinessAccount?: MetaFlowWhatsAppBusinessAccountInfo;
-  application?: MetaFlowApplicationInfo;
-  healthStatus?: MetaFlowHealthStatus;
+  categories?: MetaFlowCategory[] | undefined;
+  validationErrors?: string[] | undefined;
+  jsonVersion?: string | undefined;
+  dataApiVersion?: string | undefined;
+  endpointUri?: string | undefined;
+  preview?: MetaFlowPreviewInfo | undefined;
+  whatsAppBusinessAccount?: MetaFlowWhatsAppBusinessAccountInfo | undefined;
+  application?: MetaFlowApplicationInfo | undefined;
+  healthStatus?: MetaFlowHealthStatus | undefined;
 }
 export interface GetWhatsAppFlowPreviewInput {
   id: string;
   flowId: string;
-  invalidate?: boolean;
+  invalidate?: boolean | undefined;
 }
 export interface GetWhatsAppFlowPreviewOutput {
   flowId: string;
@@ -563,29 +573,29 @@ export interface S3PresignedUrl {
 export interface GetWhatsAppMessageMediaInput {
   mediaId: string;
   originationPhoneNumberId: string;
-  metadataOnly?: boolean;
-  destinationS3PresignedUrl?: S3PresignedUrl;
-  destinationS3File?: S3File;
+  metadataOnly?: boolean | undefined;
+  destinationS3PresignedUrl?: S3PresignedUrl | undefined;
+  destinationS3File?: S3File | undefined;
 }
 export interface GetWhatsAppMessageMediaOutput {
-  mimeType?: string;
-  fileSize?: number;
+  mimeType?: string | undefined;
+  fileSize?: number | undefined;
 }
 export interface GetWhatsAppMessageTemplateInput {
-  metaTemplateId?: string;
+  metaTemplateId?: string | undefined;
   id: string;
-  templateName?: string;
-  templateLanguageCode?: string;
+  templateName?: string | undefined;
+  templateLanguageCode?: string | undefined;
 }
 export type MetaTemplate = string;
 export interface GetWhatsAppMessageTemplateOutput {
-  template?: string;
+  template?: string | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListLinkedWhatsAppBusinessAccountsInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface LinkedWhatsAppBusinessAccountSummary {
   arn: string;
@@ -595,27 +605,29 @@ export interface LinkedWhatsAppBusinessAccountSummary {
   linkDate: Date;
   wabaName: string;
   eventDestinations: WhatsAppBusinessAccountEventDestination[];
-  marketingMessagesOnboardingStatus?: string;
-  datasetId?: string;
+  marketingMessagesOnboardingStatus?: string | undefined;
+  directSendEnforcementStatus?: string | undefined;
+  directSendEnforcementStatusExpiresAt?: Date | undefined;
+  datasetId?: string | undefined;
 }
 export type LinkedWhatsAppBusinessAccountSummaryList = LinkedWhatsAppBusinessAccountSummary[];
 export interface ListLinkedWhatsAppBusinessAccountsOutput {
-  linkedAccounts?: LinkedWhatsAppBusinessAccountSummary[];
-  nextToken?: string;
+  linkedAccounts?: LinkedWhatsAppBusinessAccountSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  statusCode?: number;
-  tags?: Tag[];
+  statusCode?: number | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface ListWhatsAppFlowAssetsInput {
   id: string;
   flowId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type MetaFlowAssetName = string;
 export type MetaFlowAssetType = string;
@@ -628,12 +640,12 @@ export interface MetaFlowAsset {
 export type MetaFlowAssetList = MetaFlowAsset[];
 export interface ListWhatsAppFlowAssetsOutput {
   flowAssets: MetaFlowAsset[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListWhatsAppFlowsInput {
   id: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface MetaFlowSummary {
   flowId: string;
@@ -645,34 +657,37 @@ export interface MetaFlowSummary {
 export type MetaFlowSummaryList = MetaFlowSummary[];
 export interface ListWhatsAppFlowsOutput {
   flows: MetaFlowSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListWhatsAppMessageTemplatesInput {
   id: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type MetaTemplateStatus = string;
 export type MetaTemplateQualityScore = string;
+export type MetaTemplateSource = string;
 export interface TemplateSummary {
-  templateName?: string;
-  metaTemplateId?: string;
-  templateStatus?: string;
-  templateQualityScore?: string;
-  templateLanguage?: string;
-  templateCategory?: string;
+  templateName?: string | undefined;
+  metaTemplateId?: string | undefined;
+  templateStatus?: string | undefined;
+  templateQualityScore?: string | undefined;
+  templateLanguage?: string | undefined;
+  templateCategory?: string | undefined;
+  templateSource?: string | undefined;
+  correctCategory?: string | undefined;
 }
 export type TemplateSummaryList = TemplateSummary[];
 export interface ListWhatsAppMessageTemplatesOutput {
-  templates?: TemplateSummary[];
-  nextToken?: string;
+  templates?: TemplateSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Filter = { [key: string]: string | undefined };
 export interface ListWhatsAppTemplateLibraryInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   id: string;
-  filters?: { [key: string]: string | undefined };
+  filters?: { [key: string]: string | undefined } | undefined;
 }
 export type MetaTemplateTopic = string;
 export type MetaTemplateUseCase = string;
@@ -683,41 +698,41 @@ export type MetaTemplateBody = string;
 export type MetaText = string;
 export type MetaUrl = string;
 export interface LibraryTemplateButtonList {
-  type?: string;
-  text?: string;
-  phoneNumber?: string;
-  url?: string;
-  otpType?: string;
-  zeroTapTermsAccepted?: boolean;
-  supportedApps?: { [key: string]: string | undefined }[];
+  type?: string | undefined;
+  text?: string | undefined;
+  phoneNumber?: string | undefined;
+  url?: string | undefined;
+  otpType?: string | undefined;
+  zeroTapTermsAccepted?: boolean | undefined;
+  supportedApps?: { [key: string]: string | undefined }[] | undefined;
 }
 export type MetaLibraryTemplateButtonList = LibraryTemplateButtonList[];
 export type MetaTemplateBodyExampleParams = string[];
 export interface MetaLibraryTemplateDefinition {
-  templateName?: string;
-  templateLanguage?: string;
-  templateCategory?: string;
-  templateTopic?: string;
-  templateUseCase?: string;
-  templateIndustry?: string[];
-  templateHeader?: string;
-  templateBody?: string;
-  templateButtons?: LibraryTemplateButtonList[];
-  templateId?: string;
-  templateBodyExampleParams?: string[];
+  templateName?: string | undefined;
+  templateLanguage?: string | undefined;
+  templateCategory?: string | undefined;
+  templateTopic?: string | undefined;
+  templateUseCase?: string | undefined;
+  templateIndustry?: string[] | undefined;
+  templateHeader?: string | undefined;
+  templateBody?: string | undefined;
+  templateButtons?: LibraryTemplateButtonList[] | undefined;
+  templateId?: string | undefined;
+  templateBodyExampleParams?: string[] | undefined;
 }
 export type MetaLibraryTemplatesList = MetaLibraryTemplateDefinition[];
 export interface ListWhatsAppTemplateLibraryOutput {
-  metaLibraryTemplates?: MetaLibraryTemplateDefinition[];
-  nextToken?: string;
+  metaLibraryTemplates?: MetaLibraryTemplateDefinition[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface PostWhatsAppMessageMediaInput {
   originationPhoneNumberId: string;
-  sourceS3PresignedUrl?: S3PresignedUrl;
-  sourceS3File?: S3File;
+  sourceS3PresignedUrl?: S3PresignedUrl | undefined;
+  sourceS3File?: S3File | undefined;
 }
 export interface PostWhatsAppMessageMediaOutput {
-  mediaId?: string;
+  mediaId?: string | undefined;
 }
 export interface PublishWhatsAppFlowInput {
   id: string;
@@ -732,8 +747,8 @@ export interface PutWhatsAppBusinessAccountEventDestinationsOutput {}
 export type KmsKeyArn = string;
 export interface PutWhatsAppBusinessPublicKeyInput {
   originationPhoneNumberId: string;
-  businessPublicKey?: string;
-  kmsKeyArn?: string;
+  businessPublicKey?: string | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export interface PutWhatsAppBusinessPublicKeyOutput {}
 export type WhatsAppCallEventBlob = Uint8Array | redacted.Redacted<Uint8Array>;
@@ -761,14 +776,14 @@ export interface SendWhatsAppMessageInput {
   metaApiVersion: string;
 }
 export interface SendWhatsAppMessageOutput {
-  messageId?: string;
+  messageId?: string | undefined;
 }
 export interface TagResourceInput {
   resourceArn: string;
   tags: Tag[];
 }
 export interface TagResourceOutput {
-  statusCode?: number;
+  statusCode?: number | undefined;
 }
 export type StringList = string[];
 export interface UntagResourceInput {
@@ -776,7 +791,7 @@ export interface UntagResourceInput {
   tagKeys: string[];
 }
 export interface UntagResourceOutput {
-  statusCode?: number;
+  statusCode?: number | undefined;
 }
 export interface UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput {
   id: string;
@@ -788,10 +803,10 @@ export interface UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput {
 export interface UpdateWhatsAppFlowInput {
   id: string;
   flowId: string;
-  flowName?: string;
-  categories?: MetaFlowCategory[];
-  endpointUri?: string;
-  metaAppId?: string;
+  flowName?: string | undefined;
+  categories?: MetaFlowCategory[] | undefined;
+  endpointUri?: string | undefined;
+  metaAppId?: string | undefined;
 }
 export interface UpdateWhatsAppFlowOutput {}
 export interface UpdateWhatsAppFlowAssetsInput {
@@ -800,20 +815,20 @@ export interface UpdateWhatsAppFlowAssetsInput {
   flowJson: Uint8Array;
 }
 export interface UpdateWhatsAppFlowAssetsOutput {
-  validationErrors?: string[];
+  validationErrors?: string[] | undefined;
 }
 export type MetaParameterFormat = string;
 export type MetaTemplateComponents = Uint8Array;
 export type MetaTemplateCtaLinkTrackingOptedOut = boolean;
 export interface UpdateWhatsAppMessageTemplateInput {
   id: string;
-  metaTemplateId?: string;
-  templateName?: string;
-  templateLanguageCode?: string;
-  parameterFormat?: string;
-  templateCategory?: string;
-  templateComponents?: Uint8Array;
-  ctaUrlLinkTrackingOptedOut?: boolean;
+  metaTemplateId?: string | undefined;
+  templateName?: string | undefined;
+  templateLanguageCode?: string | undefined;
+  parameterFormat?: string | undefined;
+  templateCategory?: string | undefined;
+  templateComponents?: Uint8Array | undefined;
+  ctaUrlLinkTrackingOptedOut?: boolean | undefined;
 }
 export interface UpdateWhatsAppMessageTemplateOutput {}
 export type ErrorMessage = string;
@@ -822,6 +837,8 @@ export type AssociateWhatsAppBusinessAccountError =
   | InvalidParametersException
   | LimitExceededException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * This is only used through the Amazon Web Services console during sign-up to associate your WhatsApp Business Account to your Amazon Web Services account.
@@ -832,13 +849,15 @@ export const associateWhatsAppBusinessAccount: API.OperationMethod<
   AssociateWhatsAppBusinessAccountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(773, __c48, 5) as any as S.Schema<AssociateWhatsAppBusinessAccountInput>,
-  output: __S(777, __c48, 9) as any as S.Schema<AssociateWhatsAppBusinessAccountOutput>,
+  input: __S(5, __c0, 5) as any as S.Schema<AssociateWhatsAppBusinessAccountInput>,
+  output: __S(9, __c0, 9) as any as S.Schema<AssociateWhatsAppBusinessAccountOutput>,
   errors: [
     DependencyException,
     InvalidParametersException,
     LimitExceededException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -854,6 +873,8 @@ export type CreateWhatsAppDatasetError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Creates a Meta Conversions API dataset for a WhatsApp Business Account.
@@ -864,8 +885,8 @@ export const createWhatsAppDataset: API.OperationMethod<
   CreateWhatsAppDatasetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateWhatsAppDatasetInput>,
-  output: __S(1, __c0, 1) as any as S.Schema<CreateWhatsAppDatasetOutput>,
+  input: __S(80, __c5, 0) as any as S.Schema<CreateWhatsAppDatasetInput>,
+  output: __S(81, __c5, 1) as any as S.Schema<CreateWhatsAppDatasetOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -873,6 +894,8 @@ export const createWhatsAppDataset: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -888,6 +911,8 @@ export type CreateWhatsAppFlowError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Creates a new WhatsApp Flow. Flows enable businesses to create rich, interactive forms and experiences
@@ -900,8 +925,8 @@ export const createWhatsAppFlow: API.OperationMethod<
   CreateWhatsAppFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<CreateWhatsAppFlowInput>,
-  output: __S(17, __c1, 1) as any as S.Schema<CreateWhatsAppFlowOutput>,
+  input: __S(96, __c6, 0) as any as S.Schema<CreateWhatsAppFlowInput>,
+  output: __S(97, __c6, 1) as any as S.Schema<CreateWhatsAppFlowOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -909,6 +934,8 @@ export const createWhatsAppFlow: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -924,6 +951,8 @@ export type CreateWhatsAppMessageTemplateError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Creates a new WhatsApp message template from a custom definition.
@@ -936,8 +965,8 @@ export const createWhatsAppMessageTemplate: API.OperationMethod<
   CreateWhatsAppMessageTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<CreateWhatsAppMessageTemplateInput>,
-  output: __S(80, __c5, 0) as any as S.Schema<CreateWhatsAppMessageTemplateOutput>,
+  input: __S(144, __c9, 0) as any as S.Schema<CreateWhatsAppMessageTemplateInput>,
+  output: __S(160, __c10, 0) as any as S.Schema<CreateWhatsAppMessageTemplateOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -945,6 +974,8 @@ export const createWhatsAppMessageTemplate: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -960,6 +991,8 @@ export type CreateWhatsAppMessageTemplateFromLibraryError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Creates a new WhatsApp message template using a template from Meta's template library.
@@ -970,8 +1003,8 @@ export const createWhatsAppMessageTemplateFromLibrary: API.OperationMethod<
   CreateWhatsAppMessageTemplateFromLibraryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(100, __c6, 4) as any as S.Schema<CreateWhatsAppMessageTemplateFromLibraryInput>,
-  output: __S(80, __c5, 0) as any as S.Schema<CreateWhatsAppMessageTemplateFromLibraryOutput>,
+  input: __S(180, __c11, 4) as any as S.Schema<CreateWhatsAppMessageTemplateFromLibraryInput>,
+  output: __S(160, __c10, 0) as any as S.Schema<CreateWhatsAppMessageTemplateFromLibraryOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -979,6 +1012,8 @@ export const createWhatsAppMessageTemplateFromLibrary: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -994,6 +1029,8 @@ export type CreateWhatsAppMessageTemplateMediaError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Uploads media for use in a WhatsApp message template.
@@ -1004,8 +1041,8 @@ export const createWhatsAppMessageTemplateMedia: API.OperationMethod<
   CreateWhatsAppMessageTemplateMediaError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<CreateWhatsAppMessageTemplateMediaInput>,
-  output: __S(145, __c9, 1) as any as S.Schema<CreateWhatsAppMessageTemplateMediaOutput>,
+  input: __S(224, __c14, 0) as any as S.Schema<CreateWhatsAppMessageTemplateMediaInput>,
+  output: __S(225, __c14, 1) as any as S.Schema<CreateWhatsAppMessageTemplateMediaOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -1013,6 +1050,8 @@ export const createWhatsAppMessageTemplateMedia: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1028,6 +1067,8 @@ export type DeleteWhatsAppFlowError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Deletes a WhatsApp Flow permanently. Only Flows in DRAFT status can be deleted. Published or deprecated Flows cannot be deleted.
@@ -1038,8 +1079,8 @@ export const deleteWhatsAppFlow: API.OperationMethod<
   DeleteWhatsAppFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<DeleteWhatsAppFlowInput>,
-  output: __S(192, __c12, 0) as any as S.Schema<DeleteWhatsAppFlowOutput>,
+  input: __S(256, __c16, 0) as any as S.Schema<DeleteWhatsAppFlowInput>,
+  output: __S(272, __c17, 0) as any as S.Schema<DeleteWhatsAppFlowOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -1047,6 +1088,8 @@ export const deleteWhatsAppFlow: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1062,6 +1105,8 @@ export type DeleteWhatsAppMessageMediaError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Delete a media object from the WhatsApp service. If the object is still in an Amazon S3 bucket you should delete it from there too.
@@ -1072,8 +1117,8 @@ export const deleteWhatsAppMessageMedia: API.OperationMethod<
   DeleteWhatsAppMessageMediaError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<DeleteWhatsAppMessageMediaInput>,
-  output: __S(209, __c13, 1) as any as S.Schema<DeleteWhatsAppMessageMediaOutput>,
+  input: __S(288, __c18, 0) as any as S.Schema<DeleteWhatsAppMessageMediaInput>,
+  output: __S(289, __c18, 1) as any as S.Schema<DeleteWhatsAppMessageMediaOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -1081,6 +1126,8 @@ export const deleteWhatsAppMessageMedia: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1096,6 +1143,8 @@ export type DeleteWhatsAppMessageTemplateError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Deletes a WhatsApp message template.
@@ -1106,8 +1155,8 @@ export const deleteWhatsAppMessageTemplate: API.OperationMethod<
   DeleteWhatsAppMessageTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<DeleteWhatsAppMessageTemplateInput>,
-  output: __S(192, __c12, 0) as any as S.Schema<DeleteWhatsAppMessageTemplateOutput>,
+  input: __S(304, __c19, 0) as any as S.Schema<DeleteWhatsAppMessageTemplateInput>,
+  output: __S(272, __c17, 0) as any as S.Schema<DeleteWhatsAppMessageTemplateOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -1115,6 +1164,8 @@ export const deleteWhatsAppMessageTemplate: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1130,6 +1181,8 @@ export type DeprecateWhatsAppFlowError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Deprecates a published WhatsApp Flow, marking it as no longer recommended for use. The Flow must be in PUBLISHED status. This is an irreversible operation.
@@ -1140,8 +1193,8 @@ export const deprecateWhatsAppFlow: API.OperationMethod<
   DeprecateWhatsAppFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<DeprecateWhatsAppFlowInput>,
-  output: __S(192, __c12, 0) as any as S.Schema<DeprecateWhatsAppFlowOutput>,
+  input: __S(320, __c20, 0) as any as S.Schema<DeprecateWhatsAppFlowInput>,
+  output: __S(272, __c17, 0) as any as S.Schema<DeprecateWhatsAppFlowOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -1149,6 +1202,8 @@ export const deprecateWhatsAppFlow: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1162,6 +1217,8 @@ export type DisassociateWhatsAppBusinessAccountError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Disassociate a WhatsApp Business Account (WABA) from your Amazon Web Services account.
@@ -1172,13 +1229,15 @@ export const disassociateWhatsAppBusinessAccount: API.OperationMethod<
   DisassociateWhatsAppBusinessAccountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<DisassociateWhatsAppBusinessAccountInput>,
-  output: __S(192, __c12, 0) as any as S.Schema<DisassociateWhatsAppBusinessAccountOutput>,
+  input: __S(336, __c21, 0) as any as S.Schema<DisassociateWhatsAppBusinessAccountInput>,
+  output: __S(272, __c17, 0) as any as S.Schema<DisassociateWhatsAppBusinessAccountOutput>,
   errors: [
     DependencyException,
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1193,6 +1252,8 @@ export type GetLinkedWhatsAppBusinessAccountError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Get the details of your linked WhatsApp Business Account.
@@ -1203,14 +1264,16 @@ export const getLinkedWhatsAppBusinessAccount: API.OperationMethod<
   GetLinkedWhatsAppBusinessAccountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<GetLinkedWhatsAppBusinessAccountInput>,
-  output: __S(274, __c17, 2) as any as S.Schema<GetLinkedWhatsAppBusinessAccountOutput>,
+  input: __S(352, __c22, 0) as any as S.Schema<GetLinkedWhatsAppBusinessAccountInput>,
+  output: __S(354, __c22, 2) as any as S.Schema<GetLinkedWhatsAppBusinessAccountOutput>,
   errors: [
     DependencyException,
     InternalServiceException,
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1225,6 +1288,8 @@ export type GetLinkedWhatsAppBusinessAccountPhoneNumberError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Retrieve the WABA account id and phone number details of a WhatsApp business account phone number.
@@ -1235,14 +1300,16 @@ export const getLinkedWhatsAppBusinessAccountPhoneNumber: API.OperationMethod<
   GetLinkedWhatsAppBusinessAccountPhoneNumberError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<GetLinkedWhatsAppBusinessAccountPhoneNumberInput>,
-  output: __S(289, __c18, 1) as any as S.Schema<GetLinkedWhatsAppBusinessAccountPhoneNumberOutput>,
+  input: __S(368, __c23, 0) as any as S.Schema<GetLinkedWhatsAppBusinessAccountPhoneNumberInput>,
+  output: __S(369, __c23, 1) as any as S.Schema<GetLinkedWhatsAppBusinessAccountPhoneNumberOutput>,
   errors: [
     DependencyException,
     InternalServiceException,
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1259,6 +1326,7 @@ export type GetWhatsAppBusinessPublicKeyError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | ValidationException
   | CommonErrors;
 /**
  * Retrieves the business public key for a phone number and its signature status.
@@ -1269,8 +1337,8 @@ export const getWhatsAppBusinessPublicKey: API.OperationMethod<
   GetWhatsAppBusinessPublicKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetWhatsAppBusinessPublicKeyInput>,
-  output: __S(321, __c20, 1) as any as S.Schema<GetWhatsAppBusinessPublicKeyOutput>,
+  input: __S(400, __c25, 0) as any as S.Schema<GetWhatsAppBusinessPublicKeyInput>,
+  output: __S(401, __c25, 1) as any as S.Schema<GetWhatsAppBusinessPublicKeyOutput>,
   errors: [
     AccessDeniedByMetaException,
     AccessDeniedException,
@@ -1279,6 +1347,7 @@ export const getWhatsAppBusinessPublicKey: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1294,6 +1363,8 @@ export type GetWhatsAppCallPermissionError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Retrieves the current calling permission for a WhatsApp end user, along with the calling actions the business is allowed to take with that user. Provide the destination phone number or the business-scoped user ID to identify the end user.
@@ -1304,8 +1375,8 @@ export const getWhatsAppCallPermission: API.OperationMethod<
   GetWhatsAppCallPermissionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetWhatsAppCallPermissionInput>,
-  output: __S(342, __c21, 6) as any as S.Schema<GetWhatsAppCallPermissionOutput>,
+  input: __S(416, __c26, 0) as any as S.Schema<GetWhatsAppCallPermissionInput>,
+  output: __S(422, __c26, 6) as any as S.Schema<GetWhatsAppCallPermissionOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -1313,6 +1384,8 @@ export const getWhatsAppCallPermission: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1328,6 +1401,8 @@ export type GetWhatsAppFlowError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Retrieves the metadata and status of a WhatsApp Flow, including validation errors, preview information, and health status.
@@ -1338,8 +1413,8 @@ export const getWhatsAppFlow: API.OperationMethod<
   GetWhatsAppFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<GetWhatsAppFlowInput>,
-  output: __S(358, __c22, 6) as any as S.Schema<GetWhatsAppFlowOutput>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetWhatsAppFlowInput>,
+  output: __S(438, __c27, 6) as any as S.Schema<GetWhatsAppFlowOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -1347,6 +1422,8 @@ export const getWhatsAppFlow: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1362,6 +1439,8 @@ export type GetWhatsAppFlowPreviewError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Generates a web preview URL for testing a WhatsApp Flow before publishing. Preview URLs expire in 30 days and can be shared with stakeholders for review.
@@ -1372,8 +1451,8 @@ export const getWhatsAppFlowPreview: API.OperationMethod<
   GetWhatsAppFlowPreviewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<GetWhatsAppFlowPreviewInput>,
-  output: __S(385, __c24, 1) as any as S.Schema<GetWhatsAppFlowPreviewOutput>,
+  input: __S(464, __c29, 0) as any as S.Schema<GetWhatsAppFlowPreviewInput>,
+  output: __S(465, __c29, 1) as any as S.Schema<GetWhatsAppFlowPreviewOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -1381,6 +1460,8 @@ export const getWhatsAppFlowPreview: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1396,6 +1477,8 @@ export type GetWhatsAppMessageMediaError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Get a media file from the WhatsApp service. On successful completion the media file is
@@ -1410,8 +1493,8 @@ export const getWhatsAppMessageMedia: API.OperationMethod<
   GetWhatsAppMessageMediaError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetWhatsAppMessageMediaInput>,
-  output: __S(401, __c25, 1) as any as S.Schema<GetWhatsAppMessageMediaOutput>,
+  input: __S(480, __c30, 0) as any as S.Schema<GetWhatsAppMessageMediaInput>,
+  output: __S(481, __c30, 1) as any as S.Schema<GetWhatsAppMessageMediaOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -1419,6 +1502,8 @@ export const getWhatsAppMessageMedia: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1434,6 +1519,8 @@ export type GetWhatsAppMessageTemplateError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Retrieves a specific WhatsApp message template.
@@ -1444,8 +1531,8 @@ export const getWhatsAppMessageTemplate: API.OperationMethod<
   GetWhatsAppMessageTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<GetWhatsAppMessageTemplateInput>,
-  output: __S(433, __c27, 1) as any as S.Schema<GetWhatsAppMessageTemplateOutput>,
+  input: __S(512, __c32, 0) as any as S.Schema<GetWhatsAppMessageTemplateInput>,
+  output: __S(513, __c32, 1) as any as S.Schema<GetWhatsAppMessageTemplateOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -1453,6 +1540,8 @@ export const getWhatsAppMessageTemplate: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1466,6 +1555,8 @@ export type ListLinkedWhatsAppBusinessAccountsError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * List all WhatsApp Business Accounts linked to your Amazon Web Services account.
@@ -1477,13 +1568,15 @@ export const listLinkedWhatsAppBusinessAccounts: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   LinkedWhatsAppBusinessAccountSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<ListLinkedWhatsAppBusinessAccountsInput>,
-  output: __S(451, __c28, 3) as any as S.Schema<ListLinkedWhatsAppBusinessAccountsOutput>,
+  input: __S(528, __c33, 0) as any as S.Schema<ListLinkedWhatsAppBusinessAccountsInput>,
+  output: __S(531, __c33, 3) as any as S.Schema<ListLinkedWhatsAppBusinessAccountsOutput>,
   errors: [
     InternalServiceException,
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1502,6 +1595,8 @@ export type ListTagsForResourceError =
   | InternalServiceException
   | InvalidParametersException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * List all tags associated with a resource, such as a phone number or WABA.
@@ -1512,9 +1607,15 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<ListTagsForResourceInput>,
-  output: __S(465, __c29, 1) as any as S.Schema<ListTagsForResourceOutput>,
-  errors: [InternalServiceException, InvalidParametersException, ThrottledRequestException],
+  input: __S(544, __c34, 0) as any as S.Schema<ListTagsForResourceInput>,
+  output: __S(545, __c34, 1) as any as S.Schema<ListTagsForResourceOutput>,
+  errors: [
+    InternalServiceException,
+    InvalidParametersException,
+    ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -1529,6 +1630,8 @@ export type ListWhatsAppFlowAssetsError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Lists the assets (Flow JSON definition) of a WhatsApp Flow with presigned download URLs. Download URLs are generated by Meta and expire after a short period.
@@ -1540,8 +1643,8 @@ export const listWhatsAppFlowAssets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MetaFlowAsset
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<ListWhatsAppFlowAssetsInput>,
-  output: __S(483, __c30, 3) as any as S.Schema<ListWhatsAppFlowAssetsOutput>,
+  input: __S(560, __c35, 0) as any as S.Schema<ListWhatsAppFlowAssetsInput>,
+  output: __S(563, __c35, 3) as any as S.Schema<ListWhatsAppFlowAssetsOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -1549,6 +1652,8 @@ export const listWhatsAppFlowAssets: API.PaginatedOperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1570,6 +1675,8 @@ export type ListWhatsAppFlowsError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Lists all WhatsApp Flows for a WhatsApp Business Account. Returns summary information including Flow ID, name, status, and categories.
@@ -1581,8 +1688,8 @@ export const listWhatsAppFlows: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MetaFlowSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<ListWhatsAppFlowsInput>,
-  output: __S(499, __c31, 3) as any as S.Schema<ListWhatsAppFlowsOutput>,
+  input: __S(576, __c36, 0) as any as S.Schema<ListWhatsAppFlowsInput>,
+  output: __S(579, __c36, 3) as any as S.Schema<ListWhatsAppFlowsOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -1590,6 +1697,8 @@ export const listWhatsAppFlows: API.PaginatedOperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1611,6 +1720,8 @@ export type ListWhatsAppMessageTemplatesError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Lists WhatsApp message templates for a specific WhatsApp Business Account.
@@ -1622,8 +1733,8 @@ export const listWhatsAppMessageTemplates: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TemplateSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<ListWhatsAppMessageTemplatesInput>,
-  output: __S(515, __c32, 3) as any as S.Schema<ListWhatsAppMessageTemplatesOutput>,
+  input: __S(592, __c37, 0) as any as S.Schema<ListWhatsAppMessageTemplatesInput>,
+  output: __S(595, __c37, 3) as any as S.Schema<ListWhatsAppMessageTemplatesOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -1631,6 +1742,8 @@ export const listWhatsAppMessageTemplates: API.PaginatedOperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1652,6 +1765,8 @@ export type ListWhatsAppTemplateLibraryError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Lists templates available in Meta's template library for WhatsApp messaging.
@@ -1663,8 +1778,8 @@ export const listWhatsAppTemplateLibrary: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MetaLibraryTemplateDefinition
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<ListWhatsAppTemplateLibraryInput>,
-  output: __S(533, __c33, 5) as any as S.Schema<ListWhatsAppTemplateLibraryOutput>,
+  input: __S(608, __c38, 0) as any as S.Schema<ListWhatsAppTemplateLibraryInput>,
+  output: __S(613, __c38, 5) as any as S.Schema<ListWhatsAppTemplateLibraryOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -1672,6 +1787,8 @@ export const listWhatsAppTemplateLibrary: API.PaginatedOperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1693,6 +1810,8 @@ export type PostWhatsAppMessageMediaError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Upload a media file to the WhatsApp service. Only the specified
@@ -1707,8 +1826,8 @@ export const postWhatsAppMessageMedia: API.OperationMethod<
   PostWhatsAppMessageMediaError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<PostWhatsAppMessageMediaInput>,
-  output: __S(545, __c34, 1) as any as S.Schema<PostWhatsAppMessageMediaOutput>,
+  input: __S(624, __c39, 0) as any as S.Schema<PostWhatsAppMessageMediaInput>,
+  output: __S(625, __c39, 1) as any as S.Schema<PostWhatsAppMessageMediaOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -1716,6 +1835,8 @@ export const postWhatsAppMessageMedia: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1731,6 +1852,8 @@ export type PublishWhatsAppFlowError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Publishes a WhatsApp Flow, making it available for use in template messages. The Flow must be in DRAFT status with valid Flow JSON that passes Meta's validation. This is an irreversible operation.
@@ -1741,8 +1864,8 @@ export const publishWhatsAppFlow: API.OperationMethod<
   PublishWhatsAppFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<PublishWhatsAppFlowInput>,
-  output: __S(192, __c12, 0) as any as S.Schema<PublishWhatsAppFlowOutput>,
+  input: __S(640, __c40, 0) as any as S.Schema<PublishWhatsAppFlowInput>,
+  output: __S(272, __c17, 0) as any as S.Schema<PublishWhatsAppFlowOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -1750,6 +1873,8 @@ export const publishWhatsAppFlow: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1762,6 +1887,8 @@ export type PutWhatsAppBusinessAccountEventDestinationsError =
   | InternalServiceException
   | InvalidParametersException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Add an event destination to log event data from WhatsApp for a WhatsApp Business Account (WABA). A WABA can only have one event destination at a time. All resources associated with the WABA use the same event destination.
@@ -1772,9 +1899,15 @@ export const putWhatsAppBusinessAccountEventDestinations: API.OperationMethod<
   PutWhatsAppBusinessAccountEventDestinationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<PutWhatsAppBusinessAccountEventDestinationsInput>,
-  output: __S(192, __c12, 0) as any as S.Schema<PutWhatsAppBusinessAccountEventDestinationsOutput>,
-  errors: [InternalServiceException, InvalidParametersException, ThrottledRequestException],
+  input: __S(656, __c41, 0) as any as S.Schema<PutWhatsAppBusinessAccountEventDestinationsInput>,
+  output: __S(272, __c17, 0) as any as S.Schema<PutWhatsAppBusinessAccountEventDestinationsOutput>,
+  errors: [
+    InternalServiceException,
+    InvalidParametersException,
+    ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutWhatsAppBusinessAccountEventDestinations",
@@ -1790,6 +1923,7 @@ export type PutWhatsAppBusinessPublicKeyError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | ValidationException
   | CommonErrors;
 /**
  * Sets the business public key used to encrypt the data exchanged with the endpoint of a data exchange Flow.
@@ -1800,8 +1934,8 @@ export const putWhatsAppBusinessPublicKey: API.OperationMethod<
   PutWhatsAppBusinessPublicKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<PutWhatsAppBusinessPublicKeyInput>,
-  output: __S(192, __c12, 0) as any as S.Schema<PutWhatsAppBusinessPublicKeyOutput>,
+  input: __S(672, __c42, 0) as any as S.Schema<PutWhatsAppBusinessPublicKeyInput>,
+  output: __S(272, __c17, 0) as any as S.Schema<PutWhatsAppBusinessPublicKeyOutput>,
   errors: [
     AccessDeniedByMetaException,
     AccessDeniedException,
@@ -1810,6 +1944,7 @@ export const putWhatsAppBusinessPublicKey: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1826,6 +1961,8 @@ export type SendWhatsAppCallEventError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Sends a WhatsApp calling event, such as connecting or terminating a call, for a business phone number. This operation passes the event through to Meta. To use this operation, the origination phone number must belong to a WhatsApp Business Account that is linked to your Amazon Web Services account.
@@ -1836,8 +1973,8 @@ export const sendWhatsAppCallEvent: API.OperationMethod<
   SendWhatsAppCallEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<SendWhatsAppCallEventInput>,
-  output: __S(609, __c38, 1) as any as S.Schema<SendWhatsAppCallEventOutput>,
+  input: __S(688, __c43, 0) as any as S.Schema<SendWhatsAppCallEventInput>,
+  output: __S(689, __c43, 1) as any as S.Schema<SendWhatsAppCallEventOutput>,
   errors: [
     AccessDeniedByMetaException,
     ConflictException,
@@ -1846,6 +1983,8 @@ export const sendWhatsAppCallEvent: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1861,6 +2000,8 @@ export type SendWhatsAppConversionEventError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Sends a conversion event to Meta's Conversions API for the specified WhatsApp Business Account dataset.
@@ -1871,8 +2012,8 @@ export const sendWhatsAppConversionEvent: API.OperationMethod<
   SendWhatsAppConversionEventError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<SendWhatsAppConversionEventInput>,
-  output: __S(625, __c39, 1) as any as S.Schema<SendWhatsAppConversionEventOutput>,
+  input: __S(704, __c44, 0) as any as S.Schema<SendWhatsAppConversionEventInput>,
+  output: __S(705, __c44, 1) as any as S.Schema<SendWhatsAppConversionEventOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -1880,6 +2021,8 @@ export const sendWhatsAppConversionEvent: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1895,6 +2038,8 @@ export type SendWhatsAppMessageError =
   | ResourceNotFoundException
   | ThrottledRequestException
   | AccessDeniedByMetaException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Send a WhatsApp message. For examples of sending a message using the Amazon Web Services
@@ -1909,8 +2054,8 @@ export const sendWhatsAppMessage: API.OperationMethod<
   SendWhatsAppMessageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<SendWhatsAppMessageInput>,
-  output: __S(641, __c40, 1) as any as S.Schema<SendWhatsAppMessageOutput>,
+  input: __S(720, __c45, 0) as any as S.Schema<SendWhatsAppMessageInput>,
+  output: __S(721, __c45, 1) as any as S.Schema<SendWhatsAppMessageOutput>,
   errors: [
     DependencyException,
     InternalServiceException,
@@ -1918,6 +2063,8 @@ export const sendWhatsAppMessage: API.OperationMethod<
     ResourceNotFoundException,
     ThrottledRequestException,
     AccessDeniedByMetaException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -1930,6 +2077,8 @@ export type TagResourceError =
   | InternalServiceException
   | InvalidParametersException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Adds or overwrites only the specified tags for the specified resource. When you specify
@@ -1941,9 +2090,15 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<TagResourceInput>,
-  output: __S(672, __c42, 0) as any as S.Schema<TagResourceOutput>,
-  errors: [InternalServiceException, InvalidParametersException, ThrottledRequestException],
+  input: __S(736, __c46, 0) as any as S.Schema<TagResourceInput>,
+  output: __S(752, __c47, 0) as any as S.Schema<TagResourceOutput>,
+  errors: [
+    InternalServiceException,
+    InvalidParametersException,
+    ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1955,6 +2110,8 @@ export type UntagResourceError =
   | InternalServiceException
   | InvalidParametersException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Removes the specified tags from a resource.
@@ -1965,9 +2122,15 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<UntagResourceInput>,
-  output: __S(672, __c42, 0) as any as S.Schema<UntagResourceOutput>,
-  errors: [InternalServiceException, InvalidParametersException, ThrottledRequestException],
+  input: __S(768, __c48, 0) as any as S.Schema<UntagResourceInput>,
+  output: __S(752, __c47, 0) as any as S.Schema<UntagResourceOutput>,
+  errors: [
+    InternalServiceException,
+    InvalidParametersException,
+    ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1982,6 +2145,8 @@ export type UpdateLinkedWhatsAppBusinessAccountPhoneNumberError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Updates the calling settings for a linked WhatsApp business phone number, such as whether calling is enabled and the hours during which the business accepts calls.
@@ -1992,10 +2157,10 @@ export const updateLinkedWhatsAppBusinessAccountPhoneNumber: API.OperationMethod
   UpdateLinkedWhatsAppBusinessAccountPhoneNumberError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput>,
+  input: __S(784, __c49, 0) as any as S.Schema<UpdateLinkedWhatsAppBusinessAccountPhoneNumberInput>,
   output: __S(
-    705,
-    __c44,
+    785,
+    __c49,
     1,
   ) as any as S.Schema<UpdateLinkedWhatsAppBusinessAccountPhoneNumberOutput>,
   errors: [
@@ -2005,6 +2170,8 @@ export const updateLinkedWhatsAppBusinessAccountPhoneNumber: API.OperationMethod
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2020,6 +2187,8 @@ export type UpdateWhatsAppFlowError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Updates the metadata of a WhatsApp Flow, such as its name or categories. This does not update the Flow JSON definition. Use UpdateWhatsAppFlowAssets to update the Flow JSON.
@@ -2030,8 +2199,8 @@ export const updateWhatsAppFlow: API.OperationMethod<
   UpdateWhatsAppFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<UpdateWhatsAppFlowInput>,
-  output: __S(192, __c12, 0) as any as S.Schema<UpdateWhatsAppFlowOutput>,
+  input: __S(800, __c50, 0) as any as S.Schema<UpdateWhatsAppFlowInput>,
+  output: __S(272, __c17, 0) as any as S.Schema<UpdateWhatsAppFlowOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -2039,6 +2208,8 @@ export const updateWhatsAppFlow: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2054,6 +2225,8 @@ export type UpdateWhatsAppFlowAssetsError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Updates the Flow JSON definition (assets) of a WhatsApp Flow. Updating a published Flow's assets reverts it to DRAFT status, requiring re-publishing.
@@ -2064,8 +2237,8 @@ export const updateWhatsAppFlowAssets: API.OperationMethod<
   UpdateWhatsAppFlowAssetsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<UpdateWhatsAppFlowAssetsInput>,
-  output: __S(737, __c46, 1) as any as S.Schema<UpdateWhatsAppFlowAssetsOutput>,
+  input: __S(816, __c51, 0) as any as S.Schema<UpdateWhatsAppFlowAssetsInput>,
+  output: __S(817, __c51, 1) as any as S.Schema<UpdateWhatsAppFlowAssetsOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -2073,6 +2246,8 @@ export const updateWhatsAppFlowAssets: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2088,6 +2263,8 @@ export type UpdateWhatsAppMessageTemplateError =
   | InvalidParametersException
   | ResourceNotFoundException
   | ThrottledRequestException
+  | AccessDeniedException
+  | ValidationException
   | CommonErrors;
 /**
  * Updates an existing WhatsApp message template.
@@ -2098,8 +2275,8 @@ export const updateWhatsAppMessageTemplate: API.OperationMethod<
   UpdateWhatsAppMessageTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<UpdateWhatsAppMessageTemplateInput>,
-  output: __S(192, __c12, 0) as any as S.Schema<UpdateWhatsAppMessageTemplateOutput>,
+  input: __S(832, __c52, 0) as any as S.Schema<UpdateWhatsAppMessageTemplateInput>,
+  output: __S(272, __c17, 0) as any as S.Schema<UpdateWhatsAppMessageTemplateOutput>,
   errors: [
     AccessDeniedByMetaException,
     DependencyException,
@@ -2107,6 +2284,8 @@ export const updateWhatsAppMessageTemplate: API.OperationMethod<
     InvalidParametersException,
     ResourceNotFoundException,
     ThrottledRequestException,
+    AccessDeniedException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2117,6 +2296,127 @@ export const updateWhatsAppMessageTemplate: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ accessToken: SensitiveString, callbackUrl: S.optional(S.String) }),
+      ).annotate({ identifier: "WhatsAppSignupCallback" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          twoFactorPin: SensitiveString,
+          dataLocalizationRegion: S.optional(S.String),
+          tags: S.optional(__S(65, __c4, 1)),
+        }),
+      ).annotate({ identifier: "WabaPhoneNumberSetupFinalization" });
+    case 2:
+      return S.Array(__S(1, __c0, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          eventDestinations: S.optional(__S(49, __c3, 1)),
+          tags: S.optional(__S(65, __c4, 1)),
+        }),
+      ).annotate({ identifier: "WabaSetupFinalization" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          associateInProgressToken: SensitiveString,
+          phoneNumbers: __S(2, __c0, 2),
+          phoneNumberParent: S.optional(S.String),
+          waba: S.optional(__S(3, __c0, 3)),
+        }),
+      ).annotate({ identifier: "WhatsAppSetupFinalization" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          signupCallback: S.optional(__S(0, __c0, 0)),
+          setupFinalization: S.optional(__S(4, __c0, 4)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/v1/whatsapp/signup" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AssociateWhatsAppBusinessAccountInput" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          accountName: S.optional(S.String),
+          registrationStatus: S.optional(S.String),
+          unregisteredWhatsAppPhoneNumbers: S.optional(__S(16, __c1, 0)),
+          wabaId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LinkedWhatsAppBusinessAccountIdMetaData" });
+    case 7:
+      return S.Record(S.String, /*@__PURE__*/ __S(6, __c0, 6).pipe(S.optional));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          associateInProgressToken: S.optional(SensitiveString),
+          linkedAccountsWithIncompleteSetup: S.optional(__S(7, __c0, 7)),
+        }),
+      ).annotate({ identifier: "WhatsAppSignupCallbackResult" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          signupCallbackResult: S.optional(__S(8, __c0, 8)),
+          statusCode: S.optional(S.Number),
+          linkedWhatsAppBusinessAccountId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AssociateWhatsAppBusinessAccountOutput" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(32, __c2, 0));
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          phoneNumber: S.String,
+          phoneNumberId: S.String,
+          metaPhoneNumberId: S.String,
+          displayPhoneNumberName: S.String,
+          displayPhoneNumber: S.String,
+          qualityRating: S.String,
+          dataLocalizationRegion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WhatsAppPhoneNumberDetail" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ eventDestinationArn: S.String, roleArn: S.optional(S.String) }),
+      ).annotate({ identifier: "WhatsAppBusinessAccountEventDestination" });
+    case 1:
+      return S.Array(__S(48, __c3, 0));
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ key: S.String, value: S.optional(S.String) })).annotate({
+        identifier: "Tag",
+      });
+    case 1:
+      return S.Array(__S(64, __c4, 0));
+  }
+}
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2137,14 +2437,14 @@ function __c0(j: number): any {
       });
   }
 }
-function __c1(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           flowName: S.String,
-          categories: __S(48, __c3, 0),
+          categories: __S(128, __c8, 0),
           flowJson: S.optional(T.Blob),
           publish: S.optional(S.Boolean),
           cloneFlowId: S.optional(S.String),
@@ -2162,23 +2462,23 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateWhatsAppFlowInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ flowId: S.optional(S.String), validationErrors: S.optional(__S(32, __c2, 0)) }),
+        S.Struct({ flowId: S.optional(S.String), validationErrors: S.optional(__S(112, __c7, 0)) }),
       ).annotate({ identifier: "CreateWhatsAppFlowOutput" });
   }
 }
-function __c2(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c3(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c4(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2195,7 +2495,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateWhatsAppMessageTemplateInput" });
   }
 }
-function __c5(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2207,21 +2507,21 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateWhatsAppMessageTemplateOutput" });
   }
 }
-function __c6(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           phoneNumber: S.optional(S.String),
-          url: S.optional(__S(112, __c7, 0)),
+          url: S.optional(__S(192, __c12, 0)),
           otpType: S.optional(S.String),
           zeroTapTermsAccepted: S.optional(S.Boolean),
-          supportedApps: S.optional(__S(128, __c8, 0)),
+          supportedApps: S.optional(__S(208, __c13, 0)),
         }),
       ).annotate({ identifier: "LibraryTemplateButtonInput" });
     case 1:
-      return S.Array(__S(96, __c6, 0));
+      return S.Array(__S(176, __c11, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2239,13 +2539,13 @@ function __c6(j: number): any {
           libraryTemplateName: S.String,
           templateCategory: S.String,
           templateLanguage: S.String,
-          libraryTemplateButtonInputs: S.optional(__S(97, __c6, 1)),
-          libraryTemplateBodyInputs: S.optional(__S(98, __c6, 2)),
+          libraryTemplateButtonInputs: S.optional(__S(177, __c11, 1)),
+          libraryTemplateBodyInputs: S.optional(__S(178, __c11, 2)),
         }),
       ).annotate({ identifier: "MetaLibraryTemplate" });
     case 4:
       return S.suspend(() =>
-        S.Struct({ metaLibraryTemplate: __S(99, __c6, 3), id: S.String }).pipe(
+        S.Struct({ metaLibraryTemplate: __S(179, __c11, 3), id: S.String }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v1/whatsapp/template/create" }),
             svc,
@@ -2258,23 +2558,23 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateWhatsAppMessageTemplateFromLibraryInput" });
   }
 }
-function __c7(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c8(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(112, __c7, 0));
+      return S.Array(__S(192, __c12, 0));
   }
 }
-function __c9(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ id: S.String, sourceS3File: S.optional(__S(160, __c10, 0)) }).pipe(
+        S.Struct({ id: S.String, sourceS3File: S.optional(__S(240, __c15, 0)) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v1/whatsapp/template/media" }),
             svc,
@@ -2291,7 +2591,7 @@ function __c9(j: number): any {
       });
   }
 }
-function __c10(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ bucketName: S.String, key: S.String })).annotate({
@@ -2299,7 +2599,7 @@ function __c10(j: number): any {
       });
   }
 }
-function __c11(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2319,13 +2619,13 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DeleteWhatsAppFlowInput" });
   }
 }
-function __c12(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteWhatsAppFlowOutput" });
   }
 }
-function __c13(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2349,7 +2649,7 @@ function __c13(j: number): any {
       });
   }
 }
-function __c14(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2371,7 +2671,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "DeleteWhatsAppMessageTemplateInput" });
   }
 }
-function __c15(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2388,7 +2688,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DeprecateWhatsAppFlowInput" });
   }
 }
-function __c16(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2405,7 +2705,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DisassociateWhatsAppBusinessAccountInput" });
   }
 }
-function __c17(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2429,19 +2729,23 @@ function __c17(j: number): any {
           registrationStatus: S.String,
           linkDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           wabaName: S.String,
-          eventDestinations: __S(817, __c51, 1),
+          eventDestinations: __S(49, __c3, 1),
           marketingMessagesOnboardingStatus: S.optional(S.String),
+          directSendEnforcementStatus: S.optional(S.String),
+          directSendEnforcementStatusExpiresAt: S.optional(
+            S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          ),
           datasetId: S.optional(S.String),
-          phoneNumbers: __S(784, __c49, 0),
+          phoneNumbers: __S(16, __c1, 0),
         }),
       ).annotate({ identifier: "LinkedWhatsAppBusinessAccount" });
     case 2:
-      return S.suspend(() => S.Struct({ account: S.optional(__S(273, __c17, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ account: S.optional(__S(353, __c22, 1)) })).annotate({
         identifier: "GetLinkedWhatsAppBusinessAccountOutput",
       });
   }
 }
-function __c18(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2459,14 +2763,14 @@ function __c18(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          phoneNumber: S.optional(__S(800, __c50, 0)),
+          phoneNumber: S.optional(__S(32, __c2, 0)),
           linkedWhatsAppBusinessAccountId: S.optional(S.String),
-          callSettings: S.optional(__S(310, __c19, 6)),
+          callSettings: S.optional(__S(390, __c24, 6)),
         }),
       ).annotate({ identifier: "GetLinkedWhatsAppBusinessAccountPhoneNumberOutput" });
   }
 }
-function __c19(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ hours: S.Number, minutes: S.Number })).annotate({
@@ -2476,39 +2780,39 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dayOfWeek: S.String,
-          openTime: __S(304, __c19, 0),
-          closeTime: __S(304, __c19, 0),
+          openTime: __S(384, __c24, 0),
+          closeTime: __S(384, __c24, 0),
         }),
       ).annotate({ identifier: "WhatsAppWeeklyOperatingHoursEntry" });
     case 2:
-      return S.Array(__S(305, __c19, 1));
+      return S.Array(__S(385, __c24, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ date: S.String, startTime: __S(304, __c19, 0), endTime: __S(304, __c19, 0) }),
+        S.Struct({ date: S.String, startTime: __S(384, __c24, 0), endTime: __S(384, __c24, 0) }),
       ).annotate({ identifier: "WhatsAppHolidayScheduleEntry" });
     case 4:
-      return S.Array(__S(307, __c19, 3));
+      return S.Array(__S(387, __c24, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
           timezone: S.String,
-          weeklyOperatingHours: __S(306, __c19, 2),
-          holidaySchedule: S.optional(__S(308, __c19, 4)),
+          weeklyOperatingHours: __S(386, __c24, 2),
+          holidaySchedule: S.optional(__S(388, __c24, 4)),
         }),
       ).annotate({ identifier: "WhatsAppCallHours" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           callEnabled: S.Boolean,
-          callHours: S.optional(__S(309, __c19, 5)),
+          callHours: S.optional(__S(389, __c24, 5)),
           callIconVisibility: S.optional(S.String),
           callbackPermissionStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "WhatsAppCallSettings" });
   }
 }
-function __c20(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2534,7 +2838,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetWhatsAppBusinessPublicKeyOutput" });
   }
 }
-function __c21(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2570,20 +2874,20 @@ function __c21(j: number): any {
         }),
       ).annotate({ identifier: "WhatsAppCallPermissionLimit" });
     case 3:
-      return S.Array(__S(338, __c21, 2));
+      return S.Array(__S(418, __c26, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ actionName: S.String, canPerformAction: S.Boolean, limits: __S(339, __c21, 3) }),
+        S.Struct({ actionName: S.String, canPerformAction: S.Boolean, limits: __S(419, __c26, 3) }),
       ).annotate({ identifier: "WhatsAppCallPermissionAction" });
     case 5:
-      return S.Array(__S(340, __c21, 4));
+      return S.Array(__S(420, __c26, 4));
     case 6:
       return S.suspend(() =>
-        S.Struct({ permission: __S(337, __c21, 1), actions: __S(341, __c21, 5) }),
+        S.Struct({ permission: __S(417, __c26, 1), actions: __S(421, __c26, 5) }),
       ).annotate({ identifier: "GetWhatsAppCallPermissionOutput" });
   }
 }
-function __c22(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2613,10 +2917,10 @@ function __c22(j: number): any {
         S.Struct({ entityType: S.String, id: S.String, canSendMessage: S.String }),
       ).annotate({ identifier: "MetaFlowHealthEntity" });
     case 4:
-      return S.Array(__S(355, __c22, 3));
+      return S.Array(__S(435, __c27, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ canSendMessage: S.String, entities: S.optional(__S(356, __c22, 4)) }),
+        S.Struct({ canSendMessage: S.String, entities: S.optional(__S(436, __c27, 4)) }),
       ).annotate({ identifier: "MetaFlowHealthStatus" });
     case 6:
       return S.suspend(() =>
@@ -2624,20 +2928,20 @@ function __c22(j: number): any {
           flowId: S.String,
           flowName: S.String,
           flowStatus: S.String,
-          categories: S.optional(__S(48, __c3, 0)),
-          validationErrors: S.optional(__S(32, __c2, 0)),
+          categories: S.optional(__S(128, __c8, 0)),
+          validationErrors: S.optional(__S(112, __c7, 0)),
           jsonVersion: S.optional(S.String),
           dataApiVersion: S.optional(S.String),
           endpointUri: S.optional(S.String),
-          preview: S.optional(__S(368, __c23, 0)),
-          whatsAppBusinessAccount: S.optional(__S(353, __c22, 1)),
-          application: S.optional(__S(354, __c22, 2)),
-          healthStatus: S.optional(__S(357, __c22, 5)),
+          preview: S.optional(__S(448, __c28, 0)),
+          whatsAppBusinessAccount: S.optional(__S(433, __c27, 1)),
+          application: S.optional(__S(434, __c27, 2)),
+          healthStatus: S.optional(__S(437, __c27, 5)),
         }),
       ).annotate({ identifier: "GetWhatsAppFlowOutput" });
   }
 }
-function __c23(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ previewUrl: S.String, expiresAt: S.String })).annotate({
@@ -2645,7 +2949,7 @@ function __c23(j: number): any {
       });
   }
 }
-function __c24(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2665,12 +2969,12 @@ function __c24(j: number): any {
         ),
       ).annotate({ identifier: "GetWhatsAppFlowPreviewInput" });
     case 1:
-      return S.suspend(() => S.Struct({ flowId: S.String, preview: __S(368, __c23, 0) })).annotate({
+      return S.suspend(() => S.Struct({ flowId: S.String, preview: __S(448, __c28, 0) })).annotate({
         identifier: "GetWhatsAppFlowPreviewOutput",
       });
   }
 }
-function __c25(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2678,8 +2982,8 @@ function __c25(j: number): any {
           mediaId: S.String,
           originationPhoneNumberId: S.String,
           metadataOnly: S.optional(S.Boolean),
-          destinationS3PresignedUrl: S.optional(__S(416, __c26, 0)),
-          destinationS3File: S.optional(__S(160, __c10, 0)),
+          destinationS3PresignedUrl: S.optional(__S(496, __c31, 0)),
+          destinationS3File: S.optional(__S(240, __c15, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v1/whatsapp/media/get" }),
@@ -2697,15 +3001,15 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetWhatsAppMessageMediaOutput" });
   }
 }
-function __c26(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ url: S.String, headers: __S(112, __c7, 0) })).annotate({
+      return S.suspend(() => S.Struct({ url: S.String, headers: __S(192, __c12, 0) })).annotate({
         identifier: "S3PresignedUrl",
       });
   }
 }
-function __c27(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2731,7 +3035,7 @@ function __c27(j: number): any {
       });
   }
 }
-function __c28(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2758,23 +3062,27 @@ function __c28(j: number): any {
           registrationStatus: S.String,
           linkDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           wabaName: S.String,
-          eventDestinations: __S(817, __c51, 1),
+          eventDestinations: __S(49, __c3, 1),
           marketingMessagesOnboardingStatus: S.optional(S.String),
+          directSendEnforcementStatus: S.optional(S.String),
+          directSendEnforcementStatusExpiresAt: S.optional(
+            S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          ),
           datasetId: S.optional(S.String),
         }),
       ).annotate({ identifier: "LinkedWhatsAppBusinessAccountSummary" });
     case 2:
-      return S.Array(__S(449, __c28, 1));
+      return S.Array(__S(529, __c33, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          linkedAccounts: S.optional(__S(450, __c28, 2)),
+          linkedAccounts: S.optional(__S(530, __c33, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLinkedWhatsAppBusinessAccountsOutput" });
   }
 }
-function __c29(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2784,11 +3092,11 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ListTagsForResourceInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ statusCode: S.optional(S.Number), tags: S.optional(__S(833, __c52, 1)) }),
+        S.Struct({ statusCode: S.optional(S.Number), tags: S.optional(__S(65, __c4, 1)) }),
       ).annotate({ identifier: "ListTagsForResourceOutput" });
   }
 }
-function __c30(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2813,14 +3121,14 @@ function __c30(j: number): any {
         S.Struct({ name: S.String, assetType: S.String, downloadUrl: S.String }),
       ).annotate({ identifier: "MetaFlowAsset" });
     case 2:
-      return S.Array(__S(481, __c30, 1));
+      return S.Array(__S(561, __c35, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ flowAssets: __S(482, __c30, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ flowAssets: __S(562, __c35, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListWhatsAppFlowAssetsOutput" });
   }
 }
-function __c31(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2845,19 +3153,19 @@ function __c31(j: number): any {
           flowId: S.String,
           flowName: S.String,
           flowStatus: S.String,
-          flowCategories: __S(48, __c3, 0),
-          validationErrors: __S(32, __c2, 0),
+          flowCategories: __S(128, __c8, 0),
+          validationErrors: __S(112, __c7, 0),
         }),
       ).annotate({ identifier: "MetaFlowSummary" });
     case 2:
-      return S.Array(__S(497, __c31, 1));
+      return S.Array(__S(577, __c36, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ flows: __S(498, __c31, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ flows: __S(578, __c36, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListWhatsAppFlowsOutput" });
   }
 }
-function __c32(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2885,17 +3193,19 @@ function __c32(j: number): any {
           templateQualityScore: S.optional(S.String),
           templateLanguage: S.optional(S.String),
           templateCategory: S.optional(S.String),
+          templateSource: S.optional(S.String),
+          correctCategory: S.optional(S.String),
         }),
       ).annotate({ identifier: "TemplateSummary" });
     case 2:
-      return S.Array(__S(513, __c32, 1));
+      return S.Array(__S(593, __c37, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ templates: S.optional(__S(514, __c32, 2)), nextToken: S.optional(S.String) }),
+        S.Struct({ templates: S.optional(__S(594, __c37, 2)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListWhatsAppMessageTemplatesOutput" });
   }
 }
-function __c33(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2903,7 +3213,7 @@ function __c33(j: number): any {
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
           id: S.String.pipe(T.HttpQuery("id")),
-          filters: S.optional(__S(112, __c7, 0)),
+          filters: S.optional(__S(192, __c12, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v1/whatsapp/template/library" }),
@@ -2924,11 +3234,11 @@ function __c33(j: number): any {
           url: S.optional(S.String),
           otpType: S.optional(S.String),
           zeroTapTermsAccepted: S.optional(S.Boolean),
-          supportedApps: S.optional(__S(128, __c8, 0)),
+          supportedApps: S.optional(__S(208, __c13, 0)),
         }),
       ).annotate({ identifier: "LibraryTemplateButtonList" });
     case 2:
-      return S.Array(__S(529, __c33, 1));
+      return S.Array(__S(609, __c38, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2937,33 +3247,33 @@ function __c33(j: number): any {
           templateCategory: S.optional(S.String),
           templateTopic: S.optional(S.String),
           templateUseCase: S.optional(S.String),
-          templateIndustry: S.optional(__S(32, __c2, 0)),
+          templateIndustry: S.optional(__S(112, __c7, 0)),
           templateHeader: S.optional(S.String),
           templateBody: S.optional(S.String),
-          templateButtons: S.optional(__S(530, __c33, 2)),
+          templateButtons: S.optional(__S(610, __c38, 2)),
           templateId: S.optional(S.String),
-          templateBodyExampleParams: S.optional(__S(32, __c2, 0)),
+          templateBodyExampleParams: S.optional(__S(112, __c7, 0)),
         }),
       ).annotate({ identifier: "MetaLibraryTemplateDefinition" });
     case 4:
-      return S.Array(__S(531, __c33, 3));
+      return S.Array(__S(611, __c38, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          metaLibraryTemplates: S.optional(__S(532, __c33, 4)),
+          metaLibraryTemplates: S.optional(__S(612, __c38, 4)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListWhatsAppTemplateLibraryOutput" });
   }
 }
-function __c34(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           originationPhoneNumberId: S.String,
-          sourceS3PresignedUrl: S.optional(__S(416, __c26, 0)),
-          sourceS3File: S.optional(__S(160, __c10, 0)),
+          sourceS3PresignedUrl: S.optional(__S(496, __c31, 0)),
+          sourceS3File: S.optional(__S(240, __c15, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v1/whatsapp/media" }),
@@ -2981,7 +3291,7 @@ function __c34(j: number): any {
       });
   }
 }
-function __c35(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2998,11 +3308,11 @@ function __c35(j: number): any {
       ).annotate({ identifier: "PublishWhatsAppFlowInput" });
   }
 }
-function __c36(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ id: S.String, eventDestinations: __S(817, __c51, 1) }).pipe(
+        S.Struct({ id: S.String, eventDestinations: __S(49, __c3, 1) }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/v1/whatsapp/waba/eventdestinations" }),
             svc,
@@ -3015,7 +3325,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "PutWhatsAppBusinessAccountEventDestinationsInput" });
   }
 }
-function __c37(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3036,7 +3346,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "PutWhatsAppBusinessPublicKeyInput" });
   }
 }
-function __c38(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3061,7 +3371,7 @@ function __c38(j: number): any {
       });
   }
 }
-function __c39(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3082,7 +3392,7 @@ function __c39(j: number): any {
       });
   }
 }
-function __c40(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3100,11 +3410,11 @@ function __c40(j: number): any {
       });
   }
 }
-function __c41(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ resourceArn: S.String, tags: __S(833, __c52, 1) }).pipe(
+        S.Struct({ resourceArn: S.String, tags: __S(65, __c4, 1) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v1/tags/tag-resource" }),
             svc,
@@ -3117,7 +3427,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "TagResourceInput" });
   }
 }
-function __c42(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ statusCode: S.optional(S.Number) })).annotate({
@@ -3125,11 +3435,11 @@ function __c42(j: number): any {
       });
   }
 }
-function __c43(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ resourceArn: S.String, tagKeys: __S(32, __c2, 0) }).pipe(
+        S.Struct({ resourceArn: S.String, tagKeys: __S(112, __c7, 0) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v1/tags/untag-resource" }),
             svc,
@@ -3142,11 +3452,11 @@ function __c43(j: number): any {
       ).annotate({ identifier: "UntagResourceInput" });
   }
 }
-function __c44(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ id: S.String.pipe(T.HttpQuery("id")), callSettings: __S(310, __c19, 6) }).pipe(
+        S.Struct({ id: S.String.pipe(T.HttpQuery("id")), callSettings: __S(390, __c24, 6) }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/v1/whatsapp/waba/phone" }),
             svc,
@@ -3163,7 +3473,7 @@ function __c44(j: number): any {
       });
   }
 }
-function __c45(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3171,7 +3481,7 @@ function __c45(j: number): any {
           id: S.String,
           flowId: S.String,
           flowName: S.optional(S.String),
-          categories: S.optional(__S(48, __c3, 0)),
+          categories: S.optional(__S(128, __c8, 0)),
           endpointUri: S.optional(S.String),
           metaAppId: S.optional(S.String),
         }).pipe(
@@ -3187,7 +3497,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "UpdateWhatsAppFlowInput" });
   }
 }
-function __c46(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3203,12 +3513,12 @@ function __c46(j: number): any {
         ),
       ).annotate({ identifier: "UpdateWhatsAppFlowAssetsInput" });
     case 1:
-      return S.suspend(() => S.Struct({ validationErrors: S.optional(__S(32, __c2, 0)) })).annotate(
-        { identifier: "UpdateWhatsAppFlowAssetsOutput" },
-      );
+      return S.suspend(() =>
+        S.Struct({ validationErrors: S.optional(__S(112, __c7, 0)) }),
+      ).annotate({ identifier: "UpdateWhatsAppFlowAssetsOutput" });
   }
 }
-function __c47(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3232,127 +3542,6 @@ function __c47(j: number): any {
           ),
         ),
       ).annotate({ identifier: "UpdateWhatsAppMessageTemplateInput" });
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ accessToken: SensitiveString, callbackUrl: S.optional(S.String) }),
-      ).annotate({ identifier: "WhatsAppSignupCallback" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          twoFactorPin: SensitiveString,
-          dataLocalizationRegion: S.optional(S.String),
-          tags: S.optional(__S(833, __c52, 1)),
-        }),
-      ).annotate({ identifier: "WabaPhoneNumberSetupFinalization" });
-    case 2:
-      return S.Array(__S(769, __c48, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          eventDestinations: S.optional(__S(817, __c51, 1)),
-          tags: S.optional(__S(833, __c52, 1)),
-        }),
-      ).annotate({ identifier: "WabaSetupFinalization" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          associateInProgressToken: SensitiveString,
-          phoneNumbers: __S(770, __c48, 2),
-          phoneNumberParent: S.optional(S.String),
-          waba: S.optional(__S(771, __c48, 3)),
-        }),
-      ).annotate({ identifier: "WhatsAppSetupFinalization" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          signupCallback: S.optional(__S(768, __c48, 0)),
-          setupFinalization: S.optional(__S(772, __c48, 4)),
-        }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/v1/whatsapp/signup" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "AssociateWhatsAppBusinessAccountInput" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          accountName: S.optional(S.String),
-          registrationStatus: S.optional(S.String),
-          unregisteredWhatsAppPhoneNumbers: S.optional(__S(784, __c49, 0)),
-          wabaId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LinkedWhatsAppBusinessAccountIdMetaData" });
-    case 7:
-      return S.Record(S.String, /*@__PURE__*/ __S(774, __c48, 6).pipe(S.optional));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          associateInProgressToken: S.optional(SensitiveString),
-          linkedAccountsWithIncompleteSetup: S.optional(__S(775, __c48, 7)),
-        }),
-      ).annotate({ identifier: "WhatsAppSignupCallbackResult" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          signupCallbackResult: S.optional(__S(776, __c48, 8)),
-          statusCode: S.optional(S.Number),
-          linkedWhatsAppBusinessAccountId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AssociateWhatsAppBusinessAccountOutput" });
-  }
-}
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(800, __c50, 0));
-  }
-}
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          arn: S.String,
-          phoneNumber: S.String,
-          phoneNumberId: S.String,
-          metaPhoneNumberId: S.String,
-          displayPhoneNumberName: S.String,
-          displayPhoneNumber: S.String,
-          qualityRating: S.String,
-          dataLocalizationRegion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WhatsAppPhoneNumberDetail" });
-  }
-}
-function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ eventDestinationArn: S.String, roleArn: S.optional(S.String) }),
-      ).annotate({ identifier: "WhatsAppBusinessAccountEventDestination" });
-    case 1:
-      return S.Array(__S(816, __c51, 0));
-  }
-}
-function __c52(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ key: S.String, value: S.optional(S.String) })).annotate({
-        identifier: "Tag",
-      });
-    case 1:
-      return S.Array(__S(832, __c52, 0));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

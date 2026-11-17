@@ -47,9 +47,9 @@ export interface ActivateCertificateAuthorityRequest {
 }
 export interface ActivateCertificateAuthorityResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type AssetEndpointProfilesCreateOrReplaceRequestTagsMap = {
@@ -74,9 +74,9 @@ export interface Authentication {
   /** Defines the method to authenticate the user of the client at the server. */
   method: AuthenticationMethod | (string & {});
   /** Defines the username and password references when UsernamePassword user authentication mode is selected. */
-  usernamePasswordCredentials?: UsernamePasswordCredentials;
+  usernamePasswordCredentials?: UsernamePasswordCredentials | undefined;
   /** Defines the certificate reference when Certificate user authentication mode is selected. */
-  x509Credentials?: X509Credentials;
+  x509Credentials?: X509Credentials | undefined;
 }
 /** Defines the Asset Endpoint Profile properties. */
 export interface AssetEndpointProfilePropertiesInput {
@@ -85,11 +85,11 @@ export interface AssetEndpointProfilePropertiesInput {
   /** Defines the configuration for the connector type that is being used with the endpoint profile. */
   endpointProfileType: string;
   /** Defines the client authentication mechanism to the server. */
-  authentication?: Authentication;
+  authentication?: Authentication | undefined;
   /** Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF). */
-  additionalConfiguration?: string;
+  additionalConfiguration?: string | undefined;
   /** Reference to a discovered asset endpoint profile. Populated only if the asset endpoint profile has been created from discovery flow. Discovered asset endpoint profile name must be provided. */
-  discoveredAssetEndpointProfileRef?: string;
+  discoveredAssetEndpointProfileRef?: string | undefined;
 }
 /** The extended location. */
 export interface ExtendedLocation {
@@ -106,11 +106,11 @@ export interface AssetEndpointProfilesCreateOrReplaceRequest {
   /** Asset Endpoint Profile name parameter. */
   assetEndpointProfileName: string;
   /** Resource tags. */
-  tags?: AssetEndpointProfilesCreateOrReplaceRequestTagsMap;
+  tags?: AssetEndpointProfilesCreateOrReplaceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AssetEndpointProfilePropertiesInput;
+  properties?: AssetEndpointProfilePropertiesInput | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
 }
@@ -121,17 +121,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type AssetEndpointProfilesCreateOrReplaceResponseTagsMap = {
@@ -140,59 +140,59 @@ export type AssetEndpointProfilesCreateOrReplaceResponseTagsMap = {
 /** Defines the asset endpoint profile status error properties. */
 export interface AssetEndpointProfileStatusError {
   /** Error code for classification of errors (ex: 400, 404, 500, etc.). */
-  code?: number;
+  code?: number | undefined;
   /** Human readable helpful error message to provide additional context for error (ex: "targetAddress 'foo' is not a valid url"). */
-  message?: string;
+  message?: string | undefined;
 }
 /** Array object to transfer and persist errors that originate from the Edge. */
 export type AssetEndpointProfileStatusErrorsList = Array<AssetEndpointProfileStatusError>;
 /** Defines the asset endpoint profile status properties. */
 export interface AssetEndpointProfileStatus {
   /** Array object to transfer and persist errors that originate from the Edge. */
-  errors?: AssetEndpointProfileStatusErrorsList;
+  errors?: AssetEndpointProfileStatusErrorsList | undefined;
 }
 /** The provisioning status of the resource. */
 export type ProvisioningState = "Succeeded" | "Failed" | "Canceled" | "Accepted" | "Deleting";
 /** Defines the Asset Endpoint Profile properties. */
 export interface AssetEndpointProfileProperties {
   /** Globally unique, immutable, non-reusable id. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The local valid URI specifying the network address/DNS name of a southbound device. The scheme part of the targetAddress URI specifies the type of the device. The additionalConfiguration field holds further connector type specific configuration. */
   targetAddress: string;
   /** Defines the configuration for the connector type that is being used with the endpoint profile. */
   endpointProfileType: string;
   /** Defines the client authentication mechanism to the server. */
-  authentication?: Authentication;
+  authentication?: Authentication | undefined;
   /** Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF). */
-  additionalConfiguration?: string;
+  additionalConfiguration?: string | undefined;
   /** Reference to a discovered asset endpoint profile. Populated only if the asset endpoint profile has been created from discovery flow. Discovered asset endpoint profile name must be provided. */
-  discoveredAssetEndpointProfileRef?: string;
+  discoveredAssetEndpointProfileRef?: string | undefined;
   /** Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources. */
-  status?: AssetEndpointProfileStatus;
+  status?: AssetEndpointProfileStatus | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface AssetEndpointProfilesCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AssetEndpointProfilesCreateOrReplaceResponseTagsMap;
+  tags?: AssetEndpointProfilesCreateOrReplaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AssetEndpointProfileProperties;
+  properties?: AssetEndpointProfileProperties | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type AssetsCreateOrReplaceRequestTagsMap = { [key: string]: string | undefined };
@@ -207,7 +207,7 @@ export interface Topic {
   /** The topic path for messages published to an MQTT broker. */
   path: string;
   /** When set to 'Keep', messages published to an MQTT broker will have the retain flag set. Default: 'Never'. */
-  retain?: TopicRetain | (string & {});
+  retain?: TopicRetain | (string & {}) | undefined;
 }
 /** An indication of how the data point should be mapped to OpenTelemetry. */
 export type DataPointObservabilityMode = "None" | "Counter" | "Gauge" | "Histogram" | "Log";
@@ -218,9 +218,9 @@ export interface DataPoint {
   /** The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset. */
   dataSource: string;
   /** Stringified JSON that contains connector-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize. */
-  dataPointConfiguration?: string;
+  dataPointConfiguration?: string | undefined;
   /** An indication of how the data point should be mapped to OpenTelemetry. */
-  observabilityMode?: DataPointObservabilityMode | (string & {});
+  observabilityMode?: DataPointObservabilityMode | (string & {}) | undefined;
 }
 /** Array of data points that are part of the dataset. Each data point can have per-data point configuration. */
 export type DatasetDataPointsList = Array<DataPoint>;
@@ -229,11 +229,11 @@ export interface Dataset {
   /** Name of the dataset. */
   name: string;
   /** Stringified JSON that contains connector-specific JSON string that describes configuration for the specific dataset. */
-  datasetConfiguration?: string;
+  datasetConfiguration?: string | undefined;
   /** Object that describes the topic information for the specific dataset. */
-  topic?: Topic;
+  topic?: Topic | undefined;
   /** Array of data points that are part of the dataset. Each data point can have per-data point configuration. */
-  dataPoints?: DatasetDataPointsList;
+  dataPoints?: DatasetDataPointsList | undefined;
 }
 /** Array of datasets that are part of the asset. Each dataset describes the data points that make up the set. */
 export type AssetPropertiesInputDatasetsList = Array<Dataset>;
@@ -246,56 +246,56 @@ export interface Event {
   /** The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset. */
   eventNotifier: string;
   /** Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize. */
-  eventConfiguration?: string;
+  eventConfiguration?: string | undefined;
   /** Object that describes the topic information for the specific event. */
-  topic?: Topic;
+  topic?: Topic | undefined;
   /** An indication of how the event should be mapped to OpenTelemetry. */
-  observabilityMode?: EventObservabilityMode | (string & {});
+  observabilityMode?: EventObservabilityMode | (string & {}) | undefined;
 }
 /** Array of events that are part of the asset. Each event can have per-event configuration. */
 export type AssetPropertiesInputEventsList = Array<Event>;
 /** Defines the asset properties. */
 export interface AssetPropertiesInput {
   /** Enabled/Disabled status of the asset. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Asset id provided by the customer. */
-  externalAssetId?: string;
+  externalAssetId?: string | undefined;
   /** Human-readable display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Human-readable description of the asset. */
-  description?: string;
+  description?: string | undefined;
   /** A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must provide asset endpoint profile name. */
   assetEndpointProfileRef: string;
   /** Asset manufacturer name. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Asset manufacturer URI. */
-  manufacturerUri?: string;
+  manufacturerUri?: string | undefined;
   /** Asset model name. */
-  model?: string;
+  model?: string | undefined;
   /** Asset product code. */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Revision number of the hardware. */
-  hardwareRevision?: string;
+  hardwareRevision?: string | undefined;
   /** Revision number of the software. */
-  softwareRevision?: string;
+  softwareRevision?: string | undefined;
   /** Reference to the documentation. */
-  documentationUri?: string;
+  documentationUri?: string | undefined;
   /** Asset serial number. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** A set of key-value pairs that contain custom attributes set by the customer. */
-  attributes?: AssetPropertiesInputAttributesMap;
+  attributes?: AssetPropertiesInputAttributesMap | undefined;
   /** Reference to a list of discovered assets. Populated only if the asset has been created from discovery flow. Discovered asset names must be provided. */
-  discoveredAssetRefs?: AssetPropertiesInputDiscoveredAssetRefsList;
+  discoveredAssetRefs?: AssetPropertiesInputDiscoveredAssetRefsList | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here. */
-  defaultDatasetsConfiguration?: string;
+  defaultDatasetsConfiguration?: string | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here. */
-  defaultEventsConfiguration?: string;
+  defaultEventsConfiguration?: string | undefined;
   /** Object that describes the default topic information for the asset. */
-  defaultTopic?: Topic;
+  defaultTopic?: Topic | undefined;
   /** Array of datasets that are part of the asset. Each dataset describes the data points that make up the set. */
-  datasets?: AssetPropertiesInputDatasetsList;
+  datasets?: AssetPropertiesInputDatasetsList | undefined;
   /** Array of events that are part of the asset. Each event can have per-event configuration. */
-  events?: AssetPropertiesInputEventsList;
+  events?: AssetPropertiesInputEventsList | undefined;
 }
 export interface AssetsCreateOrReplaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -305,11 +305,11 @@ export interface AssetsCreateOrReplaceRequest {
   /** Asset name parameter. */
   assetName: string;
   /** Resource tags. */
-  tags?: AssetsCreateOrReplaceRequestTagsMap;
+  tags?: AssetsCreateOrReplaceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AssetPropertiesInput;
+  properties?: AssetPropertiesInput | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
 }
@@ -326,9 +326,9 @@ export type AssetPropertiesEventsList = Array<Event>;
 /** Defines the asset status error properties. */
 export interface AssetStatusError {
   /** Error code for classification of errors (ex: 400, 404, 500, etc.). */
-  code?: number;
+  code?: number | undefined;
   /** Human readable helpful error message to provide additional context for error (ex: "capability Id 'foo' does not exist"). */
-  message?: string;
+  message?: string | undefined;
 }
 /** Array object to transfer and persist errors that originate from the Edge. */
 export type AssetStatusErrorsList = Array<AssetStatusError>;
@@ -346,7 +346,7 @@ export interface AssetStatusDataset {
   /** The name of the dataset. Must be unique within the status.datasets array. This name is used to correlate between the spec and status dataset information. */
   name: string;
   /** The message schema reference object. */
-  messageSchemaReference?: MessageSchemaReference;
+  messageSchemaReference?: MessageSchemaReference | undefined;
 }
 /** Array of dataset statuses that describe the status of each dataset. */
 export type AssetStatusDatasetsList = Array<AssetStatusDataset>;
@@ -355,109 +355,144 @@ export interface AssetStatusEvent {
   /** The name of the event. Must be unique within the status.events array. This name is used to correlate between the spec and status event information. */
   name: string;
   /** The message schema reference object. */
-  messageSchemaReference?: MessageSchemaReference;
+  messageSchemaReference?: MessageSchemaReference | undefined;
 }
 /** Array of event statuses that describe the status of each event. */
 export type AssetStatusEventsList = Array<AssetStatusEvent>;
 /** Defines the asset status properties. */
 export interface AssetStatus {
   /** Array object to transfer and persist errors that originate from the Edge. */
-  errors?: AssetStatusErrorsList;
+  errors?: AssetStatusErrorsList | undefined;
   /** A read only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (Edge) state of the Asset. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version. */
-  version?: number;
+  version?: number | undefined;
   /** Array of dataset statuses that describe the status of each dataset. */
-  datasets?: AssetStatusDatasetsList;
+  datasets?: AssetStatusDatasetsList | undefined;
   /** Array of event statuses that describe the status of each event. */
-  events?: AssetStatusEventsList;
+  events?: AssetStatusEventsList | undefined;
 }
 /** Defines the asset properties. */
 export interface AssetProperties {
   /** Globally unique, immutable, non-reusable id. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Enabled/Disabled status of the asset. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Asset id provided by the customer. */
-  externalAssetId?: string;
+  externalAssetId?: string | undefined;
   /** Human-readable display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Human-readable description of the asset. */
-  description?: string;
+  description?: string | undefined;
   /** A reference to the asset endpoint profile (connection information) used by brokers to connect to an endpoint that provides data points for this asset. Must provide asset endpoint profile name. */
   assetEndpointProfileRef: string;
   /** An integer that is incremented each time the resource is modified. */
-  version?: number;
+  version?: number | undefined;
   /** Asset manufacturer name. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Asset manufacturer URI. */
-  manufacturerUri?: string;
+  manufacturerUri?: string | undefined;
   /** Asset model name. */
-  model?: string;
+  model?: string | undefined;
   /** Asset product code. */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Revision number of the hardware. */
-  hardwareRevision?: string;
+  hardwareRevision?: string | undefined;
   /** Revision number of the software. */
-  softwareRevision?: string;
+  softwareRevision?: string | undefined;
   /** Reference to the documentation. */
-  documentationUri?: string;
+  documentationUri?: string | undefined;
   /** Asset serial number. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** A set of key-value pairs that contain custom attributes set by the customer. */
-  attributes?: AssetPropertiesAttributesMap;
+  attributes?: AssetPropertiesAttributesMap | undefined;
   /** Reference to a list of discovered assets. Populated only if the asset has been created from discovery flow. Discovered asset names must be provided. */
-  discoveredAssetRefs?: AssetPropertiesDiscoveredAssetRefsList;
+  discoveredAssetRefs?: AssetPropertiesDiscoveredAssetRefsList | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here. */
-  defaultDatasetsConfiguration?: string;
+  defaultDatasetsConfiguration?: string | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here. */
-  defaultEventsConfiguration?: string;
+  defaultEventsConfiguration?: string | undefined;
   /** Object that describes the default topic information for the asset. */
-  defaultTopic?: Topic;
+  defaultTopic?: Topic | undefined;
   /** Array of datasets that are part of the asset. Each dataset describes the data points that make up the set. */
-  datasets?: AssetPropertiesDatasetsList;
+  datasets?: AssetPropertiesDatasetsList | undefined;
   /** Array of events that are part of the asset. Each event can have per-event configuration. */
-  events?: AssetPropertiesEventsList;
+  events?: AssetPropertiesEventsList | undefined;
   /** Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources. */
-  status?: AssetStatus;
+  status?: AssetStatus | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface AssetsCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AssetsCreateOrReplaceResponseTagsMap;
+  tags?: AssetsCreateOrReplaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AssetProperties;
+  properties?: AssetProperties | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CertificateAuthoritiesCreateOrReplaceRequestTagsMap = {
   [key: string]: string | undefined;
 };
-/** Supported Certificate Authority types. */
-export type CertificateAuthorityType = "Root" | "ICA";
+/** The Certificate Authority type. Use Root for a self-signed, service-managed root CA, and ICA for an intermediate CA. */
+export type IntermediateCertificateAuthorityPropertiesInputCertificateAuthorityType = "ICA";
 /** Supported Certificate Authority key types. */
 export type CertificateAuthorityKeyType = "ECC";
-/** Details of the Certificate Authority resource. */
-export interface CertificateAuthorityPropertiesInput {
-  /** The Certificate Authority type. Use Root for a self-signed, service-managed root CA, and ICA for an intermediate CA. */
-  certificateAuthorityType: CertificateAuthorityType | (string & {});
-  /** Crypto type: ECC. */
-  keyType: CertificateAuthorityKeyType | (string & {});
+/** The Certificate Authority issuer type. */
+export type ExternalCertificateAuthorityIssuerInputIssuerType = "External";
+/** An external issuer for an intermediate Certificate Authority. */
+export interface ExternalCertificateAuthorityIssuerInput {
+  /** The Certificate Authority issuer type. */
+  issuerType: ExternalCertificateAuthorityIssuerInputIssuerType;
 }
+/** The Certificate Authority issuer type. */
+export type MicrosoftCertificateAuthorityIssuerIssuerType = "Microsoft";
+/** A Microsoft issuer for an intermediate Certificate Authority. */
+export interface MicrosoftCertificateAuthorityIssuer {
+  /** The Certificate Authority issuer type. */
+  issuerType: MicrosoftCertificateAuthorityIssuerIssuerType;
+  /** The resource ID of the root issuer Certificate Authority in the same namespace. */
+  certificateAuthorityResourceId: string;
+}
+/** The issuer for an intermediate Certificate Authority. */
+export type CertificateAuthorityIssuerInput =
+  | ExternalCertificateAuthorityIssuerInput
+  | MicrosoftCertificateAuthorityIssuer;
+/** Properties for an intermediate Certificate Authority signed by another same-namespace Certificate Authority. */
+export interface IntermediateCertificateAuthorityPropertiesInput {
+  /** The Certificate Authority type. Use Root for a self-signed, service-managed root CA, and ICA for an intermediate CA. */
+  certificateAuthorityType: IntermediateCertificateAuthorityPropertiesInputCertificateAuthorityType;
+  /** Crypto type: ECC. */
+  keyType: CertificateAuthorityKeyType;
+  /** The issuer for the intermediate Certificate Authority. */
+  issuer: CertificateAuthorityIssuerInput;
+}
+/** The Certificate Authority type. Use Root for a self-signed, service-managed root CA, and ICA for an intermediate CA. */
+export type RootCertificateAuthorityPropertiesInputCertificateAuthorityType = "Root";
+/** Details of the Certificate Authority resource. */
+export interface RootCertificateAuthorityPropertiesInput {
+  /** The Certificate Authority type. Use Root for a self-signed, service-managed root CA, and ICA for an intermediate CA. */
+  certificateAuthorityType: RootCertificateAuthorityPropertiesInputCertificateAuthorityType;
+  /** Crypto type: ECC. */
+  keyType: CertificateAuthorityKeyType;
+}
+/** Details of the Certificate Authority resource. */
+export type CertificateAuthorityPropertiesInput =
+  | IntermediateCertificateAuthorityPropertiesInput
+  | RootCertificateAuthorityPropertiesInput;
 export interface CertificateAuthoritiesCreateOrReplaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -468,52 +503,98 @@ export interface CertificateAuthoritiesCreateOrReplaceRequest {
   /** The name of the Certificate Authority resource. */
   certificateAuthorityName: string;
   /** Resource tags. */
-  tags?: CertificateAuthoritiesCreateOrReplaceRequestTagsMap;
+  tags?: CertificateAuthoritiesCreateOrReplaceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CertificateAuthorityPropertiesInput;
+  properties?: CertificateAuthorityPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type CertificateAuthoritiesCreateOrReplaceResponseTagsMap = {
   [key: string]: string | undefined;
 };
-/** Details of the Certificate Authority resource. */
-export interface CertificateAuthorityProperties {
+/** The Certificate Authority type. Use Root for a self-signed, service-managed root CA, and ICA for an intermediate CA. */
+export type IntermediateCertificateAuthorityPropertiesCertificateAuthorityType = "ICA";
+/** The Certificate Authority issuer type. */
+export type ExternalCertificateAuthorityIssuerIssuerType = "External";
+/** Status of the Certificate Authority certificate lifecycle. */
+export type CertificateAuthorityStatus = "PendingActivation" | "Active" | "ActiveButPendingRenewal";
+/** An external issuer for an intermediate Certificate Authority. */
+export interface ExternalCertificateAuthorityIssuer {
+  /** The Certificate Authority issuer type. */
+  issuerType: ExternalCertificateAuthorityIssuerIssuerType;
+  /** Certificate Signing Request (CSR) in PEM format, generated by the service. */
+  certificateSigningRequest?: string | undefined;
+  /** Thumbprint of the Certificate Authority certificate signed by the external issuer. */
+  thumbprint?: string | undefined;
+  /** The status of the external issuer certificate lifecycle. */
+  status?: CertificateAuthorityStatus | undefined;
+}
+/** The issuer for an intermediate Certificate Authority. */
+export type CertificateAuthorityIssuer =
+  | ExternalCertificateAuthorityIssuer
+  | MicrosoftCertificateAuthorityIssuer;
+/** Properties for an intermediate Certificate Authority signed by another same-namespace Certificate Authority. */
+export interface IntermediateCertificateAuthorityProperties {
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Globally unique, immutable, non-reusable identifier of the Certificate Authority resource. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The Certificate Authority type. Use Root for a self-signed, service-managed root CA, and ICA for an intermediate CA. */
-  certificateAuthorityType: CertificateAuthorityType;
+  certificateAuthorityType: IntermediateCertificateAuthorityPropertiesCertificateAuthorityType;
   /** Crypto type: ECC. */
   keyType: CertificateAuthorityKeyType;
   /** Certificate subject. */
-  subject?: string;
+  subject?: string | undefined;
   /** Certificate is valid not before this date. Format ISO8601. */
-  validityNotBefore?: string;
+  validityNotBefore?: string | undefined;
   /** Certificate is valid not after this date. Format ISO8601. */
-  validityNotAfter?: string;
+  validityNotAfter?: string | undefined;
+  /** The issuer for the intermediate Certificate Authority. */
+  issuer: CertificateAuthorityIssuer;
 }
+/** The Certificate Authority type. Use Root for a self-signed, service-managed root CA, and ICA for an intermediate CA. */
+export type RootCertificateAuthorityPropertiesCertificateAuthorityType = "Root";
+/** Details of the Certificate Authority resource. */
+export interface RootCertificateAuthorityProperties {
+  /** The status of the last operation. */
+  provisioningState?: ProvisioningState | undefined;
+  /** Globally unique, immutable, non-reusable identifier of the Certificate Authority resource. */
+  uuid?: string | undefined;
+  /** The Certificate Authority type. Use Root for a self-signed, service-managed root CA, and ICA for an intermediate CA. */
+  certificateAuthorityType: RootCertificateAuthorityPropertiesCertificateAuthorityType;
+  /** Crypto type: ECC. */
+  keyType: CertificateAuthorityKeyType;
+  /** Certificate subject. */
+  subject?: string | undefined;
+  /** Certificate is valid not before this date. Format ISO8601. */
+  validityNotBefore?: string | undefined;
+  /** Certificate is valid not after this date. Format ISO8601. */
+  validityNotAfter?: string | undefined;
+}
+/** Details of the Certificate Authority resource. */
+export type CertificateAuthorityProperties =
+  | IntermediateCertificateAuthorityProperties
+  | RootCertificateAuthorityProperties;
 export interface CertificateAuthoritiesCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CertificateAuthoritiesCreateOrReplaceResponseTagsMap;
+  tags?: CertificateAuthoritiesCreateOrReplaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CertificateAuthorityProperties;
+  properties?: CertificateAuthorityProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CertificateAuthoritiesRevokeAndRotateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -527,9 +608,9 @@ export interface CertificateAuthoritiesRevokeAndRotateRequest {
 }
 export interface CertificateAuthoritiesRevokeAndRotateResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The Certificate Policy certificate configuration. */
 export interface CertificatePolicyConfiguration {
@@ -539,7 +620,7 @@ export interface CertificatePolicyConfiguration {
 /** Details of the Certificate Policy resource. */
 export interface CertificatePolicyPropertiesInput {
   /** The certificate configuration. */
-  certificate?: CertificatePolicyConfiguration;
+  certificate?: CertificatePolicyConfiguration | undefined;
 }
 export interface CertificatePoliciesCreateOrReplaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -553,32 +634,32 @@ export interface CertificatePoliciesCreateOrReplaceRequest {
   /** The name of the Certificate Policy resource. */
   certificatePolicyName: string;
   /** The resource-specific properties for this resource. */
-  properties?: CertificatePolicyPropertiesInput;
+  properties?: CertificatePolicyPropertiesInput | undefined;
 }
 /** Details of the Certificate Policy resource. */
 export interface CertificatePolicyProperties {
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Globally unique, immutable, non-reusable identifier of the Certificate Policy resource. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The certificate configuration. */
-  certificate?: CertificatePolicyConfiguration;
+  certificate?: CertificatePolicyConfiguration | undefined;
 }
 export interface CertificatePoliciesCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: CertificatePolicyProperties;
+  properties?: CertificatePolicyProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAssetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -590,9 +671,9 @@ export interface DeleteAssetRequest {
 }
 export interface DeleteAssetResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAssetEndpointProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -604,9 +685,9 @@ export interface DeleteAssetEndpointProfileRequest {
 }
 export interface DeleteAssetEndpointProfileResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCertificateAuthorityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -620,9 +701,9 @@ export interface DeleteCertificateAuthorityRequest {
 }
 export interface DeleteCertificateAuthorityResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCertificatePolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -638,9 +719,9 @@ export interface DeleteCertificatePolicyRequest {
 }
 export interface DeleteCertificatePolicyResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNamespaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -652,9 +733,9 @@ export interface DeleteNamespaceRequest {
 }
 export interface DeleteNamespaceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNamespaceAssetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -668,9 +749,9 @@ export interface DeleteNamespaceAssetRequest {
 }
 export interface DeleteNamespaceAssetResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNamespaceDeviceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -684,9 +765,9 @@ export interface DeleteNamespaceDeviceRequest {
 }
 export interface DeleteNamespaceDeviceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNamespaceDiscoveredAssetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -700,9 +781,9 @@ export interface DeleteNamespaceDiscoveredAssetRequest {
 }
 export interface DeleteNamespaceDiscoveredAssetResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNamespaceDiscoveredDeviceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -716,9 +797,9 @@ export interface DeleteNamespaceDiscoveredDeviceRequest {
 }
 export interface DeleteNamespaceDiscoveredDeviceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRegistryDeviceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -732,9 +813,9 @@ export interface DeleteRegistryDeviceRequest {
 }
 export interface DeleteRegistryDeviceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSchemaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -748,9 +829,9 @@ export interface DeleteSchemaRequest {
 }
 export interface DeleteSchemaResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSchemaRegistryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -762,9 +843,9 @@ export interface DeleteSchemaRegistryRequest {
 }
 export interface DeleteSchemaRegistryResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSchemaVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -780,9 +861,9 @@ export interface DeleteSchemaVersionRequest {
 }
 export interface DeleteSchemaVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Payload required for executing the management action. */
 export type ExecuteNamespaceAssetActionRequestPayloadMap = { [key: string]: unknown | undefined };
@@ -800,31 +881,31 @@ export interface ExecuteNamespaceAssetActionRequest {
   /** Name of the management group under which the action is to be executed. */
   managementGroupName: string;
   /** Payload required for executing the management action. */
-  payload?: ExecuteNamespaceAssetActionRequestPayloadMap;
+  payload?: ExecuteNamespaceAssetActionRequestPayloadMap | undefined;
 }
 /** Status of the management action execution. */
 export type ManagementActionExecutionStatus = "Succeeded" | "Failed" | "Canceled" | "InProgress";
 /** Defines the error details properties. */
 export interface ErrorDetails {
   /** Multi-part error code for classification and root causing of errors (ex: 400.200.100.432). */
-  code?: string;
+  code?: string | undefined;
   /** Human-readable helpful error message to provide additional context for error (ex: "Authentication method not supported"). */
-  message?: string;
+  message?: string | undefined;
   /** Human-readable helpful detailed text context for debugging (ex: "The following mechanisms are supported..."). */
-  info?: string;
+  info?: string | undefined;
   /** Unique identifier for the transaction to aid in debugging. */
-  correlationId?: string;
+  correlationId?: string | undefined;
 }
 /** Array of error details that describe the status of each error. */
 export type ErrorDetailsList = Array<ErrorDetails>;
 /** Defines the error object with properties. */
 export interface Error {
   /** Error code for classification of errors (ex: '400', '404', '500', etc.). */
-  code?: string;
+  code?: string | undefined;
   /** Human-readable helpful error message to provide additional context for error (e.g.,: "Capability ID 'foo' does not exist"). */
-  message?: string;
+  message?: string | undefined;
   /** Array of error details that describe the status of each error. */
-  details?: ErrorDetailsList;
+  details?: ErrorDetailsList | undefined;
 }
 /** The response body for the executeAction operation on NamespaceAsset. */
 export interface NamespaceAssetExecuteActionResponse {
@@ -837,15 +918,15 @@ export interface NamespaceAssetExecuteActionResponse {
   /** Resource ID of the asset on which the management action was executed. */
   assetResourceId: string;
   /** Response from the asset regarding the management action execution. */
-  response?: string;
+  response?: string | undefined;
   /** Error if the execute action operation is not successful. */
-  error?: Error;
+  error?: Error | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetAssetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -859,19 +940,19 @@ export interface GetAssetRequest {
 export type GetAssetResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAssetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAssetResponseTagsMap;
+  tags?: GetAssetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AssetProperties;
+  properties?: AssetProperties | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
 }
@@ -887,19 +968,19 @@ export interface GetAssetEndpointProfileRequest {
 export type GetAssetEndpointProfileResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAssetEndpointProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAssetEndpointProfileResponseTagsMap;
+  tags?: GetAssetEndpointProfileResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AssetEndpointProfileProperties;
+  properties?: AssetEndpointProfileProperties | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
 }
@@ -918,67 +999,67 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The current status of an async operation. */
 export interface OperationStatusResult {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: OperationStatusResultOperationsList;
+  operations?: OperationStatusResultOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type GetAsyncOperationStatusResponseOperationsList = Array<OperationStatusResult>;
 export interface GetAsyncOperationStatusResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: GetAsyncOperationStatusResponseOperationsList;
+  operations?: GetAsyncOperationStatusResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 export interface GetBillingContainerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -989,21 +1070,21 @@ export interface GetBillingContainerRequest {
 /** Defines the billingContainer properties. */
 export interface BillingContainerProperties {
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetBillingContainerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: BillingContainerProperties;
+  properties?: BillingContainerProperties | undefined;
   /** Resource ETag */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetCertificateAuthorityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1019,19 +1100,19 @@ export interface GetCertificateAuthorityRequest {
 export type GetCertificateAuthorityResponseTagsMap = { [key: string]: string | undefined };
 export interface GetCertificateAuthorityResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetCertificateAuthorityResponseTagsMap;
+  tags?: GetCertificateAuthorityResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CertificateAuthorityProperties;
+  properties?: CertificateAuthorityProperties | undefined;
 }
 export interface GetCertificatePolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1047,15 +1128,15 @@ export interface GetCertificatePolicyRequest {
 }
 export interface GetCertificatePolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: CertificatePolicyProperties;
+  properties?: CertificatePolicyProperties | undefined;
 }
 export interface GetNamespaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1074,51 +1155,51 @@ export interface InboundCallerIdentity {
   /** The identity type. */
   type: InboundCallerIdentityType | (string & {});
   /** The resource ID of the user-assigned managed identity. Required when type is UserAssigned. */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
 }
 /** The linking state values for namespace endpoint entries. */
 export type NamespaceLinkingStateValue = "InProgress" | "Succeeded" | "Failed";
 /** Error detail for an endpoint whose linking state is Failed. Present only while the linking state is Failed and removed when the endpoint recovers. */
 export interface NamespaceLinkingError {
   /** Error code that classifies the linking failure. */
-  code?: string;
+  code?: string | undefined;
   /** Human-readable message describing the linking failure. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The availability status of a messaging endpoint. */
 export type MessagingEndpointAvailability = "Available" | "Disabled";
 /** The provisioning configuration for a messaging endpoint. */
 export interface MessagingEndpointProvisioning {
   /** The availability status of the messaging endpoint. */
-  availability?: MessagingEndpointAvailability | (string & {});
+  availability?: MessagingEndpointAvailability | (string & {}) | undefined;
   /** The allocation weight for this messaging endpoint. */
-  allocationWeight?: number;
+  allocationWeight?: number | undefined;
 }
 /** Namespace messaging endpoint model used by a device to connect to a service. */
 export interface MessagingEndpoint {
   /** Type of connection used for messaging endpoint. */
-  endpointType?: string;
+  endpointType?: string | undefined;
   /** The endpoint address to connect to. */
-  address?: string;
+  address?: string | undefined;
   /** The messaging endpoint Azure resource Id. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The endpoint address used by devices. */
-  deviceAddress?: string;
+  deviceAddress?: string | undefined;
   /** The identity the linked resource uses to call the ADR namespace. */
-  inboundCallerIdentity?: InboundCallerIdentity;
+  inboundCallerIdentity?: InboundCallerIdentity | undefined;
   /** The linking state of this messaging endpoint. */
-  linkingState?: NamespaceLinkingStateValue;
+  linkingState?: NamespaceLinkingStateValue | undefined;
   /** The error detail surfaced when this messaging endpoint is in the Failed linking state. */
-  linkingError?: NamespaceLinkingError;
+  linkingError?: NamespaceLinkingError | undefined;
   /** The provisioning configuration for this messaging endpoint. */
-  provisioning?: MessagingEndpointProvisioning;
+  provisioning?: MessagingEndpointProvisioning | undefined;
 }
 /** Dictionary of messaging endpoints. */
 export type MessagingEndpointsMap = { [key: string]: MessagingEndpoint | undefined };
 /** The namespace messaging endpoints model. */
 export interface Messaging {
   /** Dictionary of messaging endpoints. */
-  endpoints?: MessagingEndpointsMap;
+  endpoints?: MessagingEndpointsMap | undefined;
 }
 /** Namespace management endpoint model used by service to connect to device. */
 export interface ManagementEndpoint {
@@ -1136,7 +1217,7 @@ export type ManagementEndpointsMap = { [key: string]: ManagementEndpoint | undef
 /** The namespace management endpoints model. */
 export interface Management {
   /** Dictionary of management endpoints. */
-  endpoints?: ManagementEndpointsMap;
+  endpoints?: ManagementEndpointsMap | undefined;
 }
 /** The type of provisioning resource that can be linked to a namespace. */
 export type ProvisioningEndpointType = "Microsoft.Devices/provisioningServices";
@@ -1149,16 +1230,16 @@ export interface ProvisioningEndpoint {
   /** The identity the linked resource uses to call the ADR namespace. */
   inboundCallerIdentity: InboundCallerIdentity;
   /** The linking state of this provisioning endpoint. */
-  linkingState?: NamespaceLinkingStateValue;
+  linkingState?: NamespaceLinkingStateValue | undefined;
   /** The error detail surfaced when this provisioning endpoint is in the Failed linking state. */
-  linkingError?: NamespaceLinkingError;
+  linkingError?: NamespaceLinkingError | undefined;
 }
 /** Dictionary of provisioning endpoints. */
 export type NamespaceProvisioningEndpointsMap = { [key: string]: ProvisioningEndpoint | undefined };
 /** The provisioning endpoints associated with this namespace. */
 export interface NamespaceProvisioning {
   /** Dictionary of provisioning endpoints. */
-  endpoints?: NamespaceProvisioningEndpointsMap;
+  endpoints?: NamespaceProvisioningEndpointsMap | undefined;
 }
 /** The type of identity used for outbound calls from the ADR namespace. */
 export type OutboundIdentityType = "SystemAssigned" | "UserAssigned";
@@ -1167,22 +1248,22 @@ export interface OutboundIdentity {
   /** The identity type. */
   type: OutboundIdentityType | (string & {});
   /** The resource ID of the user-assigned managed identity. Required when type is UserAssigned. */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
 }
 /** The namespace properties model. */
 export interface NamespaceProperties {
   /** Globally unique, immutable, non-reusable ID. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Assigned and unassigned messaging endpoints. */
-  messaging?: Messaging;
+  messaging?: Messaging | undefined;
   /** Assigned and unassigned management endpoints. */
-  management?: Management;
+  management?: Management | undefined;
   /** The provisioning endpoints associated with this namespace. */
-  provisioning?: NamespaceProvisioning;
+  provisioning?: NamespaceProvisioning | undefined;
   /** The identity used for outbound calls from the ADR namespace. If not specified and the namespace has a system-assigned identity enabled, the system-assigned identity is used by default. */
-  outboundIdentity?: OutboundIdentity;
+  outboundIdentity?: OutboundIdentity | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -1193,38 +1274,38 @@ export type ManagedServiceIdentityType =
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetNamespaceResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface GetNamespaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNamespaceResponseTagsMap;
+  tags?: GetNamespaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceProperties;
+  properties?: NamespaceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetNamespaceResponseIdentity;
+  identity?: GetNamespaceResponseIdentity | undefined;
 }
 export interface GetNamespaceAssetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1251,31 +1332,107 @@ export type NamespaceAssetPropertiesAssetTypeRefsList = Array<string>;
 export type NamespaceAssetPropertiesAttributesMap = { [key: string]: unknown | undefined };
 /** Reference to a list of discovered assets. Populated only if the asset has been created from discovery flow. Discovered asset names must be provided. */
 export type NamespaceAssetPropertiesDiscoveredAssetRefsList = Array<string>;
-/** The set of supported dataset destinations for an asset. */
-export type DatasetDestinationTarget = "Mqtt" | "BrokerStateStore" | "Storage";
-/** The type of the destination. */
-export interface DatasetDestination {
-  /** Target destination. */
-  target: DatasetDestinationTarget | (string & {});
+/** Target destination. */
+export type DatasetBrokerStateStoreDestinationTarget = "BrokerStateStore";
+/** The configuration for a MQTT broker state store destination. */
+export interface BrokerStateStoreDestinationConfiguration {
+  /** The MQTT broker state store destination key. */
+  key: string;
 }
+/** The type for a MQTT broker state store destination. */
+export interface DatasetBrokerStateStoreDestination {
+  /** Target destination. */
+  target: DatasetBrokerStateStoreDestinationTarget;
+  /** The MQTT broker state store destination configuration. */
+  configuration: BrokerStateStoreDestinationConfiguration;
+}
+/** Target destination. */
+export type DatasetMqttDestinationTarget = "Mqtt";
+/** When set to 'Keep', messages published to an MQTT broker will have the retain flag set. Default: 'Never'. */
+export type MqttDestinationConfigurationRetain = "Keep" | "Never";
+/** The MQTT QoS setting. Defaults to QoS 1. */
+export type MqttDestinationConfigurationQos = "Qos0" | "Qos1";
+/** The configuration for a MQTT destination. */
+export interface MqttDestinationConfiguration {
+  /** The MQTT topic. */
+  topic: string;
+  /** When set to 'Keep', messages published to an MQTT broker will have the retain flag set. Default: 'Never'. */
+  retain?: MqttDestinationConfigurationRetain | (string & {}) | undefined;
+  /** The MQTT QoS setting. Defaults to QoS 1. */
+  qos?: MqttDestinationConfigurationQos | (string & {}) | undefined;
+  /** The MQTT TTL setting. */
+  ttl?: number | undefined;
+}
+/** The type for a MQTT destination. */
+export interface DatasetMqttDestination {
+  /** Target destination. */
+  target: DatasetMqttDestinationTarget;
+  /** The MQTT destination configuration. */
+  configuration: MqttDestinationConfiguration;
+}
+/** Target destination. */
+export type DatasetStorageDestinationTarget = "Storage";
+/** The configuration for a storage destination. */
+export interface StorageDestinationConfiguration {
+  /** The storage destination path. */
+  path: string;
+}
+/** The type for a storage destination. */
+export interface DatasetStorageDestination {
+  /** Target destination. */
+  target: DatasetStorageDestinationTarget;
+  /** The storage destination configuration. */
+  configuration: StorageDestinationConfiguration;
+}
+/** The type of the destination. */
+export type DatasetDestination =
+  | DatasetBrokerStateStoreDestination
+  | DatasetMqttDestination
+  | DatasetStorageDestination;
 /** Default destinations for a dataset. */
 export type NamespaceAssetPropertiesDefaultDatasetsDestinationsList = Array<DatasetDestination>;
-/** The set of supported event destinations for an asset. */
-export type EventDestinationTarget = "Mqtt" | "Storage";
-/** The type of the destination. */
-export interface EventDestination {
+/** Target destination. */
+export type EventMqttDestinationTarget = "Mqtt";
+/** The type for a MQTT destination. */
+export interface EventMqttDestination {
   /** Target destination. */
-  target: EventDestinationTarget | (string & {});
+  target: EventMqttDestinationTarget;
+  /** The MQTT destination configuration. */
+  configuration: MqttDestinationConfiguration;
 }
+/** Target destination. */
+export type EventStorageDestinationTarget = "Storage";
+/** The type for a storage destination. */
+export interface EventStorageDestination {
+  /** Target destination. */
+  target: EventStorageDestinationTarget;
+  /** The storage destination configuration. */
+  configuration: StorageDestinationConfiguration;
+}
+/** The type of the destination. */
+export type EventDestination = EventMqttDestination | EventStorageDestination;
 /** Default destinations for an event. */
 export type NamespaceAssetPropertiesDefaultEventsDestinationsList = Array<EventDestination>;
-/** The set of supported stream destinations for an asset. */
-export type StreamDestinationTarget = "Mqtt" | "Storage";
-/** The type of the destination. */
-export interface StreamDestination {
+/** Target destination. */
+export type StreamMqttDestinationTarget = "Mqtt";
+/** The type for a MQTT destination. */
+export interface StreamMqttDestination {
   /** Target destination. */
-  target: StreamDestinationTarget | (string & {});
+  target: StreamMqttDestinationTarget;
+  /** The MQTT destination configuration. */
+  configuration: MqttDestinationConfiguration;
 }
+/** Target destination. */
+export type StreamStorageDestinationTarget = "Storage";
+/** The type for a storage destination. */
+export interface StreamStorageDestination {
+  /** Target destination. */
+  target: StreamStorageDestinationTarget;
+  /** The storage destination configuration. */
+  configuration: StorageDestinationConfiguration;
+}
+/** The type of the destination. */
+export type StreamDestination = StreamMqttDestination | StreamStorageDestination;
 /** Default destinations for a stream. */
 export type NamespaceAssetPropertiesDefaultStreamsDestinationsList = Array<StreamDestination>;
 /** Destinations for a dataset. */
@@ -1287,9 +1444,9 @@ export interface NamespaceDatasetDataPoint {
   /** The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset. */
   dataSource: string;
   /** Stringified JSON that contains connector-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize. */
-  dataPointConfiguration?: string;
+  dataPointConfiguration?: string | undefined;
   /** URI or type definition ID. */
-  typeRef?: string;
+  typeRef?: string | undefined;
 }
 /** Array of data points that are part of the dataset. Each data point can have per-data point configuration. */
 export type NamespaceDatasetDataPointsList = Array<NamespaceDatasetDataPoint>;
@@ -1298,15 +1455,15 @@ export interface NamespaceDataset {
   /** Name of the dataset. */
   name: string;
   /** Reference to a data source for a given dataset. */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** URI or type definition ID. */
-  typeRef?: string;
+  typeRef?: string | undefined;
   /** Stringified JSON that contains connector-specific JSON string that describes configuration for the specific dataset. */
-  datasetConfiguration?: string;
+  datasetConfiguration?: string | undefined;
   /** Destinations for a dataset. */
-  destinations?: NamespaceDatasetDestinationsList;
+  destinations?: NamespaceDatasetDestinationsList | undefined;
   /** Array of data points that are part of the dataset. Each data point can have per-data point configuration. */
-  dataPoints?: NamespaceDatasetDataPointsList;
+  dataPoints?: NamespaceDatasetDataPointsList | undefined;
 }
 /** Array of datasets that are part of the asset. Each dataset describes the data points that make up the set. */
 export type NamespaceAssetPropertiesDatasetsList = Array<NamespaceDataset>;
@@ -1319,13 +1476,13 @@ export interface NamespaceEvent {
   /** The name of the event. */
   name: string;
   /** Reference to a data source for a given event. */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize. */
-  eventConfiguration?: string;
+  eventConfiguration?: string | undefined;
   /** Destinations for an event. */
-  destinations?: NamespaceEventDestinationsList;
+  destinations?: NamespaceEventDestinationsList | undefined;
   /** URI or type definition ID. */
-  typeRef?: string;
+  typeRef?: string | undefined;
 }
 /** Array of events that are part of the event group. */
 export type NamespaceEventGroupEventsList = Array<NamespaceEvent>;
@@ -1334,15 +1491,15 @@ export interface NamespaceEventGroup {
   /** The name of the event group. */
   name: string;
   /** The address of the notifier of the event group in the asset (e.g. URL) so that a client can access the event group on the asset. */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** Stringified JSON that contains connector-specific configuration for the event group. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize. */
-  eventGroupConfiguration?: string;
+  eventGroupConfiguration?: string | undefined;
   /** Destinations for events. Default destinations when destinations is not defined at the event level. */
-  defaultDestinations?: NamespaceEventGroupDefaultDestinationsList;
+  defaultDestinations?: NamespaceEventGroupDefaultDestinationsList | undefined;
   /** URI or type definition ID. */
-  typeRef?: string;
+  typeRef?: string | undefined;
   /** Array of events that are part of the event group. */
-  events?: NamespaceEventGroupEventsList;
+  events?: NamespaceEventGroupEventsList | undefined;
 }
 /** Array of event groups that are part of the asset. Each event group can have per-event group configuration. */
 export type NamespaceAssetPropertiesEventGroupsList = Array<NamespaceEventGroup>;
@@ -1353,11 +1510,11 @@ export interface NamespaceStream {
   /** Name of the stream definition. */
   name: string;
   /** Stringified JSON that contains connector-specific configuration for the specific stream. */
-  streamConfiguration?: string;
+  streamConfiguration?: string | undefined;
   /** URI or type definition ID. */
-  typeRef?: string;
+  typeRef?: string | undefined;
   /** Destinations for a stream. */
-  destinations?: NamespaceStreamDestinationsList;
+  destinations?: NamespaceStreamDestinationsList | undefined;
 }
 /** Array of streams that are part of the asset. Each stream can have a per-stream configuration. */
 export type NamespaceAssetPropertiesStreamsList = Array<NamespaceStream>;
@@ -1368,17 +1525,17 @@ export interface ManagementAction {
   /** Name of the action. */
   name: string;
   /** Stringified JSON that contains connector-specific configuration for the action. */
-  actionConfiguration?: string;
+  actionConfiguration?: string | undefined;
   /** The target URI on which a client can invoke the specific action. */
   targetUri: string;
   /** URI or type definition ID. */
-  typeRef?: string;
+  typeRef?: string | undefined;
   /** The MQTT topic path on which a client will receive the request for the action. */
-  topic?: string;
+  topic?: string | undefined;
   /** The type of the action. */
-  actionType?: ManagementActionActionType | (string & {});
+  actionType?: ManagementActionActionType | (string & {}) | undefined;
   /** Response timeout for the action. */
-  timeoutInSeconds?: number;
+  timeoutInSeconds?: number | undefined;
 }
 /** Array of actions that are part of the management group. Each action can have an individual configuration. */
 export type ManagementGroupActionsList = Array<ManagementAction>;
@@ -1387,17 +1544,17 @@ export interface ManagementGroup {
   /** Name of the management group. */
   name: string;
   /** Reference to a data source for a given management group. */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** Stringified JSON that contains connector-specific configuration for the management group. */
-  managementGroupConfiguration?: string;
+  managementGroupConfiguration?: string | undefined;
   /** URI or type definition ID. */
-  typeRef?: string;
+  typeRef?: string | undefined;
   /** Default MQTT topic path on which a client will receive the request for all actions that are part of the management group. */
-  defaultTopic?: string;
+  defaultTopic?: string | undefined;
   /** Default response timeout for all actions that are part of the management group. */
-  defaultTimeoutInSeconds?: number;
+  defaultTimeoutInSeconds?: number | undefined;
   /** Array of actions that are part of the management group. Each action can have an individual configuration. */
-  actions?: ManagementGroupActionsList;
+  actions?: ManagementGroupActionsList | undefined;
 }
 /** Array of management groups that are part of the asset. Each management group can have a per-group configuration. */
 export type NamespaceAssetPropertiesManagementGroupsList = Array<ManagementGroup>;
@@ -1406,20 +1563,20 @@ export type StatusErrorDetailsList = Array<ErrorDetails>;
 /** Defines the status config error properties. */
 export interface StatusError {
   /** Error code for classification of errors (ex: '400', '404', '500', etc.). */
-  code?: string;
+  code?: string | undefined;
   /** Human-readable helpful error message to provide additional context for error (e.g.,: "Capability ID 'foo' does not exist"). */
-  message?: string;
+  message?: string | undefined;
   /** Array of error details that describe the status of each error. */
-  details?: StatusErrorDetailsList;
+  details?: StatusErrorDetailsList | undefined;
 }
 /** Defines the status config properties. */
 export interface StatusConfig {
   /** A read-only incremental counter indicating the number of times the configuration has been modified from the perspective of the current actual (edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud. In steady state, this should equal version. */
-  version?: number;
+  version?: number | undefined;
   /** A read-only timestamp indicating the last time the configuration has been modified from the perspective of the current actual (edge) state of the CRD. Edge would be the only writer of this value and would sync back up to the cloud. */
-  lastTransitionTime?: string;
+  lastTransitionTime?: string | undefined;
   /** Object to transfer and persist errors that originate from the edge. */
-  error?: StatusError;
+  error?: StatusError | undefined;
 }
 /** Defines the message schema reference properties. */
 export type NamespaceMessageSchemaReference = MessageSchemaReference;
@@ -1428,9 +1585,9 @@ export interface NamespaceAssetStatusDataset {
   /** The name of the dataset. Must be unique within the status.datasets array. This name is used to correlate between the spec and status dataset information. */
   name: string;
   /** The message schema reference object. */
-  messageSchemaReference?: MessageSchemaReference;
+  messageSchemaReference?: MessageSchemaReference | undefined;
   /** Object to transfer and persist errors that originate from the edge. */
-  error?: StatusError;
+  error?: StatusError | undefined;
 }
 /** Array of dataset statuses that describe the status of each dataset. */
 export type NamespaceAssetStatusDatasetsList = Array<NamespaceAssetStatusDataset>;
@@ -1439,9 +1596,9 @@ export interface NamespaceAssetStatusEvent {
   /** The name of the event. Must be unique within the status.events array. This name is used to correlate between the spec and status event information. */
   name: string;
   /** The message schema reference object. */
-  messageSchemaReference?: MessageSchemaReference;
+  messageSchemaReference?: MessageSchemaReference | undefined;
   /** Object to transfer and persist errors that originate from the edge. */
-  error?: StatusError;
+  error?: StatusError | undefined;
 }
 /** Array of event statuses that describe the status of each event in the event group. */
 export type NamespaceAssetStatusEventGroupEventsList = Array<NamespaceAssetStatusEvent>;
@@ -1450,7 +1607,7 @@ export interface NamespaceAssetStatusEventGroup {
   /** The name of the event group. Must be unique within the status.eventGroups array. This name is used to correlate between the spec and status event group information. */
   name: string;
   /** Array of event statuses that describe the status of each event in the event group. */
-  events?: NamespaceAssetStatusEventGroupEventsList;
+  events?: NamespaceAssetStatusEventGroupEventsList | undefined;
 }
 /** Array of event group statuses that describe the status of each event group. */
 export type NamespaceAssetStatusEventGroupsList = Array<NamespaceAssetStatusEventGroup>;
@@ -1459,9 +1616,9 @@ export interface NamespaceAssetStatusStream {
   /** The name of the stream. Must be unique within the status.streams array. This name is used to correlate between the spec and status event information. */
   name: string;
   /** The message schema reference object. */
-  messageSchemaReference?: MessageSchemaReference;
+  messageSchemaReference?: MessageSchemaReference | undefined;
   /** Object to transfer and persist errors that originate from the edge. */
-  error?: StatusError;
+  error?: StatusError | undefined;
 }
 /** Array of stream statuses that describe the status of each stream. */
 export type NamespaceAssetStatusStreamsList = Array<NamespaceAssetStatusStream>;
@@ -1470,11 +1627,11 @@ export interface NamespaceAssetStatusManagementAction {
   /** The name of the action. Must be unique within the status.actions array. This name is used to correlate between the spec and status event information. */
   name: string;
   /** The request message schema reference object for the action. */
-  requestMessageSchemaReference?: MessageSchemaReference;
+  requestMessageSchemaReference?: MessageSchemaReference | undefined;
   /** The response message schema reference object for the action. */
-  responseMessageSchemaReference?: MessageSchemaReference;
+  responseMessageSchemaReference?: MessageSchemaReference | undefined;
   /** Object to transfer and persist errors that originate from the edge. */
-  error?: StatusError;
+  error?: StatusError | undefined;
 }
 /** Array of action statuses that describe the status of each action. */
 export type NamespaceAssetStatusManagementGroupActionsList =
@@ -1484,7 +1641,7 @@ export interface NamespaceAssetStatusManagementGroup {
   /** The name of the management group. Must be unique within the status.managementGroups array. This name is used to correlate between the spec and status event information. */
   name: string;
   /** Array of action statuses that describe the status of each action. */
-  actions?: NamespaceAssetStatusManagementGroupActionsList;
+  actions?: NamespaceAssetStatusManagementGroupActionsList | undefined;
 }
 /** Array of management group statuses that describe the status of each management group. */
 export type NamespaceAssetStatusManagementGroupsList = Array<NamespaceAssetStatusManagementGroup>;
@@ -1493,113 +1650,113 @@ export type HealthStatus = "Unknown" | "Available" | "Degraded" | "Unavailable";
 /** Represents the health state of a resource. */
 export interface HealthState {
   /** The high-level health status of the resource. */
-  status?: HealthStatus;
+  status?: HealthStatus | undefined;
   /** The timestamp (RFC3339) when the health status last changed. */
-  lastTransitionTime?: string;
+  lastTransitionTime?: string | undefined;
   /** The timestamp (RFC3339) when the health status was last updated, even if the status did not change. */
-  lastUpdateTime?: string;
+  lastUpdateTime?: string | undefined;
   /** A human-readable message describing the last transition. */
-  message?: string;
+  message?: string | undefined;
   /** Unique, CamelCase reason code describing the cause of the last health state transition. */
-  reasonCode?: string;
+  reasonCode?: string | undefined;
 }
 /** Defines the asset status properties. */
 export interface NamespaceAssetStatus {
   /** Defines the asset status config properties. */
-  config?: StatusConfig;
+  config?: StatusConfig | undefined;
   /** Array of dataset statuses that describe the status of each dataset. */
-  datasets?: NamespaceAssetStatusDatasetsList;
+  datasets?: NamespaceAssetStatusDatasetsList | undefined;
   /** Array of event group statuses that describe the status of each event group. */
-  eventGroups?: NamespaceAssetStatusEventGroupsList;
+  eventGroups?: NamespaceAssetStatusEventGroupsList | undefined;
   /** Array of stream statuses that describe the status of each stream. */
-  streams?: NamespaceAssetStatusStreamsList;
+  streams?: NamespaceAssetStatusStreamsList | undefined;
   /** Array of management group statuses that describe the status of each management group. */
-  managementGroups?: NamespaceAssetStatusManagementGroupsList;
+  managementGroups?: NamespaceAssetStatusManagementGroupsList | undefined;
   /** The details about the runtime health state of the asset. */
-  healthState?: HealthState;
+  healthState?: HealthState | undefined;
 }
 /** Defines the asset properties. */
 export interface NamespaceAssetProperties {
   /** Globally unique, immutable, non-reusable ID. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Enabled/disabled status of the asset. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Asset ID provided by the customer. */
-  externalAssetId?: string;
+  externalAssetId?: string | undefined;
   /** Human-readable display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Human-readable description of the asset. */
-  description?: string;
+  description?: string | undefined;
   /** Reference to the device that provides data for this asset. Must provide device name & endpoint on the device to use. */
   deviceRef: DeviceRef;
   /** URIs or type definition IDs. */
-  assetTypeRefs?: NamespaceAssetPropertiesAssetTypeRefsList;
+  assetTypeRefs?: NamespaceAssetPropertiesAssetTypeRefsList | undefined;
   /** An integer that is incremented each time the resource is modified. */
-  version?: number;
+  version?: number | undefined;
   /** A timestamp (in UTC) that is updated each time the resource is modified. */
-  lastTransitionTime?: string;
+  lastTransitionTime?: string | undefined;
   /** Asset manufacturer. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Asset manufacturer URI. */
-  manufacturerUri?: string;
+  manufacturerUri?: string | undefined;
   /** Asset model. */
-  model?: string;
+  model?: string | undefined;
   /** Asset product code. */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Asset hardware revision number. */
-  hardwareRevision?: string;
+  hardwareRevision?: string | undefined;
   /** Asset software revision number. */
-  softwareRevision?: string;
+  softwareRevision?: string | undefined;
   /** Asset documentation reference. */
-  documentationUri?: string;
+  documentationUri?: string | undefined;
   /** Asset serial number. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** A set of key-value pairs that contain custom attributes set by the customer. */
-  attributes?: NamespaceAssetPropertiesAttributesMap;
+  attributes?: NamespaceAssetPropertiesAttributesMap | undefined;
   /** Reference to a list of discovered assets. Populated only if the asset has been created from discovery flow. Discovered asset names must be provided. */
-  discoveredAssetRefs?: NamespaceAssetPropertiesDiscoveredAssetRefsList;
+  discoveredAssetRefs?: NamespaceAssetPropertiesDiscoveredAssetRefsList | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here. */
-  defaultDatasetsConfiguration?: string;
+  defaultDatasetsConfiguration?: string | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here. */
-  defaultEventsConfiguration?: string;
+  defaultEventsConfiguration?: string | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all streams. Each stream can have its own configuration that overrides the default settings here. */
-  defaultStreamsConfiguration?: string;
+  defaultStreamsConfiguration?: string | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all management groups. Each management group can have its own configuration that overrides the default settings here. */
-  defaultManagementGroupsConfiguration?: string;
+  defaultManagementGroupsConfiguration?: string | undefined;
   /** Default destinations for a dataset. */
-  defaultDatasetsDestinations?: NamespaceAssetPropertiesDefaultDatasetsDestinationsList;
+  defaultDatasetsDestinations?: NamespaceAssetPropertiesDefaultDatasetsDestinationsList | undefined;
   /** Default destinations for an event. */
-  defaultEventsDestinations?: NamespaceAssetPropertiesDefaultEventsDestinationsList;
+  defaultEventsDestinations?: NamespaceAssetPropertiesDefaultEventsDestinationsList | undefined;
   /** Default destinations for a stream. */
-  defaultStreamsDestinations?: NamespaceAssetPropertiesDefaultStreamsDestinationsList;
+  defaultStreamsDestinations?: NamespaceAssetPropertiesDefaultStreamsDestinationsList | undefined;
   /** Array of datasets that are part of the asset. Each dataset describes the data points that make up the set. */
-  datasets?: NamespaceAssetPropertiesDatasetsList;
+  datasets?: NamespaceAssetPropertiesDatasetsList | undefined;
   /** Array of event groups that are part of the asset. Each event group can have per-event group configuration. */
-  eventGroups?: NamespaceAssetPropertiesEventGroupsList;
+  eventGroups?: NamespaceAssetPropertiesEventGroupsList | undefined;
   /** Array of streams that are part of the asset. Each stream can have a per-stream configuration. */
-  streams?: NamespaceAssetPropertiesStreamsList;
+  streams?: NamespaceAssetPropertiesStreamsList | undefined;
   /** Array of management groups that are part of the asset. Each management group can have a per-group configuration. */
-  managementGroups?: NamespaceAssetPropertiesManagementGroupsList;
+  managementGroups?: NamespaceAssetPropertiesManagementGroupsList | undefined;
   /** Read only object to reflect changes that have occurred on the Edge. Similar to Kubernetes status property for custom resources. */
-  status?: NamespaceAssetStatus;
+  status?: NamespaceAssetStatus | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetNamespaceAssetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNamespaceAssetResponseTagsMap;
+  tags?: GetNamespaceAssetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceAssetProperties;
+  properties?: NamespaceAssetProperties | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
 }
@@ -1622,23 +1779,23 @@ export interface X509CertificateCredentials {
   /** The name of the secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx). */
   certificateSecretName: string;
   /** The name of the secret containing the certificate private key in PEM or DER format. */
-  keySecretName?: string;
+  keySecretName?: string | undefined;
   /** The name of the secret containing the combined intermediate certificates in PEM format. */
-  intermediateCertificatesSecretName?: string;
+  intermediateCertificatesSecretName?: string | undefined;
 }
 /** Definition of the client authentication mechanism to the host. */
 export interface HostAuthentication {
   /** Defines the method to authenticate the user of the client at the server. */
   method: HostAuthenticationMethod | (string & {});
   /** Defines the username and password references when UsernamePassword user authentication mode is selected. */
-  usernamePasswordCredentials?: UsernamePasswordCredentials;
+  usernamePasswordCredentials?: UsernamePasswordCredentials | undefined;
   /** Defines the certificate reference when Certificate user authentication mode is selected. */
-  x509Credentials?: X509CertificateCredentials;
+  x509Credentials?: X509CertificateCredentials | undefined;
 }
 /** Defines server trust settings for an endpoint. */
 export interface TrustSettings {
   /** Defines a secret reference for certificates to trust. */
-  trustList?: string;
+  trustList?: string | undefined;
 }
 /** An endpoint to connect to the device. */
 export interface InboundEndpoints {
@@ -1647,20 +1804,20 @@ export interface InboundEndpoints {
   /** The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com). */
   address: string;
   /** Protocol version associated with the endpoint e.g. 1 or 2 for endpointType Microsoft.HTTP, and 3.5 or 5.0 for endpointType Microsoft.Mqtt etc. */
-  version?: string;
+  version?: string | undefined;
   /** Defines the client authentication mechanism to the server. */
-  authentication?: HostAuthentication;
+  authentication?: HostAuthentication | undefined;
   /** Defines server trust settings for the endpoint. */
-  trustSettings?: TrustSettings;
+  trustSettings?: TrustSettings | undefined;
   /** Stringified JSON that contains configuration to be used by the connector (e.g., OPC UA, ONVIF). */
-  additionalConfiguration?: string;
+  additionalConfiguration?: string | undefined;
 }
 /** Set of endpoints to connect to the device. */
 export type MessagingEndpointsInboundMap = { [key: string]: InboundEndpoints | undefined };
 /** Device messaging endpoint model. */
 export interface DeviceMessagingEndpoint {
   /** Type of connection used for the messaging endpoint. */
-  endpointType?: string;
+  endpointType?: string | undefined;
   /** The endpoint address to connect to. */
   address: string;
 }
@@ -1673,88 +1830,88 @@ export interface OutboundEndpoints {
   /** Endpoints the device can connect to. */
   assigned: OutboundEndpointsAssignedMap;
   /** Set of most recently removed endpoints. */
-  unassigned?: OutboundEndpointsUnassignedMap;
+  unassigned?: OutboundEndpointsUnassignedMap | undefined;
 }
 /** Connection endpoint URL a device can use to connect to a service. */
 export interface MessagingEndpoints {
   /** Set of endpoints to connect to the device. */
-  inbound?: MessagingEndpointsInboundMap;
+  inbound?: MessagingEndpointsInboundMap | undefined;
   /** Set of endpoints a device can connect to. */
-  outbound?: OutboundEndpoints;
+  outbound?: OutboundEndpoints | undefined;
 }
 /** A set of key-value pairs that contain custom attributes set by the customer. */
 export type NamespaceDevicePropertiesAttributesMap = { [key: string]: unknown | undefined };
 /** Defines the device status properties. */
 export interface DeviceStatusEndpoint {
   /** Defines the error related to this endpoint. */
-  error?: StatusError;
+  error?: StatusError | undefined;
   /** Health state of the endpoint. */
-  healthState?: HealthState;
+  healthState?: HealthState | undefined;
 }
 /** KeyValue pair representing status of inbound endpoints. */
 export type DeviceStatusEndpointsInboundMap = { [key: string]: DeviceStatusEndpoint | undefined };
 /** Defines the device status for inbound/outbound endpoints. */
 export interface DeviceStatusEndpoints {
   /** KeyValue pair representing status of inbound endpoints. */
-  inbound?: DeviceStatusEndpointsInboundMap;
+  inbound?: DeviceStatusEndpointsInboundMap | undefined;
 }
 /** Defines the device status properties. */
 export interface DeviceStatus {
   /** Defines the device status config properties. */
-  config?: StatusConfig;
+  config?: StatusConfig | undefined;
   /** Defines the device status for inbound/outbound endpoints. */
-  endpoints?: DeviceStatusEndpoints;
+  endpoints?: DeviceStatusEndpoints | undefined;
 }
 /** Defines the device properties. */
 export interface NamespaceDeviceProperties {
   /** A unique identifier for the device. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Indicates if the resource is enabled or not. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The Device ID provided by the customer. */
-  externalDeviceId?: string;
+  externalDeviceId?: string | undefined;
   /** Reference to a device. Populated only if the device had been created from discovery flow. Discovered device name must be provided. */
-  discoveredDeviceRef?: string;
+  discoveredDeviceRef?: string | undefined;
   /** Device manufacturer. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Device model. */
-  model?: string;
+  model?: string | undefined;
   /** Device operating system. */
-  operatingSystem?: string;
+  operatingSystem?: string | undefined;
   /** Device operating system version. */
-  operatingSystemVersion?: string;
+  operatingSystemVersion?: string | undefined;
   /** Property bag containing the device's unassigned and assigned endpoints. */
-  endpoints?: MessagingEndpoints;
+  endpoints?: MessagingEndpoints | undefined;
   /** A set of key-value pairs that contain custom attributes set by the customer. */
-  attributes?: NamespaceDevicePropertiesAttributesMap;
+  attributes?: NamespaceDevicePropertiesAttributesMap | undefined;
   /** Device status updates. */
-  status?: DeviceStatus;
+  status?: DeviceStatus | undefined;
   /** An integer that is incremented each time the resource is modified. */
-  version?: number;
+  version?: number | undefined;
   /** A timestamp (in UTC) that is updated each time the resource is modified. */
-  lastTransitionTime?: string;
+  lastTransitionTime?: string | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetNamespaceDeviceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNamespaceDeviceResponseTagsMap;
+  tags?: GetNamespaceDeviceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceDeviceProperties;
+  properties?: NamespaceDeviceProperties | undefined;
   /** Resource Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 export interface GetNamespaceDiscoveredAssetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1792,11 +1949,11 @@ export interface NamespaceDiscoveredDatasetDataPoint {
   /** The address of the source of the data in the asset (e.g. URL) so that a client can access the data source on the asset. */
   dataSource: string;
   /** Stringified JSON that contains connector-specific configuration for the data point. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize. */
-  dataPointConfiguration?: string;
+  dataPointConfiguration?: string | undefined;
   /** UTC timestamp indicating when the data point was added or modified. */
-  lastUpdatedOn?: string;
+  lastUpdatedOn?: string | undefined;
   /** URI or type definition ID. */
-  typeRef?: string;
+  typeRef?: string | undefined;
 }
 /** Array of data points that are part of the dataset. Each data point can have per-data point configuration. */
 export type NamespaceDiscoveredDatasetDataPointsList = Array<NamespaceDiscoveredDatasetDataPoint>;
@@ -1805,17 +1962,17 @@ export interface NamespaceDiscoveredDataset {
   /** Name of the dataset. */
   name: string;
   /** Reference to a data source for a given dataset. */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** URI or type definition ID. */
-  typeRef?: string;
+  typeRef?: string | undefined;
   /** Stringified JSON that contains connector-specific properties that describes configuration for the specific dataset. */
-  datasetConfiguration?: string;
+  datasetConfiguration?: string | undefined;
   /** Destinations for a dataset. */
-  destinations?: NamespaceDiscoveredDatasetDestinationsList;
+  destinations?: NamespaceDiscoveredDatasetDestinationsList | undefined;
   /** Array of data points that are part of the dataset. Each data point can have per-data point configuration. */
-  dataPoints?: NamespaceDiscoveredDatasetDataPointsList;
+  dataPoints?: NamespaceDiscoveredDatasetDataPointsList | undefined;
   /** Timestamp (in UTC) indicating when the dataset was added or modified. */
-  lastUpdatedOn?: string;
+  lastUpdatedOn?: string | undefined;
 }
 /** Array of datasets that are part of the asset. Each dataset spec describes the data points that make up the set. */
 export type NamespaceDiscoveredAssetPropertiesDatasetsList = Array<NamespaceDiscoveredDataset>;
@@ -1828,15 +1985,15 @@ export interface NamespaceDiscoveredEvent {
   /** The name of the event. */
   name: string;
   /** Reference to a data source for a given event. */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize. */
-  eventConfiguration?: string;
+  eventConfiguration?: string | undefined;
   /** Destinations for an event. */
-  destinations?: NamespaceDiscoveredEventDestinationsList;
+  destinations?: NamespaceDiscoveredEventDestinationsList | undefined;
   /** URI or type definition ID. */
-  typeRef?: string;
+  typeRef?: string | undefined;
   /** UTC timestamp indicating when the event was added or modified. */
-  lastUpdatedOn?: string;
+  lastUpdatedOn?: string | undefined;
 }
 /** Array of events that are part of the event group. */
 export type NamespaceDiscoveredEventGroupEventsList = Array<NamespaceDiscoveredEvent>;
@@ -1845,15 +2002,15 @@ export interface NamespaceDiscoveredEventGroup {
   /** The name of the event group. */
   name: string;
   /** The address of the notifier of the event group in the asset (e.g. URL) so that a client can access the event group on the asset. */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** Stringified JSON that contains connector-specific configuration for the event group. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize. */
-  eventGroupConfiguration?: string;
+  eventGroupConfiguration?: string | undefined;
   /** Destinations for events. Default destinations when destinations is not defined at the event level. */
-  defaultDestinations?: NamespaceDiscoveredEventGroupDefaultDestinationsList;
+  defaultDestinations?: NamespaceDiscoveredEventGroupDefaultDestinationsList | undefined;
   /** URI or type definition ID. */
-  typeRef?: string;
+  typeRef?: string | undefined;
   /** Array of events that are part of the event group. */
-  events?: NamespaceDiscoveredEventGroupEventsList;
+  events?: NamespaceDiscoveredEventGroupEventsList | undefined;
 }
 /** Array of event groups that are part of the asset. Each event group can have per-event group configuration. */
 export type NamespaceDiscoveredAssetPropertiesEventGroupsList =
@@ -1865,13 +2022,13 @@ export interface NamespaceDiscoveredStream {
   /** Name of the stream definition. */
   name: string;
   /** Stringified JSON that contains connector-specific configuration for the specific stream. */
-  streamConfiguration?: string;
+  streamConfiguration?: string | undefined;
   /** URI or type definition ID. */
-  typeRef?: string;
+  typeRef?: string | undefined;
   /** Destinations for a stream. */
-  destinations?: NamespaceDiscoveredStreamDestinationsList;
+  destinations?: NamespaceDiscoveredStreamDestinationsList | undefined;
   /** Timestamp (in UTC) indicating when the stream was added or modified. */
-  lastUpdatedOn?: string;
+  lastUpdatedOn?: string | undefined;
 }
 /** Array of streams that are part of the asset. Each stream can have a per-stream configuration. */
 export type NamespaceDiscoveredAssetPropertiesStreamsList = Array<NamespaceDiscoveredStream>;
@@ -1882,19 +2039,19 @@ export interface NamespaceDiscoveredManagementAction {
   /** Name of the action. */
   name: string;
   /** Stringified JSON that contains connector-specific configuration for the action. */
-  actionConfiguration?: string;
+  actionConfiguration?: string | undefined;
   /** The target URI on which a client can invoke the specific action. */
   targetUri: string;
   /** URI or type definition ID. */
-  typeRef?: string;
+  typeRef?: string | undefined;
   /** The MQTT topic path on which a client will receive the request for the action. */
-  topic?: string;
+  topic?: string | undefined;
   /** The type of the action. */
-  actionType?: NamespaceDiscoveredManagementActionActionType | (string & {});
+  actionType?: NamespaceDiscoveredManagementActionActionType | (string & {}) | undefined;
   /** Response timeout for the action. */
-  timeoutInSeconds?: number;
+  timeoutInSeconds?: number | undefined;
   /** Timestamp (in UTC) indicating when the management action was added or modified. */
-  lastUpdatedOn?: string;
+  lastUpdatedOn?: string | undefined;
 }
 /** Array of actions that are part of the management group. Each action can have an individual configuration. */
 export type NamespaceDiscoveredManagementGroupActionsList =
@@ -1904,19 +2061,19 @@ export interface NamespaceDiscoveredManagementGroup {
   /** Name of the management group. */
   name: string;
   /** Stringified JSON that contains connector-specific configuration for the management group. */
-  managementGroupConfiguration?: string;
+  managementGroupConfiguration?: string | undefined;
   /** URI or type definition ID. */
-  typeRef?: string;
+  typeRef?: string | undefined;
   /** Reference to a data source for a given management group. */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** Default MQTT topic path on which a client will receive the request for all actions that are part of the management group. */
-  defaultTopic?: string;
+  defaultTopic?: string | undefined;
   /** Default response timeout for all actions that are part of the management group. */
-  defaultTimeoutInSeconds?: number;
+  defaultTimeoutInSeconds?: number | undefined;
   /** Array of actions that are part of the management group. Each action can have an individual configuration. */
-  actions?: NamespaceDiscoveredManagementGroupActionsList;
+  actions?: NamespaceDiscoveredManagementGroupActionsList | undefined;
   /** Timestamp (in UTC) indicating when the management group was added or modified. */
-  lastUpdatedOn?: string;
+  lastUpdatedOn?: string | undefined;
 }
 /** Array of management groups that are part of the asset. Each management group can have a per-group configuration. */
 export type NamespaceDiscoveredAssetPropertiesManagementGroupsList =
@@ -1926,75 +2083,81 @@ export interface NamespaceDiscoveredAssetProperties {
   /** Reference to the device that provides data for this asset. Must provide device name & endpoint on the device to use. */
   deviceRef: DeviceRef;
   /** Human-readable display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** URIs or type definition IDs. */
-  assetTypeRefs?: NamespaceDiscoveredAssetPropertiesAssetTypeRefsList;
+  assetTypeRefs?: NamespaceDiscoveredAssetPropertiesAssetTypeRefsList | undefined;
   /** Human-readable description of the asset. */
-  description?: string;
+  description?: string | undefined;
   /** Identifier used to detect changes in the asset. */
   discoveryId: string;
   /** Asset ID provided by the customer. */
-  externalAssetId?: string;
+  externalAssetId?: string | undefined;
   /** An integer that is incremented each time the resource is modified. */
   version: number;
   /** Asset manufacturer. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Asset manufacturer URI. */
-  manufacturerUri?: string;
+  manufacturerUri?: string | undefined;
   /** Asset model. */
-  model?: string;
+  model?: string | undefined;
   /** Asset product code. */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Asset hardware revision number. */
-  hardwareRevision?: string;
+  hardwareRevision?: string | undefined;
   /** Asset software revision number. */
-  softwareRevision?: string;
+  softwareRevision?: string | undefined;
   /** Asset documentation reference. */
-  documentationUri?: string;
+  documentationUri?: string | undefined;
   /** Asset serial number. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** A set of key-value pairs that contain custom attributes. */
-  attributes?: NamespaceDiscoveredAssetPropertiesAttributesMap;
+  attributes?: NamespaceDiscoveredAssetPropertiesAttributesMap | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here. */
-  defaultDatasetsConfiguration?: string;
+  defaultDatasetsConfiguration?: string | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here. */
-  defaultEventsConfiguration?: string;
+  defaultEventsConfiguration?: string | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all streams. Each stream can have its own configuration that overrides the default settings here. */
-  defaultStreamsConfiguration?: string;
+  defaultStreamsConfiguration?: string | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all management groups. Each management group can have its own configuration that overrides the default settings here. */
-  defaultManagementGroupsConfiguration?: string;
+  defaultManagementGroupsConfiguration?: string | undefined;
   /** Default destinations for a dataset. */
-  defaultDatasetsDestinations?: NamespaceDiscoveredAssetPropertiesDefaultDatasetsDestinationsList;
+  defaultDatasetsDestinations?:
+    | NamespaceDiscoveredAssetPropertiesDefaultDatasetsDestinationsList
+    | undefined;
   /** Default destinations for an event. */
-  defaultEventsDestinations?: NamespaceDiscoveredAssetPropertiesDefaultEventsDestinationsList;
+  defaultEventsDestinations?:
+    | NamespaceDiscoveredAssetPropertiesDefaultEventsDestinationsList
+    | undefined;
   /** Default destinations for a stream. */
-  defaultStreamsDestinations?: NamespaceDiscoveredAssetPropertiesDefaultStreamsDestinationsList;
+  defaultStreamsDestinations?:
+    | NamespaceDiscoveredAssetPropertiesDefaultStreamsDestinationsList
+    | undefined;
   /** Array of datasets that are part of the asset. Each dataset spec describes the data points that make up the set. */
-  datasets?: NamespaceDiscoveredAssetPropertiesDatasetsList;
+  datasets?: NamespaceDiscoveredAssetPropertiesDatasetsList | undefined;
   /** Array of event groups that are part of the asset. Each event group can have per-event group configuration. */
-  eventGroups?: NamespaceDiscoveredAssetPropertiesEventGroupsList;
+  eventGroups?: NamespaceDiscoveredAssetPropertiesEventGroupsList | undefined;
   /** Array of streams that are part of the asset. Each stream can have a per-stream configuration. */
-  streams?: NamespaceDiscoveredAssetPropertiesStreamsList;
+  streams?: NamespaceDiscoveredAssetPropertiesStreamsList | undefined;
   /** Array of management groups that are part of the asset. Each management group can have a per-group configuration. */
-  managementGroups?: NamespaceDiscoveredAssetPropertiesManagementGroupsList;
+  managementGroups?: NamespaceDiscoveredAssetPropertiesManagementGroupsList | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetNamespaceDiscoveredAssetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNamespaceDiscoveredAssetResponseTagsMap;
+  tags?: GetNamespaceDiscoveredAssetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceDiscoveredAssetProperties;
+  properties?: NamespaceDiscoveredAssetProperties | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
 }
@@ -2023,13 +2186,15 @@ export interface DiscoveredInboundEndpoints {
   /** The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com). */
   address: string;
   /** Protocol version associated with the endpoint e.g. 1 or 2 for endpointType Microsoft.HTTP, and 3.5 or 5.0 for endpointType Microsoft.Mqtt etc. */
-  version?: string;
+  version?: string | undefined;
   /** List of supported authentication methods supported by device for Inbound connections. */
-  supportedAuthenticationMethods?: DiscoveredInboundEndpointsSupportedAuthenticationMethodsList;
+  supportedAuthenticationMethods?:
+    | DiscoveredInboundEndpointsSupportedAuthenticationMethodsList
+    | undefined;
   /** Stringified JSON that contains configuration to be used by the connector (e.g., OPC UA, ONVIF). */
-  additionalConfiguration?: string;
+  additionalConfiguration?: string | undefined;
   /** The timestamp (in UTC) when the endpoint was discovered. */
-  lastUpdatedOn?: string;
+  lastUpdatedOn?: string | undefined;
 }
 /** Set of endpoints to connect to the device. */
 export type DiscoveredMessagingEndpointsInboundMap = {
@@ -2047,9 +2212,9 @@ export interface DiscoveredOutboundEndpoints {
 /** Connection endpoint URL a device can use to connect to a service. */
 export interface DiscoveredMessagingEndpoints {
   /** Set of endpoints to connect to the device. */
-  inbound?: DiscoveredMessagingEndpointsInboundMap;
+  inbound?: DiscoveredMessagingEndpointsInboundMap | undefined;
   /** Set of endpoints a device can connect to. */
-  outbound?: DiscoveredOutboundEndpoints;
+  outbound?: DiscoveredOutboundEndpoints | undefined;
 }
 /** A set of key-value pairs that contain custom attributes. */
 export type NamespaceDiscoveredDevicePropertiesAttributesMap = {
@@ -2058,41 +2223,41 @@ export type NamespaceDiscoveredDevicePropertiesAttributesMap = {
 /** Defines the discovered device properties. */
 export interface NamespaceDiscoveredDeviceProperties {
   /** A device ID that represents the device in a system external to Azure. Unique within scope of an Azure tenant. */
-  externalDeviceId?: string;
+  externalDeviceId?: string | undefined;
   /** Endpoints for discovered devices. */
-  endpoints?: DiscoveredMessagingEndpoints;
+  endpoints?: DiscoveredMessagingEndpoints | undefined;
   /** Device manufacturer. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Device model. */
-  model?: string;
+  model?: string | undefined;
   /** Device operating system name. */
-  operatingSystem?: string;
+  operatingSystem?: string | undefined;
   /** Device operating system version. */
-  operatingSystemVersion?: string;
+  operatingSystemVersion?: string | undefined;
   /** A set of key-value pairs that contain custom attributes. */
-  attributes?: NamespaceDiscoveredDevicePropertiesAttributesMap;
+  attributes?: NamespaceDiscoveredDevicePropertiesAttributesMap | undefined;
   /** Identifier used to detect changes in the discovered device. */
   discoveryId: string;
   /** An integer that is incremented each time the resource is modified. */
   version: number;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetNamespaceDiscoveredDeviceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNamespaceDiscoveredDeviceResponseTagsMap;
+  tags?: GetNamespaceDiscoveredDeviceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceDiscoveredDeviceProperties;
+  properties?: NamespaceDiscoveredDeviceProperties | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
 }
@@ -2108,23 +2273,23 @@ export interface GetOperationStatusRequest {
 export type GetOperationStatusResponseOperationsList = Array<OperationStatusResult>;
 export interface GetOperationStatusResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Fully qualified ID of the resource against which the original async operation was started. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: GetOperationStatusResponseOperationsList;
+  operations?: GetOperationStatusResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 export interface GetRegistryDeviceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2145,37 +2310,37 @@ export interface RegistryDeviceProperties {
   /** Whether the device is enabled or disabled. A disabled device cannot send messages, be updated, or reprovision. */
   enablementState: RegistryDeviceEnablementState;
   /** Globally unique, immutable, non-reusable ID. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** A Device ID provided by the customer. */
-  externalDeviceId?: string;
+  externalDeviceId?: string | undefined;
   /** Device manufacturer. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Device model. */
-  model?: string;
+  model?: string | undefined;
   /** Device hardware revision. */
-  hardwareRevision?: string;
+  hardwareRevision?: string | undefined;
   /** Device software revision. */
-  softwareRevision?: string;
+  softwareRevision?: string | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetRegistryDeviceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetRegistryDeviceResponseTagsMap;
+  tags?: GetRegistryDeviceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: RegistryDeviceProperties;
+  properties?: RegistryDeviceProperties | undefined;
   /** Resource etag. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetSchemaRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2196,31 +2361,31 @@ export type SchemaPropertiesTagsMap = { [key: string]: string | undefined };
 /** Defines the schema properties. */
 export interface SchemaProperties {
   /** Globally unique, immutable, non-reusable id. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Human-readable display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Human-readable description of the schema. */
-  description?: string;
+  description?: string | undefined;
   /** Format of the schema. */
   format: Format;
   /** Type of the schema. */
   schemaType: SchemaType;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Schema tags. */
-  tags?: SchemaPropertiesTagsMap;
+  tags?: SchemaPropertiesTagsMap | undefined;
 }
 export interface GetSchemaResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaProperties;
+  properties?: SchemaProperties | undefined;
 }
 export interface GetSchemaRegistryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2235,39 +2400,39 @@ export type GetSchemaRegistryResponseTagsMap = { [key: string]: string | undefin
 /** Defines the schema registry properties. */
 export interface SchemaRegistryProperties {
   /** Globally unique, immutable, non-reusable id. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Schema registry namespace. Uniquely identifies a schema registry within a tenant. */
   namespace: string;
   /** Human-readable display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Human-readable description of the schema registry. */
-  description?: string;
+  description?: string | undefined;
   /** The Storage Account's Container URL where schemas will be stored. */
   storageAccountContainerUrl: string;
   /** The identity used for outbound calls from the ADR schema registry. If not specified and the schema registry has a system-assigned identity enabled, the system-assigned identity is used by default. */
-  outboundIdentity?: OutboundIdentity;
+  outboundIdentity?: OutboundIdentity | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type GetSchemaRegistryResponseIdentity = GetNamespaceResponseIdentity;
 export interface GetSchemaRegistryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSchemaRegistryResponseTagsMap;
+  tags?: GetSchemaRegistryResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaRegistryProperties;
+  properties?: SchemaRegistryProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetNamespaceResponseIdentity;
+  identity?: GetNamespaceResponseIdentity | undefined;
 }
 export interface GetSchemaVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2284,27 +2449,27 @@ export interface GetSchemaVersionRequest {
 /** Defines the schema version properties. */
 export interface SchemaVersionProperties {
   /** Globally unique, immutable, non-reusable id. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Human-readable description of the schema. */
-  description?: string;
+  description?: string | undefined;
   /** Schema content. */
   schemaContent: string;
   /** Hash of the schema content. */
-  hash?: string;
+  hash?: string | undefined;
   /** Provisioning state of the resource. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
 }
 export interface GetSchemaVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaVersionProperties;
+  properties?: SchemaVersionProperties | undefined;
 }
 export interface ListAssetByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2317,19 +2482,19 @@ export type AssetTagsMap = { [key: string]: string | undefined };
 /** Asset definition. */
 export interface Asset {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AssetTagsMap;
+  tags?: AssetTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AssetProperties;
+  properties?: AssetProperties | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
 }
@@ -2340,7 +2505,7 @@ export interface AssetListResult {
   /** The Asset items on this page */
   value: AssetListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAssetBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2357,19 +2522,19 @@ export type AssetEndpointProfileTagsMap = { [key: string]: string | undefined };
 /** Asset Endpoint Profile definition. */
 export interface AssetEndpointProfile {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AssetEndpointProfileTagsMap;
+  tags?: AssetEndpointProfileTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AssetEndpointProfileProperties;
+  properties?: AssetEndpointProfileProperties | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
 }
@@ -2380,7 +2545,7 @@ export interface AssetEndpointProfileListResult {
   /** The AssetEndpointProfile items on this page */
   value: AssetEndpointProfileListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAssetEndpointProfileBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2393,17 +2558,17 @@ export interface ListBillingContainerBySubscriptionRequest {
 /** billingContainer Model as Azure resource whose sole purpose is to keep track of billables resources under a subscription. */
 export interface BillingContainer {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: BillingContainerProperties;
+  properties?: BillingContainerProperties | undefined;
   /** Resource ETag */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The BillingContainer items on this page */
 export type BillingContainerListResultValueList = Array<BillingContainer>;
@@ -2412,7 +2577,7 @@ export interface BillingContainerListResult {
   /** The BillingContainer items on this page */
   value: BillingContainerListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCertificateAuthorityByNamespaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2427,19 +2592,19 @@ export type CertificateAuthorityTagsMap = { [key: string]: string | undefined };
 /** A Certificate Authority resource. */
 export interface CertificateAuthority {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CertificateAuthorityTagsMap;
+  tags?: CertificateAuthorityTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CertificateAuthorityProperties;
+  properties?: CertificateAuthorityProperties | undefined;
 }
 /** The CertificateAuthority items on this page */
 export type CertificateAuthorityListResultValueList = Array<CertificateAuthority>;
@@ -2448,7 +2613,7 @@ export interface CertificateAuthorityListResult {
   /** The CertificateAuthority items on this page */
   value: CertificateAuthorityListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCertificatePolicyByCertificateAuthorityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2463,15 +2628,15 @@ export interface ListCertificatePolicyByCertificateAuthorityRequest {
 /** A Certificate Policy resource. */
 export interface CertificatePolicy {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: CertificatePolicyProperties;
+  properties?: CertificatePolicyProperties | undefined;
 }
 /** The CertificatePolicy items on this page */
 export type CertificatePolicyListResultValueList = Array<CertificatePolicy>;
@@ -2480,7 +2645,7 @@ export interface CertificatePolicyListResult {
   /** The CertificatePolicy items on this page */
   value: CertificatePolicyListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNamespaceAssetByNamespaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2495,19 +2660,19 @@ export type NamespaceAssetTagsMap = { [key: string]: string | undefined };
 /** Asset definition. */
 export interface NamespaceAsset {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NamespaceAssetTagsMap;
+  tags?: NamespaceAssetTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceAssetProperties;
+  properties?: NamespaceAssetProperties | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
 }
@@ -2518,7 +2683,7 @@ export interface NamespaceAssetListResult {
   /** The NamespaceAsset items on this page */
   value: NamespaceAssetListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNamespaceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2533,21 +2698,21 @@ export type NamespaceIdentity = GetNamespaceResponseIdentity;
 /** Namespace definition. */
 export interface Namespace {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NamespaceTagsMap;
+  tags?: NamespaceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceProperties;
+  properties?: NamespaceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetNamespaceResponseIdentity;
+  identity?: GetNamespaceResponseIdentity | undefined;
 }
 /** The Namespace items on this page */
 export type NamespaceListResultValueList = Array<Namespace>;
@@ -2556,7 +2721,7 @@ export interface NamespaceListResult {
   /** The Namespace items on this page */
   value: NamespaceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNamespaceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2575,23 +2740,23 @@ export type NamespaceDeviceTagsMap = { [key: string]: string | undefined };
 /** Device definition. */
 export interface NamespaceDevice {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NamespaceDeviceTagsMap;
+  tags?: NamespaceDeviceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceDeviceProperties;
+  properties?: NamespaceDeviceProperties | undefined;
   /** Resource Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** The NamespaceDevice items on this page */
 export type NamespaceDeviceListResultValueList = Array<NamespaceDevice>;
@@ -2600,7 +2765,7 @@ export interface NamespaceDeviceListResult {
   /** The NamespaceDevice items on this page */
   value: NamespaceDeviceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNamespaceDiscoveredAssetByNamespaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2615,19 +2780,19 @@ export type NamespaceDiscoveredAssetTagsMap = { [key: string]: string | undefine
 /** Discovered asset definition. */
 export interface NamespaceDiscoveredAsset {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NamespaceDiscoveredAssetTagsMap;
+  tags?: NamespaceDiscoveredAssetTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceDiscoveredAssetProperties;
+  properties?: NamespaceDiscoveredAssetProperties | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
 }
@@ -2638,7 +2803,7 @@ export interface NamespaceDiscoveredAssetListResult {
   /** The NamespaceDiscoveredAsset items on this page */
   value: NamespaceDiscoveredAssetListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNamespaceDiscoveredDeviceByNamespaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2653,19 +2818,19 @@ export type NamespaceDiscoveredDeviceTagsMap = { [key: string]: string | undefin
 /** Discovered device definition. */
 export interface NamespaceDiscoveredDevice {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NamespaceDiscoveredDeviceTagsMap;
+  tags?: NamespaceDiscoveredDeviceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceDiscoveredDeviceProperties;
+  properties?: NamespaceDiscoveredDeviceProperties | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
 }
@@ -2676,19 +2841,19 @@ export interface NamespaceDiscoveredDeviceListResult {
   /** The NamespaceDiscoveredDevice items on this page */
   value: NamespaceDiscoveredDeviceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -2697,23 +2862,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRegistryDeviceByNamespaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2728,21 +2893,21 @@ export type RegistryDeviceTagsMap = { [key: string]: string | undefined };
 /** A Registry Device resource is a tracked resource with a provisioning lifecycle. The different capabilities of the device are defined through child Device Capability resources. */
 export interface RegistryDevice {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: RegistryDeviceTagsMap;
+  tags?: RegistryDeviceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: RegistryDeviceProperties;
+  properties?: RegistryDeviceProperties | undefined;
   /** Resource etag. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The RegistryDevice items on this page */
 export type RegistryDeviceListResultValueList = Array<RegistryDevice>;
@@ -2751,7 +2916,7 @@ export interface RegistryDeviceListResult {
   /** The RegistryDevice items on this page */
   value: RegistryDeviceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSchemaBySchemaRegistryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2764,15 +2929,15 @@ export interface ListSchemaBySchemaRegistryRequest {
 /** Schema definition. */
 export interface Schema {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaProperties;
+  properties?: SchemaProperties | undefined;
 }
 /** The Schema items on this page */
 export type SchemaListResultValueList = Array<Schema>;
@@ -2781,7 +2946,7 @@ export interface SchemaListResult {
   /** The Schema items on this page */
   value: SchemaListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSchemaRegistryByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2796,21 +2961,21 @@ export type SchemaRegistryIdentity = GetNamespaceResponseIdentity;
 /** Schema registry definition. */
 export interface SchemaRegistry {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SchemaRegistryTagsMap;
+  tags?: SchemaRegistryTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaRegistryProperties;
+  properties?: SchemaRegistryProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetNamespaceResponseIdentity;
+  identity?: GetNamespaceResponseIdentity | undefined;
 }
 /** The SchemaRegistry items on this page */
 export type SchemaRegistryListResultValueList = Array<SchemaRegistry>;
@@ -2819,7 +2984,7 @@ export interface SchemaRegistryListResult {
   /** The SchemaRegistry items on this page */
   value: SchemaRegistryListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSchemaRegistryBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2838,15 +3003,15 @@ export interface ListSchemaVersionBySchemaRequest {
 /** Schema version's definition. */
 export interface SchemaVersion {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaVersionProperties;
+  properties?: SchemaVersionProperties | undefined;
 }
 /** The SchemaVersion items on this page */
 export type SchemaVersionListResultValueList = Array<SchemaVersion>;
@@ -2855,7 +3020,7 @@ export interface SchemaVersionListResult {
   /** The SchemaVersion items on this page */
   value: SchemaVersionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Scope of the migrate resources operation. */
 export type Scope = "Resources";
@@ -2869,33 +3034,33 @@ export interface MigrateNamespaceRequest {
   /** The name of the namespace. */
   namespaceName: string;
   /** Scope of the migrate resources operation. */
-  scope?: Scope | (string & {});
+  scope?: Scope | (string & {}) | undefined;
   /** List of asset resources to be migrated. */
-  resourceIds?: MigrateNamespaceRequestResourceIdsList;
+  resourceIds?: MigrateNamespaceRequestResourceIdsList | undefined;
 }
 /** Result Type of Migrate Operation. */
 export type MigrateResultType = "Succeeded" | "Failed";
 /** Result of Migrate operation of asset resource into Namespace resource. */
 export interface MigrateResult {
   /** The resource Id of the asset resource. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The result of the migrate operation. */
-  result?: MigrateResultType;
+  result?: MigrateResultType | undefined;
   /** The error if the migrate operation is not successful. */
-  error?: Error;
+  error?: Error | undefined;
 }
 /** List of migrate results containing result of each asset migrate operation. */
 export type NamespaceMigrateResponseMigrateResultsList = Array<MigrateResult>;
 /** Response for the migrate asset resources operation into Namespace resource. */
 export interface NamespaceMigrateResponse {
   /** List of migrate results containing result of each asset migrate operation. */
-  migrateResults?: NamespaceMigrateResponseMigrateResultsList;
+  migrateResults?: NamespaceMigrateResponseMigrateResultsList | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type NamespaceAssetsCreateOrReplaceRequestTagsMap = { [key: string]: string | undefined };
@@ -2923,59 +3088,65 @@ export type NamespaceAssetPropertiesInputManagementGroupsList = Array<Management
 /** Defines the asset properties. */
 export interface NamespaceAssetPropertiesInput {
   /** Enabled/disabled status of the asset. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Asset ID provided by the customer. */
-  externalAssetId?: string;
+  externalAssetId?: string | undefined;
   /** Human-readable display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Human-readable description of the asset. */
-  description?: string;
+  description?: string | undefined;
   /** Reference to the device that provides data for this asset. Must provide device name & endpoint on the device to use. */
   deviceRef: DeviceRef;
   /** URIs or type definition IDs. */
-  assetTypeRefs?: NamespaceAssetPropertiesInputAssetTypeRefsList;
+  assetTypeRefs?: NamespaceAssetPropertiesInputAssetTypeRefsList | undefined;
   /** Asset manufacturer. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Asset manufacturer URI. */
-  manufacturerUri?: string;
+  manufacturerUri?: string | undefined;
   /** Asset model. */
-  model?: string;
+  model?: string | undefined;
   /** Asset product code. */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Asset hardware revision number. */
-  hardwareRevision?: string;
+  hardwareRevision?: string | undefined;
   /** Asset software revision number. */
-  softwareRevision?: string;
+  softwareRevision?: string | undefined;
   /** Asset documentation reference. */
-  documentationUri?: string;
+  documentationUri?: string | undefined;
   /** Asset serial number. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** A set of key-value pairs that contain custom attributes set by the customer. */
-  attributes?: NamespaceAssetPropertiesInputAttributesMap;
+  attributes?: NamespaceAssetPropertiesInputAttributesMap | undefined;
   /** Reference to a list of discovered assets. Populated only if the asset has been created from discovery flow. Discovered asset names must be provided. */
-  discoveredAssetRefs?: NamespaceAssetPropertiesInputDiscoveredAssetRefsList;
+  discoveredAssetRefs?: NamespaceAssetPropertiesInputDiscoveredAssetRefsList | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here. */
-  defaultDatasetsConfiguration?: string;
+  defaultDatasetsConfiguration?: string | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here. */
-  defaultEventsConfiguration?: string;
+  defaultEventsConfiguration?: string | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all streams. Each stream can have its own configuration that overrides the default settings here. */
-  defaultStreamsConfiguration?: string;
+  defaultStreamsConfiguration?: string | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all management groups. Each management group can have its own configuration that overrides the default settings here. */
-  defaultManagementGroupsConfiguration?: string;
+  defaultManagementGroupsConfiguration?: string | undefined;
   /** Default destinations for a dataset. */
-  defaultDatasetsDestinations?: NamespaceAssetPropertiesInputDefaultDatasetsDestinationsList;
+  defaultDatasetsDestinations?:
+    | NamespaceAssetPropertiesInputDefaultDatasetsDestinationsList
+    | undefined;
   /** Default destinations for an event. */
-  defaultEventsDestinations?: NamespaceAssetPropertiesInputDefaultEventsDestinationsList;
+  defaultEventsDestinations?:
+    | NamespaceAssetPropertiesInputDefaultEventsDestinationsList
+    | undefined;
   /** Default destinations for a stream. */
-  defaultStreamsDestinations?: NamespaceAssetPropertiesInputDefaultStreamsDestinationsList;
+  defaultStreamsDestinations?:
+    | NamespaceAssetPropertiesInputDefaultStreamsDestinationsList
+    | undefined;
   /** Array of datasets that are part of the asset. Each dataset describes the data points that make up the set. */
-  datasets?: NamespaceAssetPropertiesInputDatasetsList;
+  datasets?: NamespaceAssetPropertiesInputDatasetsList | undefined;
   /** Array of event groups that are part of the asset. Each event group can have per-event group configuration. */
-  eventGroups?: NamespaceAssetPropertiesInputEventGroupsList;
+  eventGroups?: NamespaceAssetPropertiesInputEventGroupsList | undefined;
   /** Array of streams that are part of the asset. Each stream can have a per-stream configuration. */
-  streams?: NamespaceAssetPropertiesInputStreamsList;
+  streams?: NamespaceAssetPropertiesInputStreamsList | undefined;
   /** Array of management groups that are part of the asset. Each management group can have a per-group configuration. */
-  managementGroups?: NamespaceAssetPropertiesInputManagementGroupsList;
+  managementGroups?: NamespaceAssetPropertiesInputManagementGroupsList | undefined;
 }
 export interface NamespaceAssetsCreateOrReplaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2987,11 +3158,11 @@ export interface NamespaceAssetsCreateOrReplaceRequest {
   /** The name of the asset. */
   assetName: string;
   /** Resource tags. */
-  tags?: NamespaceAssetsCreateOrReplaceRequestTagsMap;
+  tags?: NamespaceAssetsCreateOrReplaceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceAssetPropertiesInput;
+  properties?: NamespaceAssetPropertiesInput | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
 }
@@ -2999,25 +3170,25 @@ export interface NamespaceAssetsCreateOrReplaceRequest {
 export type NamespaceAssetsCreateOrReplaceResponseTagsMap = { [key: string]: string | undefined };
 export interface NamespaceAssetsCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NamespaceAssetsCreateOrReplaceResponseTagsMap;
+  tags?: NamespaceAssetsCreateOrReplaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceAssetProperties;
+  properties?: NamespaceAssetProperties | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type NamespaceDevicesCreateOrReplaceRequestTagsMap = { [key: string]: string | undefined };
@@ -3026,23 +3197,23 @@ export type NamespaceDevicePropertiesInputAttributesMap = { [key: string]: unkno
 /** Defines the device properties. */
 export interface NamespaceDevicePropertiesInput {
   /** Indicates if the resource is enabled or not. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The Device ID provided by the customer. */
-  externalDeviceId?: string;
+  externalDeviceId?: string | undefined;
   /** Reference to a device. Populated only if the device had been created from discovery flow. Discovered device name must be provided. */
-  discoveredDeviceRef?: string;
+  discoveredDeviceRef?: string | undefined;
   /** Device manufacturer. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Device model. */
-  model?: string;
+  model?: string | undefined;
   /** Device operating system. */
-  operatingSystem?: string;
+  operatingSystem?: string | undefined;
   /** Device operating system version. */
-  operatingSystemVersion?: string;
+  operatingSystemVersion?: string | undefined;
   /** Property bag containing the device's unassigned and assigned endpoints. */
-  endpoints?: MessagingEndpoints;
+  endpoints?: MessagingEndpoints | undefined;
   /** A set of key-value pairs that contain custom attributes set by the customer. */
-  attributes?: NamespaceDevicePropertiesInputAttributesMap;
+  attributes?: NamespaceDevicePropertiesInputAttributesMap | undefined;
 }
 export interface NamespaceDevicesCreateOrReplaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3054,39 +3225,39 @@ export interface NamespaceDevicesCreateOrReplaceRequest {
   /** The name of the device. */
   deviceName: string;
   /** Resource tags. */
-  tags?: NamespaceDevicesCreateOrReplaceRequestTagsMap;
+  tags?: NamespaceDevicesCreateOrReplaceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceDevicePropertiesInput;
+  properties?: NamespaceDevicePropertiesInput | undefined;
   /** The extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
 }
 /** Resource tags. */
 export type NamespaceDevicesCreateOrReplaceResponseTagsMap = { [key: string]: string | undefined };
 export interface NamespaceDevicesCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NamespaceDevicesCreateOrReplaceResponseTagsMap;
+  tags?: NamespaceDevicesCreateOrReplaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceDeviceProperties;
+  properties?: NamespaceDeviceProperties | undefined;
   /** Resource Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type NamespaceDiscoveredAssetsCreateOrReplaceRequestTagsMap = {
@@ -3122,57 +3293,63 @@ export interface NamespaceDiscoveredAssetPropertiesInput {
   /** Reference to the device that provides data for this asset. Must provide device name & endpoint on the device to use. */
   deviceRef: DeviceRef;
   /** Human-readable display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** URIs or type definition IDs. */
-  assetTypeRefs?: NamespaceDiscoveredAssetPropertiesInputAssetTypeRefsList;
+  assetTypeRefs?: NamespaceDiscoveredAssetPropertiesInputAssetTypeRefsList | undefined;
   /** Human-readable description of the asset. */
-  description?: string;
+  description?: string | undefined;
   /** Identifier used to detect changes in the asset. */
   discoveryId: string;
   /** Asset ID provided by the customer. */
-  externalAssetId?: string;
+  externalAssetId?: string | undefined;
   /** An integer that is incremented each time the resource is modified. */
   version: number;
   /** Asset manufacturer. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Asset manufacturer URI. */
-  manufacturerUri?: string;
+  manufacturerUri?: string | undefined;
   /** Asset model. */
-  model?: string;
+  model?: string | undefined;
   /** Asset product code. */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Asset hardware revision number. */
-  hardwareRevision?: string;
+  hardwareRevision?: string | undefined;
   /** Asset software revision number. */
-  softwareRevision?: string;
+  softwareRevision?: string | undefined;
   /** Asset documentation reference. */
-  documentationUri?: string;
+  documentationUri?: string | undefined;
   /** Asset serial number. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** A set of key-value pairs that contain custom attributes. */
-  attributes?: NamespaceDiscoveredAssetPropertiesInputAttributesMap;
+  attributes?: NamespaceDiscoveredAssetPropertiesInputAttributesMap | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here. */
-  defaultDatasetsConfiguration?: string;
+  defaultDatasetsConfiguration?: string | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here. */
-  defaultEventsConfiguration?: string;
+  defaultEventsConfiguration?: string | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all streams. Each stream can have its own configuration that overrides the default settings here. */
-  defaultStreamsConfiguration?: string;
+  defaultStreamsConfiguration?: string | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all management groups. Each management group can have its own configuration that overrides the default settings here. */
-  defaultManagementGroupsConfiguration?: string;
+  defaultManagementGroupsConfiguration?: string | undefined;
   /** Default destinations for a dataset. */
-  defaultDatasetsDestinations?: NamespaceDiscoveredAssetPropertiesInputDefaultDatasetsDestinationsList;
+  defaultDatasetsDestinations?:
+    | NamespaceDiscoveredAssetPropertiesInputDefaultDatasetsDestinationsList
+    | undefined;
   /** Default destinations for an event. */
-  defaultEventsDestinations?: NamespaceDiscoveredAssetPropertiesInputDefaultEventsDestinationsList;
+  defaultEventsDestinations?:
+    | NamespaceDiscoveredAssetPropertiesInputDefaultEventsDestinationsList
+    | undefined;
   /** Default destinations for a stream. */
-  defaultStreamsDestinations?: NamespaceDiscoveredAssetPropertiesInputDefaultStreamsDestinationsList;
+  defaultStreamsDestinations?:
+    | NamespaceDiscoveredAssetPropertiesInputDefaultStreamsDestinationsList
+    | undefined;
   /** Array of datasets that are part of the asset. Each dataset spec describes the data points that make up the set. */
-  datasets?: NamespaceDiscoveredAssetPropertiesInputDatasetsList;
+  datasets?: NamespaceDiscoveredAssetPropertiesInputDatasetsList | undefined;
   /** Array of event groups that are part of the asset. Each event group can have per-event group configuration. */
-  eventGroups?: NamespaceDiscoveredAssetPropertiesInputEventGroupsList;
+  eventGroups?: NamespaceDiscoveredAssetPropertiesInputEventGroupsList | undefined;
   /** Array of streams that are part of the asset. Each stream can have a per-stream configuration. */
-  streams?: NamespaceDiscoveredAssetPropertiesInputStreamsList;
+  streams?: NamespaceDiscoveredAssetPropertiesInputStreamsList | undefined;
   /** Array of management groups that are part of the asset. Each management group can have a per-group configuration. */
-  managementGroups?: NamespaceDiscoveredAssetPropertiesInputManagementGroupsList;
+  managementGroups?: NamespaceDiscoveredAssetPropertiesInputManagementGroupsList | undefined;
 }
 export interface NamespaceDiscoveredAssetsCreateOrReplaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3184,11 +3361,11 @@ export interface NamespaceDiscoveredAssetsCreateOrReplaceRequest {
   /** The name of the discovered asset. */
   discoveredAssetName: string;
   /** Resource tags. */
-  tags?: NamespaceDiscoveredAssetsCreateOrReplaceRequestTagsMap;
+  tags?: NamespaceDiscoveredAssetsCreateOrReplaceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceDiscoveredAssetPropertiesInput;
+  properties?: NamespaceDiscoveredAssetPropertiesInput | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
 }
@@ -3198,25 +3375,25 @@ export type NamespaceDiscoveredAssetsCreateOrReplaceResponseTagsMap = {
 };
 export interface NamespaceDiscoveredAssetsCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NamespaceDiscoveredAssetsCreateOrReplaceResponseTagsMap;
+  tags?: NamespaceDiscoveredAssetsCreateOrReplaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceDiscoveredAssetProperties;
+  properties?: NamespaceDiscoveredAssetProperties | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type NamespaceDiscoveredDevicesCreateOrReplaceRequestTagsMap = {
@@ -3229,19 +3406,19 @@ export type NamespaceDiscoveredDevicePropertiesInputAttributesMap = {
 /** Defines the discovered device properties. */
 export interface NamespaceDiscoveredDevicePropertiesInput {
   /** A device ID that represents the device in a system external to Azure. Unique within scope of an Azure tenant. */
-  externalDeviceId?: string;
+  externalDeviceId?: string | undefined;
   /** Endpoints for discovered devices. */
-  endpoints?: DiscoveredMessagingEndpoints;
+  endpoints?: DiscoveredMessagingEndpoints | undefined;
   /** Device manufacturer. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Device model. */
-  model?: string;
+  model?: string | undefined;
   /** Device operating system name. */
-  operatingSystem?: string;
+  operatingSystem?: string | undefined;
   /** Device operating system version. */
-  operatingSystemVersion?: string;
+  operatingSystemVersion?: string | undefined;
   /** A set of key-value pairs that contain custom attributes. */
-  attributes?: NamespaceDiscoveredDevicePropertiesInputAttributesMap;
+  attributes?: NamespaceDiscoveredDevicePropertiesInputAttributesMap | undefined;
   /** Identifier used to detect changes in the discovered device. */
   discoveryId: string;
   /** An integer that is incremented each time the resource is modified. */
@@ -3257,11 +3434,11 @@ export interface NamespaceDiscoveredDevicesCreateOrReplaceRequest {
   /** The name of the discovered device. */
   discoveredDeviceName: string;
   /** Resource tags. */
-  tags?: NamespaceDiscoveredDevicesCreateOrReplaceRequestTagsMap;
+  tags?: NamespaceDiscoveredDevicesCreateOrReplaceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceDiscoveredDevicePropertiesInput;
+  properties?: NamespaceDiscoveredDevicePropertiesInput | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
 }
@@ -3271,47 +3448,47 @@ export type NamespaceDiscoveredDevicesCreateOrReplaceResponseTagsMap = {
 };
 export interface NamespaceDiscoveredDevicesCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NamespaceDiscoveredDevicesCreateOrReplaceResponseTagsMap;
+  tags?: NamespaceDiscoveredDevicesCreateOrReplaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceDiscoveredDeviceProperties;
+  properties?: NamespaceDiscoveredDeviceProperties | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type NamespacesCreateOrReplaceRequestTagsMap = { [key: string]: string | undefined };
 /** Namespace messaging endpoint model used by a device to connect to a service. */
 export interface MessagingEndpointInput {
   /** Type of connection used for messaging endpoint. */
-  endpointType?: string;
+  endpointType?: string | undefined;
   /** The endpoint address to connect to. */
-  address?: string;
+  address?: string | undefined;
   /** The messaging endpoint Azure resource Id. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The identity the linked resource uses to call the ADR namespace. */
-  inboundCallerIdentity?: InboundCallerIdentity;
+  inboundCallerIdentity?: InboundCallerIdentity | undefined;
   /** The provisioning configuration for this messaging endpoint. */
-  provisioning?: MessagingEndpointProvisioning;
+  provisioning?: MessagingEndpointProvisioning | undefined;
 }
 /** Dictionary of messaging endpoints. */
 export type MessagingInputEndpointsMap = { [key: string]: MessagingEndpointInput | undefined };
 /** The namespace messaging endpoints model. */
 export interface MessagingInput {
   /** Dictionary of messaging endpoints. */
-  endpoints?: MessagingInputEndpointsMap;
+  endpoints?: MessagingInputEndpointsMap | undefined;
 }
 /** A provisioning service endpoint linked to this namespace. */
 export interface ProvisioningEndpointInput {
@@ -3329,18 +3506,18 @@ export type NamespaceProvisioningInputEndpointsMap = {
 /** The provisioning endpoints associated with this namespace. */
 export interface NamespaceProvisioningInput {
   /** Dictionary of provisioning endpoints. */
-  endpoints?: NamespaceProvisioningInputEndpointsMap;
+  endpoints?: NamespaceProvisioningInputEndpointsMap | undefined;
 }
 /** The namespace properties model. */
 export interface NamespacePropertiesInput {
   /** Assigned and unassigned messaging endpoints. */
-  messaging?: MessagingInput;
+  messaging?: MessagingInput | undefined;
   /** Assigned and unassigned management endpoints. */
-  management?: Management;
+  management?: Management | undefined;
   /** The provisioning endpoints associated with this namespace. */
-  provisioning?: NamespaceProvisioningInput;
+  provisioning?: NamespaceProvisioningInput | undefined;
   /** The identity used for outbound calls from the ADR namespace. If not specified and the namespace has a system-assigned identity enabled, the system-assigned identity is used by default. */
-  outboundIdentity?: OutboundIdentity;
+  outboundIdentity?: OutboundIdentity | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentityInput {}
@@ -3351,7 +3528,7 @@ export type UserAssignedIdentitiesInput = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface NamespacesCreateOrReplaceRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 export interface NamespacesCreateOrReplaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3361,13 +3538,13 @@ export interface NamespacesCreateOrReplaceRequest {
   /** The name of the namespace. */
   namespaceName: string;
   /** Resource tags. */
-  tags?: NamespacesCreateOrReplaceRequestTagsMap;
+  tags?: NamespacesCreateOrReplaceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespacePropertiesInput;
+  properties?: NamespacePropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: NamespacesCreateOrReplaceRequestIdentity;
+  identity?: NamespacesCreateOrReplaceRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type NamespacesCreateOrReplaceResponseTagsMap = { [key: string]: string | undefined };
@@ -3375,25 +3552,25 @@ export type NamespacesCreateOrReplaceResponseTagsMap = { [key: string]: string |
 export type NamespacesCreateOrReplaceResponseIdentity = GetNamespaceResponseIdentity;
 export interface NamespacesCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NamespacesCreateOrReplaceResponseTagsMap;
+  tags?: NamespacesCreateOrReplaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceProperties;
+  properties?: NamespaceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetNamespaceResponseIdentity;
+  identity?: GetNamespaceResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type RegistryDevicesCreateOrReplaceRequestTagsMap = { [key: string]: string | undefined };
@@ -3402,15 +3579,15 @@ export interface RegistryDevicePropertiesInput {
   /** Whether the device is enabled or disabled. A disabled device cannot send messages, be updated, or reprovision. */
   enablementState: RegistryDeviceEnablementState | (string & {});
   /** A Device ID provided by the customer. */
-  externalDeviceId?: string;
+  externalDeviceId?: string | undefined;
   /** Device manufacturer. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Device model. */
-  model?: string;
+  model?: string | undefined;
   /** Device hardware revision. */
-  hardwareRevision?: string;
+  hardwareRevision?: string | undefined;
   /** Device software revision. */
-  softwareRevision?: string;
+  softwareRevision?: string | undefined;
 }
 export interface RegistryDevicesCreateOrReplaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3422,35 +3599,35 @@ export interface RegistryDevicesCreateOrReplaceRequest {
   /** The name of the new device. */
   registryDeviceName: string;
   /** Resource tags. */
-  tags?: RegistryDevicesCreateOrReplaceRequestTagsMap;
+  tags?: RegistryDevicesCreateOrReplaceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: RegistryDevicePropertiesInput;
+  properties?: RegistryDevicePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type RegistryDevicesCreateOrReplaceResponseTagsMap = { [key: string]: string | undefined };
 export interface RegistryDevicesCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: RegistryDevicesCreateOrReplaceResponseTagsMap;
+  tags?: RegistryDevicesCreateOrReplaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: RegistryDeviceProperties;
+  properties?: RegistryDeviceProperties | undefined;
   /** Resource etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type SchemaRegistriesCreateOrReplaceRequestTagsMap = { [key: string]: string | undefined };
@@ -3459,13 +3636,13 @@ export interface SchemaRegistryPropertiesInput {
   /** Schema registry namespace. Uniquely identifies a schema registry within a tenant. */
   namespace: string;
   /** Human-readable display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Human-readable description of the schema registry. */
-  description?: string;
+  description?: string | undefined;
   /** The Storage Account's Container URL where schemas will be stored. */
   storageAccountContainerUrl: string;
   /** The identity used for outbound calls from the ADR schema registry. If not specified and the schema registry has a system-assigned identity enabled, the system-assigned identity is used by default. */
-  outboundIdentity?: OutboundIdentity;
+  outboundIdentity?: OutboundIdentity | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type SchemaRegistriesCreateOrReplaceRequestIdentity =
@@ -3478,13 +3655,13 @@ export interface SchemaRegistriesCreateOrReplaceRequest {
   /** Schema registry name parameter. */
   schemaRegistryName: string;
   /** Resource tags. */
-  tags?: SchemaRegistriesCreateOrReplaceRequestTagsMap;
+  tags?: SchemaRegistriesCreateOrReplaceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaRegistryPropertiesInput;
+  properties?: SchemaRegistryPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: NamespacesCreateOrReplaceRequestIdentity;
+  identity?: NamespacesCreateOrReplaceRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type SchemaRegistriesCreateOrReplaceResponseTagsMap = { [key: string]: string | undefined };
@@ -3492,40 +3669,40 @@ export type SchemaRegistriesCreateOrReplaceResponseTagsMap = { [key: string]: st
 export type SchemaRegistriesCreateOrReplaceResponseIdentity = GetNamespaceResponseIdentity;
 export interface SchemaRegistriesCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SchemaRegistriesCreateOrReplaceResponseTagsMap;
+  tags?: SchemaRegistriesCreateOrReplaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaRegistryProperties;
+  properties?: SchemaRegistryProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetNamespaceResponseIdentity;
+  identity?: GetNamespaceResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Schema tags. */
 export type SchemaPropertiesInputTagsMap = { [key: string]: string | undefined };
 /** Defines the schema properties. */
 export interface SchemaPropertiesInput {
   /** Human-readable display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Human-readable description of the schema. */
-  description?: string;
+  description?: string | undefined;
   /** Format of the schema. */
   format: Format | (string & {});
   /** Type of the schema. */
   schemaType: SchemaType | (string & {});
   /** Schema tags. */
-  tags?: SchemaPropertiesInputTagsMap;
+  tags?: SchemaPropertiesInputTagsMap | undefined;
 }
 export interface SchemasCreateOrReplaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3537,24 +3714,24 @@ export interface SchemasCreateOrReplaceRequest {
   /** Schema name parameter. */
   schemaName: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaPropertiesInput;
+  properties?: SchemaPropertiesInput | undefined;
 }
 export interface SchemasCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaProperties;
+  properties?: SchemaProperties | undefined;
 }
 /** Defines the schema version properties. */
 export interface SchemaVersionPropertiesInput {
   /** Human-readable description of the schema. */
-  description?: string;
+  description?: string | undefined;
   /** Schema content. */
   schemaContent: string;
 }
@@ -3570,19 +3747,19 @@ export interface SchemaVersionsCreateOrReplaceRequest {
   /** Schema version name parameter. */
   schemaVersionName: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaVersionPropertiesInput;
+  properties?: SchemaVersionPropertiesInput | undefined;
 }
 export interface SchemaVersionsCreateOrReplaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaVersionProperties;
+  properties?: SchemaVersionProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateAssetRequestTagsMap = { [key: string]: string | undefined };
@@ -3593,9 +3770,9 @@ export type TopicUpdateRetain = "Keep" | "Never";
 /** Object that describes the topic information. */
 export interface TopicUpdate {
   /** The topic path for messages published to an MQTT broker. */
-  path?: string;
+  path?: string | undefined;
   /** When set to 'Keep', messages published to an MQTT broker will have the retain flag set. Default: 'Never'. */
-  retain?: TopicUpdateRetain | (string & {});
+  retain?: TopicUpdateRetain | (string & {}) | undefined;
 }
 /** Array of datasets that are part of the asset. Each dataset describes the data points that make up the set. */
 export type AssetUpdatePropertiesDatasetsList = Array<Dataset>;
@@ -3604,39 +3781,39 @@ export type AssetUpdatePropertiesEventsList = Array<Event>;
 /** The updatable properties of the Asset. */
 export interface AssetUpdateProperties {
   /** Enabled/Disabled status of the asset. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Human-readable display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Human-readable description of the asset. */
-  description?: string;
+  description?: string | undefined;
   /** Asset manufacturer name. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Asset manufacturer URI. */
-  manufacturerUri?: string;
+  manufacturerUri?: string | undefined;
   /** Asset model name. */
-  model?: string;
+  model?: string | undefined;
   /** Asset product code. */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Revision number of the hardware. */
-  hardwareRevision?: string;
+  hardwareRevision?: string | undefined;
   /** Revision number of the software. */
-  softwareRevision?: string;
+  softwareRevision?: string | undefined;
   /** Reference to the documentation. */
-  documentationUri?: string;
+  documentationUri?: string | undefined;
   /** Asset serial number. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** A set of key-value pairs that contain custom attributes set by the customer. */
-  attributes?: AssetUpdatePropertiesAttributesMap;
+  attributes?: AssetUpdatePropertiesAttributesMap | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here. */
-  defaultDatasetsConfiguration?: string;
+  defaultDatasetsConfiguration?: string | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here. */
-  defaultEventsConfiguration?: string;
+  defaultEventsConfiguration?: string | undefined;
   /** Object that describes the default topic information for the asset. */
-  defaultTopic?: TopicUpdate;
+  defaultTopic?: TopicUpdate | undefined;
   /** Array of datasets that are part of the asset. Each dataset describes the data points that make up the set. */
-  datasets?: AssetUpdatePropertiesDatasetsList;
+  datasets?: AssetUpdatePropertiesDatasetsList | undefined;
   /** Array of events that are part of the asset. Each event can have per-event configuration. */
-  events?: AssetUpdatePropertiesEventsList;
+  events?: AssetUpdatePropertiesEventsList | undefined;
 }
 export interface UpdateAssetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3646,33 +3823,33 @@ export interface UpdateAssetRequest {
   /** Asset name parameter. */
   assetName: string;
   /** Resource tags. */
-  tags?: UpdateAssetRequestTagsMap;
+  tags?: UpdateAssetRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AssetUpdateProperties;
+  properties?: AssetUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateAssetResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAssetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAssetResponseTagsMap;
+  tags?: UpdateAssetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AssetProperties;
+  properties?: AssetProperties | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateAssetEndpointProfileRequestTagsMap = { [key: string]: string | undefined };
@@ -3681,34 +3858,34 @@ export type AuthenticationUpdateMethod = "Anonymous" | "Certificate" | "Username
 /** The credentials for authentication mode UsernamePassword. */
 export interface UsernamePasswordCredentialsUpdate {
   /** The name of the secret containing the username. */
-  usernameSecretName?: string;
+  usernameSecretName?: string | undefined;
   /** The name of the secret containing the password. */
-  passwordSecretName?: string | Redacted.Redacted<string>;
+  passwordSecretName?: string | Redacted.Redacted<string> | undefined;
 }
 /** The x509 certificate for authentication mode Certificate. */
 export interface X509CredentialsUpdate {
   /** The name of the secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx). */
-  certificateSecretName?: string;
+  certificateSecretName?: string | undefined;
 }
 /** Definition of the client authentication mechanism to the server. */
 export interface AuthenticationUpdate {
   /** Defines the method to authenticate the user of the client at the server. */
-  method?: AuthenticationUpdateMethod | (string & {});
+  method?: AuthenticationUpdateMethod | (string & {}) | undefined;
   /** Defines the username and password references when UsernamePassword user authentication mode is selected. */
-  usernamePasswordCredentials?: UsernamePasswordCredentialsUpdate;
+  usernamePasswordCredentials?: UsernamePasswordCredentialsUpdate | undefined;
   /** Defines the certificate reference when Certificate user authentication mode is selected. */
-  x509Credentials?: X509CredentialsUpdate;
+  x509Credentials?: X509CredentialsUpdate | undefined;
 }
 /** The updatable properties of the AssetEndpointProfile. */
 export interface AssetEndpointProfileUpdateProperties {
   /** The local valid URI specifying the network address/DNS name of a southbound device. The scheme part of the targetAddress URI specifies the type of the device. The additionalConfiguration field holds further connector type specific configuration. */
-  targetAddress?: string;
+  targetAddress?: string | undefined;
   /** Defines the configuration for the connector type that is being used with the endpoint profile. */
-  endpointProfileType?: string;
+  endpointProfileType?: string | undefined;
   /** Defines the client authentication mechanism to the server. */
-  authentication?: AuthenticationUpdate;
+  authentication?: AuthenticationUpdate | undefined;
   /** Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF). */
-  additionalConfiguration?: string;
+  additionalConfiguration?: string | undefined;
 }
 export interface UpdateAssetEndpointProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3718,33 +3895,33 @@ export interface UpdateAssetEndpointProfileRequest {
   /** Asset Endpoint Profile name parameter. */
   assetEndpointProfileName: string;
   /** Resource tags. */
-  tags?: UpdateAssetEndpointProfileRequestTagsMap;
+  tags?: UpdateAssetEndpointProfileRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: AssetEndpointProfileUpdateProperties;
+  properties?: AssetEndpointProfileUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateAssetEndpointProfileResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAssetEndpointProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAssetEndpointProfileResponseTagsMap;
+  tags?: UpdateAssetEndpointProfileResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: AssetEndpointProfileProperties;
+  properties?: AssetEndpointProfileProperties | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateCertificateAuthorityRequestTagsMap = { [key: string]: string | undefined };
@@ -3758,39 +3935,39 @@ export interface UpdateCertificateAuthorityRequest {
   /** The name of the Certificate Authority resource. */
   certificateAuthorityName: string;
   /** Resource tags. */
-  tags?: UpdateCertificateAuthorityRequestTagsMap;
+  tags?: UpdateCertificateAuthorityRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateCertificateAuthorityResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateCertificateAuthorityResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateCertificateAuthorityResponseTagsMap;
+  tags?: UpdateCertificateAuthorityResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: CertificateAuthorityProperties;
+  properties?: CertificateAuthorityProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The certificate configuration. */
 export interface CertificatePolicyUpdatePropertiesCertificate {
   /** The validity period in days. */
-  validityPeriodInDays?: number;
+  validityPeriodInDays?: number | undefined;
 }
 /** The updatable properties of the CertificatePolicy. */
 export interface CertificatePolicyUpdateProperties {
   /** The certificate configuration. */
-  certificate?: CertificatePolicyUpdatePropertiesCertificate;
+  certificate?: CertificatePolicyUpdatePropertiesCertificate | undefined;
 }
 export interface UpdateCertificatePolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3804,23 +3981,23 @@ export interface UpdateCertificatePolicyRequest {
   /** The name of the Certificate Policy resource. */
   certificatePolicyName: string;
   /** The resource-specific properties for this resource. */
-  properties?: CertificatePolicyUpdateProperties;
+  properties?: CertificatePolicyUpdateProperties | undefined;
 }
 export interface UpdateCertificatePolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: CertificatePolicyProperties;
+  properties?: CertificatePolicyProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateNamespaceRequestIdentity = NamespacesCreateOrReplaceRequestIdentity;
@@ -3836,11 +4013,11 @@ export interface UpdateNamespaceRequest {
   /** The name of the namespace. */
   namespaceName: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: NamespacesCreateOrReplaceRequestIdentity;
+  identity?: NamespacesCreateOrReplaceRequestIdentity | undefined;
   /** Resource tags. */
-  tags?: UpdateNamespaceRequestTagsMap;
+  tags?: UpdateNamespaceRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: NamespacePropertiesInput;
+  properties?: NamespacePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateNamespaceResponseTagsMap = { [key: string]: string | undefined };
@@ -3848,25 +4025,25 @@ export type UpdateNamespaceResponseTagsMap = { [key: string]: string | undefined
 export type UpdateNamespaceResponseIdentity = GetNamespaceResponseIdentity;
 export interface UpdateNamespaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNamespaceResponseTagsMap;
+  tags?: UpdateNamespaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceProperties;
+  properties?: NamespaceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetNamespaceResponseIdentity;
+  identity?: GetNamespaceResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateNamespaceAssetRequestTagsMap = { [key: string]: string | undefined };
@@ -3892,53 +4069,59 @@ export type NamespaceAssetUpdatePropertiesManagementGroupsList = Array<Managemen
 /** The updatable properties of the NamespaceAsset. */
 export interface NamespaceAssetUpdateProperties {
   /** Enabled/disabled status of the asset. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Human-readable display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Human-readable description of the asset. */
-  description?: string;
+  description?: string | undefined;
   /** URIs or type definition IDs. */
-  assetTypeRefs?: NamespaceAssetUpdatePropertiesAssetTypeRefsList;
+  assetTypeRefs?: NamespaceAssetUpdatePropertiesAssetTypeRefsList | undefined;
   /** Asset manufacturer. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Asset manufacturer URI. */
-  manufacturerUri?: string;
+  manufacturerUri?: string | undefined;
   /** Asset model. */
-  model?: string;
+  model?: string | undefined;
   /** Asset product code. */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Asset hardware revision number. */
-  hardwareRevision?: string;
+  hardwareRevision?: string | undefined;
   /** Asset software revision number. */
-  softwareRevision?: string;
+  softwareRevision?: string | undefined;
   /** Asset documentation reference. */
-  documentationUri?: string;
+  documentationUri?: string | undefined;
   /** Asset serial number. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** A set of key-value pairs that contain custom attributes set by the customer. */
-  attributes?: NamespaceAssetUpdatePropertiesAttributesMap;
+  attributes?: NamespaceAssetUpdatePropertiesAttributesMap | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here. */
-  defaultDatasetsConfiguration?: string;
+  defaultDatasetsConfiguration?: string | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here. */
-  defaultEventsConfiguration?: string;
+  defaultEventsConfiguration?: string | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all streams. Each stream can have its own configuration that overrides the default settings here. */
-  defaultStreamsConfiguration?: string;
+  defaultStreamsConfiguration?: string | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all management groups. Each management group can have its own configuration that overrides the default settings here. */
-  defaultManagementGroupsConfiguration?: string;
+  defaultManagementGroupsConfiguration?: string | undefined;
   /** Default destinations for a dataset. */
-  defaultDatasetsDestinations?: NamespaceAssetUpdatePropertiesDefaultDatasetsDestinationsList;
+  defaultDatasetsDestinations?:
+    | NamespaceAssetUpdatePropertiesDefaultDatasetsDestinationsList
+    | undefined;
   /** Default destinations for an event. */
-  defaultEventsDestinations?: NamespaceAssetUpdatePropertiesDefaultEventsDestinationsList;
+  defaultEventsDestinations?:
+    | NamespaceAssetUpdatePropertiesDefaultEventsDestinationsList
+    | undefined;
   /** Default destinations for a stream. */
-  defaultStreamsDestinations?: NamespaceAssetUpdatePropertiesDefaultStreamsDestinationsList;
+  defaultStreamsDestinations?:
+    | NamespaceAssetUpdatePropertiesDefaultStreamsDestinationsList
+    | undefined;
   /** Array of datasets that are part of the asset. Each dataset describes the data points that make up the set. */
-  datasets?: NamespaceAssetUpdatePropertiesDatasetsList;
+  datasets?: NamespaceAssetUpdatePropertiesDatasetsList | undefined;
   /** Array of event groups that are part of the asset. Each event group can have per-event group configuration. */
-  eventGroups?: NamespaceAssetUpdatePropertiesEventGroupsList;
+  eventGroups?: NamespaceAssetUpdatePropertiesEventGroupsList | undefined;
   /** Array of streams that are part of the asset. Each stream can have a per-stream configuration. */
-  streams?: NamespaceAssetUpdatePropertiesStreamsList;
+  streams?: NamespaceAssetUpdatePropertiesStreamsList | undefined;
   /** Array of management groups that are part of the asset. Each management group can have a per-group configuration. */
-  managementGroups?: NamespaceAssetUpdatePropertiesManagementGroupsList;
+  managementGroups?: NamespaceAssetUpdatePropertiesManagementGroupsList | undefined;
 }
 export interface UpdateNamespaceAssetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3950,33 +4133,33 @@ export interface UpdateNamespaceAssetRequest {
   /** The name of the asset. */
   assetName: string;
   /** Resource tags. */
-  tags?: UpdateNamespaceAssetRequestTagsMap;
+  tags?: UpdateNamespaceAssetRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceAssetUpdateProperties;
+  properties?: NamespaceAssetUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateNamespaceAssetResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateNamespaceAssetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNamespaceAssetResponseTagsMap;
+  tags?: UpdateNamespaceAssetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceAssetProperties;
+  properties?: NamespaceAssetProperties | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateNamespaceDeviceRequestTagsMap = { [key: string]: string | undefined };
@@ -3985,35 +4168,35 @@ export type HostAuthenticationUpdateMethod = "Anonymous" | "Certificate" | "User
 /** The x509 certificate for authentication mode Certificate. */
 export interface X509CertificateCredentialsUpdate {
   /** The name of the secret containing the certificate and private key (e.g. stored as .der/.pem or .der/.pfx). */
-  certificateSecretName?: string;
+  certificateSecretName?: string | undefined;
   /** The name of the secret containing the certificate private key in PEM or DER format. */
-  keySecretName?: string;
+  keySecretName?: string | undefined;
   /** The name of the secret containing the combined intermediate certificates in PEM format. */
-  intermediateCertificatesSecretName?: string;
+  intermediateCertificatesSecretName?: string | undefined;
 }
 /** Definition of the client authentication mechanism to the host. */
 export interface HostAuthenticationUpdate {
   /** Defines the method to authenticate the user of the client at the server. */
-  method?: HostAuthenticationUpdateMethod | (string & {});
+  method?: HostAuthenticationUpdateMethod | (string & {}) | undefined;
   /** Defines the username and password references when UsernamePassword user authentication mode is selected. */
-  usernamePasswordCredentials?: UsernamePasswordCredentialsUpdate;
+  usernamePasswordCredentials?: UsernamePasswordCredentialsUpdate | undefined;
   /** Defines the certificate reference when Certificate user authentication mode is selected. */
-  x509Credentials?: X509CertificateCredentialsUpdate;
+  x509Credentials?: X509CertificateCredentialsUpdate | undefined;
 }
 /** An endpoint to connect to the device. */
 export interface InboundEndpointsUpdate {
   /** Type of connection endpoint. */
-  endpointType?: string;
+  endpointType?: string | undefined;
   /** The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com). */
-  address?: string;
+  address?: string | undefined;
   /** Protocol version associated with the endpoint e.g. 1 or 2 for endpointType Microsoft.HTTP, and 3.5 or 5.0 for endpointType Microsoft.Mqtt etc. */
-  version?: string;
+  version?: string | undefined;
   /** Defines the client authentication mechanism to the server. */
-  authentication?: HostAuthenticationUpdate;
+  authentication?: HostAuthenticationUpdate | undefined;
   /** Defines server trust settings for the endpoint. */
-  trustSettings?: TrustSettings;
+  trustSettings?: TrustSettings | undefined;
   /** Stringified JSON that contains configuration to be used by the connector (e.g., OPC UA, ONVIF). */
-  additionalConfiguration?: string;
+  additionalConfiguration?: string | undefined;
 }
 /** Set of endpoints to connect to the device. */
 export type MessagingEndpointsUpdateInboundMap = {
@@ -4022,9 +4205,9 @@ export type MessagingEndpointsUpdateInboundMap = {
 /** Device messaging endpoint model. */
 export interface DeviceMessagingEndpointUpdate {
   /** Type of connection used for the messaging endpoint. */
-  endpointType?: string;
+  endpointType?: string | undefined;
   /** The endpoint address to connect to. */
-  address?: string;
+  address?: string | undefined;
 }
 /** Endpoints the device can connect to. */
 export type OutboundEndpointsUpdateAssignedMap = {
@@ -4037,29 +4220,29 @@ export type OutboundEndpointsUpdateUnassignedMap = {
 /** Property bag contains the device's outbound endpoints */
 export interface OutboundEndpointsUpdate {
   /** Endpoints the device can connect to. */
-  assigned?: OutboundEndpointsUpdateAssignedMap;
+  assigned?: OutboundEndpointsUpdateAssignedMap | undefined;
   /** Set of most recently removed endpoints. */
-  unassigned?: OutboundEndpointsUpdateUnassignedMap;
+  unassigned?: OutboundEndpointsUpdateUnassignedMap | undefined;
 }
 /** Connection endpoint URL a device can use to connect to a service. */
 export interface MessagingEndpointsUpdate {
   /** Set of endpoints to connect to the device. */
-  inbound?: MessagingEndpointsUpdateInboundMap;
+  inbound?: MessagingEndpointsUpdateInboundMap | undefined;
   /** Set of endpoints a device can connect to. */
-  outbound?: OutboundEndpointsUpdate;
+  outbound?: OutboundEndpointsUpdate | undefined;
 }
 /** A set of key-value pairs that contain custom attributes set by the customer. */
 export type NamespaceDeviceUpdatePropertiesAttributesMap = { [key: string]: unknown | undefined };
 /** The updatable properties of the NamespaceDevice. */
 export interface NamespaceDeviceUpdateProperties {
   /** Device operating system version. */
-  operatingSystemVersion?: string;
+  operatingSystemVersion?: string | undefined;
   /** Property bag containing the device's unassigned and assigned endpoints. */
-  endpoints?: MessagingEndpointsUpdate;
+  endpoints?: MessagingEndpointsUpdate | undefined;
   /** A set of key-value pairs that contain custom attributes set by the customer. */
-  attributes?: NamespaceDeviceUpdatePropertiesAttributesMap;
+  attributes?: NamespaceDeviceUpdatePropertiesAttributesMap | undefined;
   /** Indicates if the resource and identity are enabled or not. A disabled device cannot authenticate with Microsoft Entra ID. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface UpdateNamespaceDeviceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4071,44 +4254,44 @@ export interface UpdateNamespaceDeviceRequest {
   /** The name of the device. */
   deviceName: string;
   /** Resource tags. */
-  tags?: UpdateNamespaceDeviceRequestTagsMap;
+  tags?: UpdateNamespaceDeviceRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceDeviceUpdateProperties;
+  properties?: NamespaceDeviceUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateNamespaceDeviceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateNamespaceDeviceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNamespaceDeviceResponseTagsMap;
+  tags?: UpdateNamespaceDeviceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceDeviceProperties;
+  properties?: NamespaceDeviceProperties | undefined;
   /** Resource Tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The extended location. */
-  extendedLocation?: ExtendedLocation;
+  extendedLocation?: ExtendedLocation | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateNamespaceDiscoveredAssetRequestTagsMap = { [key: string]: string | undefined };
 /** Defines which device and endpoint to use for this asset */
 export interface DeviceRefUpdate {
   /** Name of the device resource */
-  deviceName?: string;
+  deviceName?: string | undefined;
   /** The name of endpoint to use */
-  endpointName?: string;
+  endpointName?: string | undefined;
 }
 /** URIs or type definition IDs. */
 export type NamespaceDiscoveredAssetUpdatePropertiesAssetTypeRefsList = Array<string>;
@@ -4139,57 +4322,63 @@ export type NamespaceDiscoveredAssetUpdatePropertiesManagementGroupsList =
 /** The updatable properties of the NamespaceDiscoveredAsset. */
 export interface NamespaceDiscoveredAssetUpdateProperties {
   /** Reference to the device that provides data for this asset. Must provide device name & endpoint on the device to use. */
-  deviceRef?: DeviceRefUpdate;
+  deviceRef?: DeviceRefUpdate | undefined;
   /** Human-readable display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** URIs or type definition IDs. */
-  assetTypeRefs?: NamespaceDiscoveredAssetUpdatePropertiesAssetTypeRefsList;
+  assetTypeRefs?: NamespaceDiscoveredAssetUpdatePropertiesAssetTypeRefsList | undefined;
   /** Human-readable description of the asset. */
-  description?: string;
+  description?: string | undefined;
   /** Identifier used to detect changes in the asset. */
-  discoveryId?: string;
+  discoveryId?: string | undefined;
   /** An integer that is incremented each time the resource is modified. */
-  version?: number;
+  version?: number | undefined;
   /** Asset manufacturer. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Asset manufacturer URI. */
-  manufacturerUri?: string;
+  manufacturerUri?: string | undefined;
   /** Asset model. */
-  model?: string;
+  model?: string | undefined;
   /** Asset product code. */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Asset hardware revision number. */
-  hardwareRevision?: string;
+  hardwareRevision?: string | undefined;
   /** Asset software revision number. */
-  softwareRevision?: string;
+  softwareRevision?: string | undefined;
   /** Asset documentation reference. */
-  documentationUri?: string;
+  documentationUri?: string | undefined;
   /** Asset serial number. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** A set of key-value pairs that contain custom attributes. */
-  attributes?: NamespaceDiscoveredAssetUpdatePropertiesAttributesMap;
+  attributes?: NamespaceDiscoveredAssetUpdatePropertiesAttributesMap | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all datasets. Each dataset can have its own configuration that overrides the default settings here. */
-  defaultDatasetsConfiguration?: string;
+  defaultDatasetsConfiguration?: string | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all events. Each event can have its own configuration that overrides the default settings here. */
-  defaultEventsConfiguration?: string;
+  defaultEventsConfiguration?: string | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all streams. Each stream can have its own configuration that overrides the default settings here. */
-  defaultStreamsConfiguration?: string;
+  defaultStreamsConfiguration?: string | undefined;
   /** Stringified JSON that contains connector-specific default configuration for all management groups. Each management group can have its own configuration that overrides the default settings here. */
-  defaultManagementGroupsConfiguration?: string;
+  defaultManagementGroupsConfiguration?: string | undefined;
   /** Default destinations for a dataset. */
-  defaultDatasetsDestinations?: NamespaceDiscoveredAssetUpdatePropertiesDefaultDatasetsDestinationsList;
+  defaultDatasetsDestinations?:
+    | NamespaceDiscoveredAssetUpdatePropertiesDefaultDatasetsDestinationsList
+    | undefined;
   /** Default destinations for an event. */
-  defaultEventsDestinations?: NamespaceDiscoveredAssetUpdatePropertiesDefaultEventsDestinationsList;
+  defaultEventsDestinations?:
+    | NamespaceDiscoveredAssetUpdatePropertiesDefaultEventsDestinationsList
+    | undefined;
   /** Default destinations for a stream. */
-  defaultStreamsDestinations?: NamespaceDiscoveredAssetUpdatePropertiesDefaultStreamsDestinationsList;
+  defaultStreamsDestinations?:
+    | NamespaceDiscoveredAssetUpdatePropertiesDefaultStreamsDestinationsList
+    | undefined;
   /** Array of datasets that are part of the asset. Each dataset spec describes the data points that make up the set. */
-  datasets?: NamespaceDiscoveredAssetUpdatePropertiesDatasetsList;
+  datasets?: NamespaceDiscoveredAssetUpdatePropertiesDatasetsList | undefined;
   /** Array of event groups that are part of the asset. Each event group can have per-event group configuration. */
-  eventGroups?: NamespaceDiscoveredAssetUpdatePropertiesEventGroupsList;
+  eventGroups?: NamespaceDiscoveredAssetUpdatePropertiesEventGroupsList | undefined;
   /** Array of streams that are part of the asset. Each stream can have a per-stream configuration. */
-  streams?: NamespaceDiscoveredAssetUpdatePropertiesStreamsList;
+  streams?: NamespaceDiscoveredAssetUpdatePropertiesStreamsList | undefined;
   /** Array of management groups that are part of the asset. Each management group can have a per-group configuration. */
-  managementGroups?: NamespaceDiscoveredAssetUpdatePropertiesManagementGroupsList;
+  managementGroups?: NamespaceDiscoveredAssetUpdatePropertiesManagementGroupsList | undefined;
 }
 export interface UpdateNamespaceDiscoveredAssetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4201,33 +4390,33 @@ export interface UpdateNamespaceDiscoveredAssetRequest {
   /** The name of the discovered asset. */
   discoveredAssetName: string;
   /** Resource tags. */
-  tags?: UpdateNamespaceDiscoveredAssetRequestTagsMap;
+  tags?: UpdateNamespaceDiscoveredAssetRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceDiscoveredAssetUpdateProperties;
+  properties?: NamespaceDiscoveredAssetUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateNamespaceDiscoveredAssetResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateNamespaceDiscoveredAssetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNamespaceDiscoveredAssetResponseTagsMap;
+  tags?: UpdateNamespaceDiscoveredAssetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceDiscoveredAssetProperties;
+  properties?: NamespaceDiscoveredAssetProperties | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateNamespaceDiscoveredDeviceRequestTagsMap = { [key: string]: string | undefined };
@@ -4238,17 +4427,19 @@ export type DiscoveredInboundEndpointsUpdateSupportedAuthenticationMethodsList =
 /** An endpoint to connect to the device. */
 export interface DiscoveredInboundEndpointsUpdate {
   /** Type of connection endpoint. */
-  endpointType?: string;
+  endpointType?: string | undefined;
   /** The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com). */
-  address?: string;
+  address?: string | undefined;
   /** Protocol version associated with the endpoint e.g. 1 or 2 for endpointType Microsoft.HTTP, and 3.5 or 5.0 for endpointType Microsoft.Mqtt etc. */
-  version?: string;
+  version?: string | undefined;
   /** List of supported authentication methods supported by device for Inbound connections. */
-  supportedAuthenticationMethods?: DiscoveredInboundEndpointsUpdateSupportedAuthenticationMethodsList;
+  supportedAuthenticationMethods?:
+    | DiscoveredInboundEndpointsUpdateSupportedAuthenticationMethodsList
+    | undefined;
   /** Stringified JSON that contains configuration to be used by the connector (e.g., OPC UA, ONVIF). */
-  additionalConfiguration?: string;
+  additionalConfiguration?: string | undefined;
   /** The timestamp (in UTC) when the endpoint was discovered. */
-  lastUpdatedOn?: string;
+  lastUpdatedOn?: string | undefined;
 }
 /** Set of endpoints to connect to the device. */
 export type DiscoveredMessagingEndpointsUpdateInboundMap = {
@@ -4261,14 +4452,14 @@ export type DiscoveredOutboundEndpointsUpdateAssignedMap = {
 /** Property bag contains the device's outbound endpoints */
 export interface DiscoveredOutboundEndpointsUpdate {
   /** Endpoints the device can connect to. */
-  assigned?: DiscoveredOutboundEndpointsUpdateAssignedMap;
+  assigned?: DiscoveredOutboundEndpointsUpdateAssignedMap | undefined;
 }
 /** Connection endpoint URL a device can use to connect to a service. */
 export interface DiscoveredMessagingEndpointsUpdate {
   /** Set of endpoints to connect to the device. */
-  inbound?: DiscoveredMessagingEndpointsUpdateInboundMap;
+  inbound?: DiscoveredMessagingEndpointsUpdateInboundMap | undefined;
   /** Set of endpoints a device can connect to. */
-  outbound?: DiscoveredOutboundEndpointsUpdate;
+  outbound?: DiscoveredOutboundEndpointsUpdate | undefined;
 }
 /** A set of key-value pairs that contain custom attributes. */
 export type NamespaceDiscoveredDeviceUpdatePropertiesAttributesMap = {
@@ -4277,17 +4468,17 @@ export type NamespaceDiscoveredDeviceUpdatePropertiesAttributesMap = {
 /** The updatable properties of the NamespaceDiscoveredDevice. */
 export interface NamespaceDiscoveredDeviceUpdateProperties {
   /** A device ID that represents the device in a system external to Azure. Unique within scope of an Azure tenant. */
-  externalDeviceId?: string;
+  externalDeviceId?: string | undefined;
   /** Endpoints for discovered devices. */
-  endpoints?: DiscoveredMessagingEndpointsUpdate;
+  endpoints?: DiscoveredMessagingEndpointsUpdate | undefined;
   /** Device operating system version. */
-  operatingSystemVersion?: string;
+  operatingSystemVersion?: string | undefined;
   /** A set of key-value pairs that contain custom attributes. */
-  attributes?: NamespaceDiscoveredDeviceUpdatePropertiesAttributesMap;
+  attributes?: NamespaceDiscoveredDeviceUpdatePropertiesAttributesMap | undefined;
   /** Identifier used to detect changes in the discovered device. */
-  discoveryId?: string;
+  discoveryId?: string | undefined;
   /** An integer that is incremented each time the resource is modified. */
-  version?: number;
+  version?: number | undefined;
 }
 export interface UpdateNamespaceDiscoveredDeviceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4299,48 +4490,48 @@ export interface UpdateNamespaceDiscoveredDeviceRequest {
   /** The name of the discovered device. */
   discoveredDeviceName: string;
   /** Resource tags. */
-  tags?: UpdateNamespaceDiscoveredDeviceRequestTagsMap;
+  tags?: UpdateNamespaceDiscoveredDeviceRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceDiscoveredDeviceUpdateProperties;
+  properties?: NamespaceDiscoveredDeviceUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateNamespaceDiscoveredDeviceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateNamespaceDiscoveredDeviceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNamespaceDiscoveredDeviceResponseTagsMap;
+  tags?: UpdateNamespaceDiscoveredDeviceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NamespaceDiscoveredDeviceProperties;
+  properties?: NamespaceDiscoveredDeviceProperties | undefined;
   /** The extended location. */
   extendedLocation: ExtendedLocation;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateRegistryDeviceRequestTagsMap = { [key: string]: string | undefined };
 /** The updatable properties of the RegistryDevice. */
 export interface RegistryDeviceUpdateProperties {
   /** Whether the device is enabled or disabled. A disabled device cannot send messages, be updated, or reprovision. */
-  enablementState?: RegistryDeviceEnablementState | (string & {});
+  enablementState?: RegistryDeviceEnablementState | (string & {}) | undefined;
   /** Device manufacturer. */
-  manufacturer?: string;
+  manufacturer?: string | undefined;
   /** Device model. */
-  model?: string;
+  model?: string | undefined;
   /** Device hardware revision. */
-  hardwareRevision?: string;
+  hardwareRevision?: string | undefined;
   /** Device software revision. */
-  softwareRevision?: string;
+  softwareRevision?: string | undefined;
 }
 export interface UpdateRegistryDeviceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4352,33 +4543,33 @@ export interface UpdateRegistryDeviceRequest {
   /** The name of the new device. */
   registryDeviceName: string;
   /** Resource tags. */
-  tags?: UpdateRegistryDeviceRequestTagsMap;
+  tags?: UpdateRegistryDeviceRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: RegistryDeviceUpdateProperties;
+  properties?: RegistryDeviceUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateRegistryDeviceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateRegistryDeviceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateRegistryDeviceResponseTagsMap;
+  tags?: UpdateRegistryDeviceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: RegistryDeviceProperties;
+  properties?: RegistryDeviceProperties | undefined;
   /** Resource etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateSchemaRegistryRequestIdentity = NamespacesCreateOrReplaceRequestIdentity;
@@ -4387,11 +4578,11 @@ export type UpdateSchemaRegistryRequestTagsMap = { [key: string]: string | undef
 /** The updatable properties of the SchemaRegistry. */
 export interface SchemaRegistryUpdateProperties {
   /** Human-readable display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Human-readable description of the schema registry. */
-  description?: string;
+  description?: string | undefined;
   /** The identity used for outbound calls from the ADR schema registry. If not specified and the schema registry has a system-assigned identity enabled, the system-assigned identity is used by default. */
-  outboundIdentity?: OutboundIdentity;
+  outboundIdentity?: OutboundIdentity | undefined;
 }
 export interface UpdateSchemaRegistryRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4401,11 +4592,11 @@ export interface UpdateSchemaRegistryRequest {
   /** Schema registry name parameter. */
   schemaRegistryName: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: NamespacesCreateOrReplaceRequestIdentity;
+  identity?: NamespacesCreateOrReplaceRequestIdentity | undefined;
   /** Resource tags. */
-  tags?: UpdateSchemaRegistryRequestTagsMap;
+  tags?: UpdateSchemaRegistryRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaRegistryUpdateProperties;
+  properties?: SchemaRegistryUpdateProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateSchemaRegistryResponseTagsMap = { [key: string]: string | undefined };
@@ -4413,25 +4604,25 @@ export type UpdateSchemaRegistryResponseTagsMap = { [key: string]: string | unde
 export type UpdateSchemaRegistryResponseIdentity = GetNamespaceResponseIdentity;
 export interface UpdateSchemaRegistryResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSchemaRegistryResponseTagsMap;
+  tags?: UpdateSchemaRegistryResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SchemaRegistryProperties;
+  properties?: SchemaRegistryProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetNamespaceResponseIdentity;
+  identity?: GetNamespaceResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type ActivateCertificateAuthorityError = AzureOpError;
 /** Activates a Certificate Authority of type `ICA` and issuer type `External`. If the Certificate Authority is an invalid type, the API responds with HTTP 400. */
@@ -4492,8 +4683,8 @@ export const CertificateAuthoritiesCreateOrReplace: API.OperationMethod<
   CertificateAuthoritiesCreateOrReplaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1697, __c53, 1) as any as S.Schema<CertificateAuthoritiesCreateOrReplaceRequest>,
-  output: __S(1698, __c53, 2) as any as S.Schema<CertificateAuthoritiesCreateOrReplaceResponse>,
+  input: __S(1701, __c53, 5) as any as S.Schema<CertificateAuthoritiesCreateOrReplaceRequest>,
+  output: __S(1702, __c53, 6) as any as S.Schema<CertificateAuthoritiesCreateOrReplaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -6539,7 +6730,7 @@ function __c34(j: number): any {
           systemData: S.optional(__S(192, __c6, 0)),
           tags: S.optional(__S(160, __c5, 0)),
           location: S.String,
-          properties: S.optional(__S(1728, __c54, 0)),
+          properties: S.optional(__S(1733, __c54, 5)),
         }),
       ).annotate({ identifier: "GetCertificateAuthorityResponse" });
   }
@@ -6783,11 +6974,53 @@ function __c43(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          target: S.String,
+          key: S.String,
         }),
-      ).annotate({ identifier: "DatasetDestination" });
+      ).annotate({ identifier: "BrokerStateStoreDestinationConfiguration" });
     case 2:
-      return S.Array(__S(1377, __c43, 1));
+      return S.suspend(() =>
+        S.Struct({
+          target: S.String,
+          configuration: __S(1377, __c43, 1),
+        }),
+      ).annotate({ identifier: "DatasetBrokerStateStoreDestination" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          topic: S.String,
+          retain: S.optional(S.String),
+          qos: S.optional(S.String),
+          ttl: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "MqttDestinationConfiguration" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          target: S.String,
+          configuration: __S(1379, __c43, 3),
+        }),
+      ).annotate({ identifier: "DatasetMqttDestination" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          path: S.String,
+        }),
+      ).annotate({ identifier: "StorageDestinationConfiguration" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          target: S.String,
+          configuration: __S(1381, __c43, 5),
+        }),
+      ).annotate({ identifier: "DatasetStorageDestination" });
+    case 7:
+      return S.Union([__S(1378, __c43, 2), __S(1380, __c43, 4), __S(1382, __c43, 6)]);
+    case 8:
+      return S.Array(__S(1383, __c43, 7));
+    case 9:
+      return S.Union([__S(1380, __c43, 4), __S(1382, __c43, 6)]);
+    case 10:
+      return S.Array(__S(1385, __c43, 9));
   }
 }
 function __c44(j: number): any {
@@ -6827,7 +7060,7 @@ function __c45(j: number): any {
           dataSource: S.optional(S.String),
           typeRef: S.optional(S.String),
           datasetConfiguration: S.optional(S.String),
-          destinations: S.optional(__S(1378, __c43, 2)),
+          destinations: S.optional(__S(1384, __c43, 8)),
           dataPoints: S.optional(__S(1441, __c45, 1)),
         }),
       ).annotate({ identifier: "NamespaceDataset" });
@@ -6839,7 +7072,7 @@ function __c45(j: number): any {
           name: S.String,
           dataSource: S.optional(S.String),
           eventConfiguration: S.optional(S.String),
-          destinations: S.optional(__S(1378, __c43, 2)),
+          destinations: S.optional(__S(1386, __c43, 10)),
           typeRef: S.optional(S.String),
         }),
       ).annotate({ identifier: "NamespaceEvent" });
@@ -6851,7 +7084,7 @@ function __c45(j: number): any {
           name: S.String,
           dataSource: S.optional(S.String),
           eventGroupConfiguration: S.optional(S.String),
-          defaultDestinations: S.optional(__S(1378, __c43, 2)),
+          defaultDestinations: S.optional(__S(1386, __c43, 10)),
           typeRef: S.optional(S.String),
           events: S.optional(__S(1445, __c45, 5)),
         }),
@@ -6864,7 +7097,7 @@ function __c45(j: number): any {
           name: S.String,
           streamConfiguration: S.optional(S.String),
           typeRef: S.optional(S.String),
-          destinations: S.optional(__S(1378, __c43, 2)),
+          destinations: S.optional(__S(1386, __c43, 10)),
         }),
       ).annotate({ identifier: "NamespaceStream" });
     case 9:
@@ -6973,9 +7206,9 @@ function __c45(j: number): any {
           defaultEventsConfiguration: S.optional(S.String),
           defaultStreamsConfiguration: S.optional(S.String),
           defaultManagementGroupsConfiguration: S.optional(S.String),
-          defaultDatasetsDestinations: S.optional(__S(1378, __c43, 2)),
-          defaultEventsDestinations: S.optional(__S(1378, __c43, 2)),
-          defaultStreamsDestinations: S.optional(__S(1378, __c43, 2)),
+          defaultDatasetsDestinations: S.optional(__S(1384, __c43, 8)),
+          defaultEventsDestinations: S.optional(__S(1386, __c43, 10)),
+          defaultStreamsDestinations: S.optional(__S(1386, __c43, 10)),
           datasets: S.optional(__S(1443, __c45, 3)),
           eventGroups: S.optional(__S(1447, __c45, 7)),
           streams: S.optional(__S(1449, __c45, 9)),
@@ -7189,7 +7422,7 @@ function __c52(j: number): any {
           dataSource: S.optional(S.String),
           typeRef: S.optional(S.String),
           datasetConfiguration: S.optional(S.String),
-          destinations: S.optional(__S(1378, __c43, 2)),
+          destinations: S.optional(__S(1384, __c43, 8)),
           dataPoints: S.optional(__S(1665, __c52, 1)),
           lastUpdatedOn: S.optional(S.String),
         }),
@@ -7202,7 +7435,7 @@ function __c52(j: number): any {
           name: S.String,
           dataSource: S.optional(S.String),
           eventConfiguration: S.optional(S.String),
-          destinations: S.optional(__S(1378, __c43, 2)),
+          destinations: S.optional(__S(1386, __c43, 10)),
           typeRef: S.optional(S.String),
           lastUpdatedOn: S.optional(S.String),
         }),
@@ -7215,7 +7448,7 @@ function __c52(j: number): any {
           name: S.String,
           dataSource: S.optional(S.String),
           eventGroupConfiguration: S.optional(S.String),
-          defaultDestinations: S.optional(__S(1378, __c43, 2)),
+          defaultDestinations: S.optional(__S(1386, __c43, 10)),
           typeRef: S.optional(S.String),
           events: S.optional(__S(1669, __c52, 5)),
         }),
@@ -7228,7 +7461,7 @@ function __c52(j: number): any {
           name: S.String,
           streamConfiguration: S.optional(S.String),
           typeRef: S.optional(S.String),
-          destinations: S.optional(__S(1378, __c43, 2)),
+          destinations: S.optional(__S(1386, __c43, 10)),
           lastUpdatedOn: S.optional(S.String),
         }),
       ).annotate({ identifier: "NamespaceDiscoveredStream" });
@@ -7287,9 +7520,9 @@ function __c52(j: number): any {
           defaultEventsConfiguration: S.optional(S.String),
           defaultStreamsConfiguration: S.optional(S.String),
           defaultManagementGroupsConfiguration: S.optional(S.String),
-          defaultDatasetsDestinations: S.optional(__S(1378, __c43, 2)),
-          defaultEventsDestinations: S.optional(__S(1378, __c43, 2)),
-          defaultStreamsDestinations: S.optional(__S(1378, __c43, 2)),
+          defaultDatasetsDestinations: S.optional(__S(1384, __c43, 8)),
+          defaultEventsDestinations: S.optional(__S(1386, __c43, 10)),
+          defaultStreamsDestinations: S.optional(__S(1386, __c43, 10)),
           datasets: S.optional(__S(1667, __c52, 3)),
           eventGroups: S.optional(__S(1671, __c52, 7)),
           streams: S.optional(__S(1673, __c52, 9)),
@@ -7304,11 +7537,29 @@ function __c53(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          issuerType: S.String,
+        }),
+      ).annotate({ identifier: "ExternalCertificateAuthorityIssuerInput" });
+    case 1:
+      return S.Union([__S(1696, __c53, 0), __S(1728, __c54, 0)]);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          certificateAuthorityType: S.String,
+          keyType: S.String,
+          issuer: __S(1697, __c53, 1),
+        }),
+      ).annotate({ identifier: "IntermediateCertificateAuthorityPropertiesInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           certificateAuthorityType: S.String,
           keyType: S.String,
         }),
-      ).annotate({ identifier: "CertificateAuthorityPropertiesInput" });
-    case 1:
+      ).annotate({ identifier: "RootCertificateAuthorityPropertiesInput" });
+    case 4:
+      return S.Union([__S(1698, __c53, 2), __S(1699, __c53, 3)]);
+    case 5:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -7317,7 +7568,7 @@ function __c53(j: number): any {
           certificateAuthorityName: S.String.pipe(T.Label()),
           tags: S.optional(__S(160, __c5, 0)),
           location: S.String,
-          properties: S.optional(__S(1696, __c53, 0)),
+          properties: S.optional(__S(1700, __c53, 4)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -7327,7 +7578,7 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "CertificateAuthoritiesCreateOrReplaceRequest" });
-    case 2:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -7336,7 +7587,7 @@ function __c53(j: number): any {
           systemData: S.optional(__S(192, __c6, 0)),
           tags: S.optional(__S(160, __c5, 0)),
           location: S.String,
-          properties: S.optional(__S(1728, __c54, 0)),
+          properties: S.optional(__S(1733, __c54, 5)),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -7348,6 +7599,37 @@ function __c54(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          issuerType: S.String,
+          certificateAuthorityResourceId: S.String,
+        }),
+      ).annotate({ identifier: "MicrosoftCertificateAuthorityIssuer" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          issuerType: S.String,
+          certificateSigningRequest: S.optional(S.String),
+          thumbprint: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ExternalCertificateAuthorityIssuer" });
+    case 2:
+      return S.Union([__S(1729, __c54, 1), __S(1728, __c54, 0)]);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          provisioningState: S.optional(S.String),
+          uuid: S.optional(S.String),
+          certificateAuthorityType: S.String,
+          keyType: S.String,
+          subject: S.optional(S.String),
+          validityNotBefore: S.optional(S.String),
+          validityNotAfter: S.optional(S.String),
+          issuer: __S(1730, __c54, 2),
+        }),
+      ).annotate({ identifier: "IntermediateCertificateAuthorityProperties" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           provisioningState: S.optional(S.String),
           uuid: S.optional(S.String),
           certificateAuthorityType: S.String,
@@ -7356,7 +7638,9 @@ function __c54(j: number): any {
           validityNotBefore: S.optional(S.String),
           validityNotAfter: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CertificateAuthorityProperties" });
+      ).annotate({ identifier: "RootCertificateAuthorityProperties" });
+    case 5:
+      return S.Union([__S(1731, __c54, 3), __S(1732, __c54, 4)]);
   }
 }
 function __c55(j: number): any {
@@ -8331,9 +8615,9 @@ function __c97(j: number): any {
           defaultEventsConfiguration: S.optional(S.String),
           defaultStreamsConfiguration: S.optional(S.String),
           defaultManagementGroupsConfiguration: S.optional(S.String),
-          defaultDatasetsDestinations: S.optional(__S(1378, __c43, 2)),
-          defaultEventsDestinations: S.optional(__S(1378, __c43, 2)),
-          defaultStreamsDestinations: S.optional(__S(1378, __c43, 2)),
+          defaultDatasetsDestinations: S.optional(__S(1384, __c43, 8)),
+          defaultEventsDestinations: S.optional(__S(1386, __c43, 10)),
+          defaultStreamsDestinations: S.optional(__S(1386, __c43, 10)),
           datasets: S.optional(__S(1443, __c45, 3)),
           eventGroups: S.optional(__S(1447, __c45, 7)),
           streams: S.optional(__S(1449, __c45, 9)),
@@ -8456,9 +8740,9 @@ function __c99(j: number): any {
           defaultEventsConfiguration: S.optional(S.String),
           defaultStreamsConfiguration: S.optional(S.String),
           defaultManagementGroupsConfiguration: S.optional(S.String),
-          defaultDatasetsDestinations: S.optional(__S(1378, __c43, 2)),
-          defaultEventsDestinations: S.optional(__S(1378, __c43, 2)),
-          defaultStreamsDestinations: S.optional(__S(1378, __c43, 2)),
+          defaultDatasetsDestinations: S.optional(__S(1384, __c43, 8)),
+          defaultEventsDestinations: S.optional(__S(1386, __c43, 10)),
+          defaultStreamsDestinations: S.optional(__S(1386, __c43, 10)),
           datasets: S.optional(__S(1667, __c52, 3)),
           eventGroups: S.optional(__S(1671, __c52, 7)),
           streams: S.optional(__S(1673, __c52, 9)),
@@ -8994,7 +9278,7 @@ function __c112(j: number): any {
           systemData: S.optional(__S(192, __c6, 0)),
           tags: S.optional(__S(160, __c5, 0)),
           location: S.String,
-          properties: S.optional(__S(1728, __c54, 0)),
+          properties: S.optional(__S(1733, __c54, 5)),
           locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
@@ -9125,9 +9409,9 @@ function __c116(j: number): any {
           defaultEventsConfiguration: S.optional(S.String),
           defaultStreamsConfiguration: S.optional(S.String),
           defaultManagementGroupsConfiguration: S.optional(S.String),
-          defaultDatasetsDestinations: S.optional(__S(1378, __c43, 2)),
-          defaultEventsDestinations: S.optional(__S(1378, __c43, 2)),
-          defaultStreamsDestinations: S.optional(__S(1378, __c43, 2)),
+          defaultDatasetsDestinations: S.optional(__S(1384, __c43, 8)),
+          defaultEventsDestinations: S.optional(__S(1386, __c43, 10)),
+          defaultStreamsDestinations: S.optional(__S(1386, __c43, 10)),
           datasets: S.optional(__S(1443, __c45, 3)),
           eventGroups: S.optional(__S(1447, __c45, 7)),
           streams: S.optional(__S(1449, __c45, 9)),
@@ -9303,9 +9587,9 @@ function __c119(j: number): any {
           defaultEventsConfiguration: S.optional(S.String),
           defaultStreamsConfiguration: S.optional(S.String),
           defaultManagementGroupsConfiguration: S.optional(S.String),
-          defaultDatasetsDestinations: S.optional(__S(1378, __c43, 2)),
-          defaultEventsDestinations: S.optional(__S(1378, __c43, 2)),
-          defaultStreamsDestinations: S.optional(__S(1378, __c43, 2)),
+          defaultDatasetsDestinations: S.optional(__S(1384, __c43, 8)),
+          defaultEventsDestinations: S.optional(__S(1386, __c43, 10)),
+          defaultStreamsDestinations: S.optional(__S(1386, __c43, 10)),
           datasets: S.optional(__S(1667, __c52, 3)),
           eventGroups: S.optional(__S(1671, __c52, 7)),
           streams: S.optional(__S(1673, __c52, 9)),

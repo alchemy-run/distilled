@@ -32,23 +32,23 @@ export interface DeletePhotoResponse {
 }
 export interface GetPresenceRequest {
   /** User to get presence info on. Defaults to the authed user. */
-  user?: string;
+  user?: string | undefined;
 }
 export interface GetPresenceResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  last_activity?: number;
-  manual_away?: boolean;
+  last_activity?: number | undefined;
+  manual_away?: boolean | undefined;
   presence: string;
-  online?: boolean;
-  connection_count?: number;
-  auto_away?: boolean;
+  online?: boolean | undefined;
+  connection_count?: number | undefined;
+  auto_away?: boolean | undefined;
 }
 export interface GetProfileRequest {
   /** Include labels for each ID in custom profile fields. Using this parameter will heavily rate-limit your requests and is not recommended. */
-  include_labels?: boolean;
+  include_labels?: boolean | undefined;
   /** User to retrieve profile info for */
-  user?: string;
+  user?: string | undefined;
 }
 export interface GetProfileResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -57,19 +57,19 @@ export interface GetProfileResponse {
 }
 export interface ListUsersRequest {
   /** Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/apis/web-api/pagination) for more detail. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Set this to `true` to receive the locale for users. Defaults to `false` */
-  include_locale?: boolean;
+  include_locale?: boolean | undefined;
   /** The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the users list hasn't been reached. Providing no `limit` value will result in Slack attempting to deliver you the entire result set. If the collection is too large you may experience `limit_required` or HTTP 500 errors. */
-  limit?: number;
+  limit?: number | undefined;
   /** encoded team id to list users in, required if org token is used */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 export type ListUsersResponseMembersList = Array<unknown>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export interface ListUsersResponseResponseMetadata {
   /** Cursor for the next page -- pass as `cursor` on the next call. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export interface ListUsersResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -77,8 +77,8 @@ export interface ListUsersResponse {
   members: ListUsersResponseMembersList;
   cache_ts: number;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: ListUsersResponseResponseMetadata;
-  offset?: string;
+  response_metadata?: ListUsersResponseResponseMetadata | undefined;
+  offset?: string | undefined;
 }
 export interface LookupByEmailRequest {
   /** An email address belonging to a user in the workspace */
@@ -104,13 +104,13 @@ export interface SetActiveResponse {
 }
 export interface SetPhotoRequest {
   /** Width/height of crop box (always square) */
-  crop_w?: string;
+  crop_w?: string | undefined;
   /** X coordinate of top-left corner of crop box */
-  crop_x?: string;
+  crop_x?: string | undefined;
   /** Y coordinate of top-left corner of crop box */
-  crop_y?: string;
+  crop_y?: string | undefined;
   /** File contents via `multipart/form-data`. */
-  image?: unknown;
+  image?: unknown | undefined;
 }
 export type SetPhotoResponseProfileMap = { [key: string]: unknown | undefined };
 export interface SetPhotoResponse {
@@ -130,36 +130,36 @@ export interface SetPresenceResponse {
 }
 export interface SetProfileRequest {
   /** Name of a single key to set. Usable only if `profile` is not passed. */
-  name?: string;
+  name?: string | undefined;
   /** Collection of key:value pairs presented as a URL-encoded JSON hash. At most 50 fields may be set. Each field name is limited to 255 characters. */
-  profile?: string;
+  profile?: string | undefined;
   /** ID of user to change. This argument may only be specified by admins on paid teams. */
-  user?: string;
+  user?: string | undefined;
   /** Value to set a single key to. Usable only if `profile` is not passed. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface SetProfileResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   username: string;
   profile: unknown;
-  email_pending?: string;
+  email_pending?: string | undefined;
 }
 export interface UsersConversationsRequest {
   /** Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. Default value fetches the first "page" of the collection. See [pagination](/apis/web-api/pagination) for more detail. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Set to `true` to exclude archived channels from the list */
-  exclude_archived?: boolean;
+  exclude_archived?: boolean | undefined;
   /** Set to `true` to exclude muted channels from the list */
-  exclude_muted?: boolean;
+  exclude_muted?: boolean | undefined;
   /** The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached. Must be an integer with a max value of 999. */
-  limit?: number;
+  limit?: number | undefined;
   /** encoded team id to list conversations in, required if org token is used */
-  team_id?: string;
+  team_id?: string | undefined;
   /** Mix and match channel types by providing a comma-separated list of any combination of `public_channel`, `private_channel`, `mpim`, `im` */
-  types?: string;
+  types?: string | undefined;
   /** Browse conversations by a specific user ID's membership. Non-public channels are restricted to those where the calling user shares membership. */
-  user?: string;
+  user?: string | undefined;
 }
 export type UsersConversationsResponseChannelsList = Array<unknown>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
@@ -169,7 +169,7 @@ export interface UsersConversationsResponse {
   ok: boolean;
   channels: UsersConversationsResponseChannelsList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: ListUsersResponseResponseMetadata;
+  response_metadata?: ListUsersResponseResponseMetadata | undefined;
 }
 export interface UsersIdentityRequest {}
 export interface UsersIdentityResponse {
@@ -178,16 +178,16 @@ export interface UsersIdentityResponse {
 }
 export interface UsersInfoRequest {
   /** Set this to `true` to receive the locale for this user. Defaults to `false` */
-  include_locale?: boolean;
+  include_locale?: boolean | undefined;
   /** User to get info on */
-  user?: string;
+  user?: string | undefined;
 }
 export type UsersInfoResponseUsersList = Array<unknown>;
 export interface UsersInfoResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  user?: unknown;
-  users?: UsersInfoResponseUsersList;
+  user?: unknown | undefined;
+  users?: UsersInfoResponseUsersList | undefined;
 }
 export type DeletePhotoError = SlackOpError;
 /** Delete the user profile photo Required scopes -- user: `users.profile:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `internal_error` -- An unexpected error occurred. See https://docs.slack.dev/reference/methods/users.deletePhoto */
@@ -354,7 +354,7 @@ export const setPresence: API.OperationMethod<
 }));
 
 export type SetProfileError = SlackOpError;
-/** Set a user's profile information, including custom status. Required scopes -- user: `users.profile:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `cannot_update_admin_user` -- Only a primary owner can update the profile of an admin. - `email_taken` -- email taken - `invalid_profile` -- Profile object passed in is not valid JSON (make sure it is URL encoded!). - `must_clear_both_status_text_and_status_emoji` -- Clearing the status requires setting both `status_text` and `status_emoji` to ''. - `name_not_allowed` -- name cannot contain URL. - `not_admin` -- Only admins can update the profile of another user. Some fields, like `email` may only be updated by an admin. - `not_app_admin` -- Only team owners and selected members can update the profile of a bot user. - `partial_profile_set_failed` -- Failed to set user profile. - `profile_set_failed` -- Failed to set user profile. - `reserved_name` -- First or last name are reserved. - `sudo_required` -- Request requires sudo session. - `too_long` -- You attempted to set a custom status but it was longer than the maximum allowed, 100. - `permission_denied` -- Permission denied. - `username_same` -- Username is the same as the current username. - `invalid_emoji_not_allowed` -- Invalid emoji not allowed. - `invalid_ooo_message` -- Invalid Out of Office message. - `invalid_starts_with_at` -- Name cannot start with @. See https://docs.slack.dev/reference/methods/users.profile.set */
+/** Set a user's profile information, including custom status. Required scopes -- user: `users.profile:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `cannot_update_admin_user` -- Only a primary owner can update the profile of an admin. - `email_taken` -- email taken - `invalid_profile` -- Profile object passed in is not valid JSON (make sure it is URL encoded!). - `must_clear_both_status_text_and_status_emoji` -- Clearing the status requires setting both `status_text` and `status_emoji` to ''. - `name_not_allowed` -- name cannot contain URL. - `not_admin` -- Only admins can update the profile of another user. Some fields, like `email` may only be updated by an admin. - `not_app_admin` -- Only team owners and selected members can update the profile of a bot user. - `partial_profile_set_failed` -- Failed to set user profile. - `profile_set_failed` -- Failed to set user profile. - `reserved_name` -- First or last name are reserved. - `sudo_required` -- Request requires sudo session. - `too_long` -- You attempted to set a custom status but it was longer than the maximum allowed, 100. - `permission_denied` -- Permission denied. - `username_same` -- Username is the same as the current username. - `invalid_emoji_not_allowed` -- Invalid emoji not allowed. - `invalid_ooo_message` -- Invalid Out of Office message. - `invalid_starts_with_at` -- Name cannot start with @. - `frontline_member_username_change_not_allowed` -- Frontline members cannot change their own username. Only an admin can change it. See https://docs.slack.dev/reference/methods/users.profile.set */
 export const setProfile: API.OperationMethod<
   SetProfileRequest,
   SetProfileResponse,

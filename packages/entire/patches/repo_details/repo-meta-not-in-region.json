@@ -1,0 +1,38 @@
+{
+  "description": "Type the cell's `repo not in this region` 404 on getRepoMeta, which alchemy polls until a new repository has reached its cell",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.entire.cell.repo_details#RepoNotInRegion",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The repository is not in this cell (HTTP 404 `repo not in this region`): transient right after a create, otherwise the repository lives in another region's cell.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "includes": "not in this region"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.entire.cell.repo_details#RepoMeta/errors",
+      "value": [
+        {
+          "target": "com.entire.cell.repo_details#RepoNotInRegion"
+        }
+      ]
+    }
+  ]
+}

@@ -34,7 +34,7 @@ const TELEMETRY = {
 /** Customer subscription properties. */
 export interface CustomerSubscriptionProperties {
   /** Tenant Id. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export interface CreateCustomerSubscriptionRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -46,36 +46,36 @@ export interface CreateCustomerSubscriptionRequest {
   /** Name of the product. */
   customerSubscriptionName: string;
   /** The entity tag used for optimistic concurrency when modifying the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Customer subscription properties. */
-  properties?: CustomerSubscriptionProperties;
+  properties?: CustomerSubscriptionProperties | undefined;
 }
 export interface CreateCustomerSubscriptionResponse {
   /** ID of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of Resource. */
-  type?: string;
+  type?: string | undefined;
   /** The entity tag used for optimistic concurrency when modifying the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Customer subscription properties. */
-  properties?: CustomerSubscriptionProperties;
+  properties?: CustomerSubscriptionProperties | undefined;
 }
 export interface CreateDeploymentLicenseRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
   /** Signing verification public key version. */
-  verificationVersion?: string;
+  verificationVersion?: string | undefined;
 }
 /** A license chain that can be used to temporarily activate an Azure Stack device. */
 export type DeploymentLicenseResponseTemporaryLicenseChainList = Array<string>;
 /** A license that can be used to deploy an Azure Stack device. */
 export interface DeploymentLicenseResponse {
   /** A license chain that can be used to temporarily activate an Azure Stack device. */
-  temporaryLicenseChain?: DeploymentLicenseResponseTemporaryLicenseChainList;
+  temporaryLicenseChain?: DeploymentLicenseResponseTemporaryLicenseChainList | undefined;
   /** Signature of the license chain. */
-  signature?: string;
+  signature?: string | undefined;
 }
 export interface DeleteCustomerSubscriptionRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -110,42 +110,42 @@ export interface GetCloudManifestFileRequest {
   /** Signing verification key version. */
   verificationVersion: string;
   /** Signing verification key version creation date. */
-  versionCreationDate?: string;
+  versionCreationDate?: string | undefined;
 }
 /** Cloud specific environment endpoints for AzureStack deployment. */
 export interface CloudManifestFileEnvironmentEndpoints {
   /** ARM endpoint. */
-  customCloudArmEndpoint?: string;
+  customCloudArmEndpoint?: string | undefined;
   /** Dsms endpoint. */
-  externalDsmsEndpoint?: string;
+  externalDsmsEndpoint?: string | undefined;
 }
 /** Cloud specific manifest data for AzureStack deployment. */
 export interface CloudManifestFileDeploymentData {
   /** Dsms external certificates. */
-  externalDsmsCertificates?: string;
+  externalDsmsCertificates?: string | undefined;
   /** Signing verification public key. */
-  customCloudVerificationKey?: string;
+  customCloudVerificationKey?: string | undefined;
   /** Environment endpoints. */
-  customEnvironmentEndpoints?: CloudManifestFileEnvironmentEndpoints;
+  customEnvironmentEndpoints?: CloudManifestFileEnvironmentEndpoints | undefined;
 }
 /** Cloud specific manifest JSON properties. */
 export interface CloudManifestFileProperties {
   /** Cloud specific manifest data. */
-  deploymentData?: CloudManifestFileDeploymentData;
+  deploymentData?: CloudManifestFileDeploymentData | undefined;
   /** Signature of the cloud specific manifest data. */
-  signature?: string;
+  signature?: string | undefined;
 }
 export interface GetCloudManifestFileResponse {
   /** ID of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of Resource. */
-  type?: string;
+  type?: string | undefined;
   /** The entity tag used for optimistic concurrency when modifying the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Cloud specific manifest data. */
-  properties?: CloudManifestFileProperties;
+  properties?: CloudManifestFileProperties | undefined;
 }
 export interface GetCustomerSubscriptionRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -159,15 +159,15 @@ export interface GetCustomerSubscriptionRequest {
 }
 export interface GetCustomerSubscriptionResponse {
   /** ID of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of Resource. */
-  type?: string;
+  type?: string | undefined;
   /** The entity tag used for optimistic concurrency when modifying the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Customer subscription properties. */
-  properties?: CustomerSubscriptionProperties;
+  properties?: CustomerSubscriptionProperties | undefined;
 }
 export interface GetProductRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -182,29 +182,29 @@ export interface GetProductRequest {
 /** Links to product icons. */
 export interface IconUris {
   /** URI to large icon. */
-  large?: string;
+  large?: string | undefined;
   /** URI to wide icon. */
-  wide?: string;
+  wide?: string | undefined;
   /** URI to medium icon. */
-  medium?: string;
+  medium?: string | undefined;
   /** URI to small icon. */
-  small?: string;
+  small?: string | undefined;
   /** URI to hero icon. */
-  hero?: string;
+  hero?: string | undefined;
 }
 /** Link with additional information about a product. */
 export interface ProductLink {
   /** The description of the link. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The URI corresponding to the link. */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** Additional links available for this product. */
 export type ProductNestedPropertiesLinksList = Array<ProductLink>;
 /** Additional properties of the product */
 export interface ProductProperties {
   /** The version. */
-  version?: string;
+  version?: string | undefined;
 }
 /** Compatibility issue */
 export type CompatibilityIssue =
@@ -223,64 +223,64 @@ export type CompatibilityIssuesList = Array<CompatibilityIssue>;
 /** Product compatibility */
 export interface Compatibility {
   /** Tells if product is compatible with current device */
-  isCompatible?: boolean;
+  isCompatible?: boolean | undefined;
   /** Short error message if any compatibility issues are found */
-  message?: string;
+  message?: string | undefined;
   /** Full error message if any compatibility issues are found */
-  description?: string;
+  description?: string | undefined;
   /** List of all issues found */
-  issues?: CompatibilityIssuesList;
+  issues?: CompatibilityIssuesList | undefined;
 }
 /** Properties portion of the product resource. */
 export interface ProductNestedProperties {
   /** The display name of the product. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The description of the product. */
-  description?: string;
+  description?: string | undefined;
   /** The user-friendly name of the product publisher. */
-  publisherDisplayName?: string;
+  publisherDisplayName?: string | undefined;
   /** Publisher identifier. */
-  publisherIdentifier?: string;
+  publisherIdentifier?: string | undefined;
   /** The offer representing the product. */
-  offer?: string;
+  offer?: string | undefined;
   /** The version of the product offer. */
-  offerVersion?: string;
+  offerVersion?: string | undefined;
   /** The product SKU. */
-  sku?: string;
+  sku?: string | undefined;
   /** The part number used for billing purposes. */
-  billingPartNumber?: string;
+  billingPartNumber?: string | undefined;
   /** The type of the Virtual Machine Extension. */
-  vmExtensionType?: string;
+  vmExtensionType?: string | undefined;
   /** The identifier of the gallery item corresponding to the product. */
-  galleryItemIdentity?: string;
+  galleryItemIdentity?: string | undefined;
   /** Additional links available for this product. */
-  iconUris?: IconUris;
+  iconUris?: IconUris | undefined;
   /** Additional links available for this product. */
-  links?: ProductNestedPropertiesLinksList;
+  links?: ProductNestedPropertiesLinksList | undefined;
   /** The legal terms. */
-  legalTerms?: string;
+  legalTerms?: string | undefined;
   /** The privacy policy. */
-  privacyPolicy?: string;
+  privacyPolicy?: string | undefined;
   /** The length of product content. */
-  payloadLength?: number;
+  payloadLength?: number | undefined;
   /** The kind of the product (virtualMachine or virtualMachineExtension) */
-  productKind?: string;
+  productKind?: string | undefined;
   /** Additional properties for the product. */
-  productProperties?: ProductProperties;
+  productProperties?: ProductProperties | undefined;
   /** Product compatibility with current device. */
-  compatibility?: Compatibility;
+  compatibility?: Compatibility | undefined;
 }
 export interface GetProductResponse {
   /** ID of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of Resource. */
-  type?: string;
+  type?: string | undefined;
   /** The entity tag used for optimistic concurrency when modifying the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Properties of the product resource. */
-  properties?: ProductNestedProperties;
+  properties?: ProductNestedProperties | undefined;
 }
 export interface GetProductProductRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -294,15 +294,15 @@ export interface GetProductProductRequest {
 }
 export interface GetProductProductResponse {
   /** ID of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of Resource. */
-  type?: string;
+  type?: string | undefined;
   /** The entity tag used for optimistic concurrency when modifying the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Properties of the product resource. */
-  properties?: ProductNestedProperties;
+  properties?: ProductNestedProperties | undefined;
 }
 export interface GetProductProductsRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -317,24 +317,24 @@ export interface GetProductProductsRequest {
 /** Product information. */
 export interface Product {
   /** ID of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of Resource. */
-  type?: string;
+  type?: string | undefined;
   /** The entity tag used for optimistic concurrency when modifying the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Properties of the product resource. */
-  properties?: ProductNestedProperties;
+  properties?: ProductNestedProperties | undefined;
 }
 /** List of products. */
 export type ProductListValueList = Array<Product>;
 /** Pageable list of products. */
 export interface ProductList {
   /** URI to the next page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of products. */
-  value?: ProductListValueList;
+  value?: ProductListValueList | undefined;
 }
 export interface GetRegistrationRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -351,27 +351,27 @@ export type GetRegistrationResponseTagsMap = { [key: string]: string | undefined
 /** Properties portion of the registration resource. */
 export interface RegistrationProperties {
   /** The object identifier associated with the Azure Stack connecting to Azure. */
-  objectId?: string;
+  objectId?: string | undefined;
   /** The identifier of the registered Azure Stack. */
-  cloudId?: string;
+  cloudId?: string | undefined;
   /** Specifies the billing mode for the Azure Stack registration. */
-  billingModel?: string;
+  billingModel?: string | undefined;
 }
 export interface GetRegistrationResponse {
   /** ID of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of Resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: GetRegistrationResponseLocation;
   /** Custom tags for the resource. */
-  tags?: GetRegistrationResponseTagsMap;
+  tags?: GetRegistrationResponseTagsMap | undefined;
   /** The entity tag used for optimistic concurrency when modifying the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Registration resource. */
-  properties?: RegistrationProperties;
+  properties?: RegistrationProperties | undefined;
 }
 export interface GetRegistrationActivationKeyRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -384,20 +384,20 @@ export interface GetRegistrationActivationKeyRequest {
 /** The resource containing the Azure Stack activation key. */
 export interface ActivationKeyResult {
   /** Azure Stack activation key. */
-  activationKey?: string;
+  activationKey?: string | undefined;
 }
 export interface ListCloudManifestFileRequest {}
 export interface ListCloudManifestFileResponse {
   /** ID of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of Resource. */
-  type?: string;
+  type?: string | undefined;
   /** The entity tag used for optimistic concurrency when modifying the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Cloud specific manifest data. */
-  properties?: CloudManifestFileProperties;
+  properties?: CloudManifestFileProperties | undefined;
 }
 export interface ListCustomerSubscriptionsRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -410,54 +410,54 @@ export interface ListCustomerSubscriptionsRequest {
 /** Customer subscription. */
 export interface CustomerSubscription {
   /** ID of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of Resource. */
-  type?: string;
+  type?: string | undefined;
   /** The entity tag used for optimistic concurrency when modifying the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Customer subscription properties. */
-  properties?: CustomerSubscriptionProperties;
+  properties?: CustomerSubscriptionProperties | undefined;
 }
 /** List of customer subscriptions. */
 export type CustomerSubscriptionListValueList = Array<CustomerSubscription>;
 /** Pageable list of customer subscriptions. */
 export interface CustomerSubscriptionList {
   /** URI to the next page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of customer subscriptions. */
-  value?: CustomerSubscriptionListValueList;
+  value?: CustomerSubscriptionListValueList | undefined;
 }
 export interface ListOperationsRequest {}
 /** Contains the localized display information for this particular operation or action. */
 export interface Display {
   /** The localized, friendly version of the resource provider name. */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized, friendly version of the resource type related to this action or operation; the resource type should match the public documentation for the resource provider. */
-  resource?: string;
+  resource?: string | undefined;
   /** The localized, friendly name for the operation. Use the name as it will displayed to the user. */
-  operation?: string;
+  operation?: string | undefined;
   /** The localized, friendly description for the operation. The description will be displayed to the user. It should be thorough and concise for used in both tooltips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Describes the supported REST operation. */
 export interface Operation {
   /** The name of the operation being performed on this particular object. */
-  name?: string;
+  name?: string | undefined;
   /** Contains the localized display information for this particular operation or action. */
-  display?: Display;
+  display?: Display | undefined;
   /** The intended executor of the operation. */
-  origin?: string;
+  origin?: string | undefined;
 }
 /** Array of operations */
 export type OperationListValueList = Array<Operation>;
 /** List of Operations */
 export interface OperationList {
   /** Array of operations */
-  value?: OperationListValueList;
+  value?: OperationListValueList | undefined;
   /** URI to the next page of operations. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProductDetailsRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -474,55 +474,55 @@ export type ComputeRole = "None" | "IaaS" | "PaaS";
 /** The URI. */
 export interface Uri {
   /** The URI. */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** Operating system type (Windows or Linux). */
 export type OperatingSystem = "None" | "Windows" | "Linux";
 /** OS disk image. */
 export interface OsDiskImage {
   /** OS operating system type. */
-  operatingSystem?: OperatingSystem;
+  operatingSystem?: OperatingSystem | undefined;
   /** SAS key for source blob. */
-  sourceBlobSasUri?: string;
+  sourceBlobSasUri?: string | undefined;
 }
 /** Data disk image. */
 export interface DataDiskImage {
   /** The LUN. */
-  lun?: number;
+  lun?: number | undefined;
   /** SAS key for source blob. */
-  sourceBlobSasUri?: string;
+  sourceBlobSasUri?: string | undefined;
 }
 /** List of attached data disks. */
 export type ExtendedProductPropertiesDataDiskImagesList = Array<DataDiskImage>;
 /** Product information. */
 export interface ExtendedProductProperties {
   /** Specifies kind of compute role included in the package. */
-  computeRole?: ComputeRole;
+  computeRole?: ComputeRole | undefined;
   /** Specifies if product is a Virtual Machine Extension. */
-  isSystemExtension?: boolean;
+  isSystemExtension?: boolean | undefined;
   /** Specifies a download location where content can be downloaded from. */
-  sourceBlob?: Uri;
+  sourceBlob?: Uri | undefined;
   /** Indicates if specified product supports multiple extensions. */
-  supportMultipleExtensions?: boolean;
+  supportMultipleExtensions?: boolean | undefined;
   /** Specifies product version. */
-  version?: string;
+  version?: string | undefined;
   /** Specifies operating system used by the product. */
-  vmOsType?: OperatingSystem;
+  vmOsType?: OperatingSystem | undefined;
   /** Indicates if virtual machine Scale Set is enabled in the specified product. */
-  vmScaleSetEnabled?: boolean;
+  vmScaleSetEnabled?: boolean | undefined;
   /** OS disk image used by product. */
-  osDiskImage?: OsDiskImage;
+  osDiskImage?: OsDiskImage | undefined;
   /** List of attached data disks. */
-  dataDiskImages?: ExtendedProductPropertiesDataDiskImagesList;
+  dataDiskImages?: ExtendedProductPropertiesDataDiskImagesList | undefined;
 }
 /** Extended description about the product required for installing it into Azure Stack. */
 export interface ExtendedProduct {
   /** The URI to the .azpkg file that provides information required for showing product in the gallery. */
-  galleryPackageBlobSasUri?: string;
+  galleryPackageBlobSasUri?: string | undefined;
   /** Specifies the kind of the product (virtualMachine or virtualMachineExtension). */
-  productKind?: string;
+  productKind?: string | undefined;
   /** Specifies additional properties describing the product. */
-  properties?: ExtendedProductProperties;
+  properties?: ExtendedProductProperties | undefined;
 }
 export interface ListProductProductsRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -553,28 +553,28 @@ export type RegistrationTagsMap = { [key: string]: string | undefined };
 /** Registration information. */
 export interface Registration {
   /** ID of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of Resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: RegistrationLocation;
   /** Custom tags for the resource. */
-  tags?: RegistrationTagsMap;
+  tags?: RegistrationTagsMap | undefined;
   /** The entity tag used for optimistic concurrency when modifying the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Registration resource. */
-  properties?: RegistrationProperties;
+  properties?: RegistrationProperties | undefined;
 }
 /** List of Registrations */
 export type RegistrationListValueList = Array<Registration>;
 /** Pageable list of registrations. */
 export interface RegistrationList {
   /** URI to the next page. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of Registrations */
-  value?: RegistrationListValueList;
+  value?: RegistrationListValueList | undefined;
 }
 export interface ListRegistrationsRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -607,19 +607,19 @@ export type RegistrationsCreateOrUpdateResponseLocation = "global";
 export type RegistrationsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface RegistrationsCreateOrUpdateResponse {
   /** ID of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of Resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: RegistrationsCreateOrUpdateResponseLocation;
   /** Custom tags for the resource. */
-  tags?: RegistrationsCreateOrUpdateResponseTagsMap;
+  tags?: RegistrationsCreateOrUpdateResponseTagsMap | undefined;
   /** The entity tag used for optimistic concurrency when modifying the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Registration resource. */
-  properties?: RegistrationProperties;
+  properties?: RegistrationProperties | undefined;
 }
 /** Location of the resource. */
 export type UpdateRegistrationRequestLocation = "global";
@@ -641,19 +641,19 @@ export type UpdateRegistrationResponseLocation = "global";
 export type UpdateRegistrationResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateRegistrationResponse {
   /** ID of the resource. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** Type of Resource. */
-  type?: string;
+  type?: string | undefined;
   /** Location of the resource. */
   location: UpdateRegistrationResponseLocation;
   /** Custom tags for the resource. */
-  tags?: UpdateRegistrationResponseTagsMap;
+  tags?: UpdateRegistrationResponseTagsMap | undefined;
   /** The entity tag used for optimistic concurrency when modifying the resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Registration resource. */
-  properties?: RegistrationProperties;
+  properties?: RegistrationProperties | undefined;
 }
 export interface UploadProductLogRequest {
   /** Subscription credentials that uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -668,27 +668,27 @@ export interface UploadProductLogRequest {
 /** Product action log. */
 export interface ProductLog {
   /** Log ID. */
-  id?: string;
+  id?: string | undefined;
   /** Logged product ID. */
-  productId?: string;
+  productId?: string | undefined;
   /** Logged subscription ID. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Logged registration name. */
-  registrationName?: string;
+  registrationName?: string | undefined;
   /** Logged resource group name. */
-  resourceGroupName?: string;
+  resourceGroupName?: string | undefined;
   /** Logged operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** Operation start datetime. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Operation end datetime. */
-  endDate?: string;
+  endDate?: string | undefined;
   /** Operation status. */
-  status?: string;
+  status?: string | undefined;
   /** Operation error data. */
-  error?: string;
+  error?: string | undefined;
   /** Operation error details. */
-  details?: string;
+  details?: string | undefined;
 }
 export type CreateCustomerSubscriptionError = AzureOpError;
 /** Creates a new customer subscription under a registration. */

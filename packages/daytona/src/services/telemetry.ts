@@ -34,15 +34,15 @@ export interface GetOrganizationSandboxTelemetryTraceRequest {
 }
 export type ModelsSpanSpanAttributesMap = { [key: string]: string | undefined };
 export interface ModelsSpan {
-  durationMs?: number;
-  parentSpanId?: string;
-  spanAttributes?: ModelsSpanSpanAttributesMap;
-  spanId?: string;
-  spanName?: string;
-  statusCode?: string;
-  statusMessage?: string;
-  timestamp?: string;
-  traceId?: string;
+  durationMs?: number | undefined;
+  parentSpanId?: string | undefined;
+  spanAttributes?: ModelsSpanSpanAttributesMap | undefined;
+  spanId?: string | undefined;
+  spanName?: string | undefined;
+  statusCode?: string | undefined;
+  statusMessage?: string | undefined;
+  timestamp?: string | undefined;
+  traceId?: string | undefined;
 }
 export type GetOrganizationSandboxTelemetryTraceResponseBodyList = Array<ModelsSpan>;
 export type GetOrganizationSandboxTelemetryTraceResponse =
@@ -57,26 +57,26 @@ export interface ListOrganizationSandboxTelemetryLogsRequest {
   /** End time (RFC3339) */
   to: string;
   /** Comma-separated severity levels */
-  severity?: string;
+  severity?: string | undefined;
   /** Search text (ILIKE) */
-  search?: string;
+  search?: string | undefined;
   /** Page size */
-  limit?: number;
+  limit?: number | undefined;
   /** Offset */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type ModelsLogEntryLogAttributesMap = { [key: string]: string | undefined };
 export type ModelsLogEntryResourceAttributesMap = { [key: string]: string | undefined };
 export interface ModelsLogEntry {
-  body?: string;
-  logAttributes?: ModelsLogEntryLogAttributesMap;
-  resourceAttributes?: ModelsLogEntryResourceAttributesMap;
-  serviceName?: string;
-  severityNumber?: number;
-  severityText?: string;
-  spanId?: string;
-  timestamp?: string;
-  traceId?: string;
+  body?: string | undefined;
+  logAttributes?: ModelsLogEntryLogAttributesMap | undefined;
+  resourceAttributes?: ModelsLogEntryResourceAttributesMap | undefined;
+  serviceName?: string | undefined;
+  severityNumber?: number | undefined;
+  severityText?: string | undefined;
+  spanId?: string | undefined;
+  timestamp?: string | undefined;
+  traceId?: string | undefined;
 }
 export type ListOrganizationSandboxTelemetryLogsResponseBodyList = Array<ModelsLogEntry>;
 export type ListOrganizationSandboxTelemetryLogsResponse =
@@ -91,12 +91,12 @@ export interface ListOrganizationSandboxTelemetryMetricsRequest {
   /** End time (RFC3339) */
   to: string;
   /** Comma-separated metric names */
-  metricNames?: string;
+  metricNames?: string | undefined;
 }
 export interface ModelsMetricPoint {
-  metricName?: string;
-  timestamp?: string;
-  value?: number;
+  metricName?: string | undefined;
+  timestamp?: string | undefined;
+  value?: number | undefined;
 }
 export type ListOrganizationSandboxTelemetryMetricsResponseBodyList = Array<ModelsMetricPoint>;
 export type ListOrganizationSandboxTelemetryMetricsResponse =
@@ -111,18 +111,18 @@ export interface ListOrganizationSandboxTelemetryTracesRequest {
   /** End time (RFC3339) */
   to: string;
   /** Page size */
-  limit?: number;
+  limit?: number | undefined;
   /** Offset */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface ModelsTraceSummary {
-  endTime?: string;
-  rootSpanName?: string;
-  spanCount?: number;
-  startTime?: string;
-  statusCode?: string;
-  totalDurationMs?: number;
-  traceId?: string;
+  endTime?: string | undefined;
+  rootSpanName?: string | undefined;
+  spanCount?: number | undefined;
+  startTime?: string | undefined;
+  statusCode?: string | undefined;
+  totalDurationMs?: number | undefined;
+  traceId?: string | undefined;
 }
 export type ListOrganizationSandboxTelemetryTracesResponseBodyList = Array<ModelsTraceSummary>;
 export type ListOrganizationSandboxTelemetryTracesResponse =

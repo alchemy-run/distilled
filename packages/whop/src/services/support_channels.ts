@@ -30,44 +30,72 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export interface CreateSupportChannelRequest {
   /** The unique identifier of the company to create the support channel in. */
   account_id: string;
   /** Optional custom display name for the support channel. */
-  custom_name?: string | null;
+  custom_name?: string | null | undefined;
   /** Whether Whop app notifications are enabled for this support channel. Webhooks still fire. */
-  notifications_enabled?: boolean | null;
+  notifications_enabled?: boolean | null | undefined;
   /** The user ID (e.g. 'user_xxxxx') or username of the customer to open a support channel for. */
   user_id: string;
 }
@@ -108,15 +136,15 @@ export type Direction = "asc" | "desc";
 /** Sort options for message channels */
 export type MessageChannelOrder = "created_at" | "last_post_sent_at";
 export interface ListSupportChannelRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
-  view?: SupportChannelView | (string & {});
-  open?: boolean;
-  direction?: Direction | (string & {});
-  order?: MessageChannelOrder | (string & {});
-  account_id?: string;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
+  view?: SupportChannelView | (string & {}) | undefined;
+  open?: boolean | undefined;
+  direction?: Direction | (string & {}) | undefined;
+  order?: MessageChannelOrder | (string & {}) | undefined;
+  account_id?: string | undefined;
 }
 /** The customer who initiated this support conversation. Null if this is not a support chat. */
 export type SupportChannelListItemCustomerUser = SupportChannelCustomerUser;
@@ -156,6 +184,17 @@ export interface ListSupportChannelResponse {
   /** Information to aid in pagination. */
   page_info: PageInfo;
 }
+export interface Error400BodyError {
+  /** A short string indicating the specific error code, e.g. 'parameter_missing', 'parameter_invalid', 'invalid_json' */
+  code?: string | null | undefined;
+  message: string;
+  /** The parameter that caused the error, if applicable */
+  param?: string | null | undefined;
+  type: string;
+}
+export interface Error400Body {
+  error: Error400BodyError;
+}
 export type CreateSupportChannelError =
   | BadRequest
   | Forbidden
@@ -169,8 +208,8 @@ export const createSupportChannel: API.OperationMethod<
   CreateSupportChannelError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateSupportChannelRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<SupportChannel>,
+  input: __S(4, __c1, 0) as any as S.Schema<CreateSupportChannelRequest>,
+  output: __S(9, __c2, 1) as any as S.Schema<SupportChannel>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -191,8 +230,8 @@ export const getSupportChannel: API.OperationMethod<
   GetSupportChannelError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<GetSupportChannelRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<SupportChannel>,
+  input: __S(12, __c3, 0) as any as S.Schema<GetSupportChannelRequest>,
+  output: __S(9, __c2, 1) as any as S.Schema<SupportChannel>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -215,8 +254,8 @@ export const listSupportChannel: API.PaginatedOperationMethod<
   SupportChannelListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(12, __c3, 0) as any as S.Schema<ListSupportChannelRequest>,
-    output: __S(15, __c3, 3) as any as S.Schema<ListSupportChannelResponse>,
+    input: __S(16, __c4, 0) as any as S.Schema<ListSupportChannelRequest>,
+    output: __S(19, __c4, 3) as any as S.Schema<ListSupportChannelResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -240,6 +279,25 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.NullOr(S.String)),
+          message: S.String,
+          param: S.optional(S.NullOr(S.String)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error400BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           account_id: S.String,
           custom_name: S.optional(S.NullOr(S.String)),
           notifications_enabled: S.optional(S.NullOr(S.Boolean)),
@@ -248,7 +306,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateSupportChannelRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -264,7 +322,7 @@ function __c1(j: number): any {
           account_id: S.NullOr(S.String),
           company_id: S.NullOr(S.String),
           custom_name: S.NullOr(S.String),
-          customer_user: S.NullOr(__S(4, __c1, 0)),
+          customer_user: S.NullOr(__S(8, __c2, 0)),
           id: S.String,
           last_message_at: S.NullOr(S.String),
           resolved_at: S.NullOr(S.String),
@@ -272,7 +330,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "SupportChannel" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -282,7 +340,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetSupportChannelRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -299,7 +357,7 @@ function __c3(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/support_channels", code: 200 })),
       ).annotate({ identifier: "ListSupportChannelRequest" });
     case 1:
-      return S.Array(__S(5, __c1, 1));
+      return S.Array(__S(9, __c2, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -312,8 +370,8 @@ function __c3(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(13, __c3, 1),
-          page_info: __S(14, __c3, 2),
+          data: __S(17, __c4, 1),
+          page_info: __S(18, __c4, 2),
         }),
       ).annotate({ identifier: "ListSupportChannelResponse" });
   }

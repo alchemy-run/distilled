@@ -43,14 +43,6 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.posthog.persons#PersonsUpdatePropertyCreateRequest/members/key/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.posthog.persons#PersonsUpdatePropertyCreateRequest/members/value/traits/smithy.api#required"
-    },
-    {
-      "op": "remove",
       "path": "/shapes/com.posthog.persons#AsyncDeletionStatus/members/person_uuid/traits/smithy.api#required"
     },
     {

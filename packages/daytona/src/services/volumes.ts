@@ -30,6 +30,8 @@ export class VolumeAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<VolumeAlreadyExists>()("VolumeAlreadyExists", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -39,6 +41,8 @@ export class VolumeInUse
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<VolumeInUse>()("VolumeInUse", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409, message: { includes: "in use by one or more sandboxes" } }],
   ) {}
@@ -48,6 +52,8 @@ export class VolumeNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<VolumeNotFound>()("VolumeNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -57,13 +63,15 @@ export class VolumeNotReady
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<VolumeNotReady>()("VolumeNotReady", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400, message: { includes: "must be in 'ready' or 'error' state" } }],
   ) {}
 
 export interface CreateVolumeRequest {
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   name: string;
 }
 /** Volume state */
@@ -89,7 +97,7 @@ export interface VolumeDto {
   /** Last update timestamp */
   updatedAt: string;
   /** Last used timestamp */
-  lastUsedAt?: string | null;
+  lastUsedAt?: string | null | undefined;
   /** The error reason of the volume */
   errorReason: string | null;
 }
@@ -97,26 +105,26 @@ export interface DeleteVolumeRequest {
   /** ID of the volume */
   volumeId: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface DeleteVolumeResponse {}
 export interface GetVolumeRequest {
   /** ID of the volume */
   volumeId: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface GetVolumeByNameRequest {
   /** Name of the volume */
   name: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface ListVolumesRequest {
   /** Include deleted volumes in the response */
-  includeDeleted?: boolean;
+  includeDeleted?: boolean | undefined;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export type ListVolumesResponseBodyList = Array<VolumeDto>;
 export type ListVolumesResponse = ListVolumesResponseBodyList;

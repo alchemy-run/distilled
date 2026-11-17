@@ -24,28 +24,30 @@ const TELEMETRY = {
 } as const;
 
 export interface AuditLogCountRequest {
-  q?: string;
   /** Search query in the audit log search syntax */
-  oldestMs?: string;
+  q?: string | undefined;
   /** Oldest time bound in Unix milliseconds, inclusive */
-  newestMs?: string;
+  oldestMs?: string | undefined;
+  /** Newest time bound in Unix milliseconds, exclusive */
+  newestMs?: string | undefined;
 }
 export interface AuditLogCountResponse {
   count: string;
 }
 export interface AuditLogPlanRequest {
-  q?: string;
   /** Search query in the audit log search syntax */
-  oldestMs?: string;
+  q?: string | undefined;
   /** Oldest time bound in Unix milliseconds, inclusive */
-  newestMs?: string;
+  oldestMs?: string | undefined;
   /** Newest time bound in Unix milliseconds, exclusive */
-  bucketSize?: number;
+  newestMs?: string | undefined;
+  /** Approximate entries per bucket; 0 selects the default */
+  bucketSize?: number | undefined;
 }
 /** A position in the results. Pass it back unchanged. */
 export interface AuditLogCursor {
-  eventAtDesc?: string;
-  id?: string;
+  eventAtDesc?: string | undefined;
+  id?: string | undefined;
 }
 export type AuditLogCursorList = Array<AuditLogCursor>;
 export interface AuditLogPlanResponse {
@@ -58,63 +60,61 @@ export interface GetAuditLogSettingsResponse {
   pageSize: number;
   maxConcurrentRequests: number;
   maxBufferedBuckets: number;
-  maxAttempts: number;
-  retryDelaySecs: number;
-  retryBackoffFactor: number;
   requestTimeoutSecs: number;
   planTimeoutSecs: number;
-  planMaxAttempts: number;
 }
 export interface ListAuditLogRequest {
-  q?: string;
   /** Search query in the audit log search syntax */
-  oldestMs?: string;
+  q?: string | undefined;
   /** Oldest time bound in Unix milliseconds, inclusive */
-  newestMs?: string;
+  oldestMs?: string | undefined;
   /** Newest time bound in Unix milliseconds, exclusive */
-  limit?: number;
+  newestMs?: string | undefined;
   /** Maximum entries to return; 0 selects the default */
-  oldestCursor?: AuditLogCursor;
+  limit?: number | undefined;
   /** Oldest cursor bound, inclusive; omit to read to oldest_ms */
-  newestCursor?: AuditLogCursor;
+  oldestCursor?: AuditLogCursor | undefined;
+  /** Newest cursor bound, exclusive; omit to start at newest_ms */
+  newestCursor?: AuditLogCursor | undefined;
 }
 export interface AuditLogActor {
-  type: string;
   /** "user", "service_user", "oauth_grant" or "system" */
+  type: string;
   id: string;
 }
 export interface AuditLogTarget {
-  type: string;
   /** For example "app", "function" or "secret" */
+  type: string;
   id: string;
 }
 export type AuditLogTargetList = Array<AuditLogTarget>;
-/** Approximate entries per bucket; 0 selects the default */
 export interface AuditLogContext {
   workspaceId: string;
   environmentId: string;
-  source: string;
   /** "sdk", "web" or "unknown" */
+  source: string;
   ipAddress: string;
   isModalAdmin: boolean;
 }
 export interface AuditLogEntry {
   id: string;
-  actor?: AuditLogActor;
+  actor?: AuditLogActor | undefined;
   action: string;
   targets: AuditLogTargetList;
-  context?: AuditLogContext;
-  eventAt: string;
+  context?: AuditLogContext | undefined;
   /** ISO 8601 timestamp */
-  status: string;
+  eventAt: string;
   /** "success" or "error" */
+  status: string;
+  /** JSON-encoded string */
   metadataJson: string;
 }
 export type AuditLogEntryList = Array<AuditLogEntry>;
 export interface ListAuditLogResponse {
-  items: AuditLogEntryList;
   /** Newest first */
-  nextCursor?: AuditLogCursor;
+  items: AuditLogEntryList;
+  /** Set when more entries may follow */
+  nextCursor?: AuditLogCursor | undefined;
 }
 export type AuditLogCountError = ModalOpError;
 /** Audit logs */
@@ -255,12 +255,8 @@ function __c3(j: number): any {
           pageSize: S.Number,
           maxConcurrentRequests: S.Number,
           maxBufferedBuckets: S.Number,
-          maxAttempts: S.Number,
-          retryDelaySecs: S.Number,
-          retryBackoffFactor: S.Number,
           requestTimeoutSecs: S.Number,
           planTimeoutSecs: S.Number,
-          planMaxAttempts: S.Number,
         }),
       ).annotate({ identifier: "GetAuditLogSettingsResponse" });
   }

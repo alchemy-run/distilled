@@ -197,14 +197,14 @@ export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateDeploymentInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   deploymentName: string;
-  deploymentDescription?: string;
+  deploymentDescription?: string | undefined;
   deploymentConfiguration: DeploymentConfiguration;
   associatedPolicyList: PolicyReference[];
   associatedScopeList: ScopeReference[];
-  isPublished?: boolean;
-  tags?: { [key: string]: string | undefined };
+  isPublished?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DeploymentId = string;
 export type DeploymentArn = string;
@@ -249,47 +249,47 @@ export interface CreateDeploymentOutput {
   deploymentId: string;
   deploymentArn: string;
   deploymentName: string;
-  deploymentDescription?: string;
+  deploymentDescription?: string | undefined;
   status: EntityStatus;
-  deploymentConfiguration?: DeploymentConfiguration;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
   associatedPolicyList: AssociatedPolicy[];
   associatedScopeList: AssociatedScope[];
   version: string;
-  updateToken?: string;
-  isSnapshot?: boolean;
-  hasPublishedVersion?: boolean;
-  deploymentCoverage?: DeploymentCoverageEntry[];
-  warnings?: DeploymentWarningEntry[];
-  updatedAt?: Date;
+  updateToken?: string | undefined;
+  isSnapshot?: boolean | undefined;
+  hasPublishedVersion?: boolean | undefined;
+  deploymentCoverage?: DeploymentCoverageEntry[] | undefined;
+  warnings?: DeploymentWarningEntry[] | undefined;
+  updatedAt?: Date | undefined;
 }
 export type DeploymentIdentifier = string;
 export interface CreateDeploymentSnapshotInput {
   deploymentIdentifier: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDeploymentSnapshotOutput {
   deploymentId: string;
   deploymentArn: string;
   deploymentName: string;
-  deploymentDescription?: string;
+  deploymentDescription?: string | undefined;
   status: EntityStatus;
-  deploymentConfiguration?: DeploymentConfiguration;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
   associatedPolicyList: AssociatedPolicy[];
   associatedScopeList: AssociatedScope[];
   version: string;
-  updateToken?: string;
-  isSnapshot?: boolean;
-  hasPublishedVersion?: boolean;
-  updatedAt?: Date;
+  updateToken?: string | undefined;
+  isSnapshot?: boolean | undefined;
+  hasPublishedVersion?: boolean | undefined;
+  updatedAt?: Date | undefined;
 }
 export type PolicyName = string;
 export type Priority = number;
 export type TemplateIdentifier = string;
 export type RuleIdentifier = string;
 export type TemplateOrRuleReference =
-  | { templateIdentifier: string; ruleIdentifier?: never }
-  | { templateIdentifier?: never; ruleIdentifier: string };
+  | { templateIdentifier: string; ruleIdentifier?: undefined }
+  | { templateIdentifier?: undefined; ruleIdentifier: string };
 export type TemplateAndRuleReferenceList = TemplateOrRuleReference[];
 export type RemediationEnabled = boolean;
 export type ResourcesCleanUp = boolean;
@@ -306,76 +306,76 @@ export interface WafConfig {
 export interface PolicyConfiguration {
   remediationEnabled: boolean;
   resourcesCleanUp: boolean;
-  wafConfig?: WafConfig;
+  wafConfig?: WafConfig | undefined;
 }
 export interface CreatePolicyInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   policyName: string;
-  policyDescription?: string;
+  policyDescription?: string | undefined;
   priority: number;
-  associatedTemplateAndRuleList?: TemplateOrRuleReference[];
+  associatedTemplateAndRuleList?: TemplateOrRuleReference[] | undefined;
   firewallType: PolicyFirewallType;
   policyConfiguration: PolicyConfiguration;
-  isPublished?: boolean;
-  tags?: { [key: string]: string | undefined };
+  isPublished?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type PolicyId = string;
 export type TemplateArn = string;
 export type RuleArn = string;
 export type AssociatedTemplateOrRule =
-  | { templateArn: string; ruleArn?: never }
-  | { templateArn?: never; ruleArn: string };
+  | { templateArn: string; ruleArn?: undefined }
+  | { templateArn?: undefined; ruleArn: string };
 export type AssociatedTemplateAndRuleList = AssociatedTemplateOrRule[];
 export interface CreatePolicyOutput {
   policyId: string;
   policyArn: string;
   policyName: string;
-  policyDescription?: string;
+  policyDescription?: string | undefined;
   status: EntityStatus;
   priority: number;
   associatedTemplateAndRuleList: AssociatedTemplateOrRule[];
   version: string;
-  updateToken?: string;
-  isSnapshot?: boolean;
-  hasPublishedVersion?: boolean;
+  updateToken?: string | undefined;
+  isSnapshot?: boolean | undefined;
+  hasPublishedVersion?: boolean | undefined;
   firewallType: PolicyFirewallType;
-  policyConfiguration?: PolicyConfiguration;
-  updatedAt?: Date;
+  policyConfiguration?: PolicyConfiguration | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface CreatePolicySnapshotInput {
   policyIdentifier: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreatePolicySnapshotOutput {
   policyId: string;
   policyArn: string;
   policyName: string;
-  policyDescription?: string;
+  policyDescription?: string | undefined;
   status: EntityStatus;
   priority: number;
   associatedTemplateAndRuleList: AssociatedTemplateOrRule[];
   version: string;
-  updateToken?: string;
-  isSnapshot?: boolean;
-  hasPublishedVersion?: boolean;
+  updateToken?: string | undefined;
+  isSnapshot?: boolean | undefined;
+  hasPublishedVersion?: boolean | undefined;
   firewallType: PolicyFirewallType;
-  policyConfiguration?: PolicyConfiguration;
-  updatedAt?: Date;
+  policyConfiguration?: PolicyConfiguration | undefined;
+  updatedAt?: Date | undefined;
 }
 export type RuleName = string;
 export type RuleFirewallType = "WAF" | (string & {});
 export type RuleType = "CONFIGURATION" | "INSPECTION" | (string & {});
 export type JsonDocument = unknown;
 export interface CreateRuleInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   ruleName: string;
   firewallType: RuleFirewallType;
   ruleType: RuleType;
-  ruleDescription?: string;
+  ruleDescription?: string | undefined;
   configuration: any;
-  isPublished?: boolean;
-  tags?: { [key: string]: string | undefined };
+  isPublished?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type RuleId = string;
 export interface CreateRuleOutput {
@@ -383,35 +383,35 @@ export interface CreateRuleOutput {
   ruleArn: string;
   ruleName: string;
   firewallType: RuleFirewallType;
-  ruleType?: RuleType;
-  ruleDescription?: string;
+  ruleType?: RuleType | undefined;
+  ruleDescription?: string | undefined;
   configuration: any;
   status: EntityStatus;
   version: string;
-  updateToken?: string;
-  isSnapshot?: boolean;
-  hasPublishedVersion?: boolean;
-  updatedAt?: Date;
+  updateToken?: string | undefined;
+  isSnapshot?: boolean | undefined;
+  hasPublishedVersion?: boolean | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface CreateRuleSnapshotInput {
   ruleIdentifier: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateRuleSnapshotOutput {
   ruleId: string;
   ruleArn: string;
   ruleName: string;
   firewallType: RuleFirewallType;
-  ruleType?: RuleType;
-  ruleDescription?: string;
+  ruleType?: RuleType | undefined;
+  ruleDescription?: string | undefined;
   configuration: any;
   status: EntityStatus;
   version: string;
-  updateToken?: string;
-  isSnapshot?: boolean;
-  hasPublishedVersion?: boolean;
-  updatedAt?: Date;
+  updateToken?: string | undefined;
+  isSnapshot?: boolean | undefined;
+  hasPublishedVersion?: boolean | undefined;
+  updatedAt?: Date | undefined;
 }
 export type ScopeName = string;
 export type AccountId = string;
@@ -419,84 +419,84 @@ export type AccountList = string[];
 export type OrganizationalUnit = string;
 export type OrganizationalUnitList = string[];
 export interface AccountSet {
-  accountIds?: string[];
-  organizationalUnits?: string[];
+  accountIds?: string[] | undefined;
+  organizationalUnits?: string[] | undefined;
 }
 export type AccountFilter =
-  | { includeAll: Record<string, never>; include?: never; exclude?: never }
-  | { includeAll?: never; include: AccountSet; exclude?: never }
-  | { includeAll?: never; include?: never; exclude: AccountSet };
+  | { includeAll: Record<string, never>; include?: undefined; exclude?: undefined }
+  | { includeAll?: undefined; include: AccountSet; exclude?: undefined }
+  | { includeAll?: undefined; include?: undefined; exclude: AccountSet };
 export type Arn = string;
 export type ResourceArnList = string[];
 export type StringMap = { [key: string]: string | undefined };
 export type Scheme = "internet-facing" | "internal" | (string & {});
 export type IpAddressType = "ipv4" | "dualstack" | "dualstack-without-public-ipv4" | (string & {});
 export interface AlbConfiguration {
-  scheme?: Scheme;
-  ipAddressType?: IpAddressType;
+  scheme?: Scheme | undefined;
+  ipAddressType?: IpAddressType | undefined;
 }
 export type ResourceCriteria =
-  | { tags: { [key: string]: string | undefined }; albConfig?: never }
-  | { tags?: never; albConfig: AlbConfiguration };
+  | { tags: { [key: string]: string | undefined }; albConfig?: undefined }
+  | { tags?: undefined; albConfig: AlbConfiguration };
 export type ResourceLogicalExpressionList = ResourceLogicalExpression[];
 export type ResourceLogicalExpression =
-  | { criteria: ResourceCriteria; and?: never; or?: never; not?: never }
-  | { criteria?: never; and: ResourceLogicalExpression[]; or?: never; not?: never }
-  | { criteria?: never; and?: never; or: ResourceLogicalExpression[]; not?: never }
-  | { criteria?: never; and?: never; or?: never; not: ResourceLogicalExpression };
+  | { criteria: ResourceCriteria; and?: undefined; or?: undefined; not?: undefined }
+  | { criteria?: undefined; and: ResourceLogicalExpression[]; or?: undefined; not?: undefined }
+  | { criteria?: undefined; and?: undefined; or: ResourceLogicalExpression[]; not?: undefined }
+  | { criteria?: undefined; and?: undefined; or?: undefined; not: ResourceLogicalExpression };
 export interface ResourceSet {
-  explicitArns?: string[];
-  expression?: ResourceLogicalExpression;
+  explicitArns?: string[] | undefined;
+  expression?: ResourceLogicalExpression | undefined;
 }
 export interface ResourceScope {
-  includeAll?: boolean;
-  include?: ResourceSet;
-  exclude?: ResourceSet;
+  includeAll?: boolean | undefined;
+  include?: ResourceSet | undefined;
+  exclude?: ResourceSet | undefined;
 }
-export type ResourceScopeMap = { [key in ScopeResourceType]?: ResourceScope };
+export type ResourceScopeMap = { [key in ScopeResourceType]?: ResourceScope | undefined };
 export interface ScopeConfiguration {
-  accountFilter?: AccountFilter;
+  accountFilter?: AccountFilter | undefined;
   resourceScopes: { [key: string]: ResourceScope | undefined };
 }
 export interface CreateScopeInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   scopeName: string;
-  scopeDescription?: string;
+  scopeDescription?: string | undefined;
   scopeConfiguration: ScopeConfiguration;
-  isPublished?: boolean;
-  tags?: { [key: string]: string | undefined };
+  isPublished?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ScopeId = string;
 export interface CreateScopeOutput {
   scopeId: string;
   scopeArn: string;
   scopeName: string;
-  scopeDescription?: string;
-  scopeConfiguration?: ScopeConfiguration;
+  scopeDescription?: string | undefined;
+  scopeConfiguration?: ScopeConfiguration | undefined;
   status: EntityStatus;
   version: string;
-  updateToken?: string;
-  isSnapshot?: boolean;
-  hasPublishedVersion?: boolean;
-  updatedAt?: Date;
+  updateToken?: string | undefined;
+  isSnapshot?: boolean | undefined;
+  hasPublishedVersion?: boolean | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface CreateScopeSnapshotInput {
   scopeIdentifier: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateScopeSnapshotOutput {
   scopeId: string;
   scopeArn: string;
   scopeName: string;
-  scopeDescription?: string;
-  scopeConfiguration?: ScopeConfiguration;
+  scopeDescription?: string | undefined;
+  scopeConfiguration?: ScopeConfiguration | undefined;
   status: EntityStatus;
   version: string;
-  updateToken?: string;
-  isSnapshot?: boolean;
-  hasPublishedVersion?: boolean;
-  updatedAt?: Date;
+  updateToken?: string | undefined;
+  isSnapshot?: boolean | undefined;
+  hasPublishedVersion?: boolean | undefined;
+  updatedAt?: Date | undefined;
 }
 export type TemplateName = string;
 export interface RuleReference {
@@ -505,13 +505,13 @@ export interface RuleReference {
 export type RuleReferenceList = RuleReference[];
 export type TemplateFirewallType = "WAF" | (string & {});
 export interface CreateTemplateInput {
-  clientToken?: string;
+  clientToken?: string | undefined;
   templateName: string;
-  templateDescription?: string;
+  templateDescription?: string | undefined;
   associatedRuleList: RuleReference[];
   firewallType: TemplateFirewallType;
-  isPublished?: boolean;
-  tags?: { [key: string]: string | undefined };
+  isPublished?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type TemplateId = string;
 export interface AssociatedRule {
@@ -522,34 +522,34 @@ export interface CreateTemplateOutput {
   templateId: string;
   templateArn: string;
   templateName: string;
-  templateDescription?: string;
+  templateDescription?: string | undefined;
   status: EntityStatus;
   version: string;
   associatedRuleList: AssociatedRule[];
-  updateToken?: string;
-  isSnapshot?: boolean;
-  hasPublishedVersion?: boolean;
+  updateToken?: string | undefined;
+  isSnapshot?: boolean | undefined;
+  hasPublishedVersion?: boolean | undefined;
   firewallType: TemplateFirewallType;
-  updatedAt?: Date;
+  updatedAt?: Date | undefined;
 }
 export interface CreateTemplateSnapshotInput {
   templateIdentifier: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateTemplateSnapshotOutput {
   templateId: string;
   templateArn: string;
   templateName: string;
-  templateDescription?: string;
+  templateDescription?: string | undefined;
   status: EntityStatus;
   version: string;
   associatedRuleList: AssociatedRule[];
-  updateToken?: string;
-  isSnapshot?: boolean;
-  hasPublishedVersion?: boolean;
+  updateToken?: string | undefined;
+  isSnapshot?: boolean | undefined;
+  hasPublishedVersion?: boolean | undefined;
   firewallType: TemplateFirewallType;
-  updatedAt?: Date;
+  updatedAt?: Date | undefined;
 }
 export interface DeleteAdminAccountRequest {
   accountId: string;
@@ -592,13 +592,13 @@ export interface GenerateRuleConfigurationRequest {
   prompt: string | redacted.Redacted<string>;
   ruleFirewallType: RuleFirewallType;
   ruleType: RuleType;
-  wafConfigDataType?: WAFConfigDataType;
-  currentConfiguration?: string;
-  clientToken?: string;
+  wafConfigDataType?: WAFConfigDataType | undefined;
+  currentConfiguration?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface GenerateRuleConfigurationResponse {
   configuration: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface GetAdminAccountRequest {
   accountId: string;
@@ -608,42 +608,42 @@ export type SensitiveAccountName = string | redacted.Redacted<string>;
 export type SensitiveAccountEmail = string | redacted.Redacted<string>;
 export interface AccountReference {
   accountId: string;
-  name?: string | redacted.Redacted<string>;
-  email?: string | redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string> | undefined;
+  email?: string | redacted.Redacted<string> | undefined;
 }
 export type AccountReferenceList = AccountReference[];
 export type OrganizationalUnitId = string;
 export interface OrganizationalUnitReference {
   ouId: string;
-  name?: string;
+  name?: string | undefined;
 }
 export type OrganizationalUnitReferenceList = OrganizationalUnitReference[];
 export interface AdminScopeSelection {
-  accounts?: AccountReference[];
-  organizationalUnits?: OrganizationalUnitReference[];
+  accounts?: AccountReference[] | undefined;
+  organizationalUnits?: OrganizationalUnitReference[] | undefined;
 }
 export type AdminScopeFilter =
-  | { includeAll: Record<string, never>; includeOnly?: never; excludeOnly?: never }
-  | { includeAll?: never; includeOnly: AdminScopeSelection; excludeOnly?: never }
-  | { includeAll?: never; includeOnly?: never; excludeOnly: AdminScopeSelection };
+  | { includeAll: Record<string, never>; includeOnly?: undefined; excludeOnly?: undefined }
+  | { includeAll?: undefined; includeOnly: AdminScopeSelection; excludeOnly?: undefined }
+  | { includeAll?: undefined; includeOnly?: undefined; excludeOnly: AdminScopeSelection };
 export type FirewallTypeList = PolicyFirewallType[];
 export interface AdminFirewallTypeScope {
-  allFirewallTypesEnabled?: boolean;
-  firewallTypes?: PolicyFirewallType[];
+  allFirewallTypesEnabled?: boolean | undefined;
+  firewallTypes?: PolicyFirewallType[] | undefined;
 }
 export interface AdminScope {
-  scopeFilter?: AdminScopeFilter;
-  firewallTypeScope?: AdminFirewallTypeScope;
+  scopeFilter?: AdminScopeFilter | undefined;
+  firewallTypeScope?: AdminFirewallTypeScope | undefined;
 }
 export type AdminAccountStatus = "ONBOARDED" | "OFFBOARDED" | (string & {});
 export interface AdminAccountDetails {
   adminAccount: string;
   priority: number;
-  adminScope?: AdminScope;
-  status?: AdminAccountStatus;
+  adminScope?: AdminScope | undefined;
+  status?: AdminAccountStatus | undefined;
 }
 export interface GetAdminAccountResponse {
-  adminAccountDetails?: AdminAccountDetails;
+  adminAccountDetails?: AdminAccountDetails | undefined;
 }
 export interface GetDeploymentInput {
   deploymentIdentifier: string;
@@ -652,18 +652,18 @@ export interface GetDeploymentOutput {
   deploymentId: string;
   deploymentArn: string;
   deploymentName: string;
-  deploymentDescription?: string;
+  deploymentDescription?: string | undefined;
   status: EntityStatus;
-  deploymentConfiguration?: DeploymentConfiguration;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
   associatedPolicyList: AssociatedPolicy[];
   associatedScopeList: AssociatedScope[];
   version: string;
-  updateToken?: string;
-  isSnapshot?: boolean;
-  hasPublishedVersion?: boolean;
-  updatedAt?: Date;
-  deploymentCoverage?: DeploymentCoverageEntry[];
-  warnings?: DeploymentWarningEntry[];
+  updateToken?: string | undefined;
+  isSnapshot?: boolean | undefined;
+  hasPublishedVersion?: boolean | undefined;
+  updatedAt?: Date | undefined;
+  deploymentCoverage?: DeploymentCoverageEntry[] | undefined;
+  warnings?: DeploymentWarningEntry[] | undefined;
 }
 export interface GetPolicyInput {
   policyIdentifier: string;
@@ -672,17 +672,17 @@ export interface GetPolicyOutput {
   policyId: string;
   policyArn: string;
   policyName: string;
-  policyDescription?: string;
+  policyDescription?: string | undefined;
   status: EntityStatus;
   priority: number;
   associatedTemplateAndRuleList: AssociatedTemplateOrRule[];
   version: string;
-  updateToken?: string;
-  isSnapshot?: boolean;
-  hasPublishedVersion?: boolean;
+  updateToken?: string | undefined;
+  isSnapshot?: boolean | undefined;
+  hasPublishedVersion?: boolean | undefined;
   firewallType: PolicyFirewallType;
-  policyConfiguration?: PolicyConfiguration;
-  updatedAt?: Date;
+  policyConfiguration?: PolicyConfiguration | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface GetRuleInput {
   ruleIdentifier: string;
@@ -692,15 +692,15 @@ export interface GetRuleOutput {
   ruleArn: string;
   ruleName: string;
   firewallType: RuleFirewallType;
-  ruleType?: RuleType;
-  ruleDescription?: string;
+  ruleType?: RuleType | undefined;
+  ruleDescription?: string | undefined;
   configuration: any;
   status: EntityStatus;
   version: string;
-  updateToken?: string;
-  isSnapshot?: boolean;
-  hasPublishedVersion?: boolean;
-  updatedAt?: Date;
+  updateToken?: string | undefined;
+  isSnapshot?: boolean | undefined;
+  hasPublishedVersion?: boolean | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface GetScopeInput {
   scopeIdentifier: string;
@@ -709,14 +709,14 @@ export interface GetScopeOutput {
   scopeId: string;
   scopeArn: string;
   scopeName: string;
-  scopeDescription?: string;
-  scopeConfiguration?: ScopeConfiguration;
+  scopeDescription?: string | undefined;
+  scopeConfiguration?: ScopeConfiguration | undefined;
   status: EntityStatus;
   version: string;
-  updateToken?: string;
-  isSnapshot?: boolean;
-  hasPublishedVersion?: boolean;
-  updatedAt?: Date;
+  updateToken?: string | undefined;
+  isSnapshot?: boolean | undefined;
+  hasPublishedVersion?: boolean | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface GetTemplateInput {
   templateIdentifier: string;
@@ -725,40 +725,40 @@ export interface GetTemplateOutput {
   templateId: string;
   templateArn: string;
   templateName: string;
-  templateDescription?: string;
+  templateDescription?: string | undefined;
   status: EntityStatus;
   version: string;
   associatedRuleList: AssociatedRule[];
-  updateToken?: string;
-  isSnapshot?: boolean;
-  hasPublishedVersion?: boolean;
+  updateToken?: string | undefined;
+  isSnapshot?: boolean | undefined;
+  hasPublishedVersion?: boolean | undefined;
   firewallType: TemplateFirewallType;
-  updatedAt?: Date;
+  updatedAt?: Date | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListAdminAccountsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type SensitiveName = string | redacted.Redacted<string>;
 export type SensitiveEmail = string | redacted.Redacted<string>;
 export interface AdminAccountSummary {
   accountId: string;
-  priority?: number;
-  name?: string | redacted.Redacted<string>;
-  email?: string | redacted.Redacted<string>;
+  priority?: number | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  email?: string | redacted.Redacted<string> | undefined;
 }
 export type AdminAccountSummaryList = AdminAccountSummary[];
 export interface ListAdminAccountsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   adminAccounts: AdminAccountSummary[];
 }
 export type SynchronizationStatus = "IN_SYNC" | "OUT_OF_SYNC" | "NOT_APPLICABLE" | (string & {});
 export interface ListAggregateResourceSynchronizationStatusesInput {
-  synchronizationStatus?: SynchronizationStatus;
-  maxResults?: number;
-  nextToken?: string;
+  synchronizationStatus?: SynchronizationStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ResourceType =
   | "AWS::ApiGateway::Stage"
@@ -771,118 +771,120 @@ export type ResourceType =
   | "AWS::ShieldRegional::Protection"
   | (string & {});
 export interface ConfigurationIssue {
-  configurationName?: string;
-  expectedValue?: string;
-  actualValue?: string;
+  configurationName?: string | undefined;
+  expectedValue?: string | undefined;
+  actualValue?: string | undefined;
 }
 export type ConfigurationIssueList = ConfigurationIssue[];
 export interface InvalidFirewallReasons {
-  incorrectSingleValueConfigurations?: ConfigurationIssue[];
-  missingAppendableConfigurationValues?: ConfigurationIssue[];
-  unexpectedAppendableConfigurationValues?: ConfigurationIssue[];
-  incorrectAppendableConfigurationOrder?: ConfigurationIssue[];
-  missingMergeableConfigurationValues?: ConfigurationIssue[];
-  unexpectedMergeableConfigurationValues?: ConfigurationIssue[];
+  incorrectSingleValueConfigurations?: ConfigurationIssue[] | undefined;
+  missingAppendableConfigurationValues?: ConfigurationIssue[] | undefined;
+  unexpectedAppendableConfigurationValues?: ConfigurationIssue[] | undefined;
+  incorrectAppendableConfigurationOrder?: ConfigurationIssue[] | undefined;
+  missingMergeableConfigurationValues?: ConfigurationIssue[] | undefined;
+  unexpectedMergeableConfigurationValues?: ConfigurationIssue[] | undefined;
 }
 export type FirewallSyncReason =
-  | { missingFirewall: string; invalidFirewall?: never }
-  | { missingFirewall?: never; invalidFirewall: InvalidFirewallReasons };
-export type OutOfSyncReasons = { [key in PolicyFirewallType]?: FirewallSyncReason };
+  | { missingFirewall: string; invalidFirewall?: undefined }
+  | { missingFirewall?: undefined; invalidFirewall: InvalidFirewallReasons };
+export type OutOfSyncReasons = { [key in PolicyFirewallType]?: FirewallSyncReason | undefined };
 export interface NotVisibleMarker {
   reason: string;
 }
 export type OutOfSyncReasonsView =
-  | { reasons: { [key: string]: FirewallSyncReason | undefined }; notVisible?: never }
-  | { reasons?: never; notVisible: NotVisibleMarker };
+  | { reasons: { [key: string]: FirewallSyncReason | undefined }; notVisible?: undefined }
+  | { reasons?: undefined; notVisible: NotVisibleMarker };
 export interface RemediationIssueDetails {
-  issueType?: string;
-  message?: string;
-  correctiveAction?: string;
+  issueType?: string | undefined;
+  message?: string | undefined;
+  correctiveAction?: string | undefined;
 }
-export type RemediationIssues = { [key in PolicyFirewallType]?: RemediationIssueDetails };
+export type RemediationIssues = {
+  [key in PolicyFirewallType]?: RemediationIssueDetails | undefined;
+};
 export type RemediationIssuesView =
-  | { issues: { [key: string]: RemediationIssueDetails | undefined }; notVisible?: never }
-  | { issues?: never; notVisible: NotVisibleMarker };
+  | { issues: { [key: string]: RemediationIssueDetails | undefined }; notVisible?: undefined }
+  | { issues?: undefined; notVisible: NotVisibleMarker };
 export interface ResourceSynchronizationStatusSummary {
   synchronizationStatus: SynchronizationStatus;
   accountId: string;
   resourceArn: string;
-  deploymentArn?: string;
-  resourceType?: ResourceType;
+  deploymentArn?: string | undefined;
+  resourceType?: ResourceType | undefined;
   updatedAt: Date;
-  outOfSyncReasons?: OutOfSyncReasonsView;
-  remediationIssues?: RemediationIssuesView;
-  evaluatedAt?: Date;
+  outOfSyncReasons?: OutOfSyncReasonsView | undefined;
+  remediationIssues?: RemediationIssuesView | undefined;
+  evaluatedAt?: Date | undefined;
 }
 export type ResourceSynchronizationStatusSummaryList = ResourceSynchronizationStatusSummary[];
 export interface ListAggregateResourceSynchronizationStatusesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   resourceSynchronizationStatuses: ResourceSynchronizationStatusSummary[];
 }
 export type EntityStatusFilter = "ACTIVE" | "DRAFT" | "DISABLED" | (string & {});
 export interface ListDeploymentsInput {
-  maxResults?: number;
-  nextToken?: string;
-  status?: EntityStatusFilter;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  status?: EntityStatusFilter | undefined;
 }
 export interface DeploymentSummary {
   deploymentId: string;
   deploymentArn: string;
-  deploymentName?: string;
-  status?: EntityStatus;
-  version?: string;
-  hasPublishedVersion?: boolean;
-  updatedAt?: Date;
+  deploymentName?: string | undefined;
+  status?: EntityStatus | undefined;
+  version?: string | undefined;
+  hasPublishedVersion?: boolean | undefined;
+  updatedAt?: Date | undefined;
 }
 export type DeploymentSummaryList = DeploymentSummary[];
 export interface ListDeploymentsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   deployments: DeploymentSummary[];
 }
 export interface ListDeploymentSnapshotsInput {
   deploymentIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDeploymentSnapshotsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   snapshots: DeploymentSummary[];
 }
 export interface ListPoliciesInput {
-  maxResults?: number;
-  nextToken?: string;
-  status?: EntityStatusFilter;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  status?: EntityStatusFilter | undefined;
 }
 export interface PolicySummary {
   policyId: string;
   policyArn: string;
-  policyName?: string;
-  status?: EntityStatus;
-  version?: string;
-  hasPublishedVersion?: boolean;
-  firewallType?: PolicyFirewallType;
-  priority?: number;
-  updatedAt?: Date;
+  policyName?: string | undefined;
+  status?: EntityStatus | undefined;
+  version?: string | undefined;
+  hasPublishedVersion?: boolean | undefined;
+  firewallType?: PolicyFirewallType | undefined;
+  priority?: number | undefined;
+  updatedAt?: Date | undefined;
 }
 export type PolicySummaryList = PolicySummary[];
 export interface ListPoliciesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   policies: PolicySummary[];
 }
 export interface ListPolicySnapshotsInput {
   policyIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPolicySnapshotsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   snapshots: PolicySummary[];
 }
 export type ResourceIdentifier = string;
 export interface ListResourceAssociationsInput {
   resourceIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ServiceResourceType =
   | "Rule"
@@ -897,133 +899,133 @@ export interface ResourceAssociation {
 }
 export type ResourceAssociationList = ResourceAssociation[];
 export interface ListResourceAssociationsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   resourceAssociations: ResourceAssociation[];
 }
 export interface ListResourceSynchronizationStatusesInput {
   deploymentIdentifier: string;
-  synchronizationStatus?: SynchronizationStatus;
-  maxResults?: number;
-  nextToken?: string;
+  synchronizationStatus?: SynchronizationStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListResourceSynchronizationStatusesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   resourceSynchronizationStatuses: ResourceSynchronizationStatusSummary[];
 }
 export interface ListRulesInput {
-  maxResults?: number;
-  nextToken?: string;
-  status?: EntityStatusFilter;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  status?: EntityStatusFilter | undefined;
 }
 export interface RuleSummary {
   ruleId: string;
   ruleArn: string;
   ruleName: string;
-  firewallType?: RuleFirewallType;
-  ruleType?: RuleType;
-  status?: EntityStatus;
-  version?: string;
-  hasPublishedVersion?: boolean;
-  updatedAt?: Date;
+  firewallType?: RuleFirewallType | undefined;
+  ruleType?: RuleType | undefined;
+  status?: EntityStatus | undefined;
+  version?: string | undefined;
+  hasPublishedVersion?: boolean | undefined;
+  updatedAt?: Date | undefined;
 }
 export type RuleSummaryList = RuleSummary[];
 export interface ListRulesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   rules: RuleSummary[];
 }
 export interface ListRuleSnapshotsInput {
   ruleIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListRuleSnapshotsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   snapshots: RuleSummary[];
 }
 export interface ListScopesInput {
-  maxResults?: number;
-  nextToken?: string;
-  status?: EntityStatusFilter;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  status?: EntityStatusFilter | undefined;
 }
 export interface ScopeSummary {
   scopeId: string;
   scopeArn: string;
-  scopeName?: string;
-  status?: EntityStatus;
-  version?: string;
-  hasPublishedVersion?: boolean;
-  updatedAt?: Date;
+  scopeName?: string | undefined;
+  status?: EntityStatus | undefined;
+  version?: string | undefined;
+  hasPublishedVersion?: boolean | undefined;
+  updatedAt?: Date | undefined;
 }
 export type ScopeSummaryList = ScopeSummary[];
 export interface ListScopesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   scopes: ScopeSummary[];
 }
 export interface ListScopeSnapshotsInput {
   scopeIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListScopeSnapshotsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   snapshots: ScopeSummary[];
 }
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTemplatesInput {
-  maxResults?: number;
-  nextToken?: string;
-  status?: EntityStatusFilter;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  status?: EntityStatusFilter | undefined;
 }
 export interface TemplateSummary {
   templateId: string;
   templateArn: string;
   templateName: string;
-  status?: EntityStatus;
-  version?: string;
-  hasPublishedVersion?: boolean;
-  firewallType?: TemplateFirewallType;
-  updatedAt?: Date;
+  status?: EntityStatus | undefined;
+  version?: string | undefined;
+  hasPublishedVersion?: boolean | undefined;
+  firewallType?: TemplateFirewallType | undefined;
+  updatedAt?: Date | undefined;
 }
 export type TemplateSummaryList = TemplateSummary[];
 export interface ListTemplatesOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   templates: TemplateSummary[];
 }
 export interface ListTemplateSnapshotsInput {
   templateIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTemplateSnapshotsOutput {
-  nextToken?: string;
+  nextToken?: string | undefined;
   snapshots: TemplateSummary[];
 }
 export type AccountIdList = string[];
 export type OrganizationalUnitIdList = string[];
 export interface AdminScopeSelectionInput {
-  accounts?: string[];
-  organizationalUnits?: string[];
+  accounts?: string[] | undefined;
+  organizationalUnits?: string[] | undefined;
 }
 export type AdminScopeFilterInput =
-  | { includeAll: Record<string, never>; includeOnly?: never; excludeOnly?: never }
-  | { includeAll?: never; includeOnly: AdminScopeSelectionInput; excludeOnly?: never }
-  | { includeAll?: never; includeOnly?: never; excludeOnly: AdminScopeSelectionInput };
+  | { includeAll: Record<string, never>; includeOnly?: undefined; excludeOnly?: undefined }
+  | { includeAll?: undefined; includeOnly: AdminScopeSelectionInput; excludeOnly?: undefined }
+  | { includeAll?: undefined; includeOnly?: undefined; excludeOnly: AdminScopeSelectionInput };
 export interface AdminScopeInput {
-  scopeFilter?: AdminScopeFilterInput;
-  firewallTypeScope?: AdminFirewallTypeScope;
+  scopeFilter?: AdminScopeFilterInput | undefined;
+  firewallTypeScope?: AdminFirewallTypeScope | undefined;
 }
 export interface PutAdminAccountRequest {
   accountId: string;
   priority: number;
-  adminScope?: AdminScopeInput;
+  adminScope?: AdminScopeInput | undefined;
 }
 export interface PutAdminAccountResponse {
-  adminAccountDetails?: AdminAccountDetails;
+  adminAccountDetails?: AdminAccountDetails | undefined;
 }
 export interface TagResourceInput {
   resourceArn: string;
@@ -1039,122 +1041,122 @@ export interface UntagResourceOutput {}
 export interface UpdateDeploymentInput {
   deploymentIdentifier: string;
   updateToken: string;
-  deploymentDescription?: string;
-  deploymentConfiguration?: DeploymentConfiguration;
-  associatedPolicyList?: PolicyReference[];
-  associatedScopeList?: ScopeReference[];
+  deploymentDescription?: string | undefined;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
+  associatedPolicyList?: PolicyReference[] | undefined;
+  associatedScopeList?: ScopeReference[] | undefined;
   isPublished: boolean;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateDeploymentOutput {
   deploymentId: string;
   deploymentArn: string;
   deploymentName: string;
-  deploymentDescription?: string;
+  deploymentDescription?: string | undefined;
   status: EntityStatus;
-  deploymentConfiguration?: DeploymentConfiguration;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
   associatedPolicyList: AssociatedPolicy[];
   associatedScopeList: AssociatedScope[];
   version: string;
-  updateToken?: string;
-  isSnapshot?: boolean;
-  hasPublishedVersion?: boolean;
-  deploymentCoverage?: DeploymentCoverageEntry[];
-  warnings?: DeploymentWarningEntry[];
-  updatedAt?: Date;
+  updateToken?: string | undefined;
+  isSnapshot?: boolean | undefined;
+  hasPublishedVersion?: boolean | undefined;
+  deploymentCoverage?: DeploymentCoverageEntry[] | undefined;
+  warnings?: DeploymentWarningEntry[] | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface UpdatePolicyInput {
   policyIdentifier: string;
   updateToken: string;
-  policyDescription?: string;
-  priority?: number;
-  associatedTemplateAndRuleList?: TemplateOrRuleReference[];
-  policyConfiguration?: PolicyConfiguration;
+  policyDescription?: string | undefined;
+  priority?: number | undefined;
+  associatedTemplateAndRuleList?: TemplateOrRuleReference[] | undefined;
+  policyConfiguration?: PolicyConfiguration | undefined;
   isPublished: boolean;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdatePolicyOutput {
   policyId: string;
   policyArn: string;
   policyName: string;
-  policyDescription?: string;
+  policyDescription?: string | undefined;
   status: EntityStatus;
   priority: number;
   associatedTemplateAndRuleList: AssociatedTemplateOrRule[];
   version: string;
-  updateToken?: string;
-  isSnapshot?: boolean;
-  hasPublishedVersion?: boolean;
+  updateToken?: string | undefined;
+  isSnapshot?: boolean | undefined;
+  hasPublishedVersion?: boolean | undefined;
   firewallType: PolicyFirewallType;
-  policyConfiguration?: PolicyConfiguration;
-  updatedAt?: Date;
+  policyConfiguration?: PolicyConfiguration | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface UpdateRuleInput {
   ruleIdentifier: string;
   updateToken: string;
-  ruleType?: RuleType;
-  ruleDescription?: string;
-  configuration?: any;
+  ruleType?: RuleType | undefined;
+  ruleDescription?: string | undefined;
+  configuration?: any | undefined;
   isPublished: boolean;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateRuleOutput {
   ruleId: string;
   ruleArn: string;
   ruleName: string;
   firewallType: RuleFirewallType;
-  ruleType?: RuleType;
-  ruleDescription?: string;
+  ruleType?: RuleType | undefined;
+  ruleDescription?: string | undefined;
   configuration: any;
   status: EntityStatus;
   version: string;
-  updateToken?: string;
-  isSnapshot?: boolean;
-  hasPublishedVersion?: boolean;
-  updatedAt?: Date;
+  updateToken?: string | undefined;
+  isSnapshot?: boolean | undefined;
+  hasPublishedVersion?: boolean | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface UpdateScopeInput {
   scopeIdentifier: string;
   updateToken: string;
-  scopeDescription?: string;
-  scopeConfiguration?: ScopeConfiguration;
+  scopeDescription?: string | undefined;
+  scopeConfiguration?: ScopeConfiguration | undefined;
   isPublished: boolean;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateScopeOutput {
   scopeId: string;
   scopeArn: string;
   scopeName: string;
-  scopeDescription?: string;
-  scopeConfiguration?: ScopeConfiguration;
+  scopeDescription?: string | undefined;
+  scopeConfiguration?: ScopeConfiguration | undefined;
   status: EntityStatus;
   version: string;
-  updateToken?: string;
-  isSnapshot?: boolean;
-  hasPublishedVersion?: boolean;
-  updatedAt?: Date;
+  updateToken?: string | undefined;
+  isSnapshot?: boolean | undefined;
+  hasPublishedVersion?: boolean | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface UpdateTemplateInput {
   templateIdentifier: string;
   updateToken: string;
-  templateDescription?: string;
-  associatedRuleList?: RuleReference[];
+  templateDescription?: string | undefined;
+  associatedRuleList?: RuleReference[] | undefined;
   isPublished: boolean;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateTemplateOutput {
   templateId: string;
   templateArn: string;
   templateName: string;
-  templateDescription?: string;
+  templateDescription?: string | undefined;
   status: EntityStatus;
   version: string;
   associatedRuleList: AssociatedRule[];
-  updateToken?: string;
-  isSnapshot?: boolean;
-  hasPublishedVersion?: boolean;
+  updateToken?: string | undefined;
+  isSnapshot?: boolean | undefined;
+  hasPublishedVersion?: boolean | undefined;
   firewallType: TemplateFirewallType;
-  updatedAt?: Date;
+  updatedAt?: Date | undefined;
 }
 export type ValidationExceptionReason =
   | "ACCOUNT_NOT_ONBOARDED"

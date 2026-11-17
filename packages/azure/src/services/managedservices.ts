@@ -58,11 +58,11 @@ export interface Authorization {
   /** The identifier of the Azure Active Directory principal. */
   principalId: string;
   /** The display name of the Azure Active Directory principal. */
-  principalIdDisplayName?: string;
+  principalIdDisplayName?: string | undefined;
   /** The identifier of the Azure built-in role that defines the permissions that the Azure Active Directory principal will have on the projected scope. */
   roleDefinitionId: string;
   /** The delegatedRoleDefinitionIds field is required when the roleDefinitionId refers to the User Access Administrator Role. It is the list of role definition ids which define all the permissions that the user in the authorization can assign to other principals. */
-  delegatedRoleDefinitionIds?: AuthorizationDelegatedRoleDefinitionIdsList;
+  delegatedRoleDefinitionIds?: AuthorizationDelegatedRoleDefinitionIdsList | undefined;
 }
 /** The collection of authorization objects describing the access Azure Active Directory principals in the managedBy tenant will receive on the delegated resource in the managed tenant. */
 export type MarketplaceRegistrationDefinitionPropertiesAuthorizationsList = Array<Authorization>;
@@ -73,7 +73,7 @@ export interface EligibleApprover {
   /** The identifier of the Azure Active Directory principal. */
   principalId: string;
   /** The display name of the Azure Active Directory principal. */
-  principalIdDisplayName?: string;
+  principalIdDisplayName?: string | undefined;
 }
 /** The list of managedByTenant approvers for the eligible authorization. */
 export type JustInTimeAccessPolicyManagedByTenantApproversList = Array<EligibleApprover>;
@@ -82,20 +82,20 @@ export interface JustInTimeAccessPolicy {
   /** The multi-factor authorization provider to be used for just-in-time access requests. */
   multiFactorAuthProvider: JustInTimeAccessPolicyMultiFactorAuthProvider | (string & {});
   /** The maximum access duration in ISO 8601 format for just-in-time access requests. */
-  maximumActivationDuration?: string;
+  maximumActivationDuration?: string | undefined;
   /** The list of managedByTenant approvers for the eligible authorization. */
-  managedByTenantApprovers?: JustInTimeAccessPolicyManagedByTenantApproversList;
+  managedByTenantApprovers?: JustInTimeAccessPolicyManagedByTenantApproversList | undefined;
 }
 /** The Azure Active Directory principal identifier, Azure built-in role, and just-in-time access policy that describes the just-in-time access the principal will receive on the delegated resource in the managed tenant. */
 export interface EligibleAuthorization {
   /** The identifier of the Azure Active Directory principal. */
   principalId: string;
   /** The display name of the Azure Active Directory principal. */
-  principalIdDisplayName?: string;
+  principalIdDisplayName?: string | undefined;
   /** The identifier of the Azure built-in role that defines the permissions that the Azure Active Directory principal will have on the projected scope. */
   roleDefinitionId: string;
   /** The just-in-time access policy setting. */
-  justInTimeAccessPolicy?: JustInTimeAccessPolicy;
+  justInTimeAccessPolicy?: JustInTimeAccessPolicy | undefined;
 }
 /** The collection of eligible authorization objects describing the just-in-time access Azure Active Directory principals in the managedBy tenant will receive on the delegated resource in the managed tenant. */
 export type MarketplaceRegistrationDefinitionPropertiesEligibleAuthorizationsList =
@@ -107,13 +107,15 @@ export interface MarketplaceRegistrationDefinitionProperties {
   /** The collection of authorization objects describing the access Azure Active Directory principals in the managedBy tenant will receive on the delegated resource in the managed tenant. */
   authorizations: MarketplaceRegistrationDefinitionPropertiesAuthorizationsList;
   /** The collection of eligible authorization objects describing the just-in-time access Azure Active Directory principals in the managedBy tenant will receive on the delegated resource in the managed tenant. */
-  eligibleAuthorizations?: MarketplaceRegistrationDefinitionPropertiesEligibleAuthorizationsList;
+  eligibleAuthorizations?:
+    | MarketplaceRegistrationDefinitionPropertiesEligibleAuthorizationsList
+    | undefined;
   /** The marketplace offer display name. */
-  offerDisplayName?: string;
+  offerDisplayName?: string | undefined;
   /** The marketplace publisher display name. */
-  publisherDisplayName?: string;
+  publisherDisplayName?: string | undefined;
   /** The marketplace plan display name. */
-  planDisplayName?: string;
+  planDisplayName?: string | undefined;
 }
 /** The details for the Managed Services offer's plan in Azure Marketplace. */
 export interface Plan {
@@ -128,15 +130,15 @@ export interface Plan {
 }
 export interface MarketplaceRegistrationDefinition {
   /** The properties of the marketplace registration definition. */
-  properties?: MarketplaceRegistrationDefinitionProperties;
+  properties?: MarketplaceRegistrationDefinitionProperties | undefined;
   /** The details for the Managed Services offer's plan in Azure Marketplace. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The fully qualified path of the marketplace registration definition. */
-  id?: string;
+  id?: string | undefined;
   /** The type of the Azure resource (Microsoft.ManagedServices/marketplaceRegistrationDefinitions). */
-  type?: string;
+  type?: string | undefined;
   /** The name of the marketplace registration definition. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetMarketplaceRegistrationDefinitionsWithoutScopeRequest {
   /** The Azure Marketplace identifier. Expected formats: {publisher}.{product[-preview]}.{planName}.{version} or {publisher}.{product[-preview]}.{planName} or {publisher}.{product[-preview]} or {publisher}). */
@@ -148,7 +150,7 @@ export interface GetRegistrationAssignmentRequest {
   /** The GUID of the registration assignment. */
   registrationAssignmentId: string;
   /** The flag indicating whether to return the registration definition details along with the registration assignment details. */
-  _expandRegistrationDefinition?: boolean;
+  _expandRegistrationDefinition?: boolean | undefined;
 }
 /** The current provisioning state of the registration assignment. */
 export type RegistrationAssignmentPropertiesProvisioningState =
@@ -187,23 +189,29 @@ export type RegistrationAssignmentPropertiesRegistrationDefinitionPropertiesProv
 /** The properties of the registration definition associated with the registration assignment. */
 export interface RegistrationAssignmentPropertiesRegistrationDefinitionProperties {
   /** The description of the registration definition. */
-  description?: string;
+  description?: string | undefined;
   /** The collection of authorization objects describing the access Azure Active Directory principals in the managedBy tenant will receive on the delegated resource in the managed tenant. */
-  authorizations?: RegistrationAssignmentPropertiesRegistrationDefinitionPropertiesAuthorizationsList;
+  authorizations?:
+    | RegistrationAssignmentPropertiesRegistrationDefinitionPropertiesAuthorizationsList
+    | undefined;
   /** The collection of eligible authorization objects describing the just-in-time access Azure Active Directory principals in the managedBy tenant will receive on the delegated resource in the managed tenant. */
-  eligibleAuthorizations?: RegistrationAssignmentPropertiesRegistrationDefinitionPropertiesEligibleAuthorizationsList;
+  eligibleAuthorizations?:
+    | RegistrationAssignmentPropertiesRegistrationDefinitionPropertiesEligibleAuthorizationsList
+    | undefined;
   /** The name of the registration definition. */
-  registrationDefinitionName?: string;
+  registrationDefinitionName?: string | undefined;
   /** The current provisioning state of the registration definition. */
-  provisioningState?: RegistrationAssignmentPropertiesRegistrationDefinitionPropertiesProvisioningState;
+  provisioningState?:
+    | RegistrationAssignmentPropertiesRegistrationDefinitionPropertiesProvisioningState
+    | undefined;
   /** The identifier of the managed tenant. */
-  manageeTenantId?: string;
+  manageeTenantId?: string | undefined;
   /** The name of the managed tenant. */
-  manageeTenantName?: string;
+  manageeTenantName?: string | undefined;
   /** The identifier of the managedBy tenant. */
-  managedByTenantId?: string;
+  managedByTenantId?: string | undefined;
   /** The name of the managedBy tenant. */
-  managedByTenantName?: string;
+  managedByTenantName?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type RegistrationAssignmentPropertiesRegistrationDefinitionSystemDataCreatedByType =
@@ -220,41 +228,45 @@ export type RegistrationAssignmentPropertiesRegistrationDefinitionSystemDataLast
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface RegistrationAssignmentPropertiesRegistrationDefinitionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: RegistrationAssignmentPropertiesRegistrationDefinitionSystemDataCreatedByType;
+  createdByType?:
+    | RegistrationAssignmentPropertiesRegistrationDefinitionSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: RegistrationAssignmentPropertiesRegistrationDefinitionSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | RegistrationAssignmentPropertiesRegistrationDefinitionSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The registration definition associated with the registration assignment. */
 export interface RegistrationAssignmentPropertiesRegistrationDefinition {
   /** The properties of the registration definition associated with the registration assignment. */
-  properties?: RegistrationAssignmentPropertiesRegistrationDefinitionProperties;
+  properties?: RegistrationAssignmentPropertiesRegistrationDefinitionProperties | undefined;
   /** The details for the Managed Services offer's plan in Azure Marketplace. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The fully qualified path of the registration definition. */
-  id?: string;
+  id?: string | undefined;
   /** The type of the Azure resource (Microsoft.ManagedServices/registrationDefinitions). */
-  type?: string;
+  type?: string | undefined;
   /** The name of the registration definition. */
-  name?: string;
+  name?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: RegistrationAssignmentPropertiesRegistrationDefinitionSystemData;
+  systemData?: RegistrationAssignmentPropertiesRegistrationDefinitionSystemData | undefined;
 }
 /** The properties of the registration assignment. */
 export interface RegistrationAssignmentProperties {
   /** The fully qualified path of the registration definition. */
   registrationDefinitionId: string;
   /** The current provisioning state of the registration assignment. */
-  provisioningState?: RegistrationAssignmentPropertiesProvisioningState;
+  provisioningState?: RegistrationAssignmentPropertiesProvisioningState | undefined;
   /** The registration definition associated with the registration assignment. */
-  registrationDefinition?: RegistrationAssignmentPropertiesRegistrationDefinition;
+  registrationDefinition?: RegistrationAssignmentPropertiesRegistrationDefinition | undefined;
 }
 /** The type of identity that created the resource. */
 export type RegistrationAssignmentSystemDataCreatedByType =
@@ -271,30 +283,30 @@ export type RegistrationAssignmentSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface RegistrationAssignmentSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: RegistrationAssignmentSystemDataCreatedByType;
+  createdByType?: RegistrationAssignmentSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: RegistrationAssignmentSystemDataLastModifiedByType;
+  lastModifiedByType?: RegistrationAssignmentSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The registration assignment. */
 export interface RegistrationAssignment {
   /** The properties of a registration assignment. */
-  properties?: RegistrationAssignmentProperties;
+  properties?: RegistrationAssignmentProperties | undefined;
   /** The fully qualified path of the registration assignment. */
-  id?: string;
+  id?: string | undefined;
   /** The type of the Azure resource (Microsoft.ManagedServices/registrationAssignments). */
-  type?: string;
+  type?: string | undefined;
   /** The name of the registration assignment. */
-  name?: string;
+  name?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: RegistrationAssignmentSystemData;
+  systemData?: RegistrationAssignmentSystemData | undefined;
 }
 export interface GetRegistrationDefinitionRequest {
   /** The scope of the resource. */
@@ -324,23 +336,23 @@ export type RegistrationDefinitionPropertiesProvisioningState =
 /** The properties of a registration definition. */
 export interface RegistrationDefinitionProperties {
   /** The description of the registration definition. */
-  description?: string;
+  description?: string | undefined;
   /** The collection of authorization objects describing the access Azure Active Directory principals in the managedBy tenant will receive on the delegated resource in the managed tenant. */
   authorizations: RegistrationDefinitionPropertiesAuthorizationsList;
   /** The collection of eligible authorization objects describing the just-in-time access Azure Active Directory principals in the managedBy tenant will receive on the delegated resource in the managed tenant. */
-  eligibleAuthorizations?: RegistrationDefinitionPropertiesEligibleAuthorizationsList;
+  eligibleAuthorizations?: RegistrationDefinitionPropertiesEligibleAuthorizationsList | undefined;
   /** The name of the registration definition. */
-  registrationDefinitionName?: string;
+  registrationDefinitionName?: string | undefined;
   /** The identifier of the managedBy tenant. */
   managedByTenantId: string;
   /** The current provisioning state of the registration definition. */
-  provisioningState?: RegistrationDefinitionPropertiesProvisioningState;
+  provisioningState?: RegistrationDefinitionPropertiesProvisioningState | undefined;
   /** The identifier of the managed tenant. */
-  manageeTenantId?: string;
+  manageeTenantId?: string | undefined;
   /** The name of the managed tenant. */
-  manageeTenantName?: string;
+  manageeTenantName?: string | undefined;
   /** The name of the managedBy tenant. */
-  managedByTenantName?: string;
+  managedByTenantName?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type RegistrationDefinitionSystemDataCreatedByType =
@@ -357,38 +369,38 @@ export type RegistrationDefinitionSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface RegistrationDefinitionSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: RegistrationDefinitionSystemDataCreatedByType;
+  createdByType?: RegistrationDefinitionSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: RegistrationDefinitionSystemDataLastModifiedByType;
+  lastModifiedByType?: RegistrationDefinitionSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The registration definition. */
 export interface RegistrationDefinition {
   /** The properties of a registration definition. */
-  properties?: RegistrationDefinitionProperties;
+  properties?: RegistrationDefinitionProperties | undefined;
   /** The details for the Managed Services offer's plan in Azure Marketplace. */
-  plan?: Plan;
+  plan?: Plan | undefined;
   /** The fully qualified path of the registration definition. */
-  id?: string;
+  id?: string | undefined;
   /** The type of the Azure resource (Microsoft.ManagedServices/registrationDefinitions). */
-  type?: string;
+  type?: string | undefined;
   /** The name of the registration definition. */
-  name?: string;
+  name?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: RegistrationDefinitionSystemData;
+  systemData?: RegistrationDefinitionSystemData | undefined;
 }
 export interface ListMarketplaceRegistrationDefinitionsRequest {
   /** The scope of the resource. */
   scope: string;
   /** The filter query parameter to filter managed services resources by. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The list of marketplace registration definitions. */
 export type MarketplaceRegistrationDefinitionListValueList =
@@ -396,39 +408,39 @@ export type MarketplaceRegistrationDefinitionListValueList =
 /** The list of marketplace registration definitions. */
 export interface MarketplaceRegistrationDefinitionList {
   /** The list of marketplace registration definitions. */
-  value?: MarketplaceRegistrationDefinitionListValueList;
+  value?: MarketplaceRegistrationDefinitionListValueList | undefined;
   /** The link to the next page of marketplace registration definitions. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMarketplaceRegistrationDefinitionsWithoutScopeRequest {
   /** The filter query parameter to filter managed services resources by. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** The service provider. */
-  provider?: string;
+  provider?: string | undefined;
   /** The resource on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** The operation type. */
-  operation?: string;
+  operation?: string | undefined;
   /** The description of the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The object that describes a single Microsoft.ManagedServices operation. */
 export interface Operation {
   /** The operation name with the format: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** The object that represents the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** The list of Microsoft.ManagedServices operations. */
 export type OperationListValueList = Array<Operation>;
 /** The list of the operations. */
 export interface OperationList {
   /** The list of Microsoft.ManagedServices operations. */
-  value?: OperationListValueList;
+  value?: OperationListValueList | undefined;
 }
 export interface ListOperationsWithScopeRequest {
   /** The scope of the resource. */
@@ -438,33 +450,33 @@ export interface ListRegistrationAssignmentsRequest {
   /** The scope of the resource. */
   scope: string;
   /** The flag indicating whether to return the registration definition details along with the registration assignment details. */
-  _expandRegistrationDefinition?: boolean;
+  _expandRegistrationDefinition?: boolean | undefined;
   /** The filter query parameter to filter managed services resources by. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The list of registration assignments. */
 export type RegistrationAssignmentListValueList = Array<RegistrationAssignment>;
 /** The list of registration assignments. */
 export interface RegistrationAssignmentList {
   /** The list of registration assignments. */
-  value?: RegistrationAssignmentListValueList;
+  value?: RegistrationAssignmentListValueList | undefined;
   /** The link to the next page of registration assignments. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRegistrationDefinitionsRequest {
   /** The scope of the resource. */
   scope: string;
   /** The filter query parameter to filter managed services resources by. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** The list of registration definitions. */
 export type RegistrationDefinitionListValueList = Array<RegistrationDefinition>;
 /** The list of registration definitions. */
 export interface RegistrationDefinitionList {
   /** The list of registration definitions. */
-  value?: RegistrationDefinitionListValueList;
+  value?: RegistrationDefinitionListValueList | undefined;
   /** The link to the next page of registration definitions. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The properties of the registration assignment. */
 export interface RegistrationAssignmentPropertiesInput {
@@ -477,7 +489,7 @@ export interface RegistrationAssignmentsCreateOrUpdateRequest {
   /** The GUID of the registration assignment. */
   registrationAssignmentId: string;
   /** The properties of a registration assignment. */
-  properties?: RegistrationAssignmentPropertiesInput;
+  properties?: RegistrationAssignmentPropertiesInput | undefined;
 }
 /** The collection of authorization objects describing the access Azure Active Directory principals in the managedBy tenant will receive on the delegated resource in the managed tenant. */
 export type RegistrationDefinitionPropertiesInputAuthorizationsList = Array<Authorization>;
@@ -487,13 +499,15 @@ export type RegistrationDefinitionPropertiesInputEligibleAuthorizationsList =
 /** The properties of a registration definition. */
 export interface RegistrationDefinitionPropertiesInput {
   /** The description of the registration definition. */
-  description?: string;
+  description?: string | undefined;
   /** The collection of authorization objects describing the access Azure Active Directory principals in the managedBy tenant will receive on the delegated resource in the managed tenant. */
   authorizations: RegistrationDefinitionPropertiesInputAuthorizationsList;
   /** The collection of eligible authorization objects describing the just-in-time access Azure Active Directory principals in the managedBy tenant will receive on the delegated resource in the managed tenant. */
-  eligibleAuthorizations?: RegistrationDefinitionPropertiesInputEligibleAuthorizationsList;
+  eligibleAuthorizations?:
+    | RegistrationDefinitionPropertiesInputEligibleAuthorizationsList
+    | undefined;
   /** The name of the registration definition. */
-  registrationDefinitionName?: string;
+  registrationDefinitionName?: string | undefined;
   /** The identifier of the managedBy tenant. */
   managedByTenantId: string;
 }
@@ -503,9 +517,9 @@ export interface RegistrationDefinitionsCreateOrUpdateRequest {
   /** The GUID of the registration definition. */
   registrationDefinitionId: string;
   /** The properties of a registration definition. */
-  properties?: RegistrationDefinitionPropertiesInput;
+  properties?: RegistrationDefinitionPropertiesInput | undefined;
   /** The details for the Managed Services offer's plan in Azure Marketplace. */
-  plan?: Plan;
+  plan?: Plan | undefined;
 }
 export type DeleteRegistrationAssignmentError = AzureOpError;
 /** Deletes the specified registration assignment. */

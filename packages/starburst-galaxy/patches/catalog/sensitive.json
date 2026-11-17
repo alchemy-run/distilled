@@ -1,0 +1,80 @@
+{
+  "description": "Mark catalog credentials the spec types as plain strings sensitive: BigQuery and GCS `credentialsKey` (the spec documents it as \"Base64 encoded or plain text BigQuery JSON key\" on BigQuery and \"Base64 encoded or plain text GCS JSON key\" on GCS, a Google service account key), Snowflake `privateKeyPassphrase` (\"Snowflake private key passphrase\") and the AstraDB connection's Cassandra `token` (\"AstraDB token\", the Astra application token that authenticates the connection). GCS and Cassandra catalogs are discriminated hierarchies, so their members sit on the per-arm structures convert flattens (`GcsCatalogGcsHiveMetastore`, `CreateCassandraCatalogRequestAstraDBConnection`, \u2026). Converter name patterns already mark the neighbouring `password`, `secretKey`, `glueSecretKey` and `privateKey` members; these three names fall outside them. Evidence: the field documentation in https://galaxy.starburst.io/public/openapi/v1/json (2026-11-11); no live call.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.starburst.galaxy.catalog#BigQueryCatalog/members/credentialsKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.starburst.galaxy.catalog#CreateBigQueryCatalogRequest/members/credentialsKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.starburst.galaxy.catalog#UpdateBigQueryCatalogRequest/members/credentialsKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.starburst.galaxy.catalog#GcsCatalogGcsGalaxyMetastore/members/credentialsKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.starburst.galaxy.catalog#GcsCatalogGcsHiveMetastore/members/credentialsKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.starburst.galaxy.catalog#CreateGcsCatalogRequestGcsGalaxyMetastore/members/credentialsKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.starburst.galaxy.catalog#CreateGcsCatalogRequestGcsHiveMetastore/members/credentialsKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.starburst.galaxy.catalog#GcsCatalogPatchGcsGalaxyMetastore/members/credentialsKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.starburst.galaxy.catalog#GcsCatalogPatchGcsHiveMetastore/members/credentialsKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.starburst.galaxy.catalog#SnowflakeCatalog/members/privateKeyPassphrase/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.starburst.galaxy.catalog#CreateSnowflakeCatalogRequest/members/privateKeyPassphrase/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.starburst.galaxy.catalog#UpdateSnowflakeCatalogRequest/members/privateKeyPassphrase/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.starburst.galaxy.catalog#CassandraCatalogAstraDBConnection/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.starburst.galaxy.catalog#CreateCassandraCatalogRequestAstraDBConnection/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.starburst.galaxy.catalog#CassandraCatalogPatchAstraDBConnection/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

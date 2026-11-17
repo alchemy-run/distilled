@@ -67,7 +67,7 @@ const run = <A, E>(effect: Effect.Effect<A, E>) =>
 const runFail = <A, E>(effect: Effect.Effect<A, E>) => run(Effect.flip(effect));
 
 /** The resolved credentials a `Credentials` layer produces. */
-const resolveLayer = (layer: Layer.Layer<Credentials.Credentials>) =>
+const resolveLayer = <E>(layer: Layer.Layer<Credentials.Credentials, E>) =>
   Effect.flatMap(Credentials.Credentials, (creds) => creds).pipe(Effect.provide(layer));
 
 /** A fake HTTP client keyed on `${method} ${url}`. */

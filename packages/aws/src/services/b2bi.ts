@@ -501,19 +501,19 @@ export type X12Version =
   | "VERSION_5010_HIPAA"
   | (string & {});
 export interface X12Details {
-  transactionSet?: X12TransactionSet;
-  version?: X12Version;
+  transactionSet?: X12TransactionSet | undefined;
+  version?: X12Version | undefined;
 }
 export type EdiType = { x12Details: X12Details };
 export type BucketName = string;
 export type S3Key = string;
 export interface S3Location {
-  bucketName?: string;
-  key?: string;
+  bucketName?: string | undefined;
+  key?: string | undefined;
 }
 export type TransformerId = string;
 export interface EdiConfiguration {
-  capabilityDirection?: CapabilityDirection;
+  capabilityDirection?: CapabilityDirection | undefined;
   type: EdiType;
   inputLocation: S3Location;
   outputLocation: S3Location;
@@ -532,9 +532,9 @@ export interface CreateCapabilityRequest {
   name: string;
   type: CapabilityType;
   configuration: CapabilityConfiguration;
-  instructionsDocuments?: S3Location[];
-  clientToken?: string;
-  tags?: Tag[];
+  instructionsDocuments?: S3Location[] | undefined;
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type CapabilityId = string;
 export type ResourceArn = string;
@@ -545,7 +545,7 @@ export interface CreateCapabilityResponse {
   name: string;
   type: CapabilityType;
   configuration: CapabilityConfiguration;
-  instructionsDocuments?: S3Location[];
+  instructionsDocuments?: S3Location[] | undefined;
   createdAt: Date;
 }
 export type ProfileId = string;
@@ -560,59 +560,59 @@ export type X12RepetitionSeparator = string;
 export type X12AcknowledgmentRequestedCode = string;
 export type X12UsageIndicatorCode = string;
 export interface X12InterchangeControlHeaders {
-  senderIdQualifier?: string;
-  senderId?: string;
-  receiverIdQualifier?: string;
-  receiverId?: string;
-  repetitionSeparator?: string;
-  acknowledgmentRequestedCode?: string;
-  usageIndicatorCode?: string;
+  senderIdQualifier?: string | undefined;
+  senderId?: string | undefined;
+  receiverIdQualifier?: string | undefined;
+  receiverId?: string | undefined;
+  repetitionSeparator?: string | undefined;
+  acknowledgmentRequestedCode?: string | undefined;
+  usageIndicatorCode?: string | undefined;
 }
 export type X12ApplicationSenderCode = string;
 export type X12ApplicationReceiverCode = string;
 export type X12ResponsibleAgencyCode = string;
 export interface X12FunctionalGroupHeaders {
-  applicationSenderCode?: string;
-  applicationReceiverCode?: string;
-  responsibleAgencyCode?: string;
+  applicationSenderCode?: string | undefined;
+  applicationReceiverCode?: string | undefined;
+  responsibleAgencyCode?: string | undefined;
 }
 export type X12ComponentSeparator = string;
 export type X12DataElementSeparator = string;
 export type X12SegmentTerminator = string;
 export interface X12Delimiters {
-  componentSeparator?: string;
-  dataElementSeparator?: string;
-  segmentTerminator?: string;
+  componentSeparator?: string | undefined;
+  dataElementSeparator?: string | undefined;
+  segmentTerminator?: string | undefined;
 }
 export type X12ValidateEdi = boolean;
 export type StartingInterchangeControlNumber = number;
 export type StartingFunctionalGroupControlNumber = number;
 export type StartingTransactionSetControlNumber = number;
 export interface X12ControlNumbers {
-  startingInterchangeControlNumber?: number;
-  startingFunctionalGroupControlNumber?: number;
-  startingTransactionSetControlNumber?: number;
+  startingInterchangeControlNumber?: number | undefined;
+  startingFunctionalGroupControlNumber?: number | undefined;
+  startingTransactionSetControlNumber?: number | undefined;
 }
 export type X12GS05TimeFormat = "HHMM" | "HHMMSS" | "HHMMSSDD" | (string & {});
 export interface X12OutboundEdiHeaders {
-  interchangeControlHeaders?: X12InterchangeControlHeaders;
-  functionalGroupHeaders?: X12FunctionalGroupHeaders;
-  delimiters?: X12Delimiters;
-  validateEdi?: boolean;
-  controlNumbers?: X12ControlNumbers;
-  gs05TimeFormat?: X12GS05TimeFormat;
+  interchangeControlHeaders?: X12InterchangeControlHeaders | undefined;
+  functionalGroupHeaders?: X12FunctionalGroupHeaders | undefined;
+  delimiters?: X12Delimiters | undefined;
+  validateEdi?: boolean | undefined;
+  controlNumbers?: X12ControlNumbers | undefined;
+  gs05TimeFormat?: X12GS05TimeFormat | undefined;
 }
 export type WrapFormat = "SEGMENT" | "ONE_LINE" | "LINE_LENGTH" | (string & {});
 export type LineTerminator = "CRLF" | "LF" | "CR" | (string & {});
 export type LineLength = number;
 export interface WrapOptions {
   wrapBy: WrapFormat;
-  lineTerminator?: LineTerminator;
-  lineLength?: number;
+  lineTerminator?: LineTerminator | undefined;
+  lineLength?: number | undefined;
 }
 export interface X12Envelope {
-  common?: X12OutboundEdiHeaders;
-  wrapOptions?: WrapOptions;
+  common?: X12OutboundEdiHeaders | undefined;
+  wrapOptions?: WrapOptions | undefined;
 }
 export type OutboundEdiOptions = { x12: X12Envelope };
 export type X12FunctionalAcknowledgment =
@@ -629,24 +629,24 @@ export interface X12AcknowledgmentOptions {
   technicalAcknowledgment: X12TechnicalAcknowledgment;
 }
 export interface X12InboundEdiOptions {
-  acknowledgmentOptions?: X12AcknowledgmentOptions;
+  acknowledgmentOptions?: X12AcknowledgmentOptions | undefined;
 }
 export interface InboundEdiOptions {
-  x12?: X12InboundEdiOptions;
+  x12?: X12InboundEdiOptions | undefined;
 }
 export interface CapabilityOptions {
-  outboundEdi?: OutboundEdiOptions;
-  inboundEdi?: InboundEdiOptions;
+  outboundEdi?: OutboundEdiOptions | undefined;
+  inboundEdi?: InboundEdiOptions | undefined;
 }
 export interface CreatePartnershipRequest {
   profileId: string;
   name: string;
   email: string | redacted.Redacted<string>;
-  phone?: string | redacted.Redacted<string>;
+  phone?: string | redacted.Redacted<string> | undefined;
   capabilities: string[];
-  capabilityOptions?: CapabilityOptions;
-  clientToken?: string;
-  tags?: Tag[];
+  capabilityOptions?: CapabilityOptions | undefined;
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type PartnershipId = string;
 export type TradingPartnerId = string;
@@ -654,12 +654,12 @@ export interface CreatePartnershipResponse {
   profileId: string;
   partnershipId: string;
   partnershipArn: string;
-  name?: string;
-  email?: string | redacted.Redacted<string>;
-  phone?: string | redacted.Redacted<string>;
-  capabilities?: string[];
-  capabilityOptions?: CapabilityOptions;
-  tradingPartnerId?: string;
+  name?: string | undefined;
+  email?: string | redacted.Redacted<string> | undefined;
+  phone?: string | redacted.Redacted<string> | undefined;
+  capabilities?: string[] | undefined;
+  capabilityOptions?: CapabilityOptions | undefined;
+  tradingPartnerId?: string | undefined;
   createdAt: Date;
 }
 export type ProfileName = string;
@@ -667,12 +667,12 @@ export type BusinessName = string;
 export type Logging = "ENABLED" | "DISABLED" | (string & {});
 export interface CreateProfileRequest {
   name: string;
-  email?: string | redacted.Redacted<string>;
+  email?: string | redacted.Redacted<string> | undefined;
   phone: string | redacted.Redacted<string>;
   businessName: string;
   logging: Logging;
-  clientToken?: string;
-  tags?: Tag[];
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type LogGroupName = string;
 export interface CreateProfileResponse {
@@ -681,15 +681,15 @@ export interface CreateProfileResponse {
   name: string;
   businessName: string;
   phone: string | redacted.Redacted<string>;
-  email?: string | redacted.Redacted<string>;
-  logging?: Logging;
-  logGroupName?: string;
+  email?: string | redacted.Redacted<string> | undefined;
+  logging?: Logging | undefined;
+  logGroupName?: string | undefined;
   createdAt: Date;
 }
 export type MappingType = "JSONATA" | "XSLT" | (string & {});
 export type TemplateDetails = { x12: X12Details };
 export interface CreateStarterMappingTemplateRequest {
-  outputSampleLocation?: S3Location;
+  outputSampleLocation?: S3Location | undefined;
   mappingType: MappingType;
   templateDetails: TemplateDetails;
 }
@@ -710,8 +710,8 @@ export type ElementId = string;
 export type CodeList = string[];
 export interface X12CodeListValidationRule {
   elementId: string;
-  codesToAdd?: string[];
-  codesToRemove?: string[];
+  codesToAdd?: string[] | undefined;
+  codesToRemove?: string[] | undefined;
 }
 export interface X12ElementLengthValidationRule {
   elementId: string;
@@ -727,49 +727,49 @@ export interface X12ElementRequirementValidationRule {
 export type X12ValidationRule =
   | {
       codeListValidationRule: X12CodeListValidationRule;
-      elementLengthValidationRule?: never;
-      elementRequirementValidationRule?: never;
+      elementLengthValidationRule?: undefined;
+      elementRequirementValidationRule?: undefined;
     }
   | {
-      codeListValidationRule?: never;
+      codeListValidationRule?: undefined;
       elementLengthValidationRule: X12ElementLengthValidationRule;
-      elementRequirementValidationRule?: never;
+      elementRequirementValidationRule?: undefined;
     }
   | {
-      codeListValidationRule?: never;
-      elementLengthValidationRule?: never;
+      codeListValidationRule?: undefined;
+      elementLengthValidationRule?: undefined;
       elementRequirementValidationRule: X12ElementRequirementValidationRule;
     };
 export type X12ValidationRules = X12ValidationRule[];
 export interface X12ValidationOptions {
-  validationRules?: X12ValidationRule[];
+  validationRules?: X12ValidationRule[] | undefined;
 }
 export interface X12AdvancedOptions {
-  splitOptions?: X12SplitOptions;
-  validationOptions?: X12ValidationOptions;
+  splitOptions?: X12SplitOptions | undefined;
+  validationOptions?: X12ValidationOptions | undefined;
 }
 export interface AdvancedOptions {
-  x12?: X12AdvancedOptions;
+  x12?: X12AdvancedOptions | undefined;
 }
 export interface InputConversion {
   fromFormat: FromFormat;
-  formatOptions?: FormatOptions;
-  advancedOptions?: AdvancedOptions;
+  formatOptions?: FormatOptions | undefined;
+  advancedOptions?: AdvancedOptions | undefined;
 }
 export type MappingTemplateLanguage = "XSLT" | "JSONATA" | (string & {});
 export interface Mapping {
   templateLanguage: MappingTemplateLanguage;
-  template?: string;
+  template?: string | undefined;
 }
 export type ToFormat = "X12" | (string & {});
 export interface OutputConversion {
   toFormat: ToFormat;
-  formatOptions?: FormatOptions;
-  advancedOptions?: AdvancedOptions;
+  formatOptions?: FormatOptions | undefined;
+  advancedOptions?: AdvancedOptions | undefined;
 }
 export interface SampleDocumentKeys {
-  input?: string;
-  output?: string;
+  input?: string | undefined;
+  output?: string | undefined;
 }
 export type KeyList = SampleDocumentKeys[];
 export interface SampleDocuments {
@@ -778,16 +778,16 @@ export interface SampleDocuments {
 }
 export interface CreateTransformerRequest {
   name: string;
-  clientToken?: string;
-  tags?: Tag[];
-  fileFormat?: FileFormat;
-  mappingTemplate?: string;
-  ediType?: EdiType;
-  sampleDocument?: string;
-  inputConversion?: InputConversion;
-  mapping?: Mapping;
-  outputConversion?: OutputConversion;
-  sampleDocuments?: SampleDocuments;
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
+  fileFormat?: FileFormat | undefined;
+  mappingTemplate?: string | undefined;
+  ediType?: EdiType | undefined;
+  sampleDocument?: string | undefined;
+  inputConversion?: InputConversion | undefined;
+  mapping?: Mapping | undefined;
+  outputConversion?: OutputConversion | undefined;
+  sampleDocuments?: SampleDocuments | undefined;
 }
 export type TransformerStatus = "active" | "inactive" | (string & {});
 export interface CreateTransformerResponse {
@@ -796,14 +796,14 @@ export interface CreateTransformerResponse {
   name: string;
   status: TransformerStatus;
   createdAt: Date;
-  fileFormat?: FileFormat;
-  mappingTemplate?: string;
-  ediType?: EdiType;
-  sampleDocument?: string;
-  inputConversion?: InputConversion;
-  mapping?: Mapping;
-  outputConversion?: OutputConversion;
-  sampleDocuments?: SampleDocuments;
+  fileFormat?: FileFormat | undefined;
+  mappingTemplate?: string | undefined;
+  ediType?: EdiType | undefined;
+  sampleDocument?: string | undefined;
+  inputConversion?: InputConversion | undefined;
+  mapping?: Mapping | undefined;
+  outputConversion?: OutputConversion | undefined;
+  sampleDocuments?: SampleDocuments | undefined;
 }
 export interface DeleteCapabilityRequest {
   capabilityId: string;
@@ -830,7 +830,7 @@ export interface GenerateMappingRequest {
 }
 export interface GenerateMappingResponse {
   mappingTemplate: string;
-  mappingAccuracy?: number;
+  mappingAccuracy?: number | undefined;
 }
 export interface GetCapabilityRequest {
   capabilityId: string;
@@ -842,9 +842,9 @@ export interface GetCapabilityResponse {
   name: string;
   type: CapabilityType;
   configuration: CapabilityConfiguration;
-  instructionsDocuments?: S3Location[];
+  instructionsDocuments?: S3Location[] | undefined;
   createdAt: Date;
-  modifiedAt?: Date;
+  modifiedAt?: Date | undefined;
 }
 export interface GetPartnershipRequest {
   partnershipId: string;
@@ -853,14 +853,14 @@ export interface GetPartnershipResponse {
   profileId: string;
   partnershipId: string;
   partnershipArn: string;
-  name?: string;
-  email?: string | redacted.Redacted<string>;
-  phone?: string | redacted.Redacted<string>;
-  capabilities?: string[];
-  capabilityOptions?: CapabilityOptions;
-  tradingPartnerId?: string;
+  name?: string | undefined;
+  email?: string | redacted.Redacted<string> | undefined;
+  phone?: string | redacted.Redacted<string> | undefined;
+  capabilities?: string[] | undefined;
+  capabilityOptions?: CapabilityOptions | undefined;
+  tradingPartnerId?: string | undefined;
   createdAt: Date;
-  modifiedAt?: Date;
+  modifiedAt?: Date | undefined;
 }
 export interface GetProfileRequest {
   profileId: string;
@@ -869,13 +869,13 @@ export interface GetProfileResponse {
   profileId: string;
   profileArn: string;
   name: string;
-  email?: string | redacted.Redacted<string>;
+  email?: string | redacted.Redacted<string> | undefined;
   phone: string | redacted.Redacted<string>;
   businessName: string;
-  logging?: Logging;
-  logGroupName?: string;
+  logging?: Logging | undefined;
+  logGroupName?: string | undefined;
   createdAt: Date;
-  modifiedAt?: Date;
+  modifiedAt?: Date | undefined;
 }
 export interface GetTransformerRequest {
   transformerId: string;
@@ -886,15 +886,15 @@ export interface GetTransformerResponse {
   name: string;
   status: TransformerStatus;
   createdAt: Date;
-  modifiedAt?: Date;
-  fileFormat?: FileFormat;
-  mappingTemplate?: string;
-  ediType?: EdiType;
-  sampleDocument?: string;
-  inputConversion?: InputConversion;
-  mapping?: Mapping;
-  outputConversion?: OutputConversion;
-  sampleDocuments?: SampleDocuments;
+  modifiedAt?: Date | undefined;
+  fileFormat?: FileFormat | undefined;
+  mappingTemplate?: string | undefined;
+  ediType?: EdiType | undefined;
+  sampleDocument?: string | undefined;
+  inputConversion?: InputConversion | undefined;
+  mapping?: Mapping | undefined;
+  outputConversion?: OutputConversion | undefined;
+  sampleDocuments?: SampleDocuments | undefined;
 }
 export type TransformerJobId = string;
 export interface GetTransformerJobRequest {
@@ -905,101 +905,101 @@ export type TransformerJobStatus = "running" | "succeeded" | "failed" | (string 
 export type S3LocationList = S3Location[];
 export interface GetTransformerJobResponse {
   status: TransformerJobStatus;
-  outputFiles?: S3Location[];
-  message?: string;
+  outputFiles?: S3Location[] | undefined;
+  message?: string | undefined;
 }
 export type PageToken = string;
 export type MaxResults = number;
 export interface ListCapabilitiesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface CapabilitySummary {
   capabilityId: string;
   name: string;
   type: CapabilityType;
   createdAt: Date;
-  modifiedAt?: Date;
+  modifiedAt?: Date | undefined;
 }
 export type CapabilityList = CapabilitySummary[];
 export interface ListCapabilitiesResponse {
   capabilities: CapabilitySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListPartnershipsRequest {
-  profileId?: string;
-  nextToken?: string;
-  maxResults?: number;
+  profileId?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface PartnershipSummary {
   profileId: string;
   partnershipId: string;
-  name?: string;
-  capabilities?: string[];
-  capabilityOptions?: CapabilityOptions;
-  tradingPartnerId?: string;
+  name?: string | undefined;
+  capabilities?: string[] | undefined;
+  capabilityOptions?: CapabilityOptions | undefined;
+  tradingPartnerId?: string | undefined;
   createdAt: Date;
-  modifiedAt?: Date;
+  modifiedAt?: Date | undefined;
 }
 export type PartnershipList = PartnershipSummary[];
 export interface ListPartnershipsResponse {
   partnerships: PartnershipSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListProfilesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ProfileSummary {
   profileId: string;
   name: string;
   businessName: string;
-  logging?: Logging;
-  logGroupName?: string;
+  logging?: Logging | undefined;
+  logGroupName?: string | undefined;
   createdAt: Date;
-  modifiedAt?: Date;
+  modifiedAt?: Date | undefined;
 }
 export type ProfileList = ProfileSummary[];
 export interface ListProfilesResponse {
   profiles: ProfileSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface ListTransformersRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface TransformerSummary {
   transformerId: string;
   name: string;
   status: TransformerStatus;
   createdAt: Date;
-  modifiedAt?: Date;
-  fileFormat?: FileFormat;
-  mappingTemplate?: string;
-  ediType?: EdiType;
-  sampleDocument?: string;
-  inputConversion?: InputConversion;
-  mapping?: Mapping;
-  outputConversion?: OutputConversion;
-  sampleDocuments?: SampleDocuments;
+  modifiedAt?: Date | undefined;
+  fileFormat?: FileFormat | undefined;
+  mappingTemplate?: string | undefined;
+  ediType?: EdiType | undefined;
+  sampleDocument?: string | undefined;
+  inputConversion?: InputConversion | undefined;
+  mapping?: Mapping | undefined;
+  outputConversion?: OutputConversion | undefined;
+  sampleDocuments?: SampleDocuments | undefined;
 }
 export type TransformerList = TransformerSummary[];
 export interface ListTransformersResponse {
   transformers: TransformerSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface StartTransformerJobRequest {
   inputFile: S3Location;
   outputLocation: S3Location;
   transformerId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface StartTransformerJobResponse {
   transformerJobId: string;
@@ -1020,9 +1020,9 @@ export type ConversionTargetFormatDetails = { x12: X12Details };
 export type OutputSampleFileSource = { fileLocation: S3Location };
 export interface ConversionTarget {
   fileFormat: ConversionTargetFormat;
-  formatDetails?: ConversionTargetFormatDetails;
-  outputSampleFile?: OutputSampleFileSource;
-  advancedOptions?: AdvancedOptions;
+  formatDetails?: ConversionTargetFormatDetails | undefined;
+  outputSampleFile?: OutputSampleFileSource | undefined;
+  advancedOptions?: AdvancedOptions | undefined;
 }
 export interface TestConversionRequest {
   source: ConversionSource;
@@ -1031,7 +1031,7 @@ export interface TestConversionRequest {
 export type ValidationMessages = string[];
 export interface TestConversionResponse {
   convertedFileContent: string;
-  validationMessages?: string[];
+  validationMessages?: string[] | undefined;
 }
 export type TestMappingInputFileContent = string;
 export interface TestMappingRequest {
@@ -1046,13 +1046,13 @@ export interface TestParsingRequest {
   inputFile: S3Location;
   fileFormat: FileFormat;
   ediType: EdiType;
-  advancedOptions?: AdvancedOptions;
+  advancedOptions?: AdvancedOptions | undefined;
 }
 export type ParsedSplitFileContentsList = string[];
 export interface TestParsingResponse {
   parsedFileContent: string;
-  parsedSplitFileContents?: string[];
-  validationMessages?: string[];
+  parsedSplitFileContents?: string[] | undefined;
+  validationMessages?: string[] | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
@@ -1062,9 +1062,9 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateCapabilityRequest {
   capabilityId: string;
-  name?: string;
-  configuration?: CapabilityConfiguration;
-  instructionsDocuments?: S3Location[];
+  name?: string | undefined;
+  configuration?: CapabilityConfiguration | undefined;
+  instructionsDocuments?: S3Location[] | undefined;
 }
 export interface UpdateCapabilityResponse {
   capabilityId: string;
@@ -1072,60 +1072,60 @@ export interface UpdateCapabilityResponse {
   name: string;
   type: CapabilityType;
   configuration: CapabilityConfiguration;
-  instructionsDocuments?: S3Location[];
+  instructionsDocuments?: S3Location[] | undefined;
   createdAt: Date;
-  modifiedAt?: Date;
+  modifiedAt?: Date | undefined;
 }
 export interface UpdatePartnershipRequest {
   partnershipId: string;
-  name?: string;
-  capabilities?: string[];
-  capabilityOptions?: CapabilityOptions;
+  name?: string | undefined;
+  capabilities?: string[] | undefined;
+  capabilityOptions?: CapabilityOptions | undefined;
 }
 export interface UpdatePartnershipResponse {
   profileId: string;
   partnershipId: string;
   partnershipArn: string;
-  name?: string;
-  email?: string | redacted.Redacted<string>;
-  phone?: string | redacted.Redacted<string>;
-  capabilities?: string[];
-  capabilityOptions?: CapabilityOptions;
-  tradingPartnerId?: string;
+  name?: string | undefined;
+  email?: string | redacted.Redacted<string> | undefined;
+  phone?: string | redacted.Redacted<string> | undefined;
+  capabilities?: string[] | undefined;
+  capabilityOptions?: CapabilityOptions | undefined;
+  tradingPartnerId?: string | undefined;
   createdAt: Date;
-  modifiedAt?: Date;
+  modifiedAt?: Date | undefined;
 }
 export interface UpdateProfileRequest {
   profileId: string;
-  name?: string;
-  email?: string | redacted.Redacted<string>;
-  phone?: string | redacted.Redacted<string>;
-  businessName?: string;
+  name?: string | undefined;
+  email?: string | redacted.Redacted<string> | undefined;
+  phone?: string | redacted.Redacted<string> | undefined;
+  businessName?: string | undefined;
 }
 export interface UpdateProfileResponse {
   profileId: string;
   profileArn: string;
   name: string;
-  email?: string | redacted.Redacted<string>;
+  email?: string | redacted.Redacted<string> | undefined;
   phone: string | redacted.Redacted<string>;
   businessName: string;
-  logging?: Logging;
-  logGroupName?: string;
+  logging?: Logging | undefined;
+  logGroupName?: string | undefined;
   createdAt: Date;
-  modifiedAt?: Date;
+  modifiedAt?: Date | undefined;
 }
 export interface UpdateTransformerRequest {
   transformerId: string;
-  name?: string;
-  status?: TransformerStatus;
-  fileFormat?: FileFormat;
-  mappingTemplate?: string;
-  ediType?: EdiType;
-  sampleDocument?: string;
-  inputConversion?: InputConversion;
-  mapping?: Mapping;
-  outputConversion?: OutputConversion;
-  sampleDocuments?: SampleDocuments;
+  name?: string | undefined;
+  status?: TransformerStatus | undefined;
+  fileFormat?: FileFormat | undefined;
+  mappingTemplate?: string | undefined;
+  ediType?: EdiType | undefined;
+  sampleDocument?: string | undefined;
+  inputConversion?: InputConversion | undefined;
+  mapping?: Mapping | undefined;
+  outputConversion?: OutputConversion | undefined;
+  sampleDocuments?: SampleDocuments | undefined;
 }
 export interface UpdateTransformerResponse {
   transformerId: string;
@@ -1134,14 +1134,14 @@ export interface UpdateTransformerResponse {
   status: TransformerStatus;
   createdAt: Date;
   modifiedAt: Date;
-  fileFormat?: FileFormat;
-  mappingTemplate?: string;
-  ediType?: EdiType;
-  sampleDocument?: string;
-  inputConversion?: InputConversion;
-  mapping?: Mapping;
-  outputConversion?: OutputConversion;
-  sampleDocuments?: SampleDocuments;
+  fileFormat?: FileFormat | undefined;
+  mappingTemplate?: string | undefined;
+  ediType?: EdiType | undefined;
+  sampleDocument?: string | undefined;
+  inputConversion?: InputConversion | undefined;
+  mapping?: Mapping | undefined;
+  outputConversion?: OutputConversion | undefined;
+  sampleDocuments?: SampleDocuments | undefined;
 }
 export type ErrorMessage = string;
 export type CreateCapabilityError =

@@ -125,7 +125,7 @@ export interface CreateHapgRequest {
 }
 export type HapgArn = string;
 export interface CreateHapgResponse {
-  HapgArn?: string;
+  HapgArn?: string | undefined;
 }
 export type SubnetId = string;
 export type SshKey = string;
@@ -137,26 +137,26 @@ export type ClientToken = string;
 export interface CreateHsmRequest {
   SubnetId: string;
   SshKey: string;
-  EniIp?: string;
+  EniIp?: string | undefined;
   IamRoleArn: string;
-  ExternalId?: string;
+  ExternalId?: string | undefined;
   SubscriptionType: SubscriptionType;
-  ClientToken?: string;
-  SyslogIp?: string;
+  ClientToken?: string | undefined;
+  SyslogIp?: string | undefined;
 }
 export type HsmArn = string;
 export interface CreateHsmResponse {
-  HsmArn?: string;
+  HsmArn?: string | undefined;
 }
 export type ClientLabel = string;
 export type Certificate = string;
 export interface CreateLunaClientRequest {
-  Label?: string;
+  Label?: string | undefined;
   Certificate: string;
 }
 export type ClientArn = string;
 export interface CreateLunaClientResponse {
-  ClientArn?: string;
+  ClientArn?: string | undefined;
 }
 export interface DeleteHapgRequest {
   HapgArn: string;
@@ -184,20 +184,20 @@ export type PartitionSerial = string;
 export type PartitionSerialList = string[];
 export type CloudHsmObjectState = "READY" | "UPDATING" | "DEGRADED" | (string & {});
 export interface DescribeHapgResponse {
-  HapgArn?: string;
-  HapgSerial?: string;
-  HsmsLastActionFailed?: string[];
-  HsmsPendingDeletion?: string[];
-  HsmsPendingRegistration?: string[];
-  Label?: string;
-  LastModifiedTimestamp?: string;
-  PartitionSerialList?: string[];
-  State?: CloudHsmObjectState;
+  HapgArn?: string | undefined;
+  HapgSerial?: string | undefined;
+  HsmsLastActionFailed?: string[] | undefined;
+  HsmsPendingDeletion?: string[] | undefined;
+  HsmsPendingRegistration?: string[] | undefined;
+  Label?: string | undefined;
+  LastModifiedTimestamp?: string | undefined;
+  PartitionSerialList?: string[] | undefined;
+  State?: CloudHsmObjectState | undefined;
 }
 export type HsmSerialNumber = string;
 export interface DescribeHsmRequest {
-  HsmArn?: string;
-  HsmSerialNumber?: string;
+  HsmArn?: string | undefined;
+  HsmSerialNumber?: string | undefined;
 }
 export type HsmStatus =
   | "PENDING"
@@ -214,39 +214,39 @@ export type VpcId = string;
 export type PartitionArn = string;
 export type PartitionList = string[];
 export interface DescribeHsmResponse {
-  HsmArn?: string;
-  Status?: HsmStatus;
-  StatusDetails?: string;
-  AvailabilityZone?: string;
-  EniId?: string;
-  EniIp?: string;
-  SubscriptionType?: SubscriptionType;
-  SubscriptionStartDate?: string;
-  SubscriptionEndDate?: string;
-  VpcId?: string;
-  SubnetId?: string;
-  IamRoleArn?: string;
-  SerialNumber?: string;
-  VendorName?: string;
-  HsmType?: string;
-  SoftwareVersion?: string;
-  SshPublicKey?: string;
-  SshKeyLastUpdated?: string;
-  ServerCertUri?: string;
-  ServerCertLastUpdated?: string;
-  Partitions?: string[];
+  HsmArn?: string | undefined;
+  Status?: HsmStatus | undefined;
+  StatusDetails?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  EniId?: string | undefined;
+  EniIp?: string | undefined;
+  SubscriptionType?: SubscriptionType | undefined;
+  SubscriptionStartDate?: string | undefined;
+  SubscriptionEndDate?: string | undefined;
+  VpcId?: string | undefined;
+  SubnetId?: string | undefined;
+  IamRoleArn?: string | undefined;
+  SerialNumber?: string | undefined;
+  VendorName?: string | undefined;
+  HsmType?: string | undefined;
+  SoftwareVersion?: string | undefined;
+  SshPublicKey?: string | undefined;
+  SshKeyLastUpdated?: string | undefined;
+  ServerCertUri?: string | undefined;
+  ServerCertLastUpdated?: string | undefined;
+  Partitions?: string[] | undefined;
 }
 export type CertificateFingerprint = string;
 export interface DescribeLunaClientRequest {
-  ClientArn?: string;
-  CertificateFingerprint?: string;
+  ClientArn?: string | undefined;
+  CertificateFingerprint?: string | undefined;
 }
 export interface DescribeLunaClientResponse {
-  ClientArn?: string;
-  Certificate?: string;
-  CertificateFingerprint?: string;
-  LastModifiedTimestamp?: string;
-  Label?: string;
+  ClientArn?: string | undefined;
+  Certificate?: string | undefined;
+  CertificateFingerprint?: string | undefined;
+  LastModifiedTimestamp?: string | undefined;
+  Label?: string | undefined;
 }
 export type ClientVersion = "5.1" | "5.3" | (string & {});
 export type HapgList = string[];
@@ -256,37 +256,37 @@ export interface GetConfigRequest {
   HapgList: string[];
 }
 export interface GetConfigResponse {
-  ConfigType?: string;
-  ConfigFile?: string;
-  ConfigCred?: string;
+  ConfigType?: string | undefined;
+  ConfigFile?: string | undefined;
+  ConfigCred?: string | undefined;
 }
 export interface ListAvailableZonesRequest {}
 export type AZList = string[];
 export interface ListAvailableZonesResponse {
-  AZList?: string[];
+  AZList?: string[] | undefined;
 }
 export type PaginationToken = string;
 export interface ListHapgsRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListHapgsResponse {
   HapgList: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListHsmsRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListHsmsResponse {
-  HsmList?: string[];
-  NextToken?: string;
+  HsmList?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLunaClientsRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ClientList = string[];
 export interface ListLunaClientsResponse {
   ClientList: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
@@ -296,29 +296,29 @@ export interface ListTagsForResourceResponse {
 }
 export interface ModifyHapgRequest {
   HapgArn: string;
-  Label?: string;
-  PartitionSerialList?: string[];
+  Label?: string | undefined;
+  PartitionSerialList?: string[] | undefined;
 }
 export interface ModifyHapgResponse {
-  HapgArn?: string;
+  HapgArn?: string | undefined;
 }
 export interface ModifyHsmRequest {
   HsmArn: string;
-  SubnetId?: string;
-  EniIp?: string;
-  IamRoleArn?: string;
-  ExternalId?: string;
-  SyslogIp?: string;
+  SubnetId?: string | undefined;
+  EniIp?: string | undefined;
+  IamRoleArn?: string | undefined;
+  ExternalId?: string | undefined;
+  SyslogIp?: string | undefined;
 }
 export interface ModifyHsmResponse {
-  HsmArn?: string;
+  HsmArn?: string | undefined;
 }
 export interface ModifyLunaClientRequest {
   ClientArn: string;
   Certificate: string;
 }
 export interface ModifyLunaClientResponse {
-  ClientArn?: string;
+  ClientArn?: string | undefined;
 }
 export type TagKeyList = string[];
 export interface RemoveTagsFromResourceRequest {

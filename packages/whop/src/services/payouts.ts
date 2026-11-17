@@ -30,46 +30,74 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export interface CancelPayoutRequest {
   /** Payout ID, prefixed `wdrl_`, or the `cofr_` payout request ID returned by `POST /payouts` -- both cancel the same payout. */
   id: string;
   /** Owning account ID, prefixed `biz_`. Provide exactly one of `account_id` or `user_id`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Owning user ID, prefixed `user_`. Provide exactly one of `account_id` or `user_id`. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Why the payout ended without paying, or why it reversed after settlement. Present on failed, canceled, denied, and reversed payouts; `null` otherwise. */
 export interface CancelPayoutResponseFailure {
@@ -183,31 +211,31 @@ export type CreatePayoutRequestMetadataMap = { [key: string]: string | undefined
 export type CreatePayoutRequestSpeed = "standard" | "instant";
 export interface CreatePayoutRequest {
   /** Account to pay out from, prefixed `biz_`. Provide exactly one of `account_id` or `user_id`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Set to `true` to continue when the destination bank could not confirm the payout method account holder's name, or `false` to have the payout refused in that case so the account holder can correct the name or link their bank first. Omitting the field skips the warning gate -- a client that cannot show the warning keeps its pre-gate behavior. */
-  acknowledge_bank_warning?: boolean;
+  acknowledge_bank_warning?: boolean | undefined;
   /** The amount to pay out in the specified currency. */
   amount: number;
   /** The currency to pay out. Balances are held per currency and the payout draws only from the balance in this currency, so match the currency the funds arrived in -- for example `cad` for an account funded by CAD transfers. When omitted, uses `usd` if that balance can cover a withdrawal, otherwise the account's only other funded currency. */
-  currency?: string;
+  currency?: string | undefined;
   /** Key-value data to attach to the payout, echoed on every read and in webhook payloads. At most 50 keys, key names up to 40 characters, string values up to 500 characters. Never store secrets or regulated personal data here -- webhook bodies are retained for delivery inspection. */
-  metadata?: CreatePayoutRequestMetadataMap;
+  metadata?: CreatePayoutRequestMetadataMap | undefined;
   /** Free-form notes to attach to the payout, with a maximum of 255 characters. Omit or pass `null` for no notes. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** The saved payout method to deliver to (a potk_ identifier). */
   payout_method_id: string;
   /** Whether the parent platform covers the payout fee instead of the account being paid out. Omit to use the platform's configured fee coverage policy; pass `false` to opt out of it. `true` is only accepted for accounts that belong to a platform, and requires the platform's policy to cover this payout method's category or a caller authorized to manage the platform's child account fees. */
-  platform_covers_fees?: boolean;
+  platform_covers_fees?: boolean | undefined;
   /** The server-signed quote_token returned by POST /payouts/quotes. Send it when the ledger account's payout_quote_required is true. A business with quote enforcement on refuses a payout without it with the invalid_payout_quote error type. When provided, Whop will not commit a provider payout below the destination amount the quote showed. */
-  quote_token?: string;
+  quote_token?: string | undefined;
   /** How fast the funds should arrive. `instant` is only accepted when the account and payout method are eligible; otherwise the payout is rejected. */
-  speed?: CreatePayoutRequestSpeed | (string & {});
+  speed?: CreatePayoutRequestSpeed | (string & {}) | undefined;
   /** Text that appears on the recipient's bank statement. Must be 5-22 alphanumeric characters (A-Z, a-z, 0-9). Without a `quote_token`, omit or pass `null` to use the default descriptor. With a `quote_token`, set this value when creating the quote; the payout request may omit it but cannot add or change it. */
-  statement_descriptor?: string | null;
+  statement_descriptor?: string | null | undefined;
   /** User to pay out from, prefixed `user_`. Provide exactly one of `account_id` or `user_id`. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Why the payout ended without paying, or why it reversed after settlement. Present on failed, canceled, denied, and reversed payouts; `null` otherwise. */
 export type CreatePayoutResponseFailure = CancelPayoutResponseFailure;
@@ -312,21 +340,21 @@ export interface CreatePayoutResponse {
 export type CreatePayoutMethodRequestFieldsMap = { [key: string]: string | undefined };
 export interface CreatePayoutMethodRequest {
   /** The account to add the payout method for, prefixed `biz_`. Provide this or `user_id`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Currency the supported payout method delivers payouts in. */
-  destination_currency?: string;
+  destination_currency?: string | undefined;
   /** The supported payout method's required field values, keyed by field id -- list them with `GET /payouts/supported_methods?supported_payout_method_id=...`. Field ids are stable `fld_` identifiers you may hardcode; they never change for a given field. A Basis Theory token id may be passed in place of a raw value. For a U.S. bank routing-number field, a raw nine-digit value must also pass the ABA checksum. A validation failure returns the method's full required_fields schema alongside the error. Required whenever the account details are supplied directly. */
-  fields?: CreatePayoutMethodRequestFieldsMap;
+  fields?: CreatePayoutMethodRequestFieldsMap | undefined;
   /** Whether to make this the account's default payout method. */
-  is_default?: boolean;
+  is_default?: boolean | undefined;
   /** A label for the payout method, unique per destination. */
-  nickname?: string;
+  nickname?: string | undefined;
   /** The supported payout method to save (a podst_ identifier from a previous listing). */
   supported_payout_method_id: string;
   /** The user to add the payout method for, prefixed `user_`. Provide this or `account_id`. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Lifecycle trust state: `checking` (verification still running), `verified` (bank confirmed ownership or a payout already completed to it), `no_data` (verification unavailable or bank returned no ownership data), `warning` (bank could not confirm the destination's owner), `broken` (payouts failed with a permanent account error), `null` (never checked). */
 export type CreatePayoutMethodResponseBankVerificationState =
@@ -351,14 +379,14 @@ export type CreatePayoutMethodResponseSupportedPayoutMethodDeliveryType =
   | "unknown";
 export interface CreatePayoutMethodResponseSupportedPayoutMethod {
   /** ISO 3166-1 alpha-3 country the destination pays out to. */
-  country_code?: string | null;
+  country_code?: string | null | undefined;
   /** How funds are delivered. */
   delivery_type: CreatePayoutMethodResponseSupportedPayoutMethodDeliveryType;
   icon_url: string | null;
   name: string | null;
   supports_instant_delivery: boolean;
   /** Whether the payer can link this method by signing in to their bank instead of typing account details. */
-  supports_plaid?: boolean;
+  supports_plaid?: boolean | undefined;
   supports_standard_delivery: boolean;
 }
 /** Why this method is unavailable: `destination_retired` means the payout provider stopped offering the destination. Whop may automatically remap an eligible method that was not linked through Plaid to a compatible replacement; otherwise, the account owner must re-add it. `null` means no unavailability reason is known. */
@@ -367,7 +395,7 @@ export interface CreatePayoutMethodResponse {
   /** Masked identifier for the destination. */
   account_reference: string | null;
   /** Lifecycle trust state: `checking` (verification still running), `verified` (bank confirmed ownership or a payout already completed to it), `no_data` (verification unavailable or bank returned no ownership data), `warning` (bank could not confirm the destination's owner), `broken` (payouts failed with a permanent account error), `null` (never checked). */
-  bank_verification_state?: CreatePayoutMethodResponseBankVerificationState | null;
+  bank_verification_state?: CreatePayoutMethodResponseBankVerificationState | null | undefined;
   created_at: string;
   destination_currency: string;
   /** Null on create. List payout methods to retrieve arrival estimates. */
@@ -378,14 +406,14 @@ export interface CreatePayoutMethodResponse {
   id: string;
   institution_name: string | null;
   /** Whether this method is a copy of one saved on another of the payer's accounts. */
-  is_clone?: boolean;
+  is_clone?: boolean | undefined;
   is_default: boolean;
   /** When the most recent completed payout was delivered to this method, as an ISO 8601 timestamp. `null` when nothing has been paid out to it yet. */
   last_paid_out_at: string | null;
   /** Whether the payer added this method by signing in to their bank rather than typing account details. */
-  linked_via_plaid?: boolean;
+  linked_via_plaid?: boolean | undefined;
   /** Whether the bank sign-in behind this method has expired and must be redone before it counts as linked. */
-  needs_plaid_reconnect?: boolean;
+  needs_plaid_reconnect?: boolean | undefined;
   /** User-defined label for the payout method. */
   nickname: string | null;
   object: CreatePayoutMethodResponseObject;
@@ -404,21 +432,21 @@ export interface CreatePayoutMethodResponse {
 export type CreatePayoutQuoteRequestSpeed = "standard" | "instant";
 export interface CreatePayoutQuoteRequest {
   /** Account to pay out from, prefixed `biz_`. Provide exactly one of `account_id` or `user_id`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The amount to pay out in the specified currency. */
   amount: number;
   /** The currency to pay out. When omitted, uses `usd` if that balance can cover a withdrawal, otherwise the account's only other funded currency. */
-  currency?: string;
+  currency?: string | undefined;
   /** The saved payout method to quote (a potk_ identifier). */
   payout_method_id: string;
   /** Whether the parent platform covers the payout fee instead of the account being paid out. */
-  platform_covers_fees?: boolean;
+  platform_covers_fees?: boolean | undefined;
   /** How fast the funds should arrive. */
-  speed?: CreatePayoutQuoteRequestSpeed | (string & {});
+  speed?: CreatePayoutQuoteRequestSpeed | (string & {}) | undefined;
   /** Text that appears on the recipient's bank statement. Must be 5-22 alphanumeric characters (A-Z, a-z, 0-9). Omit or pass `null` to use the default descriptor. */
-  statement_descriptor?: string | null;
+  statement_descriptor?: string | null | undefined;
   /** User to pay out from, prefixed `user_`. Provide exactly one of `account_id` or `user_id`. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A unique key that makes this quote request safe to retry. */
   idempotency_key: string;
 }
@@ -466,9 +494,9 @@ export interface GetPayoutRequest {
   /** Payout ID, prefixed `wdrl_` for a payout returned by `GET /payouts` or `cofr_` for the payout request returned by `POST /payouts`. */
   id: string;
   /** Owning account ID, prefixed `biz_`. Provide exactly one of `account_id` or `user_id`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Owning user ID, prefixed `user_`. Provide exactly one of `account_id` or `user_id`. */
-  user_id?: string;
+  user_id?: string | undefined;
 }
 /** Why the payout ended without paying, or why it reversed after settlement. Present on failed, canceled, denied, and reversed payouts; `null` otherwise. */
 export type GetPayoutResponseFailure = CancelPayoutResponseFailure;
@@ -572,25 +600,25 @@ export interface GetPayoutResponse {
 export type ListPayoutMethodsRequestStatus = "created" | "active" | "broken";
 export interface ListPayoutMethodsRequest {
   /** The owning account ID (a biz_ identifier). Provide this or user_id. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The owning user ID (a user_ identifier). Provide this or account_id. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Optional status filter. `created` means saved but unused, `active` means a payout through it succeeded, `broken` means the last payout failed and the method needs fixing. */
-  status?: ListPayoutMethodsRequestStatus | (string & {});
+  status?: ListPayoutMethodsRequestStatus | (string & {}) | undefined;
   /** Optional payout amount in whole currency units, for example `250.00`. When provided, each method includes a quote with the estimated fee, amount received, and delivery date for that amount. */
-  amount?: number;
+  amount?: number | undefined;
   /** Currency code of the amount, for example `usd`. Only meaningful with amount or include_limits. */
-  currency?: string;
+  currency?: string | undefined;
   /** When true, the response also carries limits -- the live per-speed payout caps the account's payout requests are validated against, in the requested currency. Requires the payout:withdrawal:read scope. */
-  include_limits?: boolean;
+  include_limits?: boolean | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 /** Lifecycle trust state: `checking` (verification still running), `verified` (bank confirmed ownership or a payout already completed to it), `no_data` (verification unavailable or bank returned no ownership data), `warning` (bank could not confirm the destination's owner), `broken` (payouts failed with a permanent account error), `null` (never checked). */
 export type ListPayoutMethodsResponseDataItemBankVerificationState =
@@ -784,7 +812,7 @@ export interface ListPayoutMethodsResponsePageInfo {
 export interface ListPayoutMethodsResponse {
   data: ListPayoutMethodsResponseDataList;
   /** The live per-speed payout caps for the account in the requested currency -- the numbers a payout request is validated against at submit time, so clients can cap an amount input at a value the request will accept. Only present when include_limits is true. */
-  limits?: ListPayoutMethodsResponseLimits;
+  limits?: ListPayoutMethodsResponseLimits | undefined;
   page_info: ListPayoutMethodsResponsePageInfo;
 }
 export type ListPayoutsRequestStatus =
@@ -799,29 +827,29 @@ export type ListPayoutsRequestStatus =
 export type ListPayoutsRequestSource = "api" | "dashboard" | "automatic";
 export interface ListPayoutsRequest {
   /** The owning account ID (a biz_ identifier). Provide this or user_id. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The owning user ID (a user_ identifier). Provide this or account_id. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Optional currency code filter, for example `usd`. */
-  currency?: string;
+  currency?: string | undefined;
   /** Filter to payouts whose `status` reads this word, matching exactly what this version displays -- `reversed` finds settled payouts the bank later returned. Requires Api-Version-Date 2026-08-21 or later. */
-  status?: ListPayoutsRequestStatus | (string & {});
+  status?: ListPayoutsRequestStatus | (string & {}) | undefined;
   /** Filter by how the payout was created. Payouts created before source tracking or through internal tooling carry no source and never match. */
-  source?: ListPayoutsRequestSource | (string & {});
+  source?: ListPayoutsRequestSource | (string & {}) | undefined;
   /** Filter to payouts sent to one saved payout method (a pytk_ identifier). An unknown id matches nothing. */
-  payout_method_id?: string;
+  payout_method_id?: string | undefined;
   /** Only payouts created before this ISO 8601 time (exclusive). */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only payouts created at or after this ISO 8601 time (inclusive). */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 /** Why the payout ended without paying, or why it reversed after settlement. Present on failed, canceled, denied, and reversed payouts; `null` otherwise. */
 export type ListPayoutsResponseDataItemFailure = CancelPayoutResponseFailure;
@@ -930,27 +958,27 @@ export interface ListPayoutsResponse {
 }
 export interface ListSupportedPayoutMethodsRequest {
   /** The owning account ID (a biz_ identifier). Provide this or user_id. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The owning user ID (a user_ identifier). Provide this or account_id. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** ISO 3166-1 alpha-2 country code for the bank account or wallet, such as `US`. Defaults to the country of supported_payout_method_id when one is given, otherwise the payout account's country. */
-  country?: string;
+  country?: string | undefined;
   /** Optional payout amount in whole currency units, for example `250.00`. When provided, each destination includes per-currency fee and delivery quotes. */
-  amount?: number;
+  amount?: number | undefined;
   /** Currency code of the amount, for example `usd`. Only meaningful with amount. */
-  currency?: string;
+  currency?: string | undefined;
   /** Narrows the list to one supported payout method (a podst_ identifier) and includes the required_fields needed to save it as a payout method. */
-  supported_payout_method_id?: string;
+  supported_payout_method_id?: string | undefined;
   /** Currency the supported payout method would deliver payouts in. Only meaningful with supported_payout_method_id; required fields vary by destination currency. */
-  destination_currency?: string;
+  destination_currency?: string | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 /** How funds are delivered, for example `bank_deposit`. */
 export type ListSupportedPayoutMethodsResponseDataItemDeliveryType =
@@ -1048,9 +1076,9 @@ export interface UpdatePayoutMethodRequest {
   /** Payout method ID, prefixed `potk_`. */
   id: string;
   /** Set to `true` to make this the account's default payout method. `false` is not accepted. */
-  is_default?: boolean;
+  is_default?: boolean | undefined;
   /** New label for the payout method, with at least one non-whitespace character and a maximum of 100 characters. */
-  nickname?: string;
+  nickname?: string | undefined;
 }
 /** Lifecycle trust state: `checking` (verification still running), `verified` (bank confirmed ownership or a payout already completed to it), `no_data` (verification unavailable or bank returned no ownership data), `warning` (bank could not confirm the destination's owner), `broken` (payouts failed with a permanent account error), `null` (never checked). */
 export type UpdatePayoutMethodResponseBankVerificationState =
@@ -1124,6 +1152,17 @@ export interface UpdatePayoutMethodResponse {
   /** Why this method is unavailable: `destination_retired` means the payout provider stopped offering the destination. Whop may automatically remap an eligible method that was not linked through Plaid to a compatible replacement; otherwise, the account owner must re-add it. `null` means no unavailability reason is known. */
   unavailable_reason: UpdatePayoutMethodResponseUnavailableReason | null;
 }
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
 export type CancelPayoutError = Forbidden | NotFound | Conflict | WhopOpError;
 /** Cancel Payout Cancels a payout that is still in review and returns the funds, fees included, to the balance. A payout can be canceled while its status is `in_review`. A `requested` payout is still being prepared (its funds may be converting) and answers 409 until it reaches review; from `processing` on, the money is on its way and the answer is 409 with error type `not_cancelable`. Canceling a payout that is already canceled succeeds and returns it unchanged. */
 export const cancelPayout: API.OperationMethod<
@@ -1132,8 +1171,8 @@ export const cancelPayout: API.OperationMethod<
   CancelPayoutError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<CancelPayoutRequest>,
-  output: __S(131, __c8, 3) as any as S.Schema<CancelPayoutResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<CancelPayoutRequest>,
+  output: __S(147, __c9, 3) as any as S.Schema<CancelPayoutResponse>,
   errors: [Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1149,8 +1188,8 @@ export const createPayout: API.OperationMethod<
   CreatePayoutError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<CreatePayoutRequest>,
-  output: __S(131, __c8, 3) as any as S.Schema<CreatePayoutResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<CreatePayoutRequest>,
+  output: __S(147, __c9, 3) as any as S.Schema<CreatePayoutResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1166,8 +1205,8 @@ export const createPayoutMethod: API.OperationMethod<
   CreatePayoutMethodError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<CreatePayoutMethodRequest>,
-  output: __S(162, __c10, 2) as any as S.Schema<CreatePayoutMethodResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<CreatePayoutMethodRequest>,
+  output: __S(178, __c11, 2) as any as S.Schema<CreatePayoutMethodResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1183,8 +1222,8 @@ export const createPayoutQuote: API.OperationMethod<
   CreatePayoutQuoteError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<CreatePayoutQuoteRequest>,
-  output: __S(178, __c11, 2) as any as S.Schema<CreatePayoutQuoteResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<CreatePayoutQuoteRequest>,
+  output: __S(194, __c12, 2) as any as S.Schema<CreatePayoutQuoteResponse>,
   errors: [BadRequest, Forbidden, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1200,8 +1239,8 @@ export const deletePayoutMethod: API.OperationMethod<
   DeletePayoutMethodError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<DeletePayoutMethodRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<DeletePayoutMethodResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<DeletePayoutMethodRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<DeletePayoutMethodResponse>,
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1217,8 +1256,8 @@ export const getPayout: API.OperationMethod<
   GetPayoutError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetPayoutRequest>,
-  output: __S(131, __c8, 3) as any as S.Schema<GetPayoutResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<GetPayoutRequest>,
+  output: __S(147, __c9, 3) as any as S.Schema<GetPayoutResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1236,8 +1275,8 @@ export const listPayoutMethods: API.PaginatedOperationMethod<
   ListPayoutMethodsResponseDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(0, __c0, 0) as any as S.Schema<ListPayoutMethodsRequest>,
-    output: __S(10, __c0, 10) as any as S.Schema<ListPayoutMethodsResponse>,
+    input: __S(16, __c1, 0) as any as S.Schema<ListPayoutMethodsRequest>,
+    output: __S(26, __c1, 10) as any as S.Schema<ListPayoutMethodsResponse>,
     errors: [BadRequest, Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -1265,8 +1304,8 @@ export const listPayouts: API.PaginatedOperationMethod<
   ListPayoutsResponseDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(48, __c3, 0) as any as S.Schema<ListPayoutsRequest>,
-    output: __S(50, __c3, 2) as any as S.Schema<ListPayoutsResponse>,
+    input: __S(64, __c4, 0) as any as S.Schema<ListPayoutsRequest>,
+    output: __S(66, __c4, 2) as any as S.Schema<ListPayoutsResponse>,
     errors: [BadRequest, Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -1294,8 +1333,8 @@ export const listSupportedPayoutMethods: API.PaginatedOperationMethod<
   ListSupportedPayoutMethodsResponseDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(64, __c4, 0) as any as S.Schema<ListSupportedPayoutMethodsRequest>,
-    output: __S(73, __c4, 9) as any as S.Schema<ListSupportedPayoutMethodsResponse>,
+    input: __S(80, __c5, 0) as any as S.Schema<ListSupportedPayoutMethodsRequest>,
+    output: __S(89, __c5, 9) as any as S.Schema<ListSupportedPayoutMethodsResponse>,
     errors: [BadRequest, Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -1321,8 +1360,8 @@ export const updatePayoutMethod: API.OperationMethod<
   UpdatePayoutMethodError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<UpdatePayoutMethodRequest>,
-  output: __S(81, __c5, 1) as any as S.Schema<UpdatePayoutMethodResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<UpdatePayoutMethodRequest>,
+  output: __S(97, __c6, 1) as any as S.Schema<UpdatePayoutMethodResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1332,6 +1371,24 @@ export const updatePayoutMethod: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1376,11 +1433,11 @@ function __c0(j: number): any {
           amount: S.Number,
           currency: S.String,
           exchange_rate: S.Number,
-          instant: S.NullOr(__S(3, __c0, 3)),
+          instant: S.NullOr(__S(19, __c1, 3)),
           instant_unavailable_reason: S.NullOr(S.String),
           max_limit: S.NullOr(S.Number),
           min_limit: S.Number,
-          standard: S.NullOr(__S(3, __c0, 3)),
+          standard: S.NullOr(__S(19, __c1, 3)),
         }),
       ).annotate({ identifier: "ListPayoutMethodsResponseDataItemQuote" });
     case 5:
@@ -1390,8 +1447,8 @@ function __c0(j: number): any {
           bank_verification_state: S.NullOr(S.String),
           created_at: S.String,
           destination_currency: S.String,
-          estimated_arrival: S.NullOr(__S(1, __c0, 1)),
-          fee_structure: S.NullOr(__S(2, __c0, 2)),
+          estimated_arrival: S.NullOr(__S(17, __c1, 1)),
+          fee_structure: S.NullOr(__S(18, __c1, 2)),
           id: S.String,
           institution_name: S.NullOr(S.String),
           is_clone: S.Boolean,
@@ -1402,15 +1459,15 @@ function __c0(j: number): any {
           nickname: S.NullOr(S.String),
           object: S.String,
           payer_name: S.NullOr(S.String),
-          quote: S.NullOr(__S(4, __c0, 4)),
+          quote: S.NullOr(__S(20, __c1, 4)),
           status: S.String,
           status_reason: S.NullOr(S.String),
-          supported_payout_method: S.NullOr(__S(32, __c2, 0)),
+          supported_payout_method: S.NullOr(__S(48, __c3, 0)),
           unavailable_reason: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ListPayoutMethodsResponseDataItem" });
     case 6:
-      return S.Array(__S(5, __c0, 5));
+      return S.Array(__S(21, __c1, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -1433,22 +1490,22 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           currency: S.String,
-          instant: __S(7, __c0, 7),
+          instant: __S(23, __c1, 7),
           object: S.String,
-          standard: __S(8, __c0, 8),
+          standard: __S(24, __c1, 8),
         }),
       ).annotate({ identifier: "ListPayoutMethodsResponseLimits" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          data: __S(6, __c0, 6),
-          limits: S.optional(__S(9, __c0, 9)),
-          page_info: __S(16, __c1, 0),
+          data: __S(22, __c1, 6),
+          limits: S.optional(__S(25, __c1, 9)),
+          page_info: __S(32, __c2, 0),
         }),
       ).annotate({ identifier: "ListPayoutMethodsResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1461,7 +1518,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ListPayoutMethodsResponsePageInfo" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1477,7 +1534,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ListPayoutMethodsResponseDataItemSupportedPayoutMethod" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1497,17 +1554,17 @@ function __c3(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/payouts", code: 200 })),
       ).annotate({ identifier: "ListPayoutsRequest" });
     case 1:
-      return S.Array(__S(131, __c8, 3));
+      return S.Array(__S(147, __c9, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(49, __c3, 1),
-          page_info: __S(16, __c1, 0),
+          data: __S(65, __c4, 1),
+          page_info: __S(32, __c2, 0),
         }),
       ).annotate({ identifier: "ListPayoutsResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1540,14 +1597,14 @@ function __c4(j: number): any {
           currency: S.String,
           destination_currency: S.String,
           exchange_rate: S.Number,
-          instant: S.NullOr(__S(65, __c4, 1)),
+          instant: S.NullOr(__S(81, __c5, 1)),
           max_limit: S.NullOr(S.Number),
           min_limit: S.Number,
-          standard: S.NullOr(__S(65, __c4, 1)),
+          standard: S.NullOr(__S(81, __c5, 1)),
         }),
       ).annotate({ identifier: "ListSupportedPayoutMethodsResponseDataItemQuotesItem" });
     case 3:
-      return S.Array(__S(66, __c4, 2));
+      return S.Array(__S(82, __c5, 2));
     case 4:
       return S.Array(S.String);
     case 5:
@@ -1557,7 +1614,7 @@ function __c4(j: number): any {
           input_type: S.String,
           label: S.String,
           object: S.String,
-          options: S.NullOr(__S(68, __c4, 4)),
+          options: S.NullOr(__S(84, __c5, 4)),
           placeholder: S.NullOr(S.String),
           required: S.Boolean,
           sensitive: S.Boolean,
@@ -1566,7 +1623,7 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "ListSupportedPayoutMethodsResponseDataItemRequiredFieldsItem" });
     case 6:
-      return S.Array(__S(69, __c4, 5));
+      return S.Array(__S(85, __c5, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -1575,24 +1632,24 @@ function __c4(j: number): any {
           id: S.String,
           name: S.NullOr(S.String),
           object: S.String,
-          quotes: S.NullOr(__S(67, __c4, 3)),
-          required_fields: S.NullOr(__S(70, __c4, 6)),
+          quotes: S.NullOr(__S(83, __c5, 3)),
+          required_fields: S.NullOr(__S(86, __c5, 6)),
           supports_instant_delivery: S.Boolean,
           supports_standard_delivery: S.Boolean,
         }),
       ).annotate({ identifier: "ListSupportedPayoutMethodsResponseDataItem" });
     case 8:
-      return S.Array(__S(71, __c4, 7));
+      return S.Array(__S(87, __c5, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          data: __S(72, __c4, 8),
-          page_info: __S(16, __c1, 0),
+          data: __S(88, __c5, 8),
+          page_info: __S(32, __c2, 0),
         }),
       ).annotate({ identifier: "ListSupportedPayoutMethodsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1624,13 +1681,13 @@ function __c5(j: number): any {
           quote: S.NullOr(S.Unknown),
           status: S.String,
           status_reason: S.NullOr(S.String),
-          supported_payout_method: S.NullOr(__S(32, __c2, 0)),
+          supported_payout_method: S.NullOr(__S(48, __c3, 0)),
           unavailable_reason: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "UpdatePayoutMethodResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1643,13 +1700,13 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CancelPayoutRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1671,7 +1728,7 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nickname: S.NullOr(S.String),
-          supported_payout_method: S.NullOr(__S(129, __c8, 1)),
+          supported_payout_method: S.NullOr(__S(145, __c9, 1)),
         }),
       ).annotate({ identifier: "CancelPayoutResponsePayoutMethod" });
     case 3:
@@ -1684,17 +1741,17 @@ function __c8(j: number): any {
           destination_currency: S.NullOr(S.String),
           estimated_arrival: S.NullOr(S.String),
           exchange_rate: S.NullOr(S.Number),
-          failure: S.NullOr(__S(128, __c8, 0)),
+          failure: S.NullOr(__S(144, __c9, 0)),
           fee_amount: S.String,
           fee_paid_by: S.String,
           id: S.String,
           markup_fee: S.String,
-          metadata: __S(112, __c7, 0),
+          metadata: __S(128, __c8, 0),
           net_amount: S.String,
           notes: S.NullOr(S.String),
           object: S.String,
           payer_name: S.NullOr(S.String),
-          payout_method: S.NullOr(__S(130, __c8, 2)),
+          payout_method: S.NullOr(__S(146, __c9, 2)),
           payout_request_id: S.NullOr(S.String),
           source: S.NullOr(S.String),
           speed: S.String,
@@ -1706,7 +1763,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CancelPayoutResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1715,7 +1772,7 @@ function __c9(j: number): any {
           acknowledge_bank_warning: S.optional(S.Boolean),
           amount: S.Number,
           currency: S.optional(S.String),
-          metadata: S.optional(__S(112, __c7, 0)),
+          metadata: S.optional(__S(128, __c8, 0)),
           notes: S.optional(S.NullOr(S.String)),
           payout_method_id: S.String,
           platform_covers_fees: S.optional(S.Boolean),
@@ -1728,14 +1785,14 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreatePayoutRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           account_id: S.optional(S.String),
           destination_currency: S.optional(S.String),
-          fields: S.optional(__S(112, __c7, 0)),
+          fields: S.optional(__S(128, __c8, 0)),
           is_default: S.optional(S.Boolean),
           nickname: S.optional(S.String),
           supported_payout_method_id: S.String,
@@ -1777,13 +1834,13 @@ function __c10(j: number): any {
           quote: S.NullOr(S.Unknown),
           status: S.String,
           status_reason: S.NullOr(S.String),
-          supported_payout_method: S.NullOr(__S(161, __c10, 1)),
+          supported_payout_method: S.NullOr(__S(177, __c11, 1)),
           unavailable_reason: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "CreatePayoutMethodResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1811,20 +1868,20 @@ function __c11(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          amount: __S(177, __c11, 1),
-          destination_amount: __S(177, __c11, 1),
+          amount: __S(193, __c12, 1),
+          destination_amount: __S(193, __c12, 1),
           exchange_rate: S.Number,
           expires_at: S.String,
-          fee: __S(177, __c11, 1),
+          fee: __S(193, __c12, 1),
           id: S.String,
-          net_amount: __S(177, __c11, 1),
+          net_amount: __S(193, __c12, 1),
           object: S.String,
           quote_token: S.String,
         }),
       ).annotate({ identifier: "CreatePayoutQuoteResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1841,7 +1898,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DeletePayoutMethodResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

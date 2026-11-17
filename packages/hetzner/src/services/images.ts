@@ -97,11 +97,9 @@ export interface GetImageResponseImage {
   /** Operating system version. */
   os_version: string | null;
   /** Indicates that rapid deploy of the Image is available. */
-  rapid_deploy?: boolean;
+  rapid_deploy?: boolean | undefined;
   /** Protection configuration for the Resource. */
   protection: GetImageResponseImageProtection;
-  /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
-  deprecated: string | null;
   /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
   deprecation: GetImageResponseImageDeprecation | null;
   /** Point in time where the Image was deleted (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
@@ -112,7 +110,7 @@ export interface GetImageResponseImage {
   architecture: GetImageResponseImageArchitecture;
 }
 export interface GetImageResponse {
-  image?: GetImageResponseImage;
+  image?: GetImageResponseImage | undefined;
 }
 export type ListImagesRequestSortItem =
   | "id"
@@ -136,25 +134,25 @@ export type ListImagesRequestBoundToList = Array<string>;
 export type ListImagesRequestArchitecture = "x86" | "arm";
 export interface ListImagesRequest {
   /** Sort resources by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListImagesRequestSortList;
+  sort?: ListImagesRequestSortList | undefined;
   /** Filter resources by type. May be used multiple times. The response will only contain the resources with the specified type. */
-  type?: ListImagesRequestTypeList;
+  type?: ListImagesRequestTypeList | undefined;
   /** Filter resources by status. May be used multiple times. The response will only contain the resources with the specified status. */
-  status?: ListImagesRequestStatusList;
+  status?: ListImagesRequestStatusList | undefined;
   /** Filter Images by their linked Server ID. May be used multiple times. Only available for Images of type `backup`. */
-  bound_to?: ListImagesRequestBoundToList;
+  bound_to?: ListImagesRequestBoundToList | undefined;
   /** Include deprecated Images. */
-  include_deprecated?: boolean;
+  include_deprecated?: boolean | undefined;
   /** Filter resources by their name. The response will only contain the resources matching exactly the specified name. */
-  name?: string;
+  name?: string | undefined;
   /** Filter resources by labels. The response will only contain resources matching the label selector. For more information, see "[Label Selector](#description/label-selector)". */
-  label_selector?: string;
+  label_selector?: string | undefined;
   /** Filter resources by cpu architecture. The response will only contain the resources with the specified cpu architecture. */
-  architecture?: ListImagesRequestArchitecture | (string & {});
+  architecture?: ListImagesRequestArchitecture | (string & {}) | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Type of the Image. */
 export type ListImagesResponseImagesItemType = "system" | "app" | "snapshot" | "backup";
@@ -206,11 +204,9 @@ export interface ListImagesResponseImagesItem {
   /** Operating system version. */
   os_version: string | null;
   /** Indicates that rapid deploy of the Image is available. */
-  rapid_deploy?: boolean;
+  rapid_deploy?: boolean | undefined;
   /** Protection configuration for the Resource. */
   protection: GetImageResponseImageProtection;
-  /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
-  deprecated: string | null;
   /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
   deprecation: GetImageResponseImageDeprecation | null;
   /** Point in time where the Image was deleted (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
@@ -252,11 +248,11 @@ export interface UpdateImageRequest {
   /** ID of the Image. */
   id: number;
   /** New description of Image. */
-  description?: string;
+  description?: string | undefined;
   /** Destination Image type to convert to. */
-  type?: UpdateImageRequestType | (string & {});
+  type?: UpdateImageRequestType | (string & {}) | undefined;
   /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-  labels?: UpdateImageRequestLabelsMap;
+  labels?: UpdateImageRequestLabelsMap | undefined;
 }
 /** Type of the Image. */
 export type UpdateImageResponseImageType = "system" | "app" | "snapshot" | "backup";
@@ -308,11 +304,9 @@ export interface UpdateImageResponseImage {
   /** Operating system version. */
   os_version: string | null;
   /** Indicates that rapid deploy of the Image is available. */
-  rapid_deploy?: boolean;
+  rapid_deploy?: boolean | undefined;
   /** Protection configuration for the Resource. */
   protection: GetImageResponseImageProtection;
-  /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
-  deprecated: string | null;
   /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
   deprecation: GetImageResponseImageDeprecation | null;
   /** Point in time where the Image was deleted (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
@@ -323,7 +317,7 @@ export interface UpdateImageResponseImage {
   architecture: UpdateImageResponseImageArchitecture;
 }
 export interface UpdateImageResponse {
-  image?: UpdateImageResponseImage;
+  image?: UpdateImageResponseImage | undefined;
 }
 export type DeleteImageError = HetznerOpError;
 /** Delete an Image Deletes an Image. Only Images of type `snapshot` and `backup` can be deleted. */
@@ -468,7 +462,6 @@ function __c2(j: number): any {
           os_version: S.NullOr(S.String),
           rapid_deploy: S.optional(S.Boolean),
           protection: __S(17, __c2, 1),
-          deprecated: S.NullOr(S.String),
           deprecation: S.NullOr(__S(18, __c2, 2)),
           deleted: S.NullOr(S.String),
           labels: __S(19, __c2, 3),

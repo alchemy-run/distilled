@@ -156,6 +156,7 @@ describe("Container applications, one response type per scheduling policy", () =
       createContainerApplication({
         accountId: "account",
         name: "fleet",
+        schedulingPolicy: "default",
         maxInstances: 5,
         configuration: {
           image: "registry.cloudflare.com/account/app:1",
@@ -171,6 +172,7 @@ describe("Container applications, one response type per scheduling policy", () =
     );
     expect(sent).toEqual({
       name: "fleet",
+      scheduling_policy: "default",
       max_instances: 5,
       configuration: {
         image: "registry.cloudflare.com/account/app:1",
@@ -189,6 +191,7 @@ describe("Container applications, one response type per scheduling policy", () =
       createContainerApplication({
         accountId: "account",
         name: "fleet",
+        schedulingPolicy: "default",
         maxInstances: 5,
         configuration: {
           image: "registry.cloudflare.com/account/app:1",
@@ -225,6 +228,7 @@ describe("Container application rollout grace period", () => {
       createContainerApplication({
         accountId: "account",
         name: "fleet",
+        schedulingPolicy: "default",
         maxInstances: 5,
         configuration: { image: "registry.cloudflare.com/account/app:1" },
         rolloutActiveGracePeriod: 300,

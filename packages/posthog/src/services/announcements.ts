@@ -33,7 +33,7 @@ export interface CreateAnnouncementRequest {
   /** Message body to send, rendered as Slack mrkdwn. */
   message: string;
   /** Slack identity the message is posted under: 'bot' posts as SupportHog, 'user' posts under the Slack name and avatar of the person sending it (matched by their PostHog email). * `bot` - SupportHog * `user` - The person who created it */
-  send_as?: AnnouncementSendAsEnum | (string & {});
+  send_as?: AnnouncementSendAsEnum | (string & {}) | undefined;
   /** Slack channel IDs to send to. Each must be a channel the SupportHog bot is a member of; names are resolved server-side. */
   channels: CreateAnnouncementRequestChannelsList;
 }
@@ -54,15 +54,15 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** * `pending` - Pending * `sent` - Sent * `failed` - Failed */
 export type AnnouncementDeliveryStatusEnum = "pending" | "sent" | "failed";
@@ -92,7 +92,7 @@ export interface AnnouncementOutput {
   /** Overall status: pending, sending, sent, partially_failed, or failed. * `pending` - Pending * `sending` - Sending * `sent` - Sent * `partially_failed` - Partially failed * `failed` - Failed */
   status: AnnouncementStatusEnum;
   /** Slack identity the message is posted under: 'bot' posts as SupportHog, 'user' posts under the Slack name and avatar of the person sending it (matched by their PostHog email). * `bot` - SupportHog * `user` - The person who created it */
-  send_as?: AnnouncementSendAsEnum;
+  send_as?: AnnouncementSendAsEnum | undefined;
   /** Slack display name the message was posted under when send_as is 'user'; empty otherwise. */
   sender_display_name: string;
   /** Number of channels this announcement targets. */
@@ -118,15 +118,15 @@ export interface ListAnnouncementsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedAnnouncementListOutputResultsList = Array<AnnouncementOutput>;
 export interface PaginatedAnnouncementListOutput {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAnnouncementListOutputResultsList;
 }
 export interface ListAnnouncementsChannelsRequest {

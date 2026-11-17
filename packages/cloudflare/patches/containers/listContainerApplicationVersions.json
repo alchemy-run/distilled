@@ -1,0 +1,108 @@
+{
+  "description": "Name the documented versions listing listContainerApplicationVersions, like the other containers operations. Its configuration is the full deployment configuration. GET …/applications/{application_id}/versions on a missing application returns HTTP 404, code 1609, message {\"error\":\"APPLICATION_NOT_FOUND\"} (live, 2026-11-12), typed ContainerApplicationNotFound.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsVersionsListResultItem/members/configuration/target",
+      "value": "com.cloudflare.containers#ContainerApplicationConfiguration"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsVersionsListResultList/member/target",
+      "value": "com.cloudflare.containers#ContainerApplicationVersion"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsVersionsListResultItem",
+      "path": "/shapes/com.cloudflare.containers#ContainerApplicationVersion"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsVersionsListResponse/members/result/target",
+      "value": "com.cloudflare.containers#ContainerApplicationVersionList"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsVersionsListResultList",
+      "path": "/shapes/com.cloudflare.containers#ContainerApplicationVersionList"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsVersionsList/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.cloudflare.containers#InvalidRoute"
+        },
+        {
+          "target": "com.cloudflare.containers#ContainerApplicationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsVersionsList",
+      "path": "/shapes/com.cloudflare.containers#ListContainerApplicationVersions"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ListContainerApplicationVersions/input/target",
+      "value": "com.cloudflare.containers#ListContainerApplicationVersionsRequest"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsVersionsListRequest",
+      "path": "/shapes/com.cloudflare.containers#ListContainerApplicationVersionsRequest"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ListContainerApplicationVersions/output/target",
+      "value": "com.cloudflare.containers#ListContainerApplicationVersionsResponse"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsVersionsListResponse",
+      "path": "/shapes/com.cloudflare.containers#ListContainerApplicationVersionsResponse"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsVersionsListResultItemConfigurationAuthorizedKeysItem"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsVersionsListResultItemConfigurationAuthorizedKeysList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsVersionsListResultItemConfigurationCommandList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsVersionsListResultItemConfigurationEntrypointList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsVersionsListResultItemConfigurationEnvironmentVariablesItem"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsVersionsListResultItemConfigurationEnvironmentVariablesList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsVersionsListResultItemConfigurationInstanceType"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsVersionsListResultItemConfigurationObservabilityLogs"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsVersionsListResultItemConfigurationObservability"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsVersionsListResultItemConfiguration"
+    }
+  ]
+}

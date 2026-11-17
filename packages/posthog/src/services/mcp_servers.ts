@@ -27,9 +27,9 @@ export interface ListMcpServersRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** * `api_key` - API Key * `oauth` - OAuth */
 export type MCPAuthTypeEnum = "api_key" | "oauth";
@@ -42,24 +42,24 @@ export type MCPServerCategoryEnum =
   | "infra"
   | "productivity";
 export interface MCPServerTemplate {
-  id?: string;
-  name?: string;
-  url?: string;
-  docs_url?: string;
-  description?: string;
-  auth_type?: MCPAuthTypeEnum;
+  id?: string | undefined;
+  name?: string | undefined;
+  url?: string | undefined;
+  docs_url?: string | undefined;
+  description?: string | undefined;
+  auth_type?: MCPAuthTypeEnum | undefined;
   /** Deprecated: use icon_domain instead. Lowercase key for clients that still render bundled icon assets. */
-  icon_key?: string;
+  icon_key?: string | undefined;
   /** The vendor's brand domain (e.g. 'linear.app'), resolved to an icon at render time via the logo.dev proxy endpoint. Empty when no brand icon is known. */
-  icon_domain?: string;
-  category?: MCPServerCategoryEnum;
+  icon_domain?: string | undefined;
+  category?: MCPServerCategoryEnum | undefined;
 }
 export type PaginatedMCPServerTemplateListResultsList = Array<MCPServerTemplate>;
 export interface PaginatedMCPServerTemplateList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedMCPServerTemplateListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedMCPServerTemplateListResultsList | undefined;
 }
 export type ListMcpServersError = PosthogOpError;
 /** Lists curated MCP server templates that users can install with one click. Templates are seeded by PostHog operators and carry shared, encrypted OAuth client credentials. Inactive templates are hidden from the catalog. */

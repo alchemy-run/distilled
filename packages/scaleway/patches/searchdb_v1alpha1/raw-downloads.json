@@ -1,0 +1,63 @@
+{
+  "description": "DownloadDeploymentCertificateAuthority: Scaleway answers the file itself when the request adds `?dl=1` (scaleway-sdk-js sends it for these downloads; the Go SDK and CLI read the JSON `scaleway.std.File` instead). Each gets a `…Raw` twin that sends `dl=1` (the `rawDownload` flag on its http trait) and returns the body as bytes.",
+  "patches": [
+    {
+      "op": "copy",
+      "from": "/shapes/com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRequest",
+      "path": "/shapes/com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRawRequest"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRawResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#Blob",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {},
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthority",
+      "path": "/shapes/com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRaw"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRaw/input",
+      "value": {
+        "target": "com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRawRequest"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRaw/output",
+      "value": {
+        "target": "com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRawResponse"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRaw/traits/smithy.api#http/rawDownload",
+      "value": true
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRaw/traits/smithy.api#documentation",
+      "value": "The file `downloadDeploymentCertificateAuthority` returns, as bytes (`?dl=1`), rather than the JSON file object."
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.scaleway.searchdb_v1alpha1#SearchdbV1alpha1/operations/-",
+      "value": {
+        "target": "com.scaleway.searchdb_v1alpha1#DownloadDeploymentCertificateAuthorityRaw"
+      }
+    }
+  ]
+}

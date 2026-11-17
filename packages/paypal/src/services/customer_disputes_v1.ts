@@ -31,33 +31,54 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(34, __c1, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(34, __c1, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(34, __c1, 2)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export interface DisputesAcceptClaimRequest {
   /** The ID of the dispute for which to provide the supporting information. */
   id: string;
   /** A file with evidence. */
-  accept_claim_document?: string;
+  accept_claim_document?: string | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type LinkDescriptionMethod =
@@ -76,25 +97,25 @@ export interface LinkDescription {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: LinkDescriptionMethod;
+  method?: LinkDescriptionMethod | undefined;
 }
 /** An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links/). */
 export type DefinitionsLinkDescriptionList = Array<LinkDescription>;
 /** The subsequent action. */
 export interface SubsequentAction {
-  links?: DefinitionsLinkDescriptionList;
+  links?: DefinitionsLinkDescriptionList | undefined;
 }
 export interface DisputesAcceptOfferRequest {
   /** The ID of the dispute for which to provide the supporting information. */
   id: string;
   /** The customer notes about accepting of offer. PayPal can but the merchant cannot view these notes. */
-  note?: string;
+  note?: string | undefined;
 }
 export interface DisputesAcknowledgeReturnItemRequest {
   /** The ID of the dispute for which to provide the supporting information. */
   id: string;
   /** A file with evidence. */
-  acknowledgement_document?: string;
+  acknowledgement_document?: string | undefined;
 }
 /** The outcome of the adjudication. */
 export type DisputesAdjudicateRequestAdjudicationOutcome = "BUYER_FAVOR" | "SELLER_FAVOR";
@@ -108,7 +129,7 @@ export interface DisputesAppealRequest {
   /** The ID of the dispute for which to provide the supporting information. */
   id: string;
   /** A file with evidence. */
-  evidence_file?: string;
+  evidence_file?: string | undefined;
 }
 export interface DisputesDenyOfferRequest {
   /** The ID of the dispute for which to provide the supporting information. */
@@ -120,12 +141,12 @@ export interface DisputesEscalateRequest {
   /** The ID of the dispute for which to provide the supporting information. */
   id: string;
   /** The notes about the escalation of the dispute to a claim. */
-  note?: string;
-  buyer_escalation_reason?: unknown;
+  note?: string | undefined;
+  buyer_escalation_reason?: unknown | undefined;
 }
 /** The response for escalate action. */
 export interface EscalateResponse {
-  links?: DefinitionsLinkDescriptionList;
+  links?: DefinitionsLinkDescriptionList | undefined;
 }
 /** The currency and amount for a financial transaction, such as a balance or payment due. */
 export interface Money {
@@ -136,38 +157,38 @@ export interface Money {
 /** The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.<br/>For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`. */
 export interface AddressDetails {
   /** The street number. */
-  street_number?: string;
+  street_number?: string | undefined;
   /** The street name. Just `Drury` in `Drury Lane`. */
-  street_name?: string;
+  street_name?: string | undefined;
   /** The street type. For example, avenue, boulevard, road, or expressway. */
-  street_type?: string;
+  street_type?: string | undefined;
   /** The delivery service. Post office box, bag number, or post office name. */
-  delivery_service?: string;
+  delivery_service?: string | undefined;
   /** A named locations that represents the premise. Usually a building name or number or collection of buildings with a common name or number. For example, <code>Craven House</code>. */
-  building_name?: string;
+  building_name?: string | undefined;
   /** The first-order entity below a named building or location that represents the sub-premises. Usually a single building within a collection of buildings with a common name. Can be a flat, story, floor, room, or apartment. */
-  sub_building?: string;
+  sub_building?: string | undefined;
 }
 /** The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute). */
 export interface AddressPortable {
   /** The first line of the address. For example, number or street. For example, `173 Drury Lane`. Required for data entry and compliance and risk checks. Must contain the full address. */
-  address_line_1?: string;
+  address_line_1?: string | undefined;
   /** The second line of the address. For example, suite or apartment number. */
-  address_line_2?: string;
+  address_line_2?: string | undefined;
   /** The third line of the address, if needed. For example, a street complement for Brazil, direction text, such as `next to Walmart`, or a landmark in an Indian address. */
-  address_line_3?: string;
+  address_line_3?: string | undefined;
   /** The neighborhood, ward, or district. Smaller than `admin_area_level_3` or `sub_locality`. Value is:<ul><li>The postal sorting code for Guernsey and many French territories, such as French Guiana.</li><li>The fine-grained administrative levels in China.</li></ul> */
-  admin_area_4?: string;
+  admin_area_4?: string | undefined;
   /** A sub-locality, suburb, neighborhood, or district. Smaller than `admin_area_level_2`. Value is:<ul><li>Brazil. Suburb, bairro, or neighborhood.</li><li>India. Sub-locality or district. Street name information is not always available but a sub-locality or district can be a very small area.</li></ul> */
-  admin_area_3?: string;
+  admin_area_3?: string | undefined;
   /** A city, town, or village. Smaller than `admin_area_level_1`. */
-  admin_area_2?: string;
+  admin_area_2?: string | undefined;
   /** The highest level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. Format for postal delivery. For example, `CA` and not `California`. Value, by country, is:<ul><li>UK. A county.</li><li>US. A state.</li><li>Canada. A province.</li><li>Japan. A prefecture.</li><li>Switzerland. A kanton.</li></ul> */
-  admin_area_1?: string;
+  admin_area_1?: string | undefined;
   /** The postal code, which is the zip code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code). */
-  postal_code?: string;
+  postal_code?: string | undefined;
   country_code: string;
-  address_details?: AddressDetails;
+  address_details?: AddressDetails | undefined;
 }
 /** The merchant-proposed offer type for the dispute. */
 export type OfferType =
@@ -181,24 +202,24 @@ export interface DisputesMakeOfferRequest {
   /** The merchant's notes about the offer. */
   note: string;
   /** The amount proposed to resolve the dispute. */
-  offer_amount?: Money;
+  offer_amount?: Money | undefined;
   /** The return address for the item. Required when the customer must return an item to the merchant for the <code>MERCHANDISE_OR_SERVICE_NOT_AS_DESCRIBED</code> dispute reason, especially if the refund amount is less than the dispute amount. */
-  return_shipping_address?: AddressPortable;
+  return_shipping_address?: AddressPortable | undefined;
   /** The merchant-provided ID of the invoice for the refund. This optional value maps the refund to an invoice ID in the merchant's system. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   offer_type: OfferType | (string & {});
 }
 export interface DisputesProvideEvidenceRequest {
   /** The ID of the dispute for which to provide the supporting information. */
   id: string;
   /** A file with evidence. */
-  evidence_file?: string;
+  evidence_file?: string | undefined;
 }
 export interface DisputesProvideSupportingInfoRequest {
   /** The ID of the dispute for which to provide the supporting information. */
   id: string;
   /** A file with evidence. */
-  supporting_document?: string;
+  supporting_document?: string | undefined;
 }
 /** The action. Indicates whether the state change enables the customer or merchant to submit evidence. */
 export type DisputesRequireEvidenceRequestAction = "BUYER_EVIDENCE" | "SELLER_EVIDENCE";
@@ -212,7 +233,7 @@ export interface DisputesSendMessageRequest {
   /** The ID of the dispute for which to provide the supporting information. */
   id: string;
   /** A file that contains any additional info about the message posted. */
-  message_document?: string;
+  message_document?: string | undefined;
 }
 export interface GetDisputeRequest {
   /** The ID of the dispute for which to provide the supporting information. */
@@ -244,22 +265,22 @@ export type CryptocurrencySymbol =
 export interface Cryptocurrency {
   asset_symbol: CryptocurrencySymbol;
   quantity: string;
-  quantity_in_subunits?: string;
-  decimals?: number;
+  quantity_in_subunits?: string | undefined;
+  decimals?: number | undefined;
 }
 /** The details for the customer who funds the payment. For example, the customer's first name, last name, and email address. */
 export interface Buyer {
   /** The customer's name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The details for the merchant who receives the funds and fulfills the order. For example, merchant ID, and contact email address. */
 export interface Seller {
   /** The email address for the merchant's PayPal account. */
-  email?: string;
+  email?: string | undefined;
   /** The PayPal account ID for the merchant. */
-  merchant_id?: string;
+  merchant_id?: string | undefined;
   /** The name of the merchant. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The reason for the item-level dispute. For information about the required information for each dispute reason and associated evidence type, see <a href="/docs/integration/direct/customer-disputes/integration-guide/#dispute-reasons">dispute reasons</a>. */
 export type DisputeReason =
@@ -278,54 +299,54 @@ export type ItemType = "PRODUCT" | "SERVICE" | "BOOKING" | "DIGITAL_DOWNLOAD";
 /** The information for a purchased item in a disputed transaction. */
 export interface ItemInfo {
   /** The item ID. If the merchant provides multiple pieces of evidence and the transaction has multiple item IDs, the merchant can use this value to associate a piece of evidence with an item ID. */
-  item_id?: string;
+  item_id?: string | undefined;
   /** The item name. */
-  item_name?: string;
+  item_name?: string | undefined;
   /** The item description. */
-  item_description?: string;
+  item_description?: string | undefined;
   /** The count of the item in the dispute. Must be a whole number. */
-  item_quantity?: string;
+  item_quantity?: string | undefined;
   /** The ID of the transaction in the partner system. The partner transaction ID is returned at an item level because the partner might show different transactions for different items in the cart. */
-  partner_transaction_id?: string;
-  reason?: DisputeReason;
+  partner_transaction_id?: string | undefined;
+  reason?: DisputeReason | undefined;
   /** The amount of the item in the dispute. */
-  dispute_amount?: Money;
+  dispute_amount?: Money | undefined;
   /** Any notes provided with the item. */
-  notes?: string;
-  item_type?: ItemType;
-  product_details?: unknown;
-  service_details?: unknown;
-  booking_details?: unknown;
-  digital_download_details?: unknown;
-  cancellation_details?: unknown;
-  agreed_refund_details?: unknown;
+  notes?: string | undefined;
+  item_type?: ItemType | undefined;
+  product_details?: unknown | undefined;
+  service_details?: unknown | undefined;
+  booking_details?: unknown | undefined;
+  digital_download_details?: unknown | undefined;
+  cancellation_details?: unknown | undefined;
+  agreed_refund_details?: unknown | undefined;
 }
 /** An array of items that were purchased as part of the transaction. */
 export type ItemInfoList = Array<ItemInfo>;
 /** The information about the disputed transaction. */
 export interface TransactionInfo {
   /** The ID, as seen by the customer, for this transaction. */
-  buyer_transaction_id?: string;
+  buyer_transaction_id?: string | undefined;
   /** The ID, as seen by the merchant, for this transaction. */
-  seller_transaction_id?: string;
+  seller_transaction_id?: string | undefined;
   /** The ID, as seen by the partner, for this transaction. */
-  reference_id?: string;
+  reference_id?: string | undefined;
   /** The date and time when the transaction was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *`yyyy`*-*`MM`*-*`dd`*`T`*`HH`*:*`mm`*:*`ss`*.*`SSS`*`Z`. */
-  create_time?: string;
+  create_time?: string | undefined;
   /** The transaction status. */
-  transaction_status?: TransactionInfoTransactionStatus;
+  transaction_status?: TransactionInfoTransactionStatus | undefined;
   /** The gross amount of the transaction. */
-  gross_amount?: Money;
+  gross_amount?: Money | undefined;
   /** The gross asset of the transaction. */
-  gross_asset?: Cryptocurrency;
+  gross_asset?: Cryptocurrency | undefined;
   /** The ID of the invoice for the payment. */
-  invoice_number?: string;
+  invoice_number?: string | undefined;
   /** A free-text field that is entered by the merchant during checkout. */
-  custom?: string;
-  buyer?: Buyer;
-  seller?: Seller;
-  items?: ItemInfoList;
-  payment_processor?: unknown;
+  custom?: string | undefined;
+  buyer?: Buyer | undefined;
+  seller?: Seller | undefined;
+  items?: ItemInfoList | undefined;
+  payment_processor?: unknown | undefined;
 }
 /** An array of transactions for which disputes were created. */
 export type TransactionInfoList = Array<TransactionInfo>;
@@ -469,13 +490,13 @@ export type AdjudicationReason =
 /** The outcome of a dispute. */
 export interface DisputeOutcome {
   /** The outcome of a resolved dispute. */
-  outcome_code?: DisputeOutcomeOutcomeCode;
+  outcome_code?: DisputeOutcomeOutcomeCode | undefined;
   /** The justification for the adjudication outcome. */
-  outcome_reason?: AdjudicationReason;
+  outcome_reason?: AdjudicationReason | undefined;
   /** The amount that either the merchant or PayPal refunds the customer. */
-  amount_refunded?: Money;
+  amount_refunded?: Money | undefined;
   /** The asset that either the merchant or PayPal refunds the customer. */
-  asset_refunded?: Cryptocurrency;
+  asset_refunded?: Cryptocurrency | undefined;
 }
 /** The type of adjudication. */
 export type AdjudicationType =
@@ -492,9 +513,9 @@ export interface Adjudication {
   /** The date and time when the adjudication was done, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
   adjudication_time: string;
   /** The reason for the adjudication type. */
-  reason?: AdjudicationReason;
+  reason?: AdjudicationReason | undefined;
   /** The dispute life cycle stage during the adjudication. */
-  dispute_life_cycle_stage?: DisputeLifecycleStage;
+  dispute_life_cycle_stage?: DisputeLifecycleStage | undefined;
 }
 /** The Teammate Adjudication details for the dispute. */
 export type AdjudicationList = Array<Adjudication>;
@@ -511,17 +532,17 @@ export type MoneyMovementReason =
 /** The Money movement details with party. */
 export interface MoneyMovement {
   /** The affected party in the money movement. */
-  affected_party?: MoneyMovementAffectedParty;
+  affected_party?: MoneyMovementAffectedParty | undefined;
   /** The amount transferred as part of the money movement. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The asset transferred as part of the money movement. */
-  asset?: Cryptocurrency;
+  asset?: Cryptocurrency | undefined;
   /** The date and time when the money movement was initiated, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  initiated_time?: string;
+  initiated_time?: string | undefined;
   /** The type of the money movement. */
-  type?: MoneyMovementType;
+  type?: MoneyMovementType | undefined;
   /** The reason for the money movement. */
-  reason?: MoneyMovementReason;
+  reason?: MoneyMovementReason | undefined;
 }
 /** DEPRECATED The Money movement details for the dispute. */
 export type MoneyMovementList = Array<MoneyMovement>;
@@ -538,17 +559,17 @@ export type FundMovementReason =
 /** This section contains the details about the fund movement of the parties ,time , direction and the reason for it. */
 export interface FundMovement {
   /** The affected party in the money movement. */
-  party?: FundMovementParty;
+  party?: FundMovementParty | undefined;
   /** The amount transferred as part of the money movement. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The asset transferred as part of the money movement. */
-  asset?: Cryptocurrency;
+  asset?: Cryptocurrency | undefined;
   /** The date and time when the money movement was initiated, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  initiated_time?: string;
+  initiated_time?: string | undefined;
   /** The type of the money movement. */
-  type?: FundMovementType;
+  type?: FundMovementType | undefined;
   /** The reason for the fund movement. */
-  reason?: FundMovementReason;
+  reason?: FundMovementReason | undefined;
 }
 /** The movements of fund due to the dispute. */
 export type FundMovementList = Array<FundMovement>;
@@ -559,21 +580,21 @@ export type MessagePostedBy = "BUYER" | "SELLER" | "ARBITER";
 /** An uploaded document as a binary object that supports a dispute. */
 export interface Document {
   /** The document name. */
-  name?: string;
+  name?: string | undefined;
   /** The downloadable URL for the document for which the client has access.<br/><br/><blockquote><strong>Note:</strong> Document download may require some configuration setup and available as a limited release at this time. For more information, reach out to your PayPal account manager.</blockquote>. */
-  url?: string;
+  url?: string | undefined;
 }
 /** An array of metadata for the documents which contains any additional info about the message posted. */
 export type DocumentList = Array<Document>;
 /** A customer- or merchant-posted message for the dispute. */
 export interface Message {
   /** Indicates whether the customer, merchant, or dispute arbiter posted the message. */
-  posted_by?: MessagePostedBy;
+  posted_by?: MessagePostedBy | undefined;
   /** The date and time when the message was posted, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  time_posted?: string;
+  time_posted?: string | undefined;
   /** The message text. */
-  content?: string;
-  documents?: DocumentList;
+  content?: string | undefined;
+  documents?: DocumentList | undefined;
 }
 /** An array of customer- or merchant-posted messages for the dispute. */
 export type MessageList = Array<Message>;
@@ -584,17 +605,17 @@ export type MerchantContactedMode = "WEBSITE" | "PHONE" | "EMAIL" | "WRITTEN" | 
 /** The duplicate transaction details. */
 export interface DuplicateTransaction {
   /** If `true`, indicates that a duplicate transaction was received. */
-  received_duplicate?: boolean;
+  received_duplicate?: boolean | undefined;
   /** The transaction details for the original transaction, when the dispute reason is `DUPLICATE_TRANSACTION`. Currently, contains only the date and amount. */
-  original_transaction?: TransactionInfo;
+  original_transaction?: TransactionInfo | undefined;
 }
 /** The incorrect transaction amount details. */
 export interface IncorrectTransactionAmount {
-  correct_transaction_amount?: Money;
+  correct_transaction_amount?: Money | undefined;
   /** The correct asset quantity of the transaction. */
-  correct_transaction_asset?: Cryptocurrency;
+  correct_transaction_asset?: Cryptocurrency | undefined;
   /** The date and time when the customer created the transaction, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  correct_transaction_time?: string;
+  correct_transaction_time?: string | undefined;
 }
 /** The payment method. */
 export type PaymentByOtherMeansPaymentMethod =
@@ -608,13 +629,13 @@ export type PaymentByOtherMeansPaymentMethod =
 /** The payment by other means details. */
 export interface PaymentByOtherMeans {
   /** If `true`, indicates that a charge was made that is different from the original charge. */
-  charge_different_from_original?: boolean;
+  charge_different_from_original?: boolean | undefined;
   /** If `true`, indicates that a duplicate transaction was received. */
-  received_duplicate?: boolean;
+  received_duplicate?: boolean | undefined;
   /** The payment method. */
-  payment_method?: PaymentByOtherMeansPaymentMethod;
+  payment_method?: PaymentByOtherMeansPaymentMethod | undefined;
   /** Last 2-4 characters of the payment instrument. For payment_method CHECK, payment_instrument_suffix entered must be of minimum length 2-4 characters. For payment_method CREDIT_CARD, DEBIT_CARD, GIFT_CARD, BANK_TRANSFER, payment_instrument_suffix entered must be of length 4. */
-  payment_instrument_suffix?: string;
+  payment_instrument_suffix?: string | undefined;
 }
 /** The issue type. */
 export type CreditNotProcessedIssueType = "PRODUCT" | "SERVICE";
@@ -629,13 +650,13 @@ export type CancellationDetailsCancellationMode =
 /** The cancellation details. */
 export interface CancellationDetails {
   /** The date and time of the cancellation, in [Internet date and time format](http://tools.ietf.org/html/rfc3339#section-5.6). */
-  cancellation_date?: string;
+  cancellation_date?: string | undefined;
   /** The cancellation number. */
-  cancellation_number?: string;
+  cancellation_number?: string | undefined;
   /** Indicates whether the dispute was canceled. */
-  cancelled?: boolean;
+  cancelled?: boolean | undefined;
   /** Indicates the mode used for order cancellation. */
-  cancellation_mode?: CancellationDetailsCancellationMode;
+  cancellation_mode?: CancellationDetailsCancellationMode | undefined;
 }
 /** Indicates whether the product was, or was not, received or returned. */
 export type ProductDetailsProductReceived = "YES" | "NO" | "RETURNED";
@@ -648,30 +669,30 @@ export type ReturnDetailsMode = "SHIPPED" | "IN_PERSON";
 /** The return details for the product. */
 export interface ReturnDetails {
   /** The date and time when the product was returned, [Internet date and time format](http://tools.ietf.org/html/rfc3339#section-5.6). */
-  return_time?: string;
+  return_time?: string | undefined;
   /** The method that the customer used to return the product. */
-  mode?: ReturnDetailsMode;
+  mode?: ReturnDetailsMode | undefined;
   /** Indicates whether customer has the return receipt. */
-  receipt?: boolean;
+  receipt?: boolean | undefined;
   /** The confirmation number for the item return. */
-  return_confirmation_number?: string;
+  return_confirmation_number?: string | undefined;
   /** If `true`, indicates that the item was returned but the seller refused to accept the return and if `false`, indicates the item was not attempted to return. */
-  returned?: boolean;
+  returned?: boolean | undefined;
 }
 /** The product information. */
 export interface ProductDetails {
   /** The product description. */
-  description?: string;
+  description?: string | undefined;
   /** Indicates whether the product was, or was not, received or returned. */
-  product_received?: ProductDetailsProductReceived;
+  product_received?: ProductDetailsProductReceived | undefined;
   /** The date and time when product was delivered. */
-  product_received_time?: string;
+  product_received_time?: string | undefined;
   /** The expected delivery date and time of the product. */
-  expected_delivery_date?: string;
-  sub_reasons?: SubReasonsList;
+  expected_delivery_date?: string | undefined;
+  sub_reasons?: SubReasonsList | undefined;
   /** The URL where the customer purchased the product. */
-  purchase_url?: string;
-  return_details?: ReturnDetails;
+  purchase_url?: string | undefined;
+  return_details?: ReturnDetails | undefined;
 }
 /** Indicates whether the service was started or cancelled. */
 export type ServiceDetailsServiceStarted = "YES" | "NO" | "CANCELLED";
@@ -682,56 +703,56 @@ export type DefinitionsSubReasonsList = Array<DefinitionsSubReasons>;
 /** The service details. */
 export interface ServiceDetails {
   /** The service description. */
-  description?: string;
+  description?: string | undefined;
   /** Indicates whether the service was started or cancelled. */
-  service_started?: ServiceDetailsServiceStarted;
+  service_started?: ServiceDetailsServiceStarted | undefined;
   /** The customer specified note about the service usage. */
-  note?: string;
-  sub_reasons?: DefinitionsSubReasonsList;
+  note?: string | undefined;
+  sub_reasons?: DefinitionsSubReasonsList | undefined;
   /** The URL of the merchant or marketplace site where the customer purchased the service. */
-  purchase_url?: string;
+  purchase_url?: string | undefined;
 }
 /** Details of Agreed Refund between customer and merchant. */
 export interface AgreedRefundDetails {
   /** Indicates whether merchant has agreed to refund the buyer or not. */
-  merchant_agreed_refund?: boolean;
+  merchant_agreed_refund?: boolean | undefined;
   /** The date and time proposed by merchant to provide the refund, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  merchant_agreed_refund_time?: string;
+  merchant_agreed_refund_time?: string | undefined;
 }
 /** The credit not processed details. */
 export interface CreditNotProcessed {
   /** The issue type. */
-  issue_type?: CreditNotProcessedIssueType;
-  expected_refund?: Money;
-  cancellation_details?: CancellationDetails;
-  product_details?: ProductDetails;
-  service_details?: ServiceDetails;
-  agreed_refund_details?: AgreedRefundDetails;
+  issue_type?: CreditNotProcessedIssueType | undefined;
+  expected_refund?: Money | undefined;
+  cancellation_details?: CancellationDetails | undefined;
+  product_details?: ProductDetails | undefined;
+  service_details?: ServiceDetails | undefined;
+  agreed_refund_details?: AgreedRefundDetails | undefined;
 }
 /** The recurring billing canceled details. */
 export interface CanceledRecurringBilling {
-  expected_refund?: Money;
-  cancellation_details?: CancellationDetails;
+  expected_refund?: Money | undefined;
+  cancellation_details?: CancellationDetails | undefined;
 }
 /** The billing issue details. */
 export interface BillingDisputesProperties {
-  duplicate_transaction?: DuplicateTransaction;
-  incorrect_transaction_amount?: IncorrectTransactionAmount;
-  payment_by_other_means?: PaymentByOtherMeans;
-  credit_not_processed?: CreditNotProcessed;
-  canceled_recurring_billing?: CanceledRecurringBilling;
+  duplicate_transaction?: DuplicateTransaction | undefined;
+  incorrect_transaction_amount?: IncorrectTransactionAmount | undefined;
+  payment_by_other_means?: PaymentByOtherMeans | undefined;
+  credit_not_processed?: CreditNotProcessed | undefined;
+  canceled_recurring_billing?: CanceledRecurringBilling | undefined;
 }
 /** The issue type. */
 export type MerchandizeDisputePropertiesIssueType = "PRODUCT" | "SERVICE";
 /** The customer-provided merchandise issue details for the dispute. */
 export interface MerchandizeDisputeProperties {
   /** The issue type. */
-  issue_type?: MerchandizeDisputePropertiesIssueType;
-  product_details?: ProductDetails;
-  service_details?: ServiceDetails;
-  cancellation_details?: CancellationDetails;
+  issue_type?: MerchandizeDisputePropertiesIssueType | undefined;
+  product_details?: ProductDetails | undefined;
+  service_details?: ServiceDetails | undefined;
+  cancellation_details?: CancellationDetails | undefined;
   /** The return address for the item. Required when the customer must return an item to the merchant for the <a href="/docs/integration/direct/customer-disputes/integration-guide/#merchandise_or_service_not_as_described"><code>MERCHANDISE_OR_SERVICE_NOT_AS_DESCRIBED</code></a> dispute reason. */
-  return_shipping_address?: AddressPortable;
+  return_shipping_address?: AddressPortable | undefined;
 }
 /** The dispute source through which customer initiated the dispute. */
 export type DisputeSource =
@@ -746,19 +767,19 @@ export type DisputeSource =
 /** The extended properties for the dispute. Includes additional information for a dispute category, such as billing disputes, the original transaction ID, and the correct amount. */
 export interface Extensions {
   /** Indicates that the merchant was contacted. */
-  merchant_contacted?: boolean;
-  merchant_contacted_outcome?: MerchantContactedOutcome;
+  merchant_contacted?: boolean | undefined;
+  merchant_contacted_outcome?: MerchantContactedOutcome | undefined;
   /** The date and time when merchant was contacted. */
-  merchant_contacted_time?: string;
+  merchant_contacted_time?: string | undefined;
   /** The method used to contact the merchant. */
-  merchant_contacted_mode?: MerchantContactedMode;
+  merchant_contacted_mode?: MerchantContactedMode | undefined;
   /** The date and time when the buyer contacted the partner to file a dispute, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *`yyyy`*-*`MM`*-*`dd`*`T`*`HH`*:*`mm`*:*`ss`*.*`SSS`*`Z`. */
-  buyer_contacted_time?: string;
+  buyer_contacted_time?: string | undefined;
   /** The channel through which the buyer contacted the partner to file a dispute. Partners that allow buyers to create dispute from multiple channels can use this field to help identify which channel was used for each individual dispute. */
-  buyer_contacted_channel?: string;
-  billing_dispute_properties?: BillingDisputesProperties;
-  merchandize_dispute_properties?: MerchandizeDisputeProperties;
-  reported_source?: DisputeSource;
+  buyer_contacted_channel?: string | undefined;
+  billing_dispute_properties?: BillingDisputesProperties | undefined;
+  merchandize_dispute_properties?: MerchandizeDisputeProperties | undefined;
+  reported_source?: DisputeSource | undefined;
 }
 /** The evidence type. */
 export type EvidenceEvidenceType =
@@ -2102,9 +2123,9 @@ export interface TrackingInfo {
   /** The name of the shipment carrier for the transaction for this dispute. */
   carrier_name: TrackingInfoCarrierName;
   /** The name of carrier in free-form text for unavailable carriers. This field is mandatory when <code>carrier_name</code> is <code>OTHER</code>. */
-  carrier_name_other?: string;
+  carrier_name_other?: string | undefined;
   /** The URL to track the dispute-related transaction shipment. */
-  tracking_url?: string;
+  tracking_url?: string | undefined;
   /** The number to track the dispute-related transaction shipment. */
   tracking_number: string;
 }
@@ -2114,8 +2135,8 @@ export type TrackingInfoList = Array<TrackingInfo>;
 export type RefundIdsList = Array<string>;
 /** The evidence-related information. */
 export interface EvidenceInfo {
-  tracking_info?: TrackingInfoList;
-  refund_ids?: RefundIdsList;
+  tracking_info?: TrackingInfoList | undefined;
+  refund_ids?: RefundIdsList | undefined;
 }
 /** An array of evidence documents. */
 export type DefinitionsDocumentList = Array<Document>;
@@ -2138,32 +2159,32 @@ export type ActionInfoAction =
 /** The extended properties for a evidence. Includes additional information such as the action for which the evidence was requested/submitted, and whether the evidence is mandatory. */
 export interface ActionInfo {
   /** The action for which the evidence was requested or submitted. */
-  action?: ActionInfoAction;
+  action?: ActionInfoAction | undefined;
   /** The response option for the corresponding action. Possible values:<ul><li><a href="/docs/api/customer-disputes/v1/#definition-acknowledgement_type">Acknowledgement Types</a></li><li><a href="/docs/api/customer-disputes/v1/#definition-response-accept_claim_type">Accept Claim types</a></li></ul>. */
-  response_option?: string;
+  response_option?: string | undefined;
   /** Indicates whether the evidence is mandatory for the corresponding action and response option. */
-  mandatory?: boolean;
+  mandatory?: boolean | undefined;
 }
 /** A merchant- or customer-submitted evidence document. evidence_info is expected for PROOF_OF_FULFILLMENT,PROOF_OF_REFUND and PROOF_OF_RETURN evidence types. documents and notes can be given for rest of the evidence types. */
 export interface Evidence {
   /** The evidence type. */
-  evidence_type?: EvidenceEvidenceType;
-  evidence_info?: EvidenceInfo;
-  documents?: DefinitionsDocumentList;
+  evidence_type?: EvidenceEvidenceType | undefined;
+  evidence_info?: EvidenceInfo | undefined;
+  documents?: DefinitionsDocumentList | undefined;
   /** Any evidence-related notes. */
-  notes?: string;
+  notes?: string | undefined;
   /** The source of the evidence. */
-  source?: EvidenceSource;
+  source?: EvidenceSource | undefined;
   /** The date and time when the evidence was received, in [Internet date and time format](http://tools.ietf.org/html/rfc3339#section-5.6). */
-  date?: string;
+  date?: string | undefined;
   /** The item ID. If the merchant provides multiple pieces of evidence and the transaction has multiple item IDs, the merchant can use this value to associate a piece of evidence with an item ID. */
-  item_id?: string;
+  item_id?: string | undefined;
   /** The item type for which the evidence is requested or submitted. */
-  item_type?: ItemType;
+  item_type?: ItemType | undefined;
   /** The action details for the information. Includes additional information such as the action for which the evidence was requested/submitted, and whether the evidence is mandatory for the corresponding action. */
-  action_info?: ActionInfo;
+  action_info?: ActionInfo | undefined;
   /** The dispute life cycle stage for the evidence. */
-  dispute_life_cycle_stage?: DisputeLifecycleStage;
+  dispute_life_cycle_stage?: DisputeLifecycleStage | undefined;
 }
 /** An array of evidence documents. */
 export type EvidenceList = Array<Evidence>;
@@ -2174,43 +2195,43 @@ export type OfferHistoryEventType = "PROPOSED" | "ACCEPTED" | "DENIED";
 /** The offer history. */
 export interface OfferHistory {
   /** The date and time when the event occurred, in [Internet date and time format](http://tools.ietf.org/html/rfc3339#section-5.6). */
-  offer_time?: string;
+  offer_time?: string | undefined;
   /** The event-related actor. */
-  actor?: OfferHistoryActor;
+  actor?: OfferHistoryActor | undefined;
   /** The type of the history event. */
-  event_type?: OfferHistoryEventType;
-  offer_type?: OfferType;
+  event_type?: OfferHistoryEventType | undefined;
+  offer_type?: OfferType | undefined;
   /** The offer amount. */
-  offer_amount?: Money;
+  offer_amount?: Money | undefined;
   /** The user submitted notes. */
-  notes?: string;
+  notes?: string | undefined;
   /** The dispute life cycle stage during the offer event. */
-  dispute_life_cycle_stage?: DisputeLifecycleStage;
+  dispute_life_cycle_stage?: DisputeLifecycleStage | undefined;
 }
 /** An array of history information for an offer. */
 export type OfferHistoryList = Array<OfferHistory>;
 /** The merchant-proposed offer for a dispute. */
 export interface Offer {
   /** The customer-requested refund for this dispute. */
-  buyer_requested_amount?: Money;
+  buyer_requested_amount?: Money | undefined;
   /** The merchant-offered refund for this dispute. */
-  seller_offered_amount?: Money;
-  offer_type?: OfferType;
-  history?: OfferHistoryList;
+  seller_offered_amount?: Money | undefined;
+  offer_type?: OfferType | undefined;
+  history?: OfferHistoryList | undefined;
 }
 /** The refund details. */
 export interface RefundDetails {
   /** The maximum refundable amount. */
-  allowed_refund_amount?: Money;
+  allowed_refund_amount?: Money | undefined;
 }
 /** The contact details that a merchant provides to the customer to use to share their evidence documents. */
 export interface CommunicationDetails {
   /** The email address that is provided by the merchant where the customer can share the evidences. */
-  email?: string;
+  email?: string | undefined;
   /** The merchant provided notes that are visible to both the customer and PayPal. */
-  note?: string;
+  note?: string | undefined;
   /** The date and time when the contact details were posted, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  time_posted?: string;
+  time_posted?: string | undefined;
 }
 /** An array of metadata for the documents which were uploaded as supporting information for the dispute. */
 export type SupportingInfoDefinitionsDocumentList = Array<Document>;
@@ -2222,14 +2243,14 @@ export type SupportingInfoSource =
 /** A merchant- or customer-submitted supporting information. */
 export interface SupportingInfo {
   /** Any supporting notes. */
-  notes?: string;
-  documents?: SupportingInfoDefinitionsDocumentList;
+  notes?: string | undefined;
+  documents?: SupportingInfoDefinitionsDocumentList | undefined;
   /** The source of the Information. */
-  source?: SupportingInfoSource;
+  source?: SupportingInfoSource | undefined;
   /** The date and time when the information was received, in [Internet date and time format](http://tools.ietf.org/html/rfc3339#section-5.6). */
-  provided_time?: string;
+  provided_time?: string | undefined;
   /** The dispute life cycle stage for the supporting info. */
-  dispute_life_cycle_stage?: DisputeLifecycleStage;
+  dispute_life_cycle_stage?: DisputeLifecycleStage | undefined;
 }
 /** An array of all the supporting information that are associated to this dispute. */
 export type SupportingInfoList = Array<SupportingInfo>;
@@ -2244,7 +2265,7 @@ export type AcknowledgementType =
 export type AcknowledgementTypeList = Array<AcknowledgementType>;
 /** The allowed response options when the seller acknowledges that the buyer has returned an item for the dispute. */
 export interface AcknowledgeReturnItemResponseOptions {
-  acknowledgement_types?: AcknowledgementTypeList;
+  acknowledgement_types?: AcknowledgementTypeList | undefined;
 }
 /** The refund type proposed by the merchant for the dispute. */
 export type AcceptClaimType =
@@ -2256,74 +2277,74 @@ export type AcceptClaimType =
 export type AcceptClaimTypeList = Array<AcceptClaimType>;
 /** The allowed response options when the merchant is accepting the claim. */
 export interface AcceptClaimResponseOptions {
-  accept_claim_types?: AcceptClaimTypeList;
+  accept_claim_types?: AcceptClaimTypeList | undefined;
 }
 /** The types of offer the merchant can offer the customer. */
 export type OfferTypeList = Array<OfferType>;
 /** The allowed response options when the merchant makes offer to the customer. */
 export interface MakeOfferResponseOptions {
-  offer_types?: OfferTypeList;
+  offer_types?: OfferTypeList | undefined;
 }
 /** The allowed response options for the buyer/seller update actions. */
 export interface AllowedResponseOptions {
-  acknowledge_return_item?: AcknowledgeReturnItemResponseOptions;
-  accept_claim?: AcceptClaimResponseOptions;
-  make_offer?: MakeOfferResponseOptions;
+  acknowledge_return_item?: AcknowledgeReturnItemResponseOptions | undefined;
+  accept_claim?: AcceptClaimResponseOptions | undefined;
+  make_offer?: MakeOfferResponseOptions | undefined;
 }
 /** The dispute details. */
 export interface Dispute {
   /** The ID of the dispute. */
-  dispute_id?: string;
+  dispute_id?: string | undefined;
   /** The date and time when the dispute was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *`yyyy`*-*`MM`*-*`dd`*`T`*`HH`*:*`mm`*:*`ss`*.*`SSS`*`Z`. */
-  create_time?: string;
+  create_time?: string | undefined;
   /** The date and time when the dispute was last updated, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *`yyyy`*-*`MM`*-*`dd`*`T`*`HH`*:*`mm`*:*`ss`*.*`SSS`*`Z`. */
-  update_time?: string;
-  disputed_transactions?: TransactionInfoList;
-  reason?: DisputeReason;
-  status?: Status;
+  update_time?: string | undefined;
+  disputed_transactions?: TransactionInfoList | undefined;
+  reason?: DisputeReason | undefined;
+  status?: Status | undefined;
   /** The amount in the transaction that the customer originally disputed. Because customers can sometimes dispute only part of the payment, the disputed amount might be different from the total gross or net amount of the original transaction. */
-  dispute_amount?: Money;
+  dispute_amount?: Money | undefined;
   /** The asset in the transaction that the customer disputed. */
-  dispute_asset?: Cryptocurrency;
+  dispute_asset?: Cryptocurrency | undefined;
   /** Policy that determines whether the fee needs to be charged, retained or returned while moving the money as part of dispute process. */
-  fee_policy?: unknown;
+  fee_policy?: unknown | undefined;
   /** The code that identifies the reason for the credit card chargeback. Each card issuer follows their own standards for defining reason type, code, and its format. For more details about the external reason code, see the card issue site. Available for only unbranded transactions. */
-  external_reason_code?: string;
-  dispute_outcome?: DisputeOutcome;
-  adjudications?: AdjudicationList;
-  money_movements?: MoneyMovementList;
-  fund_movements?: FundMovementList;
-  dispute_life_cycle_stage?: DisputeLifecycleStage;
-  dispute_channel?: DisputeChannel;
-  messages?: MessageList;
-  extensions?: Extensions;
-  evidences?: EvidenceList;
+  external_reason_code?: string | undefined;
+  dispute_outcome?: DisputeOutcome | undefined;
+  adjudications?: AdjudicationList | undefined;
+  money_movements?: MoneyMovementList | undefined;
+  fund_movements?: FundMovementList | undefined;
+  dispute_life_cycle_stage?: DisputeLifecycleStage | undefined;
+  dispute_channel?: DisputeChannel | undefined;
+  messages?: MessageList | undefined;
+  extensions?: Extensions | undefined;
+  evidences?: EvidenceList | undefined;
   /** The date and time by when the customer must respond to the dispute, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). If the customer does not respond by this date and time, the dispute is closed in the merchant's favor. For example, *`yyyy`*-*`MM`*-*`dd`*`T`*`HH`*:*`mm`*:*`ss`*.*`SSS`*`Z`. */
-  buyer_response_due_date?: string;
+  buyer_response_due_date?: string | undefined;
   /** The date and time by when the merchant must respond to the dispute, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). If the merchant does not respond by this date and time, the dispute is closed in the customer's favor. For example, *`yyyy`*-*`MM`*-*`dd`*`T`*`HH`*:*`mm`*:*`ss`*.*`SSS`*`Z`. */
-  seller_response_due_date?: string;
-  offer?: Offer;
-  refund_details?: RefundDetails;
-  communication_details?: CommunicationDetails;
-  supporting_info?: SupportingInfoList;
-  allowed_response_options?: AllowedResponseOptions;
-  links?: DefinitionsLinkDescriptionList;
+  seller_response_due_date?: string | undefined;
+  offer?: Offer | undefined;
+  refund_details?: RefundDetails | undefined;
+  communication_details?: CommunicationDetails | undefined;
+  supporting_info?: SupportingInfoList | undefined;
+  allowed_response_options?: AllowedResponseOptions | undefined;
+  links?: DefinitionsLinkDescriptionList | undefined;
 }
 export interface ListDisputesRequest {
   /** Filters the disputes in the response by a creation date and time. The start time must be within the last 180 days. Value is in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *`yyyy`*-*`MM`*-*`dd`*`T`*`HH`*:*`mm`*:*`ss`*.*`SSS`*`Z`.<br/><br/>You can specify either but not both the `start_time` and `disputed_transaction_id` query parameters. */
-  start_time?: string;
+  start_time?: string | undefined;
   /** Filters the disputes in the response by a transaction, by ID.<br/><br/>You can specify either but not both the `start_time` and `disputed_transaction_id` query parameter. */
-  disputed_transaction_id?: string;
+  disputed_transaction_id?: string | undefined;
   /** Limits the number of disputes in the response to this value. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** The token that describes the next page of results to fetch. The <a href="/docs/api/customer-disputes/v1/#disputes_list">list disputes</a> call returns this token in the HATEOAS links in the response. */
-  next_page_token?: string;
+  next_page_token?: string | undefined;
   /** Filters the disputes in the response by a state. Separate multiple values with a comma (`,`). When you specify more than one dispute_state, the response lists disputes that belong to any of the specified dispute_state. */
-  dispute_state?: string;
+  dispute_state?: string | undefined;
   /** The date and time when the dispute was last updated, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *`yyyy`*-*`MM`*-*`dd`*`T`*`HH`*:*`mm`*:*`ss`*.*`SSS`*`Z`. update_time_before must be within the last 180 days and the default is the current time. */
-  update_time_before?: string;
+  update_time_before?: string | undefined;
   /** The date and time when the dispute was last updated, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *`yyyy`*-*`MM`*-*`dd`*`T`*`HH`*:*`mm`*:*`ss`*.*`SSS`*`Z`. update_time_after must be within the last 180 days and the default is the maximum time (180 days) supported. */
-  update_time_after?: string;
+  update_time_after?: string | undefined;
 }
 /** The user specific state of the dispute, could vary between parties during the dispute lifecycle. */
 export type DisputeState =
@@ -2336,32 +2357,32 @@ export type DisputeState =
 /** The dispute summary information. */
 export interface DisputeInfo {
   /** The ID of the dispute. */
-  dispute_id?: string;
+  dispute_id?: string | undefined;
   /** The date and time when the dispute was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *`yyyy`*-*`MM`*-*`dd`*`T`*`HH`*:*`mm`*:*`ss`*.*`SSS`*`Z`. */
-  create_time?: string;
+  create_time?: string | undefined;
   /** The date and time when the dispute was last updated, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, *`yyyy`*-*`MM`*-*`dd`*`T`*`HH`*:*`mm`*:*`ss`*.*`SSS`*`Z`. */
-  update_time?: string;
-  reason?: DisputeReason;
-  status?: Status;
-  dispute_state?: DisputeState;
+  update_time?: string | undefined;
+  reason?: DisputeReason | undefined;
+  status?: Status | undefined;
+  dispute_state?: DisputeState | undefined;
   /** The amount in the transaction that the customer originally disputed. Because customers can sometimes dispute only part of the payment, the disputed amount might be different from the total gross or net amount of the original transaction. */
-  dispute_amount?: Money;
+  dispute_amount?: Money | undefined;
   /** The asset in the transaction that the customer disputed. */
-  dispute_asset?: Cryptocurrency;
-  dispute_life_cycle_stage?: DisputeLifecycleStage;
-  dispute_channel?: DisputeChannel;
+  dispute_asset?: Cryptocurrency | undefined;
+  dispute_life_cycle_stage?: DisputeLifecycleStage | undefined;
+  dispute_channel?: DisputeChannel | undefined;
   /** The date and time by when the customer must respond to the dispute, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). If the customer does not respond by this date and time, the dispute is closed in the merchant's favor. For example, *`yyyy`*-*`MM`*-*`dd`*`T`*`HH`*:*`mm`*:*`ss`*.*`SSS`*`Z`. */
-  buyer_response_due_date?: string;
+  buyer_response_due_date?: string | undefined;
   /** The date and time by when the merchant must respond to the dispute, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). If the merchant does not respond by this date and time, the dispute is closed in the customer's favor. For example, *`yyyy`*-*`MM`*-*`dd`*`T`*`HH`*:*`mm`*:*`ss`*.*`SSS`*`Z`. */
-  seller_response_due_date?: string;
-  links?: DefinitionsLinkDescriptionList;
+  seller_response_due_date?: string | undefined;
+  links?: DefinitionsLinkDescriptionList | undefined;
 }
 /** An array of disputes that match the filter criteria. Sorted in latest to earliest creation time order. */
 export type DisputeInfoList = Array<DisputeInfo>;
 /** An array of disputes. Includes links that enable you to navigate through the response. */
 export interface DisputeSearch {
-  items?: DisputeInfoList;
-  links?: DefinitionsLinkDescriptionList;
+  items?: DisputeInfoList | undefined;
+  links?: DefinitionsLinkDescriptionList | undefined;
 }
 /** The operation. */
 export type PatchOp = "add" | "remove" | "replace" | "move" | "copy" | "test";
@@ -2370,20 +2391,50 @@ export interface Patch {
   /** The operation. */
   op: PatchOp | (string & {});
   /** The <a href="https://tools.ietf.org/html/rfc6901">JSON Pointer</a> to the target document location at which to complete the operation. */
-  path?: string;
+  path?: string | undefined;
   /** The value to apply. The <code>remove</code>, <code>copy</code>, and <code>move</code> operations do not require a value. Since <a href="https://www.rfc-editor.org/rfc/rfc69021">JSON Patch</a> allows any type for <code>value</code>, the <code>type</code> property is not specified. */
-  value?: unknown;
+  value?: unknown | undefined;
   /** The <a href="https://tools.ietf.org/html/rfc6901">JSON Pointer</a> to the target document location from which to move the value. Required for the <code>move</code> operation. */
-  from?: string;
+  from?: string | undefined;
 }
 /** An array of JSON patch objects to apply partial updates to resources. */
 export type PatchRequest = Array<Patch>;
 export interface PatchDisputeRequest {
   /** The ID of the dispute for which to provide the supporting information. */
   id: string;
-  body?: PatchRequest;
+  body?: PatchRequest | undefined;
 }
 export interface PatchDisputeResponse {}
+/** The error details. Required for client-side `4XX` errors. */
+export interface ErrorDetails2 {
+  /** The field that caused the error. If this field is in the body, set this value to the field's JSON pointer value. Required for client-side errors. */
+  field?: string | undefined;
+  /** The value of the field that caused the error. */
+  value?: string | undefined;
+  /** The location of the field that caused the error. Value is `body`, `path`, or `query`. */
+  location?: string | undefined;
+  /** The unique, fine-grained application-level error code. */
+  issue: string;
+  /** The human-readable description for an issue. The description can change over the lifetime of an API, so clients must not depend on this value. */
+  description?: string | undefined;
+}
+/** An array of additional details about the error. */
+export type ErrorDetailsList = Array<ErrorDetails2>;
+/** An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links). */
+export type LinkDescriptionList = Array<LinkDescription>;
+/** The error details. */
+export interface Error {
+  /** The human-readable, unique name of the error. */
+  name: string;
+  /** The message that describes the error. */
+  message: string;
+  /** The PayPal internal ID. Used for correlation purposes. */
+  debug_id: string;
+  /** The information link, or URI, that shows detailed information about this error for the developer. */
+  information_link?: string | undefined;
+  details?: ErrorDetailsList | undefined;
+  links?: LinkDescriptionList | undefined;
+}
 export type DisputesAcceptClaimError = BadRequest | PaypalOpError;
 /** Accept claim Accepts liability for a claim, by ID. When you accept liability for a claim, the dispute closes in the customer's favor and PayPal automatically refunds money to the customer from the merchant's account. Allowed accept_claim_type values for the request is available in dispute details <a href="/docs/api/customer-disputes/v1/#definition-allowed_response_options">allowed response options</a> object. */
 export const disputesAcceptClaim: API.OperationMethod<
@@ -2392,8 +2443,8 @@ export const disputesAcceptClaim: API.OperationMethod<
   DisputesAcceptClaimError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<DisputesAcceptClaimRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<SubsequentAction>,
+  input: __S(448, __c14, 0) as any as S.Schema<DisputesAcceptClaimRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<SubsequentAction>,
   errors: [BadRequest, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2409,8 +2460,8 @@ export const disputesAcceptOffer: API.OperationMethod<
   DisputesAcceptOfferError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<DisputesAcceptOfferRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<SubsequentAction>,
+  input: __S(512, __c16, 0) as any as S.Schema<DisputesAcceptOfferRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<SubsequentAction>,
   errors: [BadRequest, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2426,8 +2477,8 @@ export const disputesAcknowledgeReturnItem: API.OperationMethod<
   DisputesAcknowledgeReturnItemError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<DisputesAcknowledgeReturnItemRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<SubsequentAction>,
+  input: __S(544, __c17, 0) as any as S.Schema<DisputesAcknowledgeReturnItemRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<SubsequentAction>,
   errors: [BadRequest, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2443,8 +2494,8 @@ export const disputesAdjudicate: API.OperationMethod<
   DisputesAdjudicateError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<DisputesAdjudicateRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<SubsequentAction>,
+  input: __S(576, __c18, 0) as any as S.Schema<DisputesAdjudicateRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<SubsequentAction>,
   errors: [BadRequest, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2460,8 +2511,8 @@ export const disputesAppeal: API.OperationMethod<
   DisputesAppealError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<DisputesAppealRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<SubsequentAction>,
+  input: __S(608, __c19, 0) as any as S.Schema<DisputesAppealRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<SubsequentAction>,
   errors: [BadRequest, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2477,8 +2528,8 @@ export const disputesDenyOffer: API.OperationMethod<
   DisputesDenyOfferError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<DisputesDenyOfferRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<SubsequentAction>,
+  input: __S(640, __c20, 0) as any as S.Schema<DisputesDenyOfferRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<SubsequentAction>,
   errors: [BadRequest, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2494,8 +2545,8 @@ export const disputesEscalate: API.OperationMethod<
   DisputesEscalateError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<DisputesEscalateRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<EscalateResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<DisputesEscalateRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<EscalateResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2511,8 +2562,8 @@ export const disputesMakeOffer: API.OperationMethod<
   DisputesMakeOfferError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DisputesMakeOfferRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<SubsequentAction>,
+  input: __S(64, __c2, 0) as any as S.Schema<DisputesMakeOfferRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<SubsequentAction>,
   errors: [BadRequest, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2528,8 +2579,8 @@ export const disputesProvideEvidence: API.OperationMethod<
   DisputesProvideEvidenceError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<DisputesProvideEvidenceRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<SubsequentAction>,
+  input: __S(160, __c5, 0) as any as S.Schema<DisputesProvideEvidenceRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<SubsequentAction>,
   errors: [BadRequest, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2549,8 +2600,8 @@ export const disputesProvideSupportingInfo: API.OperationMethod<
   DisputesProvideSupportingInfoError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<DisputesProvideSupportingInfoRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<SubsequentAction>,
+  input: __S(192, __c6, 0) as any as S.Schema<DisputesProvideSupportingInfoRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<SubsequentAction>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2566,8 +2617,8 @@ export const disputesRequireEvidence: API.OperationMethod<
   DisputesRequireEvidenceError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<DisputesRequireEvidenceRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<SubsequentAction>,
+  input: __S(224, __c7, 0) as any as S.Schema<DisputesRequireEvidenceRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<SubsequentAction>,
   errors: [BadRequest, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2583,8 +2634,8 @@ export const disputesSendMessage: API.OperationMethod<
   DisputesSendMessageError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<DisputesSendMessageRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<SubsequentAction>,
+  input: __S(256, __c8, 0) as any as S.Schema<DisputesSendMessageRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<SubsequentAction>,
   errors: [BadRequest, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2600,8 +2651,8 @@ export const getDispute: API.OperationMethod<
   GetDisputeError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<GetDisputeRequest>,
-  output: __S(274, __c8, 18) as any as S.Schema<Dispute>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetDisputeRequest>,
+  output: __S(338, __c10, 18) as any as S.Schema<Dispute>,
   errors: [UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2617,8 +2668,8 @@ export const listDisputes: API.OperationMethod<
   ListDisputesError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<ListDisputesRequest>,
-  output: __S(323, __c10, 3) as any as S.Schema<DisputeSearch>,
+  input: __S(384, __c12, 0) as any as S.Schema<ListDisputesRequest>,
+  output: __S(387, __c12, 3) as any as S.Schema<DisputeSearch>,
   errors: [BadRequest, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2634,8 +2685,8 @@ export const patchDispute: API.OperationMethod<
   PatchDisputeError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(354, __c11, 2) as any as S.Schema<PatchDisputeRequest>,
-  output: __S(355, __c11, 3) as any as S.Schema<PatchDisputeResponse>,
+  input: __S(418, __c13, 2) as any as S.Schema<PatchDisputeRequest>,
+  output: __S(419, __c13, 3) as any as S.Schema<PatchDisputeResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -2649,10 +2700,51 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          href: S.String,
+          rel: S.String,
+          method: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LinkDescription" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          value: S.optional(S.String),
+          location: S.optional(S.String),
+          issue: S.String,
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorDetails2" });
+    case 1:
+      return S.Array(__S(32, __c1, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          message: S.String,
+          debug_id: S.String,
+          information_link: S.optional(S.String),
+          details: S.optional(__S(33, __c1, 1)),
+          links: S.optional(__S(1, __c0, 1)),
+        }),
+      ).annotate({ identifier: "Error" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
           note: S.String,
-          offer_amount: S.optional(__S(64, __c2, 0)),
-          return_shipping_address: S.optional(__S(33, __c1, 1)),
+          offer_amount: S.optional(__S(128, __c4, 0)),
+          return_shipping_address: S.optional(__S(97, __c3, 1)),
           invoice_id: S.optional(S.String),
           offer_type: S.String,
         }).pipe(
@@ -2661,7 +2753,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "DisputesMakeOfferRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2686,12 +2778,12 @@ function __c1(j: number): any {
           admin_area_1: S.optional(S.String),
           postal_code: S.optional(S.String),
           country_code: S.String,
-          address_details: S.optional(__S(32, __c1, 0)),
+          address_details: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "AddressPortable" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2702,7 +2794,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "Money" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2720,7 +2812,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "DisputesProvideEvidenceRequest" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2738,7 +2830,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DisputesProvideSupportingInfoRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2751,7 +2843,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DisputesRequireEvidenceRequest" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2769,7 +2861,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DisputesSendMessageRequest" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2800,7 +2892,7 @@ function __c7(j: number): any {
           item_quantity: S.optional(S.String),
           partner_transaction_id: S.optional(S.String),
           reason: S.optional(S.String),
-          dispute_amount: S.optional(__S(64, __c2, 0)),
+          dispute_amount: S.optional(__S(128, __c4, 0)),
           notes: S.optional(S.String),
           item_type: S.optional(S.String),
           product_details: S.optional(S.Unknown),
@@ -2812,7 +2904,7 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "ItemInfo" });
     case 4:
-      return S.Array(__S(227, __c7, 3));
+      return S.Array(__S(291, __c9, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -2821,25 +2913,25 @@ function __c7(j: number): any {
           reference_id: S.optional(S.String),
           create_time: S.optional(S.String),
           transaction_status: S.optional(S.String),
-          gross_amount: S.optional(__S(64, __c2, 0)),
-          gross_asset: S.optional(__S(288, __c9, 0)),
+          gross_amount: S.optional(__S(128, __c4, 0)),
+          gross_asset: S.optional(__S(352, __c11, 0)),
           invoice_number: S.optional(S.String),
           custom: S.optional(S.String),
-          buyer: S.optional(__S(225, __c7, 1)),
-          seller: S.optional(__S(226, __c7, 2)),
-          items: S.optional(__S(228, __c7, 4)),
+          buyer: S.optional(__S(289, __c9, 1)),
+          seller: S.optional(__S(290, __c9, 2)),
+          items: S.optional(__S(292, __c9, 4)),
           payment_processor: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "TransactionInfo" });
     case 6:
-      return S.Array(__S(229, __c7, 5));
+      return S.Array(__S(293, __c9, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           outcome_code: S.optional(S.String),
           outcome_reason: S.optional(S.String),
-          amount_refunded: S.optional(__S(64, __c2, 0)),
-          asset_refunded: S.optional(__S(288, __c9, 0)),
+          amount_refunded: S.optional(__S(128, __c4, 0)),
+          asset_refunded: S.optional(__S(352, __c11, 0)),
         }),
       ).annotate({ identifier: "DisputeOutcome" });
     case 8:
@@ -2852,33 +2944,33 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "Adjudication" });
     case 9:
-      return S.Array(__S(232, __c7, 8));
+      return S.Array(__S(296, __c9, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           affected_party: S.optional(S.String),
-          amount: S.optional(__S(64, __c2, 0)),
-          asset: S.optional(__S(288, __c9, 0)),
+          amount: S.optional(__S(128, __c4, 0)),
+          asset: S.optional(__S(352, __c11, 0)),
           initiated_time: S.optional(S.String),
           type: S.optional(S.String),
           reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "MoneyMovement" });
     case 11:
-      return S.Array(__S(234, __c7, 10));
+      return S.Array(__S(298, __c9, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           party: S.optional(S.String),
-          amount: S.optional(__S(64, __c2, 0)),
-          asset: S.optional(__S(288, __c9, 0)),
+          amount: S.optional(__S(128, __c4, 0)),
+          asset: S.optional(__S(352, __c11, 0)),
           initiated_time: S.optional(S.String),
           type: S.optional(S.String),
           reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "FundMovement" });
     case 13:
-      return S.Array(__S(236, __c7, 12));
+      return S.Array(__S(300, __c9, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -2887,30 +2979,30 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "Document" });
     case 15:
-      return S.Array(__S(238, __c7, 14));
+      return S.Array(__S(302, __c9, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           posted_by: S.optional(S.String),
           time_posted: S.optional(S.String),
           content: S.optional(S.String),
-          documents: S.optional(__S(239, __c7, 15)),
+          documents: S.optional(__S(303, __c9, 15)),
         }),
       ).annotate({ identifier: "Message" });
     case 17:
-      return S.Array(__S(240, __c7, 16));
+      return S.Array(__S(304, __c9, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
           received_duplicate: S.optional(S.Boolean),
-          original_transaction: S.optional(__S(229, __c7, 5)),
+          original_transaction: S.optional(__S(293, __c9, 5)),
         }),
       ).annotate({ identifier: "DuplicateTransaction" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          correct_transaction_amount: S.optional(__S(64, __c2, 0)),
-          correct_transaction_asset: S.optional(__S(288, __c9, 0)),
+          correct_transaction_amount: S.optional(__S(128, __c4, 0)),
+          correct_transaction_asset: S.optional(__S(352, __c11, 0)),
           correct_transaction_time: S.optional(S.String),
         }),
       ).annotate({ identifier: "IncorrectTransactionAmount" });
@@ -2951,9 +3043,9 @@ function __c7(j: number): any {
           product_received: S.optional(S.String),
           product_received_time: S.optional(S.String),
           expected_delivery_date: S.optional(S.String),
-          sub_reasons: S.optional(__S(246, __c7, 22)),
+          sub_reasons: S.optional(__S(310, __c9, 22)),
           purchase_url: S.optional(S.String),
-          return_details: S.optional(__S(247, __c7, 23)),
+          return_details: S.optional(__S(311, __c9, 23)),
         }),
       ).annotate({ identifier: "ProductDetails" });
     case 25:
@@ -2962,7 +3054,7 @@ function __c7(j: number): any {
           description: S.optional(S.String),
           service_started: S.optional(S.String),
           note: S.optional(S.String),
-          sub_reasons: S.optional(__S(246, __c7, 22)),
+          sub_reasons: S.optional(__S(310, __c9, 22)),
           purchase_url: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceDetails" });
@@ -2977,38 +3069,38 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           issue_type: S.optional(S.String),
-          expected_refund: S.optional(__S(64, __c2, 0)),
-          cancellation_details: S.optional(__S(245, __c7, 21)),
-          product_details: S.optional(__S(248, __c7, 24)),
-          service_details: S.optional(__S(249, __c7, 25)),
-          agreed_refund_details: S.optional(__S(250, __c7, 26)),
+          expected_refund: S.optional(__S(128, __c4, 0)),
+          cancellation_details: S.optional(__S(309, __c9, 21)),
+          product_details: S.optional(__S(312, __c9, 24)),
+          service_details: S.optional(__S(313, __c9, 25)),
+          agreed_refund_details: S.optional(__S(314, __c9, 26)),
         }),
       ).annotate({ identifier: "CreditNotProcessed" });
     case 28:
       return S.suspend(() =>
         S.Struct({
-          expected_refund: S.optional(__S(64, __c2, 0)),
-          cancellation_details: S.optional(__S(245, __c7, 21)),
+          expected_refund: S.optional(__S(128, __c4, 0)),
+          cancellation_details: S.optional(__S(309, __c9, 21)),
         }),
       ).annotate({ identifier: "CanceledRecurringBilling" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          duplicate_transaction: S.optional(__S(242, __c7, 18)),
-          incorrect_transaction_amount: S.optional(__S(243, __c7, 19)),
-          payment_by_other_means: S.optional(__S(244, __c7, 20)),
-          credit_not_processed: S.optional(__S(251, __c7, 27)),
-          canceled_recurring_billing: S.optional(__S(252, __c7, 28)),
+          duplicate_transaction: S.optional(__S(306, __c9, 18)),
+          incorrect_transaction_amount: S.optional(__S(307, __c9, 19)),
+          payment_by_other_means: S.optional(__S(308, __c9, 20)),
+          credit_not_processed: S.optional(__S(315, __c9, 27)),
+          canceled_recurring_billing: S.optional(__S(316, __c9, 28)),
         }),
       ).annotate({ identifier: "BillingDisputesProperties" });
     case 30:
       return S.suspend(() =>
         S.Struct({
           issue_type: S.optional(S.String),
-          product_details: S.optional(__S(248, __c7, 24)),
-          service_details: S.optional(__S(249, __c7, 25)),
-          cancellation_details: S.optional(__S(245, __c7, 21)),
-          return_shipping_address: S.optional(__S(33, __c1, 1)),
+          product_details: S.optional(__S(312, __c9, 24)),
+          service_details: S.optional(__S(313, __c9, 25)),
+          cancellation_details: S.optional(__S(309, __c9, 21)),
+          return_shipping_address: S.optional(__S(97, __c3, 1)),
         }),
       ).annotate({ identifier: "MerchandizeDisputeProperties" });
     case 31:
@@ -3020,14 +3112,14 @@ function __c7(j: number): any {
           merchant_contacted_mode: S.optional(S.String),
           buyer_contacted_time: S.optional(S.String),
           buyer_contacted_channel: S.optional(S.String),
-          billing_dispute_properties: S.optional(__S(253, __c7, 29)),
-          merchandize_dispute_properties: S.optional(__S(254, __c7, 30)),
+          billing_dispute_properties: S.optional(__S(317, __c9, 29)),
+          merchandize_dispute_properties: S.optional(__S(318, __c9, 30)),
           reported_source: S.optional(S.String),
         }),
       ).annotate({ identifier: "Extensions" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3039,14 +3131,14 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "TrackingInfo" });
     case 1:
-      return S.Array(__S(256, __c8, 0));
+      return S.Array(__S(320, __c10, 0));
     case 2:
       return S.Array(S.String);
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tracking_info: S.optional(__S(257, __c8, 1)),
-          refund_ids: S.optional(__S(258, __c8, 2)),
+          tracking_info: S.optional(__S(321, __c10, 1)),
+          refund_ids: S.optional(__S(322, __c10, 2)),
         }),
       ).annotate({ identifier: "EvidenceInfo" });
     case 4:
@@ -3061,19 +3153,19 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           evidence_type: S.optional(S.String),
-          evidence_info: S.optional(__S(259, __c8, 3)),
-          documents: S.optional(__S(239, __c7, 15)),
+          evidence_info: S.optional(__S(323, __c10, 3)),
+          documents: S.optional(__S(303, __c9, 15)),
           notes: S.optional(S.String),
           source: S.optional(S.String),
           date: S.optional(S.String),
           item_id: S.optional(S.String),
           item_type: S.optional(S.String),
-          action_info: S.optional(__S(260, __c8, 4)),
+          action_info: S.optional(__S(324, __c10, 4)),
           dispute_life_cycle_stage: S.optional(S.String),
         }),
       ).annotate({ identifier: "Evidence" });
     case 6:
-      return S.Array(__S(261, __c8, 5));
+      return S.Array(__S(325, __c10, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -3081,26 +3173,26 @@ function __c8(j: number): any {
           actor: S.optional(S.String),
           event_type: S.optional(S.String),
           offer_type: S.optional(S.String),
-          offer_amount: S.optional(__S(64, __c2, 0)),
+          offer_amount: S.optional(__S(128, __c4, 0)),
           notes: S.optional(S.String),
           dispute_life_cycle_stage: S.optional(S.String),
         }),
       ).annotate({ identifier: "OfferHistory" });
     case 8:
-      return S.Array(__S(263, __c8, 7));
+      return S.Array(__S(327, __c10, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          buyer_requested_amount: S.optional(__S(64, __c2, 0)),
-          seller_offered_amount: S.optional(__S(64, __c2, 0)),
+          buyer_requested_amount: S.optional(__S(128, __c4, 0)),
+          seller_offered_amount: S.optional(__S(128, __c4, 0)),
           offer_type: S.optional(S.String),
-          history: S.optional(__S(264, __c8, 8)),
+          history: S.optional(__S(328, __c10, 8)),
         }),
       ).annotate({ identifier: "Offer" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          allowed_refund_amount: S.optional(__S(64, __c2, 0)),
+          allowed_refund_amount: S.optional(__S(128, __c4, 0)),
         }),
       ).annotate({ identifier: "RefundDetails" });
     case 11:
@@ -3115,38 +3207,38 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           notes: S.optional(S.String),
-          documents: S.optional(__S(239, __c7, 15)),
+          documents: S.optional(__S(303, __c9, 15)),
           source: S.optional(S.String),
           provided_time: S.optional(S.String),
           dispute_life_cycle_stage: S.optional(S.String),
         }),
       ).annotate({ identifier: "SupportingInfo" });
     case 13:
-      return S.Array(__S(268, __c8, 12));
+      return S.Array(__S(332, __c10, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          acknowledgement_types: S.optional(__S(246, __c7, 22)),
+          acknowledgement_types: S.optional(__S(310, __c9, 22)),
         }),
       ).annotate({ identifier: "AcknowledgeReturnItemResponseOptions" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          accept_claim_types: S.optional(__S(246, __c7, 22)),
+          accept_claim_types: S.optional(__S(310, __c9, 22)),
         }),
       ).annotate({ identifier: "AcceptClaimResponseOptions" });
     case 16:
       return S.suspend(() =>
         S.Struct({
-          offer_types: S.optional(__S(246, __c7, 22)),
+          offer_types: S.optional(__S(310, __c9, 22)),
         }),
       ).annotate({ identifier: "MakeOfferResponseOptions" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          acknowledge_return_item: S.optional(__S(270, __c8, 14)),
-          accept_claim: S.optional(__S(271, __c8, 15)),
-          make_offer: S.optional(__S(272, __c8, 16)),
+          acknowledge_return_item: S.optional(__S(334, __c10, 14)),
+          accept_claim: S.optional(__S(335, __c10, 15)),
+          make_offer: S.optional(__S(336, __c10, 16)),
         }),
       ).annotate({ identifier: "AllowedResponseOptions" });
     case 18:
@@ -3155,35 +3247,35 @@ function __c8(j: number): any {
           dispute_id: S.optional(S.String),
           create_time: S.optional(S.String),
           update_time: S.optional(S.String),
-          disputed_transactions: S.optional(__S(230, __c7, 6)),
+          disputed_transactions: S.optional(__S(294, __c9, 6)),
           reason: S.optional(S.String),
           status: S.optional(S.String),
-          dispute_amount: S.optional(__S(64, __c2, 0)),
-          dispute_asset: S.optional(__S(288, __c9, 0)),
+          dispute_amount: S.optional(__S(128, __c4, 0)),
+          dispute_asset: S.optional(__S(352, __c11, 0)),
           fee_policy: S.optional(S.Unknown),
           external_reason_code: S.optional(S.String),
-          dispute_outcome: S.optional(__S(231, __c7, 7)),
-          adjudications: S.optional(__S(233, __c7, 9)),
-          money_movements: S.optional(__S(235, __c7, 11)),
-          fund_movements: S.optional(__S(237, __c7, 13)),
+          dispute_outcome: S.optional(__S(295, __c9, 7)),
+          adjudications: S.optional(__S(297, __c9, 9)),
+          money_movements: S.optional(__S(299, __c9, 11)),
+          fund_movements: S.optional(__S(301, __c9, 13)),
           dispute_life_cycle_stage: S.optional(S.String),
           dispute_channel: S.optional(S.String),
-          messages: S.optional(__S(241, __c7, 17)),
-          extensions: S.optional(__S(255, __c7, 31)),
-          evidences: S.optional(__S(262, __c8, 6)),
+          messages: S.optional(__S(305, __c9, 17)),
+          extensions: S.optional(__S(319, __c9, 31)),
+          evidences: S.optional(__S(326, __c10, 6)),
           buyer_response_due_date: S.optional(S.String),
           seller_response_due_date: S.optional(S.String),
-          offer: S.optional(__S(265, __c8, 9)),
-          refund_details: S.optional(__S(266, __c8, 10)),
-          communication_details: S.optional(__S(267, __c8, 11)),
-          supporting_info: S.optional(__S(269, __c8, 13)),
-          allowed_response_options: S.optional(__S(273, __c8, 17)),
-          links: S.optional(__S(449, __c14, 1)),
+          offer: S.optional(__S(329, __c10, 9)),
+          refund_details: S.optional(__S(330, __c10, 10)),
+          communication_details: S.optional(__S(331, __c10, 11)),
+          supporting_info: S.optional(__S(333, __c10, 13)),
+          allowed_response_options: S.optional(__S(337, __c10, 17)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "Dispute" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3196,7 +3288,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "Cryptocurrency" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3219,27 +3311,27 @@ function __c10(j: number): any {
           reason: S.optional(S.String),
           status: S.optional(S.String),
           dispute_state: S.optional(S.String),
-          dispute_amount: S.optional(__S(64, __c2, 0)),
-          dispute_asset: S.optional(__S(288, __c9, 0)),
+          dispute_amount: S.optional(__S(128, __c4, 0)),
+          dispute_asset: S.optional(__S(352, __c11, 0)),
           dispute_life_cycle_stage: S.optional(S.String),
           dispute_channel: S.optional(S.String),
           buyer_response_due_date: S.optional(S.String),
           seller_response_due_date: S.optional(S.String),
-          links: S.optional(__S(449, __c14, 1)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "DisputeInfo" });
     case 2:
-      return S.Array(__S(321, __c10, 1));
+      return S.Array(__S(385, __c12, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(322, __c10, 2)),
-          links: S.optional(__S(449, __c14, 1)),
+          items: S.optional(__S(386, __c12, 2)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "DisputeSearch" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3251,19 +3343,19 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "Patch" });
     case 1:
-      return S.Array(__S(352, __c11, 0));
+      return S.Array(__S(416, __c13, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          body: S.optional(__S(353, __c11, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(417, __c13, 1).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "PATCH", uri: "/v1/customer/disputes/{id}", code: 200 })),
       ).annotate({ identifier: "PatchDisputeRequest" });
     case 3:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "PatchDisputeResponse" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3281,31 +3373,17 @@ function __c12(j: number): any {
       ).annotate({ identifier: "DisputesAcceptClaimRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          links: S.optional(__S(449, __c14, 1)),
+          links: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "SubsequentAction" });
   }
 }
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          href: S.String,
-          rel: S.String,
-          method: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LinkDescription" });
-    case 1:
-      return S.Array(__S(448, __c14, 0));
-  }
-}
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3318,7 +3396,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "DisputesAcceptOfferRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3336,7 +3414,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DisputesAcknowledgeReturnItemRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3349,7 +3427,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DisputesAdjudicateRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3367,7 +3445,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DisputesAppealRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3380,7 +3458,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DisputesDenyOfferRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

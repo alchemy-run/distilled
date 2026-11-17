@@ -32,7 +32,7 @@ const TELEMETRY = {
 export interface GetRobotRequest {
   zoneId: string;
   /** Optional subdomain to fetch robots.txt for. If omitted, fetches robots.txt for the zone apex domain. */
-  subdomain?: string;
+  subdomain?: string | undefined;
 }
 export type GetRobotResponseUserAgentsValueAllowList = Array<string>;
 export type GetRobotResponseUserAgentsValueDisallowList = Array<string>;
@@ -41,11 +41,11 @@ export type GetRobotResponseUserAgentsValueContentSignalsAiTrain = "yes" | "no";
 export type GetRobotResponseUserAgentsValueContentSignalsSearch = "yes" | "no";
 export interface GetRobotResponseUserAgentsValueContentSignals {
   /** Whether AI input usage is permitted. */
-  aiInput?: GetRobotResponseUserAgentsValueContentSignalsAiInput | null;
+  aiInput?: GetRobotResponseUserAgentsValueContentSignalsAiInput | null | undefined;
   /** Whether AI training is permitted. */
-  aiTrain?: GetRobotResponseUserAgentsValueContentSignalsAiTrain | null;
+  aiTrain?: GetRobotResponseUserAgentsValueContentSignalsAiTrain | null | undefined;
   /** Whether search indexing is permitted. */
-  search?: GetRobotResponseUserAgentsValueContentSignalsSearch | null;
+  search?: GetRobotResponseUserAgentsValueContentSignalsSearch | null | undefined;
 }
 export interface GetRobotResponseUserAgentsValue {
   /** List of allowed path patterns. */
@@ -53,9 +53,9 @@ export interface GetRobotResponseUserAgentsValue {
   /** List of disallowed path patterns. */
   disallow: GetRobotResponseUserAgentsValueDisallowList;
   /** Content signal directives from robots.txt. */
-  contentSignals?: GetRobotResponseUserAgentsValueContentSignals | null;
+  contentSignals?: GetRobotResponseUserAgentsValueContentSignals | null | undefined;
   /** Crawl delay in seconds. */
-  crawlDelay?: number | null;
+  crawlDelay?: number | null | undefined;
 }
 export type GetRobotResponseUserAgentsMap = {
   [key: string]: GetRobotResponseUserAgentsValue | undefined;
@@ -66,9 +66,9 @@ export interface GetRobotResponse {
   /** Map of user-agent string to its parsed rules. */
   userAgents: GetRobotResponseUserAgentsMap;
   /** List of sitemap URLs found in robots.txt. */
-  sitemaps?: GetRobotResponseSitemapsList | null;
+  sitemaps?: GetRobotResponseSitemapsList | null | undefined;
   /** HTTP status code from fetching the robots.txt file. */
-  status?: number | null;
+  status?: number | null | undefined;
 }
 export type RobotsBulkGetRequestBodyList = Array<string>;
 export interface RobotsBulkGetRequest {
@@ -83,11 +83,11 @@ export type RobotsBulkGetResultValueUserAgentsValueContentSignalsAiTrain = "yes"
 export type RobotsBulkGetResultValueUserAgentsValueContentSignalsSearch = "yes" | "no";
 export interface RobotsBulkGetResultValueUserAgentsValueContentSignals {
   /** Whether AI input usage is permitted. */
-  aiInput?: RobotsBulkGetResultValueUserAgentsValueContentSignalsAiInput | null;
+  aiInput?: RobotsBulkGetResultValueUserAgentsValueContentSignalsAiInput | null | undefined;
   /** Whether AI training is permitted. */
-  aiTrain?: RobotsBulkGetResultValueUserAgentsValueContentSignalsAiTrain | null;
+  aiTrain?: RobotsBulkGetResultValueUserAgentsValueContentSignalsAiTrain | null | undefined;
   /** Whether search indexing is permitted. */
-  search?: RobotsBulkGetResultValueUserAgentsValueContentSignalsSearch | null;
+  search?: RobotsBulkGetResultValueUserAgentsValueContentSignalsSearch | null | undefined;
 }
 export interface RobotsBulkGetResultValueUserAgentsValue {
   /** List of allowed path patterns. */
@@ -95,9 +95,9 @@ export interface RobotsBulkGetResultValueUserAgentsValue {
   /** List of disallowed path patterns. */
   disallow: RobotsBulkGetResultValueUserAgentsValueDisallowList;
   /** Content signal directives from robots.txt. */
-  contentSignals?: RobotsBulkGetResultValueUserAgentsValueContentSignals | null;
+  contentSignals?: RobotsBulkGetResultValueUserAgentsValueContentSignals | null | undefined;
   /** Crawl delay in seconds. */
-  crawlDelay?: number | null;
+  crawlDelay?: number | null | undefined;
 }
 export type RobotsBulkGetResultValueUserAgentsMap = {
   [key: string]: RobotsBulkGetResultValueUserAgentsValue | undefined;
@@ -107,9 +107,9 @@ export interface RobotsBulkGetResultValue {
   /** Map of user-agent string to its parsed rules. */
   userAgents: RobotsBulkGetResultValueUserAgentsMap;
   /** List of sitemap URLs found in robots.txt. */
-  sitemaps?: RobotsBulkGetResultValueSitemapsList | null;
+  sitemaps?: RobotsBulkGetResultValueSitemapsList | null | undefined;
   /** HTTP status code from fetching the robots.txt file. */
-  status?: number | null;
+  status?: number | null | undefined;
 }
 export type RobotsBulkGetResultMap = { [key: string]: RobotsBulkGetResultValue | undefined };
 export type RobotsBulkGetResponse = RobotsBulkGetResultMap;

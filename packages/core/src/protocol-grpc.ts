@@ -13,6 +13,10 @@
  *   `GrpcTransport` reference holds, or the caller's `HttpClient` when it
  *   holds none (see `@distilled.cloud/core/grpc-transport`). Plain `fetch`
  *   works where a proxy bridges HTTP/1.1 to gRPC (envoy).
+ * - **gRPC-Web**: with `web: true` the request is sent as
+ *   `application/grpc-web+proto`, which servers such as `tonic-web` answer
+ *   over HTTP/1.1. The reply's trailers arrive as the last frame of its body,
+ *   so plain `fetch` sees every status.
  * - **Status**: the call's `grpc-status` is read from the trailers, or from
  *   the headers of a trailers-only reply. A transport that can't see
  *   trailers (`fetch`) leaves only the headers; a reply with message frames
@@ -46,7 +50,7 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Stream from "effect/Stream";
 import * as API from "./api.ts";
-import { GrpcTransport, hasTrailers, trailersOf } from "./grpc-transport.ts";
+import { GrpcTransport, hasTrailers, trailersOf, type Trailers } from "./grpc-transport.ts";
 import {
   decodeMessage,
   encodeMessage,
@@ -56,7 +60,8 @@ import {
 } from "./protobuf.ts";
 import { InvalidInput, matchTypedError } from "./protocol-http.ts";
 import { makeRestProtocol, type RestProtocolOptions } from "./protocol-rest.ts";
-import * as Telemetry from "./telemetry.ts";
+import { SdkError } from "./sdk-error.ts";
+import * as Send from "./send.ts";
 
 /** gRPC status code -> name. */
 export const GRPC_STATUS_NAMES: Readonly<Record<number, string>> = {
@@ -125,6 +130,12 @@ export interface GrpcProtocolOptions<C> extends RestProtocolOptions<C> {
    * `BadRequest`).
    */
   readonly statusError?: (info: StatusInfo) => unknown;
+  /**
+   * Send gRPC-Web (`application/grpc-web+proto`) instead of gRPC, for a
+   * server that answers HTTP/1.1 only that way (`tonic-web`). The reply
+   * carries its trailers in its body, so `fetch` sees every status.
+   */
+  readonly web?: boolean;
 }
 
 /** A non-OK gRPC status, as `statusError` receives it. */
@@ -181,6 +192,22 @@ type Headers = Readonly<Record<string, string | undefined>>;
 
 const textDecoder = /*@__PURE__*/ new TextDecoder();
 
+/**
+ * The SDK can't make the call (a broken descriptor table, or a REST
+ * encode/decode result gRPC can't use). Protocol effects are typed
+ * `never`; SdkError is part of every operation's declared error channel.
+ */
+/**
+ * A transport's trailers. A transport that can't read them fails with its
+ * `HttpClientError`, which reaches the caller like a failed body read:
+ * protocol effects carry no error type.
+ */
+const readTrailers = (response: HttpClientResponse.HttpClientResponse) =>
+  trailersOf(response) as Effect.Effect<Trailers>;
+
+const sdkFailure = (message: string): Effect.Effect<never> =>
+  Effect.fail(new SdkError({ message })) as Effect.Effect<never>;
+
 const methodPath = (url: string): string => {
   try {
     return new URL(url).pathname;
@@ -226,18 +253,24 @@ const plainHeaders = (headers: Headers) => {
   return out;
 };
 
+/** A gRPC-Web reply, whose trailers are the last frame of its body. */
+const isWeb = (headers: Headers): boolean =>
+  (headers["content-type"] ?? "").startsWith("application/grpc-web");
+
 const statusOf = (value: string | undefined): number | undefined =>
   value === undefined || value === "" ? undefined : Number(value);
 
-const messageOf = (raw: string | undefined, status: number): string => {
-  let message = raw ?? "";
+/** `text` percent-decoded, or as sent when it is not percent-encoded. */
+const percentDecoded = (text: string): string => {
   try {
-    message = decodeURIComponent(message);
+    return decodeURIComponent(text);
   } catch {
-    // Not percent-encoded: keep it as sent.
+    return text;
   }
-  return message || GRPC_STATUS_NAMES[status] || `gRPC status ${status}`;
 };
+
+const messageOf = (raw: string | undefined, status: number): string =>
+  percentDecoded(raw ?? "") || GRPC_STATUS_NAMES[status] || `gRPC status ${status}`;
 
 /** A `grpc-timeout` value for `ms` (at most 8 digits per the spec). */
 const grpcTimeout = (ms: number): string => {
@@ -264,10 +297,10 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
       const encode: API.ProtocolShape["encode"] = (args) =>
         Effect.flatMap(rest.encode(args), (request) => {
           const method = methodOf(request.url);
-          if (!method) return Effect.die(new Error(`no gRPC descriptor for ${request.url}`));
+          if (!method) return sdkFailure(`no gRPC descriptor for ${request.url}`);
           const body = request.body;
           if (body._tag !== "Empty" && body._tag !== "Uint8Array" && body._tag !== "Raw") {
-            return Effect.die(new Error(`gRPC requests need a JSON body, got ${body._tag}`));
+            return sdkFailure(`gRPC requests need a JSON body, got ${body._tag}`);
           }
           let payload: Uint8Array;
           try {
@@ -283,10 +316,15 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
             ) as unknown as Effect.Effect<HttpClientRequest.HttpClientRequest>;
           }
           return Effect.succeed(
-            request.pipe(
-              HttpClientRequest.bodyUint8Array(frame(payload), "application/grpc"),
-              HttpClientRequest.setHeader("te", "trailers"),
-            ),
+            options.web
+              ? request.pipe(
+                  HttpClientRequest.bodyUint8Array(frame(payload), "application/grpc-web+proto"),
+                  HttpClientRequest.setHeader("x-grpc-web", "1"),
+                )
+              : request.pipe(
+                  HttpClientRequest.bodyUint8Array(frame(payload), "application/grpc"),
+                  HttpClientRequest.setHeader("te", "trailers"),
+                ),
           );
         });
 
@@ -324,7 +362,7 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
             ...args,
             response: jsonResponse(request, httpStatus, plainHeaders(headers), body),
           }),
-          () => Effect.die(new Error(`gRPC status ${status} decoded as a success`)),
+          () => sdkFailure(`gRPC status ${status} decoded as a success`),
         );
       };
 
@@ -332,8 +370,9 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
        * The call's failure, if any, once its body has ended. The status is in
        * the trailers, or in the headers of a trailers-only reply (one with no
        * body); a status in the headers of a reply with a body is ignored. A
-       * transport that reads trailers must deliver one; over `fetch`, which
-       * can't, a reply with messages and no status is OK.
+       * transport that reads trailers must deliver one, and so must a
+       * gRPC-Web reply, in its trailer frame; over `fetch`, which can't read
+       * trailers, a gRPC reply with messages and no status is OK.
        */
       const endOf = (
         args: DecodeArgs,
@@ -342,7 +381,7 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
         sawBody: boolean,
       ): Effect.Effect<void> => {
         const headers = response.headers as Headers;
-        const readsTrailers = hasTrailers(response);
+        const readsTrailers = hasTrailers(response) || isWeb(headers);
         const source =
           trailers["grpc-status"] !== undefined
             ? trailers
@@ -465,7 +504,7 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
                 : HttpClientRequest.setHeader(encoded, "grpc-timeout", grpcTimeout(ms));
             const client =
               Context.get(context, GrpcTransport) ?? Context.get(context, HttpClient.HttpClient);
-            return Telemetry.execute(context, client, request);
+            return Send.send(context, client, request);
           },
         );
 
@@ -477,10 +516,10 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
         const headers = response.headers as Headers;
         const request = response.request;
         const method = methodOf(request.url);
-        if (!method) return Effect.die(new Error(`no gRPC descriptor for ${request.url}`));
+        if (!method) return sdkFailure(`no gRPC descriptor for ${request.url}`);
         // Protocol effects carry no error type: callers see the operation's.
         return Effect.flatMap(response.arrayBuffer as Effect.Effect<ArrayBuffer>, (buffer) =>
-          Effect.flatMap(trailersOf(response), (trailers) => {
+          Effect.flatMap(readTrailers(response), (trailers) => {
             const reader = new FrameReader();
             let frames: Uint8Array[];
             try {
@@ -490,7 +529,8 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
                 badFrame(args, response, cause),
               );
             }
-            return Effect.flatMap(endOf(args, response, trailers, buffer.byteLength > 0), () => {
+            const all = { ...trailers, ...reader.trailers };
+            return Effect.flatMap(endOf(args, response, all, buffer.byteLength > 0), () => {
               if (reader.rest !== 0) return badFrame(args, response, "truncated gRPC frame");
               const [, responseType, stream] = method;
               if (!stream && frames.length !== 1) {
@@ -589,7 +629,7 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
         const failed = notGrpc(args, response);
         if (failed) return Stream.fromEffect(failed);
         const method = methodOf(request.url);
-        if (!method) return Stream.die(new Error(`no gRPC descriptor for ${request.url}`));
+        if (!method) return Stream.fromEffect(sdkFailure(`no gRPC descriptor for ${request.url}`));
         const [, responseType] = method;
         const reader = new FrameReader();
         const item = (payload: Uint8Array) => {
@@ -619,8 +659,8 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
           ),
         );
         let sawBody = false;
-        const end = Effect.flatMap(trailersOf(response), (trailers) =>
-          Effect.flatMap(endOf(args, response, trailers, sawBody), () =>
+        const end = Effect.flatMap(readTrailers(response), (trailers) =>
+          Effect.flatMap(endOf(args, response, { ...trailers, ...reader.trailers }, sawBody), () =>
             reader.rest !== 0 ? badFrame(args, response, "truncated gRPC frame") : Effect.void,
           ),
         );

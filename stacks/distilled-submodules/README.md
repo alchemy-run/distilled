@@ -112,6 +112,17 @@ tree never exists.
 provider and closes the selection over external `$ref`s, so the mirror is
 self-contained: 338,547 upstream paths in, 777 documents out.
 
+### Mirrors that need credentials
+
+`aws` also mirrors the EventBridge `aws.events` schema registry (the events
+AWS services send, such as an SES bounce or complaint). The registry is an AWS
+API and takes signed requests only, so the shared workflow passes the
+repository's `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` Actions secrets
+to the fetch step. Only `spec-mirror-aws` holds them; every other mirror sees
+them empty. They are minted and written by
+[`stacks/distilled-monorepo`](../distilled-monorepo), not by this stack: its
+token has no Secrets permission, and minting an AWS key is an admin deploy.
+
 ## Working on a mirror locally
 
 The mirrors live in an org most contributors cannot write to, and a new one

@@ -29,19 +29,19 @@ export interface CreateCustomPropertySourceRequest {
   /** UUID of the custom property definition this source feeds. One source per definition. */
   definition: string;
   /** UUID of the data-warehouse saved query to read from. Required for an account source. For a person or group source it must be a materialized view, and is one of the two binding options. Mutually exclusive with external_data_schema. */
-  saved_query?: string | null;
+  saved_query?: string | null | undefined;
   /** Person and group sources only: UUID of the warehouse schema (an imported table) to read from. Mutually exclusive with saved_query; a person or group source sets exactly one. */
-  external_data_schema?: string | null;
+  external_data_schema?: string | null | undefined;
   /** Account sources only: column in the view whose value is written to the property. */
-  source_column?: string | null;
+  source_column?: string | null | undefined;
   /** Person and group sources only: {warehouse_column: property_name} mapping the columns this source writes onto the person or group. */
-  column_property_map?: unknown;
+  column_property_map?: unknown | undefined;
   /** Person and group sources only: {warehouse_column: description} giving each mapped column a human-facing description, seeded from the warehouse column's information_schema description. Optional per column. */
-  column_descriptions?: unknown;
+  column_descriptions?: unknown | undefined;
   /** Column whose value identifies the target: an account's external_id for account sources, the person's distinct_id for person sources, or the group key for group sources. */
   key_column: string;
   /** Whether the source syncs. Auto-disabled after repeated failures or a missing view; re-enabling resets the failure count. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
 }
 /** * `tracked` - tracked * `ignored` - ignored */
 export type SyncSegmentEnum = "tracked" | "ignored";
@@ -93,19 +93,19 @@ export interface CustomPropertySource {
   /** UUID of the custom property definition this source feeds. One source per definition. */
   definition: string;
   /** UUID of the data-warehouse saved query to read from. Required for an account source. For a person or group source it must be a materialized view, and is one of the two binding options. Mutually exclusive with external_data_schema. */
-  saved_query?: string | null;
+  saved_query?: string | null | undefined;
   /** Person and group sources only: UUID of the warehouse schema (an imported table) to read from. Mutually exclusive with saved_query; a person or group source sets exactly one. */
-  external_data_schema?: string | null;
+  external_data_schema?: string | null | undefined;
   /** Account sources only: column in the view whose value is written to the property. */
-  source_column?: string | null;
+  source_column?: string | null | undefined;
   /** Person and group sources only: {warehouse_column: property_name} mapping the columns this source writes onto the person or group. */
-  column_property_map?: unknown;
+  column_property_map?: unknown | undefined;
   /** Person and group sources only: {warehouse_column: description} giving each mapped column a human-facing description, seeded from the warehouse column's information_schema description. Optional per column. */
-  column_descriptions?: unknown;
+  column_descriptions?: unknown | undefined;
   /** Column whose value identifies the target: an account's external_id for account sources, the person's distinct_id for person sources, or the group key for group sources. */
   key_column: string;
   /** Whether the source syncs. Auto-disabled after repeated failures or a missing view; re-enabling resets the failure count. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Consecutive failed sync runs; the source auto-disables at the cap. */
   consecutive_failures: number;
   /** When the most recent sync run finished. */
@@ -149,15 +149,15 @@ export interface ListCustomPropertySourcesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedCustomPropertySourceListResultsList = Array<CustomPropertySource>;
 export interface PaginatedCustomPropertySourceList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedCustomPropertySourceListResultsList;
 }
 export interface ListCustomPropertySourcesRunsRequest {
@@ -165,17 +165,17 @@ export interface ListCustomPropertySourcesRunsRequest {
   project_id: string;
   id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Match run IDs, workflow IDs, job IDs, statuses, segments, triggers, or errors. */
-  search?: string;
+  search?: string | undefined;
 }
 export type PaginatedCustomPropertySyncRunListResultsList = Array<CustomPropertySyncRun>;
 export interface PaginatedCustomPropertySyncRunList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedCustomPropertySyncRunListResultsList;
 }
 export interface SyncCustomPropertySourceRequest {
@@ -189,30 +189,30 @@ export interface UpdateCustomPropertySourceRequest {
   project_id: string;
   id: string;
   /** Column in the view whose value is written to the property. */
-  source_column?: string;
+  source_column?: string | undefined;
   /** Column in the view whose value matches an account's external_id. */
-  key_column?: string;
+  key_column?: string | undefined;
   /** Person and group sources only: {warehouse_column: property_name} mapping the columns this source writes onto the person or group. */
-  column_property_map?: unknown;
+  column_property_map?: unknown | undefined;
   /** Person and group sources only: {warehouse_column: description} for mapped columns. Optional per column. */
-  column_descriptions?: unknown;
+  column_descriptions?: unknown | undefined;
   /** Whether the source syncs; re-enabling it resets the failure count. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
 }
 export interface UpdateCustomPropertySourcesPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
   /** Column in the view whose value is written to the property. */
-  source_column?: string;
+  source_column?: string | undefined;
   /** Column in the view whose value matches an account's external_id. */
-  key_column?: string;
+  key_column?: string | undefined;
   /** Person and group sources only: {warehouse_column: property_name} mapping the columns this source writes onto the person or group. */
-  column_property_map?: unknown;
+  column_property_map?: unknown | undefined;
   /** Person and group sources only: {warehouse_column: description} for mapped columns. Optional per column. */
-  column_descriptions?: unknown;
+  column_descriptions?: unknown | undefined;
   /** Whether the source syncs; re-enabling it resets the failure count. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
 }
 export type CreateCustomPropertySourceError = PosthogOpError;
 export const createCustomPropertySource: API.OperationMethod<

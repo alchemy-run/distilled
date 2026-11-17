@@ -30,36 +30,64 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export interface GetForumRequest {
   /** The unique identifier of the forum or experience to retrieve. */
@@ -94,11 +122,11 @@ export interface Forum {
   who_can_post: ForumWhoCanPostTypes;
 }
 export interface ListForumRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
-  product_id?: string;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
+  product_id?: string | undefined;
   account_id: string;
 }
 /** The parent experience that this forum belongs to. */
@@ -146,22 +174,37 @@ export interface UpdateForumRequest {
   /** The unique identifier of the forum to update. Accepts either an experience ID (e.g. 'exp_xxxxx') or a forum ID. */
   id: string;
   /** A list of words that are automatically blocked from posts in this forum. For example, ['spam', 'scam']. */
-  banned_words?: UpdateForumRequestBannedWordsList | null;
+  banned_words?: UpdateForumRequestBannedWordsList | null | undefined;
   /** The banner image displayed at the top of the forum page. Pass null to remove the existing banner. */
-  banner_image?: UpdateForumRequestBannerImage | null;
+  banner_image?: UpdateForumRequestBannerImage | null | undefined;
   /** Controls how email notifications are sent to members when new posts are created in this forum. */
-  email_notification_preference?: ForumEmailNotificationPreferences | (string & {}) | null;
+  email_notification_preference?:
+    | ForumEmailNotificationPreferences
+    | (string & {})
+    | null
+    | undefined;
   /** Controls which roles are allowed to comment on posts in this forum. */
-  who_can_comment?: ForumWhoCanCommentTypes | (string & {}) | null;
+  who_can_comment?: ForumWhoCanCommentTypes | (string & {}) | null | undefined;
   /** Controls which roles are allowed to create new posts in this forum. */
-  who_can_post?: ForumWhoCanPostTypes | (string & {}) | null;
+  who_can_post?: ForumWhoCanPostTypes | (string & {}) | null | undefined;
+}
+export interface Error400BodyError {
+  /** A short string indicating the specific error code, e.g. 'parameter_missing', 'parameter_invalid', 'invalid_json' */
+  code?: string | null | undefined;
+  message: string;
+  /** The parameter that caused the error, if applicable */
+  param?: string | null | undefined;
+  type: string;
+}
+export interface Error400Body {
+  error: Error400BodyError;
 }
 export type GetForumError = BadRequest | Forbidden | NotFound | UnprocessableEntity | WhopOpError;
 /** Retrieve forum [Legacy API -- https://docs.whop.com/api-reference] Retrieves the details of an existing forum. Required permissions: - `forum:read` */
 export const getForum: API.OperationMethod<GetForumRequest, Forum, GetForumError, WhopOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(0, __c0, 0) as any as S.Schema<GetForumRequest>,
-    output: __S(5, __c1, 1) as any as S.Schema<Forum>,
+    input: __S(4, __c1, 0) as any as S.Schema<GetForumRequest>,
+    output: __S(9, __c2, 1) as any as S.Schema<Forum>,
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -179,8 +222,8 @@ export const listForum: API.PaginatedOperationMethod<
   ForumListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(8, __c2, 0) as any as S.Schema<ListForumRequest>,
-    output: __S(11, __c2, 3) as any as S.Schema<ListForumResponse>,
+    input: __S(12, __c3, 0) as any as S.Schema<ListForumRequest>,
+    output: __S(15, __c3, 3) as any as S.Schema<ListForumResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -211,8 +254,8 @@ export const updateForum: API.OperationMethod<
   UpdateForumError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14, __c3, 2) as any as S.Schema<UpdateForumRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<Forum>,
+  input: __S(18, __c4, 2) as any as S.Schema<UpdateForumRequest>,
+  output: __S(9, __c2, 1) as any as S.Schema<Forum>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -226,12 +269,31 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.NullOr(S.String)),
+          message: S.String,
+          param: S.optional(S.NullOr(S.String)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error400BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/forums/{id}", code: 200 })),
       ).annotate({ identifier: "GetForumRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -245,7 +307,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           email_notification_preference: S.String,
-          experience: __S(4, __c1, 0),
+          experience: __S(8, __c2, 0),
           id: S.String,
           who_can_comment: S.String,
           who_can_post: S.String,
@@ -253,7 +315,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "Forum" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -267,7 +329,7 @@ function __c2(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/forums", code: 200 })),
       ).annotate({ identifier: "ListForumRequest" });
     case 1:
-      return S.Array(__S(5, __c1, 1));
+      return S.Array(__S(9, __c2, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -280,13 +342,13 @@ function __c2(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(9, __c2, 1),
-          page_info: __S(10, __c2, 2),
+          data: __S(13, __c3, 1),
+          page_info: __S(14, __c3, 2),
         }),
       ).annotate({ identifier: "ListForumResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -300,8 +362,8 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          banned_words: S.optional(S.NullOr(__S(12, __c3, 0))),
-          banner_image: S.optional(S.NullOr(__S(13, __c3, 1))),
+          banned_words: S.optional(S.NullOr(__S(16, __c4, 0))),
+          banner_image: S.optional(S.NullOr(__S(17, __c4, 1))),
           email_notification_preference: S.optional(S.NullOr(S.String)),
           who_can_comment: S.optional(S.NullOr(S.String)),
           who_can_post: S.optional(S.NullOr(S.String)),

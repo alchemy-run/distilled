@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * NeonProtocol -- hand-written.
  *
@@ -37,7 +38,8 @@ export type NeonOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | NeonParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Neon operation. */
 export type NeonOpContext = Credentials | HttpClient.HttpClient;
@@ -52,11 +54,6 @@ export const NeonProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestPro
   }),
   // Neon's error body is `{ code?: string, message: string }` -- the
   // factory's default lenient envelope covers it.
-  unknownError: ({ code, message, body }) =>
-    new UnknownNeonError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownNeonError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new NeonParseError({ body, cause }),
 });

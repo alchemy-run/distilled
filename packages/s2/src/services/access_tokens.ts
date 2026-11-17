@@ -39,14 +39,14 @@ export interface ResourceSetCase1 {
 export type ResourceSet = ResourceSetCase0 | ResourceSetCase1;
 export interface ReadWritePermissions {
   /** Read permission. */
-  read?: boolean;
+  read?: boolean | undefined;
   /** Write permission. */
-  write?: boolean;
+  write?: boolean | undefined;
 }
 export interface PermittedOperationGroups {
-  account?: ReadWritePermissions | null;
-  basin?: ReadWritePermissions | null;
-  stream?: ReadWritePermissions | null;
+  account?: ReadWritePermissions | null | undefined;
+  basin?: ReadWritePermissions | null | undefined;
+  stream?: ReadWritePermissions | null | undefined;
 }
 export type Operation =
   | "list-basins"
@@ -76,18 +76,18 @@ export type Operation =
 /** Operations allowed for the token. A union of allowed operations and groups is used as an effective set of allowed operations. */
 export type AccessTokenScopeOpsList = Array<Operation | (string & {})>;
 export interface AccessTokenScope {
-  access_tokens?: ResourceSet | null;
-  basins?: ResourceSet | null;
-  op_groups?: PermittedOperationGroups | null;
+  access_tokens?: ResourceSet | null | undefined;
+  basins?: ResourceSet | null | undefined;
+  op_groups?: PermittedOperationGroups | null | undefined;
   /** Operations allowed for the token. A union of allowed operations and groups is used as an effective set of allowed operations. */
-  ops?: AccessTokenScopeOpsList | null;
-  streams?: ResourceSet | null;
+  ops?: AccessTokenScopeOpsList | null | undefined;
+  streams?: ResourceSet | null | undefined;
 }
 export interface IssueAccessTokenRequest {
   /** Namespace streams based on the configured stream-level scope, which must be a prefix. Stream name arguments will be automatically prefixed, and the prefix will be stripped when listing streams. */
-  auto_prefix_streams?: boolean;
+  auto_prefix_streams?: boolean | undefined;
   /** Expiration time in RFC 3339 format. If not set, the expiration will be set to that of the requestor's token. */
-  expires_at?: string | null;
+  expires_at?: string | null | undefined;
   /** Access token ID. It must be unique to the account and between 1 and 96 bytes in length, and must not contain NUL bytes. */
   id: string;
   /** Access token scope. */
@@ -99,17 +99,17 @@ export interface IssueAccessTokenResponse {
 }
 export interface ListAccessTokensRequest {
   /** Filter to access tokens whose IDs begin with this prefix. It must not contain NUL bytes. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Filter to access tokens whose IDs lexicographically start after this string. It must not contain NUL bytes. */
-  start_after?: string;
+  start_after?: string | undefined;
   /** Number of results, up to a maximum of 1000. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface AccessTokenInfo {
   /** Namespace streams based on the configured stream-level scope. */
   auto_prefix_streams: boolean;
   /** Expiration time in RFC 3339 format. */
-  expires_at?: string | null;
+  expires_at?: string | null | undefined;
   /** Access token ID. */
   id: string;
   /** Access token scope. */

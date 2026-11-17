@@ -90,15 +90,15 @@ export type EmailProTaskStatusEnum = "cancelled" | "doing" | "done" | "error" | 
 /** Organization task details */
 export interface EmailProTask {
   /** Completion date */
-  finishDate?: string | null;
+  finishDate?: string | null | undefined;
   /** Function name */
-  function?: EmailProTaskFunctionEnum;
+  function?: EmailProTaskFunctionEnum | undefined;
   /** Task id */
-  id?: number;
+  id?: number | undefined;
   /** Task status */
-  status?: EmailProTaskStatusEnum;
+  status?: EmailProTaskStatusEnum | undefined;
   /** Creation date */
-  todoDate?: string;
+  todoDate?: string | undefined;
 }
 export interface CreateEmailProAccountChangePasswordRequest {
   /** The internal name of your pro organization */
@@ -128,11 +128,11 @@ export interface CreateEmailProChangeContactRequest {
   /** The internal name of your pro organization */
   service: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateEmailProChangeContactResponseBodyList = Array<number>;
 export type CreateEmailProChangeContactResponse = CreateEmailProChangeContactResponseBodyList;
@@ -142,17 +142,17 @@ export interface CreateEmailProDomainRequest {
   /** The internal name of your pro organization */
   service: string;
   /** Enable DKIM automatically after DKIM configuration */
-  autoEnableDKIM?: boolean;
+  autoEnableDKIM?: boolean | undefined;
   /** If you host domain in OVH we can configure autodiscover record automatically */
-  configureAutodiscover?: boolean;
+  configureAutodiscover?: boolean | undefined;
   /** Launch configuration of DKIM automatically for the domain */
-  configureDKIM?: boolean;
+  configureDKIM?: boolean | undefined;
   /** If you host domain in OVH we can configure mx record automatically */
-  configureMx?: boolean;
+  configureMx?: boolean | undefined;
   /** Enable automatic SPF record (only for domains hosted by OVHcloud) */
-  configureSPF?: boolean;
+  configureSPF?: boolean | undefined;
   /** If specified, emails to not existing address will be redirected to that domain */
-  mxRelay?: string;
+  mxRelay?: string | undefined;
   /** Domain to install on server */
   name: string;
   /** Type of domain that You want to install */
@@ -166,7 +166,7 @@ export interface CreateEmailProDomainDisclaimerRequest {
   /** Signature, added at the bottom of your organization emails */
   content: string;
   /** Activate the disclaimer only for external emails */
-  outsideOnly?: boolean;
+  outsideOnly?: boolean | undefined;
 }
 export interface CreateEmailProDomainDkimRequest {
   /** The internal name of your pro organization */
@@ -174,9 +174,9 @@ export interface CreateEmailProDomainDkimRequest {
   /** Domain name */
   domainName: string;
   /** Enable DKIM automatically after DKIM configuration */
-  autoEnableDKIM?: boolean;
+  autoEnableDKIM?: boolean | undefined;
   /** If you host domain in OVH we can configure dkim dns record automatically */
-  configureDkim?: boolean;
+  configureDkim?: boolean | undefined;
   /** selector name for DKIM */
   selectorName: string;
 }
@@ -184,17 +184,17 @@ export interface CreateEmailProExternalContactRequest {
   /** The internal name of your pro organization */
   service: string;
   /** Contact display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Contact email address */
   externalEmailAddress: string;
   /** Contact first name */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Hide the contact in Global Address List */
-  hiddenFromGAL?: boolean;
+  hiddenFromGAL?: boolean | undefined;
   /** Contact initials */
-  initials?: string;
+  initials?: string | undefined;
   /** Contact last name */
-  lastName?: string;
+  lastName?: string | undefined;
 }
 export interface DeleteEmailProAccountRequest {
   /** The internal name of your pro organization */
@@ -285,32 +285,32 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Service Offer name */
 export type EmailProServiceOfferEnum = "emailpro";
 /** Spam and Antyvirus configuration */
 export interface EmailProSpamAndVirusConfiguration {
   /** Check DKIM of message */
-  checkDKIM?: boolean;
+  checkDKIM?: boolean | undefined;
   /** Check SPF of message */
-  checkSPF?: boolean;
+  checkSPF?: boolean | undefined;
   /** If message is a spam delete it */
-  deleteSpam?: boolean;
+  deleteSpam?: boolean | undefined;
   /** If message is a virus delete it */
-  deleteVirus?: boolean;
+  deleteVirus?: boolean | undefined;
   /** If message is a spam or virus put in junk. Overridden by deleteSpam or deleteVirus */
-  putInJunk?: boolean;
+  putInJunk?: boolean | undefined;
   /** If message is a spam change its subject */
-  tagSpam?: boolean;
+  tagSpam?: boolean | undefined;
   /** If message is a virus change its subject */
-  tagVirus?: boolean;
+  tagVirus?: boolean | undefined;
 }
 /** Service State */
 export type EmailProServiceStateEnum =
@@ -324,43 +324,43 @@ export type EmailProServiceStateEnum =
 /** Email pro service */
 export interface EmailProServiceNativeWithIAM {
   /** enable policy for strong and secure passwords */
-  complexityEnabled?: boolean;
+  complexityEnabled?: boolean | undefined;
   /** service displayName */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Domain name of your service */
-  domain?: string;
+  domain?: string | undefined;
   /** Hostname of your service */
-  hostname?: string | null;
+  hostname?: string | null | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Update date */
-  lastUpdateDate?: string | null;
+  lastUpdateDate?: string | null | undefined;
   /** number of minutes account will remain locked if it occurs */
-  lockoutDuration?: number;
+  lockoutDuration?: number | undefined;
   /** number of minutes that must elapse after a failed logon to reset lockout trigger */
-  lockoutObservationWindow?: number;
+  lockoutObservationWindow?: number | undefined;
   /** number of attempts before account to be locked */
-  lockoutThreshold?: number | null;
+  lockoutThreshold?: number | null | undefined;
   /** maximum number of days that account's password is valid before expiration */
-  maxPasswordAge?: number | null;
+  maxPasswordAge?: number | null | undefined;
   /** Maximum message size that You can receive in MB */
-  maxReceiveSize?: number;
+  maxReceiveSize?: number | undefined;
   /** Maximum message size that You can send in MB */
-  maxSendSize?: number;
+  maxSendSize?: number | undefined;
   /** minimum number of days before able to change account's password */
-  minPasswordAge?: number | null;
+  minPasswordAge?: number | null | undefined;
   /** minimum number of characters password must contain */
-  minPasswordLength?: number | null;
+  minPasswordLength?: number | null | undefined;
   /** Type of your offer */
-  offer?: EmailProServiceOfferEnum;
+  offer?: EmailProServiceOfferEnum | undefined;
   /** Spam and Antivirus configuration */
-  spamAndVirusConfiguration?: EmailProSpamAndVirusConfiguration;
+  spamAndVirusConfiguration?: EmailProSpamAndVirusConfiguration | undefined;
   /** State of your service */
-  state?: EmailProServiceStateEnum;
+  state?: EmailProServiceStateEnum | undefined;
   /** Task pending id */
-  taskPendingId?: number;
+  taskPendingId?: number | undefined;
   /** URL for web interface */
-  webUrl?: string | null;
+  webUrl?: string | null | undefined;
 }
 export interface GetEmailProAccountRequest {
   /** Service */
@@ -386,61 +386,61 @@ export type EmailProObjectStateEnum =
 /** Mailbox */
 export interface EmailProAccountNative {
   /** SAM account name */
-  SAMAccountName?: string | null;
+  SAMAccountName?: string | null | undefined;
   /** Indicates if the account is configured */
-  configured?: boolean;
+  configured?: boolean | undefined;
   /** Creation date */
-  creationDate?: string | null;
+  creationDate?: string | null | undefined;
   /** Mailbox usage */
-  currentUsage?: number | null;
+  currentUsage?: number | null | undefined;
   /** delete at expiration */
-  deleteAtExpiration?: boolean | null;
+  deleteAtExpiration?: boolean | null | undefined;
   /** Account display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Email domain */
-  domain?: string;
+  domain?: string | undefined;
   /** expiration date */
-  expirationDate?: string | null;
+  expirationDate?: string | null | undefined;
   /** expiration date */
-  expirationOutlookDate?: string | null;
+  expirationOutlookDate?: string | null | undefined;
   /** Account first name */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Hide account in Global Address List */
-  hiddenFromGAL?: boolean;
+  hiddenFromGAL?: boolean | undefined;
   /** Account id */
-  id?: number;
+  id?: number | undefined;
   /** Account initials */
-  initial?: string | null;
+  initial?: string | null | undefined;
   /** Last logoff */
-  lastLogoffDate?: string | null;
+  lastLogoffDate?: string | null | undefined;
   /** Last logon */
-  lastLogonDate?: string | null;
+  lastLogonDate?: string | null | undefined;
   /** Account last name */
-  lastName?: string | null;
+  lastName?: string | null | undefined;
   /** Last update */
-  lastUpdateDate?: string | null;
+  lastUpdateDate?: string | null | undefined;
   /** Account login */
-  login?: string;
+  login?: string | undefined;
   /** Enable or disable anti-virus and anti-spam */
-  mailingFilter?: EmailProAccountNativeMailingFilterList | null;
+  mailingFilter?: EmailProAccountNativeMailingFilterList | null | undefined;
   /** Time of account's password last update */
-  passwordLastUpdate?: string | Redacted.Redacted<string> | null;
+  passwordLastUpdate?: string | Redacted.Redacted<string> | null | undefined;
   /** Default email for this mailbox */
-  primaryEmailAddress?: string;
+  primaryEmailAddress?: string | undefined;
   /** Account maximum size */
-  quota?: number;
+  quota?: number | undefined;
   /** change the renew period */
-  renewPeriod?: EmailProRenewPeriodEnum | null;
+  renewPeriod?: EmailProRenewPeriodEnum | null | undefined;
   /** Spam and Antivirus configuration */
-  spamAndVirusConfiguration?: EmailProSpamAndVirusConfiguration;
+  spamAndVirusConfiguration?: EmailProSpamAndVirusConfiguration | undefined;
   /** Account was sending spam */
-  spamDetected?: boolean;
+  spamDetected?: boolean | undefined;
   /** Ticket number of spam detection */
-  spamTicketNumber?: number | null;
+  spamTicketNumber?: number | null | undefined;
   /** Account state */
-  state?: EmailProObjectStateEnum;
+  state?: EmailProObjectStateEnum | undefined;
   /** Pending tasks for this account */
-  taskPendingId?: number | null;
+  taskPendingId?: number | null | undefined;
 }
 export interface GetEmailProAccountAliasRequest {
   /** Service */
@@ -453,11 +453,11 @@ export interface GetEmailProAccountAliasRequest {
 /** Aliases on this mailbox */
 export interface EmailProAccountAlias {
   /** Alias */
-  alias?: string;
+  alias?: string | undefined;
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Pending task id */
-  taskPendingId?: number;
+  taskPendingId?: number | undefined;
 }
 export interface GetEmailProAccountDiagnosticsRequest {
   /** Service */
@@ -468,23 +468,23 @@ export interface GetEmailProAccountDiagnosticsRequest {
 /** Account Diagnosis */
 export interface EmailProAccountDiagnosis {
   /** Determines if ingoing message has been received */
-  canReceiveEmail?: boolean;
+  canReceiveEmail?: boolean | undefined;
   /** Determines if outgoing message has been delivered */
-  canSendEmail?: boolean;
+  canSendEmail?: boolean | undefined;
   /** Determines if possible to authenticate with credentials */
-  connectiveWebmail?: boolean;
+  connectiveWebmail?: boolean | undefined;
   /** Determines if account is locked */
-  isLocked?: boolean;
+  isLocked?: boolean | undefined;
   /** Determines if MX record for account's domain is properly set */
-  isMxValid?: boolean;
+  isMxValid?: boolean | undefined;
   /** Determines if account is flagged as spammer */
-  isSpammer?: boolean;
+  isSpammer?: boolean | undefined;
   /** Determines if SRV (autodiscovery) record for account's domain is properly set */
-  isSrvValid?: boolean;
+  isSrvValid?: boolean | undefined;
   /** Determines if account is suspended */
-  isSuspended?: boolean;
+  isSuspended?: boolean | undefined;
   /** Last performed diagnostics date */
-  lastCheck?: string;
+  lastCheck?: string | undefined;
 }
 export interface GetEmailProAccountFullAccessRequest {
   /** Service */
@@ -497,11 +497,11 @@ export interface GetEmailProAccountFullAccessRequest {
 /** Users having full access on this mailbox */
 export interface EmailProAccountFullAccess {
   /** Account id to give full access */
-  allowedAccountId?: number;
+  allowedAccountId?: number | undefined;
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Pending task id */
-  taskPendingId?: number;
+  taskPendingId?: number | undefined;
 }
 export interface GetEmailProAccountSendAsRequest {
   /** Service */
@@ -514,11 +514,11 @@ export interface GetEmailProAccountSendAsRequest {
 /** Users authorized to send mails from this mailbox */
 export interface EmailProAccountSendAs {
   /** Account id to give send as */
-  allowedAccountId?: number;
+  allowedAccountId?: number | undefined;
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Pending task id */
-  taskPendingId?: number;
+  taskPendingId?: number | undefined;
 }
 export interface GetEmailProAccountSendOnBehalfToRequest {
   /** Service */
@@ -531,11 +531,11 @@ export interface GetEmailProAccountSendOnBehalfToRequest {
 /** Get users authorized to Send On Behalf To mails from this mailbox */
 export interface EmailProAccountSendOnBehalfTo {
   /** Account id to give send on behalf to */
-  allowedAccountId?: number;
+  allowedAccountId?: number | undefined;
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Pending task id */
-  taskPendingId?: number;
+  taskPendingId?: number | undefined;
 }
 export interface GetEmailProAccountTaskRequest {
   /** Service */
@@ -571,11 +571,11 @@ export type EmailProDomainDkimDiagnosticsStateEnum =
 /** Dkim selectors and DNS configuration state */
 export interface EmailProDomainDkimDiagnostics {
   /** Error code related to misconfiguration of DKIM, if exists */
-  errorCode?: number | null;
+  errorCode?: number | null | undefined;
   /** DKIM misconfiguration description, if exists */
-  message?: string | null;
+  message?: string | null | undefined;
   /** State of DKIM selectors */
-  state?: EmailProDomainDkimDiagnosticsStateEnum | null;
+  state?: EmailProDomainDkimDiagnosticsStateEnum | null | undefined;
 }
 /** List of aliases for this domain */
 export type EmailProDomainNativeDomainAliasesList = Array<string>;
@@ -590,43 +590,43 @@ export type EmailProDomainNativeSrvRecordList = Array<string>;
 /** Domain */
 export interface EmailProDomainNative {
   /** Cname that will be checked to prove the domain ownership */
-  cnameToCheck?: string | null;
+  cnameToCheck?: string | null | undefined;
   /** Dkim selectors and DNS configuration state */
-  dkimDiagnostics?: EmailProDomainDkimDiagnostics | null;
+  dkimDiagnostics?: EmailProDomainDkimDiagnostics | null | undefined;
   /** List of aliases for this domain */
-  domainAliases?: EmailProDomainNativeDomainAliasesList;
+  domainAliases?: EmailProDomainNativeDomainAliasesList | undefined;
   /** Domain validation status */
-  domainValidated?: boolean;
+  domainValidated?: boolean | undefined;
   /** Expected SRV record on this domain */
-  expectedAutodiscoverSRV?: string;
+  expectedAutodiscoverSRV?: string | undefined;
   /** Expected MX record(s) on this domain */
-  expectedMX?: EmailProDomainNativeExpectedMXList;
+  expectedMX?: EmailProDomainNativeExpectedMXList | undefined;
   /** Expected SPF record on this domain */
-  expectedSPF?: string;
+  expectedSPF?: string | undefined;
   /** Indicate if this domain is an alias for another domain */
-  isAliasDomain?: boolean;
+  isAliasDomain?: boolean | undefined;
   /** If true your DNS MX configuration is valid */
-  mxIsValid?: boolean;
+  mxIsValid?: boolean | undefined;
   /** Domain MX record configured in DNS */
-  mxRecord?: EmailProDomainNativeMxRecordList | null;
+  mxRecord?: EmailProDomainNativeMxRecordList | null | undefined;
   /** If specified, emails to not existing address will be redirected to that domain */
-  mxRelay?: string | null;
+  mxRelay?: string | null | undefined;
   /** Domain name */
-  name?: string;
+  name?: string | undefined;
   /** SPF record validation passed */
-  spfIsValid?: boolean;
+  spfIsValid?: boolean | undefined;
   /** Domain's SPF record configured in the DNS */
-  spfRecord?: EmailProDomainNativeSpfRecordList | null;
+  spfRecord?: EmailProDomainNativeSpfRecordList | null | undefined;
   /** If true your DNS SRV record is valid */
-  srvIsValid?: boolean;
+  srvIsValid?: boolean | undefined;
   /** Domain SRV record configured in DNS */
-  srvRecord?: EmailProDomainNativeSrvRecordList | null;
+  srvRecord?: EmailProDomainNativeSrvRecordList | null | undefined;
   /** Domain state */
-  state?: EmailProObjectStateEnum;
+  state?: EmailProObjectStateEnum | undefined;
   /** Pending tasks id */
-  taskPendingId?: number;
+  taskPendingId?: number | undefined;
   /** Domain type */
-  type?: EmailProDomainTypeEnum;
+  type?: EmailProDomainTypeEnum | undefined;
 }
 export interface GetEmailProDomainDisclaimerRequest {
   /** Service */
@@ -637,15 +637,15 @@ export interface GetEmailProDomainDisclaimerRequest {
 /** disclaimer */
 export interface EmailProDisclaimerNative {
   /** Signature, added at the bottom of your organization emails */
-  content?: string;
+  content?: string | undefined;
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Disclaimer name */
-  name?: string;
+  name?: string | undefined;
   /** Activate the disclaimer only for external emails */
-  outsideOnly?: boolean;
+  outsideOnly?: boolean | undefined;
   /** task pending id */
-  taskPendingId?: number;
+  taskPendingId?: number | undefined;
 }
 export interface GetEmailProDomainDkimRequest {
   /** Service */
@@ -669,23 +669,23 @@ export type EmailProDkimStatusEnum =
 /** DKIM for a domain */
 export interface EmailProDkim {
   /** DNS CNAME validation passed */
-  cnameIsValid?: boolean;
+  cnameIsValid?: boolean | undefined;
   /** Customer DNS record */
-  customerRecord?: string;
+  customerRecord?: string | undefined;
   /** Header used for DKIM signature */
-  header?: string;
+  header?: string | undefined;
   /** Last update date */
-  lastUpdate?: string | null;
+  lastUpdate?: string | null | undefined;
   /** Record type of the customer record */
-  recordType?: EmailProDkimRecordTypeEnum;
+  recordType?: EmailProDkimRecordTypeEnum | undefined;
   /** Selector name */
-  selectorName?: string;
+  selectorName?: string | undefined;
   /** DKIM status */
-  status?: EmailProDkimStatusEnum;
+  status?: EmailProDkimStatusEnum | undefined;
   /** Target of the customer record */
-  targetRecord?: string | null;
+  targetRecord?: string | null | undefined;
   /** Pending task for this DKIM */
-  taskPendingId?: number | null;
+  taskPendingId?: number | null | undefined;
 }
 export interface GetEmailProExternalContactRequest {
   /** Service */
@@ -696,25 +696,25 @@ export interface GetEmailProExternalContactRequest {
 /** External contact for this pro service */
 export interface EmailProExternalContactNative {
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Contact display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Contact email */
-  externalEmailAddress?: string;
+  externalEmailAddress?: string | undefined;
   /** Contact first name */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Hide the contact in Global Address List */
-  hiddenFromGAL?: boolean;
+  hiddenFromGAL?: boolean | undefined;
   /** Contact id */
-  id?: number;
+  id?: number | undefined;
   /** Contact initals */
-  initials?: string | null;
+  initials?: string | null | undefined;
   /** Contact last name */
-  lastName?: string | null;
+  lastName?: string | null | undefined;
   /** Contact state */
-  state?: EmailProObjectStateEnum;
+  state?: EmailProObjectStateEnum | undefined;
   /** Task pending id */
-  taskPendingId?: number;
+  taskPendingId?: number | undefined;
 }
 export interface GetEmailProServerRequest {
   /** Service */
@@ -725,27 +725,27 @@ export type EmailProServerStateEnum = "configurationPending" | "notConfigured" |
 /** Server */
 export interface EmailProServer {
   /** Current disk usage in MB */
-  currentDiskUsage?: number | null;
+  currentDiskUsage?: number | null | undefined;
   /** Total disk size in MB */
-  diskSize?: number | null;
+  diskSize?: number | null | undefined;
   /** ipV4 */
-  ip?: string;
+  ip?: string | undefined;
   /** ipV6 */
-  ipV6?: string | null;
+  ipV6?: string | null | undefined;
   /** If true your dns A record is valid */
-  isAValid?: boolean;
+  isAValid?: boolean | undefined;
   /** If true your dns AAAA record is valid */
-  isAaaaValid?: boolean;
+  isAaaaValid?: boolean | undefined;
   /** If true your dns ptrV6 record is valid */
-  isPtrV6Valid?: boolean;
+  isPtrV6Valid?: boolean | undefined;
   /** If true your dns ptr record is valid */
-  isPtrValid?: boolean;
+  isPtrValid?: boolean | undefined;
   /** Server state */
-  state?: EmailProServerStateEnum;
+  state?: EmailProServerStateEnum | undefined;
   /** Task pending id */
-  taskPendingId?: number;
+  taskPendingId?: number | undefined;
   /** Server version */
-  version?: string | null;
+  version?: string | null | undefined;
 }
 export interface GetEmailProServiceInfosRequest {
   /** The internal name of your pro organization */
@@ -756,15 +756,15 @@ export type ServicesServicePossibleRenewPeriodList = Array<number>;
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -786,21 +786,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetEmailProTaskRequest {
   /** Service */
@@ -816,7 +816,7 @@ export type ListEmailProRequestIamTagsMap = {
 };
 export interface ListEmailProRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListEmailProRequestIamTagsMap;
+  iamTags?: ListEmailProRequestIamTagsMap | undefined;
 }
 export type ListEmailProResponseBodyList = Array<string>;
 export type ListEmailProResponse = ListEmailProResponseBodyList;
@@ -824,9 +824,9 @@ export interface ListEmailProAccountRequest {
   /** Service */
   service: string;
   /** Filter the value of id property (like) */
-  id?: number;
+  id?: number | undefined;
   /** Filter the value of primaryEmailAddress property (like) */
-  primaryEmailAddress?: string;
+  primaryEmailAddress?: string | undefined;
 }
 export type ListEmailProAccountResponseBodyList = Array<string>;
 export type ListEmailProAccountResponse = ListEmailProAccountResponseBodyList;
@@ -875,7 +875,7 @@ export interface ListEmailProDomainRequest {
   /** Service */
   service: string;
   /** Filter the value of state property (=) */
-  state?: EmailProObjectStateEnum | (string & {});
+  state?: EmailProObjectStateEnum | (string & {}) | undefined;
 }
 export type ListEmailProDomainResponseBodyList = Array<string>;
 export type ListEmailProDomainResponse = ListEmailProDomainResponseBodyList;
@@ -936,15 +936,15 @@ export interface ListEmailProExternalContactRequest {
   /** Service */
   service: string;
   /** Filter the value of displayName property (like) */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Filter the value of externalEmailAddress property (like) */
-  externalEmailAddress?: string;
+  externalEmailAddress?: string | undefined;
   /** Filter the value of firstName property (like) */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Filter the value of id property (like) */
-  id?: number;
+  id?: number | undefined;
   /** Filter the value of lastName property (like) */
-  lastName?: string;
+  lastName?: string | undefined;
 }
 export type ListEmailProExternalContactResponseBodyList = Array<string>;
 export type ListEmailProExternalContactResponse = ListEmailProExternalContactResponseBodyList;
@@ -960,27 +960,27 @@ export interface PutEmailProRequest {
   /** The internal name of your pro organization */
   service: string;
   /** enable policy for strong and secure passwords */
-  complexityEnabled?: boolean;
+  complexityEnabled?: boolean | undefined;
   /** service displayName */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** number of minutes account will remain locked if it occurs */
-  lockoutDuration?: number;
+  lockoutDuration?: number | undefined;
   /** number of minutes that must elapse after a failed logon to reset lockout trigger */
-  lockoutObservationWindow?: number;
+  lockoutObservationWindow?: number | undefined;
   /** number of attempts before account to be locked */
-  lockoutThreshold?: number | null;
+  lockoutThreshold?: number | null | undefined;
   /** maximum number of days that account's password is valid before expiration */
-  maxPasswordAge?: number | null;
+  maxPasswordAge?: number | null | undefined;
   /** Maximum message size that You can receive in MB */
-  maxReceiveSize?: number;
+  maxReceiveSize?: number | undefined;
   /** Maximum message size that You can send in MB */
-  maxSendSize?: number;
+  maxSendSize?: number | undefined;
   /** minimum number of days before able to change account's password */
-  minPasswordAge?: number | null;
+  minPasswordAge?: number | null | undefined;
   /** minimum number of characters password must contain */
-  minPasswordLength?: number | null;
+  minPasswordLength?: number | null | undefined;
   /** Spam and Antivirus configuration */
-  spamAndVirusConfiguration?: IamResourceTagFilterInput;
+  spamAndVirusConfiguration?: IamResourceTagFilterInput | undefined;
 }
 export interface PutEmailProResponse {}
 /** Enable or disable anti-virus and anti-spam */
@@ -993,29 +993,29 @@ export interface PutEmailProAccountRequest {
   /** Default email for this mailbox */
   email: string;
   /** delete at expiration */
-  deleteAtExpiration?: boolean | null;
+  deleteAtExpiration?: boolean | null | undefined;
   /** Account display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Email domain */
-  domain?: string;
+  domain?: string | undefined;
   /** Account first name */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Hide account in Global Address List */
-  hiddenFromGAL?: boolean;
+  hiddenFromGAL?: boolean | undefined;
   /** Account initials */
-  initial?: string | null;
+  initial?: string | null | undefined;
   /** Account last name */
-  lastName?: string | null;
+  lastName?: string | null | undefined;
   /** Account login */
-  login?: string;
+  login?: string | undefined;
   /** Enable or disable anti-virus and anti-spam */
-  mailingFilter?: PutEmailProAccountRequestMailingFilterList | null;
+  mailingFilter?: PutEmailProAccountRequestMailingFilterList | null | undefined;
   /** Account maximum size */
-  quota?: number;
+  quota?: number | undefined;
   /** change the renew period */
-  renewPeriod?: EmailProRenewPeriodEnum | (string & {}) | null;
+  renewPeriod?: EmailProRenewPeriodEnum | (string & {}) | null | undefined;
   /** Spam and Antivirus configuration */
-  spamAndVirusConfiguration?: IamResourceTagFilterInput;
+  spamAndVirusConfiguration?: IamResourceTagFilterInput | undefined;
 }
 export interface PutEmailProAccountResponse {}
 export interface PutEmailProDomainRequest {
@@ -1024,9 +1024,9 @@ export interface PutEmailProDomainRequest {
   /** Domain name */
   domainName: string;
   /** If specified, emails to not existing address will be redirected to that domain */
-  mxRelay?: string | null;
+  mxRelay?: string | null | undefined;
   /** Domain type */
-  type?: EmailProDomainTypeEnum | (string & {});
+  type?: EmailProDomainTypeEnum | (string & {}) | undefined;
 }
 export interface PutEmailProDomainResponse {}
 export interface PutEmailProDomainDisclaimerRequest {
@@ -1035,9 +1035,9 @@ export interface PutEmailProDomainDisclaimerRequest {
   /** Domain name */
   domainName: string;
   /** Signature, added at the bottom of your organization emails */
-  content?: string;
+  content?: string | undefined;
   /** Activate the disclaimer only for external emails */
-  outsideOnly?: boolean;
+  outsideOnly?: boolean | undefined;
 }
 export interface PutEmailProDomainDisclaimerResponse {}
 export interface PutEmailProExternalContactRequest {
@@ -1046,22 +1046,22 @@ export interface PutEmailProExternalContactRequest {
   /** Contact email */
   externalEmailAddress: string;
   /** Contact display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Contact first name */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Hide the contact in Global Address List */
-  hiddenFromGAL?: boolean;
+  hiddenFromGAL?: boolean | undefined;
   /** Contact initals */
-  initials?: string | null;
+  initials?: string | null | undefined;
   /** Contact last name */
-  lastName?: string | null;
+  lastName?: string | null | undefined;
 }
 export interface PutEmailProExternalContactResponse {}
 export interface PutEmailProServiceInfosRequest {
   /** The internal name of your pro organization */
   service: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutEmailProServiceInfosResponse {}
 export interface SendEmailProAccountAsRequest {

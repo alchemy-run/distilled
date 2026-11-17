@@ -98,8 +98,8 @@ export class InternalServiceException
 export type DeviceName = string;
 export type DeviceFleetName = string;
 export interface GetDeploymentsRequest {
-  DeviceName?: string;
-  DeviceFleetName?: string;
+  DeviceName?: string | undefined;
+  DeviceFleetName?: string | undefined;
 }
 export type EntityName = string;
 export type DeploymentType = "Model" | (string & {});
@@ -108,84 +108,84 @@ export type S3Uri = string;
 export type ChecksumType = "SHA1" | (string & {});
 export type ChecksumString = string;
 export interface Checksum {
-  Type?: ChecksumType;
-  Sum?: string;
+  Type?: ChecksumType | undefined;
+  Sum?: string | undefined;
 }
 export type ModelState = "DEPLOY" | "UNDEPLOY" | (string & {});
 export interface Definition {
-  ModelHandle?: string;
-  S3Url?: string;
-  Checksum?: Checksum;
-  State?: ModelState;
+  ModelHandle?: string | undefined;
+  S3Url?: string | undefined;
+  Checksum?: Checksum | undefined;
+  State?: ModelState | undefined;
 }
 export type Definitions = Definition[];
 export interface EdgeDeployment {
-  DeploymentName?: string;
-  Type?: DeploymentType;
-  FailureHandlingPolicy?: FailureHandlingPolicy;
-  Definitions?: Definition[];
+  DeploymentName?: string | undefined;
+  Type?: DeploymentType | undefined;
+  FailureHandlingPolicy?: FailureHandlingPolicy | undefined;
+  Definitions?: Definition[] | undefined;
 }
 export type EdgeDeployments = EdgeDeployment[];
 export interface GetDeploymentsResult {
-  Deployments?: EdgeDeployment[];
+  Deployments?: EdgeDeployment[] | undefined;
 }
 export interface GetDeviceRegistrationRequest {
-  DeviceName?: string;
-  DeviceFleetName?: string;
+  DeviceName?: string | undefined;
+  DeviceFleetName?: string | undefined;
 }
 export type DeviceRegistration = string;
 export type CacheTTLSeconds = string;
 export interface GetDeviceRegistrationResult {
-  DeviceRegistration?: string;
-  CacheTTL?: string;
+  DeviceRegistration?: string | undefined;
+  CacheTTL?: string | undefined;
 }
 export type Dimension = string;
 export type Metric = string;
 export type Value = number;
 export interface EdgeMetric {
-  Dimension?: string;
-  MetricName?: string;
-  Value?: number;
-  Timestamp?: Date;
+  Dimension?: string | undefined;
+  MetricName?: string | undefined;
+  Value?: number | undefined;
+  Timestamp?: Date | undefined;
 }
 export type EdgeMetrics = EdgeMetric[];
 export type ModelName = string;
 export type Version = string;
 export interface Model {
-  ModelName?: string;
-  ModelVersion?: string;
-  LatestSampleTime?: Date;
-  LatestInference?: Date;
-  ModelMetrics?: EdgeMetric[];
+  ModelName?: string | undefined;
+  ModelVersion?: string | undefined;
+  LatestSampleTime?: Date | undefined;
+  LatestInference?: Date | undefined;
+  ModelMetrics?: EdgeMetric[] | undefined;
 }
 export type Models = Model[];
 export type DeploymentStatus = "SUCCESS" | "FAIL" | (string & {});
 export interface DeploymentModel {
-  ModelHandle?: string;
-  ModelName?: string;
-  ModelVersion?: string;
-  DesiredState?: ModelState;
-  State?: ModelState;
-  Status?: DeploymentStatus;
-  StatusReason?: string;
-  RollbackFailureReason?: string;
+  ModelHandle?: string | undefined;
+  ModelName?: string | undefined;
+  ModelVersion?: string | undefined;
+  DesiredState?: ModelState | undefined;
+  State?: ModelState | undefined;
+  Status?: DeploymentStatus | undefined;
+  StatusReason?: string | undefined;
+  RollbackFailureReason?: string | undefined;
 }
 export type DeploymentModels = DeploymentModel[];
 export interface DeploymentResult {
-  DeploymentName?: string;
-  DeploymentStatus?: string;
-  DeploymentStatusMessage?: string;
-  DeploymentStartTime?: Date;
-  DeploymentEndTime?: Date;
-  DeploymentModels?: DeploymentModel[];
+  DeploymentName?: string | undefined;
+  DeploymentStatus?: string | undefined;
+  DeploymentStatusMessage?: string | undefined;
+  DeploymentStartTime?: Date | undefined;
+  DeploymentEndTime?: Date | undefined;
+  DeploymentModels?: DeploymentModel[] | undefined;
 }
 export interface SendHeartbeatRequest {
-  AgentMetrics?: EdgeMetric[];
-  Models?: Model[];
-  AgentVersion?: string;
-  DeviceName?: string;
-  DeviceFleetName?: string;
-  DeploymentResult?: DeploymentResult;
+  AgentMetrics?: EdgeMetric[] | undefined;
+  Models?: Model[] | undefined;
+  AgentVersion?: string | undefined;
+  DeviceName?: string | undefined;
+  DeviceFleetName?: string | undefined;
+  DeploymentResult?: DeploymentResult | undefined;
 }
 export interface SendHeartbeatResponse {}
 export type ErrorMessage = string;

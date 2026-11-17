@@ -31,27 +31,48 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(4, __c0, 4)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error | string;
+}
 
 export interface CancelPayoutsItemRequest {
   /** The ID of the payout item to cancel. */
@@ -80,19 +101,19 @@ export type RecipientEnum = "EMAIL" | "PHONE" | "PAYPAL_ID";
 /** The name of the party. */
 export interface Name {
   /** The prefix, or title, to the party's name. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** When the party is a person, the party's given, or first, name. */
-  given_name?: string;
+  given_name?: string | undefined;
   /** When the party is a person, the party's surname or family name. Also known as the last name. Required when the party is a person. Use also to store multiple surnames including the matronymic, or mother's, surname. */
-  surname?: string;
+  surname?: string | undefined;
   /** When the party is a person, the party's middle name. Use also to store multiple middle names including the patronymic, or father's, middle name. */
-  middle_name?: string;
+  middle_name?: string | undefined;
   /** The suffix for the party's name. */
-  suffix?: string;
+  suffix?: string | undefined;
   /** DEPRECATED. The party's alternate name. Can be a business name, nickname, or any other name that cannot be split into first, last name. Required when the party is a business. */
-  alternate_full_name?: string;
+  alternate_full_name?: string | undefined;
   /** When the party is a person, the party's full name. */
-  full_name?: string;
+  full_name?: string | undefined;
 }
 /** The wallet where the recipient receives the payout. Payouts to Venmo recipients require a 'note' string and a US mobile phone number. */
 export type RecipientWalletEnum = "PAYPAL" | "VENMO";
@@ -109,43 +130,43 @@ export type PurposeEnum =
   | "NON_GOODS_OR_SERVICES";
 /** The details for a sender-created payout to a single recipient. */
 export interface PayoutItemDetail {
-  recipient_type?: RecipientEnum;
+  recipient_type?: RecipientEnum | undefined;
   /** The currency and amount of payout item. Might be an integer for currencies like `JPY` that are not typically fractional or a decimal fraction for currencies like `TND` that are subdivided into thousandths. For the required number of decimal places for a currency code, see [Currency codes - ISO 4217](https://www.iso.org/iso-4217-currency-codes.html). */
   amount: Currency;
   /** The sender-specified note for notifications. Supports up to 4000 ASCII characters and 1000 non-ASCII characters. */
-  note?: string;
+  note?: string | undefined;
   /** The receiver of the payment. Corresponds to the `recipient_type` value in the request. */
   receiver: string;
   /** A sender-specified ID number. Tracks the payout in an accounting system. */
-  sender_item_id?: string;
+  sender_item_id?: string | undefined;
   /** The name of the recipient where money is credited. For `UNCLAIMED` payments, the recipient name is populated after the payment is claimed. */
-  recipient_name?: Name;
+  recipient_name?: Name | undefined;
   /** The recipient wallet. */
-  recipient_wallet?: RecipientWalletEnum;
+  recipient_wallet?: RecipientWalletEnum | undefined;
   /** The purpose of the transaction. */
-  purpose?: PurposeEnum;
+  purpose?: PurposeEnum | undefined;
 }
 /** The currency conversion resource. */
 export interface PayoutCurrencyConversion {
   /** The amount that is converted from. */
-  from_amount?: Currency;
+  from_amount?: Currency | undefined;
   /** The amount that is converted to. */
-  to_amount?: Currency;
+  to_amount?: Currency | undefined;
   /** The exchange rate that is applied for this payout. */
-  exchange_rate?: string;
+  exchange_rate?: string | undefined;
 }
 /** The error details. Required for client-side `4XX` errors. */
 export interface ErrorDetails2 {
   /** The field that caused the error. If this field is in the body, set this value to the field's JSON pointer value. Required for client-side errors. */
-  field?: string;
+  field?: string | undefined;
   /** The value of the field that caused the error. */
-  value?: string;
+  value?: string | undefined;
   /** The location of the field that caused the error. Value is `body`, `path`, or `query`. */
-  location?: string;
+  location?: string | undefined;
   /** The unique, fine-grained application-level error code. */
   issue: string;
   /** The human-readable description for an issue. The description can change over the lifetime of an API, so clients must not depend on this value. */
-  description?: string;
+  description?: string | undefined;
 }
 /** An array of additional details about the error. */
 export type ErrorDetailsList = Array<ErrorDetails2>;
@@ -166,7 +187,7 @@ export interface LinkDescription {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: LinkDescriptionMethod;
+  method?: LinkDescriptionMethod | undefined;
 }
 /** An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type LinkDescriptionList = Array<LinkDescription>;
@@ -179,9 +200,9 @@ export interface Error {
   /** The PayPal internal ID. Used for correlation purposes. */
   debug_id: string;
   /** The information link, or URI, that shows detailed information about this error for the developer. */
-  information_link?: string;
-  details?: ErrorDetailsList;
-  links?: LinkDescriptionList;
+  information_link?: string | undefined;
+  details?: ErrorDetailsList | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 /** An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links). */
 export type PayoutItemDefinitionsLinkDescriptionList = Array<LinkDescription>;
@@ -190,49 +211,49 @@ export interface PayoutItem {
   /** The ID for the payout item. Visible when you show details for a payout. */
   payout_item_id: string;
   /** The PayPal-generated ID for the transaction. */
-  transaction_id?: string;
+  transaction_id?: string | undefined;
   /** The unique PayPal-generated common ID that links the sender- and receiver-side transactions. Used for tracking. */
-  activity_id?: string;
-  transaction_status?: TransactionEnum;
+  activity_id?: string | undefined;
+  transaction_status?: TransactionEnum | undefined;
   /** The estimate for the payout fee. Initially, the fee is `0`. The fee is populated after the item moves to the `PENDING` state */
-  payout_item_fee?: Currency;
+  payout_item_fee?: Currency | undefined;
   /** The PayPal-generated ID for the payout batch. */
   payout_batch_id: string;
   /** A sender-specified ID. Tracks the payout in an accounting system. Should be unique within 30 days. */
-  sender_batch_id?: string;
+  sender_batch_id?: string | undefined;
   /** The sender-provided information for the payout item. */
   payout_item: PayoutItemDetail;
   /** The currency conversion applicable for this payout item. */
-  currency_conversion?: PayoutCurrencyConversion;
+  currency_conversion?: PayoutCurrencyConversion | undefined;
   /** The date and time when this item was last processed, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  time_processed?: string;
+  time_processed?: string | undefined;
   /** The error details. */
-  errors?: Error;
-  links?: PayoutItemDefinitionsLinkDescriptionList;
+  errors?: Error | undefined;
+  links?: PayoutItemDefinitionsLinkDescriptionList | undefined;
 }
 export interface GetPayoutRequest {
   /** The ID of the payout for which to show details. */
   id: string;
   /** Shows details for only the specified fields. */
-  fields?: string;
+  fields?: string | undefined;
   /** A non-zero integer representing the page of the results. */
-  page?: number;
+  page?: number | undefined;
   /** The maximum number of results to return at one time. Value is a non-negative, non-zero integer. If the user chooses pagination, the maximum page is `1000`. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Indicates whether to show the total items and total pages count in the response. */
-  total_required?: boolean;
+  total_required?: boolean | undefined;
 }
 /** The payouts status. */
 export type BatchEnum = "DENIED" | "PENDING" | "PROCESSING" | "SUCCESS" | "CANCELED";
 /** The sender-provided header for a payout request. */
 export interface PayoutSenderBatchHeader {
   /** The sender-specified ID number. Tracks the payout in an accounting system.<blockquote><strong>Note:</strong> <p>PayPal does not process duplicate payouts. If you specify a <code>sender_batch_id</code> that was used in the last 30 days, the API rejects the request with an error message that shows the duplicate <code>sender_batch_id</code> and includes a HATEOAS link to the original payout with the same <code>sender_batch_id</code>.</p><p>If you receive an HTTP <code>5<i>nn</i></code> status code, you can safely retry the request with the same <code>sender_batch_id</code>. The API completes a payment only once for a <code>sender_batch_id</code> that is used within 30 days.</p></blockquote> */
-  sender_batch_id?: string;
-  recipient_type?: RecipientEnum;
+  sender_batch_id?: string | undefined;
+  recipient_type?: RecipientEnum | undefined;
   /** The subject line for the email that PayPal sends when payment for a payout item completes. The subject line is the same for all recipients. Value is an alphanumeric string with a maximum length of 255 single-byte characters. */
-  email_subject?: string;
+  email_subject?: string | undefined;
   /** The email message that PayPal sends when the payout item completes. The message is the same for all recipients. */
-  email_message?: string;
+  email_message?: string | undefined;
 }
 /** Identifies a funding source type. */
 export type FundingSource = "BALANCE";
@@ -243,19 +264,19 @@ export interface PayoutBatchHeader {
   /** The PayPal-generated payout status. If the payout passes preliminary checks, the status is `PENDING`. */
   batch_status: BatchEnum;
   /** The date and time when processing for the payout began, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  time_created?: string;
+  time_created?: string | undefined;
   /** The date and time when processing for the payout was completed, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  time_completed?: string;
+  time_completed?: string | undefined;
   /** The date and time when the payout was closed, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). A payout is considered closed when all items in a batch are processed and the available balance from the temporary hold is released. */
-  time_closed?: string;
+  time_closed?: string | undefined;
   /** The original payout header, as provided by the payment sender. */
   sender_batch_header: PayoutSenderBatchHeader;
   /** The ID to differentiate a PayPal balance-funded transaction from a PayPal treasury-funded transaction. */
-  funding_source?: FundingSource;
+  funding_source?: FundingSource | undefined;
   /** The currency and total amount requested for the payouts. */
-  amount?: Currency;
+  amount?: Currency | undefined;
   /** The currency and amount of the total estimate for the applicable payouts fees. Initially, the fee is `0`. The fee is populated after the payout moves to the `PROCESSING` state. */
-  fees?: Currency;
+  fees?: Currency | undefined;
 }
 /** An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links). */
 export type PayoutBatchItemsDefinitionsLinkDescriptionList = Array<LinkDescription>;
@@ -264,22 +285,22 @@ export interface PayoutBatchItems {
   /** The ID for the payout item. Viewable when you show details for a payout. */
   payout_item_id: string;
   /** The PayPal-generated ID for the transaction. */
-  transaction_id?: string;
+  transaction_id?: string | undefined;
   /** The unique PayPal-generated common ID created to link sender side and receiver side transaction. Used for tracking. */
-  activity_id?: string;
-  transaction_status?: TransactionEnum;
+  activity_id?: string | undefined;
+  transaction_status?: TransactionEnum | undefined;
   /** The fee, in U.S. dollars. */
-  payout_item_fee?: Currency;
+  payout_item_fee?: Currency | undefined;
   /** The PayPal-generated ID for the payout. */
   payout_batch_id: string;
   /** The sender-provided information for the payout item. */
   payout_item: PayoutItemDetail;
   /** The currency conversion applicable for this payout item. */
-  currency_conversion?: PayoutCurrencyConversion;
+  currency_conversion?: PayoutCurrencyConversion | undefined;
   /** The date and time when this item was last processed, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  time_processed?: string;
-  errors?: Error;
-  links?: PayoutBatchItemsDefinitionsLinkDescriptionList;
+  time_processed?: string | undefined;
+  errors?: Error | undefined;
+  links?: PayoutBatchItemsDefinitionsLinkDescriptionList | undefined;
 }
 /** An array of individual items. */
 export type PayoutBatchItemsList = Array<PayoutBatchItems>;
@@ -288,13 +309,13 @@ export type PayoutBatchDefinitionsLinkDescriptionList = Array<LinkDescription>;
 /** The PayPal-generated batch status. */
 export interface PayoutBatch {
   /** The total number of items in the full result list. */
-  total_items?: number;
+  total_items?: number | undefined;
   /** The total number of pages. */
-  total_pages?: number;
+  total_pages?: number | undefined;
   /** A payout header. Includes the generated payout status. */
-  batch_header?: PayoutBatchHeader;
-  items?: PayoutBatchItemsList;
-  links?: PayoutBatchDefinitionsLinkDescriptionList;
+  batch_header?: PayoutBatchHeader | undefined;
+  items?: PayoutBatchItemsList | undefined;
+  links?: PayoutBatchDefinitionsLinkDescriptionList | undefined;
 }
 export interface GetPayoutsItemRequest {
   /** The ID of the payout item to cancel. */
@@ -303,15 +324,15 @@ export interface GetPayoutsItemRequest {
 /** The sender-provided payout header for a payout request. */
 export interface SenderBatchHeader {
   /** A sender-specified ID number. Tracks the payout in an accounting system.<blockquote><strong>Note:</strong> <p>PayPal does not process duplicate payouts. If you specify a <code>sender_batch_id</code> that was used in the last 30 days, the API rejects the request with an error message that shows the duplicate <code>sender_batch_id</code> and includes a HATEOAS link to the original payout with the same <code>sender_batch_id</code>.</p><p>If you receive an HTTP <code>5<i>nn</i></code> status code, you can safely retry the request with the same <code>sender_batch_id</code>. The API completes a payment only once for a <code>sender_batch_id</code> that is used within 30 days.</p></blockquote> */
-  sender_batch_id?: string;
+  sender_batch_id?: string | undefined;
   /** The ID type that identifies the recipient of the payment. For example, <code>EMAIL</code>. */
-  recipient_type?: string;
+  recipient_type?: string | undefined;
   /** The subject line for the email that PayPal sends when payment for a payout item completes. The subject line is the same for all recipients. Value is an alphanumeric string of up to 255 single-byte characters. */
-  email_subject?: string;
+  email_subject?: string | undefined;
   /** The email message that PayPal sends when the payout item completes. The message is the same for all recipients. */
-  email_message?: string;
+  email_message?: string | undefined;
   /** The payouts and item-level notes are concatenated in the email. The maximum combined length of the notes is 1000 characters. */
-  note?: string;
+  note?: string | undefined;
 }
 /** The phone number in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). */
 export interface Phone {
@@ -320,50 +341,50 @@ export interface Phone {
   /** The national number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). The combined length of the country calling code (CC) and the national number must not be greater than 15 digits. The national number consists of a national destination code (NDC) and subscriber number (SN). */
   national_number: string;
   /** The extension number. */
-  extension_number?: string;
+  extension_number?: string | undefined;
 }
 /** Captures additional notification modes to reach out to the receiver regarding this payment. */
 export interface AlternateNotificationMethod {
   /** The mobile phone number of the receiver. */
-  phone?: Phone;
+  phone?: Phone | undefined;
 }
 /** Metadata for Venmo transactions. */
 export interface ApplicationContext {
   /** This attribute controls the privacy of a payout transaction in recipient's feed. PUBLIC, FRIENDS_ONLY & PRIVATE are the values that can be used. PUBLIC - The payment displays on the recipient's public Venmo feed. FRIENDS_ONLY - The payment displays only to the recipient's Venmo friends. PRIVATE - The payment displays only on the recipient's personal feed. Defaults to `PRIVATE` if left blank. */
-  social_feed_privacy?: string;
+  social_feed_privacy?: string | undefined;
   /** Link to a Holler sticker. For Venmo recipients, the sticker displays with the payout message. The maximum URL length is 151. */
-  holler_url?: string;
+  holler_url?: string | undefined;
   /** Link to a logo that displays as the sender's profile image in the recipient's Venmo feed. Used to add or update the business profile image. Max image size: 1024 x 1024 pixels. The image should be square and maximum URL length is 2000. */
-  logo_url?: string;
+  logo_url?: string | undefined;
 }
 /** The sender-created payout to a recipient. */
 export interface PayoutItemRequest {
   /** The recipient type. Value is:<ul><li><p><code>EMAIL</code>. The unencrypted email. Value is a string of up to 127 single-byte characters.</p></li><li><p><code>PHONE</code>. The unencrypted phone number.</p><blockquote><strong>Note:</strong> The PayPal sandbox does not support the <code>PHONE</code> recipient type.</blockquote></li><li><p><code>PAYPAL_ID</code>. The encrypted PayPal account number.</p></li><li><p><code>USER_HANDLE</code>. User handle (or) Username associated with Venmo account.</p></li></ul><br/>If the <code>sender_batch_header</code> includes the <code>recipient_type</code> attribute, payout items use the <code>recipient_type</code> of the <code>sender_batch_header</code>, unless a payout item has its own <code>recipient_type</code> attribute. If the <code>sender_batch_header</code> omits the <code>recipient_type</code> attribute, each payout item must include its own <code>recipient_type</code> value. */
-  recipient_type?: string;
+  recipient_type?: string | undefined;
   /** The currency and amount to pay the receiver. */
   amount: Currency;
   /** The sender-specified note for notifications. Supports up to 4000 ASCII characters and 1000 non-ASCII characters. */
-  note?: string;
+  note?: string | undefined;
   /** The receiver of the payment. Corresponds to the `recipient_type` value in the request. Max value of up to 127 single-byte characters. */
   receiver: string;
   /** The sender-specified ID number. Tracks the payout in an accounting system. */
-  sender_item_id?: string;
+  sender_item_id?: string | undefined;
   /** The recipient wallet. */
-  recipient_wallet?: string;
+  recipient_wallet?: string | undefined;
   /** Captures additional notification modes to reach out to the receiver regarding this payment. */
-  alternate_notification_method?: AlternateNotificationMethod;
+  alternate_notification_method?: AlternateNotificationMethod | undefined;
   /** The language in which to show the payout recipient's email message. Used only when the recipient does not have a PayPal account. If you omit the language or provide invalid language and the recipient does not have a PayPal account, the email message is sent in the language of the merchant's PayPal account. */
-  notification_language?: string;
+  notification_language?: string | undefined;
   /** Metadata for accepting additional information from merchants to Venmo. */
-  application_context?: ApplicationContext;
+  application_context?: ApplicationContext | undefined;
   /** The purpose of the transaction. */
-  purpose?: PurposeEnum | (string & {});
+  purpose?: PurposeEnum | (string & {}) | undefined;
 }
 /** An array of individual payout items. */
 export type PayoutItemRequestList = Array<PayoutItemRequest>;
 export interface PostPayoutRequest {
   /** The server stores keys for 30 days. */
-  payPalRequestId?: string;
+  payPalRequestId?: string | undefined;
   /** The sender-provided payout header for a payout request. */
   sender_batch_header: SenderBatchHeader;
   items: PayoutItemRequestList;
@@ -375,7 +396,7 @@ export interface PayoutHeader {
   /** The PayPal-generated payout status. If the payout passes preliminary checks, the status is `PENDING`. */
   batch_status: BatchEnum;
   /** The date and time when processing for the payout began, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  time_created?: string;
+  time_created?: string | undefined;
   /** The original payout header, as provided by the payment sender. */
   sender_batch_header: PayoutSenderBatchHeader;
 }
@@ -384,8 +405,8 @@ export type DefinitionsLinkDescriptionList = Array<LinkDescription>;
 /** The create payout response. */
 export interface Payout {
   /** The payout header. */
-  batch_header?: PayoutHeader;
-  links?: DefinitionsLinkDescriptionList;
+  batch_header?: PayoutHeader | undefined;
+  links?: DefinitionsLinkDescriptionList | undefined;
 }
 export type CancelPayoutsItemError = BadRequest | NotFound | PaypalOpError;
 /** Cancel unclaimed payout item Cancels an unclaimed payout item, by ID. If no one claims the unclaimed item within 30 days, the API automatically returns the funds to the sender. Use this call to cancel the unclaimed item before the automatic 30-day refund. You can cancel payout items with a <code>transaction_status</code> of <code>UNCLAIMED</code>. */
@@ -395,8 +416,8 @@ export const cancelPayoutsItem: API.OperationMethod<
   CancelPayoutsItemError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CancelPayoutsItemRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<PayoutItem>,
+  input: __S(16, __c1, 0) as any as S.Schema<CancelPayoutsItemRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<PayoutItem>,
   errors: [BadRequest, NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -412,8 +433,8 @@ export const getPayout: API.OperationMethod<
   GetPayoutError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetPayoutRequest>,
-  output: __S(68, __c4, 4) as any as S.Schema<PayoutBatch>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetPayoutRequest>,
+  output: __S(84, __c5, 4) as any as S.Schema<PayoutBatch>,
   errors: [NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -429,8 +450,8 @@ export const getPayoutsItem: API.OperationMethod<
   GetPayoutsItemError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetPayoutsItemRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<PayoutItem>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetPayoutsItemRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<PayoutItem>,
   errors: [NotFound, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -446,8 +467,8 @@ export const postPayout: API.OperationMethod<
   PostPayoutError,
   PaypalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(118, __c7, 6) as any as S.Schema<PostPayoutRequest>,
-  output: __S(120, __c7, 8) as any as S.Schema<Payout>,
+  input: __S(134, __c8, 6) as any as S.Schema<PostPayoutRequest>,
+  output: __S(136, __c8, 8) as any as S.Schema<Payout>,
   errors: [BadRequest, Forbidden, UnknownPaypalError],
   protocol: PaypalProtocol,
   retry: Retry.Retry,
@@ -457,6 +478,43 @@ export const postPayout: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          field: S.optional(S.String),
+          value: S.optional(S.String),
+          location: S.optional(S.String),
+          issue: S.String,
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorDetails2" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          href: S.String,
+          rel: S.String,
+          method: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LinkDescription" });
+    case 3:
+      return S.Array(__S(2, __c0, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          message: S.String,
+          debug_id: S.String,
+          information_link: S.optional(S.String),
+          details: S.optional(__S(1, __c0, 1)),
+          links: S.optional(__S(3, __c0, 3)),
+        }),
+      ).annotate({ identifier: "Error" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -472,7 +530,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CancelPayoutsItemRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -490,11 +548,11 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           recipient_type: S.optional(S.String),
-          amount: __S(32, __c2, 0),
+          amount: __S(48, __c3, 0),
           note: S.optional(S.String),
           receiver: S.String,
           sender_item_id: S.optional(S.String),
-          recipient_name: S.optional(__S(16, __c1, 0)),
+          recipient_name: S.optional(__S(32, __c2, 0)),
           recipient_wallet: S.optional(S.String),
           purpose: S.optional(S.String),
         }),
@@ -502,37 +560,14 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          from_amount: S.optional(__S(32, __c2, 0)),
-          to_amount: S.optional(__S(32, __c2, 0)),
+          from_amount: S.optional(__S(48, __c3, 0)),
+          to_amount: S.optional(__S(48, __c3, 0)),
           exchange_rate: S.optional(S.String),
         }),
       ).annotate({ identifier: "PayoutCurrencyConversion" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          field: S.optional(S.String),
-          value: S.optional(S.String),
-          location: S.optional(S.String),
-          issue: S.String,
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ErrorDetails2" });
-    case 4:
-      return S.Array(__S(19, __c1, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          message: S.String,
-          debug_id: S.String,
-          information_link: S.optional(S.String),
-          details: S.optional(__S(20, __c1, 4)),
-          links: S.optional(__S(34, __c2, 2)),
-        }),
-      ).annotate({ identifier: "Error" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -541,19 +576,9 @@ function __c2(j: number): any {
           value: S.String,
         }),
       ).annotate({ identifier: "Currency" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          href: S.String,
-          rel: S.String,
-          method: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "LinkDescription" });
-    case 2:
-      return S.Array(__S(33, __c2, 1));
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -562,19 +587,19 @@ function __c3(j: number): any {
           transaction_id: S.optional(S.String),
           activity_id: S.optional(S.String),
           transaction_status: S.optional(S.String),
-          payout_item_fee: S.optional(__S(32, __c2, 0)),
+          payout_item_fee: S.optional(__S(48, __c3, 0)),
           payout_batch_id: S.String,
           sender_batch_id: S.optional(S.String),
-          payout_item: __S(17, __c1, 1),
-          currency_conversion: S.optional(__S(18, __c1, 2)),
+          payout_item: __S(33, __c2, 1),
+          currency_conversion: S.optional(__S(34, __c2, 2)),
           time_processed: S.optional(S.String),
-          errors: S.optional(__S(21, __c1, 5)),
-          links: S.optional(__S(34, __c2, 2)),
+          errors: S.optional(__S(4, __c0, 4)),
+          links: S.optional(__S(3, __c0, 3)),
         }),
       ).annotate({ identifier: "PayoutItem" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -594,10 +619,10 @@ function __c4(j: number): any {
           time_created: S.optional(S.String),
           time_completed: S.optional(S.String),
           time_closed: S.optional(S.String),
-          sender_batch_header: __S(80, __c5, 0),
+          sender_batch_header: __S(96, __c6, 0),
           funding_source: S.optional(S.String),
-          amount: S.optional(__S(32, __c2, 0)),
-          fees: S.optional(__S(32, __c2, 0)),
+          amount: S.optional(__S(48, __c3, 0)),
+          fees: S.optional(__S(48, __c3, 0)),
         }),
       ).annotate({ identifier: "PayoutBatchHeader" });
     case 2:
@@ -607,30 +632,30 @@ function __c4(j: number): any {
           transaction_id: S.optional(S.String),
           activity_id: S.optional(S.String),
           transaction_status: S.optional(S.String),
-          payout_item_fee: S.optional(__S(32, __c2, 0)),
+          payout_item_fee: S.optional(__S(48, __c3, 0)),
           payout_batch_id: S.String,
-          payout_item: __S(17, __c1, 1),
-          currency_conversion: S.optional(__S(18, __c1, 2)),
+          payout_item: __S(33, __c2, 1),
+          currency_conversion: S.optional(__S(34, __c2, 2)),
           time_processed: S.optional(S.String),
-          errors: S.optional(__S(21, __c1, 5)),
-          links: S.optional(__S(34, __c2, 2)),
+          errors: S.optional(__S(4, __c0, 4)),
+          links: S.optional(__S(3, __c0, 3)),
         }),
       ).annotate({ identifier: "PayoutBatchItems" });
     case 3:
-      return S.Array(__S(66, __c4, 2));
+      return S.Array(__S(82, __c5, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           total_items: S.optional(S.Number),
           total_pages: S.optional(S.Number),
-          batch_header: S.optional(__S(65, __c4, 1)),
-          items: S.optional(__S(67, __c4, 3)),
-          links: S.optional(__S(34, __c2, 2)),
+          batch_header: S.optional(__S(81, __c5, 1)),
+          items: S.optional(__S(83, __c5, 3)),
+          links: S.optional(__S(3, __c0, 3)),
         }),
       ).annotate({ identifier: "PayoutBatch" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -643,7 +668,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "PayoutSenderBatchHeader" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -655,7 +680,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetPayoutsItemRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -678,7 +703,7 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          phone: S.optional(__S(113, __c7, 1)),
+          phone: S.optional(__S(129, __c8, 1)),
         }),
       ).annotate({ identifier: "AlternateNotificationMethod" });
     case 3:
@@ -693,25 +718,25 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           recipient_type: S.optional(S.String),
-          amount: __S(32, __c2, 0),
+          amount: __S(48, __c3, 0),
           note: S.optional(S.String),
           receiver: S.String,
           sender_item_id: S.optional(S.String),
           recipient_wallet: S.optional(S.String),
-          alternate_notification_method: S.optional(__S(114, __c7, 2)),
+          alternate_notification_method: S.optional(__S(130, __c8, 2)),
           notification_language: S.optional(S.String),
-          application_context: S.optional(__S(115, __c7, 3)),
+          application_context: S.optional(__S(131, __c8, 3)),
           purpose: S.optional(S.String),
         }),
       ).annotate({ identifier: "PayoutItemRequest" });
     case 5:
-      return S.Array(__S(116, __c7, 4));
+      return S.Array(__S(132, __c8, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           payPalRequestId: S.optional(S.String.pipe(T.Header("PayPal-Request-Id"))),
-          sender_batch_header: __S(112, __c7, 0),
-          items: __S(117, __c7, 5),
+          sender_batch_header: __S(128, __c8, 0),
+          items: __S(133, __c8, 5),
         }).pipe(T.Http({ method: "POST", uri: "/v1/payments/payouts", code: 200 })),
       ).annotate({ identifier: "PostPayoutRequest" });
     case 7:
@@ -720,14 +745,14 @@ function __c7(j: number): any {
           payout_batch_id: S.String,
           batch_status: S.String,
           time_created: S.optional(S.String),
-          sender_batch_header: __S(80, __c5, 0),
+          sender_batch_header: __S(96, __c6, 0),
         }),
       ).annotate({ identifier: "PayoutHeader" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          batch_header: S.optional(__S(119, __c7, 7)),
-          links: S.optional(__S(34, __c2, 2)),
+          batch_header: S.optional(__S(135, __c8, 7)),
+          links: S.optional(__S(3, __c0, 3)),
         }),
       ).annotate({ identifier: "Payout" });
   }

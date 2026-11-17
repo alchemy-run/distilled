@@ -1,0 +1,126 @@
+{
+  "description": "Keep the SDK's name createContainerApplication for POST /accounts/{account_id}/containers/applications, the scheduler-backed create; createDurableObjectContainerApplication covers the durable_object case of the same route. The docs make configuration optional because the durable_object case has none; a scheduler-backed application requires it, with an image (https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/CreateApplicationRequest.ts). Wrangler's request also takes affinities, which the docs omit. Errors from the live API (see _errors.json).",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsCreateRequest/members/configuration/target",
+      "value": "com.cloudflare.containers#ContainerConfiguration"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsCreateRequest/members/configuration/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsCreateRequest/members/scheduling_policy/target",
+      "value": "com.cloudflare.containers#ContainerSchedulingPolicy"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsCreateRequest/members/constraints/target",
+      "value": "com.cloudflare.containers#ScheduledApplicationConstraints"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsCreateRequest/members/observability/target",
+      "value": "com.cloudflare.containers#ContainerApplicationObservability"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsCreateRequest/members/affinities",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Not in the API reference. Wrangler's CreateApplicationRequest has it (https://github.com/cloudflare/workers-sdk/blob/main/packages/containers-shared/src/client/models/CreateApplicationRequest.ts)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsCreate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.cloudflare.containers#InvalidRoute"
+        },
+        {
+          "target": "com.cloudflare.containers#DurableObjectAlreadyHasApplication"
+        },
+        {
+          "target": "com.cloudflare.containers#DurableObjectNotContainerEnabled"
+        },
+        {
+          "target": "com.cloudflare.containers#DurableObjectCheckError"
+        },
+        {
+          "target": "com.cloudflare.containers#DurableObjectNamespaceNotFound"
+        },
+        {
+          "target": "com.cloudflare.containers#ContainerApplicationCreateUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsCreate",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplication"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplication/input/target",
+      "value": "com.cloudflare.containers#CreateContainerApplicationRequest"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsCreateRequest",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationRequest"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplication/output/target",
+      "value": "com.cloudflare.containers#CreateContainerApplicationResponse"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#ApplicationsCreateResponse",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerApplicationResponse"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsCreateRequestConfiguration"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsCreateRequestSchedulingPolicy"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsCreateRequestConstraintsCcContainersCreateScheduledApplicationRequestRegionsList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsCreateRequestConstraintsCcContainersCreateScheduledApplicationRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsCreateRequestConstraintsCcContainersCreateDurableObjectApplicationRequestJurisdiction"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsCreateRequestConstraintsCcContainersCreateDurableObjectApplicationRequest"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsCreateRequestConstraints"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsCreateRequestObservabilityLogs"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#ApplicationsCreateRequestObservability"
+    }
+  ]
+}

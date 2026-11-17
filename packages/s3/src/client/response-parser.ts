@@ -5,7 +5,9 @@
  * 1. Uses the Protocol to deserialize the response
  * 2. Applies schema decoding/validation
  * 3. Handles error responses
- * 4. Delegates event stream parsing to stream-parser.ts
+ *
+ * An event stream member arrives already parsed: each protocol parses it
+ * with `parseEventStreamToUnion`, under the `ResponseValidation` policy.
  *
  * This is independently testable without making HTTP requests.
  */
@@ -34,7 +36,6 @@ import { decode, decodeFailure, errorBody, holdsSensitive } from "../util/codec.
 import type { Operation } from "./operation.ts";
 import { loadHandler, readResponse, Unreadable, type Protocol } from "./protocol.ts";
 import type { Response } from "./response.ts";
-import { makeStreamParser } from "./stream-parser.ts";
 
 export interface ResponseParserOptions {
   /** Override the protocol (otherwise discovered from schema annotations) */
@@ -168,9 +169,6 @@ export const makeResponseParser = <A>(
 
   const decodeSuccess = makeSuccessDecoder(operation, options);
 
-  // Create stream parser if output has event stream member (done once)
-  const streamParser = makeStreamParser(outputAst);
-
   // Build error schema map: errorCode -> Schema (done once)
   // We register errors by multiple keys to handle AWS wire format variations:
   // 1. Schema identifier (e.g., "EntityAlreadyExistsException")
@@ -239,12 +237,6 @@ export const makeResponseParser = <A>(
         | Record<string, unknown>
         | Unreadable
         | undefined;
-
-      // If the output has an event stream member, parse and decode it
-      const stream = deserialized instanceof Unreadable ? null : streamParser?.(deserialized);
-      if (stream) {
-        return stream as A;
-      }
 
       // Skip validation if requested - return raw deserialized response
       if (skipValidation) {
@@ -404,8 +396,9 @@ export const makeResponseParser = <A>(
     }
 
     return yield* new UnknownAwsError({
-      errorTag: errorCode,
-      errorData: data,
+      status: response.status,
+      code: errorCode,
+      body: data,
       service: options?.service,
       operation: options?.operation,
       message: typeof data?.message === "string" ? data.message : errorCode,

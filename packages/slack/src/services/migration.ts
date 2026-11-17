@@ -29,9 +29,9 @@ export interface MigrationExchangeRequest {
   /** A comma-separated list of user ids, up to 400 per request */
   users: MigrationExchangeRequestUsersList;
   /** Specify team_id starts with `T` in case of Org Token */
-  team_id?: string;
+  team_id?: string | undefined;
   /** Specify `true` to convert `W` global user IDs to workspace-specific `U` IDs. Defaults to `false`. */
-  to_old?: boolean;
+  to_old?: boolean | undefined;
 }
 export type MigrationExchangeResponseUserIdMapMap = { [key: string]: unknown | undefined };
 export type MigrationExchangeResponseInvalidUserIdsList = Array<string>;
@@ -41,7 +41,7 @@ export interface MigrationExchangeResponse {
   team_id: string;
   enterprise_id: string;
   user_id_map: MigrationExchangeResponseUserIdMapMap;
-  invalid_user_ids?: MigrationExchangeResponseInvalidUserIdsList;
+  invalid_user_ids?: MigrationExchangeResponseInvalidUserIdsList | undefined;
 }
 export type MigrationExchangeError = SlackOpError;
 /** For Enterprise organization workspaces, map local user IDs to global user IDs Required scopes -- bot: `tokens.basic`; user: `tokens.basic` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `not_enterprise_team` -- The workspace associated with the token is not part of an Enterprise organization. User IDs have not changed and there is nothing to map. - `too_many_users` -- Too many user IDs provided in `users`. Up to 400 user IDs are allowed per request. See https://docs.slack.dev/reference/methods/migration.exchange */

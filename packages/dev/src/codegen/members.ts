@@ -27,6 +27,20 @@ export const DEFAULT_TRAIT = "smithy.api#default";
  */
 export const SERVER_STREAMING_TRAIT = "com.distilled.grpc#serverStreaming";
 
+/**
+ * An operation that streams only when its input asks, e.g. a REST route
+ * that answers NDJSON for `stream: true` and JSON otherwise:
+ * `{ "input": { "<member>": <value>, … }, "items": "<frame shape id>" }`.
+ * The plain call keeps the operation's output; `.stream()` sets `input`
+ * over the caller's and emits each frame as `items`. Generated as
+ * `API.makeStreaming` with `streamInput` and `items` in its config.
+ */
+export const STREAM_WHEN_TRAIT = "com.distilled.openapi#streamWhen";
+
+/** The operation streams: server streaming, or streaming when its input asks. */
+export const streamsOutput = (traits: Record<string, unknown> | undefined): boolean =>
+  traits !== undefined && (SERVER_STREAMING_TRAIT in traits || STREAM_WHEN_TRAIT in traits);
+
 export interface MemberBase {
   /** Original smithy member name. */
   readonly name: string;

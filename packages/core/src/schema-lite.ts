@@ -12,6 +12,7 @@ export type AnyFn = (...args: any[]) => any;
 export const optional: AnyFn = L.optional;
 export const Struct: AnyFn = L.Struct;
 export const StructWithRest: AnyFn = L.StructWithRest;
+export const Extend: AnyFn = L.Extend;
 export const suspend: AnyFn = L.suspend;
 export const Array: AnyFn = L.Array;
 export const Record: AnyFn = L.Record;

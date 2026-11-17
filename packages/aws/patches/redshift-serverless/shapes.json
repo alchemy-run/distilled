@@ -1,0 +1,10 @@
+{
+  "description": "Redshift Serverless: Members that hold secrets (sensitive).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.redshiftserverless#GetIdentityCenterAuthTokenResponse/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

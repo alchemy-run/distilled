@@ -215,7 +215,7 @@ export class PlatformNotSupportedException
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()("ThrottlingException", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
-  }) {}
+  }).pipe(C.withThrottlingError, C.withRetryableError) {}
 export class TimestampOutOfBoundsException
   extends /*@__PURE__*/ S.TaggedError<TimestampOutOfBoundsException>()(
     "TimestampOutOfBoundsException",
@@ -224,7 +224,9 @@ export class TimestampOutOfBoundsException
 export type CustomerIdentifier = string;
 export type UsageDimension = string;
 export type UsageQuantity = number;
+export type UsageQuantityAsDecimalString = string;
 export type AllocatedUsageQuantity = number;
+export type AllocatedUsageQuantityAsDecimalString = string;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
@@ -233,26 +235,28 @@ export interface Tag {
 }
 export type TagList = Tag[];
 export interface UsageAllocation {
-  AllocatedUsageQuantity: number;
-  Tags?: Tag[];
+  AllocatedUsageQuantity?: number | undefined;
+  AllocatedUsageQuantityAsDecimal?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type UsageAllocations = UsageAllocation[];
 export type CustomerAWSAccountId = string;
 export type LicenseArn = string;
 export interface UsageRecord {
   Timestamp: Date;
-  CustomerIdentifier?: string;
+  CustomerIdentifier?: string | undefined;
   Dimension: string;
-  Quantity?: number;
-  UsageAllocations?: UsageAllocation[];
-  CustomerAWSAccountId?: string;
-  LicenseArn?: string;
+  Quantity?: number | undefined;
+  QuantityAsDecimal?: string | undefined;
+  UsageAllocations?: UsageAllocation[] | undefined;
+  CustomerAWSAccountId?: string | undefined;
+  LicenseArn?: string | undefined;
 }
 export type UsageRecordList = UsageRecord[];
 export type ProductCode = string;
 export interface BatchMeterUsageRequest {
   UsageRecords: UsageRecord[];
-  ProductCode?: string;
+  ProductCode?: string | undefined;
 }
 export type UsageRecordResultStatus =
   | "Success"
@@ -260,48 +264,54 @@ export type UsageRecordResultStatus =
   | "DuplicateRecord"
   | (string & {});
 export interface UsageRecordResult {
-  UsageRecord?: UsageRecord;
-  MeteringRecordId?: string;
-  Status?: UsageRecordResultStatus;
+  UsageRecord?: UsageRecord | undefined;
+  MeteringRecordId?: string | undefined;
+  Status?: UsageRecordResultStatus | undefined;
 }
 export type UsageRecordResultList = UsageRecordResult[];
 export interface BatchMeterUsageResult {
-  Results?: UsageRecordResult[];
-  UnprocessedRecords?: UsageRecord[];
+  Results?: UsageRecordResult[] | undefined;
+  UnprocessedRecords?: UsageRecord[] | undefined;
 }
 export type ClientToken = string;
 export interface MeterUsageRequest {
   ProductCode: string;
   Timestamp: Date;
   UsageDimension: string;
-  UsageQuantity?: number;
-  DryRun?: boolean;
-  UsageAllocations?: UsageAllocation[];
-  ClientToken?: string;
+  UsageQuantity?: number | undefined;
+  UsageQuantityAsDecimal?: string | undefined;
+  DryRun?: boolean | undefined;
+  UsageAllocations?: UsageAllocation[] | undefined;
+  ClientToken?: string | undefined;
 }
 export interface MeterUsageResult {
-  MeteringRecordId?: string;
+  MeteringRecordId?: string | undefined;
 }
 export type VersionInteger = number;
 export type Nonce = string;
 export interface RegisterUsageRequest {
   ProductCode: string;
   PublicKeyVersion: number;
-  Nonce?: string;
+  Nonce?: string | undefined;
 }
 export type NonEmptyString = string;
 export interface RegisterUsageResult {
-  PublicKeyRotationTimestamp?: Date;
-  Signature?: string;
+  PublicKeyRotationTimestamp?: Date | undefined;
+  Signature?: string | undefined;
 }
 export interface ResolveCustomerRequest {
   RegistrationToken: string;
 }
+export type AgreementId = string;
+export interface Metadata {
+  AgreementId?: string | undefined;
+}
 export interface ResolveCustomerResult {
-  CustomerIdentifier?: string;
-  ProductCode?: string;
-  CustomerAWSAccountId?: string;
-  LicenseArn?: string;
+  CustomerIdentifier?: string | undefined;
+  ProductCode?: string | undefined;
+  CustomerAWSAccountId?: string | undefined;
+  LicenseArn?: string | undefined;
+  Metadata?: Metadata | undefined;
 }
 export type ErrorMessage = string;
 export type BatchMeterUsageError =
@@ -317,6 +327,14 @@ export type BatchMeterUsageError =
   | TimestampOutOfBoundsException
   | CommonErrors;
 /**
+ * The Amazon Web Services Marketplace AI Metering Agent Skill (`aws-marketplace-metering`) helps an AI
+ * coding agent integrate your SaaS product's usage reporting with the
+ * `BatchMeterUsage` API. The skill is a curated package of instructions and
+ * reference material that guides your AI coding agent through building, deploying, and
+ * testing the metering integration. To get the skill on demand without checking it out
+ * locally, install the Amazon Web Services MCP Server in your coding agent; the agent then discovers and loads
+ * the skill at runtime. The skill source is also available on GitHub. For more information, see Get started with the Amazon Web Services Marketplace AI Metering Agent Skill on the Amazon Web Services Marketplace blog.
+ *
  * Amazon Web Services Marketplace is introducing Concurrent Agreements, enabling buyers to make multiple purchases per Amazon Web Services account. Starting June 1, 2026, new SaaS products must use `CustomerAWSAccountId` (instead of `CustomerIdentifier`), `LicenseArn` (instead of `ProductCode`) to support this feature. `BatchMeterUsage` does not support `CustomerIdentifier` for new integrations. Existing integrations continue to work. Review the new integration for Concurrent Agreements here. For additional implementation details, see BatchMeterUsage code example with LicenseArn in the *Amazon Web Services Marketplace Seller Guide*.
  *
  * To post metering records for customers, SaaS applications call
@@ -337,8 +355,21 @@ export type BatchMeterUsageError =
  *
  * `BatchMeterUsage` can process up to 25
  * `UsageRecords` at a time, and each request must be less than
- * 1 MB in size. Optionally, you can have multiple usage allocations for
- * usage data that's split into buckets according to predefined tags.
+ * 1 MB in size.
+ *
+ * **Vendor-metered tagging**
+ *
+ * `BatchMeterUsage` supports vendor-metered tagging. Optionally, you can
+ * split the usage in a `UsageRecord` into buckets by including
+ * `UsageAllocations`, where each `UsageAllocation` has a set of
+ * `Tags` that you define. Vendor-metered tagging doesn't change the price,
+ * dimensions, or the total usage that you report. It gives buyers a more granular view of
+ * their usage of your product so they can perform cost allocation in the Amazon Web Services Billing and
+ * Cost Management console. For more information, see Vendor-metered tagging and BatchMeterUsage with usage allocation tagging code example in the
+ * *Amazon Web Services Marketplace Seller Guide*.
+ *
+ * To report fractional usage, use `QuantityAsDecimal` instead of
+ * `Quantity` in each `UsageRecord`.
  *
  * `BatchMeterUsage` returns a list of
  * `UsageRecordResult` objects, which have each
@@ -427,6 +458,9 @@ export type MeterUsageError =
  * `ClientToken` is unique.
  *
  * If you submit records more than six hours after events occur, the records won't be accepted. The timestamp in your request determines when an event is recorded.
+ *
+ * To report fractional usage, use `UsageQuantityAsDecimal` instead of
+ * `UsageQuantity`.
  *
  * You can optionally include multiple usage allocations, to provide customers with usage data split into buckets by tags that you define or allow the customer to define.
  *
@@ -570,7 +604,7 @@ export const resolveCustomer: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<ResolveCustomerRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<ResolveCustomerResult>,
+  output: __S(34, __c4, 2) as any as S.Schema<ResolveCustomerResult>,
   errors: [
     DisabledApiException,
     ExpiredTokenException,
@@ -595,6 +629,7 @@ function __c0(j: number): any {
           CustomerIdentifier: S.optional(S.String),
           Dimension: S.String,
           Quantity: S.optional(S.Number),
+          QuantityAsDecimal: S.optional(S.String),
           UsageAllocations: S.optional(__S(11, __c1, 3)),
           CustomerAWSAccountId: S.optional(S.String),
           LicenseArn: S.optional(S.String),
@@ -637,7 +672,11 @@ function __c1(j: number): any {
       return S.Array(__S(8, __c1, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ AllocatedUsageQuantity: S.Number, Tags: S.optional(__S(9, __c1, 1)) }),
+        S.Struct({
+          AllocatedUsageQuantity: S.optional(S.Number),
+          AllocatedUsageQuantityAsDecimal: S.optional(S.String),
+          Tags: S.optional(__S(9, __c1, 1)),
+        }),
       ).annotate({ identifier: "UsageAllocation" });
     case 3:
       return S.Array(__S(10, __c1, 2));
@@ -652,6 +691,7 @@ function __c2(j: number): any {
           Timestamp: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           UsageDimension: S.String,
           UsageQuantity: S.optional(S.Number),
+          UsageQuantityAsDecimal: S.optional(S.String),
           DryRun: S.optional(S.Boolean),
           UsageAllocations: S.optional(__S(11, __c1, 3)),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
@@ -691,12 +731,17 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "ResolveCustomerRequest" });
     case 1:
+      return S.suspend(() => S.Struct({ AgreementId: S.optional(S.String) })).annotate({
+        identifier: "Metadata",
+      });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           CustomerIdentifier: S.optional(S.String),
           ProductCode: S.optional(S.String),
           CustomerAWSAccountId: S.optional(S.String),
           LicenseArn: S.optional(S.String),
+          Metadata: S.optional(__S(33, __c4, 1)),
         }),
       ).annotate({ identifier: "ResolveCustomerResult" });
   }

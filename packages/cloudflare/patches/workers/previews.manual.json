@@ -1,5 +1,5 @@
 {
-  "description": "Worker Previews (private beta, docs-absent): first-class named Previews of a Worker with isolated DO/container state, Preview URLs, and per-Preview deployments. Transcribed from wrangler's @cloudflare/deploy-helpers preview API. Also adds previews_enabled on custom-domain attach so Preview URLs can be served as <preview-name>.<hostname>.",
+  "description": "Worker Previews (private beta, docs-absent): first-class named Previews of a Worker with isolated DO/container state, Preview URLs, and per-Preview deployments. Transcribed from wrangler's @cloudflare/deploy-helpers preview API. Also adds previews_enabled on custom-domain attach so Preview URLs can be served as <preview-name>.<hostname>. Also carries per-Preview observability (Cloudflare keeps it per Preview, off on a new one) on create, read, and a PATCH updatePreview.",
   "patches": [
     {
       "op": "add",
@@ -627,6 +627,102 @@
         "target": "smithy.api#Boolean",
         "traits": {
           "smithy.api#documentation": "Whether Worker Previews are served on this custom domain."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#PreviewResource/members/observability",
+      "value": {
+        "target": "com.cloudflare.workers#BetaWorkersGetResponsePreviewsBaseConfigObservability",
+        "traits": {
+          "smithy.api#documentation": "Workers Logs and Traces settings for this Preview. Cloudflare keeps them per Preview, independent of the parent Worker; a new Preview starts with them off. They must be set before the deployment is created to apply to it."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#CreatePreviewRequest/members/observability",
+      "value": {
+        "target": "com.cloudflare.workers#BetaWorkersCreateRequestPreviewsBaseConfigObservability",
+        "traits": {
+          "smithy.api#documentation": "Workers Logs and Traces settings for this Preview. Cloudflare keeps them per Preview, independent of the parent Worker; a new Preview starts with them off. They must be set before the deployment is created to apply to it."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#UpdatePreviewRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "account_id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          },
+          "worker_id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Parent Worker id or script name.",
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          },
+          "preview_id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Preview id or name.",
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          },
+          "observability": {
+            "target": "com.cloudflare.workers#BetaWorkersCreateRequestPreviewsBaseConfigObservability",
+            "traits": {
+              "smithy.api#documentation": "Workers Logs and Traces settings for this Preview. Cloudflare keeps them per Preview, independent of the parent Worker; a new Preview starts with them off. They must be set before the deployment is created to apply to it."
+            }
+          },
+          "logpush": {
+            "target": "smithy.api#Boolean"
+          },
+          "tail_consumers": {
+            "target": "com.cloudflare.workers#PreviewTailConsumersList"
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#UpdatePreview",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.cloudflare.workers#UpdatePreviewRequest"
+        },
+        "output": {
+          "target": "com.cloudflare.workers#PreviewResource"
+        },
+        "errors": [
+          {
+            "target": "com.cloudflare.workers#PreviewNotFound"
+          },
+          {
+            "target": "com.cloudflare.workers#WorkerNotFound"
+          }
+        ],
+        "traits": {
+          "smithy.api#http": {
+            "method": "PATCH",
+            "uri": "/accounts/{account_id}/workers/workers/{worker_id}/previews/{preview_id}",
+            "code": 200
+          },
+          "smithy.api#documentation": "Update a Worker Preview's settings (observability, logpush, tail consumers)."
         }
       }
     }

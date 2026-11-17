@@ -41,9 +41,9 @@ export interface ApplyFirewallToResourcesRequestApplyToItem {
   /** Type of the resource. */
   type: ApplyFirewallToResourcesRequestApplyToItemType | (string & {});
   /** [Server](#tag/servers) the [Firewall](#tag/firewalls) is applied to. Only set for `type` `server`, otherwise `null`. */
-  server?: ApplyFirewallToResourcesRequestApplyToItemServer;
+  server?: ApplyFirewallToResourcesRequestApplyToItemServer | undefined;
   /** [Label Selector](#description/label-selector) the [Firewall](#tag/firewalls) is applied to. Only set for `type` `label_selector`, otherwise `null`. */
-  label_selector?: ApplyFirewallToResourcesRequestApplyToItemLabelSelector;
+  label_selector?: ApplyFirewallToResourcesRequestApplyToItemLabelSelector | undefined;
 }
 /** Resources to apply the [Firewall](#tag/firewalls) to. Extends existing resources. */
 export type ApplyFirewallToResourcesRequestApplyToList =
@@ -158,13 +158,13 @@ export interface ListFirewallActionsRequest {
   /** ID of the Firewall. */
   id: number;
   /** Sort actions by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListFirewallActionsRequestSortList;
+  sort?: ListFirewallActionsRequestSortList | undefined;
   /** Filter the actions by status. May be used multiple times. The response will only contain actions matching the specified statuses. */
-  status?: ListFirewallActionsRequestStatusList;
+  status?: ListFirewallActionsRequestStatusList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Status of the Action. */
 export type ListFirewallActionsResponseActionsItemStatus = "running" | "success" | "error";
@@ -245,15 +245,15 @@ export type ListFirewallsActionsRequestStatusList = Array<
 >;
 export interface ListFirewallsActionsRequest {
   /** Filter the actions by ID. May be used multiple times. The response will only contain actions matching the specified IDs. */
-  id?: ListFirewallsActionsRequestIdList;
+  id?: ListFirewallsActionsRequestIdList | undefined;
   /** Sort actions by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListFirewallsActionsRequestSortList;
+  sort?: ListFirewallsActionsRequestSortList | undefined;
   /** Filter the actions by status. May be used multiple times. The response will only contain actions matching the specified statuses. */
-  status?: ListFirewallsActionsRequestStatusList;
+  status?: ListFirewallsActionsRequestStatusList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** Status of the Action. */
 export type ListFirewallsActionsResponseActionsItemStatus = "running" | "success" | "error";
@@ -304,9 +304,9 @@ export interface RemoveFirewallFromResourcesRequestRemoveFromItem {
   /** Type of the resource. */
   type: RemoveFirewallFromResourcesRequestRemoveFromItemType | (string & {});
   /** [Server](#tag/servers) the [Firewall](#tag/firewalls) is applied to. Only set for `type` `server`, otherwise `null`. */
-  server?: ApplyFirewallToResourcesRequestApplyToItemServer;
+  server?: ApplyFirewallToResourcesRequestApplyToItemServer | undefined;
   /** [Label Selector](#description/label-selector) the [Firewall](#tag/firewalls) is applied to. Only set for `type` `label_selector`, otherwise `null`. */
-  label_selector?: ApplyFirewallToResourcesRequestApplyToItemLabelSelector;
+  label_selector?: ApplyFirewallToResourcesRequestApplyToItemLabelSelector | undefined;
 }
 /** Resources to remove the [Firewall](#tag/firewalls) from. */
 export type RemoveFirewallFromResourcesRequestRemoveFromList =
@@ -360,17 +360,17 @@ export type SetFirewallRulesRequestRulesItemDestinationIpsList = Array<string>;
 export type SetFirewallRulesRequestRulesItemProtocol = "tcp" | "udp" | "icmp" | "esp" | "gre";
 export interface SetFirewallRulesRequestRulesItem {
   /** Description of the rule. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Traffic direction in which the rule should be applied to. Use `source_ips` for direction `in` and `destination_ips` for direction `out` to specify IPs. */
   direction: SetFirewallRulesRequestRulesItemDirection | (string & {});
   /** List of permitted IPv4/IPv6 addresses for incoming traffic. The `direction` must be set to `in`. IPs must be provided in [CIDR block notation](https://wikipedia.org/wiki/CIDR). You can specify 100 CIDR blocks at most. The CIDR blocks may refer to networks (with empty host bits) or single hosts. For example, a network could be defined with `10.0.1.0/24` or `2001:db8:ff00:42::/64`, and a single host with `10.0.1.1/32` or `2001:db8:ff00:42::8329/128`. Use `0.0.0.0/0` to allow any IPv4 addresses and `::/0` to allow any IPv6 addresses. IPv6 CIDRs will be transformed to their canonical form according to [RFC5952](https://datatracker.ietf.org/doc/html/rfc5952#section-4). */
-  source_ips?: SetFirewallRulesRequestRulesItemSourceIpsList;
+  source_ips?: SetFirewallRulesRequestRulesItemSourceIpsList | undefined;
   /** List of permitted IPv4/IPv6 addresses for outgoing traffic. The `direction` must be set to `out`. IPs must be in [CIDR block notation](https://wikipedia.org/wiki/CIDR). You can specify 100 CIDR blocks at most. The CIDR blocks may refer to networks (with empty host bits) or single hosts. For example, a network could be defined with `10.0.1.0/24` or `2001:db8:ff00:42::/64`, and a single host with `10.0.1.1/32` or `2001:db8:ff00:42::8329/128`. Use `0.0.0.0/0` to allow any IPv4 addresses and `::/0` to allow any IPv6 addresses. IPv6 CIDRs will be transformed to their canonical form according to [RFC5952](https://datatracker.ietf.org/doc/html/rfc5952#section-4). */
-  destination_ips?: SetFirewallRulesRequestRulesItemDestinationIpsList;
+  destination_ips?: SetFirewallRulesRequestRulesItemDestinationIpsList | undefined;
   /** Network protocol to apply the rule for. */
   protocol: SetFirewallRulesRequestRulesItemProtocol | (string & {});
   /** Port or port range to apply the rule for. Only applicable for protocols `tcp` and `udp`. A port range can be specified by separating lower and upper bounds with a dash. `1024-5000` will include all ports starting from 1024 up to port 5000. */
-  port?: string;
+  port?: string | undefined;
 }
 /** Array of rules. Rules are limited to 50 entries per [Firewall](#tag/firewalls) and [500 effective rules](https://docs.hetzner.com/cloud/firewalls/overview#limits). Existing rules will be replaced. */
 export type SetFirewallRulesRequestRulesList = Array<SetFirewallRulesRequestRulesItem>;

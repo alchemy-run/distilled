@@ -46,26 +46,26 @@ export type CreateRequestActionMode =
   | "managed_challenge";
 export interface CreateRequestActionResponse {
   /** The response body to return. The value must conform to the configured content type. */
-  body?: string;
+  body?: string | undefined;
   /** The content type of the body. Must be one of the following: `text/plain`, `text/xml`, or `application/json`. */
-  contentType?: string;
+  contentType?: string | undefined;
 }
 export interface CreateRequestAction {
   /** The action to perform. */
-  mode?: CreateRequestActionMode | (string & {});
+  mode?: CreateRequestActionMode | (string & {}) | undefined;
   /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object. */
-  response?: CreateRequestActionResponse;
+  response?: CreateRequestActionResponse | undefined;
   /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value. */
-  timeout?: number;
+  timeout?: number | undefined;
 }
 export type CreateRequestMatchHeadersItemOp = "eq" | "ne";
 export interface CreateRequestMatchHeadersItem {
   /** The name of the response header to match. */
-  name?: string;
+  name?: string | undefined;
   /** The operator used when matching: `eq` means "equal" and `ne` means "not equal". */
-  op?: CreateRequestMatchHeadersItemOp | (string & {});
+  op?: CreateRequestMatchHeadersItemOp | (string & {}) | undefined;
   /** The value of the response header, which must match exactly. */
-  value?: string;
+  value?: string | undefined;
 }
 export type CreateRequestMatchHeadersList = Array<CreateRequestMatchHeadersItem>;
 export type CreateRequestMatchRequestMethodsItem =
@@ -82,20 +82,20 @@ export type CreateRequestMatchRequestMethodsList = Array<
 export type CreateRequestMatchRequestSchemesList = Array<string>;
 export interface CreateRequestMatchRequest {
   /** The HTTP methods to match. You can specify a subset (for example, `['POST','PUT']`) or all methods (`['_ALL_']`). This field is optional when creating a rate limit. */
-  methods?: CreateRequestMatchRequestMethodsList;
+  methods?: CreateRequestMatchRequestMethodsList | undefined;
   /** The HTTP schemes to match. You can specify one scheme (`['HTTPS']`), both schemes (`['HTTP','HTTPS']`), or all schemes (`['_ALL_']`). This field is optional. */
-  schemes?: CreateRequestMatchRequestSchemesList;
+  schemes?: CreateRequestMatchRequestSchemesList | undefined;
   /** The URL pattern to match, composed of a host and a path such as `example.org/path*`. Normalization is applied before the pattern is matched. `*` wildcards are expanded to match applicable traffic. Query strings are not matched. Set the value to `*` to match all traffic to your zone. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CreateRequestMatchResponse {
   /** When true, only the uncached traffic served from your origin servers will count towards rate limiting. In this case, any cached traffic served by Cloudflare will not count towards rate limiting. This field is optional. Notes: This field is deprecated. Instead, use response headers and set "origin_traffic" to "false" to avoid legacy behaviour interacting with the "response_headers" property. */
-  originTraffic?: boolean;
+  originTraffic?: boolean | undefined;
 }
 export interface CreateRequestMatch {
-  headers?: CreateRequestMatchHeadersList;
-  request?: CreateRequestMatchRequest;
-  response?: CreateRequestMatchResponse;
+  headers?: CreateRequestMatchHeadersList | undefined;
+  request?: CreateRequestMatchRequest | undefined;
+  response?: CreateRequestMatchResponse | undefined;
 }
 export interface CreateRateLimitRequest {
   /** Defines an identifier. */
@@ -126,20 +126,20 @@ export type EditRequestActionMode =
 export type EditRequestActionResponse = CreateRequestActionResponse;
 export interface EditRequestAction {
   /** The action to perform. */
-  mode?: EditRequestActionMode | (string & {});
+  mode?: EditRequestActionMode | (string & {}) | undefined;
   /** A custom content type and reponse to return when the threshold is exceeded. The custom response configured in this object will override the custom error for the zone. This object is optional. Notes: If you omit this object, Cloudflare will use the default HTML error page. If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone challenge pages and you should not provide the "response" object. */
-  response?: CreateRequestActionResponse;
+  response?: CreateRequestActionResponse | undefined;
   /** The time in seconds during which Cloudflare will perform the mitigation action. Must be an integer value greater than or equal to the period. Notes: If "mode" is "challenge", "managed_challenge", or "js_challenge", Cloudflare will use the zone's Challenge Passage time and you should not provide this value. */
-  timeout?: number;
+  timeout?: number | undefined;
 }
 export type EditRequestMatchHeadersItemOp = "eq" | "ne";
 export interface EditRequestMatchHeadersItem {
   /** The name of the response header to match. */
-  name?: string;
+  name?: string | undefined;
   /** The operator used when matching: `eq` means "equal" and `ne` means "not equal". */
-  op?: EditRequestMatchHeadersItemOp | (string & {});
+  op?: EditRequestMatchHeadersItemOp | (string & {}) | undefined;
   /** The value of the response header, which must match exactly. */
-  value?: string;
+  value?: string | undefined;
 }
 export type EditRequestMatchHeadersList = Array<EditRequestMatchHeadersItem>;
 export type EditRequestMatchRequestMethodsItem =
@@ -156,17 +156,17 @@ export type EditRequestMatchRequestMethodsList = Array<
 export type EditRequestMatchRequestSchemesList = Array<string>;
 export interface EditRequestMatchRequest {
   /** The HTTP methods to match. You can specify a subset (for example, `['POST','PUT']`) or all methods (`['_ALL_']`). This field is optional when creating a rate limit. */
-  methods?: EditRequestMatchRequestMethodsList;
+  methods?: EditRequestMatchRequestMethodsList | undefined;
   /** The HTTP schemes to match. You can specify one scheme (`['HTTPS']`), both schemes (`['HTTP','HTTPS']`), or all schemes (`['_ALL_']`). This field is optional. */
-  schemes?: EditRequestMatchRequestSchemesList;
+  schemes?: EditRequestMatchRequestSchemesList | undefined;
   /** The URL pattern to match, composed of a host and a path such as `example.org/path*`. Normalization is applied before the pattern is matched. `*` wildcards are expanded to match applicable traffic. Query strings are not matched. Set the value to `*` to match all traffic to your zone. */
-  url?: string;
+  url?: string | undefined;
 }
 export type EditRequestMatchResponse = CreateRequestMatchResponse;
 export interface EditRequestMatch {
-  headers?: EditRequestMatchHeadersList;
-  request?: EditRequestMatchRequest;
-  response?: CreateRequestMatchResponse;
+  headers?: EditRequestMatchHeadersList | undefined;
+  request?: EditRequestMatchRequest | undefined;
+  response?: CreateRequestMatchResponse | undefined;
 }
 export interface EditRateLimitRequest {
   /** Defines an identifier. */
@@ -194,9 +194,9 @@ export interface ListRateLimitsRequest {
   /** Defines an identifier. */
   zoneId: string;
   /** Defines the page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Defines the maximum number of results per page. You can only set the value to `1` or to a multiple of 5 such as `5`, `10`, `15`, or `20`. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export interface ListRateLimitsResponse {}
 export type CreateRateLimitError = CloudflareOpError;

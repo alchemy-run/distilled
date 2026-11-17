@@ -1,0 +1,69 @@
+{
+  "description": "Name the documented registry create createContainerRegistry, like the other containers operations.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#RegistriesCreateResponse/members/kind/target",
+      "value": "com.cloudflare.containers#ContainerRegistryKind"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#RegistriesCreate",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerRegistry"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#RegistriesCreateRequestAuth/members/private_credential/target",
+      "value": "com.cloudflare.containers#CreateContainerRegistryRequestAuthPrivateCredential"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#RegistriesCreateRequestAuthPrivateCredential",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerRegistryRequestAuthPrivateCredential"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#RegistriesCreateRequest/members/auth/target",
+      "value": "com.cloudflare.containers#CreateContainerRegistryRequestAuth"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#RegistriesCreateRequestAuth",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerRegistryRequestAuth"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#RegistriesCreateRequest/members/kind/target",
+      "value": "com.cloudflare.containers#CreateContainerRegistryRequestKind"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#RegistriesCreateRequestKind",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerRegistryRequestKind"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerRegistry/input/target",
+      "value": "com.cloudflare.containers#CreateContainerRegistryRequest"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#RegistriesCreateRequest",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerRegistryRequest"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerRegistry/output/target",
+      "value": "com.cloudflare.containers#CreateContainerRegistryResponse"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.cloudflare.containers#RegistriesCreateResponse",
+      "path": "/shapes/com.cloudflare.containers#CreateContainerRegistryResponse"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.cloudflare.containers#RegistriesCreateResponseKind"
+    }
+  ]
+}

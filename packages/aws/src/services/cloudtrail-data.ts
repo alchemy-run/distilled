@@ -121,7 +121,7 @@ export type Uuid = string;
 export interface AuditEvent {
   id: string;
   eventData: string;
-  eventDataChecksum?: string;
+  eventDataChecksum?: string | undefined;
 }
 export type AuditEvents = AuditEvent[];
 export type ChannelArn = string;
@@ -129,7 +129,7 @@ export type ExternalId = string;
 export interface PutAuditEventsRequest {
   auditEvents: AuditEvent[];
   channelArn: string;
-  externalId?: string;
+  externalId?: string | undefined;
 }
 export interface AuditEventResultEntry {
   id: string;

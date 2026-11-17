@@ -54,7 +54,7 @@ export interface GetResponseRulesItem {
   /** Stable rule identifier. */
   ref: string;
   /** Human-readable rule description. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export type GetResponseRulesList = Array<GetResponseRulesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -71,7 +71,7 @@ export type UpdateRequestRulesItemFieldsList = Array<UpdateRequestRulesItemField
 export interface UpdateRequestRulesItem {
   fields: UpdateRequestRulesItemFieldsList;
   ref: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type UpdateRequestRulesList = Array<UpdateRequestRulesItem>;
 export interface UpdateRequest {
@@ -88,7 +88,7 @@ export interface UpdateResponseRulesItem {
   /** Stable rule identifier. */
   ref: string;
   /** Human-readable rule description. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export type UpdateResponseRulesList = Array<UpdateResponseRulesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */

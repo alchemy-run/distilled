@@ -1,4 +1,8 @@
-import { getPath, type PaginationStrategy } from "@distilled.cloud/core/pagination";
+import {
+  getPath,
+  missingPaginationConfig,
+  type PaginationStrategy,
+} from "@distilled.cloud/core/pagination";
 /**
  * STACKIT pagination -- hand-written.
  *
@@ -24,8 +28,8 @@ export const paginateByTotalPages: PaginationStrategy = (operation, input, pagin
   const totalPagesPath = pagination.outputToken;
   const itemsPath = pagination.items;
   if (!inputToken || !totalPagesPath) {
-    return Stream.die(
-      new Error("Total-pages pagination requires inputToken and outputToken (totalPages)"),
+    return missingPaginationConfig(
+      "Total-pages pagination requires inputToken and outputToken (totalPages)",
     );
   }
 

@@ -1,0 +1,36 @@
+{
+  "description": "Type a missing device invite as DeviceInviteNotFound. getDeviceInvite and deleteDeviceInvite answer a deleted or unknown invite with 400 'invalid invite' (sometimes prefixed '[unexpected]: '), not the declared 404 (live, 2026-10-03).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#DeviceInviteNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": { "target": "smithy.api#String" }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The device invite does not exist: it was deleted, its device was deleted, or the ID is malformed (Tailscale answers HTTP 400 with `invalid invite`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": { "includes": "invalid invite" }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#GetDeviceInvite/errors/-",
+      "value": { "target": "com.tailscale.api#DeviceInviteNotFound" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#DeleteDeviceInvite/errors/-",
+      "value": { "target": "com.tailscale.api#DeviceInviteNotFound" }
+    }
+  ]
+}

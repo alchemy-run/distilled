@@ -29,9 +29,9 @@ export interface GetSelfRequest {}
 /** Details about the person, when the `type` of the user is `person`. */
 export interface GetSelfResponsePerson {
   /** The email of the person. */
-  email?: string;
+  email?: string | undefined;
   /** Whether the person's email is verified. */
-  email_verified?: boolean;
+  email_verified?: boolean | undefined;
 }
 /** The person info of the user. */
 export type BotInfoResponseOwnerCase0UserCase0Person = GetSelfResponsePerson;
@@ -99,11 +99,11 @@ export interface GetSelfResponse {
   /** The avatar URL of the user. */
   avatar_url: string | null;
   /** Indicates this user is a person. */
-  type?: string;
+  type?: string | undefined;
   /** Details about the person, when the `type` of the user is `person`. */
-  person?: GetSelfResponsePerson;
+  person?: GetSelfResponsePerson | undefined;
   /** Details about the bot, when the `type` of the user is `bot`. */
-  bot?: GetSelfResponseBot;
+  bot?: GetSelfResponseBot | undefined;
 }
 export interface GetUserRequest {
   user_id: string;
@@ -122,15 +122,15 @@ export interface GetUserResponse {
   /** The avatar URL of the user. */
   avatar_url: string | null;
   /** Indicates this user is a person. */
-  type?: string;
+  type?: string | undefined;
   /** Details about the person, when the `type` of the user is `person`. */
-  person?: GetSelfResponsePerson;
+  person?: GetSelfResponsePerson | undefined;
   /** Details about the bot, when the `type` of the user is `bot`. */
-  bot?: GetUserResponseBot;
+  bot?: GetUserResponseBot | undefined;
 }
 export interface ListUsersRequest {
-  start_cursor?: string;
-  page_size?: number;
+  start_cursor?: string | undefined;
+  page_size?: number | undefined;
 }
 /** Details about the person, when the `type` of the user is `person`. */
 export type UserObjectResponsePerson = GetSelfResponsePerson;
@@ -146,11 +146,11 @@ export interface UserObjectResponse {
   /** The avatar URL of the user. */
   avatar_url: string | null;
   /** Indicates this user is a person. */
-  type?: string;
+  type?: string | undefined;
   /** Details about the person, when the `type` of the user is `person`. */
-  person?: GetSelfResponsePerson;
+  person?: GetSelfResponsePerson | undefined;
   /** Details about the bot, when the `type` of the user is `bot`. */
-  bot?: UserObjectResponseBot;
+  bot?: UserObjectResponseBot | undefined;
 }
 export type ListUsersResponseResultsList = Array<UserObjectResponse>;
 export interface ListUsersResponse {

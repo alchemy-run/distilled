@@ -174,15 +174,14 @@ export type StreamEvent = MessageEvent | ExceptionEvent | ErrorEvent;
 /**
  * Compute CRC32 checksum of data
  */
-const computeCrc32 = (data: Uint8Array): Effect.Effect<number> =>
-  Effect.promise(async () => {
-    const Crc32 = getCrc32ChecksumAlgorithmFunction();
-    const hasher = new Crc32();
-    hasher.update(data);
-    const digest = await hasher.digest();
-    // Convert 4-byte digest to uint32 (>>> 0 ensures unsigned)
-    return ((digest[0] << 24) | (digest[1] << 16) | (digest[2] << 8) | digest[3]) >>> 0;
-  });
+const computeCrc32 = (data: Uint8Array): number => {
+  const Crc32 = getCrc32ChecksumAlgorithmFunction();
+  const hasher = new Crc32();
+  hasher.update(data);
+  const digest = hasher.digest();
+  // Convert 4-byte digest to uint32 (>>> 0 ensures unsigned)
+  return ((digest[0] << 24) | (digest[1] << 16) | (digest[2] << 8) | digest[3]) >>> 0;
+};
 
 // ============================================================================
 // Header Helpers
@@ -348,7 +347,7 @@ export const encodeMessage = (
     view.setUint32(4, headersBytes.length, false);
 
     // Compute and write prelude CRC
-    const preludeCrc = yield* computeCrc32(result.subarray(0, 8));
+    const preludeCrc = computeCrc32(result.subarray(0, 8));
     view.setUint32(8, preludeCrc, false);
 
     // Write headers and payload
@@ -356,7 +355,7 @@ export const encodeMessage = (
     result.set(payload, PRELUDE_LENGTH + headersBytes.length);
 
     // Compute and write message CRC (over entire message except the CRC itself)
-    const messageCrc = yield* computeCrc32(result.subarray(0, totalLength - MESSAGE_CRC_LENGTH));
+    const messageCrc = computeCrc32(result.subarray(0, totalLength - MESSAGE_CRC_LENGTH));
     view.setUint32(totalLength - MESSAGE_CRC_LENGTH, messageCrc, false);
 
     return result;
@@ -519,7 +518,7 @@ export const decodeMessage = (
     }
 
     // Validate prelude CRC
-    const computedPreludeCrc = yield* computeCrc32(data.subarray(0, 8));
+    const computedPreludeCrc = computeCrc32(data.subarray(0, 8));
     if (computedPreludeCrc !== preludeCrc) {
       return yield* new EventStreamDecodeError({
         message: `Prelude CRC mismatch: expected ${preludeCrc}, got ${computedPreludeCrc}`,
@@ -531,9 +530,7 @@ export const decodeMessage = (
       data.buffer,
       data.byteOffset + totalLength - MESSAGE_CRC_LENGTH,
     ).getUint32(0, false);
-    const computedMessageCrc = yield* computeCrc32(
-      data.subarray(0, totalLength - MESSAGE_CRC_LENGTH),
-    );
+    const computedMessageCrc = computeCrc32(data.subarray(0, totalLength - MESSAGE_CRC_LENGTH));
     if (computedMessageCrc !== messageCrc) {
       return yield* new EventStreamDecodeError({
         message: `Message CRC mismatch: expected ${messageCrc}, got ${computedMessageCrc}`,

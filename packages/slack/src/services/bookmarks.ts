@@ -28,21 +28,21 @@ const TELEMETRY = {
 export type AddBookmarkRequestAccessLevel = "read" | "write";
 export interface AddBookmarkRequest {
   /** Channel to add bookmark in. Required for public channels. */
-  channel_id?: string;
+  channel_id?: string | undefined;
   /** Title for the bookmark. */
   title: string;
   /** Link to bookmark. */
-  link?: string;
+  link?: string | undefined;
   /** Type of the bookmark i.e link. */
   type: string;
   /** Emoji tag to apply to the link. */
-  emoji?: string;
+  emoji?: string | undefined;
   /** ID of the entity being bookmarked. Only applies to message and file types. */
-  entity_id?: string;
+  entity_id?: string | undefined;
   /** The level that we are setting the file's permission to (read or write) */
-  access_level?: AddBookmarkRequestAccessLevel | (string & {});
+  access_level?: AddBookmarkRequestAccessLevel | (string & {}) | undefined;
   /** Id of this bookmark's parent */
-  parent_id?: string;
+  parent_id?: string | undefined;
 }
 export interface AddBookmarkResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -51,15 +51,15 @@ export interface AddBookmarkResponse {
 }
 export interface EditBookmarkRequest {
   /** Channel to update bookmark in. Required for public channels. */
-  channel_id?: string;
+  channel_id?: string | undefined;
   /** Bookmark to update. Required for public channels. */
-  bookmark_id?: string;
+  bookmark_id?: string | undefined;
   /** Title for the bookmark. */
-  title?: string;
+  title?: string | undefined;
   /** Link to bookmark. */
-  link?: string;
+  link?: string | undefined;
   /** Emoji tag to apply to the link. */
-  emoji?: string;
+  emoji?: string | undefined;
 }
 export interface EditBookmarkResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -68,7 +68,7 @@ export interface EditBookmarkResponse {
 }
 export interface ListBookmarksRequest {
   /** Channel to list bookmarks in. Required for public channels. */
-  channel_id?: string;
+  channel_id?: string | undefined;
 }
 export type ListBookmarksResponseBookmarksList = Array<unknown>;
 export interface ListBookmarksResponse {
@@ -78,18 +78,18 @@ export interface ListBookmarksResponse {
 }
 export interface RemoveBookmarkRequest {
   /** Channel to remove bookmark. Required for public channels. */
-  channel_id?: string;
+  channel_id?: string | undefined;
   /** Bookmark to remove. Required for public channels. */
-  bookmark_id?: string;
+  bookmark_id?: string | undefined;
   /** Quip section ID to unbookmark */
-  quip_section_id?: string;
+  quip_section_id?: string | undefined;
 }
 export interface RemoveBookmarkResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
 }
 export type AddBookmarkError = SlackOpError;
-/** Add bookmark to a channel. Required scopes -- bot: `bookmarks:write`; user: `bookmarks:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `access_denied` -- Actor lacks access to the requested resource. - `cannot_bookmark_from_external_org` -- File is an external file and cannot be bookmarked. - `cannot_bookmark_restricted_sharing_enabled` -- File has restricted sharing enabled and cannot be bookmarked. - `channel_not_found` -- Channel cannot be found. - `file_already_added` -- The file has already been added to the folder. - `file_not_found` -- File cannot be found. - `invalid_bookmark_type` -- Bookmark type is not valid. - `invalid_app_action_type` -- App action type is not valid. - `invalid_shortcut_type` -- Shortcut type is not valid. - `invalid_child_type` -- Child type is not valid. - `invalid_emoji` -- Invalid emoji, does not follow the pattern of a valid emoji name. - `invalid_entity_id` -- Invalid entity_id, file or message type bookmark should have original file or message ID. - `invalid_link` -- Invalid link, link should begin with either http:// or https://. - `invalid_parent_type` -- Parent type is not valid. - `not_implemented` -- bookmarking not available for the user. - `parent_bookmark_disabled` -- Parent bookmark feature flag is off. - `parent_with_link` -- Parent bookmark should not have link. - `permission_denied` -- No permission to perform this operation. - `restricted_action` -- Members from an external organization cannot add workflow bookmarks to this channel. - `slack_connect_file_upload_sharing_blocked` -- Admin has disabled File uploads in all Slack Connect communications - `slack_connect_clip_sharing_blocked` -- Admin has disabled Clip sharing in Slack Connect channels - `slack_connect_blocked_file_type` -- Files with certain extensions are blocked from being uploaded in all Slack Connect communications - `too_many_bookmarks` -- Bookmark limit reached for channel. - `too_many_tabs` -- tab limit reached for channel. - `too_many_requests` -- Too many concurrent requests. Please retry. See https://docs.slack.dev/reference/methods/bookmarks.add */
+/** Add bookmark to a channel. Required scopes -- bot: `bookmarks:write`; user: `bookmarks:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `access_denied` -- Actor lacks access to the requested resource. - `cannot_bookmark_from_external_org` -- File is an external file and cannot be bookmarked. - `cannot_bookmark_restricted_sharing_enabled` -- File has restricted sharing enabled and cannot be bookmarked. - `channel_not_found` -- Channel cannot be found. - `file_already_added` -- The file has already been added to the folder. - `file_not_found` -- File cannot be found. - `invalid_bookmark_type` -- Bookmark type is not valid. - `invalid_app_action_type` -- App action type is not valid. - `invalid_shortcut_type` -- Shortcut type is not valid. - `invalid_child_type` -- Child type is not valid. - `invalid_emoji` -- Invalid emoji, does not follow the pattern of a valid emoji name. - `invalid_entity_id` -- Invalid entity_id, file or message type bookmark should have original file or message ID. - `invalid_link` -- Invalid link, link should begin with either http:// or https://. - `invalid_parent_type` -- Parent type is not valid. - `parent_bookmark_disabled` -- Parent bookmark feature flag is off. - `parent_with_link` -- Parent bookmark should not have link. - `permission_denied` -- No permission to perform this operation. - `restricted_action` -- Members from an external organization cannot add workflow bookmarks to this channel. - `slack_connect_file_upload_sharing_blocked` -- Admin has disabled File uploads in all Slack Connect communications - `slack_connect_clip_sharing_blocked` -- Admin has disabled Clip sharing in Slack Connect channels - `slack_connect_blocked_file_type` -- Files with certain extensions are blocked from being uploaded in all Slack Connect communications - `too_many_bookmarks` -- Bookmark limit reached for channel. - `too_many_tabs` -- tab limit reached for channel. - `too_many_requests` -- Too many concurrent requests. Please retry. See https://docs.slack.dev/reference/methods/bookmarks.add */
 export const addBookmark: API.OperationMethod<
   AddBookmarkRequest,
   AddBookmarkResponse,
@@ -106,7 +106,7 @@ export const addBookmark: API.OperationMethod<
 }));
 
 export type EditBookmarkError = SlackOpError;
-/** Edit bookmark. Required scopes -- bot: `bookmarks:write`; user: `bookmarks:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `access_denied` -- Actor lacks access to the requested resource. - `channel_not_found` -- Channel cannot be found. - `invalid_bookmark_type` -- Bookmark type is not valid. - `invalid_emoji` -- Invalid emoji, does not follow the pattern of a valid emoji name. - `invalid_link` -- Invalid link, link should begin with either http:// or https://. - `not_found` -- Bookmark cannot be found. - `not_implemented` -- bookmarking not available for the user. - `parent_with_link` -- Parent bookmark should not have link. - `permission_denied` -- No permission to perform this operation. - `restricted_action` -- Members from an external organization cannot edit workflow bookmarks in this channel. - `slack_connect_file_upload_sharing_blocked` -- Admin has disabled File uploads in all Slack Connect communications - `slack_connect_clip_sharing_blocked` -- Admin has disabled Clip sharing in Slack Connect channels - `slack_connect_blocked_file_type` -- Files with certain extensions are blocked from being uploaded in all Slack Connect communications See https://docs.slack.dev/reference/methods/bookmarks.edit */
+/** Edit bookmark. Required scopes -- bot: `bookmarks:write`; user: `bookmarks:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `access_denied` -- Actor lacks access to the requested resource. - `channel_not_found` -- Channel cannot be found. - `invalid_bookmark_type` -- Bookmark type is not valid. - `invalid_emoji` -- Invalid emoji, does not follow the pattern of a valid emoji name. - `invalid_link` -- Invalid link, link should begin with either http:// or https://. - `not_found` -- Bookmark cannot be found. - `parent_with_link` -- Parent bookmark should not have link. - `permission_denied` -- No permission to perform this operation. - `restricted_action` -- Members from an external organization cannot edit workflow bookmarks in this channel. - `slack_connect_file_upload_sharing_blocked` -- Admin has disabled File uploads in all Slack Connect communications - `slack_connect_clip_sharing_blocked` -- Admin has disabled Clip sharing in Slack Connect channels - `slack_connect_blocked_file_type` -- Files with certain extensions are blocked from being uploaded in all Slack Connect communications See https://docs.slack.dev/reference/methods/bookmarks.edit */
 export const editBookmark: API.OperationMethod<
   EditBookmarkRequest,
   EditBookmarkResponse,
@@ -123,7 +123,7 @@ export const editBookmark: API.OperationMethod<
 }));
 
 export type ListBookmarksError = SlackOpError;
-/** List bookmark for the channel. Required scopes -- bot: `bookmarks:read`; user: `bookmarks:read` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `access_denied` -- Actor lacks access to the requested resource. - `channel_not_found` -- Channel cannot be found. - `not_implemented` -- bookmarking not available for the user. See https://docs.slack.dev/reference/methods/bookmarks.list */
+/** List bookmark for the channel. Required scopes -- bot: `bookmarks:read`; user: `bookmarks:read` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `access_denied` -- Actor lacks access to the requested resource. - `channel_not_found` -- Channel cannot be found. See https://docs.slack.dev/reference/methods/bookmarks.list */
 export const listBookmarks: API.OperationMethod<
   ListBookmarksRequest,
   ListBookmarksResponse,
@@ -140,7 +140,7 @@ export const listBookmarks: API.OperationMethod<
 }));
 
 export type RemoveBookmarkError = SlackOpError;
-/** Remove bookmark from the channel. Required scopes -- bot: `bookmarks:write`; user: `bookmarks:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `access_denied` -- Actor lacks access to the requested resource. - `channel_not_found` -- Channel cannot be found. - `user_not_found` -- User cannot be found. - `invalid_bookmark_type` -- Bookmark type is not valid. - `not_found` -- Bookmark cannot be found. - `not_implemented` -- bookmarking not available for the user. - `permission_denied` -- No permission to perform this operation. - `restricted_action` -- Members from an external organization cannot remove workflow bookmarks from this channel. See https://docs.slack.dev/reference/methods/bookmarks.remove */
+/** Remove bookmark from the channel. Required scopes -- bot: `bookmarks:write`; user: `bookmarks:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `access_denied` -- Actor lacks access to the requested resource. - `channel_not_found` -- Channel cannot be found. - `user_not_found` -- User cannot be found. - `invalid_bookmark_type` -- Bookmark type is not valid. - `not_found` -- Bookmark cannot be found. - `permission_denied` -- No permission to perform this operation. - `restricted_action` -- Members from an external organization cannot remove workflow bookmarks from this channel. See https://docs.slack.dev/reference/methods/bookmarks.remove */
 export const removeBookmark: API.OperationMethod<
   RemoveBookmarkRequest,
   RemoveBookmarkResponse,

@@ -1,6 +1,11 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ClerkProtocol -- hand-written.
  *
@@ -22,7 +27,12 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
+import {
+  Credentials,
+  PlatformCredentials,
+  type Config,
+  type PlatformConfig,
+} from "./credentials.ts";
 import { UnknownClerkError, ClerkParseError } from "./errors.ts";
 
 /**
@@ -37,10 +47,16 @@ export type ClerkOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | ClerkParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Clerk operation. */
 export type ClerkOpContext = Credentials | HttpClient.HttpClient;
+
+/**
+ * Context required by Platform operations; Backend credentials cannot satisfy it.
+ */
+export type ClerkPlatformOpContext = PlatformCredentials | HttpClient.HttpClient;
 
 /**
  * Clerk's error body is `{ errors: [{ message, long_message?, code }],
@@ -81,11 +97,25 @@ export const ClerkProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestPr
     "Clerk-API-Version": creds.apiVersion,
   }),
   errorEnvelope,
-  unknownError: ({ code, message, body }) =>
-    new UnknownClerkError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownClerkError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new ClerkParseError({ body, cause }),
 });
+
+/**
+ * Platform JSON REST protocol using a supplied bearer access token.
+ * Accepts a host or /v1 base URL and does not send the Backend API version header.
+ */
+export const ClerkPlatformProtocol: Layer.Layer<API.Protocol> =
+  /*@__PURE__*/ makeRestProtocol<PlatformConfig>({
+    credentials: /*@__PURE__*/ Effect.flatMap(PlatformCredentials, (resolve) => resolve),
+    baseUrl: (creds) => {
+      const baseUrl = creds.apiBaseUrl.replace(/\/+$/, "");
+      return baseUrl.endsWith("/v1") ? baseUrl : `${baseUrl}/v1`;
+    },
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+    }),
+    errorEnvelope,
+    unknownError: (info) => new UnknownClerkError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new ClerkParseError({ body, cause }),
+  });

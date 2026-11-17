@@ -48,33 +48,33 @@ const TELEMETRY = {
 
 export interface TracesCreateRequestBody {
   /** Base64 encoded request body */
-  base64?: string;
+  base64?: string | undefined;
   /** Arbitrary json as request body */
-  json?: unknown;
+  json?: unknown | undefined;
   /** Request body as plain text */
-  plainText?: string;
+  plainText?: string | undefined;
 }
 export interface TracesCreateRequestContextGeoloc {
-  city?: string;
-  continent?: string;
-  isEuCountry?: boolean;
-  isoCode?: string;
-  latitude?: number;
-  longitude?: number;
-  postalCode?: string;
-  regionCode?: string;
-  subdivision_2_iso_code?: string;
-  timezone?: string;
+  city?: string | undefined;
+  continent?: string | undefined;
+  isEuCountry?: boolean | undefined;
+  isoCode?: string | undefined;
+  latitude?: number | undefined;
+  longitude?: number | undefined;
+  postalCode?: string | undefined;
+  regionCode?: string | undefined;
+  subdivision_2_iso_code?: string | undefined;
+  timezone?: string | undefined;
 }
 export interface TracesCreateRequestContext {
   /** Bot score used for evaluating tracing request processing */
-  botScore?: number;
+  botScore?: number | undefined;
   /** Geodata for tracing request */
-  geoloc?: TracesCreateRequestContextGeoloc;
+  geoloc?: TracesCreateRequestContextGeoloc | undefined;
   /** Whether to skip any challenges for tracing request (e.g.: captcha) */
-  skipChallenge?: boolean;
+  skipChallenge?: boolean | undefined;
   /** Threat score used for evaluating tracing request processing */
-  threatScore?: number;
+  threatScore?: number | undefined;
 }
 export type TracesCreateRequestCookiesMap = { [key: string]: string | undefined };
 export type TracesCreateRequestHeadersMap = { [key: string]: string | undefined };
@@ -85,45 +85,45 @@ export interface CreateTraceRequest {
   method: string;
   /** URL to which perform tracing request */
   url: string;
-  body?: TracesCreateRequestBody;
+  body?: TracesCreateRequestBody | undefined;
   /** Additional request parameters */
-  context?: TracesCreateRequestContext;
+  context?: TracesCreateRequestContext | undefined;
   /** Cookies added to tracing request */
-  cookies?: TracesCreateRequestCookiesMap;
+  cookies?: TracesCreateRequestCookiesMap | undefined;
   /** Headers added to tracing request */
-  headers?: TracesCreateRequestHeadersMap;
+  headers?: TracesCreateRequestHeadersMap | undefined;
   /** HTTP Protocol of tracing request */
-  protocol?: string;
+  protocol?: string | undefined;
   /** Skip sending the request to the Origin server after all rules evaluation */
-  skipResponse?: boolean;
+  skipResponse?: boolean | undefined;
 }
 export interface TracesCreateResponseTraceItem {
   /** If step type is rule, then action performed by this rule */
-  action?: string | null;
+  action?: string | null | undefined;
   /** If step type is rule, then action parameters of this rule as JSON */
-  actionParameters?: unknown | null;
+  actionParameters?: unknown | null | undefined;
   /** If step type is rule or ruleset, the description of this entity */
-  description?: string | null;
+  description?: string | null | undefined;
   /** If step type is rule, then expression used to match for this rule */
-  expression?: string | null;
+  expression?: string | null | undefined;
   /** If step type is ruleset, then kind of this ruleset */
-  kind?: string | null;
+  kind?: string | null | undefined;
   /** Whether tracing step affected tracing request/response */
-  matched?: boolean | null;
+  matched?: boolean | null | undefined;
   /** If step type is ruleset, then name of this ruleset */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Tracing step identifying name */
-  stepName?: string | null;
-  trace?: unknown | null;
+  stepName?: string | null | undefined;
+  trace?: unknown | null | undefined;
   /** Tracing step type */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export type TracesCreateResponseTraceList = Array<TracesCreateResponseTraceItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateTraceResponse {
   /** HTTP Status code of zone response */
-  statusCode?: number | null;
-  trace?: TracesCreateResponseTraceList | null;
+  statusCode?: number | null | undefined;
+  trace?: TracesCreateResponseTraceList | null | undefined;
 }
 export type CreateTraceError = CloudflareOpError;
 /** Traces a simulated HTTP request through Cloudflare's edge to analyze how rules, settings, and configurations would process the request. Useful for debugging firewall rules, page rules, and other request transformations without sending actual traffic. Supports custom headers, cookies, body content, and geolocation context. */

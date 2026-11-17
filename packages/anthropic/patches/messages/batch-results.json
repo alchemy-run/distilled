@@ -1,0 +1,29 @@
+{
+  "description": "`GET /v1/messages/batches/{message_batch_id}/results` answers 200 with a `.jsonl` file as `application/x-jsonl` (one `MessageBatchIndividualResponse` JSON object per line). The converter reads only JSON bodies, so the operation returns nothing. The official SDKs read this response as binary (`__binaryResponse: true` in anthropics/anthropic-sdk-typescript) and split it into lines. Model the body as a raw `Blob` payload so the call returns the file's bytes as a `Uint8Array`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.anthropic.messages#GetMessageBatchResultsResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#Blob",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {},
+              "smithy.api#required": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.anthropic.messages#MessageBatchesResults/output/target",
+      "value": "com.anthropic.messages#GetMessageBatchResultsResponse"
+    }
+  ]
+}

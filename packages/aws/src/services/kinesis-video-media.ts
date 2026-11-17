@@ -142,19 +142,19 @@ export type FragmentNumberString = string;
 export type ContinuationToken = string;
 export interface StartSelector {
   StartSelectorType: StartSelectorType;
-  AfterFragmentNumber?: string;
-  StartTimestamp?: Date;
-  ContinuationToken?: string;
+  AfterFragmentNumber?: string | undefined;
+  StartTimestamp?: Date | undefined;
+  ContinuationToken?: string | undefined;
 }
 export interface GetMediaInput {
-  StreamName?: string;
-  StreamARN?: string;
+  StreamName?: string | undefined;
+  StreamARN?: string | undefined;
   StartSelector: StartSelector;
 }
 export type ContentType = string;
 export interface GetMediaOutput {
-  ContentType?: string;
-  Payload?: T.StreamingOutputBody;
+  ContentType?: string | undefined;
+  Payload?: T.StreamingOutputBody | undefined;
 }
 export type ErrorMessage = string;
 export type GetMediaError =

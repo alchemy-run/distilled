@@ -170,20 +170,20 @@ export type ClientToken = string;
 export type Tags = { [key: string]: string | undefined };
 export interface CreateChallengeRequest {
   ConnectorArn: string;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ChallengeArn = string;
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface Challenge {
-  Arn?: string;
-  ConnectorArn?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  Password?: string | redacted.Redacted<string>;
+  Arn?: string | undefined;
+  ConnectorArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateChallengeResponse {
-  Challenge?: Challenge;
+  Challenge?: Challenge | undefined;
 }
 export type CertificateAuthorityArn = string;
 export type AzureApplicationId = string;
@@ -196,13 +196,13 @@ export type MobileDeviceManagement = { Intune: IntuneConfiguration };
 export type VpcEndpointId = string;
 export interface CreateConnectorRequest {
   CertificateAuthorityArn: string;
-  MobileDeviceManagement?: MobileDeviceManagement;
-  VpcEndpointId?: string;
-  ClientToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  MobileDeviceManagement?: MobileDeviceManagement | undefined;
+  VpcEndpointId?: string | undefined;
+  ClientToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateConnectorResponse {
-  ConnectorArn?: string;
+  ConnectorArn?: string | undefined;
 }
 export interface DeleteChallengeRequest {
   ChallengeArn: string;
@@ -216,28 +216,28 @@ export interface GetChallengeMetadataRequest {
   ChallengeArn: string;
 }
 export interface ChallengeMetadata {
-  Arn?: string;
-  ConnectorArn?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  ConnectorArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetChallengeMetadataResponse {
-  ChallengeMetadata?: ChallengeMetadata;
+  ChallengeMetadata?: ChallengeMetadata | undefined;
 }
 export interface GetChallengePasswordRequest {
   ChallengeArn: string;
 }
 export interface GetChallengePasswordResponse {
-  Password?: string | redacted.Redacted<string>;
+  Password?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetConnectorRequest {
   ConnectorArn: string;
 }
 export type ConnectorType = "GENERAL_PURPOSE" | "INTUNE" | (string & {});
 export interface OpenIdConfiguration {
-  Issuer?: string;
-  Subject?: string;
-  Audience?: string;
+  Issuer?: string | undefined;
+  Subject?: string | undefined;
+  Audience?: string | undefined;
 }
 export type ConnectorStatus = "CREATING" | "ACTIVE" | "DELETING" | "FAILED" | (string & {});
 export type ConnectorStatusReason =
@@ -249,64 +249,64 @@ export type ConnectorStatusReason =
   | "VPC_ENDPOINT_DNS_ENTRIES_NOT_FOUND"
   | (string & {});
 export interface Connector {
-  Arn?: string;
-  CertificateAuthorityArn?: string;
-  Type?: ConnectorType;
-  MobileDeviceManagement?: MobileDeviceManagement;
-  OpenIdConfiguration?: OpenIdConfiguration;
-  Status?: ConnectorStatus;
-  StatusReason?: ConnectorStatusReason;
-  Endpoint?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  CertificateAuthorityArn?: string | undefined;
+  Type?: ConnectorType | undefined;
+  MobileDeviceManagement?: MobileDeviceManagement | undefined;
+  OpenIdConfiguration?: OpenIdConfiguration | undefined;
+  Status?: ConnectorStatus | undefined;
+  StatusReason?: ConnectorStatusReason | undefined;
+  Endpoint?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetConnectorResponse {
-  Connector?: Connector;
+  Connector?: Connector | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListChallengeMetadataRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   ConnectorArn: string;
 }
 export interface ChallengeMetadataSummary {
-  Arn?: string;
-  ConnectorArn?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  ConnectorArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type ChallengeMetadataList = ChallengeMetadataSummary[];
 export interface ListChallengeMetadataResponse {
-  Challenges?: ChallengeMetadataSummary[];
-  NextToken?: string;
+  Challenges?: ChallengeMetadataSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListConnectorsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ConnectorSummary {
-  Arn?: string;
-  CertificateAuthorityArn?: string;
-  Type?: ConnectorType;
-  MobileDeviceManagement?: MobileDeviceManagement;
-  OpenIdConfiguration?: OpenIdConfiguration;
-  Status?: ConnectorStatus;
-  StatusReason?: ConnectorStatusReason;
-  Endpoint?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  Arn?: string | undefined;
+  CertificateAuthorityArn?: string | undefined;
+  Type?: ConnectorType | undefined;
+  MobileDeviceManagement?: MobileDeviceManagement | undefined;
+  OpenIdConfiguration?: OpenIdConfiguration | undefined;
+  Status?: ConnectorStatus | undefined;
+  StatusReason?: ConnectorStatusReason | undefined;
+  Endpoint?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type ConnectorList = ConnectorSummary[];
 export interface ListConnectorsResponse {
-  Connectors?: ConnectorSummary[];
-  NextToken?: string;
+  Connectors?: ConnectorSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;

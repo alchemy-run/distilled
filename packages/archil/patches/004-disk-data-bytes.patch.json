@@ -1,0 +1,25 @@
+{
+  "description": "getDisk and listDisks return activeDataBytes and totalDataBytes once a disk holds data (live: after writing an 8 MiB file, getDisk answered activeDataBytes 0 and totalDataBytes 8396800; an empty disk answers neither). @archildata/api-types 0.0.81 declares both. The spec omits them and lists dataSize, which the live API does not send.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#DiskResponse/members/activeDataBytes",
+      "value": {
+        "target": "smithy.api#Long",
+        "traits": {
+          "smithy.api#documentation": "Active data size in bytes (data in the high-speed cache). Absent until the disk holds data."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#DiskResponse/members/totalDataBytes",
+      "value": {
+        "target": "smithy.api#Long",
+        "traits": {
+          "smithy.api#documentation": "Total logical data written to the disk, in bytes. Absent until the disk holds data."
+        }
+      }
+    }
+  ]
+}

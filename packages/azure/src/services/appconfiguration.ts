@@ -47,11 +47,11 @@ export interface CheckOperationNameAvailabilityRequest {
 /** The result of a request to check the availability of a resource name. */
 export interface NameAvailabilityStatus {
   /** The value indicating whether the resource name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** If any, the error message that provides more detail for the reason that the name is not available. */
-  message?: string;
+  message?: string | undefined;
   /** If any, the reason that the name is not available. */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** Resource tags. */
 export type CreateConfigurationStoreRequestTagsMap = { [key: string]: string | undefined };
@@ -70,21 +70,21 @@ export type ResourceIdentityInputUserAssignedIdentitiesMap = {
 /** An identity that can be associated with a resource. */
 export interface ResourceIdentityInput {
   /** The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identities. */
-  type?: ResourceIdentityInputType | (string & {});
+  type?: ResourceIdentityInputType | (string & {}) | undefined;
   /** The list of user-assigned identities associated with the resource. The user-assigned identity dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: ResourceIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ResourceIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 /** Settings concerning key vault encryption for a configuration store. */
 export interface KeyVaultProperties {
   /** The URI of the key vault key used to encrypt data. */
-  keyIdentifier?: string;
+  keyIdentifier?: string | undefined;
   /** The client id of the identity which will be used to access key vault. */
-  identityClientId?: string;
+  identityClientId?: string | undefined;
 }
 /** The encryption settings for a configuration store. */
 export interface EncryptionProperties {
   /** Key vault properties. */
-  keyVaultProperties?: KeyVaultProperties;
+  keyVaultProperties?: KeyVaultProperties | undefined;
 }
 /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
 export type ConfigurationStorePropertiesInputPublicNetworkAccess = "Enabled" | "Disabled";
@@ -95,30 +95,33 @@ export type DataPlaneProxyPropertiesPrivateLinkDelegation = "Enabled" | "Disable
 /** The data plane proxy settings for a configuration store. */
 export interface DataPlaneProxyProperties {
   /** The data plane proxy authentication mode. This property manages the authentication mode of request to the data plane resources. */
-  authenticationMode?: DataPlaneProxyPropertiesAuthenticationMode | (string & {});
+  authenticationMode?: DataPlaneProxyPropertiesAuthenticationMode | (string & {}) | undefined;
   /** The data plane proxy private link delegation. This property manages if a request from delegated Azure Resource Manager (ARM) private link is allowed when the data plane resource requires private link. */
-  privateLinkDelegation?: DataPlaneProxyPropertiesPrivateLinkDelegation | (string & {});
+  privateLinkDelegation?: DataPlaneProxyPropertiesPrivateLinkDelegation | (string & {}) | undefined;
 }
 /** Indicates whether the configuration store need to be recovered. */
 export type ConfigurationStorePropertiesInputCreateMode = "Recover" | "Default";
 /** The properties of a configuration store. */
 export interface ConfigurationStorePropertiesInput {
   /** The encryption settings of the configuration store. */
-  encryption?: EncryptionProperties;
+  encryption?: EncryptionProperties | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: ConfigurationStorePropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?:
+    | ConfigurationStorePropertiesInputPublicNetworkAccess
+    | (string & {})
+    | undefined;
   /** Disables all authentication methods other than AAD authentication. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** The amount of time in days that the configuration store will be retained when it is soft deleted. */
-  softDeleteRetentionInDays?: number;
+  softDeleteRetentionInDays?: number | undefined;
   /** The duration in seconds to retain new key value revisions. Defaults to 604800 (7 days) for Free SKU stores and 2592000 (30 days) for Standard SKU stores and Premium SKU stores. */
-  defaultKeyValueRevisionRetentionPeriodInSeconds?: number;
+  defaultKeyValueRevisionRetentionPeriodInSeconds?: number | undefined;
   /** Property specifying whether protection against purge is enabled for this configuration store. */
-  enablePurgeProtection?: boolean;
+  enablePurgeProtection?: boolean | undefined;
   /** Property specifying the configuration of data plane proxy for Azure Resource Manager (ARM). */
-  dataPlaneProxy?: DataPlaneProxyProperties;
+  dataPlaneProxy?: DataPlaneProxyProperties | undefined;
   /** Indicates whether the configuration store need to be recovered. */
-  createMode?: ConfigurationStorePropertiesInputCreateMode | (string & {});
+  createMode?: ConfigurationStorePropertiesInputCreateMode | (string & {}) | undefined;
 }
 /** Describes a configuration store SKU. */
 export interface Sku {
@@ -133,13 +136,13 @@ export interface CreateConfigurationStoreRequest {
   /** The name of the configuration store. */
   configStoreName: string;
   /** Resource tags. */
-  tags?: CreateConfigurationStoreRequestTagsMap;
+  tags?: CreateConfigurationStoreRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The managed identity information, if configured. */
-  identity?: ResourceIdentityInput;
+  identity?: ResourceIdentityInput | undefined;
   /** The properties of a configuration store. */
-  properties?: ConfigurationStorePropertiesInput;
+  properties?: ConfigurationStorePropertiesInput | undefined;
   /** The sku of the configuration store. */
   sku: Sku;
 }
@@ -154,22 +157,22 @@ export type ResourceIdentityType =
 /** A resource identity that is managed by the user of the service. */
 export interface UserIdentity {
   /** The principal ID of the user-assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the user-assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The list of user-assigned identities associated with the resource. The user-assigned identity dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type ResourceIdentityUserAssignedIdentitiesMap = { [key: string]: UserIdentity | undefined };
 /** An identity that can be associated with a resource. */
 export interface ResourceIdentity {
   /** The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identities. */
-  type?: ResourceIdentityType;
+  type?: ResourceIdentityType | undefined;
   /** The list of user-assigned identities associated with the resource. The user-assigned identity dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: ResourceIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ResourceIdentityUserAssignedIdentitiesMap | undefined;
   /** The principal id of the identity. This property will only be provided for a system-assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant id associated with the resource's identity. This property will only be provided for a system-assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** The provisioning state of the configuration store. */
 export type ConfigurationStorePropertiesProvisioningState =
@@ -190,7 +193,7 @@ export type PrivateEndpointConnectionPropertiesProvisioningState =
 /** Private endpoint which a connection belongs to. */
 export interface PrivateEndpoint {
   /** The resource Id for private endpoint */
-  id?: string;
+  id?: string | undefined;
 }
 /** The private link service connection status. */
 export type PrivateLinkServiceConnectionStateStatus =
@@ -203,31 +206,31 @@ export type PrivateLinkServiceConnectionStateActionsRequired = "None" | "Recreat
 /** The state of a private link service connection. */
 export interface PrivateLinkServiceConnectionState {
   /** The private link service connection status. */
-  status?: PrivateLinkServiceConnectionStateStatus;
+  status?: PrivateLinkServiceConnectionStateStatus | undefined;
   /** The private link service connection description. */
-  description?: string;
+  description?: string | undefined;
   /** Any action that is required beyond basic workflow (approve/ reject/ disconnect) */
-  actionsRequired?: PrivateLinkServiceConnectionStateActionsRequired;
+  actionsRequired?: PrivateLinkServiceConnectionStateActionsRequired | undefined;
 }
 /** Properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** The provisioning status of the private endpoint connection. */
-  provisioningState?: PrivateEndpointConnectionPropertiesProvisioningState;
+  provisioningState?: PrivateEndpointConnectionPropertiesProvisioningState | undefined;
   /** The resource of private endpoint. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
 /** A reference to a related private endpoint connection. */
 export interface PrivateEndpointConnectionReference {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of a private endpoint connection. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** The list of private endpoint connections that are set up for this resource. */
 export type ConfigurationStorePropertiesPrivateEndpointConnectionsList =
@@ -239,29 +242,31 @@ export type ConfigurationStorePropertiesCreateMode = "Recover" | "Default";
 /** The properties of a configuration store. */
 export interface ConfigurationStoreProperties {
   /** The provisioning state of the configuration store. */
-  provisioningState?: ConfigurationStorePropertiesProvisioningState;
+  provisioningState?: ConfigurationStorePropertiesProvisioningState | undefined;
   /** The creation date of configuration store. */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** The DNS endpoint where the configuration store API will be available. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** The encryption settings of the configuration store. */
-  encryption?: EncryptionProperties;
+  encryption?: EncryptionProperties | undefined;
   /** The list of private endpoint connections that are set up for this resource. */
-  privateEndpointConnections?: ConfigurationStorePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | ConfigurationStorePropertiesPrivateEndpointConnectionsList
+    | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
-  publicNetworkAccess?: ConfigurationStorePropertiesPublicNetworkAccess;
+  publicNetworkAccess?: ConfigurationStorePropertiesPublicNetworkAccess | undefined;
   /** Disables all authentication methods other than AAD authentication. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** The amount of time in days that the configuration store will be retained when it is soft deleted. */
-  softDeleteRetentionInDays?: number;
+  softDeleteRetentionInDays?: number | undefined;
   /** The duration in seconds to retain new key value revisions. Defaults to 604800 (7 days) for Free SKU stores and 2592000 (30 days) for Standard SKU stores and Premium SKU stores. */
-  defaultKeyValueRevisionRetentionPeriodInSeconds?: number;
+  defaultKeyValueRevisionRetentionPeriodInSeconds?: number | undefined;
   /** Property specifying whether protection against purge is enabled for this configuration store. */
-  enablePurgeProtection?: boolean;
+  enablePurgeProtection?: boolean | undefined;
   /** Property specifying the configuration of data plane proxy for Azure Resource Manager (ARM). */
-  dataPlaneProxy?: DataPlaneProxyProperties;
+  dataPlaneProxy?: DataPlaneProxyProperties | undefined;
   /** Indicates whether the configuration store need to be recovered. */
-  createMode?: ConfigurationStorePropertiesCreateMode;
+  createMode?: ConfigurationStorePropertiesCreateMode | undefined;
 }
 /** The type of identity that created the resource. */
 export type CreateConfigurationStoreResponseSystemDataCreatedByType =
@@ -278,37 +283,37 @@ export type CreateConfigurationStoreResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface CreateConfigurationStoreResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: CreateConfigurationStoreResponseSystemDataCreatedByType;
+  createdByType?: CreateConfigurationStoreResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreateConfigurationStoreResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: CreateConfigurationStoreResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface CreateConfigurationStoreResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: CreateConfigurationStoreResponseTagsMap;
+  tags?: CreateConfigurationStoreResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The managed identity information, if configured. */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
   /** The properties of a configuration store. */
-  properties?: ConfigurationStoreProperties;
+  properties?: ConfigurationStoreProperties | undefined;
   /** The sku of the configuration store. */
   sku: Sku;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: CreateConfigurationStoreResponseSystemData;
+  systemData?: CreateConfigurationStoreResponseSystemData | undefined;
 }
 export interface CreateReplicasRequest {
   /** The Microsoft Azure subscription ID. */
@@ -320,7 +325,7 @@ export interface CreateReplicasRequest {
   /** The name of the replica. */
   replicaName: string;
   /** The location of the replica. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type ReplicaSystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -333,17 +338,17 @@ export type ReplicaSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ReplicaSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ReplicaSystemDataCreatedByType;
+  createdByType?: ReplicaSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ReplicaSystemDataLastModifiedByType;
+  lastModifiedByType?: ReplicaSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The provisioning state of the replica. */
 export type ReplicaPropertiesProvisioningState =
@@ -355,31 +360,31 @@ export type ReplicaPropertiesProvisioningState =
 /** All replica properties. */
 export interface ReplicaProperties {
   /** The URI of the replica where the replica API will be available. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** The provisioning state of the replica. */
-  provisioningState?: ReplicaPropertiesProvisioningState;
+  provisioningState?: ReplicaPropertiesProvisioningState | undefined;
 }
 /** The replica resource. */
 export interface Replica {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the replica. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The location of the replica. */
-  location?: string;
+  location?: string | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ReplicaSystemData;
+  systemData?: ReplicaSystemData | undefined;
   /** All replica properties. */
-  properties?: ReplicaProperties;
+  properties?: ReplicaProperties | undefined;
 }
 /** Enables filtering of key-values. */
 export interface KeyValueFilter {
   /** Filters key-values by their key field. */
   key: string;
   /** Filters key-values by their label field. */
-  label?: string;
+  label?: string | undefined;
 }
 /** A list of filters used to filter the key-values included in the snapshot. */
 export type SnapshotPropertiesInputFiltersList = Array<KeyValueFilter>;
@@ -392,11 +397,11 @@ export interface SnapshotPropertiesInput {
   /** A list of filters used to filter the key-values included in the snapshot. */
   filters: SnapshotPropertiesInputFiltersList;
   /** The composition type describes how the key-values within the snapshot are composed. The 'key' composition type ensures there are no two key-values containing the same key. The 'key_label' composition type ensures there are no two key-values containing the same key and label. */
-  compositionType?: SnapshotPropertiesInputCompositionType | (string & {});
+  compositionType?: SnapshotPropertiesInputCompositionType | (string & {}) | undefined;
   /** The amount of time, in seconds, that a snapshot will remain in the archived state before expiring. This property is only writable during the creation of a snapshot. If not specified, the default lifetime of key-value revisions will be used. */
-  retentionPeriod?: number;
+  retentionPeriod?: number | undefined;
   /** The tags of the snapshot. NOTE: These are data plane tags, not Azure Resource Manager (ARM) tags. */
-  tags?: SnapshotPropertiesInputTagsMap;
+  tags?: SnapshotPropertiesInputTagsMap | undefined;
 }
 export interface CreateSnapshotRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -408,7 +413,7 @@ export interface CreateSnapshotRequest {
   /** The name of the snapshot. */
   snapshotName: string;
   /** All snapshot properties. */
-  properties?: SnapshotPropertiesInput;
+  properties?: SnapshotPropertiesInput | undefined;
 }
 /** The provisioning state of the snapshot. */
 export type SnapshotPropertiesProvisioningState =
@@ -429,38 +434,38 @@ export type SnapshotPropertiesTagsMap = { [key: string]: string | undefined };
 /** All snapshot properties. */
 export interface SnapshotProperties {
   /** The provisioning state of the snapshot. */
-  provisioningState?: SnapshotPropertiesProvisioningState;
+  provisioningState?: SnapshotPropertiesProvisioningState | undefined;
   /** The current status of the snapshot. */
-  status?: SnapshotPropertiesStatus;
+  status?: SnapshotPropertiesStatus | undefined;
   /** A list of filters used to filter the key-values included in the snapshot. */
   filters: SnapshotPropertiesFiltersList;
   /** The composition type describes how the key-values within the snapshot are composed. The 'key' composition type ensures there are no two key-values containing the same key. The 'key_label' composition type ensures there are no two key-values containing the same key and label. */
-  compositionType?: SnapshotPropertiesCompositionType;
+  compositionType?: SnapshotPropertiesCompositionType | undefined;
   /** The time that the snapshot was created. */
-  created?: string;
+  created?: string | undefined;
   /** The time that the snapshot will expire. */
-  expires?: string;
+  expires?: string | undefined;
   /** The amount of time, in seconds, that a snapshot will remain in the archived state before expiring. This property is only writable during the creation of a snapshot. If not specified, the default lifetime of key-value revisions will be used. */
-  retentionPeriod?: number;
+  retentionPeriod?: number | undefined;
   /** The size in bytes of the snapshot. */
-  size?: number;
+  size?: number | undefined;
   /** The amount of key-values in the snapshot. */
-  itemsCount?: number;
+  itemsCount?: number | undefined;
   /** The tags of the snapshot. NOTE: These are data plane tags, not Azure Resource Manager (ARM) tags. */
-  tags?: SnapshotPropertiesTagsMap;
+  tags?: SnapshotPropertiesTagsMap | undefined;
   /** A value representing the current state of the snapshot. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The snapshot resource. */
 export interface Snapshot {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the snapshot. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** All snapshot properties. */
-  properties?: SnapshotProperties;
+  properties?: SnapshotProperties | undefined;
 }
 export interface DeleteConfigurationStoreRequest {
   /** The Microsoft Azure subscription ID. */
@@ -472,11 +477,11 @@ export interface DeleteConfigurationStoreRequest {
 }
 export interface DeleteConfigurationStoreResponse {
   /** URL to query for status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** URL to query for the operation result */
-  location?: string;
+  location?: string | undefined;
   /** Indicates how long the client should wait before polling the URL in the Location or Azure-AsyncOperation header. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteKeyValueRequest {
   /** The Microsoft Azure subscription ID. */
@@ -512,7 +517,7 @@ export interface DeleteReplicasRequest {
 }
 export interface DeleteReplicasResponse {
   /** URL to query for status of the operation. */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface GetConfigurationStoreRequest {
   /** The Microsoft Azure subscription ID. */
@@ -539,37 +544,37 @@ export type GetConfigurationStoreResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetConfigurationStoreResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetConfigurationStoreResponseSystemDataCreatedByType;
+  createdByType?: GetConfigurationStoreResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetConfigurationStoreResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetConfigurationStoreResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetConfigurationStoreResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetConfigurationStoreResponseTagsMap;
+  tags?: GetConfigurationStoreResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The managed identity information, if configured. */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
   /** The properties of a configuration store. */
-  properties?: ConfigurationStoreProperties;
+  properties?: ConfigurationStoreProperties | undefined;
   /** The sku of the configuration store. */
   sku: Sku;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetConfigurationStoreResponseSystemData;
+  systemData?: GetConfigurationStoreResponseSystemData | undefined;
 }
 export interface GetConfigurationStoreDeletedRequest {
   /** The Microsoft Azure subscription ID. */
@@ -584,28 +589,28 @@ export type DeletedConfigurationStorePropertiesTagsMap = { [key: string]: string
 /** Properties of the deleted configuration store. */
 export interface DeletedConfigurationStoreProperties {
   /** The resource id of the original configuration store. */
-  configurationStoreId?: string;
+  configurationStoreId?: string | undefined;
   /** The location of the original configuration store. */
-  location?: string;
+  location?: string | undefined;
   /** The deleted date. */
-  deletionDate?: string;
+  deletionDate?: string | undefined;
   /** The scheduled purged date. */
-  scheduledPurgeDate?: string;
+  scheduledPurgeDate?: string | undefined;
   /** Tags of the original configuration store. */
-  tags?: DeletedConfigurationStorePropertiesTagsMap;
+  tags?: DeletedConfigurationStorePropertiesTagsMap | undefined;
   /** Purge protection status of the original configuration store. */
-  purgeProtectionEnabled?: boolean;
+  purgeProtectionEnabled?: boolean | undefined;
 }
 /** Deleted configuration store information with extended details. */
 export interface DeletedConfigurationStore {
   /** The resource ID for the deleted configuration store. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the configuration store. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type of the configuration store. */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the deleted configuration store */
-  properties?: DeletedConfigurationStoreProperties;
+  properties?: DeletedConfigurationStoreProperties | undefined;
 }
 export interface GetKeyValueRequest {
   /** The Microsoft Azure subscription ID. */
@@ -622,32 +627,32 @@ export type KeyValuePropertiesTagsMap = { [key: string]: string | undefined };
 /** All key-value properties. */
 export interface KeyValueProperties {
   /** The primary identifier of a key-value. The key is used in unison with the label to uniquely identify a key-value. */
-  key?: string;
+  key?: string | undefined;
   /** A value used to group key-values. The label is used in unison with the key to uniquely identify a key-value. */
-  label?: string;
+  label?: string | undefined;
   /** The value of the key-value. */
-  value?: string;
+  value?: string | undefined;
   /** The content type of the key-value's value. Providing a proper content-type can enable transformations of values when they are retrieved by applications. */
-  contentType?: string;
+  contentType?: string | undefined;
   /** An ETag indicating the state of a key-value within a configuration store. */
-  eTag?: string;
+  eTag?: string | undefined;
   /** The last time a modifying operation was performed on the given key-value. */
-  lastModified?: string;
+  lastModified?: string | undefined;
   /** A value indicating whether the key-value is locked. A locked key-value may not be modified until it is unlocked. */
-  locked?: boolean;
+  locked?: boolean | undefined;
   /** A dictionary of tags that can help identify what a key-value may be applicable for. */
-  tags?: KeyValuePropertiesTagsMap;
+  tags?: KeyValuePropertiesTagsMap | undefined;
 }
 /** The key-value resource along with all resource properties. */
 export interface KeyValue {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** All key-value properties. */
-  properties?: KeyValueProperties;
+  properties?: KeyValueProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The Microsoft Azure subscription ID. */
@@ -662,13 +667,13 @@ export interface GetPrivateEndpointConnectionRequest {
 /** A private endpoint connection */
 export interface PrivateEndpointConnection {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** The properties of a private endpoint. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateLinkResourceRequest {
   /** The Microsoft Azure subscription ID. */
@@ -687,22 +692,22 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The list of required DNS zone names of the private link resource. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** A resource that supports private link capabilities. */
 export interface PrivateLinkResource {
   /** The resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Private link resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 export interface GetReplicasRequest {
   /** The Microsoft Azure subscription ID. */
@@ -729,11 +734,11 @@ export type KeyValuePropertiesInputTagsMap = { [key: string]: string | undefined
 /** All key-value properties. */
 export interface KeyValuePropertiesInput {
   /** The value of the key-value. */
-  value?: string;
+  value?: string | undefined;
   /** The content type of the key-value's value. Providing a proper content-type can enable transformations of values when they are retrieved by applications. */
-  contentType?: string;
+  contentType?: string | undefined;
   /** A dictionary of tags that can help identify what a key-value may be applicable for. */
-  tags?: KeyValuePropertiesInputTagsMap;
+  tags?: KeyValuePropertiesInputTagsMap | undefined;
 }
 export interface KeyValuesCreateOrUpdateRequest {
   /** The Microsoft Azure subscription ID. */
@@ -745,7 +750,7 @@ export interface KeyValuesCreateOrUpdateRequest {
   /** Identifier of key and label combination. Key and label are joined by $ character. Label is optional. */
   keyValueName: string;
   /** All key-value properties. */
-  properties?: KeyValuePropertiesInput;
+  properties?: KeyValuePropertiesInput | undefined;
 }
 export interface ListConfigurationStoreByResourceGroupRequest {
   /** The Microsoft Azure subscription ID. */
@@ -753,7 +758,7 @@ export interface ListConfigurationStoreByResourceGroupRequest {
   /** The name of the resource group to which the container registry belongs. */
   resourceGroupName: string;
   /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Resource tags. */
 export type ConfigurationStoreTagsMap = { [key: string]: string | undefined };
@@ -772,47 +777,47 @@ export type ConfigurationStoreSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface ConfigurationStoreSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: ConfigurationStoreSystemDataCreatedByType;
+  createdByType?: ConfigurationStoreSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: ConfigurationStoreSystemDataLastModifiedByType;
+  lastModifiedByType?: ConfigurationStoreSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The configuration store along with all resource properties. The Configuration Store will have all information to begin utilizing it. */
 export interface ConfigurationStore {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: ConfigurationStoreTagsMap;
+  tags?: ConfigurationStoreTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The managed identity information, if configured. */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
   /** The properties of a configuration store. */
-  properties?: ConfigurationStoreProperties;
+  properties?: ConfigurationStoreProperties | undefined;
   /** The sku of the configuration store. */
   sku: Sku;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: ConfigurationStoreSystemData;
+  systemData?: ConfigurationStoreSystemData | undefined;
 }
 /** The collection value. */
 export type ConfigurationStoreListResultValueList = Array<ConfigurationStore>;
 /** The result of a request to list configuration stores. */
 export interface ConfigurationStoreListResult {
   /** The collection value. */
-  value?: ConfigurationStoreListResultValueList;
+  value?: ConfigurationStoreListResultValueList | undefined;
   /** The URI that can be used to request the next set of paged results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConfigurationStoreDeletedRequest {
   /** The Microsoft Azure subscription ID. */
@@ -823,9 +828,9 @@ export type DeletedConfigurationStoreListResultValueList = Array<DeletedConfigur
 /** List of deleted configuration stores */
 export interface DeletedConfigurationStoreListResult {
   /** The list of deleted configuration store. */
-  value?: DeletedConfigurationStoreListResultValueList;
+  value?: DeletedConfigurationStoreListResultValueList | undefined;
   /** The URL to get the next set of deleted configuration stores. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConfigurationStoreKeysRequest {
   /** The Microsoft Azure subscription ID. */
@@ -835,129 +840,129 @@ export interface ListConfigurationStoreKeysRequest {
   /** The name of the configuration store. */
   configStoreName: string;
   /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** An API key used for authenticating with a configuration store endpoint. */
 export interface ApiKey {
   /** The key ID. */
-  id?: string;
+  id?: string | undefined;
   /** A name for the key describing its usage. */
-  name?: string;
+  name?: string | undefined;
   /** The value of the key that is used for authentication purposes. */
-  value?: string;
+  value?: string | undefined;
   /** A connection string that can be used by supporting clients for authentication. */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
   /** The last time any of the key's properties were modified. */
-  lastModified?: string;
+  lastModified?: string | undefined;
   /** Whether this key can only be used for read operations. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
 }
 /** The collection value. */
 export type ApiKeyListResultValueList = Array<ApiKey>;
 /** The result of a request to list API keys. */
 export interface ApiKeyListResult {
   /** The collection value. */
-  value?: ApiKeyListResultValueList;
+  value?: ApiKeyListResultValueList | undefined;
   /** The URI that can be used to request the next set of paged results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListConfigurationStoresRequest {
   /** The Microsoft Azure subscription ID. */
   subscriptionId: string;
   /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListOperationsRequest {
   /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** The display information for a configuration store operation. */
 export interface OperationDefinitionDisplay {
   /** The resource provider name: Microsoft App Configuration." */
-  provider?: string;
+  provider?: string | undefined;
   /** The resource on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** The operation that users can perform. */
-  operation?: string;
+  operation?: string | undefined;
   /** The description for the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Specifications of the Log for Azure Monitoring */
 export interface LogSpecification {
   /** Name of the log */
-  name?: string;
+  name?: string | undefined;
   /** Localized friendly display name of the log */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Blob duration of the log */
-  blobDuration?: string;
+  blobDuration?: string | undefined;
 }
 /** Specifications of the Log for Azure Monitoring */
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
 /** Specifications of the Dimension of metrics */
 export interface MetricDimension {
   /** Name of the dimension */
-  name?: string;
+  name?: string | undefined;
   /** Localized friendly display name of the dimension */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Internal name of the dimension. */
-  internalName?: string;
+  internalName?: string | undefined;
 }
 /** Dimensions of the metric */
 export type MetricSpecificationDimensionsList = Array<MetricDimension>;
 /** Specifications of the Metrics for Azure Monitoring */
 export interface MetricSpecification {
   /** Name of the metric */
-  name?: string;
+  name?: string | undefined;
   /** Localized friendly display name of the metric */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Localized friendly description of the metric */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** Unit that makes sense for the metric */
-  unit?: string;
+  unit?: string | undefined;
   /** Only provide one value for this field. Valid values: Average, Minimum, Maximum, Total, Count. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Internal metric name. */
-  internalMetricName?: string;
+  internalMetricName?: string | undefined;
   /** Dimensions of the metric */
-  dimensions?: MetricSpecificationDimensionsList;
+  dimensions?: MetricSpecificationDimensionsList | undefined;
   /** Optional. If set to true, then zero will be returned for time duration where no metric is emitted/published. */
-  fillGapWithZero?: boolean;
+  fillGapWithZero?: boolean | undefined;
 }
 /** Specifications of the Metrics for Azure Monitoring */
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
 /** Service specification payload */
 export interface ServiceSpecification {
   /** Specifications of the Log for Azure Monitoring */
-  logSpecifications?: ServiceSpecificationLogSpecificationsList;
+  logSpecifications?: ServiceSpecificationLogSpecificationsList | undefined;
   /** Specifications of the Metrics for Azure Monitoring */
-  metricSpecifications?: ServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: ServiceSpecificationMetricSpecificationsList | undefined;
 }
 /** Extra Operation properties */
 export interface OperationProperties {
   /** Service specifications of the operation */
-  serviceSpecification?: ServiceSpecification;
+  serviceSpecification?: ServiceSpecification | undefined;
 }
 /** The definition of a configuration store operation. */
 export interface OperationDefinition {
   /** Operation name: {provider}/{resource}/{operation}. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** The display information for the configuration store operation. */
-  display?: OperationDefinitionDisplay;
+  display?: OperationDefinitionDisplay | undefined;
   /** Origin of the operation */
-  origin?: string;
+  origin?: string | undefined;
   /** Properties of the operation */
-  properties?: OperationProperties;
+  properties?: OperationProperties | undefined;
 }
 /** The collection value. */
 export type OperationDefinitionListResultValueList = Array<OperationDefinition>;
 /** The result of a request to list configuration store operations. */
 export interface OperationDefinitionListResult {
   /** The collection value. */
-  value?: OperationDefinitionListResultValueList;
+  value?: OperationDefinitionListResultValueList | undefined;
   /** The URI that can be used to request the next set of paged results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionByConfigurationStoreRequest {
   /** The Microsoft Azure subscription ID. */
@@ -972,9 +977,9 @@ export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpoint
 /** A list of private endpoint connections */
 export interface PrivateEndpointConnectionListResult {
   /** The collection value. */
-  value?: PrivateEndpointConnectionListResultValueList;
+  value?: PrivateEndpointConnectionListResultValueList | undefined;
   /** The URI that can be used to request the next set of paged results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceByConfigurationStoreRequest {
   /** The Microsoft Azure subscription ID. */
@@ -989,9 +994,9 @@ export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
 /** A list of private link resources. */
 export interface PrivateLinkResourceListResult {
   /** The collection value. */
-  value?: PrivateLinkResourceListResultValueList;
+  value?: PrivateLinkResourceListResultValueList | undefined;
   /** The URI that can be used to request the next set of paged results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListReplicasByConfigurationStoreRequest {
   /** The Microsoft Azure subscription ID. */
@@ -1001,16 +1006,16 @@ export interface ListReplicasByConfigurationStoreRequest {
   /** The name of the configuration store. */
   configStoreName: string;
   /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** The collection value. */
 export type ReplicaListResultValueList = Array<Replica>;
 /** The result of a request to list replicas. */
 export interface ReplicaListResult {
   /** The collection value. */
-  value?: ReplicaListResultValueList;
+  value?: ReplicaListResultValueList | undefined;
   /** The URI that can be used to request the next set of paged results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The resource type to check for name availability. */
 export type OperationsRegionalCheckNameAvailabilityRequestType =
@@ -1034,14 +1039,14 @@ export type PrivateLinkServiceConnectionStateInputStatus =
 /** The state of a private link service connection. */
 export interface PrivateLinkServiceConnectionStateInput {
   /** The private link service connection status. */
-  status?: PrivateLinkServiceConnectionStateInputStatus | (string & {});
+  status?: PrivateLinkServiceConnectionStateInputStatus | (string & {}) | undefined;
   /** The private link service connection description. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Properties of a private endpoint connection. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The resource of private endpoint. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionStateInput;
 }
@@ -1055,7 +1060,7 @@ export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** Private endpoint connection name */
   privateEndpointConnectionName: string;
   /** The properties of a private endpoint. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface PurgeConfigurationStoreDeletedRequest {
   /** The Microsoft Azure subscription ID. */
@@ -1074,7 +1079,7 @@ export interface RegenerateConfigurationStoreKeyRequest {
   /** The name of the configuration store. */
   configStoreName: string;
   /** The id of the key to regenerate. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
 export type ConfigurationStorePropertiesUpdateParametersPublicNetworkAccess =
@@ -1083,19 +1088,20 @@ export type ConfigurationStorePropertiesUpdateParametersPublicNetworkAccess =
 /** The properties for updating a configuration store. */
 export interface ConfigurationStorePropertiesUpdateParameters {
   /** The encryption settings of the configuration store. */
-  encryption?: EncryptionProperties;
+  encryption?: EncryptionProperties | undefined;
   /** Disables all authentication methods other than AAD authentication. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** Control permission for data plane traffic coming from public networks while private endpoint is enabled. */
   publicNetworkAccess?:
     | ConfigurationStorePropertiesUpdateParametersPublicNetworkAccess
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Property specifying whether protection against purge is enabled for this configuration store. */
-  enablePurgeProtection?: boolean;
+  enablePurgeProtection?: boolean | undefined;
   /** Property specifying the configuration of data plane proxy for Azure Resource Manager (ARM). */
-  dataPlaneProxy?: DataPlaneProxyProperties;
+  dataPlaneProxy?: DataPlaneProxyProperties | undefined;
   /** The duration in seconds to retain new key value revisions. Defaults to 604800 (7 days) for Free SKU stores and 2592000 (30 days) for Standard SKU stores and Premium SKU stores. */
-  defaultKeyValueRevisionRetentionPeriodInSeconds?: number;
+  defaultKeyValueRevisionRetentionPeriodInSeconds?: number | undefined;
 }
 /** The ARM resource tags. */
 export type UpdateConfigurationStoreRequestTagsMap = { [key: string]: string | undefined };
@@ -1107,13 +1113,13 @@ export interface UpdateConfigurationStoreRequest {
   /** The name of the configuration store. */
   configStoreName: string;
   /** The properties for updating a configuration store. */
-  properties?: ConfigurationStorePropertiesUpdateParameters;
+  properties?: ConfigurationStorePropertiesUpdateParameters | undefined;
   /** The managed identity information for the configuration store. */
-  identity?: ResourceIdentityInput;
+  identity?: ResourceIdentityInput | undefined;
   /** The SKU of the configuration store. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** The ARM resource tags. */
-  tags?: UpdateConfigurationStoreRequestTagsMap;
+  tags?: UpdateConfigurationStoreRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateConfigurationStoreResponseTagsMap = { [key: string]: string | undefined };
@@ -1132,37 +1138,37 @@ export type UpdateConfigurationStoreResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface UpdateConfigurationStoreResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: UpdateConfigurationStoreResponseSystemDataCreatedByType;
+  createdByType?: UpdateConfigurationStoreResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: UpdateConfigurationStoreResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: UpdateConfigurationStoreResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface UpdateConfigurationStoreResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateConfigurationStoreResponseTagsMap;
+  tags?: UpdateConfigurationStoreResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The managed identity information, if configured. */
-  identity?: ResourceIdentity;
+  identity?: ResourceIdentity | undefined;
   /** The properties of a configuration store. */
-  properties?: ConfigurationStoreProperties;
+  properties?: ConfigurationStoreProperties | undefined;
   /** The sku of the configuration store. */
   sku: Sku;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: UpdateConfigurationStoreResponseSystemData;
+  systemData?: UpdateConfigurationStoreResponseSystemData | undefined;
 }
 export type CheckOperationNameAvailabilityError = AzureOpError;
 /** Checks whether the configuration store name is available for use. */

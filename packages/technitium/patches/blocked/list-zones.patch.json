@@ -1,0 +1,199 @@
+{
+  "description": "The blocked zone list in APIDOCS.md shows its records in an older format, with ttl as text and the name server of NS records as value. ListBlockedZones in DnsServerCore/WebServiceOtherZonesApi.cs (v15.5.0) writes them with WriteRecordsAsJson as zone records: ttl as a number, with ttlString, disabled, dnssecStatus, lastUsedOn, lastModified, expiryTtl and expiryTtlString, plus nameIdn for internationalized names. BlockedZoneManager creates each blocked zone with one SOA and one NS record (CreateSpecialPrimaryZone in DnsServerCore/Dns/ZoneManagers), so rData has the members of these two types; the SOA record has no useSerialDateScheme, which needs the zone's details. zones lists the names of subzones as text, domainIdn is written for an internationalized domain, and domain, zones and records are always written. Confirmed with strict response validation against a Technitium 15.5.0 container on 2026-11-01.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponseZones/member/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponse/members/domainIdn",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponse/members/domain/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponse/members/zones/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponse/members/records/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponseRecordsItem/members/ttl",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponseRecordsItem/members/name/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponseRecordsItem/members/type/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponseRecordsItem/members/rData/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponseRecordsItem/members/ttlString",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponseRecordsItem/members/disabled",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponseRecordsItem/members/dnssecStatus",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponseRecordsItem/members/lastUsedOn",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponseRecordsItem/members/lastModified",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponseRecordsItem/members/expiryTtl",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponseRecordsItem/members/expiryTtlString",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponseRecordsItem/members/nameIdn",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponseRecordsItemRData/members/value"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponseRecordsItemRData/members/nameServer",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponseRecordsItemRData/members/nameServerIdn",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponseRecordsItemRData/members/primaryNameServerIdn",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponseRecordsItemRData/members/refreshString",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponseRecordsItemRData/members/retryString",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponseRecordsItemRData/members/expireString",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.blocked#ListBlockedZonesResponseRecordsItemRData/members/minimumString",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    }
+  ]
+}

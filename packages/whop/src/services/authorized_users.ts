@@ -30,53 +30,81 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 /** Re-authentication proof required to perform this sensitive action. */
 export interface CreateAuthorizedUserRequestElevation {
   /** The WebAuthn authenticator data (base64). */
-  authenticator_data?: string | null;
+  authenticator_data?: string | null | undefined;
   /** The WebAuthn client data JSON (base64). */
-  client_data_json?: string | null;
+  client_data_json?: string | null | undefined;
   /** The WebAuthn credential ID (base64). */
-  credential_id?: string | null;
+  credential_id?: string | null | undefined;
   /** The 6-digit code emailed to the user. */
-  email_code?: string | null;
+  email_code?: string | null | undefined;
   /** The WebAuthn signature (base64). */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** The 6-digit code from the authenticator app or SMS. */
-  totp_code?: string | null;
+  totp_code?: string | null | undefined;
   /** Reuse an existing elevated session (for SMS/email 2FA users). */
-  use_finance_session?: boolean | null;
+  use_finance_session?: boolean | null | undefined;
 }
 /** System roles accepted by legacy authorized-user mutations */
 export type GrantableAuthorizedUserRoles =
@@ -90,11 +118,11 @@ export interface CreateAuthorizedUserRequest {
   /** The ID of the company to add the authorized user to. */
   account_id: string;
   /** Re-authentication proof required to perform this sensitive action. */
-  elevation?: CreateAuthorizedUserRequestElevation | null;
+  elevation?: CreateAuthorizedUserRequestElevation | null | undefined;
   /** The role to assign to the authorized user within the company. Supported roles: 'moderator', 'sales_manager'. */
   role: GrantableAuthorizedUserRoles | (string & {});
   /** Whether to send notification emails to the user on creation. */
-  send_emails?: boolean | null;
+  send_emails?: boolean | null | undefined;
   /** The ID of the user to add as an authorized user. */
   user_id: string;
 }
@@ -143,7 +171,7 @@ export interface AuthorizedUser {
 export interface DeleteAuthorizedUserRequest {
   /** The ID of the authorized user or user to remove. */
   id: string;
-  account_id?: string;
+  account_id?: string | undefined;
 }
 export type DeleteAuthorizedUserResponse = boolean;
 export interface GetAuthorizedUserRequest {
@@ -151,15 +179,15 @@ export interface GetAuthorizedUserRequest {
   id: string;
 }
 export interface ListAuthorizedUserRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
-  user_id?: string;
-  role?: AuthorizedUserRoles | (string & {});
-  created_before?: string;
-  created_after?: string;
-  account_id?: string;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
+  user_id?: string | undefined;
+  role?: AuthorizedUserRoles | (string & {}) | undefined;
+  created_before?: string | undefined;
+  created_after?: string | undefined;
+  account_id?: string | undefined;
 }
 /** The company this authorized user has access to. */
 export type AuthorizedUserListItemCompany = AuthorizedUserCompany;
@@ -195,6 +223,17 @@ export interface ListAuthorizedUserResponse {
   /** Information to aid in pagination. */
   page_info: PageInfo;
 }
+export interface Error400BodyError {
+  /** A short string indicating the specific error code, e.g. 'parameter_missing', 'parameter_invalid', 'invalid_json' */
+  code?: string | null | undefined;
+  message: string;
+  /** The parameter that caused the error, if applicable */
+  param?: string | null | undefined;
+  type: string;
+}
+export interface Error400Body {
+  error: Error400BodyError;
+}
 export type CreateAuthorizedUserError =
   | BadRequest
   | Forbidden
@@ -208,8 +247,8 @@ export const createAuthorizedUser: API.OperationMethod<
   CreateAuthorizedUserError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<CreateAuthorizedUserRequest>,
-  output: __S(6, __c1, 2) as any as S.Schema<AuthorizedUser>,
+  input: __S(5, __c1, 1) as any as S.Schema<CreateAuthorizedUserRequest>,
+  output: __S(10, __c2, 2) as any as S.Schema<AuthorizedUser>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -230,8 +269,8 @@ export const deleteAuthorizedUser: API.OperationMethod<
   DeleteAuthorizedUserError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<DeleteAuthorizedUserRequest>,
-  output: __S(9, __c2, 1) as any as S.Schema<DeleteAuthorizedUserResponse>,
+  input: __S(12, __c3, 0) as any as S.Schema<DeleteAuthorizedUserRequest>,
+  output: __S(13, __c3, 1) as any as S.Schema<DeleteAuthorizedUserResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -252,8 +291,8 @@ export const getAuthorizedUser: API.OperationMethod<
   GetAuthorizedUserError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<GetAuthorizedUserRequest>,
-  output: __S(6, __c1, 2) as any as S.Schema<AuthorizedUser>,
+  input: __S(16, __c4, 0) as any as S.Schema<GetAuthorizedUserRequest>,
+  output: __S(10, __c2, 2) as any as S.Schema<AuthorizedUser>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -276,8 +315,8 @@ export const listAuthorizedUser: API.PaginatedOperationMethod<
   AuthorizedUserListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(16, __c4, 0) as any as S.Schema<ListAuthorizedUserRequest>,
-    output: __S(19, __c4, 3) as any as S.Schema<ListAuthorizedUserResponse>,
+    input: __S(20, __c5, 0) as any as S.Schema<ListAuthorizedUserRequest>,
+    output: __S(23, __c5, 3) as any as S.Schema<ListAuthorizedUserResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -301,6 +340,25 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.NullOr(S.String)),
+          message: S.String,
+          param: S.optional(S.NullOr(S.String)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error400BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           authenticator_data: S.optional(S.NullOr(S.String)),
           client_data_json: S.optional(S.NullOr(S.String)),
           credential_id: S.optional(S.NullOr(S.String)),
@@ -314,7 +372,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           account_id: S.String,
-          elevation: S.optional(S.NullOr(__S(0, __c0, 0))),
+          elevation: S.optional(S.NullOr(__S(4, __c1, 0))),
           role: S.String,
           send_emails: S.optional(S.NullOr(S.Boolean)),
           user_id: S.String,
@@ -322,7 +380,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateAuthorizedUserRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -343,15 +401,15 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          company: __S(4, __c1, 0),
+          company: __S(8, __c2, 0),
           id: S.String,
           role: S.String,
-          user: __S(5, __c1, 1),
+          user: __S(9, __c2, 1),
         }),
       ).annotate({ identifier: "AuthorizedUser" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -366,7 +424,7 @@ function __c2(j: number): any {
       });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -376,7 +434,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetAuthorizedUserRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -393,7 +451,7 @@ function __c4(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/authorized_users", code: 200 })),
       ).annotate({ identifier: "ListAuthorizedUserRequest" });
     case 1:
-      return S.Array(__S(6, __c1, 2));
+      return S.Array(__S(10, __c2, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -406,8 +464,8 @@ function __c4(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(17, __c4, 1),
-          page_info: __S(18, __c4, 2),
+          data: __S(21, __c5, 1),
+          page_info: __S(22, __c5, 2),
         }),
       ).annotate({ identifier: "ListAuthorizedUserResponse" });
   }

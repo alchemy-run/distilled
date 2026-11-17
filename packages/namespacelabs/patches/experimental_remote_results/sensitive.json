@@ -1,0 +1,15 @@
+{
+  "description": "PrepareUploadResultResponse.finalize_token and FinalizeUploadResultRequest.finalize_token are the opaque `bytes` token that authorises FinalizeUploadResult (base64 on the Connect-JSON wire) but carry no sensitive mark. proto/namespace/experimental/remote/results.proto. Source: buf.build/namespace/cloud, fetched 2026-11-11.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.experimental.remote.results#PrepareUploadResultResponse/members/finalizeToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.experimental.remote.results#FinalizeUploadResultRequest/members/finalizeToken/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

@@ -1,0 +1,970 @@
+{
+  "description": "The cache list in APIDOCS.md shows one record whose rData has only value. ListCachedZones in DnsServerCore/WebServiceOtherZonesApi.cs (v15.5.0) writes cached records with WriteRecordsAsJson as records outside a zone: ttl as text with the time left, dnssecStatus and lastUsedOn always, nameIdn for internationalized names, and glueRecords, dnssecRecords, eDnsClientSubnet and responseMetadata when the cache holds them. NS records also get nameServerMetadata. The name server in responseMetadata is null when unknown. rData has the members WriteRecordAsJson writes for each record type outside a zone: the SOA intervals are text with their duration, the members only zone records have are left out, and flags and protocol are a string or a number depending on the record type, as in zones/record-data.patch.json. dataType and data hold negative answers, which the cache keeps too. zones lists the names of subzones as text, domainIdn is written for an internationalized domain, and domain, zones and records are always written. Confirmed with strict response validation against Technitium 15.5.0 containers on 2026-11-01: a second server holding a record of each type answered a conditional forwarder zone, and the cache was read after resolving each record and a name that does not exist.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseZones/member/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponse/members/domainIdn",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponse/members/domain/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponse/members/zones/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponse/members/records/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRDataFlags",
+      "value": {
+        "type": "union",
+        "members": {
+          "string": {
+            "target": "smithy.api#String"
+          },
+          "number": {
+            "target": "smithy.api#Double"
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRDataProtocol",
+      "value": {
+        "type": "union",
+        "members": {
+          "number": {
+            "target": "smithy.api#Double"
+          },
+          "string": {
+            "target": "smithy.api#String"
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRDataCharacterStrings",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRDataCharacterStringsBase64",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRDataTypes",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRDataAddressPrefixesItem",
+      "value": {
+        "type": "structure",
+        "members": {
+          "addressFamily": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "prefix": {
+            "target": "smithy.api#Double",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "negation": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "afdPart": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRDataAddressPrefixes",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "technitium.cache#ListCachedZonesResponseRecordsItemRDataAddressPrefixesItem"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRDataSvcParams",
+      "value": {
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemGlueRecords",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemDnssecRecords",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemNameServerMetadata",
+      "value": {
+        "type": "structure",
+        "members": {
+          "totalQueries": {
+            "target": "smithy.api#Double",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "answerRate": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "smoothedRoundTripTime": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "smoothedPenaltyRoundTripTime": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "netRoundTripTime": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "isMisconfigured": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemResponseMetadata",
+      "value": {
+        "type": "structure",
+        "members": {
+          "nameServer": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "technitium.api#nullable": {}
+            }
+          },
+          "protocol": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "datagramSize": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "roundTripTime": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItem/members/name/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItem/members/type/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItem/members/ttl/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItem/members/rData/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItem/members/nameIdn",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItem/members/dnssecStatus",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItem/members/glueRecords",
+      "value": {
+        "target": "technitium.cache#ListCachedZonesResponseRecordsItemGlueRecords"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItem/members/dnssecRecords",
+      "value": {
+        "target": "technitium.cache#ListCachedZonesResponseRecordsItemDnssecRecords"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItem/members/eDnsClientSubnet",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItem/members/nameServerMetadata",
+      "value": {
+        "target": "technitium.cache#ListCachedZonesResponseRecordsItemNameServerMetadata"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItem/members/responseMetadata",
+      "value": {
+        "target": "technitium.cache#ListCachedZonesResponseRecordsItemResponseMetadata"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItem/members/lastUsedOn",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/dataType",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/data",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/ipAddress",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/nameServer",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/nameServerIdn",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/cname",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/cnameIdn",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/primaryNameServer",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/primaryNameServerIdn",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/responsiblePerson",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/serial",
+      "value": {
+        "target": "smithy.api#Double"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/refresh",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/retry",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/expire",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/minimum",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/ptrName",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/ptrNameIdn",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/preference",
+      "value": {
+        "target": "smithy.api#Double"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/exchange",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/exchangeIdn",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/text",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/splitText",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/characterStrings",
+      "value": {
+        "target": "technitium.cache#ListCachedZonesResponseRecordsItemRDataCharacterStrings"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/characterStringsBase64",
+      "value": {
+        "target": "technitium.cache#ListCachedZonesResponseRecordsItemRDataCharacterStringsBase64"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/mailbox",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/txtDomain",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/txtDomainIdn",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/priority",
+      "value": {
+        "target": "smithy.api#Double"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/weight",
+      "value": {
+        "target": "smithy.api#Double"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/port",
+      "value": {
+        "target": "smithy.api#Double"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/target",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/targetIdn",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/order",
+      "value": {
+        "target": "smithy.api#Double"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/flags",
+      "value": {
+        "target": "technitium.cache#ListCachedZonesResponseRecordsItemRDataFlags"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/services",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/regexp",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/replacement",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/replacementIdn",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/dname",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/dnameIdn",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/addressPrefixes",
+      "value": {
+        "target": "technitium.cache#ListCachedZonesResponseRecordsItemRDataAddressPrefixes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/keyTag",
+      "value": {
+        "target": "smithy.api#Double"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/algorithm",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/algorithmNumber",
+      "value": {
+        "target": "smithy.api#Double"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/digestType",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/digestTypeNumber",
+      "value": {
+        "target": "smithy.api#Double"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/digest",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/fingerprintType",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/fingerprint",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/typeCovered",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/labels",
+      "value": {
+        "target": "smithy.api#Double"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/originalTtl",
+      "value": {
+        "target": "smithy.api#Double"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/signatureExpiration",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/signatureInception",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/signersName",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/signature",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/nextDomainName",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/types",
+      "value": {
+        "target": "technitium.cache#ListCachedZonesResponseRecordsItemRDataTypes"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/protocol",
+      "value": {
+        "target": "technitium.cache#ListCachedZonesResponseRecordsItemRDataProtocol"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/publicKey",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/computedKeyTag",
+      "value": {
+        "target": "smithy.api#Double"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/hashAlgorithm",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/iterations",
+      "value": {
+        "target": "smithy.api#Double"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/salt",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/nextHashedOwnerName",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/certificateUsage",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/selector",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/matchingType",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/certificateAssociationData",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/scheme",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/svcPriority",
+      "value": {
+        "target": "smithy.api#Double"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/svcTargetName",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/svcParams",
+      "value": {
+        "target": "technitium.cache#ListCachedZonesResponseRecordsItemRDataSvcParams"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/uri",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/tag",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/aname",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/anameIdn",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/forwarder",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/dnssecValidation",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/proxyType",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/proxyAddress",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/proxyPort",
+      "value": {
+        "target": "smithy.api#Double"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/proxyUsername",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/proxyPassword",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#sensitive": {},
+          "technitium.api#redactedOutput": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/appName",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/classPath",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/type",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/alias",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.cache#ListCachedZonesResponseRecordsItemRData/members/aliasIdn",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    }
+  ]
+}

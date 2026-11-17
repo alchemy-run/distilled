@@ -364,7 +364,7 @@ export class InternalServerError
       ErrorCode: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(500),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class InternalStreamFailure
   extends /*@__PURE__*/ S.TaggedError<InternalStreamFailure>()("InternalStreamFailure", {
     message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
@@ -394,35 +394,47 @@ export class ServiceUnavailableError
       ErrorCode: /*@__PURE__*/ S.optional(S.String),
     },
     /*@__PURE__*/ T.HttpError(503),
-  ).pipe(C.withServerError) {}
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export type SensitiveBlob = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface RequestPayloadPart {
-  Bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
-  DataType?: string;
-  CompletionState?: string;
-  P?: string;
+  Bytes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  DataType?: string | undefined;
+  CompletionState?: string | undefined;
+  P?: string | undefined;
 }
 export type RequestStreamEvent = { PayloadPart: RequestPayloadPart };
 export interface InvokeEndpointWithBidirectionalStreamInput {
   EndpointName: string;
   Body: stream.Stream<RequestStreamEvent, Error, never>;
-  TargetVariant?: string;
-  ModelInvocationPath?: string;
-  ModelQueryString?: string;
+  TargetVariant?: string | undefined;
+  ModelInvocationPath?: string | undefined;
+  ModelQueryString?: string | undefined;
 }
 export interface ResponsePayloadPart {
-  Bytes?: Uint8Array | redacted.Redacted<Uint8Array>;
-  DataType?: string;
-  CompletionState?: string;
-  P?: string;
+  Bytes?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  DataType?: string | undefined;
+  CompletionState?: string | undefined;
+  P?: string | undefined;
 }
 export type ResponseStreamEvent =
-  | { PayloadPart: ResponsePayloadPart; ModelStreamError?: never; InternalStreamFailure?: never }
-  | { PayloadPart?: never; ModelStreamError: ModelStreamError; InternalStreamFailure?: never }
-  | { PayloadPart?: never; ModelStreamError?: never; InternalStreamFailure: InternalStreamFailure };
+  | {
+      PayloadPart: ResponsePayloadPart;
+      ModelStreamError?: undefined;
+      InternalStreamFailure?: undefined;
+    }
+  | {
+      PayloadPart?: undefined;
+      ModelStreamError: ModelStreamError;
+      InternalStreamFailure?: undefined;
+    }
+  | {
+      PayloadPart?: undefined;
+      ModelStreamError?: undefined;
+      InternalStreamFailure: InternalStreamFailure;
+    };
 export interface InvokeEndpointWithBidirectionalStreamOutput {
   Body: stream.Stream<ResponseStreamEvent, Error, never>;
-  InvokedProductionVariant?: string;
+  InvokedProductionVariant?: string | undefined;
 }
 export type InvokeEndpointWithBidirectionalStreamError =
   | InputValidationError

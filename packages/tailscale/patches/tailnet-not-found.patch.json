@@ -1,0 +1,408 @@
+{
+  "description": "Type a tailnet the credential cannot reach as TailnetNotFound, distinct from a missing object's NotFound. Operations under /tailnet/{tailnet}/ answer 404 'tailnet \"<id>\" not found' (live, 2026-10-03).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#TailnetNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The credential cannot reach this tailnet: the tailnet ID is wrong, or the tailnet is one the credential has no access to (HTTP 404, 'tailnet \"<id>\" not found'). A missing object in a tailnet the credential can reach is NotFound instead.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "matches": "^tailnet \".*\" not found$"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#BatchUpdateCustomDevicePostureAttributes/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#CreateKey/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#CreateOAuthApp/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#CreatePostureIntegration/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#CreateUserInvites/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#CreateWebhook/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#DeleteKey/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#DeleteOAuthApp/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#DeleteService/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#DisableLogStreaming/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#GetAwsExternalId/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#GetContacts/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#GetDnsConfiguration/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#GetDnsPreferences/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#GetKey/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#GetLogStreamingConfiguration/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#GetLogStreamingStatus/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#GetOAuthApp/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#GetPolicyFile/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#GetPostureIntegrations/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#GetService/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#GetServiceDeviceApproval/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#GetSplitDns/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#GetTailnetSettings/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#ListConfigurationAuditLogs/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#ListDnsNameservers/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#ListDnsSearchPaths/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#ListNetworkFlowLogs/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#ListOAuthApps/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#ListServiceHosts/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#ListServices/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#ListTailnetDevices/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#ListTailnetKeys/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#ListUserInvites/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#ListUsers/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#ListWebhooks/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#PreviewRuleMatches/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#ResendContactVerificationEmail/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#SetDnsConfiguration/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#SetDnsNameservers/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#SetDnsPreferences/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#SetDnsSearchPaths/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#SetKey/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#SetLogStreamingConfiguration/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#SetPolicyFile/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#SetSplitDns/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#UpdateContact/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#UpdateOAuthApp/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#UpdateService/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#UpdateServiceDeviceApproval/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#UpdateSplitDns/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#UpdateTailnetSettings/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#ValidateAndTestPolicyFile/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tailscale.api#ValidateAwsExternalId/errors/-",
+      "value": {
+        "target": "com.tailscale.api#TailnetNotFound"
+      }
+    }
+  ]
+}

@@ -30,6 +30,8 @@ export class EndpointAlreadyExists
     /*@__PURE__*/ S.TaggedError<EndpointAlreadyExists>()("EndpointAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 6 }],
   ) {}
@@ -40,6 +42,8 @@ export class EndpointNotFound
     /*@__PURE__*/ S.TaggedError<EndpointNotFound>()("EndpointNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}
@@ -50,6 +54,8 @@ export class EndpointProxyTokenRequired
     /*@__PURE__*/ S.TaggedError<EndpointProxyTokenRequired>()("EndpointProxyTokenRequired", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 400, message: { includes: "Create a proxy token" } }],
   ) {}
@@ -58,30 +64,30 @@ export type StringList = Array<string>;
 /** google.protobuf.Empty as a nested field. */
 export interface GoogleProtobufEmpty {}
 export interface EndpointComputeRegionSpecExplicitRegions {
-  regions?: StringList;
+  regions?: StringList | undefined;
 }
 export interface EndpointComputeRegionSpec {
-  auto?: GoogleProtobufEmpty;
-  colocated?: GoogleProtobufEmpty;
-  explicit?: EndpointComputeRegionSpecExplicitRegions;
+  auto?: GoogleProtobufEmpty | undefined;
+  colocated?: GoogleProtobufEmpty | undefined;
+  explicit?: EndpointComputeRegionSpecExplicitRegions | undefined;
 }
 export interface EndpointHuggingFaceModelSource {
-  repoId?: string;
-  revision?: string;
-  huggingfaceToken?: string | Redacted.Redacted<string>;
+  repoId?: string | undefined;
+  revision?: string | undefined;
+  huggingfaceToken?: string | Redacted.Redacted<string> | undefined;
 }
 export interface EndpointModalVolumeModelSource {
-  volumeId?: string;
-  modelPath?: string;
+  volumeId?: string | undefined;
+  modelPath?: string | undefined;
 }
 export interface EndpointCustomModelSource {
-  baseModelRepoId?: string;
-  huggingface?: EndpointHuggingFaceModelSource;
-  modalVolume?: EndpointModalVolumeModelSource;
+  baseModelRepoId?: string | undefined;
+  huggingface?: EndpointHuggingFaceModelSource | undefined;
+  modalVolume?: EndpointModalVolumeModelSource | undefined;
 }
 export interface EndpointModelSource {
-  baseModelRepoId?: string;
-  custom?: EndpointCustomModelSource;
+  baseModelRepoId?: string | undefined;
+  custom?: EndpointCustomModelSource | undefined;
 }
 export type EndpointApiSurface =
   | "ENDPOINT_API_SURFACE_UNSPECIFIED"
@@ -100,19 +106,19 @@ export type EndpointServingMode =
   | "ENDPOINT_SERVING_MODE_DEDICATED"
   | "ENDPOINT_SERVING_MODE_SHARED";
 export interface CreateEndpointRequest {
-  name?: string;
-  description?: string;
-  proxyRegions?: StringList;
-  computeRegion?: EndpointComputeRegionSpec;
-  model?: EndpointModelSource;
-  apiSurfaces?: EndpointApiSurfaceList;
-  inputModalities?: EndpointInputModalityList;
-  environmentName?: string;
-  unauthenticated?: boolean;
-  servingMode?: EndpointServingMode | (string & {});
-  sharedEndpointNoticeAcknowledged?: boolean;
+  name?: string | undefined;
+  description?: string | undefined;
+  proxyRegions?: StringList | undefined;
+  computeRegion?: EndpointComputeRegionSpec | undefined;
+  model?: EndpointModelSource | undefined;
+  apiSurfaces?: EndpointApiSurfaceList | undefined;
+  inputModalities?: EndpointInputModalityList | undefined;
+  environmentName?: string | undefined;
+  unauthenticated?: boolean | undefined;
+  servingMode?: EndpointServingMode | (string & {}) | undefined;
+  sharedEndpointNoticeAcknowledged?: boolean | undefined;
   /** Requires Modal admin access. Dedicated endpoints only; must match model. */
-  recipeId?: string;
+  recipeId?: string | undefined;
 }
 export interface CreateEndpointResponse {
   endpointId: string;
@@ -122,15 +128,15 @@ export interface CreateEndpointResponse {
   modelName: string;
 }
 export interface EndpointGetByNameRequest {
-  name?: string;
-  environmentName?: string;
+  name?: string | undefined;
+  environmentName?: string | undefined;
 }
 export interface EndpointGetByNameResponse {
   endpointId: string;
   environmentName: string;
 }
 export interface EndpointGetInfoRequest {
-  endpointId?: string;
+  endpointId?: string | undefined;
 }
 export type EndpointGetInfoResponseEndpointStatus =
   | "ENDPOINT_STATUS_UNSPECIFIED"
@@ -147,12 +153,12 @@ export type EndpointLifecycleStatus =
 export interface EndpointLifecycle {
   status: EndpointLifecycleStatus;
   createdAt: number;
+  /** User or service user name */
   createdBy: string;
-  /** User or service user name */
-  stoppedAt: number;
   /** Unset when Endpoint is active */
-  stoppedBy: string;
+  stoppedAt: number;
   /** User or service user name */
+  stoppedBy: string;
   environmentName: string;
 }
 export interface EndpointGetInfoResponseEndpointInfoSummary {
@@ -163,7 +169,7 @@ export interface EndpointGetInfoResponseEndpointInfoSummary {
   requiresProxyAuth: boolean;
   servingMode: EndpointServingMode;
   status: EndpointGetInfoResponseEndpointStatus;
-  lifecycle?: EndpointLifecycle;
+  lifecycle?: EndpointLifecycle | undefined;
   /** set only when the model is served from a modal volume */
   volumeId: string;
   modelPath: string;
@@ -176,8 +182,8 @@ export interface EndpointGetInfoResponseEndpointHandleMetadata {
   environmentName: string;
 }
 export interface EndpointGetInfoResponse {
-  info?: EndpointGetInfoResponseEndpointInfoSummary;
-  metadata?: EndpointGetInfoResponseEndpointHandleMetadata;
+  info?: EndpointGetInfoResponseEndpointInfoSummary | undefined;
+  metadata?: EndpointGetInfoResponseEndpointHandleMetadata | undefined;
 }
 export interface EndpointGetLibraryRequest {}
 export type EndpointServingModeList = Array<EndpointServingMode>;
@@ -192,35 +198,35 @@ export interface EndpointGetLibraryResponse {
   models: EndpointModelList;
 }
 export interface EndpointGetLifecycleRequest {
-  endpointId?: string;
+  endpointId?: string | undefined;
 }
 export interface EndpointGetLifecycleResponse {
-  lifecycle?: EndpointLifecycle;
+  lifecycle?: EndpointLifecycle | undefined;
 }
 export interface ListPagination {
-  maxObjects?: number;
-  createdBefore?: number;
+  maxObjects?: number | undefined;
+  createdBefore?: number | undefined;
 }
 export type EndpointListFilterStatus = "STATUS_UNSPECIFIED" | "STATUS_LIVE" | "STATUS_STOPPED";
 export interface EndpointListFilter {
   /** Only Endpoints whose name contains this text, ignoring case; empty matches every name. */
-  nameContains?: string;
-  status?: EndpointListFilterStatus | (string & {});
+  nameContains?: string | undefined;
+  status?: EndpointListFilterStatus | (string & {}) | undefined;
 }
 export interface ListEndpointRequest {
-  environmentName?: string;
-  pagination?: ListPagination;
-  filter?: EndpointListFilter;
+  environmentName?: string | undefined;
+  pagination?: ListPagination | undefined;
+  filter?: EndpointListFilter | undefined;
 }
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
   createdAt: number;
-  /** Timestamp of resource creation */
+  /** User name or service name */
   createdBy: string;
 }
 export interface EndpointMetadata {
   name: string;
-  creationInfo?: CreationInfo;
+  creationInfo?: CreationInfo | undefined;
 }
 /** NOTE: make sure to update the frontend if we add a new state here https://github.com/modal-labs/modal/blob/main/frontend/src/routes/(dashboard)/%5B%5Bworkspace%5D%5D/apps/+page.svelte#L95 */
 export type AppState =
@@ -248,7 +254,7 @@ export interface EndpointListItem {
   description: string;
   activeDeploymentId: string;
   updatedAt: number;
-  metadata?: EndpointMetadata;
+  metadata?: EndpointMetadata | undefined;
   appState: AppState;
   functionId: string;
   createdByAvatarUrl: string;
@@ -267,8 +273,8 @@ export type EndpointStopSource =
   | "ENDPOINT_STOP_SOURCE_CLI"
   | "ENDPOINT_STOP_SOURCE_WEB";
 export interface StopEndpointRequest {
-  endpointId?: string;
-  source?: EndpointStopSource | (string & {});
+  endpointId?: string | undefined;
+  source?: EndpointStopSource | (string & {}) | undefined;
 }
 export interface StopEndpointResponse {}
 export type CreateEndpointError = EndpointAlreadyExists | EndpointProxyTokenRequired | ModalOpError;

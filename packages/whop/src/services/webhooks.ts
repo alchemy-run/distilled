@@ -31,45 +31,92 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(9, __c1, 1)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | Error400Body | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(9, __c1, 1)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | Error400Body | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(1, __c0, 1)),
+          /*@__PURE__*/ S.suspend(() => __S(9, __c1, 1)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: V1ErrorResponse | Error400Body | string;
+}
 
 export class UnprocessableEntity
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(9, __c1, 1)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 422 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | string;
+}
 
 export type CreateWebhookRequestEventsItem =
   | "account.updated"
@@ -160,19 +207,19 @@ export type CreateWebhookRequestEventsItem =
 export type CreateWebhookRequestEventsList = Array<CreateWebhookRequestEventsItem | (string & {})>;
 export interface CreateWebhookRequest {
   /** The dated API version (Api-Version-Date) to pin this webhook's payloads to. Omit to leave the webhook unpinned, tracking the current payload shape. */
-  api_version_date?: string | null;
+  api_version_date?: string | null | undefined;
   /** Whether to send events for child resources. For example, if the webhook is created for an account, enabling this sends events only from its connected accounts. */
-  child_resource_events?: boolean;
+  child_resource_events?: boolean | undefined;
   /** Whether or not the webhook is enabled. Defaults to `true`. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The events to send the webhook for, in dot form (for example `payment.succeeded`). */
-  events?: CreateWebhookRequestEventsList;
+  events?: CreateWebhookRequestEventsList | undefined;
   /** The account or app to create the webhook for. Defaults to the current account. */
-  resource_id?: string | null;
+  resource_id?: string | null | undefined;
   /** The URL to send the webhook to. */
   url: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** The API version used to format payloads sent to this webhook endpoint. */
 export type WebhookApiVersion = "v1" | "v2" | "v5";
@@ -435,10 +482,10 @@ export interface DeleteWebhookResponse {
 export interface DeliveriesWebhookRequest {
   /** The unique identifier of the webhook to list deliveries for. */
   webhook_id: string;
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
 }
 /** The request body sent to the webhook endpoint */
 export type DeliveriesWebhookResponseDataItemRequestBodyMap = {
@@ -486,9 +533,9 @@ export interface ListWebhookDeliveriesRequest {
   /** Webhook ID, prefixed `hook_`. */
   id: string;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
 }
 export interface WebhookDelivery {
   /** The event type this delivery carried, for example `payment.succeeded`. */
@@ -527,19 +574,19 @@ export interface ListWebhooksRequest {
   /** The unique identifier of the account to list webhooks for. */
   account_id: string;
   /** Only return webhooks attached to this app. Omit to list the account's own webhooks. */
-  app_id?: string;
+  app_id?: string | undefined;
   /** Also return webhooks attached to the account's apps, not just the account's own. Cannot be combined with `app_id`. */
-  include_app_webhooks?: boolean;
+  include_app_webhooks?: boolean | undefined;
   /** Only return webhooks whose endpoint is currently failing -- every delivery since the current failure streak began has been rejected. Clears as soon as a delivery succeeds. */
-  has_failures?: boolean;
+  has_failures?: boolean | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 /** The API version used to format payloads sent to this webhook endpoint. */
 export type WebhookListItemApiVersion = "v1" | "v2" | "v5";
@@ -694,17 +741,17 @@ export interface ReplayWebhookRequest {
   /** Webhook ID, prefixed `hook_`. */
   id: string;
   /** Only replay these event types, in dot form (for example `payment.succeeded`). Omit to include every event. */
-  events?: ReplayWebhookRequestEventsList;
+  events?: ReplayWebhookRequestEventsList | undefined;
   /** Only replay messages whose most recent delivery attempt in the window failed. Defaults to false. Best-effort: a message whose attempts span processing batches can still be re-sent -- replays keep the original `webhook-id` by default, so consumers that deduplicate are unaffected. */
-  failed_only?: boolean;
+  failed_only?: boolean | undefined;
   /** Re-send each replayed message under a freshly generated `webhook-id` (in both the envelope and the signed headers) instead of its original one. Defaults to false. Use this when your endpoint deduplicates on `webhook-id` and you want it to process the replays as new messages. */
-  regenerate_ids?: boolean;
+  regenerate_ids?: boolean | undefined;
   /** Start of the delivery window to replay, as an ISO 8601 timestamp. Clamped to the 30-day delivery retention. */
   sent_after: string;
   /** End of the delivery window to replay, as an ISO 8601 timestamp. Defaults to now. */
-  sent_before?: string;
+  sent_before?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface ReplayWebhookResponse {
   /** Whether the replay was accepted. Watch the webhook's delivery log for the re-sends. */
@@ -716,9 +763,9 @@ export interface ReplayWebhookDeliveryRequest {
   /** Delivery ID, prefixed `whdel_`, from the List Deliveries endpoint. */
   delivery_id: string;
   /** Re-send the delivery under a freshly generated `webhook-id` (in both the envelope and the signed headers) instead of the original one. Defaults to false. Use this when your endpoint deduplicates on `webhook-id` and you want it to process the replay as a new message. */
-  regenerate_id?: boolean;
+  regenerate_id?: boolean | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface ReplayWebhookDeliveryResponse {
   /** The body your endpoint returned for the replayed request, as raw text. Empty when the endpoint could not be reached. */
@@ -734,7 +781,7 @@ export interface TestWebhookRequest {
   /** The event to test the webhook for, in dot form (for example `payment.succeeded`). */
   event: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface TestWebhookResponse {
   /** The body of the webhook response. */
@@ -835,15 +882,37 @@ export interface UpdateWebhookRequest {
   /** Webhook ID, prefixed `hook_`. */
   id: string;
   /** The dated API version (Api-Version-Date) to pin this webhook's payloads to. Only valid for `v1` webhooks. Omit to leave the current pin unchanged, or pass `null` to unpin and track the current payload shape. */
-  api_version_date?: string | null;
+  api_version_date?: string | null | undefined;
   /** Whether or not to send events for child resources. */
-  child_resource_events?: boolean;
+  child_resource_events?: boolean | undefined;
   /** Whether or not the webhook is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The events to send the webhook for, in dot form (for example `payment.succeeded`). */
-  events?: UpdateWebhookRequestEventsList;
+  events?: UpdateWebhookRequestEventsList | undefined;
   /** The URL to send the webhook to. */
-  url?: string;
+  url?: string | undefined;
+}
+export interface V1ErrorResponseError {
+  /** Machine-readable reason for this specific refusal, such as `bank_warning_not_acknowledged`. Only present when the error carries one. */
+  code?: string | undefined;
+  /** Human-readable error message. */
+  message: string;
+  /** Machine-readable error code. */
+  type: string;
+}
+export interface V1ErrorResponse {
+  error: V1ErrorResponseError;
+}
+export interface Error400BodyError {
+  /** A short string indicating the specific error code, e.g. 'parameter_missing', 'parameter_invalid', 'invalid_json' */
+  code?: string | null | undefined;
+  message: string;
+  /** The parameter that caused the error, if applicable */
+  param?: string | null | undefined;
+  type: string;
+}
+export interface Error400Body {
+  error: Error400BodyError;
 }
 export type CreateWebhookError = BadRequest | Forbidden | NotFound | Conflict | WhopOpError;
 /** Create Webhook Creates a webhook endpoint that receives event notifications via HTTP POST. */
@@ -853,8 +922,8 @@ export const createWebhook: API.OperationMethod<
   CreateWebhookError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<Webhook>,
+  input: __S(56, __c7, 0) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<Webhook>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -870,8 +939,8 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<DeleteWebhookRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<DeleteWebhookResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<DeleteWebhookResponse>,
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -894,8 +963,8 @@ export const deliveriesWebhook: API.PaginatedOperationMethod<
   DeliveriesWebhookResponseDataItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(72, __c9, 0) as any as S.Schema<DeliveriesWebhookRequest>,
-    output: __S(77, __c9, 5) as any as S.Schema<DeliveriesWebhookResponse>,
+    input: __S(88, __c11, 0) as any as S.Schema<DeliveriesWebhookRequest>,
+    output: __S(93, __c11, 5) as any as S.Schema<DeliveriesWebhookResponse>,
     errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -921,8 +990,8 @@ export const getWebhook: API.OperationMethod<
   GetWebhookError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<Webhook>,
+  input: __S(96, __c12, 0) as any as S.Schema<GetWebhookRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<Webhook>,
   errors: [Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -940,8 +1009,8 @@ export const listWebhookDeliveries: API.PaginatedOperationMethod<
   WebhookDelivery
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(88, __c11, 0) as any as S.Schema<ListWebhookDeliveriesRequest>,
-    output: __S(91, __c11, 3) as any as S.Schema<ListWebhookDeliveriesResponse>,
+    input: __S(104, __c13, 0) as any as S.Schema<ListWebhookDeliveriesRequest>,
+    output: __S(107, __c13, 3) as any as S.Schema<ListWebhookDeliveriesResponse>,
     errors: [Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -969,8 +1038,8 @@ export const listWebhooks: API.PaginatedOperationMethod<
   WebhookListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(0, __c0, 0) as any as S.Schema<ListWebhooksRequest>,
-    output: __S(3, __c0, 3) as any as S.Schema<ListWebhooksResponse>,
+    input: __S(16, __c2, 0) as any as S.Schema<ListWebhooksRequest>,
+    output: __S(19, __c2, 3) as any as S.Schema<ListWebhooksResponse>,
     errors: [BadRequest, Forbidden, NotFound],
     protocol: WhopProtocol,
     retry: Retry.Retry,
@@ -996,8 +1065,8 @@ export const replayWebhook: API.OperationMethod<
   ReplayWebhookError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9, __c1, 1) as any as S.Schema<ReplayWebhookRequest>,
-  output: __S(10, __c1, 2) as any as S.Schema<ReplayWebhookResponse>,
+  input: __S(25, __c3, 1) as any as S.Schema<ReplayWebhookRequest>,
+  output: __S(26, __c3, 2) as any as S.Schema<ReplayWebhookResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1013,8 +1082,8 @@ export const replayWebhookDelivery: API.OperationMethod<
   ReplayWebhookDeliveryError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<ReplayWebhookDeliveryRequest>,
-  output: __S(17, __c2, 1) as any as S.Schema<ReplayWebhookDeliveryResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<ReplayWebhookDeliveryRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<ReplayWebhookDeliveryResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1030,8 +1099,8 @@ export const testWebhook: API.OperationMethod<
   TestWebhookError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<TestWebhookRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<TestWebhookResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<TestWebhookRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<TestWebhookResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1047,8 +1116,8 @@ export const updateWebhook: API.OperationMethod<
   UpdateWebhookError,
   WhopOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(56, __c7, 0) as any as S.Schema<Webhook>,
+  input: __S(48, __c6, 0) as any as S.Schema<UpdateWebhookRequest>,
+  output: __S(72, __c9, 0) as any as S.Schema<Webhook>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: WhopProtocol,
   retry: Retry.Retry,
@@ -1058,6 +1127,43 @@ export const updateWebhook: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "V1ErrorResponseError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(0, __c0, 0),
+        }),
+      ).annotate({ identifier: "V1ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.NullOr(S.String)),
+          message: S.String,
+          param: S.optional(S.NullOr(S.String)),
+          type: S.String,
+        }),
+      ).annotate({ identifier: "Error400BodyError" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(8, __c1, 0),
+        }),
+      ).annotate({ identifier: "Error400Body" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1083,7 +1189,7 @@ function __c0(j: number): any {
           disabled_at: S.NullOr(S.String),
           disabled_reason: S.NullOr(S.String),
           enabled: S.Boolean,
-          events: __S(48, __c6, 0),
+          events: __S(64, __c8, 0),
           failing_since: S.NullOr(S.String),
           id: S.String,
           last_failure_at: S.NullOr(S.String),
@@ -1093,17 +1199,17 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "WebhookListItem" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(17, __c2, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(2, __c0, 2),
-          page_info: __S(96, __c12, 0),
+          data: __S(18, __c2, 2),
+          page_info: __S(112, __c14, 0),
         }),
       ).annotate({ identifier: "ListWebhooksResponse" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -1111,7 +1217,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          events: S.optional(__S(8, __c1, 0)),
+          events: S.optional(__S(24, __c3, 0)),
           failed_only: S.optional(S.Boolean),
           regenerate_ids: S.optional(S.Boolean),
           sent_after: S.String,
@@ -1127,7 +1233,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "ReplayWebhookResponse" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1154,7 +1260,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ReplayWebhookDeliveryResponse" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1174,7 +1280,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "TestWebhookResponse" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1183,13 +1289,13 @@ function __c4(j: number): any {
           api_version_date: S.optional(S.NullOr(S.String)),
           child_resource_events: S.optional(S.Boolean),
           enabled: S.optional(S.Boolean),
-          events: S.optional(__S(48, __c6, 0)),
+          events: S.optional(__S(64, __c8, 0)),
           url: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/webhooks/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateWebhookRequest" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1197,7 +1303,7 @@ function __c5(j: number): any {
           api_version_date: S.optional(S.NullOr(S.String)),
           child_resource_events: S.optional(S.Boolean),
           enabled: S.optional(S.Boolean),
-          events: S.optional(__S(48, __c6, 0)),
+          events: S.optional(__S(64, __c8, 0)),
           resource_id: S.optional(S.NullOr(S.String)),
           url: S.String,
           idempotency_key: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
@@ -1205,13 +1311,13 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateWebhookRequest" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1224,19 +1330,19 @@ function __c7(j: number): any {
           disabled_at: S.NullOr(S.String),
           disabled_reason: S.NullOr(S.String),
           enabled: S.Boolean,
-          events: __S(48, __c6, 0),
+          events: __S(64, __c8, 0),
           failing_since: S.NullOr(S.String),
           id: S.String,
           last_failure_at: S.NullOr(S.String),
           resource_id: S.String,
-          testable_events: __S(48, __c6, 0),
+          testable_events: __S(64, __c8, 0),
           url: S.String,
           webhook_secret: S.NullOr(S.String).pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "Webhook" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1253,7 +1359,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DeleteWebhookResponse" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1270,16 +1376,16 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          request_body: __S(73, __c9, 1),
+          request_body: __S(89, __c11, 1),
           resource_id: S.String,
-          response_body: __S(73, __c9, 1),
+          response_body: __S(89, __c11, 1),
           response_code: S.Number,
           sent_at: S.String,
           total_time: S.Number,
         }),
       ).annotate({ identifier: "DeliveriesWebhookResponseDataItem" });
     case 3:
-      return S.Array(__S(74, __c9, 2));
+      return S.Array(__S(90, __c11, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1290,13 +1396,13 @@ function __c9(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(75, __c9, 3),
-          page_info: __S(76, __c9, 4),
+          data: __S(91, __c11, 3),
+          page_info: __S(92, __c11, 4),
         }),
       ).annotate({ identifier: "DeliveriesWebhookResponse" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1306,7 +1412,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetWebhookRequest" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1332,17 +1438,17 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "WebhookDelivery" });
     case 2:
-      return S.Array(__S(89, __c11, 1));
+      return S.Array(__S(105, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(90, __c11, 2),
-          page_info: __S(96, __c12, 0),
+          data: __S(106, __c13, 2),
+          page_info: __S(112, __c14, 0),
         }),
       ).annotate({ identifier: "ListWebhookDeliveriesResponse" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -31,36 +31,111 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(5, __c0, 5)),
+          /*@__PURE__*/ S.suspend(() => __S(5, __c0, 5)),
+          /*@__PURE__*/ S.suspend(() => __S(6, __c0, 6)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: Error400Body | VercelError | ResourceError | ErrorResponse | string;
+}
 
 export class Conflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(5, __c0, 5)),
+          /*@__PURE__*/ S.suspend(() => __S(5, __c0, 5)),
+          /*@__PURE__*/ S.suspend(() => __S(6, __c0, 6)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
-  ) {}
+  )
+{
+  declare readonly body?:
+    | AuthErrorResponse
+    | Error400Body
+    | VercelError
+    | ResourceError
+    | ErrorResponse
+    | string;
+}
 
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(5, __c0, 5)),
+          /*@__PURE__*/ S.suspend(() => __S(5, __c0, 5)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(6, __c0, 6)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
-  ) {}
+  )
+{
+  declare readonly body?:
+    | AuthErrorResponse
+    | Error401Body
+    | VercelError
+    | ResourceError
+    | Error401Body2
+    | ErrorResponse
+    | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          /*@__PURE__*/ S.suspend(() => __S(5, __c0, 5)),
+          /*@__PURE__*/ S.suspend(() => __S(5, __c0, 5)),
+          /*@__PURE__*/ S.suspend(() => __S(6, __c0, 6)),
+          /*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)),
+          S.String,
+        ]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?:
+    | Error400Body
+    | ResourceError
+    | VercelError
+    | ErrorResponse
+    | AuthErrorResponse
+    | string;
+}
 
 /** Log attribute to filter on. */
 export type LogFilterField = "instance" | "level" | "process" | "body";
@@ -75,9 +150,9 @@ export interface LogFilter {
   /** Match operator. */
   op: LogFilterOp | (string & {});
   /** Used with `op: in`. */
-  values?: LogFilterValuesList;
+  values?: LogFilterValuesList | undefined;
   /** Used with the body operators. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Filters applied to log entries. Multiple filters are combined with AND. */
 export type BranchLogsRequestFiltersList = Array<LogFilter>;
@@ -90,20 +165,20 @@ export interface BranchLogsRequest {
   /** End time */
   end: string;
   /** Filters applied to log entries. Multiple filters are combined with AND. */
-  filters?: BranchLogsRequestFiltersList;
-  limit?: number;
+  filters?: BranchLogsRequestFiltersList | undefined;
+  limit?: number | undefined;
   /** Pagination cursor from a previous response */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** Log level enumeration */
 export type LogLevel = "debug" | "info" | "warning" | "error";
 export interface LogEntry {
   timestamp: string;
   instanceID: string;
-  level?: LogLevel;
+  level?: LogLevel | undefined;
   message: string;
   /** Name of the PostgreSQL process that emitted the log */
-  process?: string;
+  process?: string | undefined;
 }
 export type BranchLogsLogsList = Array<LogEntry>;
 /** A collection of logs for each of the instances of a branch */
@@ -151,7 +226,7 @@ export interface BranchMetricsRequest {
   /** List of metric names to query. */
   metrics: BranchMetricsRequestMetricsList;
   /** List of instance IDs to query */
-  instances?: BranchMetricsRequestInstancesList;
+  instances?: BranchMetricsRequestInstancesList | undefined;
   /** List of aggregations to get, this is how the data-points within the interval are aggregated. Each one will generate a separate time-series per metric in the response. */
   aggregations: BranchMetricsRequestAggregationsList;
 }
@@ -212,11 +287,11 @@ export interface OrganizationSSODomain {
   /** Whether control of the domain has been proven through DNS */
   verified: boolean;
   /** The DNS record that proves control of the domain. It must stay published while the domain is verified. */
-  verification?: OrganizationSSODomainVerification | null;
+  verification?: OrganizationSSODomainVerification | null | undefined;
   /** When the daily recheck first found the record missing from a verified domain. */
-  missing_since?: string | null;
+  missing_since?: string | null | undefined;
   /** When the domain stops being verified if the record is still missing. */
-  revokes_at?: string | null;
+  revokes_at?: string | null | undefined;
 }
 export interface CreateBillingCheckoutSessionRequest {
   /** Unique identifier for a specific organization */
@@ -243,10 +318,10 @@ export interface ScaleToZeroConfiguration {
 }
 /** Details about the branch continuous backup configuration */
 export interface BackupConfiguration {
-  /** how long are we keeping the backups around for */
-  retentionPeriod?: number;
-  /** time of day/week when we are taking a full backup */
-  backupTime?: string;
+  /** Number of days of point-in-time recovery to guarantee. You can restore the branch to any point within this many days. To provide this, the most recent full backup taken before the start of the window is always kept, along with all changes made after it. Because of this, restore points older than retentionPeriod are sometimes available, but how far back they go depends on the backup schedule and is not guaranteed. */
+  retentionPeriod?: number | undefined;
+  /** When to take a full backup, in UTC, in the format D:HH:MM. D is * for every day, or 0-6 for one day of the week (0 is Sunday). If it is not set, a random time on Sunday between 02:00 and 05:59 is used. */
+  backupTime?: string | undefined;
 }
 /** The mode used to discriminate between types of branches. */
 export type CreateBranchRequestMode = "inherit" | "custom";
@@ -258,9 +333,9 @@ export interface CreateBranchRequest {
   /** Human-readable name for the new branch */
   name: string;
   /** Optional description for the branch purpose or contents. An empty string is stored as no description. */
-  description?: string;
-  scaleToZero?: ScaleToZeroConfiguration;
-  backupConfiguration?: BackupConfiguration;
+  description?: string | undefined;
+  scaleToZero?: ScaleToZeroConfiguration | undefined;
+  backupConfiguration?: BackupConfiguration | undefined;
   /** The mode used to discriminate between types of branches. */
   mode: CreateBranchRequestMode | (string & {});
 }
@@ -271,15 +346,15 @@ export interface BranchShortMetadata {
   /** Human-readable name of the branch */
   name: string;
   /** Optional description of the branch purpose or contents */
-  description?: string;
+  description?: string | undefined;
   /** Timestamp when the branch was created */
   createdAt: string;
   /** Timestamp when the branch was last updated */
   updatedAt: string;
   /** Identifier of the parent branch if this is a derived branch, null otherwise */
-  parentID?: string | null;
+  parentID?: string | null | undefined;
   /** Deprecated: retrieve the connection string from the branch credentials endpoint (GET .../branches/{branchID}/credentials) instead. The hostname in this connection string carries a -deprecated marker in its first DNS label. */
-  connectionString?: string | Redacted.Redacted<string> | null;
+  connectionString?: string | Redacted.Redacted<string> | null | undefined;
   /** Geographic region where the branch is deployed */
   region: string;
   /** Whether the branch allows public access without authentication */
@@ -350,17 +425,17 @@ export interface OrganizationStatus {
   /** Indicates if the organization has been disabled by an admin */
   disabled_by_admin: boolean;
   /** Reason for the current admin status */
-  admin_reason?: string;
+  admin_reason?: string | undefined;
   /** Indicates the status of the organization from a billing perspective */
   billing_status: OrganizationStatusBillingStatus;
   /** Reason for the current billing status */
-  billing_reason?: string;
+  billing_reason?: string | undefined;
   /** Usage tier of the organization. t1 is the default for new organizations, t2 is assigned when a valid payment method is on file. */
   usage_tier: OrganizationStatusUsageTier;
   /** Timestamp of the last update to the organization's status */
   last_updated: string;
   /** Timestamp when the organization was created */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 /** Marketplace provider associated with an organization. */
 export type OrganizationMarketplaceProvider = "aws";
@@ -373,7 +448,7 @@ export interface Organization {
   /** Current status of the organization */
   status: OrganizationStatus;
   /** Marketplace provider for this organization (e.g. "aws"), if billed through a marketplace */
-  marketplace?: OrganizationMarketplaceProvider | null;
+  marketplace?: OrganizationMarketplaceProvider | null | undefined;
 }
 /** Optional scopes assigned to the API key */
 export type CreateOrganizationAPIKeyRequestScopesList = Array<string>;
@@ -386,13 +461,13 @@ export interface CreateOrganizationAPIKeyRequest {
   organizationID: string;
   name: string;
   /** Expiration date for the API key, null for no expiry */
-  expiry?: string | null;
+  expiry?: string | null | undefined;
   /** Optional scopes assigned to the API key */
-  scopes?: CreateOrganizationAPIKeyRequestScopesList;
+  scopes?: CreateOrganizationAPIKeyRequestScopesList | undefined;
   /** Limit access to these projects */
-  projects?: CreateOrganizationAPIKeyRequestProjectsList;
+  projects?: CreateOrganizationAPIKeyRequestProjectsList | undefined;
   /** Limit access to these branches */
-  branches?: CreateOrganizationAPIKeyRequestBranchesList;
+  branches?: CreateOrganizationAPIKeyRequestBranchesList | undefined;
 }
 export type FullAPIKeyScopesList = Array<string>;
 /** Projects this API key has access to */
@@ -416,9 +491,9 @@ export interface FullAPIKey {
   /** The actual API key token */
   token: string;
   /** ID of the user that created this API key */
-  created_by?: string | null;
+  created_by?: string | null | undefined;
   /** ID of the API key that created this API key */
-  created_by_key?: string | null;
+  created_by_key?: string | null | undefined;
 }
 export interface CreateOrganizationAPIKeyResponse {
   key: FullAPIKey;
@@ -431,7 +506,7 @@ export interface CreateOrganizationInvitationRequest {
   /** Email address of the user to invite */
   email: string;
   /** Role the user holds once they accept the invitation. Optional; when omitted, the least privileged role offered applies */
-  role?: OrganizationRoleName | (string & {});
+  role?: OrganizationRoleName | (string & {}) | undefined;
 }
 export interface CreateOrganizationInvitationResponse {}
 /** Which identity provider this is. `google` pins the login to a Google Workspace domain and `microsoft` to a single Entra tenant, taken from the issuer; `oidc` is the fallback for anything else that speaks OpenID Connect. */
@@ -443,7 +518,7 @@ export interface CreateOrganizationSSOProviderRequest {
   /** The verified email domain this provider will serve. */
   domain: string;
   /** OIDC issuer URL. Required for `oidc`, and for `microsoft` where it names the Entra tenant; ignored for `google`. Must be https, and must serve a /.well-known/openid-configuration document naming itself as the issuer. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** OAuth client ID the organization registered with the provider */
   client_id: string;
   /** OAuth client secret. Write-only: it is stored in Keycloak and is never returned by this API. */
@@ -461,7 +536,7 @@ export interface OrganizationSSOProvider {
   /** Whether members on this domain are sent to this provider automatically, leaving no other way in. Registering a provider does not set this; it is enabled separately. */
   enforced: boolean;
   /** OIDC issuer URL, without the /.well-known suffix. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** OAuth client ID the organization registered with the provider. */
   client_id: string;
 }
@@ -474,7 +549,7 @@ export interface CidrEntry {
   /** IP address or CIDR block (e.g., "192.168.0.0/24") */
   cidr: string;
   /** Optional label for the CIDR entry */
-  description?: string;
+  description?: string | undefined;
 }
 export type IPFilteringConfigurationCidrList = Array<CidrEntry>;
 /** Configuration for IP filtering on project branches */
@@ -486,14 +561,14 @@ export interface IPFilteringConfiguration {
 /** Configuration details for a project, including its scale to zero settings */
 export interface ProjectConfiguration {
   scaleToZero: ProjectScaleToZeroConfiguration;
-  ipFiltering?: IPFilteringConfiguration;
+  ipFiltering?: IPFilteringConfiguration | undefined;
 }
 export interface CreateProjectRequest {
   /** Unique identifier of the organization to create the project in */
   organizationID: string;
   /** Human-readable name for the new project */
   name: string;
-  configuration?: ProjectConfiguration;
+  configuration?: ProjectConfiguration | undefined;
 }
 /** Details of a project including its ID, name, and creation/update timestamps */
 export interface Project {
@@ -516,13 +591,13 @@ export type CreateUserAPIKeyRequestBranchesList = Array<string>;
 export interface CreateUserAPIKeyRequest {
   name: string;
   /** Expiration date for the API key, null for no expiry */
-  expiry?: string | null;
+  expiry?: string | null | undefined;
   /** Optional scopes assigned to the API key */
-  scopes?: CreateUserAPIKeyRequestScopesList;
+  scopes?: CreateUserAPIKeyRequestScopesList | undefined;
   /** Limit access to these projects */
-  projects?: CreateUserAPIKeyRequestProjectsList;
+  projects?: CreateUserAPIKeyRequestProjectsList | undefined;
   /** Limit access to these branches */
-  branches?: CreateUserAPIKeyRequestBranchesList;
+  branches?: CreateUserAPIKeyRequestBranchesList | undefined;
 }
 export interface CreateUserAPIKeyResponse {
   key: FullAPIKey;
@@ -549,9 +624,9 @@ export interface DeleteInstallationRequest {
   /** Vercel installation id (icfg_...). */
   installationId: string;
   /** Whether to delete the installation's resources along with the installation. */
-  cascadeResourceDeletion?: boolean;
+  cascadeResourceDeletion?: boolean | undefined;
   /** The reason for deleting the installation. */
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface DeleteInstallationResponse {}
 export interface DeleteOrganizationRequest {
@@ -632,7 +707,7 @@ export interface ClusterLifecycle {
   /** Current operational state of the cluster (ready, creating, updating, etc.) */
   state: ClusterLifecycleState;
   /** Reason for the current lifecycle state, especially useful for non-ready states */
-  reason?: string;
+  reason?: string | undefined;
   /** Current phase within the lifecycle process */
   phase: string;
 }
@@ -656,8 +731,8 @@ export interface BranchStatus {
   /** Type of status of the branch */
   statusType: BranchStatusStatusType;
   /** Human-readable message explaining the current status */
-  message?: string;
-  lifecycle?: ClusterLifecycle;
+  message?: string | undefined;
+  lifecycle?: ClusterLifecycle | undefined;
   /** Total number of database instances in the cluster */
   instanceCount: number;
   /** Number of database instances that are ready and operational */
@@ -676,7 +751,7 @@ export interface ClusterConfiguration {
   /** Geographic region where the cluster will be deployed */
   region: string;
   /** Branch storage in GiB (gigabytes) */
-  storage?: number;
+  storage?: number | undefined;
   /** The instance type according to the xata instance types available */
   instanceType: string;
   /** PostgreSQL image to use for the database instances */
@@ -684,9 +759,11 @@ export interface ClusterConfiguration {
   /** Number of replicas in the branch. Every child branch is created with no replicas. This can be updated. */
   replicas: number;
   /** Arbitrary PostgreSQL configuration parameters for the cluster */
-  postgresConfigurationParameters?: ClusterConfigurationPostgresConfigurationParametersMap;
+  postgresConfigurationParameters?:
+    | ClusterConfigurationPostgresConfigurationParametersMap
+    | undefined;
   /** List of PostgreSQL extensions and libraries to preload */
-  preloadLibraries?: ClusterConfigurationPreloadLibrariesList;
+  preloadLibraries?: ClusterConfigurationPreloadLibrariesList | undefined;
 }
 /** Detailed metadata about a branch, including its status and configuration */
 export interface BranchMetadata {
@@ -695,13 +772,13 @@ export interface BranchMetadata {
   /** Human-readable name of the branch */
   name: string;
   /** Optional description of the branch purpose or contents */
-  description?: string;
+  description?: string | undefined;
   /** Timestamp when the branch was created */
   createdAt: string;
   /** Timestamp when the branch was last updated */
   updatedAt: string;
   /** Identifier of the parent branch if this is a derived branch, null otherwise */
-  parentID?: string | null;
+  parentID?: string | null | undefined;
   /** Geographic region where the branch is deployed */
   region: string;
   status: BranchStatus;
@@ -713,7 +790,7 @@ export interface BranchMetadata {
   backupsEnabled: boolean;
   scaleToZero: ScaleToZeroConfiguration;
   configuration: ClusterConfiguration;
-  backupConfiguration?: BackupConfiguration;
+  backupConfiguration?: BackupConfiguration | undefined;
 }
 export interface GetBackupRequest {
   /** Unique identifier of the organization containing the project */
@@ -727,12 +804,12 @@ export interface GetBackupRequest {
 export interface BackupMetadata {
   /** unique identifier for the backup */
   id: string;
-  /** the branchID the branch associated with the backup */
+  /** ID of the branch that the backup belongs to */
   branchID: string;
-  /** the earlies point in time available for restoring the branch */
-  earliestRestore?: string;
-  /** the latest point in time available for restoring the branch */
-  latestRestore?: string;
+  /** The earliest point in time that the branch can be restored to. It is absent until the first backup of the branch completes. */
+  earliestRestore?: string | undefined;
+  /** The latest point in time that the branch is known to be restorable to. It is updated from the archived WAL at most every five minutes, so it can be several minutes behind the current time. It is absent until the first backup of the branch completes. */
+  latestRestore?: string | undefined;
   /** description of the backup */
   description: string;
 }
@@ -802,9 +879,9 @@ export interface GetBillingInvoicesRequest {
   /** Unique identifier for a specific organization */
   organizationID: string;
   /** Pagination cursor from a previous response */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of invoices to fetch */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type BillingInvoiceStatus = "draft" | "issued" | "paid" | "void" | "synced";
 export interface BillingInvoice {
@@ -847,7 +924,7 @@ export interface GetBranchCredentialsRequest {
   projectID: string;
   branchID: string;
   /** Username that the credentials requested for, defaults to `xata` */
-  username?: string;
+  username?: string | undefined;
 }
 /** Credentials and connection details for accessing a branch */
 export interface BranchCredentials {
@@ -886,11 +963,11 @@ export type PostgresConfigParameterAcceptableRangeEnumValuesList = Array<string>
 /** Information about the acceptable range of values for this parameter */
 export interface PostgresConfigParameterAcceptableRange {
   /** Minimum allowed value (if applicable) */
-  minValue?: string;
+  minValue?: string | undefined;
   /** Maximum allowed value (if applicable) */
-  maxValue?: string;
+  maxValue?: string | undefined;
   /** List of allowed enum values (if applicable) */
-  enumValues?: PostgresConfigParameterAcceptableRangeEnumValuesList;
+  enumValues?: PostgresConfigParameterAcceptableRangeEnumValuesList | undefined;
 }
 /** The source of the default value */
 export type PostgresConfigParameterDefaultValueSource = "postgres" | "instance_type";
@@ -905,7 +982,7 @@ export interface PostgresConfigParameter {
   /** The section/category this parameter belongs to */
   section: string;
   /** Information about the acceptable range of values for this parameter */
-  acceptableRange?: PostgresConfigParameterAcceptableRange;
+  acceptableRange?: PostgresConfigParameterAcceptableRange | undefined;
   /** The default value for this parameter */
   defaultValue: string;
   /** The source of the default value */
@@ -917,7 +994,7 @@ export interface PostgresConfigParameter {
   /** Optional recommendation for this parameter (currently empty) */
   recommendation: string;
   /** Whether a database restart is required for this parameter change to take effect */
-  restartRequired?: boolean;
+  restartRequired?: boolean | undefined;
 }
 /** Array of PostgreSQL configuration parameters with detailed information */
 export type PostgresConfigDetailsParametersList = Array<PostgresConfigParameter>;
@@ -958,9 +1035,9 @@ export interface OrganizationInvitation {
   /** Email address of the invited user */
   email: string;
   /** First name of the invited user */
-  first_name?: string | null;
+  first_name?: string | null | undefined;
   /** Last name of the invited user */
-  last_name?: string | null;
+  last_name?: string | null | undefined;
   /** Timestamp when the invitation was created */
   created_at: string;
   /** Timestamp when the invitation expires */
@@ -1075,7 +1152,7 @@ export interface GetResourceRequest {
 }
 /** User-inputted metadata based on the registered metadata schema. */
 export type ResourceMetadataMap = { [key: string]: unknown | undefined };
-/** A provisioned Vercel Marketplace resource. Matches Vercel's Partner API "Get Resource" response. Secrets/connection info are returned by Provision Resource, not here. The optional billingPlan, protocolSettings, and notification fields are not yet populated. */
+/** A provisioned Vercel Marketplace resource. Matches Vercel's Partner API "Get Resource" response. Secrets/connection info are returned by Provision Resource, not here. */
 export interface Resource {
   /** The partner-specific resource id. */
   id: string;
@@ -1110,11 +1187,11 @@ export interface ListBillingPlansForProductRequest {
   /** Vercel product slug (e.g. xata-postgres). */
   productSlug: string;
   /** Opaque metadata forwarded by Vercel. */
-  metadata?: string;
+  metadata?: string | undefined;
 }
 export interface PlanDetail {
   label: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type BillingPlanDetailsList = Array<PlanDetail>;
 export type BillingPlanHighlightedDetailsList = Array<PlanDetail>;
@@ -1132,20 +1209,20 @@ export interface BillingPlan {
   name: string;
   description: string;
   /** Plan scope; installation-level plans require enablement on the integration. */
-  scope?: string;
+  scope?: string | undefined;
   /** Subscription plans only. false means the plan is completely free. */
-  paymentMethodRequired?: boolean;
+  paymentMethodRequired?: boolean | undefined;
   /** Subscription + paymentMethodRequired. Amount used to test the payment method; never charged. */
-  preauthorizationAmount?: number;
+  preauthorizationAmount?: number | undefined;
   /** Subscription + paymentMethodRequired. Amount invoiced immediately at sign-up (decimal USD string). */
-  initialCharge?: string;
+  initialCharge?: string | undefined;
   /** Display cost for fixed-cost plans, e.g. "$20.00/month". Omitted for usage-based plans. */
-  cost?: string;
-  details?: BillingPlanDetailsList;
-  highlightedDetails?: BillingPlanHighlightedDetailsList;
-  quote?: BillingPlanQuoteList;
-  effectiveDate?: string;
-  disabled?: boolean;
+  cost?: string | undefined;
+  details?: BillingPlanDetailsList | undefined;
+  highlightedDetails?: BillingPlanHighlightedDetailsList | undefined;
+  quote?: BillingPlanQuoteList | undefined;
+  effectiveDate?: string | undefined;
+  disabled?: boolean | undefined;
 }
 export type ListBillingPlansResponsePlansList = Array<BillingPlan>;
 /** The billing plans available for a product. */
@@ -1165,13 +1242,13 @@ export interface BranchListMetadata {
   /** Human-readable name of the branch */
   name: string;
   /** Optional description of the branch purpose or contents */
-  description?: string;
+  description?: string | undefined;
   /** Timestamp when the branch was created */
   createdAt: string;
   /** Timestamp when the branch was last updated */
   updatedAt: string;
   /** Identifier of the parent branch if this is a derived branch, null otherwise */
-  parentID?: string | null;
+  parentID?: string | null | undefined;
   /** Geographic region where the branch is deployed */
   region: string;
   /** Whether the branch allows public access without authentication */
@@ -1191,7 +1268,7 @@ export interface ListExtensionsRequest {
   /** Image for which we list extensions */
   image: string;
   /** Region to list extensions for image in */
-  region?: string;
+  region?: string | undefined;
 }
 /** type of installation */
 export type ExtensionType = "extension" | "plugin" | "module";
@@ -1230,7 +1307,7 @@ export interface ListImagesRequest {
   /** Unique identifier of the organization to check image availability */
   organizationID: string;
   /** Region to check image availability for organization */
-  region?: string;
+  region?: string | undefined;
 }
 /** region where this instance type is available */
 export type ImageRegionList = Array<string>;
@@ -1243,7 +1320,7 @@ export interface Image {
   /** full postgres version */
   fullVersion: string;
   /** region where this instance type is available */
-  region?: ImageRegionList;
+  region?: ImageRegionList | undefined;
 }
 /** Array of available images with their properties */
 export type ListImagesResponseImagesList = Array<Image>;
@@ -1302,9 +1379,9 @@ export interface APIKeyPreview {
   /** Timestamp of the last time the key was used (null if never) */
   last_used: string | null;
   /** ID of the user that created this API key */
-  created_by?: string | null;
+  created_by?: string | null | undefined;
   /** ID of the API key that created this API key */
-  created_by_key?: string | null;
+  created_by_key?: string | null | undefined;
 }
 /** Array of API keys for the organization */
 export type ListOrganizationAPIKeysResponseKeysList = Array<APIKeyPreview>;
@@ -1317,19 +1394,19 @@ export interface ListOrganizationInvitationsRequest {
   /** Unique identifier for a specific organization */
   organizationID: string;
   /** Filter invitations by status */
-  status?: ListOrganizationInvitationsRequestStatus | (string & {});
+  status?: ListOrganizationInvitationsRequestStatus | (string & {}) | undefined;
   /** Filter invitations by email address */
-  email?: string;
+  email?: string | undefined;
   /** Filter invitations by first name */
-  first_name?: string;
+  first_name?: string | undefined;
   /** Filter invitations by last name */
-  last_name?: string;
+  last_name?: string | undefined;
   /** Search invitations by email or name */
-  search?: string;
+  search?: string | undefined;
   /** Index of the first result to return (0-based offset for pagination) */
-  first?: number;
+  first?: number | undefined;
   /** Maximum number of results to return */
-  max?: number;
+  max?: number | undefined;
 }
 export type ListOrganizationInvitationsResponseInvitationsList = Array<OrganizationInvitation>;
 export interface ListOrganizationInvitationsResponse {
@@ -1430,15 +1507,15 @@ export interface ProvisionResourceRequest {
   /** Selected Vercel billing plan id. */
   billingPlanId: string;
   /** Partner-provided identifier indicating the source of provisioning. */
-  externalId?: string;
+  externalId?: string | undefined;
 }
 /** User-inputted metadata based on the registered metadata schema. */
 export type ProvisionedResourceMetadataMap = { [key: string]: unknown | undefined };
 /** Per-environment values that override value for that Vercel environment. */
 export interface SecretEnvironmentOverrides {
-  development?: string;
-  preview?: string;
-  production?: string;
+  development?: string | undefined;
+  preview?: string | undefined;
+  production?: string | undefined;
 }
 /** A connection secret exposed as an environment variable on connected Vercel projects. */
 export interface Secret {
@@ -1447,7 +1524,7 @@ export interface Secret {
   /** Default value, used when no per-environment override applies. */
   value: string;
   /** Per-environment values that override value for that Vercel environment. */
-  environmentOverrides?: SecretEnvironmentOverrides;
+  environmentOverrides?: SecretEnvironmentOverrides | undefined;
 }
 /** Connection secrets that become environment variables on connected projects. */
 export type ProvisionedResourceSecretsList = Array<Secret>;
@@ -1475,21 +1552,21 @@ export interface QueryItem {
   /** SQL query to execute. */
   query: string;
   /** Positional parameters for the query. */
-  params?: QueryItemParamsList;
+  params?: QueryItemParamsList | undefined;
   /** Override array mode for this individual query. */
-  arrayMode?: boolean;
+  arrayMode?: boolean | undefined;
 }
 /** Array of queries for batch execution within a single transaction. */
 export type QueryRequestQueriesList = Array<QueryItem>;
 export interface QueryRequest {
   /** SQL query to execute (single query mode). */
-  query?: string;
+  query?: string | undefined;
   /** Positional parameters for the query (`$1`, `$2`, ...). */
-  params?: QueryRequestParamsList;
+  params?: QueryRequestParamsList | undefined;
   /** Array of queries for batch execution within a single transaction. */
-  queries?: QueryRequestQueriesList;
+  queries?: QueryRequestQueriesList | undefined;
   /** Override array mode for this query (single query mode only). */
-  arrayMode?: boolean;
+  arrayMode?: boolean | undefined;
 }
 /** PostgreSQL column metadata from the row description message. */
 export interface FieldDefinition {
@@ -1583,10 +1660,12 @@ export interface RestoreFromBackupRequest {
   /** Human-readable name of the branch */
   name: string;
   /** Optional description of the branch purpose or contents */
-  description?: string;
-  scaleToZero?: ScaleToZeroConfiguration;
-  backupConfiguration?: BackupConfiguration;
-  configuration?: ClusterConfiguration;
+  description?: string | undefined;
+  scaleToZero?: ScaleToZeroConfiguration | undefined;
+  backupConfiguration?: BackupConfiguration | undefined;
+  configuration?: ClusterConfiguration | undefined;
+  /** Point in time to restore the source branch to. It must be in the recovery window that getBackup reports, from earliestRestore to latestRestore. If it is not set, the new branch is restored to the end of the archived WAL at the time the restore runs. */
+  targetTime?: string | undefined;
 }
 export interface RotateBranchCredentialsRequest {
   organizationID: string;
@@ -1606,11 +1685,11 @@ export interface SendMcpRequestRequest {
   /** JSON-RPC protocol version. Always `2.0`. */
   jsonrpc: SendMcpRequestRequestJsonrpc | (string & {});
   /** Request identifier, echoed on the response. Omitted for notifications. */
-  id?: SendMcpRequestRequestId;
+  id?: SendMcpRequestRequestId | undefined;
   /** MCP method, such as `initialize`, `tools/list`, or `tools/call`. */
   method: string;
   /** Method parameters as defined by the MCP specification. */
-  params?: SendMcpRequestRequestParamsMap;
+  params?: SendMcpRequestRequestParamsMap | undefined;
 }
 /** JSON-RPC protocol version. Always `2.0`. */
 export type JSONRPCResponseJsonrpc = "2.0";
@@ -1625,7 +1704,7 @@ export interface JSONRPCError {
   /** Short description of the error. */
   message: string;
   /** Additional error detail. */
-  data?: unknown;
+  data?: unknown | undefined;
 }
 /** A JSON-RPC 2.0 response. Exactly one of `result` or `error` is present. */
 export interface JSONRPCResponse {
@@ -1634,8 +1713,8 @@ export interface JSONRPCResponse {
   /** Identifier of the request this responds to. */
   id: JSONRPCResponseId;
   /** Method result as defined by the MCP specification. */
-  result?: JSONRPCResponseResultMap;
-  error?: JSONRPCError;
+  result?: JSONRPCResponseResultMap | undefined;
+  error?: JSONRPCError | undefined;
 }
 export interface SetOrganizationMemberRoleRequest {
   /** Unique identifier for a specific organization */
@@ -1678,25 +1757,27 @@ export interface UpdateBranchRequest {
   /** Unique identifier of the branch to update */
   branchID: string;
   /** New name for the branch */
-  name?: string;
+  name?: string | undefined;
   /** New description for the branch. Send an empty string to clear it. */
-  description?: string;
+  description?: string | undefined;
   /** Number of database replicas to scale to */
-  replicas?: number;
+  replicas?: number | undefined;
   /** Branch storage in GiB (gigabytes). The maximum allowed value depends on the organization's storage limit. */
-  storage?: number;
+  storage?: number | undefined;
   /** New instance type for the branch */
-  instanceType?: string;
-  backupConfiguration?: BackupConfiguration;
+  instanceType?: string | undefined;
+  backupConfiguration?: BackupConfiguration | undefined;
   /** Enabled when the branch should be hibernated, disabled if it needs to be reactivated. */
-  hibernate?: boolean;
-  scaleToZero?: ScaleToZeroConfiguration;
+  hibernate?: boolean | undefined;
+  scaleToZero?: ScaleToZeroConfiguration | undefined;
   /** Arbitrary PostgreSQL configuration parameters for the cluster */
-  postgresConfigurationParameters?: UpdateBranchRequestPostgresConfigurationParametersMap;
+  postgresConfigurationParameters?:
+    | UpdateBranchRequestPostgresConfigurationParametersMap
+    | undefined;
   /** List of PostgreSQL extensions and libraries to preload */
-  preloadLibraries?: UpdateBranchRequestPreloadLibrariesList;
+  preloadLibraries?: UpdateBranchRequestPreloadLibrariesList | undefined;
   /** PostgreSQL image to use for the database instances */
-  image?: string;
+  image?: string | undefined;
 }
 export interface UpdateGithubAppInstallationRequest {
   /** Unique identifier of the organization */
@@ -1720,9 +1801,9 @@ export interface UpdateOrganizationRequest {
   /** Unique identifier for a specific organization */
   organizationID: string;
   /** Unique identifier for the organization to update */
-  id?: string;
+  id?: string | undefined;
   /** New name for the organization */
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateOrganizationSSOProviderRequest {
   /** Unique identifier for a specific organization */
@@ -1730,7 +1811,7 @@ export interface UpdateOrganizationSSOProviderRequest {
   /** Alias identifying one of the organization's SSO identity providers */
   providerAlias: string;
   /** OIDC issuer URL. Required for `oidc`, and for `microsoft` where it names the Entra tenant; ignored for `google`. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** OAuth client ID the organization registered with the provider */
   client_id: string;
   /** OAuth client secret. Write-only: it is stored in Keycloak and is never returned by this API. */
@@ -1738,8 +1819,8 @@ export interface UpdateOrganizationSSOProviderRequest {
 }
 /** Partial configuration update for a project */
 export interface UpdateProjectConfiguration {
-  scaleToZero?: ProjectScaleToZeroConfiguration;
-  ipFiltering?: IPFilteringConfiguration;
+  scaleToZero?: ProjectScaleToZeroConfiguration | undefined;
+  ipFiltering?: IPFilteringConfiguration | undefined;
 }
 export interface UpdateProjectRequest {
   /** Unique identifier of the organization containing the project */
@@ -1747,8 +1828,8 @@ export interface UpdateProjectRequest {
   /** Unique identifier of the project to update */
   projectID: string;
   /** New name for the project */
-  name?: string;
-  configuration?: UpdateProjectConfiguration;
+  name?: string | undefined;
+  configuration?: UpdateProjectConfiguration | undefined;
 }
 /** Scopes granted to the installation. */
 export type UpsertInstallationRequestScopesList = Array<string>;
@@ -1763,16 +1844,16 @@ export interface InstallationCredentials {
 /** Contact details for the account. */
 export interface InstallationAccountContact {
   email: string;
-  name?: string;
+  name?: string | undefined;
 }
 /** The Vercel account/team installing the integration. */
 export interface InstallationAccount {
   /** Team name (absent for personal accounts). */
-  name?: string;
+  name?: string | undefined;
   /** URL of the account on Vercel. */
   url: string;
   /** Contact details for the account. */
-  contact?: InstallationAccountContact;
+  contact?: InstallationAccountContact | undefined;
 }
 export interface UpsertInstallationRequest {
   /** Vercel installation id (icfg_...). */
@@ -1793,6 +1874,109 @@ export interface VerifyOrganizationSSODomainRequest {
 }
 export interface WebsocketRequest {}
 export interface WebsocketResponse {}
+export interface Error400Body {
+  /** Error identifier for tracking and debugging */
+  id?: string | undefined;
+  /** Human-readable error message explaining the issue */
+  message: string;
+}
+/** User-facing error details, if applicable. */
+export interface VercelErrorErrorUser {
+  /** User-facing error message. */
+  message?: string | undefined;
+  /** URL to a help article or dashboard page for resolution. */
+  url?: string | undefined;
+}
+export interface VercelErrorErrorFieldsItem {
+  key: string;
+  message?: string | undefined;
+}
+/** Offending fields, for validation errors. */
+export type VercelErrorErrorFieldsList = Array<VercelErrorErrorFieldsItem>;
+export interface VercelErrorError {
+  /** Machine-readable error code (e.g. validation_error, conflict). */
+  code: string;
+  /** Human-readable (system) error message. */
+  message: string;
+  /** User-facing error details, if applicable. */
+  user?: VercelErrorErrorUser | undefined;
+  /** Offending fields, for validation errors. */
+  fields?: VercelErrorErrorFieldsList | undefined;
+}
+/** Vercel Partner API error envelope. */
+export interface VercelError {
+  error: VercelErrorError;
+}
+/** User-facing error details, if applicable. */
+export type ResourceErrorErrorUser = VercelErrorErrorUser;
+export interface ResourceErrorErrorFieldsItem {
+  /** The metadata field the error applies to. */
+  key: string;
+  /** Validation message for this field. */
+  message?: string | undefined;
+}
+/** Field-level validation errors, for 400 responses. */
+export type ResourceErrorErrorFieldsList = Array<ResourceErrorErrorFieldsItem>;
+export interface ResourceErrorError {
+  /** Machine-readable error code (e.g. validation_error, conflict). */
+  code: string;
+  /** Human-readable (system) error message. */
+  message: string;
+  /** User-facing error details, if applicable. */
+  user?: VercelErrorErrorUser | undefined;
+  /** Field-level validation errors, for 400 responses. */
+  fields?: ResourceErrorErrorFieldsList | undefined;
+}
+/** Vercel Partner API error envelope. */
+export interface ResourceError {
+  error: ResourceErrorError;
+}
+/** Error response with PostgreSQL error fields. */
+export interface ErrorResponse {
+  /** Human-readable error message. */
+  message: string;
+  /** PostgreSQL error code (SQLSTATE) or application error code. */
+  code?: string | undefined;
+  /** PostgreSQL error severity (e.g. `ERROR`, `FATAL`). */
+  severity?: string | undefined;
+  /** Optional detail message. */
+  detail?: string | undefined;
+  /** Optional hint for resolving the error. */
+  hint?: string | undefined;
+  /** Character position in the query where the error occurred. */
+  position?: string | undefined;
+  /** Position in an internally-generated query. */
+  internalPosition?: string | undefined;
+  /** Text of the internally-generated query. */
+  internalQuery?: string | undefined;
+  /** Context in which the error occurred. */
+  where?: string | undefined;
+  /** Schema name related to the error. */
+  schema?: string | undefined;
+  /** Table name related to the error. */
+  table?: string | undefined;
+  /** Column name related to the error. */
+  column?: string | undefined;
+  /** Data type name related to the error. */
+  dataType?: string | undefined;
+  /** Constraint name related to the error. */
+  constraint?: string | undefined;
+  /** Source file where the error was reported (server-side). */
+  file?: string | undefined;
+  /** Source line where the error was reported (server-side). */
+  line?: string | undefined;
+  /** Source routine where the error was reported (server-side). */
+  routine?: string | undefined;
+}
+/** Error response */
+export type AuthErrorResponse = Error400Body;
+export type Error401Body = Error400Body;
+export interface Error401Body2 {
+  /** Error identifier for tracking and debugging */
+  id?: string | undefined;
+  /** Human-readable error message explaining the authentication or authorization issue */
+  message: string;
+}
 export type BranchLogs2Error = BadRequest | NotFound | XataOpError;
 /** Retrieve branch logs */
 export const branchLogs2: API.OperationMethod<
@@ -1801,8 +1985,8 @@ export const branchLogs2: API.OperationMethod<
   BranchLogs2Error,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(690, __c43, 2) as any as S.Schema<BranchLogsRequest>,
-  output: __S(693, __c43, 5) as any as S.Schema<BranchLogs>,
+  input: __S(706, __c44, 2) as any as S.Schema<BranchLogsRequest>,
+  output: __S(709, __c44, 5) as any as S.Schema<BranchLogs>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -1818,8 +2002,8 @@ export const branchMetrics2: API.OperationMethod<
   BranchMetrics2Error,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(897, __c56, 1) as any as S.Schema<BranchMetricsRequest>,
-  output: __S(904, __c56, 8) as any as S.Schema<BranchMetrics>,
+  input: __S(913, __c57, 1) as any as S.Schema<BranchMetricsRequest>,
+  output: __S(920, __c57, 8) as any as S.Schema<BranchMetrics>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -1835,8 +2019,8 @@ export const claimOrganizationSSODomain: API.OperationMethod<
   ClaimOrganizationSSODomainError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<ClaimOrganizationSSODomainRequest>,
-  output: __S(1105, __c69, 1) as any as S.Schema<OrganizationSSODomain>,
+  input: __S(1104, __c69, 0) as any as S.Schema<ClaimOrganizationSSODomainRequest>,
+  output: __S(1121, __c70, 1) as any as S.Schema<OrganizationSSODomain>,
   errors: [BadRequest, Forbidden, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -1852,8 +2036,8 @@ export const createBillingCheckoutSession: API.OperationMethod<
   CreateBillingCheckoutSessionError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<CreateBillingCheckoutSessionRequest>,
-  output: __S(1296, __c81, 0) as any as S.Schema<BillingCheckoutSessionResponse>,
+  input: __S(1296, __c81, 0) as any as S.Schema<CreateBillingCheckoutSessionRequest>,
+  output: __S(1312, __c82, 0) as any as S.Schema<BillingCheckoutSessionResponse>,
   errors: [BadRequest, Forbidden, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -1869,8 +2053,8 @@ export const createBillingPaymentMethodSession: API.OperationMethod<
   CreateBillingPaymentMethodSessionError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<CreateBillingPaymentMethodSessionRequest>,
-  output: __S(1296, __c81, 0) as any as S.Schema<BillingPaymentMethodSessionResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<CreateBillingPaymentMethodSessionRequest>,
+  output: __S(1312, __c82, 0) as any as S.Schema<BillingPaymentMethodSessionResponse>,
   errors: [BadRequest, Forbidden, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -1886,8 +2070,8 @@ export const createBranch: API.OperationMethod<
   CreateBranchError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<CreateBranchRequest>,
-  output: __S(1600, __c100, 0) as any as S.Schema<BranchShortMetadata>,
+  input: __S(1568, __c98, 0) as any as S.Schema<CreateBranchRequest>,
+  output: __S(1616, __c101, 0) as any as S.Schema<BranchShortMetadata>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -1903,8 +2087,8 @@ export const createGithubAppInstallation: API.OperationMethod<
   CreateGithubAppInstallationError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateGithubAppInstallationRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<GithubInstallation>,
+  input: __S(16, __c1, 0) as any as S.Schema<CreateGithubAppInstallationRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<GithubInstallation>,
   errors: [BadRequest, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -1920,8 +2104,8 @@ export const createGithubRepository: API.OperationMethod<
   CreateGithubRepositoryError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<CreateGithubRepositoryRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<GithubRepository>,
+  input: __S(48, __c3, 0) as any as S.Schema<CreateGithubRepositoryRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<GithubRepository>,
   errors: [BadRequest, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -1937,8 +2121,8 @@ export const createOrganization: API.OperationMethod<
   CreateOrganizationError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<CreateOrganizationRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<Organization>,
+  input: __S(80, __c5, 0) as any as S.Schema<CreateOrganizationRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<Organization>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -1954,8 +2138,8 @@ export const createOrganizationAPIKey: API.OperationMethod<
   CreateOrganizationAPIKeyError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<CreateOrganizationAPIKeyRequest>,
-  output: __S(129, __c8, 1) as any as S.Schema<CreateOrganizationAPIKeyResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<CreateOrganizationAPIKeyRequest>,
+  output: __S(145, __c9, 1) as any as S.Schema<CreateOrganizationAPIKeyResponse>,
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -1976,8 +2160,8 @@ export const createOrganizationInvitation: API.OperationMethod<
   CreateOrganizationInvitationError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<CreateOrganizationInvitationRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<CreateOrganizationInvitationResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<CreateOrganizationInvitationRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<CreateOrganizationInvitationResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -1993,8 +2177,8 @@ export const createOrganizationSSOProvider: API.OperationMethod<
   CreateOrganizationSSOProviderError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<CreateOrganizationSSOProviderRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<OrganizationSSOProvider>,
+  input: __S(192, __c12, 0) as any as S.Schema<CreateOrganizationSSOProviderRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<OrganizationSSOProvider>,
   errors: [BadRequest, Forbidden, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2010,8 +2194,8 @@ export const createProject: API.OperationMethod<
   CreateProjectError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<CreateProjectRequest>,
-  output: __S(229, __c14, 5) as any as S.Schema<Project>,
+  input: __S(224, __c14, 0) as any as S.Schema<CreateProjectRequest>,
+  output: __S(245, __c15, 5) as any as S.Schema<Project>,
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2027,8 +2211,8 @@ export const createUserAPIKey: API.OperationMethod<
   CreateUserAPIKeyError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<CreateUserAPIKeyRequest>,
-  output: __S(129, __c8, 1) as any as S.Schema<CreateUserAPIKeyResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<CreateUserAPIKeyRequest>,
+  output: __S(145, __c9, 1) as any as S.Schema<CreateUserAPIKeyResponse>,
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2044,8 +2228,8 @@ export const deleteBranch: API.OperationMethod<
   DeleteBranchError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<DeleteBranchRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<DeleteBranchResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<DeleteBranchRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<DeleteBranchResponse>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2061,8 +2245,8 @@ export const deleteGithubRepository: API.OperationMethod<
   DeleteGithubRepositoryError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<DeleteGithubRepositoryRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<DeleteGithubRepositoryResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<DeleteGithubRepositoryRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<DeleteGithubRepositoryResponse>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2078,8 +2262,8 @@ export const deleteInstallation: API.OperationMethod<
   DeleteInstallationError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<DeleteInstallationRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<DeleteInstallationResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<DeleteInstallationRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<DeleteInstallationResponse>,
   errors: [Forbidden, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2095,8 +2279,8 @@ export const deleteOrganization: API.OperationMethod<
   DeleteOrganizationError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<DeleteOrganizationRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<DeleteOrganizationResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<DeleteOrganizationRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<DeleteOrganizationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2112,8 +2296,8 @@ export const deleteOrganizationAPIKeys: API.OperationMethod<
   DeleteOrganizationAPIKeysError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<DeleteOrganizationAPIKeysRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<DeleteOrganizationAPIKeysResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<DeleteOrganizationAPIKeysRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<DeleteOrganizationAPIKeysResponse>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2129,8 +2313,8 @@ export const deleteOrganizationInvitation: API.OperationMethod<
   DeleteOrganizationInvitationError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<DeleteOrganizationInvitationRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<DeleteOrganizationInvitationResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<DeleteOrganizationInvitationRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<DeleteOrganizationInvitationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2146,8 +2330,8 @@ export const deleteOrganizationSSODomain: API.OperationMethod<
   DeleteOrganizationSSODomainError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<DeleteOrganizationSSODomainRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<DeleteOrganizationSSODomainResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<DeleteOrganizationSSODomainRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<DeleteOrganizationSSODomainResponse>,
   errors: [Forbidden, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2163,8 +2347,8 @@ export const deleteOrganizationSSOProvider: API.OperationMethod<
   DeleteOrganizationSSOProviderError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<DeleteOrganizationSSOProviderRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<DeleteOrganizationSSOProviderResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<DeleteOrganizationSSOProviderRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<DeleteOrganizationSSOProviderResponse>,
   errors: [Forbidden, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2180,8 +2364,8 @@ export const deleteProject: API.OperationMethod<
   DeleteProjectError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<DeleteProjectRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<DeleteProjectResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<DeleteProjectRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<DeleteProjectResponse>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2197,8 +2381,8 @@ export const deleteResource: API.OperationMethod<
   DeleteResourceError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<DeleteResourceRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<DeleteResourceResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<DeleteResourceRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<DeleteResourceResponse>,
   errors: [Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2214,8 +2398,8 @@ export const deleteUserAPIKeys: API.OperationMethod<
   DeleteUserAPIKeysError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<DeleteUserAPIKeysRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<DeleteUserAPIKeysResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<DeleteUserAPIKeysRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<DeleteUserAPIKeysResponse>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2231,8 +2415,8 @@ export const describeBranch: API.OperationMethod<
   DescribeBranchError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<DescribeBranchRequest>,
-  output: __S(437, __c27, 5) as any as S.Schema<BranchMetadata>,
+  input: __S(448, __c28, 0) as any as S.Schema<DescribeBranchRequest>,
+  output: __S(453, __c28, 5) as any as S.Schema<BranchMetadata>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2248,8 +2432,8 @@ export const getBackup: API.OperationMethod<
   GetBackupError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<GetBackupRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<BackupMetadata>,
+  input: __S(496, __c31, 0) as any as S.Schema<GetBackupRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<BackupMetadata>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2265,8 +2449,8 @@ export const getBillingCustomer: API.OperationMethod<
   GetBillingCustomerError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<GetBillingCustomerRequest>,
-  output: __S(533, __c33, 5) as any as S.Schema<BillingCustomerResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<GetBillingCustomerRequest>,
+  output: __S(549, __c34, 5) as any as S.Schema<BillingCustomerResponse>,
   errors: [Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2282,8 +2466,8 @@ export const getBillingInvoices: API.OperationMethod<
   GetBillingInvoicesError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<GetBillingInvoicesRequest>,
-  output: __S(548, __c34, 4) as any as S.Schema<BillingInvoicesResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<GetBillingInvoicesRequest>,
+  output: __S(564, __c35, 4) as any as S.Schema<BillingInvoicesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2299,8 +2483,8 @@ export const getBillingUpcomingInvoice: API.OperationMethod<
   GetBillingUpcomingInvoiceError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<GetBillingUpcomingInvoiceRequest>,
-  output: __S(561, __c35, 1) as any as S.Schema<BillingUpcomingInvoiceResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<GetBillingUpcomingInvoiceRequest>,
+  output: __S(577, __c36, 1) as any as S.Schema<BillingUpcomingInvoiceResponse>,
   errors: [Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2316,8 +2500,8 @@ export const getBranchCredentials: API.OperationMethod<
   GetBranchCredentialsError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<GetBranchCredentialsRequest>,
-  output: __S(577, __c36, 1) as any as S.Schema<BranchCredentials>,
+  input: __S(592, __c37, 0) as any as S.Schema<GetBranchCredentialsRequest>,
+  output: __S(593, __c37, 1) as any as S.Schema<BranchCredentials>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2333,8 +2517,8 @@ export const getBranchPostgresConfig: API.OperationMethod<
   GetBranchPostgresConfigError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<GetBranchPostgresConfigRequest>,
-  output: __S(596, __c37, 4) as any as S.Schema<PostgresConfigDetails>,
+  input: __S(608, __c38, 0) as any as S.Schema<GetBranchPostgresConfigRequest>,
+  output: __S(612, __c38, 4) as any as S.Schema<PostgresConfigDetails>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2350,8 +2534,8 @@ export const getGithubRepository: API.OperationMethod<
   GetGithubRepositoryError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<GetGithubRepositoryRequest>,
-  output: __S(609, __c38, 1) as any as S.Schema<GetGithubRepositoryResponse>,
+  input: __S(624, __c39, 0) as any as S.Schema<GetGithubRepositoryRequest>,
+  output: __S(625, __c39, 1) as any as S.Schema<GetGithubRepositoryResponse>,
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2367,8 +2551,8 @@ export const getOrganization: API.OperationMethod<
   GetOrganizationError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<GetOrganizationRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<Organization>,
+  input: __S(640, __c40, 0) as any as S.Schema<GetOrganizationRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<Organization>,
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2384,8 +2568,8 @@ export const getOrganizationInvitation: API.OperationMethod<
   GetOrganizationInvitationError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c40, 0) as any as S.Schema<GetOrganizationInvitationRequest>,
-  output: __S(656, __c41, 0) as any as S.Schema<OrganizationInvitation>,
+  input: __S(656, __c41, 0) as any as S.Schema<GetOrganizationInvitationRequest>,
+  output: __S(672, __c42, 0) as any as S.Schema<OrganizationInvitation>,
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2401,8 +2585,8 @@ export const getOrganizationLimits: API.OperationMethod<
   GetOrganizationLimitsError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<GetOrganizationLimitsRequest>,
-  output: __S(673, __c42, 1) as any as S.Schema<GetOrganizationLimitsResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<GetOrganizationLimitsRequest>,
+  output: __S(689, __c43, 1) as any as S.Schema<GetOrganizationLimitsResponse>,
   errors: [Forbidden, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2418,8 +2602,8 @@ export const getOrganizationMembershipLimits: API.OperationMethod<
   GetOrganizationMembershipLimitsError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<GetOrganizationMembershipLimitsRequest>,
-  output: __S(721, __c45, 1) as any as S.Schema<OrganizationMembershipLimits>,
+  input: __S(736, __c46, 0) as any as S.Schema<GetOrganizationMembershipLimitsRequest>,
+  output: __S(737, __c46, 1) as any as S.Schema<OrganizationMembershipLimits>,
   errors: [Forbidden, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2435,8 +2619,8 @@ export const getOrganizationsList: API.OperationMethod<
   GetOrganizationsListError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<GetOrganizationsListRequest>,
-  output: __S(739, __c46, 3) as any as S.Schema<GetOrganizationsListResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<GetOrganizationsListRequest>,
+  output: __S(755, __c47, 3) as any as S.Schema<GetOrganizationsListResponse>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2452,8 +2636,8 @@ export const getOrganizationSSO: API.OperationMethod<
   GetOrganizationSSOError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<GetOrganizationSSORequest>,
-  output: __S(755, __c47, 3) as any as S.Schema<OrganizationSSO>,
+  input: __S(768, __c48, 0) as any as S.Schema<GetOrganizationSSORequest>,
+  output: __S(771, __c48, 3) as any as S.Schema<OrganizationSSO>,
   errors: [Forbidden, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2469,8 +2653,8 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<GetProjectRequest>,
-  output: __S(229, __c14, 5) as any as S.Schema<Project>,
+  input: __S(784, __c49, 0) as any as S.Schema<GetProjectRequest>,
+  output: __S(245, __c15, 5) as any as S.Schema<Project>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2486,8 +2670,8 @@ export const getProjectLimits: API.OperationMethod<
   GetProjectLimitsError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<GetProjectLimitsRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<EffectiveProjectLimits>,
+  input: __S(800, __c50, 0) as any as S.Schema<GetProjectLimitsRequest>,
+  output: __S(801, __c50, 1) as any as S.Schema<EffectiveProjectLimits>,
   errors: [UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2503,8 +2687,8 @@ export const getResource: API.OperationMethod<
   GetResourceError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<GetResourceRequest>,
-  output: __S(801, __c50, 1) as any as S.Schema<Resource>,
+  input: __S(816, __c51, 0) as any as S.Schema<GetResourceRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<Resource>,
   errors: [Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2520,8 +2704,8 @@ export const githubWebhook: API.OperationMethod<
   GithubWebhookError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<GithubWebhookRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<GithubWebhookResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<GithubWebhookRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<GithubWebhookResponse>,
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2537,8 +2721,8 @@ export const listBackups: API.OperationMethod<
   ListBackupsError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<ListBackupsRequest>,
-  output: __S(850, __c53, 2) as any as S.Schema<ListBackupsResponse>,
+  input: __S(864, __c54, 0) as any as S.Schema<ListBackupsRequest>,
+  output: __S(866, __c54, 2) as any as S.Schema<ListBackupsResponse>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2554,8 +2738,8 @@ export const listBillingPlansForProduct: API.OperationMethod<
   ListBillingPlansForProductError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<ListBillingPlansForProductRequest>,
-  output: __S(871, __c54, 7) as any as S.Schema<ListBillingPlansResponse>,
+  input: __S(880, __c55, 0) as any as S.Schema<ListBillingPlansForProductRequest>,
+  output: __S(887, __c55, 7) as any as S.Schema<ListBillingPlansResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2571,8 +2755,8 @@ export const listBranches: API.OperationMethod<
   ListBranchesError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<ListBranchesRequest>,
-  output: __S(883, __c55, 3) as any as S.Schema<ListBranchesResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<ListBranchesRequest>,
+  output: __S(899, __c56, 3) as any as S.Schema<ListBranchesResponse>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2588,8 +2772,8 @@ export const listExtensions: API.OperationMethod<
   ListExtensionsError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<ListExtensionsRequest>,
-  output: __S(915, __c57, 3) as any as S.Schema<ListExtensionsResponse>,
+  input: __S(928, __c58, 0) as any as S.Schema<ListExtensionsRequest>,
+  output: __S(931, __c58, 3) as any as S.Schema<ListExtensionsResponse>,
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2605,8 +2789,8 @@ export const listGithubAppInstallations: API.OperationMethod<
   ListGithubAppInstallationsError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<ListGithubAppInstallationsRequest>,
-  output: __S(930, __c58, 2) as any as S.Schema<ListGithubAppInstallationsResponse>,
+  input: __S(944, __c59, 0) as any as S.Schema<ListGithubAppInstallationsRequest>,
+  output: __S(946, __c59, 2) as any as S.Schema<ListGithubAppInstallationsResponse>,
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2622,8 +2806,8 @@ export const listImages: API.OperationMethod<
   ListImagesError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<ListImagesRequest>,
-  output: __S(947, __c59, 3) as any as S.Schema<ListImagesResponse>,
+  input: __S(960, __c60, 0) as any as S.Schema<ListImagesRequest>,
+  output: __S(963, __c60, 3) as any as S.Schema<ListImagesResponse>,
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2639,8 +2823,8 @@ export const listInstanceTypes: API.OperationMethod<
   ListInstanceTypesError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<ListInstanceTypesRequest>,
-  output: __S(963, __c60, 3) as any as S.Schema<ListInstanceTypesResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<ListInstanceTypesRequest>,
+  output: __S(979, __c61, 3) as any as S.Schema<ListInstanceTypesResponse>,
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2656,8 +2840,8 @@ export const listOrganizationAPIKeys: API.OperationMethod<
   ListOrganizationAPIKeysError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<ListOrganizationAPIKeysRequest>,
-  output: __S(994, __c62, 2) as any as S.Schema<ListOrganizationAPIKeysResponse>,
+  input: __S(992, __c62, 0) as any as S.Schema<ListOrganizationAPIKeysRequest>,
+  output: __S(1010, __c63, 2) as any as S.Schema<ListOrganizationAPIKeysResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2673,8 +2857,8 @@ export const listOrganizationInvitations: API.OperationMethod<
   ListOrganizationInvitationsError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<ListOrganizationInvitationsRequest>,
-  output: __S(1010, __c63, 2) as any as S.Schema<ListOrganizationInvitationsResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<ListOrganizationInvitationsRequest>,
+  output: __S(1026, __c64, 2) as any as S.Schema<ListOrganizationInvitationsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2690,8 +2874,8 @@ export const listOrganizationMembers: API.OperationMethod<
   ListOrganizationMembersError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<ListOrganizationMembersRequest>,
-  output: __S(1027, __c64, 3) as any as S.Schema<ListOrganizationMembersResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<ListOrganizationMembersRequest>,
+  output: __S(1043, __c65, 3) as any as S.Schema<ListOrganizationMembersResponse>,
   errors: [UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2707,8 +2891,8 @@ export const listOrganizationRoles: API.OperationMethod<
   ListOrganizationRolesError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<ListOrganizationRolesRequest>,
-  output: __S(1043, __c65, 3) as any as S.Schema<ListOrganizationRolesResponse>,
+  input: __S(1056, __c66, 0) as any as S.Schema<ListOrganizationRolesRequest>,
+  output: __S(1059, __c66, 3) as any as S.Schema<ListOrganizationRolesResponse>,
   errors: [Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2724,8 +2908,8 @@ export const listProjects: API.OperationMethod<
   ListProjectsError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<ListProjectsRequest>,
-  output: __S(1058, __c66, 2) as any as S.Schema<ListProjectsResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<ListProjectsRequest>,
+  output: __S(1074, __c67, 2) as any as S.Schema<ListProjectsResponse>,
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2741,8 +2925,8 @@ export const listRegions: API.OperationMethod<
   ListRegionsError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<ListRegionsRequest>,
-  output: __S(1075, __c67, 3) as any as S.Schema<ListRegionsResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<ListRegionsRequest>,
+  output: __S(1091, __c68, 3) as any as S.Schema<ListRegionsResponse>,
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2758,8 +2942,8 @@ export const listUserAPIKeys: API.OperationMethod<
   ListUserAPIKeysError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<ListUserAPIKeysRequest>,
-  output: __S(994, __c62, 2) as any as S.Schema<ListUserAPIKeysResponse>,
+  input: __S(1136, __c71, 0) as any as S.Schema<ListUserAPIKeysRequest>,
+  output: __S(1010, __c63, 2) as any as S.Schema<ListUserAPIKeysResponse>,
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2775,8 +2959,8 @@ export const orbWebhook: API.OperationMethod<
   OrbWebhookError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<OrbWebhookRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<OrbWebhookResponse>,
+  input: __S(1152, __c72, 0) as any as S.Schema<OrbWebhookRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<OrbWebhookResponse>,
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2792,8 +2976,8 @@ export const provisionResource: API.OperationMethod<
   ProvisionResourceError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<ProvisionResourceRequest>,
-  output: __S(1156, __c72, 4) as any as S.Schema<ProvisionedResource>,
+  input: __S(1168, __c73, 0) as any as S.Schema<ProvisionResourceRequest>,
+  output: __S(1172, __c73, 4) as any as S.Schema<ProvisionedResource>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2802,11 +2986,11 @@ export const provisionResource: API.OperationMethod<
 }));
 
 export type QueryError = BadRequest | Forbidden | NotFound | Conflict | XataOpError;
-/** Execute SQL query Execute a single SQL query or a batch of queries against a PostgreSQL branch. **Authentication:** send the branch's PostgreSQL connection string in the `Connection-String` header. The control-plane API key (Bearer token) is **not** accepted on the gateway host. **Routing:** the target branch, region, and endpoint type are taken from the hostname embedded in the connection string, which must match the request host. See the `Connection-String` security scheme for the host format. **Single query:** provide `query` (and optional `params`) at the top level. **Batch:** provide `queries` as an array of query objects, or send the request body as a JSON array. Batch queries execute within a single transaction. */
+/** Execute SQL query Execute a single SQL query or a batch of queries against a PostgreSQL branch. **Authentication:** send the branch's PostgreSQL connection string in the `Connection-String` header. The control-plane API key (Bearer token) is **not** accepted on the gateway host. **Routing:** the target branch, region, and endpoint type are taken from the hostname embedded in the connection string, which must match the request host. See the `Connection-String` security scheme for the host format. **Single query:** provide `query` (and optional `params`) at the top level. **Batch:** provide `queries` as an array of query objects, or send the request body as a JSON array. Batch queries execute within a single transaction. **Errors:** PostgreSQL errors return 400 with their SQLSTATE in `code` and their diagnostic fields. A 503 means the gateway could not reach the database: `08001` when a connection cannot be established and `08006` when an established connection fails. A 503 does not guarantee that replaying a write is safe: a connection failure can leave its outcome unknown. */
 export const query: API.OperationMethod<QueryRequest, QueryResponse, QueryError, XataOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1171, __c73, 3) as any as S.Schema<QueryRequest>,
-    output: __S(1172, __c73, 4) as any as S.Schema<QueryResponse>,
+    input: __S(1187, __c74, 3) as any as S.Schema<QueryRequest>,
+    output: __S(1188, __c74, 4) as any as S.Schema<QueryResponse>,
     errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownXataError],
     protocol: XataProtocol,
     retry: Retry.Retry,
@@ -2822,8 +3006,8 @@ export const registerMarketplace: API.OperationMethod<
   RegisterMarketplaceError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1185, __c74, 1) as any as S.Schema<RegisterMarketplaceRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<RegisterMarketplaceResponse>,
+  input: __S(1201, __c75, 1) as any as S.Schema<RegisterMarketplaceRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<RegisterMarketplaceResponse>,
   errors: [BadRequest, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2839,8 +3023,8 @@ export const removeOrganizationMember: API.OperationMethod<
   RemoveOrganizationMemberError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<RemoveOrganizationMemberRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<RemoveOrganizationMemberResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<RemoveOrganizationMemberRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<RemoveOrganizationMemberResponse>,
   errors: [BadRequest, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2856,8 +3040,8 @@ export const requestOrganizationDeletion: API.OperationMethod<
   RequestOrganizationDeletionError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<RequestOrganizationDeletionRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<RequestOrganizationDeletionResponse>,
+  input: __S(1232, __c77, 0) as any as S.Schema<RequestOrganizationDeletionRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<RequestOrganizationDeletionResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2873,8 +3057,8 @@ export const resendOrganizationInvitation: API.OperationMethod<
   ResendOrganizationInvitationError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<ResendOrganizationInvitationRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<ResendOrganizationInvitationResponse>,
+  input: __S(1248, __c78, 0) as any as S.Schema<ResendOrganizationInvitationRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<ResendOrganizationInvitationResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2883,15 +3067,15 @@ export const resendOrganizationInvitation: API.OperationMethod<
 }));
 
 export type RestoreFromBackupError = BadRequest | NotFound | XataOpError;
-/** Create a new branch from a backup of another branch Creates a new backup branch within the specified project. */
+/** Create a new branch from a backup of another branch Creates a new branch from the continuous backup of the source branch. The source branch does not change. The new branch is created in the region and cell of the source branch, and its parentID is the source branch. */
 export const restoreFromBackup: API.OperationMethod<
   RestoreFromBackupRequest,
   BranchShortMetadata,
   RestoreFromBackupError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<RestoreFromBackupRequest>,
-  output: __S(1600, __c100, 0) as any as S.Schema<BranchShortMetadata>,
+  input: __S(1264, __c79, 0) as any as S.Schema<RestoreFromBackupRequest>,
+  output: __S(1616, __c101, 0) as any as S.Schema<BranchShortMetadata>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2907,8 +3091,8 @@ export const rotateBranchCredentials: API.OperationMethod<
   RotateBranchCredentialsError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<RotateBranchCredentialsRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<RotateBranchCredentialsResponse>,
+  input: __S(1280, __c80, 0) as any as S.Schema<RotateBranchCredentialsRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<RotateBranchCredentialsResponse>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2924,8 +3108,8 @@ export const sendMcpRequest: API.OperationMethod<
   SendMcpRequestError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<SendMcpRequestRequest>,
-  output: __S(1314, __c82, 2) as any as S.Schema<JSONRPCResponse>,
+  input: __S(1328, __c83, 0) as any as S.Schema<SendMcpRequestRequest>,
+  output: __S(1330, __c83, 2) as any as S.Schema<JSONRPCResponse>,
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2946,8 +3130,8 @@ export const setOrganizationMemberRole: API.OperationMethod<
   SetOrganizationMemberRoleError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<SetOrganizationMemberRoleRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<SetOrganizationMemberRoleResponse>,
+  input: __S(1344, __c84, 0) as any as S.Schema<SetOrganizationMemberRoleRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<SetOrganizationMemberRoleResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2967,8 +3151,8 @@ export const setOrganizationSSOProviderEnforcement: API.OperationMethod<
   SetOrganizationSSOProviderEnforcementError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<SetOrganizationSSOProviderEnforcementRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<OrganizationSSOProvider>,
+  input: __S(1360, __c85, 0) as any as S.Schema<SetOrganizationSSOProviderEnforcementRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<OrganizationSSOProvider>,
   errors: [Forbidden, NotFound, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -2984,8 +3168,8 @@ export const stripeWebhook: API.OperationMethod<
   StripeWebhookError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1360, __c85, 0) as any as S.Schema<StripeWebhookRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<StripeWebhookResponse>,
+  input: __S(1376, __c86, 0) as any as S.Schema<StripeWebhookRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<StripeWebhookResponse>,
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -3001,8 +3185,8 @@ export const updateBillingCustomer: API.OperationMethod<
   UpdateBillingCustomerError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<UpdateBillingCustomerRequest>,
-  output: __S(533, __c33, 5) as any as S.Schema<BillingCustomerResponse>,
+  input: __S(1392, __c87, 0) as any as S.Schema<UpdateBillingCustomerRequest>,
+  output: __S(549, __c34, 5) as any as S.Schema<BillingCustomerResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -3018,8 +3202,8 @@ export const updateBranch: API.OperationMethod<
   UpdateBranchError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<UpdateBranchRequest>,
-  output: __S(1600, __c100, 0) as any as S.Schema<BranchShortMetadata>,
+  input: __S(1408, __c88, 0) as any as S.Schema<UpdateBranchRequest>,
+  output: __S(1616, __c101, 0) as any as S.Schema<BranchShortMetadata>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -3035,8 +3219,8 @@ export const updateGithubAppInstallation: API.OperationMethod<
   UpdateGithubAppInstallationError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<UpdateGithubAppInstallationRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<GithubInstallation>,
+  input: __S(1424, __c89, 0) as any as S.Schema<UpdateGithubAppInstallationRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<GithubInstallation>,
   errors: [BadRequest, NotFound, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -3052,8 +3236,8 @@ export const updateGithubRepository: API.OperationMethod<
   UpdateGithubRepositoryError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<UpdateGithubRepositoryRequest>,
-  output: __S(48, __c3, 0) as any as S.Schema<GithubRepository>,
+  input: __S(1440, __c90, 0) as any as S.Schema<UpdateGithubRepositoryRequest>,
+  output: __S(64, __c4, 0) as any as S.Schema<GithubRepository>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -3069,8 +3253,8 @@ export const updateOrganization: API.OperationMethod<
   UpdateOrganizationError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<UpdateOrganizationRequest>,
-  output: __S(96, __c6, 0) as any as S.Schema<Organization>,
+  input: __S(1456, __c91, 0) as any as S.Schema<UpdateOrganizationRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<Organization>,
   errors: [BadRequest, Forbidden, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -3091,8 +3275,8 @@ export const updateOrganizationSSOProvider: API.OperationMethod<
   UpdateOrganizationSSOProviderError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<UpdateOrganizationSSOProviderRequest>,
-  output: __S(192, __c12, 0) as any as S.Schema<OrganizationSSOProvider>,
+  input: __S(1472, __c92, 0) as any as S.Schema<UpdateOrganizationSSOProviderRequest>,
+  output: __S(208, __c13, 0) as any as S.Schema<OrganizationSSOProvider>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -3108,8 +3292,8 @@ export const updateProject: API.OperationMethod<
   UpdateProjectError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1489, __c93, 1) as any as S.Schema<UpdateProjectRequest>,
-  output: __S(229, __c14, 5) as any as S.Schema<Project>,
+  input: __S(1505, __c94, 1) as any as S.Schema<UpdateProjectRequest>,
+  output: __S(245, __c15, 5) as any as S.Schema<Project>,
   errors: [BadRequest, NotFound, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -3125,8 +3309,8 @@ export const upsertInstallation: API.OperationMethod<
   UpsertInstallationError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1507, __c94, 3) as any as S.Schema<UpsertInstallationRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<UpsertInstallationResponse>,
+  input: __S(1523, __c95, 3) as any as S.Schema<UpsertInstallationRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<UpsertInstallationResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -3142,8 +3326,8 @@ export const verifyOrganizationSSODomain: API.OperationMethod<
   VerifyOrganizationSSODomainError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<VerifyOrganizationSSODomainRequest>,
-  output: __S(1105, __c69, 1) as any as S.Schema<OrganizationSSODomain>,
+  input: __S(1536, __c96, 0) as any as S.Schema<VerifyOrganizationSSODomainRequest>,
+  output: __S(1121, __c70, 1) as any as S.Schema<OrganizationSSODomain>,
   errors: [Forbidden, NotFound, Conflict, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -3159,8 +3343,8 @@ export const websocket: API.OperationMethod<
   WebsocketError,
   XataOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<WebsocketRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<WebsocketResponse>,
+  input: __S(1552, __c97, 0) as any as S.Schema<WebsocketRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<WebsocketResponse>,
   errors: [BadRequest, UnknownXataError],
   protocol: XataProtocol,
   retry: Retry.Retry,
@@ -3170,6 +3354,70 @@ export const websocket: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          message: S.String,
+        }),
+      ).annotate({ identifier: "Error400Body" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.optional(S.String),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VercelErrorErrorUser" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "VercelErrorErrorFieldsItem" });
+    case 3:
+      return S.Array(__S(2, __c0, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+          message: S.String,
+          user: S.optional(__S(1, __c0, 1)),
+          fields: S.optional(__S(3, __c0, 3)),
+        }),
+      ).annotate({ identifier: "VercelErrorError" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          error: __S(4, __c0, 4),
+        }),
+      ).annotate({ identifier: "VercelError" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          code: S.optional(S.String),
+          severity: S.optional(S.String),
+          detail: S.optional(S.String),
+          hint: S.optional(S.String),
+          position: S.optional(S.String),
+          internalPosition: S.optional(S.String),
+          internalQuery: S.optional(S.String),
+          where: S.optional(S.String),
+          schema: S.optional(S.String),
+          table: S.optional(S.String),
+          column: S.optional(S.String),
+          dataType: S.optional(S.String),
+          constraint: S.optional(S.String),
+          file: S.optional(S.String),
+          line: S.optional(S.String),
+          routine: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3186,7 +3434,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateGithubAppInstallationRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3200,7 +3448,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GithubInstallation" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3219,7 +3467,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CreateGithubRepositoryRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3234,7 +3482,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GithubRepository" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3244,7 +3492,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CreateOrganizationRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3261,34 +3509,17 @@ function __c5(j: number): any {
       ).annotate({ identifier: "OrganizationStatus" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           name: S.String,
-          status: __S(80, __c5, 0),
+          status: __S(96, __c6, 0),
           marketplace: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "Organization" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          organizationID: S.String.pipe(T.Label()),
-          name: S.String,
-          expiry: S.optional(S.NullOr(S.String)),
-          scopes: S.optional(__S(704, __c44, 0)),
-          projects: S.optional(__S(704, __c44, 0)),
-          branches: S.optional(__S(704, __c44, 0)),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/organizations/{organizationID}/api-keys", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateOrganizationAPIKeyRequest" });
   }
 }
 function __c8(j: number): any {
@@ -3296,12 +3527,29 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          organizationID: S.String.pipe(T.Label()),
+          name: S.String,
+          expiry: S.optional(S.NullOr(S.String)),
+          scopes: S.optional(__S(720, __c45, 0)),
+          projects: S.optional(__S(720, __c45, 0)),
+          branches: S.optional(__S(720, __c45, 0)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/organizations/{organizationID}/api-keys", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateOrganizationAPIKeyRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           id: S.String,
           name: S.String,
           preview: S.String,
-          scopes: __S(704, __c44, 0),
-          projects: __S(704, __c44, 0),
-          branches: __S(704, __c44, 0),
+          scopes: __S(720, __c45, 0),
+          projects: __S(720, __c45, 0),
+          branches: __S(720, __c45, 0),
           created_at: S.String,
           expiry: S.NullOr(S.String),
           last_used: S.NullOr(S.String),
@@ -3313,12 +3561,12 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          key: __S(128, __c8, 0),
+          key: __S(144, __c9, 0),
         }),
       ).annotate({ identifier: "CreateOrganizationAPIKeyResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3332,7 +3580,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "CreateOrganizationInvitationRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -3340,7 +3588,7 @@ function __c10(j: number): any {
       });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3361,7 +3609,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "CreateOrganizationSSOProviderRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3377,27 +3625,27 @@ function __c12(j: number): any {
       ).annotate({ identifier: "OrganizationSSOProvider" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organizationID: S.String.pipe(T.Label()),
           name: S.String,
-          configuration: S.optional(__S(228, __c14, 4)),
+          configuration: S.optional(__S(244, __c15, 4)),
         }).pipe(
           T.Http({ method: "POST", uri: "/organizations/{organizationID}/projects", code: 200 }),
         ),
       ).annotate({ identifier: "CreateProjectRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          baseBranches: __S(1568, __c98, 0),
-          childBranches: __S(1568, __c98, 0),
+          baseBranches: __S(1584, __c99, 0),
+          childBranches: __S(1584, __c99, 0),
         }),
       ).annotate({ identifier: "ProjectScaleToZeroConfiguration" });
     case 1:
@@ -3408,19 +3656,19 @@ function __c14(j: number): any {
         }),
       ).annotate({ identifier: "CidrEntry" });
     case 2:
-      return S.Array(__S(225, __c14, 1));
+      return S.Array(__S(241, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
-          cidr: __S(226, __c14, 2),
+          cidr: __S(242, __c15, 2),
         }),
       ).annotate({ identifier: "IPFilteringConfiguration" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          scaleToZero: __S(224, __c14, 0),
-          ipFiltering: S.optional(__S(227, __c14, 3)),
+          scaleToZero: __S(240, __c15, 0),
+          ipFiltering: S.optional(__S(243, __c15, 3)),
         }),
       ).annotate({ identifier: "ProjectConfiguration" });
     case 5:
@@ -3430,26 +3678,26 @@ function __c14(j: number): any {
           name: S.String,
           createdAt: S.String,
           updatedAt: S.String,
-          configuration: __S(228, __c14, 4),
+          configuration: __S(244, __c15, 4),
         }),
       ).annotate({ identifier: "Project" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           expiry: S.optional(S.NullOr(S.String)),
-          scopes: S.optional(__S(704, __c44, 0)),
-          projects: S.optional(__S(704, __c44, 0)),
-          branches: S.optional(__S(704, __c44, 0)),
+          scopes: S.optional(__S(720, __c45, 0)),
+          projects: S.optional(__S(720, __c45, 0)),
+          branches: S.optional(__S(720, __c45, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api-keys", code: 200 })),
       ).annotate({ identifier: "CreateUserAPIKeyRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3467,7 +3715,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DeleteBranchRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3485,7 +3733,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "DeleteGithubRepositoryRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3497,7 +3745,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "DeleteInstallationRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3507,20 +3755,20 @@ function __c19(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           organizationID: S.String.pipe(T.Label()),
-          ids: __S(704, __c44, 0),
+          ids: __S(720, __c45, 0),
         }).pipe(
           T.Http({ method: "DELETE", uri: "/organizations/{organizationID}/api-keys", code: 200 }),
         ),
       ).annotate({ identifier: "DeleteOrganizationAPIKeysRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3537,7 +3785,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationInvitationRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3554,7 +3802,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationSSODomainRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3571,7 +3819,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DeleteOrganizationSSOProviderRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3588,7 +3836,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DeleteProjectRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3605,17 +3853,17 @@ function __c25(j: number): any {
       ).annotate({ identifier: "DeleteResourceRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ids: __S(704, __c44, 0),
+          ids: __S(720, __c45, 0),
         }).pipe(T.Http({ method: "DELETE", uri: "/api-keys", code: 200 })),
       ).annotate({ identifier: "DeleteUserAPIKeysRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3649,17 +3897,17 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "InstanceStatus" });
     case 3:
-      return S.Array(__S(434, __c27, 2));
+      return S.Array(__S(450, __c28, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
           statusType: S.String,
           message: S.optional(S.String),
-          lifecycle: S.optional(__S(433, __c27, 1)),
+          lifecycle: S.optional(__S(449, __c28, 1)),
           instanceCount: S.Number,
           instanceReadyCount: S.Number,
-          instances: __S(435, __c27, 3),
+          instances: __S(451, __c28, 3),
         }),
       ).annotate({ identifier: "BranchStatus" });
     case 5:
@@ -3672,18 +3920,18 @@ function __c27(j: number): any {
           updatedAt: S.String,
           parentID: S.optional(S.NullOr(S.String)),
           region: S.String,
-          status: __S(436, __c27, 4),
+          status: __S(452, __c28, 4),
           connectionString: S.NullOr(S.String).pipe(T.SensitiveValue({})),
           publicAccess: S.Boolean,
           backupsEnabled: S.Boolean,
-          scaleToZero: __S(1568, __c98, 0),
-          configuration: __S(448, __c28, 0),
-          backupConfiguration: S.optional(__S(1584, __c99, 0)),
+          scaleToZero: __S(1584, __c99, 0),
+          configuration: __S(464, __c29, 0),
+          backupConfiguration: S.optional(__S(1600, __c100, 0)),
         }),
       ).annotate({ identifier: "BranchMetadata" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3693,19 +3941,19 @@ function __c28(j: number): any {
           instanceType: S.String,
           image: S.String,
           replicas: S.Number,
-          postgresConfigurationParameters: S.optional(__S(464, __c29, 0)),
-          preloadLibraries: S.optional(__S(704, __c44, 0)),
+          postgresConfigurationParameters: S.optional(__S(480, __c30, 0)),
+          preloadLibraries: S.optional(__S(720, __c45, 0)),
         }),
       ).annotate({ identifier: "ClusterConfiguration" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3723,7 +3971,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetBackupRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3737,7 +3985,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "BackupMetadata" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3753,7 +4001,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "GetBillingCustomerRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3767,7 +4015,7 @@ function __c33(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          card: __S(528, __c33, 0),
+          card: __S(544, __c34, 0),
         }),
       ).annotate({ identifier: "BillingPaymentMethod" });
     case 2:
@@ -3782,14 +4030,14 @@ function __c33(j: number): any {
         }),
       ).annotate({ identifier: "BillingCredit" });
     case 3:
-      return S.Array(__S(530, __c33, 2));
+      return S.Array(__S(546, __c34, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           total_lifetime_credits: S.Number,
           last_expiry: S.NullOr(S.String),
           last_expiry_with_balance: S.NullOr(S.String),
-          active_credits: __S(531, __c33, 3),
+          active_credits: __S(547, __c34, 3),
           last_active_credit_expiry: S.NullOr(S.String),
           total_active_credits: S.Number,
           days_until_last_active_credit_expiry: S.NullOr(S.Number),
@@ -3804,14 +4052,14 @@ function __c33(j: number): any {
           collection_method: S.String,
           can_collect_payment: S.Boolean,
           has_payment_method: S.Boolean,
-          default_payment_method: S.NullOr(__S(529, __c33, 1)),
-          credits: __S(531, __c33, 3),
-          credit_details: __S(532, __c33, 4),
+          default_payment_method: S.NullOr(__S(545, __c34, 1)),
+          credits: __S(547, __c34, 3),
+          credit_details: __S(548, __c34, 4),
         }),
       ).annotate({ identifier: "BillingCustomerResponse" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3840,7 +4088,7 @@ function __c34(j: number): any {
         }),
       ).annotate({ identifier: "BillingInvoice" });
     case 2:
-      return S.Array(__S(545, __c34, 1));
+      return S.Array(__S(561, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3851,13 +4099,13 @@ function __c34(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: __S(546, __c34, 2),
-          pagination_metadata: __S(547, __c34, 3),
+          data: __S(562, __c35, 2),
+          pagination_metadata: __S(563, __c35, 3),
         }),
       ).annotate({ identifier: "BillingInvoicesResponse" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3885,7 +4133,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "BillingUpcomingInvoiceResponse" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3915,7 +4163,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "BranchCredentials" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3936,7 +4184,7 @@ function __c37(j: number): any {
         S.Struct({
           minValue: S.optional(S.String),
           maxValue: S.optional(S.String),
-          enumValues: S.optional(__S(704, __c44, 0)),
+          enumValues: S.optional(__S(720, __c45, 0)),
         }),
       ).annotate({ identifier: "PostgresConfigParameterAcceptableRange" });
     case 2:
@@ -3946,7 +4194,7 @@ function __c37(j: number): any {
           type: S.String,
           description: S.String,
           section: S.String,
-          acceptableRange: S.optional(__S(593, __c37, 1)),
+          acceptableRange: S.optional(__S(609, __c38, 1)),
           defaultValue: S.String,
           defaultValueSource: S.String,
           currentValue: S.String,
@@ -3956,16 +4204,16 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "PostgresConfigParameter" });
     case 3:
-      return S.Array(__S(594, __c37, 2));
+      return S.Array(__S(610, __c38, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          parameters: __S(595, __c37, 3),
+          parameters: __S(611, __c38, 3),
         }),
       ).annotate({ identifier: "PostgresConfigDetails" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3984,12 +4232,12 @@ function __c38(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          mapping: S.NullOr(__S(48, __c3, 0)),
+          mapping: S.NullOr(__S(64, __c4, 0)),
         }),
       ).annotate({ identifier: "GetGithubRepositoryResponse" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3999,7 +4247,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GetOrganizationRequest" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4016,7 +4264,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetOrganizationInvitationRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4034,7 +4282,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "OrganizationInvitation" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4061,19 +4309,19 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetOrganizationLimitsResponse" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           field: S.String,
           op: S.String,
-          values: S.optional(__S(704, __c44, 0)),
+          values: S.optional(__S(720, __c45, 0)),
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogFilter" });
     case 1:
-      return S.Array(__S(688, __c43, 0));
+      return S.Array(__S(704, __c44, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4082,7 +4330,7 @@ function __c43(j: number): any {
           branchID: S.String.pipe(T.Label()),
           start: S.String,
           end: S.String,
-          filters: S.optional(__S(689, __c43, 1)),
+          filters: S.optional(__S(705, __c44, 1)),
           limit: S.optional(S.Number),
           cursor: S.optional(S.String),
         }).pipe(
@@ -4104,25 +4352,25 @@ function __c43(j: number): any {
         }),
       ).annotate({ identifier: "LogEntry" });
     case 4:
-      return S.Array(__S(691, __c43, 3));
+      return S.Array(__S(707, __c44, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           start: S.String,
           end: S.String,
-          logs: __S(692, __c43, 4),
+          logs: __S(708, __c44, 4),
           nextCursor: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "BranchLogs" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4145,7 +4393,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "OrganizationMembershipLimits" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4156,20 +4404,20 @@ function __c46(j: number): any {
         S.Struct({
           id: S.String,
           name: S.String,
-          status: __S(80, __c5, 0),
+          status: __S(96, __c6, 0),
         }),
       ).annotate({ identifier: "GetOrganizationsListResponseOrganizationsItem" });
     case 2:
-      return S.Array(__S(737, __c46, 1));
+      return S.Array(__S(753, __c47, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          organizations: __S(738, __c46, 2),
+          organizations: __S(754, __c47, 2),
         }),
       ).annotate({ identifier: "GetOrganizationsListResponse" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4178,19 +4426,19 @@ function __c47(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/organizations/{organizationID}/sso", code: 200 })),
       ).annotate({ identifier: "GetOrganizationSSORequest" });
     case 1:
-      return S.Array(__S(192, __c12, 0));
+      return S.Array(__S(208, __c13, 0));
     case 2:
-      return S.Array(__S(1105, __c69, 1));
+      return S.Array(__S(1121, __c70, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          providers: __S(753, __c47, 1),
-          domains: __S(754, __c47, 2),
+          providers: __S(769, __c48, 1),
+          domains: __S(770, __c48, 2),
         }),
       ).annotate({ identifier: "OrganizationSSO" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4207,7 +4455,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "GetProjectRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4236,7 +4484,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "EffectiveProjectLimits" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4257,29 +4505,29 @@ function __c50(j: number): any {
           id: S.String,
           productId: S.String,
           name: S.String,
-          metadata: __S(816, __c51, 0),
+          metadata: __S(832, __c52, 0),
           status: S.String,
         }),
       ).annotate({ identifier: "Resource" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: __S(816, __c51, 0).pipe(T.HttpBody()),
+          body: __S(832, __c52, 0).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "POST", uri: "/webhooks/github", code: 200 })),
       ).annotate({ identifier: "GithubWebhookRequest" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4295,16 +4543,16 @@ function __c53(j: number): any {
         ),
       ).annotate({ identifier: "ListBackupsRequest" });
     case 1:
-      return S.Array(__S(496, __c31, 0));
+      return S.Array(__S(512, __c32, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          backups: __S(849, __c53, 1),
+          backups: __S(865, __c54, 1),
         }),
       ).annotate({ identifier: "ListBackupsResponse" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4321,7 +4569,7 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "PlanDetail" });
     case 2:
-      return S.Array(__S(865, __c54, 1));
+      return S.Array(__S(881, __c55, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -4330,7 +4578,7 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "PlanQuoteLine" });
     case 4:
-      return S.Array(__S(867, __c54, 3));
+      return S.Array(__S(883, __c55, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -4343,24 +4591,24 @@ function __c54(j: number): any {
           preauthorizationAmount: S.optional(S.Number),
           initialCharge: S.optional(S.String),
           cost: S.optional(S.String),
-          details: S.optional(__S(866, __c54, 2)),
-          highlightedDetails: S.optional(__S(866, __c54, 2)),
-          quote: S.optional(__S(868, __c54, 4)),
+          details: S.optional(__S(882, __c55, 2)),
+          highlightedDetails: S.optional(__S(882, __c55, 2)),
+          quote: S.optional(__S(884, __c55, 4)),
           effectiveDate: S.optional(S.String),
           disabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "BillingPlan" });
     case 6:
-      return S.Array(__S(869, __c54, 5));
+      return S.Array(__S(885, __c55, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          plans: __S(870, __c54, 6),
+          plans: __S(886, __c55, 6),
         }),
       ).annotate({ identifier: "ListBillingPlansResponse" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4390,16 +4638,16 @@ function __c55(j: number): any {
         }),
       ).annotate({ identifier: "BranchListMetadata" });
     case 2:
-      return S.Array(__S(881, __c55, 1));
+      return S.Array(__S(897, __c56, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          branches: __S(882, __c55, 2),
+          branches: __S(898, __c56, 2),
         }),
       ).annotate({ identifier: "ListBranchesResponse" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -4411,9 +4659,9 @@ function __c56(j: number): any {
           branchID: S.String.pipe(T.Label()),
           start: S.String,
           end: S.String,
-          metrics: __S(896, __c56, 0),
-          instances: S.optional(__S(704, __c44, 0)),
-          aggregations: __S(896, __c56, 0),
+          metrics: __S(912, __c57, 0),
+          instances: S.optional(__S(720, __c45, 0)),
+          aggregations: __S(912, __c57, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4430,38 +4678,38 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "MetricSeriesValuesItem" });
     case 3:
-      return S.Array(__S(898, __c56, 2));
+      return S.Array(__S(914, __c57, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           instanceID: S.String,
           aggregation: S.String,
-          values: __S(899, __c56, 3),
+          values: __S(915, __c57, 3),
         }),
       ).annotate({ identifier: "MetricSeries" });
     case 5:
-      return S.Array(__S(900, __c56, 4));
+      return S.Array(__S(916, __c57, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           metric: S.String,
           unit: S.String,
-          series: __S(901, __c56, 5),
+          series: __S(917, __c57, 5),
         }),
       ).annotate({ identifier: "BranchMetricResult" });
     case 7:
-      return S.Array(__S(902, __c56, 6));
+      return S.Array(__S(918, __c57, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           start: S.String,
           end: S.String,
-          results: __S(903, __c56, 7),
+          results: __S(919, __c57, 7),
         }),
       ).annotate({ identifier: "BranchMetrics" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4485,16 +4733,16 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "Extension" });
     case 2:
-      return S.Array(__S(913, __c57, 1));
+      return S.Array(__S(929, __c58, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          extensions: __S(914, __c57, 2),
+          extensions: __S(930, __c58, 2),
         }),
       ).annotate({ identifier: "ListExtensionsResponse" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4509,16 +4757,16 @@ function __c58(j: number): any {
         ),
       ).annotate({ identifier: "ListGithubAppInstallationsRequest" });
     case 1:
-      return S.Array(__S(16, __c1, 0));
+      return S.Array(__S(32, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          installations: __S(929, __c58, 1),
+          installations: __S(945, __c59, 1),
         }),
       ).annotate({ identifier: "ListGithubAppInstallationsResponse" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4535,20 +4783,20 @@ function __c59(j: number): any {
           name: S.String,
           majorVersion: S.String,
           fullVersion: S.String,
-          region: S.optional(__S(704, __c44, 0)),
+          region: S.optional(__S(720, __c45, 0)),
         }),
       ).annotate({ identifier: "Image" });
     case 2:
-      return S.Array(__S(945, __c59, 1));
+      return S.Array(__S(961, __c60, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          images: __S(946, __c59, 2),
+          images: __S(962, __c60, 2),
         }),
       ).annotate({ identifier: "ListImagesResponse" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4575,16 +4823,16 @@ function __c60(j: number): any {
         }),
       ).annotate({ identifier: "ListInstanceTypesResponseInstanceTypesItem" });
     case 2:
-      return S.Array(__S(961, __c60, 1));
+      return S.Array(__S(977, __c61, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          instanceTypes: __S(962, __c60, 2),
+          instanceTypes: __S(978, __c61, 2),
         }),
       ).annotate({ identifier: "ListInstanceTypesResponse" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4596,7 +4844,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "ListOrganizationAPIKeysRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4604,9 +4852,9 @@ function __c62(j: number): any {
           id: S.String,
           name: S.String,
           preview: S.String,
-          scopes: __S(704, __c44, 0),
-          projects: __S(704, __c44, 0),
-          branches: __S(704, __c44, 0),
+          scopes: __S(720, __c45, 0),
+          projects: __S(720, __c45, 0),
+          branches: __S(720, __c45, 0),
           created_at: S.String,
           expiry: S.NullOr(S.String),
           last_used: S.NullOr(S.String),
@@ -4615,16 +4863,16 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "APIKeyPreview" });
     case 1:
-      return S.Array(__S(992, __c62, 0));
+      return S.Array(__S(1008, __c63, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          keys: __S(993, __c62, 1),
+          keys: __S(1009, __c63, 1),
         }),
       ).annotate({ identifier: "ListOrganizationAPIKeysResponse" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4642,16 +4890,16 @@ function __c63(j: number): any {
         ),
       ).annotate({ identifier: "ListOrganizationInvitationsRequest" });
     case 1:
-      return S.Array(__S(656, __c41, 0));
+      return S.Array(__S(672, __c42, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          invitations: __S(1009, __c63, 1),
+          invitations: __S(1025, __c64, 1),
         }),
       ).annotate({ identifier: "ListOrganizationInvitationsResponse" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4671,16 +4919,16 @@ function __c64(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationMember" });
     case 2:
-      return S.Array(__S(1025, __c64, 1));
+      return S.Array(__S(1041, __c65, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          members: __S(1026, __c64, 2),
+          members: __S(1042, __c65, 2),
         }),
       ).annotate({ identifier: "ListOrganizationMembersResponse" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4697,16 +4945,16 @@ function __c65(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationRole" });
     case 2:
-      return S.Array(__S(1041, __c65, 1));
+      return S.Array(__S(1057, __c66, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          roles: __S(1042, __c65, 2),
+          roles: __S(1058, __c66, 2),
         }),
       ).annotate({ identifier: "ListOrganizationRolesResponse" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4717,16 +4965,16 @@ function __c66(j: number): any {
         ),
       ).annotate({ identifier: "ListProjectsRequest" });
     case 1:
-      return S.Array(__S(229, __c14, 5));
+      return S.Array(__S(245, __c15, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          projects: __S(1057, __c66, 1),
+          projects: __S(1073, __c67, 1),
         }),
       ).annotate({ identifier: "ListProjectsResponse" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4747,16 +4995,16 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "ListRegionsResponseRegionsItem" });
     case 2:
-      return S.Array(__S(1073, __c67, 1));
+      return S.Array(__S(1089, __c68, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          regions: __S(1074, __c67, 2),
+          regions: __S(1090, __c68, 2),
         }),
       ).annotate({ identifier: "ListRegionsResponse" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4769,7 +5017,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "ClaimOrganizationSSODomainRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4785,14 +5033,14 @@ function __c69(j: number): any {
           domain: S.String,
           provider_alias: S.String,
           verified: S.Boolean,
-          verification: S.optional(S.NullOr(__S(1104, __c69, 0))),
+          verification: S.optional(S.NullOr(__S(1120, __c70, 0))),
           missing_since: S.optional(S.NullOr(S.String)),
           revokes_at: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "OrganizationSSODomain" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4800,17 +5048,17 @@ function __c70(j: number): any {
       ).annotate({ identifier: "ListUserAPIKeysRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: __S(816, __c51, 0).pipe(T.HttpBody()),
+          body: __S(832, __c52, 0).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "POST", uri: "/webhooks/orb", code: 200 })),
       ).annotate({ identifier: "OrbWebhookRequest" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4818,7 +5066,7 @@ function __c72(j: number): any {
           installationId: S.String.pipe(T.Label()),
           productId: S.String,
           name: S.String,
-          metadata: __S(816, __c51, 0),
+          metadata: __S(832, __c52, 0),
           billingPlanId: S.String,
           externalId: S.optional(S.String),
         }).pipe(
@@ -4842,25 +5090,25 @@ function __c72(j: number): any {
         S.Struct({
           name: S.String,
           value: S.String,
-          environmentOverrides: S.optional(__S(1153, __c72, 1)),
+          environmentOverrides: S.optional(__S(1169, __c73, 1)),
         }),
       ).annotate({ identifier: "Secret" });
     case 3:
-      return S.Array(__S(1154, __c72, 2));
+      return S.Array(__S(1170, __c73, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           productId: S.String,
           name: S.String,
-          metadata: __S(816, __c51, 0),
+          metadata: __S(832, __c52, 0),
           status: S.String,
-          secrets: __S(1155, __c72, 3),
+          secrets: __S(1171, __c73, 3),
         }),
       ).annotate({ identifier: "ProvisionedResource" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -4868,18 +5116,18 @@ function __c73(j: number): any {
       return S.suspend(() =>
         S.Struct({
           query: S.String,
-          params: S.optional(__S(1168, __c73, 0)),
+          params: S.optional(__S(1184, __c74, 0)),
           arrayMode: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "QueryItem" });
     case 2:
-      return S.Array(__S(1169, __c73, 1));
+      return S.Array(__S(1185, __c74, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           query: S.optional(S.String),
-          params: S.optional(__S(1168, __c73, 0)),
-          queries: S.optional(__S(1170, __c73, 2)),
+          params: S.optional(__S(1184, __c74, 0)),
+          queries: S.optional(__S(1186, __c74, 2)),
           arrayMode: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/sql", code: 200 })),
       ).annotate({ identifier: "QueryRequest" });
@@ -4889,7 +5137,7 @@ function __c73(j: number): any {
       });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4904,12 +5152,12 @@ function __c74(j: number): any {
         S.Struct({
           marketplace: S.String,
           company_name: S.String,
-          aws: __S(1184, __c74, 0),
+          aws: __S(1200, __c75, 0),
         }).pipe(T.Http({ method: "POST", uri: "/marketplace/register", code: 200 })),
       ).annotate({ identifier: "RegisterMarketplaceRequest" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4926,7 +5174,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "RemoveOrganizationMemberRequest" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4942,7 +5190,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "RequestOrganizationDeletionRequest" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4959,7 +5207,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "ResendOrganizationInvitationRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4969,9 +5217,10 @@ function __c78(j: number): any {
           branchID: S.String.pipe(T.Label()),
           name: S.String,
           description: S.optional(S.String),
-          scaleToZero: S.optional(__S(1568, __c98, 0)),
-          backupConfiguration: S.optional(__S(1584, __c99, 0)),
-          configuration: S.optional(__S(448, __c28, 0)),
+          scaleToZero: S.optional(__S(1584, __c99, 0)),
+          backupConfiguration: S.optional(__S(1600, __c100, 0)),
+          configuration: S.optional(__S(464, __c29, 0)),
+          targetTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4982,7 +5231,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "RestoreFromBackupRequest" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5001,7 +5250,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "RotateBranchCredentialsRequest" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5017,7 +5266,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "CreateBillingCheckoutSessionRequest" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5027,7 +5276,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "BillingCheckoutSessionResponse" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5035,7 +5284,7 @@ function __c82(j: number): any {
           jsonrpc: S.String,
           id: S.optional(S.Unknown),
           method: S.String,
-          params: S.optional(__S(816, __c51, 0)),
+          params: S.optional(__S(832, __c52, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/mcp", code: 200 })),
       ).annotate({ identifier: "SendMcpRequestRequest" });
     case 1:
@@ -5051,13 +5300,13 @@ function __c82(j: number): any {
         S.Struct({
           jsonrpc: S.String,
           id: S.Unknown,
-          result: S.optional(__S(816, __c51, 0)),
-          error: S.optional(__S(1313, __c82, 1)),
+          result: S.optional(__S(832, __c52, 0)),
+          error: S.optional(__S(1329, __c83, 1)),
         }),
       ).annotate({ identifier: "JSONRPCResponse" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5075,7 +5324,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "SetOrganizationMemberRoleRequest" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5093,17 +5342,17 @@ function __c84(j: number): any {
       ).annotate({ identifier: "SetOrganizationSSOProviderEnforcementRequest" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          body: __S(816, __c51, 0).pipe(T.HttpBody()),
+          body: __S(832, __c52, 0).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "POST", uri: "/webhooks/stripe", code: 200 })),
       ).annotate({ identifier: "StripeWebhookRequest" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5120,7 +5369,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "UpdateBillingCustomerRequest" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5133,11 +5382,11 @@ function __c87(j: number): any {
           replicas: S.optional(S.Number),
           storage: S.optional(S.Number),
           instanceType: S.optional(S.String),
-          backupConfiguration: S.optional(__S(1584, __c99, 0)),
+          backupConfiguration: S.optional(__S(1600, __c100, 0)),
           hibernate: S.optional(S.Boolean),
-          scaleToZero: S.optional(__S(1568, __c98, 0)),
-          postgresConfigurationParameters: S.optional(__S(464, __c29, 0)),
-          preloadLibraries: S.optional(__S(704, __c44, 0)),
+          scaleToZero: S.optional(__S(1584, __c99, 0)),
+          postgresConfigurationParameters: S.optional(__S(480, __c30, 0)),
+          preloadLibraries: S.optional(__S(720, __c45, 0)),
           image: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -5149,7 +5398,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "UpdateBranchRequest" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5167,7 +5416,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "UpdateGithubAppInstallationRequest" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5186,7 +5435,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "UpdateGithubRepositoryRequest" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5198,7 +5447,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationRequest" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5218,7 +5467,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "UpdateOrganizationSSOProviderRequest" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5234,13 +5483,13 @@ function __c92(j: number): any {
       ).annotate({ identifier: "CreateBillingPaymentMethodSessionRequest" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scaleToZero: S.optional(__S(224, __c14, 0)),
-          ipFiltering: S.optional(__S(227, __c14, 3)),
+          scaleToZero: S.optional(__S(240, __c15, 0)),
+          ipFiltering: S.optional(__S(243, __c15, 3)),
         }),
       ).annotate({ identifier: "UpdateProjectConfiguration" });
     case 1:
@@ -5249,7 +5498,7 @@ function __c93(j: number): any {
           organizationID: S.String.pipe(T.Label()),
           projectID: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          configuration: S.optional(__S(1488, __c93, 0)),
+          configuration: S.optional(__S(1504, __c94, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -5260,7 +5509,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "UpdateProjectRequest" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5281,22 +5530,22 @@ function __c94(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           url: S.String,
-          contact: S.optional(__S(1505, __c94, 1)),
+          contact: S.optional(__S(1521, __c95, 1)),
         }),
       ).annotate({ identifier: "InstallationAccount" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           installationId: S.String.pipe(T.Label()),
-          scopes: __S(704, __c44, 0),
-          acceptedPolicies: __S(464, __c29, 0),
-          credentials: __S(1504, __c94, 0),
-          account: __S(1506, __c94, 2),
+          scopes: __S(720, __c45, 0),
+          acceptedPolicies: __S(480, __c30, 0),
+          credentials: __S(1520, __c95, 0),
+          account: __S(1522, __c95, 2),
         }).pipe(T.Http({ method: "PUT", uri: "/v1/installations/{installationId}", code: 200 })),
       ).annotate({ identifier: "UpsertInstallationRequest" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5313,7 +5562,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "VerifyOrganizationSSODomainRequest" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5321,7 +5570,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "WebsocketRequest" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5330,8 +5579,8 @@ function __c97(j: number): any {
           projectID: S.String.pipe(T.Label()),
           name: S.String,
           description: S.optional(S.String),
-          scaleToZero: S.optional(__S(1568, __c98, 0)),
-          backupConfiguration: S.optional(__S(1584, __c99, 0)),
+          scaleToZero: S.optional(__S(1584, __c99, 0)),
+          backupConfiguration: S.optional(__S(1600, __c100, 0)),
           mode: S.String,
         }).pipe(
           T.Http({
@@ -5343,7 +5592,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "CreateBranchRequest" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5354,7 +5603,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "ScaleToZeroConfiguration" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5365,7 +5614,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "BackupConfiguration" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

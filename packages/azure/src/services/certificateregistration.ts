@@ -52,11 +52,11 @@ export type KeyVaultSecretStatus =
 /** Key Vault container for a certificate that is purchased through Azure. */
 export interface AppServiceCertificate {
   /** Key Vault resource Id. */
-  keyVaultId?: string;
+  keyVaultId?: string | undefined;
   /** Key Vault secret name. */
-  keyVaultSecretName?: string;
+  keyVaultSecretName?: string | undefined;
   /** Status of the Key Vault secret. */
-  provisioningState?: KeyVaultSecretStatus | (string & {});
+  provisioningState?: KeyVaultSecretStatus | (string & {}) | undefined;
 }
 /** State of the Key Vault secret. */
 export type AppServiceCertificateOrderPropertiesInputCertificatesMap = {
@@ -69,19 +69,19 @@ export type CertificateProductType =
 /** AppServiceCertificateOrder resource specific properties */
 export interface AppServiceCertificateOrderPropertiesInput {
   /** State of the Key Vault secret. */
-  certificates?: AppServiceCertificateOrderPropertiesInputCertificatesMap;
+  certificates?: AppServiceCertificateOrderPropertiesInputCertificatesMap | undefined;
   /** Certificate distinguished name. */
-  distinguishedName?: string;
+  distinguishedName?: string | undefined;
   /** Duration in years (must be 1). */
-  validityInYears?: number;
+  validityInYears?: number | undefined;
   /** Certificate key size. */
-  keySize?: number;
+  keySize?: number | undefined;
   /** Certificate product type. */
   productType: CertificateProductType | (string & {});
   /** <code>true</code> if the certificate should be automatically renewed when it expires; otherwise, <code>false</code>. */
-  autoRenew?: boolean;
+  autoRenew?: boolean | undefined;
   /** Last CSR that was created for this order. */
-  csr?: string;
+  csr?: string | undefined;
 }
 export interface AppServiceCertificateOrdersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -91,13 +91,13 @@ export interface AppServiceCertificateOrdersCreateOrUpdateRequest {
   /** Name of the certificate order.. */
   certificateOrderName: string;
   /** Resource tags. */
-  tags?: AppServiceCertificateOrdersCreateOrUpdateRequestTagsMap;
+  tags?: AppServiceCertificateOrdersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** AppServiceCertificateOrder resource specific properties */
-  properties?: AppServiceCertificateOrderPropertiesInput;
+  properties?: AppServiceCertificateOrderPropertiesInput | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -106,17 +106,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type AppServiceCertificateOrdersCreateOrUpdateResponseTagsMap = {
@@ -143,23 +143,23 @@ export type CertificateOrderStatus =
 /** SSL certificate details. */
 export interface CertificateDetails {
   /** Certificate Version. */
-  version?: number;
+  version?: number | undefined;
   /** Certificate Serial Number. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Certificate Thumbprint. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** Certificate Subject. */
-  subject?: string;
+  subject?: string | undefined;
   /** Date Certificate is valid from. */
-  notBefore?: string;
+  notBefore?: string | undefined;
   /** Date Certificate is valid to. */
-  notAfter?: string;
+  notAfter?: string | undefined;
   /** Certificate Signature algorithm. */
-  signatureAlgorithm?: string;
+  signatureAlgorithm?: string | undefined;
   /** Certificate Issuer. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** Raw certificate data. */
-  rawData?: string;
+  rawData?: string | undefined;
 }
 export type ResourceNotRenewableReason =
   | "RegistrationStatusNotSupportedForRenewal"
@@ -169,73 +169,75 @@ export type ResourceNotRenewableReason =
 export type AppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsList =
   Array<ResourceNotRenewableReason>;
 export interface CertificateOrderContact {
-  email?: string;
-  nameFirst?: string;
-  nameLast?: string;
-  phone?: string;
+  email?: string | undefined;
+  nameFirst?: string | undefined;
+  nameLast?: string | undefined;
+  phone?: string | undefined;
 }
 /** AppServiceCertificateOrder resource specific properties */
 export interface AppServiceCertificateOrderProperties {
   /** State of the Key Vault secret. */
-  certificates?: AppServiceCertificateOrderPropertiesCertificatesMap;
+  certificates?: AppServiceCertificateOrderPropertiesCertificatesMap | undefined;
   /** Certificate distinguished name. */
-  distinguishedName?: string;
+  distinguishedName?: string | undefined;
   /** Domain verification token. */
-  domainVerificationToken?: string;
+  domainVerificationToken?: string | undefined;
   /** Duration in years (must be 1). */
-  validityInYears?: number;
+  validityInYears?: number | undefined;
   /** Certificate key size. */
-  keySize?: number;
+  keySize?: number | undefined;
   /** Certificate product type. */
   productType: CertificateProductType;
   /** <code>true</code> if the certificate should be automatically renewed when it expires; otherwise, <code>false</code>. */
-  autoRenew?: boolean;
+  autoRenew?: boolean | undefined;
   /** Status of certificate order. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Current order status. */
-  status?: CertificateOrderStatus;
+  status?: CertificateOrderStatus | undefined;
   /** Signed certificate. */
-  signedCertificate?: CertificateDetails;
+  signedCertificate?: CertificateDetails | undefined;
   /** Last CSR that was created for this order. */
-  csr?: string;
+  csr?: string | undefined;
   /** Intermediate certificate. */
-  intermediate?: CertificateDetails;
+  intermediate?: CertificateDetails | undefined;
   /** Root certificate. */
-  root?: CertificateDetails;
+  root?: CertificateDetails | undefined;
   /** Current serial number of the certificate. */
-  serialNumber?: string;
+  serialNumber?: string | undefined;
   /** Certificate last issuance time. */
-  lastCertificateIssuanceTime?: string;
+  lastCertificateIssuanceTime?: string | undefined;
   /** Certificate expiration time. */
-  expirationTime?: string;
+  expirationTime?: string | undefined;
   /** <code>true</code> if private key is external; otherwise, <code>false</code>. */
-  isPrivateKeyExternal?: boolean;
+  isPrivateKeyExternal?: boolean | undefined;
   /** Reasons why App Service Certificate is not renewable at the current moment. */
-  appServiceCertificateNotRenewableReasons?: AppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsList;
+  appServiceCertificateNotRenewableReasons?:
+    | AppServiceCertificateOrderPropertiesAppServiceCertificateNotRenewableReasonsList
+    | undefined;
   /** Time stamp when the certificate would be auto renewed next */
-  nextAutoRenewalTimeStamp?: string;
+  nextAutoRenewalTimeStamp?: string | undefined;
   /** Contact info */
-  contact?: CertificateOrderContact;
+  contact?: CertificateOrderContact | undefined;
 }
 export interface AppServiceCertificateOrdersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AppServiceCertificateOrdersCreateOrUpdateResponseTagsMap;
+  tags?: AppServiceCertificateOrdersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** AppServiceCertificateOrder resource specific properties */
-  properties?: AppServiceCertificateOrderProperties;
+  properties?: AppServiceCertificateOrderProperties | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Resource tags. */
 export type AppServiceCertificateOrdersCreateOrUpdateCertificateRequestTagsMap = {
@@ -251,13 +253,13 @@ export interface AppServiceCertificateOrdersCreateOrUpdateCertificateRequest {
   /** Name of the certificate. */
   name: string;
   /** Resource tags. */
-  tags?: AppServiceCertificateOrdersCreateOrUpdateCertificateRequestTagsMap;
+  tags?: AppServiceCertificateOrdersCreateOrUpdateCertificateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Core resource properties */
-  properties?: AppServiceCertificate;
+  properties?: AppServiceCertificate | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Resource tags. */
 export type AppServiceCertificateOrdersCreateOrUpdateCertificateResponseTagsMap = {
@@ -265,34 +267,34 @@ export type AppServiceCertificateOrdersCreateOrUpdateCertificateResponseTagsMap 
 };
 export interface AppServiceCertificateOrdersCreateOrUpdateCertificateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AppServiceCertificateOrdersCreateOrUpdateCertificateResponseTagsMap;
+  tags?: AppServiceCertificateOrdersCreateOrUpdateCertificateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Core resource properties */
-  properties?: AppServiceCertificate;
+  properties?: AppServiceCertificate | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** ReissueCertificateOrderRequest resource specific properties */
 export interface ReissueCertificateOrderRequestProperties {
   /** Certificate Key Size. */
-  keySize?: number;
+  keySize?: number | undefined;
   /** Delay in hours to revoke existing certificate after the new certificate is issued. */
-  delayExistingRevokeInHours?: number;
+  delayExistingRevokeInHours?: number | undefined;
   /** Csr to be used for re-key operation. */
-  csr?: string;
+  csr?: string | undefined;
   /** Should we change the ASC type (from managed private key to external private key and vice versa). */
-  isPrivateKeyExternal?: boolean;
+  isPrivateKeyExternal?: boolean | undefined;
 }
 export interface AppServiceCertificateOrdersReissueRequest {
   /** The ID of the target subscription. */
@@ -302,9 +304,9 @@ export interface AppServiceCertificateOrdersReissueRequest {
   /** Name of the certificate order.. */
   certificateOrderName: string;
   /** Kind of resource. */
-  kind?: string;
+  kind?: string | undefined;
   /** ReissueCertificateOrderRequest resource specific properties */
-  properties?: ReissueCertificateOrderRequestProperties;
+  properties?: ReissueCertificateOrderRequestProperties | undefined;
 }
 export interface AppServiceCertificateOrdersReissueResponse {}
 export interface DeleteAppServiceCertificateOrderRequest {
@@ -339,21 +341,21 @@ export interface GetAppServiceCertificateOrderRequest {
 export type GetAppServiceCertificateOrderResponseTagsMap = { [key: string]: string | undefined };
 export interface GetAppServiceCertificateOrderResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAppServiceCertificateOrderResponseTagsMap;
+  tags?: GetAppServiceCertificateOrderResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** AppServiceCertificateOrder resource specific properties */
-  properties?: AppServiceCertificateOrderProperties;
+  properties?: AppServiceCertificateOrderProperties | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface GetAppServiceCertificateOrderCertificateRequest {
   /** The ID of the target subscription. */
@@ -371,21 +373,21 @@ export type GetAppServiceCertificateOrderCertificateResponseTagsMap = {
 };
 export interface GetAppServiceCertificateOrderCertificateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetAppServiceCertificateOrderCertificateResponseTagsMap;
+  tags?: GetAppServiceCertificateOrderCertificateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Core resource properties */
-  properties?: AppServiceCertificate;
+  properties?: AppServiceCertificate | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface GetAppServiceCertificateOrderCertificateActionsRequest {
   /** The ID of the target subscription. */
@@ -414,9 +416,9 @@ export type CertificateOrderActionType =
 /** Certificate order action. */
 export interface CertificateOrderAction {
   /** Action type. */
-  actionType?: CertificateOrderActionType;
+  actionType?: CertificateOrderActionType | undefined;
   /** Time at which the certificate action was performed. */
-  createdAt?: string;
+  createdAt?: string | undefined;
 }
 export type GetAppServiceCertificateOrderCertificateActionsResponseBodyList =
   Array<CertificateOrderAction>;
@@ -433,9 +435,9 @@ export interface GetAppServiceCertificateOrderCertificateEmailHistoryRequest {
 /** SSL certificate email. */
 export interface CertificateEmail {
   /** Email id. */
-  emailId?: string;
+  emailId?: string | undefined;
   /** Time stamp. */
-  timeStamp?: string;
+  timeStamp?: string | undefined;
 }
 export type GetAppServiceCertificateOrderCertificateEmailHistoryResponseBodyList =
   Array<CertificateEmail>;
@@ -449,9 +451,9 @@ export interface GetAppServiceCertificateOrderSiteSealRequest {
   /** Name of the certificate order.. */
   certificateOrderName: string;
   /** If <code>true</code> use the light color theme for site seal; otherwise, use the default color theme. */
-  lightTheme?: boolean;
+  lightTheme?: boolean | undefined;
   /** Locale of site seal. */
-  locale?: string;
+  locale?: string | undefined;
 }
 /** Site seal */
 export interface SiteSeal {
@@ -468,18 +470,18 @@ export interface GetCertificateOrdersDiagnosticAppServiceCertificateOrderDetecto
   /** The detector name which needs to be run. */
   detectorName: string;
   /** The start time for detector response. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time for the detector response. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The time grain for the detector response. */
-  timeGrain?: string;
+  timeGrain?: string | undefined;
 }
 /** Defines a unique Support Topic */
 export interface SupportTopic {
   /** Support Topic Id */
-  id?: string;
+  id?: string | undefined;
   /** Unique resource Id */
-  pesId?: string;
+  pesId?: string | undefined;
 }
 /** List of Support Topics for which this detector is enabled. */
 export type DetectorInfoSupportTopicListList = Array<SupportTopic>;
@@ -490,32 +492,32 @@ export type DetectorType = "Detector" | "Analysis" | "CategoryOverview";
 /** Definition of Detector */
 export interface DetectorInfo {
   /** Id of detector */
-  id?: string;
+  id?: string | undefined;
   /** Name of detector */
-  name?: string;
+  name?: string | undefined;
   /** Short description of the detector and its purpose. */
-  description?: string;
+  description?: string | undefined;
   /** Author of the detector. */
-  author?: string;
+  author?: string | undefined;
   /** Problem category. This serves for organizing group for detectors. */
-  category?: string;
+  category?: string | undefined;
   /** List of Support Topics for which this detector is enabled. */
-  supportTopicList?: DetectorInfoSupportTopicListList;
+  supportTopicList?: DetectorInfoSupportTopicListList | undefined;
   /** Analysis Types for which this detector should apply to. */
-  analysisType?: DetectorInfoAnalysisTypeList;
+  analysisType?: DetectorInfoAnalysisTypeList | undefined;
   /** Whether this detector is an Analysis Detector or not. */
-  type?: DetectorType;
+  type?: DetectorType | undefined;
   /** Defines score of a detector to power ML based matching. */
-  score?: number;
+  score?: number | undefined;
 }
 /** Column definition */
 export interface DataTableResponseColumn {
   /** Name of the column */
-  columnName?: string;
+  columnName?: string | undefined;
   /** Data type which looks like 'String' or 'Int32'. */
-  dataType?: string;
+  dataType?: string | undefined;
   /** Column Type */
-  columnType?: string;
+  columnType?: string | undefined;
 }
 /** List of columns with data types */
 export type DataTableResponseObjectColumnsList = Array<DataTableResponseColumn>;
@@ -525,11 +527,11 @@ export type DataTableResponseObjectRowsList = Array<DataTableResponseObjectRowsI
 /** Data Table which defines columns and raw row values */
 export interface DataTableResponseObject {
   /** Name of the table */
-  tableName?: string;
+  tableName?: string | undefined;
   /** List of columns with data types */
-  columns?: DataTableResponseObjectColumnsList;
+  columns?: DataTableResponseObjectColumnsList | undefined;
   /** Raw row values */
-  rows?: DataTableResponseObjectRowsList;
+  rows?: DataTableResponseObjectRowsList | undefined;
 }
 /** Rendering Type */
 export type RenderingType =
@@ -561,18 +563,18 @@ export type RenderingType =
 /** Instructions for rendering the data */
 export interface Rendering {
   /** Rendering Type */
-  type?: RenderingType;
+  type?: RenderingType | undefined;
   /** Title of data */
-  title?: string;
+  title?: string | undefined;
   /** Description of the data that will help it be interpreted */
-  description?: string;
+  description?: string | undefined;
 }
 /** Set of data with rendering instructions */
 export interface DiagnosticData {
   /** Data in table form */
-  table?: DataTableResponseObject;
+  table?: DataTableResponseObject | undefined;
   /** Properties that describe how the table should be rendered */
-  renderingProperties?: Rendering;
+  renderingProperties?: Rendering | undefined;
 }
 /** Data Set */
 export type DetectorResponsePropertiesDatasetList = Array<DiagnosticData>;
@@ -581,24 +583,24 @@ export type InsightStatus = "Critical" | "Warning" | "Info" | "Success" | "None"
 /** Identify the status of the most severe insight generated by the detector. */
 export interface Status {
   /** Descriptive message. */
-  message?: string;
+  message?: string | undefined;
   /** Level of the most severe insight generated by the detector. */
-  statusId?: InsightStatus;
+  statusId?: InsightStatus | undefined;
 }
 /** Any object */
 export type KeyValuePairStringObjectValueMap = { [key: string]: string | undefined };
 export interface KeyValuePairStringObject {
-  key?: string;
+  key?: string | undefined;
   /** Any object */
-  value?: KeyValuePairStringObjectValueMap;
+  value?: KeyValuePairStringObjectValueMap | undefined;
 }
 /** Settings for the data provider */
 export type DataProviderMetadataPropertyBagList = Array<KeyValuePairStringObject>;
 /** Additional configuration for a data providers */
 export interface DataProviderMetadata {
-  providerName?: string;
+  providerName?: string | undefined;
   /** Settings for the data provider */
-  propertyBag?: DataProviderMetadataPropertyBagList;
+  propertyBag?: DataProviderMetadataPropertyBagList | undefined;
 }
 /** Additional configuration for different data providers to be used by the UI */
 export type DetectorResponsePropertiesDataProvidersMetadataList = Array<DataProviderMetadata>;
@@ -607,54 +609,54 @@ export type SampleUtteranceLinksList = Array<string>;
 /** Sample utterance. */
 export interface SampleUtterance {
   /** Text attribute of sample utterance. */
-  text?: string;
+  text?: string | undefined;
   /** Links attribute of sample utterance. */
-  links?: SampleUtteranceLinksList;
+  links?: SampleUtteranceLinksList | undefined;
   /** Question id of sample utterance (for stackoverflow questions titles). */
-  qid?: string;
+  qid?: string | undefined;
 }
 /** Result for utterances query. */
 export interface QueryUtterancesResult {
   /** A sample utterance. */
-  sampleUtterance?: SampleUtterance;
+  sampleUtterance?: SampleUtterance | undefined;
   /** Score of a sample utterance. */
-  score?: number;
+  score?: number | undefined;
 }
 /** Array of utterance results for search query. */
 export type QueryUtterancesResultsResultsList = Array<QueryUtterancesResult>;
 /** Suggested utterances where the detector can be applicable */
 export interface QueryUtterancesResults {
   /** Search Query. */
-  query?: string;
+  query?: string | undefined;
   /** Array of utterance results for search query. */
-  results?: QueryUtterancesResultsResultsList;
+  results?: QueryUtterancesResultsResultsList | undefined;
 }
 /** DetectorResponse resource specific properties */
 export interface DetectorResponseProperties {
   /** metadata for the detector */
-  metadata?: DetectorInfo;
+  metadata?: DetectorInfo | undefined;
   /** Data Set */
-  dataset?: DetectorResponsePropertiesDatasetList;
+  dataset?: DetectorResponsePropertiesDatasetList | undefined;
   /** Indicates status of the most severe insight. */
-  status?: Status;
+  status?: Status | undefined;
   /** Additional configuration for different data providers to be used by the UI */
-  dataProvidersMetadata?: DetectorResponsePropertiesDataProvidersMetadataList;
+  dataProvidersMetadata?: DetectorResponsePropertiesDataProvidersMetadataList | undefined;
   /** Suggested utterances where the detector can be applicable. */
-  suggestedUtterances?: QueryUtterancesResults;
+  suggestedUtterances?: QueryUtterancesResults | undefined;
 }
 export interface GetCertificateOrdersDiagnosticAppServiceCertificateOrderDetectorResponseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** DetectorResponse resource specific properties */
-  properties?: DetectorResponseProperties;
+  properties?: DetectorResponseProperties | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListAppServiceCertificateOrderByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -667,21 +669,21 @@ export type AppServiceCertificateOrderTagsMap = { [key: string]: string | undefi
 /** SSL certificate purchase order. */
 export interface AppServiceCertificateOrder {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AppServiceCertificateOrderTagsMap;
+  tags?: AppServiceCertificateOrderTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** AppServiceCertificateOrder resource specific properties */
-  properties?: AppServiceCertificateOrderProperties;
+  properties?: AppServiceCertificateOrderProperties | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Collection of resources. */
 export type AppServiceCertificateOrderCollectionValueList = Array<AppServiceCertificateOrder>;
@@ -690,7 +692,7 @@ export interface AppServiceCertificateOrderCollection {
   /** Collection of resources. */
   value: AppServiceCertificateOrderCollectionValueList;
   /** Link to next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAppServiceCertificateOrderCertificatesRequest {
   /** The ID of the target subscription. */
@@ -705,21 +707,21 @@ export type AppServiceCertificateResourceTagsMap = { [key: string]: string | und
 /** Key Vault container ARM resource for a certificate that is purchased through Azure. */
 export interface AppServiceCertificateResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: AppServiceCertificateResourceTagsMap;
+  tags?: AppServiceCertificateResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Core resource properties */
-  properties?: AppServiceCertificate;
+  properties?: AppServiceCertificate | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The AppServiceCertificateResource items on this page */
 export type AppServiceCertificateCollectionValueList = Array<AppServiceCertificateResource>;
@@ -728,7 +730,7 @@ export interface AppServiceCertificateCollection {
   /** The AppServiceCertificateResource items on this page */
   value: AppServiceCertificateCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAppServiceCertificateOrdersRequest {
   /** The ID of the target subscription. */
@@ -745,17 +747,17 @@ export interface ListCertificateOrdersDiagnosticAppServiceCertificateOrderDetect
 /** Class representing Response from Detector */
 export interface DetectorResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** DetectorResponse resource specific properties */
-  properties?: DetectorResponseProperties;
+  properties?: DetectorResponseProperties | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The DetectorResponse items on this page */
 export type DetectorResponseCollectionValueList = Array<DetectorResponse>;
@@ -764,80 +766,80 @@ export interface DetectorResponseCollection {
   /** The DetectorResponse items on this page */
   value: DetectorResponseCollectionValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCertificateRegistrationProviderOperationsRequest {}
 /** Meta data about operation used for display in portal. */
 export interface CsmOperationDisplay {
-  provider?: string;
-  resource?: string;
-  operation?: string;
-  description?: string;
+  provider?: string | undefined;
+  resource?: string | undefined;
+  operation?: string | undefined;
+  description?: string | undefined;
 }
 /** Dimension of a resource metric. For e.g. instance specific HTTP requests for a web app, where instance name is dimension of the metric HTTP request */
 export interface Dimension {
-  name?: string;
-  displayName?: string;
-  internalName?: string;
-  toBeExportedForShoebox?: boolean;
+  name?: string | undefined;
+  displayName?: string | undefined;
+  internalName?: string | undefined;
+  toBeExportedForShoebox?: boolean | undefined;
 }
 export type MetricSpecificationDimensionsList = Array<Dimension>;
 /** Retention policy of a resource metric. */
 export interface MetricAvailability {
-  timeGrain?: string;
-  blobDuration?: string;
+  timeGrain?: string | undefined;
+  blobDuration?: string | undefined;
 }
 export type MetricSpecificationAvailabilitiesList = Array<MetricAvailability>;
 export type MetricSpecificationSupportedTimeGrainTypesList = Array<string>;
 export type MetricSpecificationSupportedAggregationTypesList = Array<string>;
 /** Definition of a single resource metric. */
 export interface MetricSpecification {
-  name?: string;
-  displayName?: string;
-  displayDescription?: string;
-  unit?: string;
-  aggregationType?: string;
-  supportsInstanceLevelAggregation?: boolean;
-  enableRegionalMdmAccount?: boolean;
-  sourceMdmAccount?: string;
-  sourceMdmNamespace?: string;
-  metricFilterPattern?: string;
-  fillGapWithZero?: boolean;
-  isInternal?: boolean;
-  dimensions?: MetricSpecificationDimensionsList;
-  category?: string;
-  availabilities?: MetricSpecificationAvailabilitiesList;
-  supportedTimeGrainTypes?: MetricSpecificationSupportedTimeGrainTypesList;
-  supportedAggregationTypes?: MetricSpecificationSupportedAggregationTypesList;
+  name?: string | undefined;
+  displayName?: string | undefined;
+  displayDescription?: string | undefined;
+  unit?: string | undefined;
+  aggregationType?: string | undefined;
+  supportsInstanceLevelAggregation?: boolean | undefined;
+  enableRegionalMdmAccount?: boolean | undefined;
+  sourceMdmAccount?: string | undefined;
+  sourceMdmNamespace?: string | undefined;
+  metricFilterPattern?: string | undefined;
+  fillGapWithZero?: boolean | undefined;
+  isInternal?: boolean | undefined;
+  dimensions?: MetricSpecificationDimensionsList | undefined;
+  category?: string | undefined;
+  availabilities?: MetricSpecificationAvailabilitiesList | undefined;
+  supportedTimeGrainTypes?: MetricSpecificationSupportedTimeGrainTypesList | undefined;
+  supportedAggregationTypes?: MetricSpecificationSupportedAggregationTypesList | undefined;
 }
 export type ServiceSpecificationMetricSpecificationsList = Array<MetricSpecification>;
 /** Log Definition of a single resource metric. */
 export interface LogSpecification {
-  name?: string;
-  displayName?: string;
-  blobDuration?: string;
-  logFilterPattern?: string;
+  name?: string | undefined;
+  displayName?: string | undefined;
+  blobDuration?: string | undefined;
+  logFilterPattern?: string | undefined;
 }
 export type ServiceSpecificationLogSpecificationsList = Array<LogSpecification>;
 /** Resource metrics service provided by Microsoft.Insights resource provider. */
 export interface ServiceSpecification {
-  metricSpecifications?: ServiceSpecificationMetricSpecificationsList;
-  logSpecifications?: ServiceSpecificationLogSpecificationsList;
+  metricSpecifications?: ServiceSpecificationMetricSpecificationsList | undefined;
+  logSpecifications?: ServiceSpecificationLogSpecificationsList | undefined;
 }
 /** Properties available for a Microsoft.Web resource provider operation. */
 export interface CsmOperationDescriptionProperties {
   /** Resource metrics service provided by Microsoft.Insights resource provider. */
-  serviceSpecification?: ServiceSpecification;
+  serviceSpecification?: ServiceSpecification | undefined;
 }
 /** Description of an operation available for Microsoft.Web resource provider. */
 export interface CsmOperationDescription {
-  name?: string;
-  isDataAction?: boolean;
+  name?: string | undefined;
+  isDataAction?: boolean | undefined;
   /** Meta data about operation used for display in portal. */
-  display?: CsmOperationDisplay;
-  origin?: string;
+  display?: CsmOperationDisplay | undefined;
+  origin?: string | undefined;
   /** Properties available for a Microsoft.Web resource provider operation. */
-  properties?: CsmOperationDescriptionProperties;
+  properties?: CsmOperationDescriptionProperties | undefined;
 }
 /** Collection of resources. */
 export type CsmOperationCollectionValueList = Array<CsmOperationDescription>;
@@ -846,16 +848,16 @@ export interface CsmOperationCollection {
   /** Collection of resources. */
   value: CsmOperationCollectionValueList;
   /** Link to next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** RenewCertificateOrderRequest resource specific properties */
 export interface RenewCertificateOrderRequestProperties {
   /** Certificate Key Size. */
-  keySize?: number;
+  keySize?: number | undefined;
   /** Csr to be used for re-key operation. */
-  csr?: string;
+  csr?: string | undefined;
   /** Should we change the ASC type (from managed private key to external private key and vice versa). */
-  isPrivateKeyExternal?: boolean;
+  isPrivateKeyExternal?: boolean | undefined;
 }
 export interface RenewAppServiceCertificateOrderRequest {
   /** The ID of the target subscription. */
@@ -865,9 +867,9 @@ export interface RenewAppServiceCertificateOrderRequest {
   /** Name of the certificate order.. */
   certificateOrderName: string;
   /** Kind of resource. */
-  kind?: string;
+  kind?: string | undefined;
   /** RenewCertificateOrderRequest resource specific properties */
-  properties?: RenewCertificateOrderRequestProperties;
+  properties?: RenewCertificateOrderRequestProperties | undefined;
 }
 export interface RenewAppServiceCertificateOrderResponse {}
 export interface ResendAppServiceCertificateOrderEmailRequest {
@@ -887,7 +889,7 @@ export interface ResendAppServiceCertificateOrderRequestEmailsRequest {
   /** Name of the certificate order.. */
   certificateOrderName: string;
   /** Name of the object. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface ResendAppServiceCertificateOrderRequestEmailsResponse {}
 /** State of the Key Vault secret. */
@@ -897,19 +899,19 @@ export type AppServiceCertificateOrderPatchResourcePropertiesInputCertificatesMa
 /** AppServiceCertificateOrderPatchResource resource specific properties */
 export interface AppServiceCertificateOrderPatchResourcePropertiesInput {
   /** State of the Key Vault secret. */
-  certificates?: AppServiceCertificateOrderPatchResourcePropertiesInputCertificatesMap;
+  certificates?: AppServiceCertificateOrderPatchResourcePropertiesInputCertificatesMap | undefined;
   /** Certificate distinguished name. */
-  distinguishedName?: string;
+  distinguishedName?: string | undefined;
   /** Duration in years (must be 1). */
-  validityInYears?: number;
+  validityInYears?: number | undefined;
   /** Certificate key size. */
-  keySize?: number;
+  keySize?: number | undefined;
   /** Certificate product type. */
   productType: CertificateProductType | (string & {});
   /** <code>true</code> if the certificate should be automatically renewed when it expires; otherwise, <code>false</code>. */
-  autoRenew?: boolean;
+  autoRenew?: boolean | undefined;
   /** Last CSR that was created for this order. */
-  csr?: string;
+  csr?: string | undefined;
 }
 export interface UpdateAppServiceCertificateOrderRequest {
   /** The ID of the target subscription. */
@@ -919,29 +921,29 @@ export interface UpdateAppServiceCertificateOrderRequest {
   /** Name of the certificate order.. */
   certificateOrderName: string;
   /** Kind of resource. */
-  kind?: string;
+  kind?: string | undefined;
   /** AppServiceCertificateOrderPatchResource resource specific properties */
-  properties?: AppServiceCertificateOrderPatchResourcePropertiesInput;
+  properties?: AppServiceCertificateOrderPatchResourcePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateAppServiceCertificateOrderResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateAppServiceCertificateOrderResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAppServiceCertificateOrderResponseTagsMap;
+  tags?: UpdateAppServiceCertificateOrderResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** AppServiceCertificateOrder resource specific properties */
-  properties?: AppServiceCertificateOrderProperties;
+  properties?: AppServiceCertificateOrderProperties | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface UpdateAppServiceCertificateOrderCertificateRequest {
   /** The ID of the target subscription. */
@@ -953,9 +955,9 @@ export interface UpdateAppServiceCertificateOrderCertificateRequest {
   /** Name of the certificate. */
   name: string;
   /** Kind of resource. */
-  kind?: string;
+  kind?: string | undefined;
   /** Core resource properties */
-  properties?: AppServiceCertificate;
+  properties?: AppServiceCertificate | undefined;
 }
 /** Resource tags. */
 export type UpdateAppServiceCertificateOrderCertificateResponseTagsMap = {
@@ -963,21 +965,21 @@ export type UpdateAppServiceCertificateOrderCertificateResponseTagsMap = {
 };
 export interface UpdateAppServiceCertificateOrderCertificateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateAppServiceCertificateOrderCertificateResponseTagsMap;
+  tags?: UpdateAppServiceCertificateOrderCertificateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Core resource properties */
-  properties?: AppServiceCertificate;
+  properties?: AppServiceCertificate | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Resource tags. */
 export type ValidateAppServiceCertificateOrderPurchaseInformationRequestTagsMap = {
@@ -987,13 +989,13 @@ export interface ValidateAppServiceCertificateOrderPurchaseInformationRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** Resource tags. */
-  tags?: ValidateAppServiceCertificateOrderPurchaseInformationRequestTagsMap;
+  tags?: ValidateAppServiceCertificateOrderPurchaseInformationRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** AppServiceCertificateOrder resource specific properties */
-  properties?: AppServiceCertificateOrderPropertiesInput;
+  properties?: AppServiceCertificateOrderPropertiesInput | undefined;
   /** Kind of resource */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ValidateAppServiceCertificateOrderPurchaseInformationResponse {}
 export interface VerifyAppServiceCertificateOrderDomainOwnershipRequest {

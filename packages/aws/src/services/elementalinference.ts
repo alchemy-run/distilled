@@ -159,7 +159,7 @@ export interface TemplateGroup {
 }
 export type TemplateGroupList = TemplateGroup[];
 export interface CroppingConfig {
-  templateGroups?: TemplateGroup[];
+  templateGroups?: TemplateGroup[] | undefined;
 }
 export type ResourceDescription = string;
 export type FixtureId = string;
@@ -167,8 +167,8 @@ export interface DataSourceConfiguration {
   fixtureId: string;
 }
 export interface ClippingConfig {
-  callbackMetadata?: string;
-  dataSourceConfiguration?: DataSourceConfiguration;
+  callbackMetadata?: string | undefined;
+  dataSourceConfiguration?: DataSourceConfiguration | undefined;
 }
 export type TranscriptionLanguage =
   | "eng"
@@ -189,24 +189,39 @@ export type DictionaryId = string;
 export type ProfanityFilterMode = "DISABLED" | "CENSOR" | "DROP" | (string & {});
 export interface SubtitlingConfig {
   language: TranscriptionLanguage;
-  aspectRatio?: AspectRatio;
-  dictionary?: string;
-  profanityFilter?: ProfanityFilterMode;
+  aspectRatio?: AspectRatio | undefined;
+  dictionary?: string | undefined;
+  profanityFilter?: ProfanityFilterMode | undefined;
 }
 export type SummaryGenerationMode = "ENABLED" | "DISABLED" | (string & {});
 export type ExtendedAnalysisMode = "ENABLED" | "DISABLED" | (string & {});
 export interface ContextualMetadataConfig {
-  summaryGeneration?: SummaryGenerationMode;
-  extendedAnalysis?: ExtendedAnalysisMode;
+  summaryGeneration?: SummaryGenerationMode | undefined;
+  extendedAnalysis?: ExtendedAnalysisMode | undefined;
 }
 export type OutputConfig =
-  | { cropping: CroppingConfig; clipping?: never; subtitling?: never; contextualMetadata?: never }
-  | { cropping?: never; clipping: ClippingConfig; subtitling?: never; contextualMetadata?: never }
-  | { cropping?: never; clipping?: never; subtitling: SubtitlingConfig; contextualMetadata?: never }
   | {
-      cropping?: never;
-      clipping?: never;
-      subtitling?: never;
+      cropping: CroppingConfig;
+      clipping?: undefined;
+      subtitling?: undefined;
+      contextualMetadata?: undefined;
+    }
+  | {
+      cropping?: undefined;
+      clipping: ClippingConfig;
+      subtitling?: undefined;
+      contextualMetadata?: undefined;
+    }
+  | {
+      cropping?: undefined;
+      clipping?: undefined;
+      subtitling: SubtitlingConfig;
+      contextualMetadata?: undefined;
+    }
+  | {
+      cropping?: undefined;
+      clipping?: undefined;
+      subtitling?: undefined;
       contextualMetadata: ContextualMetadataConfig;
     };
 export type OutputStatus = "ENABLED" | "DISABLED" | (string & {});
@@ -214,14 +229,14 @@ export interface CreateOutput {
   name: string;
   outputConfig: OutputConfig;
   status: OutputStatus;
-  description?: string;
+  description?: string | undefined;
 }
 export type CreateOutputList = CreateOutput[];
 export interface AssociateFeedRequest {
   id: string;
   associatedResourceName: string;
   outputs: CreateOutput[];
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export type FeedArn = string;
 export interface AssociateFeedResponse {
@@ -236,8 +251,8 @@ export type TagMap = { [key: string]: string | undefined };
 export interface CreateDictionaryRequest {
   name: string;
   language: DictionaryLanguage;
-  entries?: string;
-  tags?: { [key: string]: string | undefined };
+  entries?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DictionaryArn = string;
 export type DictionaryStatus =
@@ -254,23 +269,23 @@ export interface CreateDictionaryResponse {
   id: string;
   language: DictionaryLanguage;
   status: DictionaryStatus;
-  references?: string[];
-  tags?: { [key: string]: string | undefined };
+  references?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type IamRoleArn = string;
 export interface CreateFeedRequest {
   name: string;
-  accessRoleArn?: string;
+  accessRoleArn?: string | undefined;
   outputs: CreateOutput[];
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type StringList = string[];
 export interface GetOutput {
   name: string;
   outputConfig: OutputConfig;
   status: OutputStatus;
-  description?: string;
-  fromAssociation?: boolean;
+  description?: string | undefined;
+  fromAssociation?: boolean | undefined;
 }
 export type GetOutputList = GetOutput[];
 export type FeedStatus =
@@ -291,10 +306,63 @@ export interface CreateFeedResponse {
   id: string;
   dataEndpoints: string[];
   outputs: GetOutput[];
-  accessRoleArn?: string;
+  accessRoleArn?: string | undefined;
   status: FeedStatus;
-  association?: FeedAssociation;
-  tags?: { [key: string]: string | undefined };
+  association?: FeedAssociation | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+}
+export interface FixedModeScheduleActionStartSettings {
+  scheduledAt: Date;
+}
+export type ScheduleActionStartConfiguration = {
+  fixedModeScheduleActionStartSettings: FixedModeScheduleActionStartSettings;
+};
+export interface UpdateOutputStatus {
+  outputName: string;
+  status: OutputStatus;
+}
+export interface UpdateClippingDataSourceConfiguration {
+  outputName: string;
+  dataSourceConfiguration: DataSourceConfiguration;
+}
+export interface RemoveClippingDataSourceConfiguration {
+  outputName: string;
+}
+export type ScheduleActionOperation =
+  | {
+      updateOutputStatus: UpdateOutputStatus;
+      updateClippingDataSourceConfiguration?: undefined;
+      removeClippingDataSourceConfiguration?: undefined;
+    }
+  | {
+      updateOutputStatus?: undefined;
+      updateClippingDataSourceConfiguration: UpdateClippingDataSourceConfiguration;
+      removeClippingDataSourceConfiguration?: undefined;
+    }
+  | {
+      updateOutputStatus?: undefined;
+      updateClippingDataSourceConfiguration?: undefined;
+      removeClippingDataSourceConfiguration: RemoveClippingDataSourceConfiguration;
+    };
+export type ScheduleActionOperations = ScheduleActionOperation[];
+export interface CreateScheduleActionRequest {
+  id: string;
+  actionName: string;
+  startConfiguration: ScheduleActionStartConfiguration;
+  operations: ScheduleActionOperation[];
+}
+export type ScheduleActionStatus = "PENDING" | "COMPLETED" | "FAILED" | (string & {});
+export type ScheduleActionErrorCode = "INVALID_ACTION_TARGET" | "INTERNAL_ERROR" | (string & {});
+export interface ScheduleActionError {
+  errorCode: ScheduleActionErrorCode;
+  errorMessage: string;
+}
+export interface CreateScheduleActionResponse {
+  actionName: string;
+  startConfiguration: ScheduleActionStartConfiguration;
+  operations: ScheduleActionOperation[];
+  status: ScheduleActionStatus;
+  error?: ScheduleActionError | undefined;
 }
 export interface DeleteDictionaryRequest {
   id: string;
@@ -316,10 +384,17 @@ export interface DeleteFeedPolicyRequest {
   id: string;
 }
 export interface DeleteFeedPolicyResponse {}
+export interface DeleteScheduleActionRequest {
+  id: string;
+  actionName: string;
+}
+export interface DeleteScheduleActionResponse {
+  actionName: string;
+}
 export interface DisassociateFeedRequest {
   id: string;
   associatedResourceName: string;
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export interface DisassociateFeedResponse {
   arn: string;
@@ -329,7 +404,7 @@ export interface ExportDictionaryEntriesRequest {
   id: string;
 }
 export interface ExportDictionaryEntriesResponse {
-  entries?: string;
+  entries?: string | undefined;
 }
 export interface GetDictionaryRequest {
   id: string;
@@ -340,8 +415,8 @@ export interface GetDictionaryResponse {
   id: string;
   language: DictionaryLanguage;
   status: DictionaryStatus;
-  references?: string[];
-  tags?: { [key: string]: string | undefined };
+  references?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetFeedRequest {
   id: string;
@@ -352,10 +427,10 @@ export interface GetFeedResponse {
   id: string;
   dataEndpoints: string[];
   outputs: GetOutput[];
-  accessRoleArn?: string;
+  accessRoleArn?: string | undefined;
   status: FeedStatus;
-  association?: FeedAssociation;
-  tags?: { [key: string]: string | undefined };
+  association?: FeedAssociation | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetFeedPolicyRequest {
   id: string;
@@ -368,21 +443,21 @@ export interface GetFixtureRequest {
   fixtureId: string;
 }
 export interface Competitor {
-  name?: string;
-  isHome?: boolean;
+  name?: string | undefined;
+  isHome?: boolean | undefined;
 }
 export type CompetitorList = Competitor[];
 export interface GetFixtureResponse {
   fixtureId: string;
   name: string;
-  fixtureGroup?: string;
-  scheduledStart?: Date;
+  fixtureGroup?: string | undefined;
+  scheduledStart?: Date | undefined;
   status: string;
   competitors: Competitor[];
 }
 export interface ListDictionariesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DictionarySummary {
   arn: string;
@@ -394,30 +469,47 @@ export interface DictionarySummary {
 export type DictionarySummaryList = DictionarySummary[];
 export interface ListDictionariesResponse {
   dictionaries: DictionarySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListFeedsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface FeedSummary {
   arn: string;
   id: string;
   name: string;
-  association?: FeedAssociation;
+  association?: FeedAssociation | undefined;
   status: FeedStatus;
 }
 export type FeedSummaryList = FeedSummary[];
 export interface ListFeedsResponse {
   feeds: FeedSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
+}
+export interface ListScheduleActionsRequest {
+  id: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+}
+export interface ScheduleAction {
+  actionName: string;
+  startConfiguration: ScheduleActionStartConfiguration;
+  operations: ScheduleActionOperation[];
+  status: ScheduleActionStatus;
+  error?: ScheduleActionError | undefined;
+}
+export type ScheduleActionList = ScheduleAction[];
+export interface ListScheduleActionsResponse {
+  scheduleActions: ScheduleAction[];
+  nextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutFeedPolicyRequest {
   id: string;
@@ -437,23 +529,23 @@ export type SearchFilterList = SearchFilter[];
 export interface SearchFixturesRequest {
   sport: DataSourceSport;
   startDate: string;
-  endDate?: string;
-  filters?: SearchFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  endDate?: string | undefined;
+  filters?: SearchFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface FixtureSummary {
   fixtureId: string;
   name: string;
-  fixtureGroup?: string;
-  scheduledStart?: Date;
+  fixtureGroup?: string | undefined;
+  scheduledStart?: Date | undefined;
   status: string;
   competitors: Competitor[];
 }
 export type FixtureSummaryList = FixtureSummary[];
 export interface SearchFixturesResponse {
   fixtures: FixtureSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -468,9 +560,9 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateDictionaryRequest {
   id: string;
-  name?: string;
-  language?: DictionaryLanguage;
-  entries?: string;
+  name?: string | undefined;
+  language?: DictionaryLanguage | undefined;
+  entries?: string | undefined;
 }
 export interface UpdateDictionaryResponse {
   name: string;
@@ -478,20 +570,20 @@ export interface UpdateDictionaryResponse {
   id: string;
   language: DictionaryLanguage;
   status: DictionaryStatus;
-  references?: string[];
-  tags?: { [key: string]: string | undefined };
+  references?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateOutput {
   name: string;
   outputConfig: OutputConfig;
   status: OutputStatus;
-  description?: string;
-  fromAssociation?: boolean;
+  description?: string | undefined;
+  fromAssociation?: boolean | undefined;
 }
 export type UpdateOutputList = UpdateOutput[];
 export interface UpdateFeedRequest {
   name: string;
-  accessRoleArn?: string;
+  accessRoleArn?: string | undefined;
   id: string;
   outputs: UpdateOutput[];
 }
@@ -501,10 +593,10 @@ export interface UpdateFeedResponse {
   id: string;
   dataEndpoints: string[];
   outputs: GetOutput[];
-  accessRoleArn?: string;
+  accessRoleArn?: string | undefined;
   status: FeedStatus;
-  association?: FeedAssociation;
-  tags?: { [key: string]: string | undefined };
+  association?: FeedAssociation | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AssociateFeedError =
   | AccessDeniedException
@@ -536,8 +628,8 @@ export const associateFeed: API.OperationMethod<
   AssociateFeedError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<AssociateFeedRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<AssociateFeedResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<AssociateFeedRequest>,
+  output: __S(576, __c36, 0) as any as S.Schema<AssociateFeedResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -624,6 +716,44 @@ export const createFeed: API.OperationMethod<
   span: "CreateFeed",
 }));
 
+export type CreateScheduleActionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates a schedule action on a feed. A schedule action applies configuration changes to the feed at a time that you specify, in the same way as an UpdateFeed request.
+ *
+ * Elemental Inference validates the targets of the action when you create it.
+ */
+export const createScheduleAction: API.OperationMethod<
+  CreateScheduleActionRequest & RegionInput,
+  CreateScheduleActionResponse,
+  CreateScheduleActionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c6, 0) as any as S.Schema<CreateScheduleActionRequest>,
+  output: __S(120, __c7, 8) as any as S.Schema<CreateScheduleActionResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    TooManyRequestException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateScheduleAction",
+  telemetry: TELEMETRY,
+  span: "CreateScheduleAction",
+}));
+
 export type DeleteDictionaryError =
   | AccessDeniedException
   | ConflictException
@@ -641,8 +771,8 @@ export const deleteDictionary: API.OperationMethod<
   DeleteDictionaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<DeleteDictionaryRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<DeleteDictionaryResponse>,
+  input: __S(128, __c8, 0) as any as S.Schema<DeleteDictionaryRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<DeleteDictionaryResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -675,8 +805,8 @@ export const deleteFeed: API.OperationMethod<
   DeleteFeedError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<DeleteFeedRequest>,
-  output: __S(112, __c7, 0) as any as S.Schema<DeleteFeedResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<DeleteFeedRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<DeleteFeedResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -708,8 +838,8 @@ export const deleteFeedPolicy: API.OperationMethod<
   DeleteFeedPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<DeleteFeedPolicyRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<DeleteFeedPolicyResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<DeleteFeedPolicyRequest>,
+  output: __S(192, __c12, 0) as any as S.Schema<DeleteFeedPolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -722,6 +852,42 @@ export const deleteFeedPolicy: API.OperationMethod<
   operationName: "DeleteFeedPolicy",
   telemetry: TELEMETRY,
   span: "DeleteFeedPolicy",
+}));
+
+export type DeleteScheduleActionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | TooManyRequestException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes a schedule action from a feed. A deleted action never runs.
+ *
+ * You can delete only an action whose status is PENDING. Deleting an action doesn't reverse changes that the action already made to the feed. When you delete or archive a feed, Elemental Inference deletes all the schedule actions on that feed.
+ */
+export const deleteScheduleAction: API.OperationMethod<
+  DeleteScheduleActionRequest & RegionInput,
+  DeleteScheduleActionResponse,
+  DeleteScheduleActionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(208, __c13, 0) as any as S.Schema<DeleteScheduleActionRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<DeleteScheduleActionResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    TooManyRequestException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteScheduleAction",
+  telemetry: TELEMETRY,
+  span: "DeleteScheduleAction",
 }));
 
 export type DisassociateFeedError =
@@ -741,8 +907,8 @@ export const disassociateFeed: API.OperationMethod<
   DisassociateFeedError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<DisassociateFeedRequest>,
-  output: __S(496, __c31, 0) as any as S.Schema<DisassociateFeedResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<DisassociateFeedRequest>,
+  output: __S(576, __c36, 0) as any as S.Schema<DisassociateFeedResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -774,8 +940,8 @@ export const exportDictionaryEntries: API.OperationMethod<
   ExportDictionaryEntriesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<ExportDictionaryEntriesRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<ExportDictionaryEntriesResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<ExportDictionaryEntriesRequest>,
+  output: __S(241, __c15, 1) as any as S.Schema<ExportDictionaryEntriesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -806,7 +972,7 @@ export const getDictionary: API.OperationMethod<
   GetDictionaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<GetDictionaryRequest>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetDictionaryRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<GetDictionaryResponse>,
   errors: [
     AccessDeniedException,
@@ -837,7 +1003,7 @@ export const getFeed: API.OperationMethod<
   GetFeedError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<GetFeedRequest>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetFeedRequest>,
   output: __S(82, __c5, 2) as any as S.Schema<GetFeedResponse>,
   errors: [
     AccessDeniedException,
@@ -868,8 +1034,8 @@ export const getFeedPolicy: API.OperationMethod<
   GetFeedPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<GetFeedPolicyRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<GetFeedPolicyResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetFeedPolicyRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<GetFeedPolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -902,8 +1068,8 @@ export const getFixture: API.OperationMethod<
   GetFixtureError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<GetFixtureRequest>,
-  output: __S(274, __c17, 2) as any as S.Schema<GetFixtureResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<GetFixtureRequest>,
+  output: __S(322, __c20, 2) as any as S.Schema<GetFixtureResponse>,
   errors: [
     AccessDeniedException,
     GatewayTimedOutException,
@@ -936,8 +1102,8 @@ export const listDictionaries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DictionarySummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<ListDictionariesRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<ListDictionariesResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<ListDictionariesRequest>,
+  output: __S(339, __c21, 3) as any as S.Schema<ListDictionariesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -974,8 +1140,8 @@ export const listFeeds: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FeedSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<ListFeedsRequest>,
-  output: __S(307, __c19, 3) as any as S.Schema<ListFeedsResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<ListFeedsRequest>,
+  output: __S(355, __c22, 3) as any as S.Schema<ListFeedsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -996,6 +1162,47 @@ export const listFeeds: API.PaginatedOperationMethod<
   span: "ListFeeds",
 })) as any;
 
+export type ListScheduleActionsError =
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | TooManyRequestException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Displays a list of the schedule actions on a feed, including the status of each action and, for a failed action, information about why it failed.
+ *
+ * Elemental Inference keeps an action whose status is COMPLETED or FAILED for about 48 hours after its scheduled time, and then deletes it automatically.
+ */
+export const listScheduleActions: API.PaginatedOperationMethod<
+  ListScheduleActionsRequest & RegionInput,
+  ListScheduleActionsResponse,
+  ListScheduleActionsError,
+  Credentials | HttpClient.HttpClient,
+  ScheduleAction
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(368, __c23, 0) as any as S.Schema<ListScheduleActionsRequest>,
+  output: __S(370, __c23, 2) as any as S.Schema<ListScheduleActionsResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerErrorException,
+    ResourceNotFoundException,
+    TooManyRequestException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListScheduleActions",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "scheduleActions",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListScheduleActions",
+})) as any;
+
 export type ListTagsForResourceError =
   | AccessDeniedException
   | InternalServerErrorException
@@ -1012,8 +1219,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(385, __c24, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerErrorException,
@@ -1045,8 +1252,8 @@ export const putFeedPolicy: API.OperationMethod<
   PutFeedPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<PutFeedPolicyRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<PutFeedPolicyResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<PutFeedPolicyRequest>,
+  output: __S(192, __c12, 0) as any as S.Schema<PutFeedPolicyResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1080,8 +1287,8 @@ export const searchFixtures: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FixtureSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(354, __c22, 2) as any as S.Schema<SearchFixturesRequest>,
-  output: __S(356, __c22, 4) as any as S.Schema<SearchFixturesResponse>,
+  input: __S(418, __c26, 2) as any as S.Schema<SearchFixturesRequest>,
+  output: __S(420, __c26, 4) as any as S.Schema<SearchFixturesResponse>,
   errors: [
     AccessDeniedException,
     GatewayTimedOutException,
@@ -1120,8 +1327,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(192, __c12, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1154,8 +1361,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(160, __c10, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(448, __c28, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(192, __c12, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1188,7 +1395,7 @@ export const updateDictionary: API.OperationMethod<
   UpdateDictionaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<UpdateDictionaryRequest>,
+  input: __S(464, __c29, 0) as any as S.Schema<UpdateDictionaryRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<UpdateDictionaryResponse>,
   errors: [
     AccessDeniedException,
@@ -1229,7 +1436,7 @@ export const updateFeed: API.OperationMethod<
   UpdateFeedError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<UpdateFeedRequest>,
+  input: __S(480, __c30, 0) as any as S.Schema<UpdateFeedRequest>,
   output: __S(82, __c5, 2) as any as S.Schema<UpdateFeedResponse>,
   errors: [
     AccessDeniedException,
@@ -1279,7 +1486,7 @@ function __c2(j: number): any {
           id: S.String,
           language: S.String,
           status: S.String,
-          references: S.optional(__S(448, __c28, 0)),
+          references: S.optional(__S(512, __c32, 0)),
           tags: S.optional(__S(16, __c1, 0)),
         }),
       ).annotate({ identifier: "CreateDictionaryResponse" });
@@ -1292,7 +1499,7 @@ function __c3(j: number): any {
         S.Struct({
           name: S.String,
           accessRoleArn: S.optional(S.String),
-          outputs: __S(465, __c29, 1),
+          outputs: __S(529, __c33, 1),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/v1/feed" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateFeedRequest" });
@@ -1312,7 +1519,7 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          outputConfig: __S(488, __c30, 8),
+          outputConfig: __S(567, __c35, 7),
           status: S.String,
           description: S.optional(S.String),
           fromAssociation: S.optional(S.Boolean),
@@ -1326,7 +1533,7 @@ function __c5(j: number): any {
           arn: S.String,
           name: S.String,
           id: S.String,
-          dataEndpoints: __S(448, __c28, 0),
+          dataEndpoints: __S(512, __c32, 0),
           outputs: __S(81, __c5, 1),
           accessRoleArn: S.optional(S.String),
           status: S.String,
@@ -1337,6 +1544,74 @@ function __c5(j: number): any {
   }
 }
 function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.HttpLabel("id")),
+          actionName: S.String,
+          startConfiguration: __S(113, __c7, 1),
+          operations: __S(118, __c7, 6),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/v1/feed/{id}/schedule-actions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateScheduleActionRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ scheduledAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")) }),
+      ).annotate({ identifier: "FixedModeScheduleActionStartSettings" });
+    case 1:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ fixedModeScheduleActionStartSettings: __S(112, __c7, 0) }),
+      ]);
+    case 2:
+      return S.suspend(() => S.Struct({ outputName: S.String, status: S.String })).annotate({
+        identifier: "UpdateOutputStatus",
+      });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ outputName: S.String, dataSourceConfiguration: __S(544, __c34, 0) }),
+      ).annotate({ identifier: "UpdateClippingDataSourceConfiguration" });
+    case 4:
+      return S.suspend(() => S.Struct({ outputName: S.String })).annotate({
+        identifier: "RemoveClippingDataSourceConfiguration",
+      });
+    case 5:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ updateOutputStatus: __S(114, __c7, 2) }),
+        /*@__PURE__*/ S.Struct({ updateClippingDataSourceConfiguration: __S(115, __c7, 3) }),
+        /*@__PURE__*/ S.Struct({ removeClippingDataSourceConfiguration: __S(116, __c7, 4) }),
+      ]);
+    case 6:
+      return S.Array(__S(117, __c7, 5));
+    case 7:
+      return S.suspend(() => S.Struct({ errorCode: S.String, errorMessage: S.String })).annotate({
+        identifier: "ScheduleActionError",
+      });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          actionName: S.String,
+          startConfiguration: __S(113, __c7, 1),
+          operations: __S(118, __c7, 6),
+          status: S.String,
+          error: S.optional(__S(119, __c7, 7)),
+        }),
+      ).annotate({ identifier: "CreateScheduleActionResponse" });
+  }
+}
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1353,7 +1628,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DeleteDictionaryRequest" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ arn: S.String, id: S.String, status: S.String })).annotate({
@@ -1361,7 +1636,7 @@ function __c7(j: number): any {
       });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1371,7 +1646,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "DeleteFeedRequest" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1388,13 +1663,37 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteFeedPolicyRequest" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteFeedPolicyResponse" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.HttpLabel("id")),
+          actionName: S.String.pipe(T.HttpQuery("actionName")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/v1/feed/{id}/schedule-actions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteScheduleActionRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ actionName: S.String })).annotate({
+        identifier: "DeleteScheduleActionResponse",
+      });
+  }
+}
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1415,7 +1714,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "DisassociateFeedRequest" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1436,7 +1735,7 @@ function __c12(j: number): any {
       });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1453,7 +1752,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetDictionaryRequest" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1463,7 +1762,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetFeedRequest" });
   }
 }
-function __c15(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1484,7 +1783,7 @@ function __c15(j: number): any {
       });
   }
 }
-function __c16(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1501,14 +1800,14 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetFixtureRequest" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ name: S.optional(S.String), isHome: S.optional(S.Boolean) }),
       ).annotate({ identifier: "Competitor" });
     case 1:
-      return S.Array(__S(272, __c17, 0));
+      return S.Array(__S(320, __c20, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1517,12 +1816,12 @@ function __c17(j: number): any {
           fixtureGroup: S.optional(S.String),
           scheduledStart: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           status: S.String,
-          competitors: __S(273, __c17, 1),
+          competitors: __S(321, __c20, 1),
         }),
       ).annotate({ identifier: "GetFixtureResponse" });
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1544,14 +1843,14 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "DictionarySummary" });
     case 2:
-      return S.Array(__S(289, __c18, 1));
+      return S.Array(__S(337, __c21, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ dictionaries: __S(290, __c18, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ dictionaries: __S(338, __c21, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDictionariesResponse" });
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1571,14 +1870,41 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "FeedSummary" });
     case 2:
-      return S.Array(__S(305, __c19, 1));
+      return S.Array(__S(353, __c22, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ feeds: __S(306, __c19, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ feeds: __S(354, __c22, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListFeedsResponse" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.HttpLabel("id")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/v1/feed/{id}/schedule-actions" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListScheduleActionsRequest" });
+    case 1:
+      return S.Array(__S(120, __c7, 8));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ scheduleActions: __S(369, __c23, 1), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListScheduleActionsResponse" });
+  }
+}
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1599,7 +1925,7 @@ function __c20(j: number): any {
       });
   }
 }
-function __c21(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1616,21 +1942,21 @@ function __c21(j: number): any {
       ).annotate({ identifier: "PutFeedPolicyRequest" });
   }
 }
-function __c22(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ name: S.String, values: __S(448, __c28, 0) })).annotate({
+      return S.suspend(() => S.Struct({ name: S.String, values: __S(512, __c32, 0) })).annotate({
         identifier: "SearchFilter",
       });
     case 1:
-      return S.Array(__S(352, __c22, 0));
+      return S.Array(__S(416, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           sport: S.String,
           startDate: S.String,
           endDate: S.optional(S.String),
-          filters: S.optional(__S(353, __c22, 1)),
+          filters: S.optional(__S(417, __c26, 1)),
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
         }).pipe(
@@ -1638,14 +1964,14 @@ function __c22(j: number): any {
         ),
       ).annotate({ identifier: "SearchFixturesRequest" });
     case 3:
-      return S.Array(__S(274, __c17, 2));
+      return S.Array(__S(322, __c20, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ fixtures: __S(355, __c22, 3), nextToken: S.optional(S.String) }),
+        S.Struct({ fixtures: __S(419, __c26, 3), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "SearchFixturesResponse" });
   }
 }
-function __c23(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1665,13 +1991,13 @@ function __c23(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c24(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tagKeys: __S(448, __c28, 0).pipe(T.HttpQuery("tagKeys")),
+          tagKeys: __S(512, __c32, 0).pipe(T.HttpQuery("tagKeys")),
         }).pipe(
           T.all(
             T.Http({ method: "DELETE", uri: "/v1/tags/{resourceArn}" }),
@@ -1685,7 +2011,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c25(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1707,7 +2033,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "UpdateDictionaryRequest" });
   }
 }
-function __c26(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1722,14 +2048,14 @@ function __c26(j: number): any {
       ).annotate({ identifier: "UpdateFeedRequest" });
   }
 }
-function __c27(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.HttpLabel("id")),
           associatedResourceName: S.String.pipe(T.IdempotencyToken()),
-          outputs: __S(465, __c29, 1),
+          outputs: __S(529, __c33, 1),
           dryRun: S.optional(S.Boolean),
         }).pipe(
           T.all(
@@ -1744,80 +2070,84 @@ function __c27(j: number): any {
       ).annotate({ identifier: "AssociateFeedRequest" });
   }
 }
-function __c28(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c29(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          outputConfig: __S(488, __c30, 8),
+          outputConfig: __S(567, __c35, 7),
           status: S.String,
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateOutput" });
     case 1:
-      return S.Array(__S(464, __c29, 0));
+      return S.Array(__S(528, __c33, 0));
   }
 }
-function __c30(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({ name: S.String, templateUris: __S(448, __c28, 0) }),
-      ).annotate({ identifier: "TemplateGroup" });
-    case 1:
-      return S.Array(__S(480, __c30, 0));
-    case 2:
-      return S.suspend(() => S.Struct({ templateGroups: S.optional(__S(481, __c30, 1)) })).annotate(
-        { identifier: "CroppingConfig" },
-      );
-    case 3:
       return S.suspend(() => S.Struct({ fixtureId: S.String })).annotate({
         identifier: "DataSourceConfiguration",
       });
-    case 4:
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ name: S.String, templateUris: __S(512, __c32, 0) }),
+      ).annotate({ identifier: "TemplateGroup" });
+    case 1:
+      return S.Array(__S(560, __c35, 0));
+    case 2:
+      return S.suspend(() => S.Struct({ templateGroups: S.optional(__S(561, __c35, 1)) })).annotate(
+        { identifier: "CroppingConfig" },
+      );
+    case 3:
       return S.suspend(() =>
         S.Struct({
           callbackMetadata: S.optional(S.String),
-          dataSourceConfiguration: S.optional(__S(483, __c30, 3)),
+          dataSourceConfiguration: S.optional(__S(544, __c34, 0)),
         }),
       ).annotate({ identifier: "ClippingConfig" });
-    case 5:
+    case 4:
       return S.suspend(() => S.Struct({ width: S.Number, height: S.Number })).annotate({
         identifier: "AspectRatio",
       });
-    case 6:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           language: S.String,
-          aspectRatio: S.optional(__S(485, __c30, 5)),
+          aspectRatio: S.optional(__S(564, __c35, 4)),
           dictionary: S.optional(S.String),
           profanityFilter: S.optional(S.String),
         }),
       ).annotate({ identifier: "SubtitlingConfig" });
-    case 7:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           summaryGeneration: S.optional(S.String),
           extendedAnalysis: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContextualMetadataConfig" });
-    case 8:
+    case 7:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ cropping: __S(482, __c30, 2) }),
-        /*@__PURE__*/ S.Struct({ clipping: __S(484, __c30, 4) }),
-        /*@__PURE__*/ S.Struct({ subtitling: __S(486, __c30, 6) }),
-        /*@__PURE__*/ S.Struct({ contextualMetadata: __S(487, __c30, 7) }),
+        /*@__PURE__*/ S.Struct({ cropping: __S(562, __c35, 2) }),
+        /*@__PURE__*/ S.Struct({ clipping: __S(563, __c35, 3) }),
+        /*@__PURE__*/ S.Struct({ subtitling: __S(565, __c35, 5) }),
+        /*@__PURE__*/ S.Struct({ contextualMetadata: __S(566, __c35, 6) }),
       ]);
   }
 }
-function __c31(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ arn: S.String, id: S.String })).annotate({

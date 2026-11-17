@@ -15,12 +15,18 @@ name: Benchmarks
 # the entry for its base commit, or the newest main entry when that is missing.
 # Run the workflow by hand on main with `backfill: N` to seed the history with
 # main's last N commits.
+#
+# The job is a required check of main's merge queue (stacks/distilled-monorepo),
+# so it also runs on the queue's merge commit. There it measures only the SDKs
+# the queued PR changes, like a PR run, and never writes main's cache: only
+# pushes to main and manual runs do.
 
 on:
   push:
     branches: [main]
   pull_request:
     types: [opened, synchronize, reopened]
+  merge_group:
   workflow_dispatch:
     inputs:
       backfill:
@@ -68,9 +74,9 @@ jobs:
           # commit's newest entry wins, then main's newest entry. Bump v2 (here
           # and in the save step) when a metric's measurement changes, so old
           # runs are dropped. v2: added latency's call and roundtrip interleaved.
-          key: bench-ci-main-v2-${{ github.event.pull_request.base.sha || github.sha }}-none
+          key: bench-ci-main-v2-${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}-none
           restore-keys: |
-            bench-ci-main-v2-${{ github.event.pull_request.base.sha || github.sha }}-
+            bench-ci-main-v2-${{ github.event.pull_request.base.sha || github.event.merge_group.base_sha || github.sha }}-
             bench-ci-main-v2-
 
       - name: Backfill main's history
@@ -96,7 +102,8 @@ jobs:
       - name: Benchmark
         env:
           BENCH_HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-          SCOPE: ${{ github.event_name == 'pull_request' && '--changed-since HEAD^1' || '--wide' }}
+          # The queue's merge commit has the base as its first parent too.
+          SCOPE: ${{ (github.event_name == 'pull_request' || github.event_name == 'merge_group') && '--changed-since HEAD^1' || '--wide' }}
         run: |
           mkdir -p .bench-ci
           # Whole-SDK heap is copied from main's run for SDKs this PR leaves unchanged.
@@ -121,13 +128,13 @@ jobs:
             --reuse "$GITHUB_WORKSPACE/.bench-ci/head.json")
 
       - name: Add this run to main's history
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         run: |
           cp .bench-ci/head.json .bench-ci/main.json
           node benches/sdks/ci.ts history --history .bench-ci/history.json --add .bench-ci/head.json
 
       - name: Cache main's benchmark
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: |

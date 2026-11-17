@@ -8,6 +8,7 @@ import * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
+import * as ApiVersion from "../src/api-version.ts";
 import { credentials } from "../src/credentials.ts";
 import {
   ApiError,
@@ -22,7 +23,7 @@ import {
   TooManyRequests,
   UnknownStripeError,
 } from "../src/errors.ts";
-import { type StripeOpContext, withRequestOptions } from "../src/protocol.ts";
+import type { StripeOpContext } from "../src/protocol.ts";
 import * as Retry from "../src/retry.ts";
 import {
   CreateBillingMeterEvent2,
@@ -183,10 +184,10 @@ describe("Form encoding (POST /v1)", () => {
     ]);
   });
 
-  test("an empty input sends no body", async () => {
+  test("an empty input sends an empty form body, like Stripe's own clients", async () => {
     const { result, requests } = run(CreateCustomer({}));
     await result;
-    expect(requests[0]!.body._tag).toBe("Empty");
+    expect(textOf(requests[0]!)).toBe("");
   });
 
   test("labels are substituted and percent-encoded", async () => {
@@ -196,12 +197,12 @@ describe("Form encoding (POST /v1)", () => {
     await result;
     expect(requests[0]!.method).toBe("DELETE");
     expect(requests[0]!.url.pathname).toBe("/v1/products/prod%2F1%202");
-    expect(requests[0]!.body._tag).toBe("Empty");
+    expect(textOf(requests[0]!)).toBe("");
   });
 });
 
 describe("Query encoding (GET /v1)", () => {
-  test("nested query objects use brackets and arrays repeat `key[]`", async () => {
+  test("nested query objects use brackets and arrays are indexed `key[0]`", async () => {
     const { result, requests } = run(
       GetCustomers({
         created: { gte: 1700000000, lt: 1800000000 },
@@ -220,8 +221,8 @@ describe("Query encoding (GET /v1)", () => {
       ["created[gte]", "1700000000"],
       ["created[lt]", "1800000000"],
       ["email", "a+b@example.test"],
-      ["expand[]", "data.default_source"],
-      ["expand[]", "data.tax"],
+      ["expand[0]", "data.default_source"],
+      ["expand[1]", "data.tax"],
       ["limit", "3"],
     ]);
     expect(request!.body._tag).toBe("Empty");
@@ -234,23 +235,7 @@ describe("Query encoding (GET /v1)", () => {
     );
     await result;
     expect(requests[0]!.url.pathname).toBe("/v1/customers/cus_123");
-    expect([...requests[0]!.url.searchParams.entries()]).toEqual([["expand[]", "sources"]]);
-  });
-
-  test("GET inputs never carry a body: unknown keys flatten into the query", async () => {
-    const { result, requests } = run(
-      GetCustomers({ limit: 1, extra: { nested: true }, tags: ["a"] } as Parameters<
-        typeof GetCustomers
-      >[0]),
-      () => json({ object: "list", data: [], has_more: false, url: "/v1/customers" }),
-    );
-    await result;
-    expect([...requests[0]!.url.searchParams.entries()]).toEqual([
-      ["limit", "1"],
-      ["extra[nested]", "true"],
-      ["tags[]", "a"],
-    ]);
-    expect(requests[0]!.body._tag).toBe("Empty");
+    expect([...requests[0]!.url.searchParams.entries()]).toEqual([["expand[0]", "sources"]]);
   });
 });
 
@@ -296,53 +281,55 @@ describe("JSON (/v2) and multipart bodies", () => {
 });
 
 describe("Request headers", () => {
-  test("Authorization is the bearer API key and Accept is JSON", async () => {
+  test("Authorization is the bearer API key, Accept is JSON, Stripe-Version is the spec's", async () => {
     const { result, requests } = run(GetCustomer({ customer: "cus_1" }));
     await result;
     expect(requests[0]!.headers["authorization"]).toBe(`Bearer ${API_KEY}`);
     expect(requests[0]!.headers["accept"]).toBe("application/json");
+    expect(requests[0]!.headers["stripe-version"]).toBe(ApiVersion.API_VERSION);
     expect(requests[0]!.headers["idempotency-key"]).toBeUndefined();
-    expect(requests[0]!.headers["stripe-version"]).toBeUndefined();
+    expect(requests[0]!.headers["stripe-context"]).toBeUndefined();
     expect(requests[0]!.headers["stripe-account"]).toBeUndefined();
   });
 
-  test("withRequestOptions sets Idempotency-Key, Stripe-Version and Stripe-Account", async () => {
+  test("the idempotencyKey member is the Idempotency-Key header, multipart included", async () => {
     const { result, requests } = run(
-      CreateCustomer({ name: "x" }).pipe(
-        withRequestOptions({
-          idempotencyKey: "idem-1",
-          apiVersion: "2025-01-27.acacia",
-          stripeAccount: "acct_123",
+      Effect.all([
+        CreateCustomer({ name: "x", idempotencyKey: "idem-1" }),
+        CreateFile({
+          file: new File(["x"], "x.txt") as unknown as string,
+          purpose: "dispute_evidence",
+          idempotencyKey: "idem-file",
         }),
+      ]),
+    );
+    await result;
+    expect(requests.map((r) => r.headers["idempotency-key"])).toEqual(["idem-1", "idem-file"]);
+  });
+
+  test("credentials' context is the Stripe-Context header", async () => {
+    const { result, requests } = run(
+      GetCustomer({ customer: "cus_1" }).pipe(
+        Effect.provide(
+          credentials({
+            apiKey: Redacted.make(API_KEY),
+            apiBaseUrl: BASE_URL,
+            context: "acct_1/acct_2",
+          }),
+        ),
       ),
     );
     await result;
-    expect(requests[0]!.headers).toMatchObject({
-      "idempotency-key": "idem-1",
-      "stripe-version": "2025-01-27.acacia",
-      "stripe-account": "acct_123",
-    });
-    expect(requests[0]!.headers["stripe-context"]).toBeUndefined();
-  });
-
-  test("withRequestOptions sets Stripe-Context", async () => {
-    const { result, requests } = run(
-      GetCustomer({ customer: "cus_1" }).pipe(withRequestOptions({ stripeContext: "ctx_1" })),
-    );
-    await result;
-    expect(requests[0]!.headers["stripe-context"]).toBe("ctx_1");
+    expect(requests[0]!.headers["stripe-context"]).toBe("acct_1/acct_2");
     expect(requests[0]!.headers["stripe-account"]).toBeUndefined();
   });
 
-  test("multipart requests carry the request options too", async () => {
+  test("an ApiVersion layer overrides Stripe-Version", async () => {
     const { result, requests } = run(
-      CreateFile({
-        file: new File(["x"], "x.txt") as unknown as string,
-        purpose: "dispute_evidence",
-      }).pipe(withRequestOptions({ idempotencyKey: "idem-file" })),
+      GetCustomer({ customer: "cus_1" }).pipe(Effect.provide(ApiVersion.of("2025-01-27.acacia"))),
     );
     await result;
-    expect(requests[0]!.headers["idempotency-key"]).toBe("idem-file");
+    expect(requests[0]!.headers["stripe-version"]).toBe("2025-01-27.acacia");
   });
 });
 
@@ -458,16 +445,16 @@ describe("Error envelope decoding", () => {
   });
 
   test("a body without the envelope is UnknownStripeError with the raw body", async () => {
+    const other = await runError(call(), () => json({ message: "nope" }, 400));
+    expect(other).toBeInstanceOf(UnknownStripeError);
+    expect(other).toMatchObject({ status: 400, body: { message: "nope" } });
+
+    // A 5xx without the envelope (a proxy page) is a retryable server error.
     const html = await runError(
       call(),
       () => new Response("<html>bad gateway</html>", { status: 502 }),
     );
-    expect(html).toBeInstanceOf(UnknownStripeError);
-    expect(html).toMatchObject({ body: "<html>bad gateway</html>" });
-
-    const other = await runError(call(), () => json({ message: "nope" }, 400));
-    expect(other).toBeInstanceOf(UnknownStripeError);
-    expect(other).toMatchObject({ body: { message: "nope" } });
+    expect(html).toBeInstanceOf(InternalServerError);
   });
 
   test("per-operation matchers win over the envelope type", async () => {
@@ -518,6 +505,11 @@ describe("Success decoding", () => {
       () => new Response("ok"),
     );
     expect(await strict.result).toBeInstanceOf(StripeParseError);
+  });
+
+  test("a 200 response whose body is JSON null returns null", async () => {
+    const { result } = run(CreateCustomer({}), () => json(null));
+    expect(await result).toBeNull();
   });
 
   test("a body cut off mid-secret fails in both modes without exposing it", async () => {

@@ -52,6 +52,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -61,6 +63,8 @@ export class InvalidCredential
     /*@__PURE__*/ S.TaggedError<InvalidCredential>()("InvalidCredential", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 30004 }, { code: 30005 }],
   ) {}
@@ -70,6 +74,8 @@ export class InvalidRoute
     /*@__PURE__*/ S.TaggedError<InvalidRoute>()("InvalidRoute", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003 }],
   ) {}
@@ -79,6 +85,8 @@ export class NoSuchBucket
     /*@__PURE__*/ S.TaggedError<NoSuchBucket>()("NoSuchBucket", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10006 }, { code: 40406 }],
   ) {}
@@ -88,6 +96,8 @@ export class TableNotFound
     /*@__PURE__*/ S.TaggedError<TableNotFound>()("TableNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10001 }, { code: 40403 }],
   ) {}
@@ -97,6 +107,8 @@ export class WarehouseInactive
     /*@__PURE__*/ S.TaggedError<WarehouseInactive>()("WarehouseInactive", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 40402 }],
   ) {}
@@ -106,6 +118,8 @@ export class WarehouseNotFound
     /*@__PURE__*/ S.TaggedError<WarehouseNotFound>()("WarehouseNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 40401 }],
   ) {}
@@ -125,7 +139,7 @@ export interface DeleteRequest {
   /** Specifies the R2 bucket name. */
   bucketName: string;
   /** Remove child metadata before deleting the catalog. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteResponse {}
 export interface DisableR2DataCatalogRequest {
@@ -145,7 +159,7 @@ export interface EnableR2DataCatalogRequest {
   /** Specifies the R2 bucket name. */
   bucketName: string;
   /** Contains request to store catalog credentials. */
-  credential?: EnableRequestCredential;
+  credential?: EnableRequestCredential | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface EnableR2DataCatalogResponse {
@@ -186,11 +200,14 @@ export interface MaintenanceConfigsGetResponseMaintenanceConfigSnapshotExpiratio
 }
 export interface MaintenanceConfigsGetResponseMaintenanceConfig {
   /** Configures compaction for catalog maintenance. */
-  compaction?: MaintenanceConfigsGetResponseMaintenanceConfigCompaction | null;
+  compaction?: MaintenanceConfigsGetResponseMaintenanceConfigCompaction | null | undefined;
   /** Scheduling interval between normal table maintenance runs. */
-  interval?: string | null;
+  interval?: string | null | undefined;
   /** Configures snapshot expiration settings. */
-  snapshotExpiration?: MaintenanceConfigsGetResponseMaintenanceConfigSnapshotExpiration | null;
+  snapshotExpiration?:
+    | MaintenanceConfigsGetResponseMaintenanceConfigSnapshotExpiration
+    | null
+    | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetMaintenanceConfigResponse {
@@ -221,7 +238,7 @@ export interface NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigC
   /** Sets the target file size for compaction in megabytes. Defaults to "128". */
   targetSizeMb: NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigCompactionTargetSizeMb;
   /** Earliest time when the scheduler can claim this operation. Null when disabled. */
-  nextEligibleAt?: string | null;
+  nextEligibleAt?: string | null | undefined;
 }
 export type NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigSnapshotExpirationState =
   | "enabled"
@@ -234,14 +251,20 @@ export interface NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigS
   /** Specifies the state of maintenance operations. */
   state: NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigSnapshotExpirationState;
   /** Earliest time when the scheduler can claim this operation. Null when disabled. */
-  nextEligibleAt?: string | null;
+  nextEligibleAt?: string | null | undefined;
 }
 export interface NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfig {
   /** Configures compaction settings for table optimization. */
-  compaction?: NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigCompaction | null;
+  compaction?:
+    | NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigCompaction
+    | null
+    | undefined;
   /** Scheduling interval between normal table maintenance runs. */
-  interval?: string | null;
-  snapshotExpiration?: NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigSnapshotExpiration | null;
+  interval?: string | null | undefined;
+  snapshotExpiration?:
+    | NamespacesTablesMaintenanceConfigsGetResponseMaintenanceConfigSnapshotExpiration
+    | null
+    | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetNamespaceTableMaintenanceConfigResponse {
@@ -275,11 +298,11 @@ export interface GetResponseMaintenanceConfigSnapshotExpiration {
 }
 export interface GetResponseMaintenanceConfig {
   /** Configures compaction for catalog maintenance. */
-  compaction?: GetResponseMaintenanceConfigCompaction | null;
+  compaction?: GetResponseMaintenanceConfigCompaction | null | undefined;
   /** Scheduling interval between normal table maintenance runs. */
-  interval?: string | null;
+  interval?: string | null | undefined;
   /** Configures snapshot expiration settings. */
-  snapshotExpiration?: GetResponseMaintenanceConfigSnapshotExpiration | null;
+  snapshotExpiration?: GetResponseMaintenanceConfigSnapshotExpiration | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetR2DataCatalogResponse {
@@ -292,11 +315,11 @@ export interface GetR2DataCatalogResponse {
   /** Indicates the status of the catalog. */
   status: GetResponseStatus;
   /** Shows the credential configuration status. */
-  credentialStatus?: GetResponseCredentialStatus | null;
+  credentialStatus?: GetResponseCredentialStatus | null | undefined;
   /** Specifies the data-locality jurisdiction of the catalog. The first enable sets it, and it cannot change. Currently always `default`. */
-  jurisdiction?: string | null;
+  jurisdiction?: string | null | undefined;
   /** Configures maintenance for the catalog. */
-  maintenanceConfig?: GetResponseMaintenanceConfig | null;
+  maintenanceConfig?: GetResponseMaintenanceConfig | null | undefined;
 }
 export interface ListNamespacesRequest {
   /** Use this to identify the account. */
@@ -304,15 +327,15 @@ export interface ListNamespacesRequest {
   /** Specifies the R2 bucket name. */
   bucketName: string;
   /** Maximum number of namespaces to return per page. Defaults to 100, maximum 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque pagination token from a previous response. Use this to fetch the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Parent namespace to filter by. Only returns direct children of this namespace. For nested namespaces, use %1F as separator (e.g., "bronze%1Fanalytics"). Omit this parameter to list top-level namespaces. */
-  parent?: string;
+  parent?: string | undefined;
   /** Whether to include additional metadata (timestamps). When true, response includes created_at and updated_at arrays. */
-  returnDetails?: boolean;
+  returnDetails?: boolean | undefined;
   /** Whether to include namespace UUIDs in the response. Set to true to receive the namespace_uuids array. */
-  returnUuids?: boolean;
+  returnUuids?: boolean | undefined;
 }
 export type NamespacesListResponseNamespacesItemList = Array<string>;
 export type NamespacesListResponseNamespacesList = Array<NamespacesListResponseNamespacesItemList>;
@@ -323,9 +346,9 @@ export interface NamespacesListResponseDetailsItem {
   /** Contains the UUID that persists across renames. */
   namespaceUuid: string;
   /** Indicates the creation timestamp in ISO 8601 format. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Shows the last update timestamp in ISO 8601 format. Null if never updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export type NamespacesListResponseDetailsList = Array<NamespacesListResponseDetailsItem>;
 export type NamespacesListResponseNamespaceUuidsList = Array<string>;
@@ -334,11 +357,11 @@ export interface ListNamespacesResponse {
   /** Lists namespaces in the catalog. */
   namespaces: NamespacesListResponseNamespacesList;
   /** Contains detailed metadata for each namespace when return_details is true. Each object includes the namespace, UUID, and timestamps. */
-  details?: NamespacesListResponseDetailsList | null;
+  details?: NamespacesListResponseDetailsList | null | undefined;
   /** Contains UUIDs for each namespace when return_uuids is true. The order corresponds to the namespaces array. */
-  namespaceUuids?: NamespacesListResponseNamespaceUuidsList | null;
+  namespaceUuids?: NamespacesListResponseNamespaceUuidsList | null | undefined;
   /** Use this opaque token to fetch the next page of results. A null or absent value indicates the last page. */
-  nextPageToken?: string | null;
+  nextPageToken?: string | null | undefined;
 }
 export interface ListNamespaceTablesRequest {
   /** Use this to identify the account. */
@@ -347,13 +370,13 @@ export interface ListNamespaceTablesRequest {
   bucketName: string;
   namespace: string;
   /** Maximum number of tables to return per page. Defaults to 100, maximum 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Opaque pagination token from a previous response. Use this to fetch the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Whether to include additional metadata (timestamps, locations). When true, response includes created_at, updated_at, metadata_locations, and locations arrays. */
-  returnDetails?: boolean;
+  returnDetails?: boolean | undefined;
   /** Whether to include table UUIDs in the response. Set to true to receive the table_uuids array. */
-  returnUuids?: boolean;
+  returnUuids?: boolean | undefined;
 }
 export type NamespacesTablesListResponseIdentifiersItemNamespaceList = Array<string>;
 export interface NamespacesTablesListResponseIdentifiersItem {
@@ -377,13 +400,13 @@ export interface NamespacesTablesListResponseDetailsItem {
   /** Contains the UUID that persists across renames. */
   tableUuid: string;
   /** Indicates the creation timestamp in ISO 8601 format. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Specifies the base S3 URI for table storage location. */
-  location?: string | null;
+  location?: string | null | undefined;
   /** Contains the S3 URI to table metadata file. Null for staged tables. */
-  metadataLocation?: string | null;
+  metadataLocation?: string | null | undefined;
   /** Shows the last update timestamp in ISO 8601 format. Null if never updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export type NamespacesTablesListResponseDetailsList =
   Array<NamespacesTablesListResponseDetailsItem>;
@@ -393,11 +416,11 @@ export interface ListNamespaceTablesResponse {
   /** Lists tables in the namespace. */
   identifiers: NamespacesTablesListResponseIdentifiersList;
   /** Contains detailed metadata for each table when return_details is true. Each object includes identifier, UUID, timestamps, and locations. */
-  details?: NamespacesTablesListResponseDetailsList | null;
+  details?: NamespacesTablesListResponseDetailsList | null | undefined;
   /** Use this opaque token to fetch the next page of results. A null or absent value indicates the last page. */
-  nextPageToken?: string | null;
+  nextPageToken?: string | null | undefined;
   /** Contains UUIDs for each table when return_uuids is true. The order corresponds to the identifiers array. */
-  tableUuids?: NamespacesTablesListResponseTableUuidsList | null;
+  tableUuids?: NamespacesTablesListResponseTableUuidsList | null | undefined;
 }
 export interface ListR2DataCatalogsRequest {
   /** Use this to identify the account. */
@@ -430,11 +453,14 @@ export interface ListResponseWarehousesItemMaintenanceConfigSnapshotExpiration {
 }
 export interface ListResponseWarehousesItemMaintenanceConfig {
   /** Configures compaction for catalog maintenance. */
-  compaction?: ListResponseWarehousesItemMaintenanceConfigCompaction | null;
+  compaction?: ListResponseWarehousesItemMaintenanceConfigCompaction | null | undefined;
   /** Scheduling interval between normal table maintenance runs. */
-  interval?: string | null;
+  interval?: string | null | undefined;
   /** Configures snapshot expiration settings. */
-  snapshotExpiration?: ListResponseWarehousesItemMaintenanceConfigSnapshotExpiration | null;
+  snapshotExpiration?:
+    | ListResponseWarehousesItemMaintenanceConfigSnapshotExpiration
+    | null
+    | undefined;
 }
 export interface ListResponseWarehousesItem {
   /** Use this to uniquely identify the catalog. */
@@ -446,11 +472,11 @@ export interface ListResponseWarehousesItem {
   /** Indicates the status of the catalog. */
   status: ListResponseWarehousesItemStatus;
   /** Shows the credential configuration status. */
-  credentialStatus?: ListResponseWarehousesItemCredentialStatus | null;
+  credentialStatus?: ListResponseWarehousesItemCredentialStatus | null | undefined;
   /** Specifies the data-locality jurisdiction of the catalog. The first enable sets it, and it cannot change. Currently always `default`. */
-  jurisdiction?: string | null;
+  jurisdiction?: string | null | undefined;
   /** Configures maintenance for the catalog. */
-  maintenanceConfig?: ListResponseWarehousesItemMaintenanceConfig | null;
+  maintenanceConfig?: ListResponseWarehousesItemMaintenanceConfig | null | undefined;
 }
 export type ListResponseWarehousesList = Array<ListResponseWarehousesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -462,18 +488,18 @@ export type MaintenanceConfigsUpdateRequestCompactionState = "enabled" | "disabl
 export type MaintenanceConfigsUpdateRequestCompactionTargetSizeMb = "64" | "128" | "256" | "512";
 export interface MaintenanceConfigsUpdateRequestCompaction {
   /** Specifies the state of maintenance operations. */
-  state?: MaintenanceConfigsUpdateRequestCompactionState | (string & {});
+  state?: MaintenanceConfigsUpdateRequestCompactionState | (string & {}) | undefined;
   /** Sets the target file size for compaction in megabytes. Defaults to "128". */
-  targetSizeMb?: MaintenanceConfigsUpdateRequestCompactionTargetSizeMb | (string & {});
+  targetSizeMb?: MaintenanceConfigsUpdateRequestCompactionTargetSizeMb | (string & {}) | undefined;
 }
 export type MaintenanceConfigsUpdateRequestSnapshotExpirationState = "enabled" | "disabled";
 export interface MaintenanceConfigsUpdateRequestSnapshotExpiration {
   /** Updates the maximum age for snapshots optionally. */
-  maxSnapshotAge?: string;
+  maxSnapshotAge?: string | undefined;
   /** Updates the minimum number of snapshots to retain optionally. */
-  minSnapshotsToKeep?: number;
+  minSnapshotsToKeep?: number | undefined;
   /** Specifies the state of maintenance operations. */
-  state?: MaintenanceConfigsUpdateRequestSnapshotExpirationState | (string & {});
+  state?: MaintenanceConfigsUpdateRequestSnapshotExpirationState | (string & {}) | undefined;
 }
 export interface UpdateMaintenanceConfigRequest {
   /** Use this to identify the account. */
@@ -481,9 +507,9 @@ export interface UpdateMaintenanceConfigRequest {
   /** Specifies the R2 bucket name. */
   bucketName: string;
   /** Updates compaction configuration (all fields optional). */
-  compaction?: MaintenanceConfigsUpdateRequestCompaction;
+  compaction?: MaintenanceConfigsUpdateRequestCompaction | undefined;
   /** Updates snapshot expiration configuration (all fields optional). */
-  snapshotExpiration?: MaintenanceConfigsUpdateRequestSnapshotExpiration;
+  snapshotExpiration?: MaintenanceConfigsUpdateRequestSnapshotExpiration | undefined;
 }
 export type MaintenanceConfigsUpdateResponseCompactionState = "enabled" | "disabled";
 export type MaintenanceConfigsUpdateResponseCompactionTargetSizeMb = "64" | "128" | "256" | "512";
@@ -505,11 +531,11 @@ export interface MaintenanceConfigsUpdateResponseSnapshotExpiration {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateMaintenanceConfigResponse {
   /** Configures compaction for catalog maintenance. */
-  compaction?: MaintenanceConfigsUpdateResponseCompaction | null;
+  compaction?: MaintenanceConfigsUpdateResponseCompaction | null | undefined;
   /** Scheduling interval between normal table maintenance runs. */
-  interval?: string | null;
+  interval?: string | null | undefined;
   /** Configures snapshot expiration settings. */
-  snapshotExpiration?: MaintenanceConfigsUpdateResponseSnapshotExpiration | null;
+  snapshotExpiration?: MaintenanceConfigsUpdateResponseSnapshotExpiration | null | undefined;
 }
 export type NamespacesTablesMaintenanceConfigsUpdateRequestCompactionState = "enabled" | "disabled";
 export type NamespacesTablesMaintenanceConfigsUpdateRequestCompactionTargetSizeMb =
@@ -519,22 +545,29 @@ export type NamespacesTablesMaintenanceConfigsUpdateRequestCompactionTargetSizeM
   | "512";
 export interface NamespacesTablesMaintenanceConfigsUpdateRequestCompaction {
   /** Specifies the state of maintenance operations. */
-  state?: NamespacesTablesMaintenanceConfigsUpdateRequestCompactionState | (string & {});
+  state?:
+    | NamespacesTablesMaintenanceConfigsUpdateRequestCompactionState
+    | (string & {})
+    | undefined;
   /** Sets the target file size for compaction in megabytes. Defaults to "128". */
   targetSizeMb?:
     | NamespacesTablesMaintenanceConfigsUpdateRequestCompactionTargetSizeMb
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type NamespacesTablesMaintenanceConfigsUpdateRequestSnapshotExpirationState =
   | "enabled"
   | "disabled";
 export interface NamespacesTablesMaintenanceConfigsUpdateRequestSnapshotExpiration {
   /** Updates the maximum age for snapshots optionally. */
-  maxSnapshotAge?: string;
+  maxSnapshotAge?: string | undefined;
   /** Updates the minimum number of snapshots to retain optionally. */
-  minSnapshotsToKeep?: number;
+  minSnapshotsToKeep?: number | undefined;
   /** Specifies the state of maintenance operations. */
-  state?: NamespacesTablesMaintenanceConfigsUpdateRequestSnapshotExpirationState | (string & {});
+  state?:
+    | NamespacesTablesMaintenanceConfigsUpdateRequestSnapshotExpirationState
+    | (string & {})
+    | undefined;
 }
 export interface UpdateNamespaceTableMaintenanceConfigRequest {
   /** Use this to identify the account. */
@@ -544,9 +577,11 @@ export interface UpdateNamespaceTableMaintenanceConfigRequest {
   namespace: string;
   tableName: string;
   /** Updates table compaction configuration; all fields are optional. */
-  compaction?: NamespacesTablesMaintenanceConfigsUpdateRequestCompaction;
+  compaction?: NamespacesTablesMaintenanceConfigsUpdateRequestCompaction | undefined;
   /** Updates snapshot expiration configuration (all fields optional). */
-  snapshotExpiration?: NamespacesTablesMaintenanceConfigsUpdateRequestSnapshotExpiration;
+  snapshotExpiration?:
+    | NamespacesTablesMaintenanceConfigsUpdateRequestSnapshotExpiration
+    | undefined;
 }
 export type NamespacesTablesMaintenanceConfigsUpdateResponseCompactionState =
   | "enabled"
@@ -562,7 +597,7 @@ export interface NamespacesTablesMaintenanceConfigsUpdateResponseCompaction {
   /** Sets the target file size for compaction in megabytes. Defaults to "128". */
   targetSizeMb: NamespacesTablesMaintenanceConfigsUpdateResponseCompactionTargetSizeMb;
   /** Earliest time when the scheduler can claim this operation. Null when disabled. */
-  nextEligibleAt?: string | null;
+  nextEligibleAt?: string | null | undefined;
 }
 export type NamespacesTablesMaintenanceConfigsUpdateResponseSnapshotExpirationState =
   | "enabled"
@@ -575,15 +610,18 @@ export interface NamespacesTablesMaintenanceConfigsUpdateResponseSnapshotExpirat
   /** Specifies the state of maintenance operations. */
   state: NamespacesTablesMaintenanceConfigsUpdateResponseSnapshotExpirationState;
   /** Earliest time when the scheduler can claim this operation. Null when disabled. */
-  nextEligibleAt?: string | null;
+  nextEligibleAt?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateNamespaceTableMaintenanceConfigResponse {
   /** Configures compaction settings for table optimization. */
-  compaction?: NamespacesTablesMaintenanceConfigsUpdateResponseCompaction | null;
+  compaction?: NamespacesTablesMaintenanceConfigsUpdateResponseCompaction | null | undefined;
   /** Scheduling interval between normal table maintenance runs. */
-  interval?: string | null;
-  snapshotExpiration?: NamespacesTablesMaintenanceConfigsUpdateResponseSnapshotExpiration | null;
+  interval?: string | null | undefined;
+  snapshotExpiration?:
+    | NamespacesTablesMaintenanceConfigsUpdateResponseSnapshotExpiration
+    | null
+    | undefined;
 }
 export type CreateCredentialError = InvalidRoute | InvalidCredential | CloudflareOpError;
 /** Store authentication credentials for a catalog. These credentials are used to authenticate with R2 storage when performing catalog operations. */

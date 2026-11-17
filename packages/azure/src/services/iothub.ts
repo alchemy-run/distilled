@@ -36,68 +36,94 @@ const TELEMETRY = {
 /** The description of an X509 CA Certificate. */
 export interface CertificatePropertiesInput {
   /** Determines whether certificate has been verified. */
-  isVerified?: boolean;
+  isVerified?: boolean | undefined;
   /** The certificate content */
-  certificate?: string;
+  certificate?: string | undefined;
+  /** Full certificate authority resource ID for ADR linked standard SKU hubs. */
+  certificateAuthorityResourceId?: string | undefined;
 }
 export interface CertificatesCreateOrUpdateRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
   /** The name of the certificate */
   certificateName: string;
-  properties?: CertificatePropertiesInput;
+  /** The description of an X509 CA Certificate. */
+  properties?: CertificatePropertiesInput | undefined;
   /** ETag of the certificate. Do not specify for creating a brand new certificate. Required to update an existing certificate. */
-  ifMatch?: string;
+  ifMatch?: string | undefined;
+}
+/** The type of identity that created the resource. */
+export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
+/** The type of identity that last modified the resource. */
+export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIdentity" | "Key";
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string | undefined;
+  /** The type of identity that created the resource. */
+  createdByType?: SystemDataCreatedByType | undefined;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: string | undefined;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string | undefined;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: string | undefined;
 }
 /** The description of an X509 CA Certificate. */
 export interface CertificateProperties {
   /** The certificate's subject name. */
-  subject?: string;
+  subject?: string | undefined;
   /** The certificate's expiration date and time. */
-  expiry?: string;
+  expiry?: string | undefined;
   /** The certificate's thumbprint. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** Determines whether certificate has been verified. */
-  isVerified?: boolean;
+  isVerified?: boolean | undefined;
   /** The certificate's create date and time. */
-  created?: string;
+  created?: string | undefined;
   /** The certificate's last update date and time. */
-  updated?: string;
+  updated?: string | undefined;
   /** The certificate content */
-  certificate?: string;
+  certificate?: string | undefined;
+  /** Full certificate authority resource ID for ADR linked standard SKU hubs. */
+  certificateAuthorityResourceId?: string | undefined;
 }
-/** The X509 Certificate. */
-export interface CertificateDescription {
-  properties?: CertificateProperties;
-  /** The resource identifier. */
-  id?: string;
-  /** The name of the certificate. */
-  name?: string;
+export interface CertificatesCreateOrUpdateResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The description of an X509 CA Certificate. */
+  properties?: CertificateProperties | undefined;
   /** The entity tag. */
-  etag?: string;
-  /** The resource type. */
-  type?: string;
+  etag?: string | undefined;
 }
 export interface CheckIotHubResourceNameAvailabilityRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the IoT hub to check. */
   name: string;
 }
 /** The reason for unavailability. */
-export type IotHubNameAvailabilityInfoReason = "Invalid" | "AlreadyExists";
+export type IotHubNameUnavailabilityReason = "Invalid" | "AlreadyExists";
 /** The properties indicating whether a given IoT hub name is available. */
 export interface IotHubNameAvailabilityInfo {
   /** The value which indicates whether the provided name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason for unavailability. */
-  reason?: IotHubNameAvailabilityInfoReason;
+  reason?: IotHubNameUnavailabilityReason | undefined;
   /** The detailed reason message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The EventHub consumer group name. */
 export interface EventHubConsumerGroupName {
@@ -105,37 +131,41 @@ export interface EventHubConsumerGroupName {
   name: string;
 }
 export interface CreateIotHubResourceEventHubConsumerGroupRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
-  /** The name of the Event Hub-compatible endpoint in the IoT hub. */
+  /** The name of the EventHubEndpoint */
   eventHubEndpointName: string;
-  /** The name of the consumer group to add. */
+  /** The name of the consumer group to retrieve. */
   name: string;
+  /** The EventHub consumer group name. */
   properties: EventHubConsumerGroupName;
 }
 /** The tags. */
-export type EventHubConsumerGroupInfoPropertiesMap = { [key: string]: unknown | undefined };
-/** The properties of the EventHubConsumerGroupInfo object. */
-export interface EventHubConsumerGroupInfo {
+export type CreateIotHubResourceEventHubConsumerGroupResponsePropertiesMap = {
+  [key: string]: unknown | undefined;
+};
+export interface CreateIotHubResourceEventHubConsumerGroupResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
   /** The tags. */
-  properties?: EventHubConsumerGroupInfoPropertiesMap;
-  /** The Event Hub-compatible consumer group identifier. */
-  id?: string;
-  /** The Event Hub-compatible consumer group name. */
-  name?: string;
-  /** the resource type. */
-  type?: string;
+  properties?: CreateIotHubResourceEventHubConsumerGroupResponsePropertiesMap | undefined;
   /** The etag. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface DeleteCertificateRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
@@ -146,17 +176,17 @@ export interface DeleteCertificateRequest {
 }
 export interface DeleteCertificateResponse {}
 export interface DeleteIotHubResourceRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
 }
-/** The resource tags. */
+/** Resource tags. */
 export type DeleteIotHubResourceResponseTagsMap = { [key: string]: string | undefined };
 /** The permissions assigned to the shared access policy. */
-export type SharedAccessSignatureAuthorizationRuleRights =
+export type AccessRights =
   | "RegistryRead"
   | "RegistryWrite"
   | "ServiceConnect"
@@ -177,11 +207,11 @@ export interface SharedAccessSignatureAuthorizationRule {
   /** The name of the shared access policy. */
   keyName: string;
   /** The primary key. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** The secondary key. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** The permissions assigned to the shared access policy. */
-  rights: SharedAccessSignatureAuthorizationRuleRights | (string & {});
+  rights: AccessRights | (string & {});
 }
 /** The shared access policies you can use to secure a connection to the IoT hub. */
 export type IotHubPropertiesAuthorizationPoliciesList =
@@ -189,15 +219,15 @@ export type IotHubPropertiesAuthorizationPoliciesList =
 /** List of allowed FQDNs(Fully Qualified Domain Name) for egress from Iot Hub. */
 export type IotHubPropertiesAllowedFqdnListList = Array<string>;
 /** Whether requests from Public Network are allowed */
-export type IotHubPropertiesPublicNetworkAccess = "Enabled" | "Disabled";
+export type PublicNetworkAccess = "Enabled" | "Disabled";
 /** The desired action for requests captured by this rule. */
-export type IpFilterRuleAction = "Accept" | "Reject";
+export type IpFilterActionType = "Accept" | "Reject";
 /** The IP filter rules for the IoT hub. */
 export interface IpFilterRule {
   /** The name of the IP filter rule. */
   filterName: string;
   /** The desired action for requests captured by this rule. */
-  action: IpFilterRuleAction | (string & {});
+  action: IpFilterActionType | (string & {});
   /** A string that contains the IP address range in CIDR notation for the rule. */
   ipMask: string;
 }
@@ -212,7 +242,7 @@ export interface NetworkRuleSetIpRule {
   /** Name of the IP filter rule. */
   filterName: string;
   /** IP Filter Action */
-  action?: NetworkRuleSetIpRuleAction | (string & {});
+  action?: NetworkRuleSetIpRuleAction | (string & {}) | undefined;
   /** A string that contains the IP address range in CIDR notation for the rule. */
   ipMask: string;
 }
@@ -221,7 +251,7 @@ export type NetworkRuleSetPropertiesIpRulesList = Array<NetworkRuleSetIpRule>;
 /** Network Rule Set Properties of IotHub */
 export interface NetworkRuleSetProperties {
   /** Default Action for Network Rule Set */
-  defaultAction?: NetworkRuleSetPropertiesDefaultAction | (string & {});
+  defaultAction?: NetworkRuleSetPropertiesDefaultAction | (string & {}) | undefined;
   /** If True, then Network Rule Set is also applied to BuiltIn EventHub EndPoint of IotHub */
   applyToBuiltInEventHubEndpoint: boolean;
   /** List of IP Rules */
@@ -230,10 +260,10 @@ export interface NetworkRuleSetProperties {
 /** The private endpoint property of a private endpoint connection */
 export interface PrivateEndpoint {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The status of a private endpoint connection */
-export type PrivateLinkServiceConnectionStateStatus =
+export type PrivateLinkServiceConnectionStatus =
   | "Pending"
   | "Approved"
   | "Rejected"
@@ -241,25 +271,30 @@ export type PrivateLinkServiceConnectionStateStatus =
 /** The current state of a private endpoint connection */
 export interface PrivateLinkServiceConnectionState {
   /** The status of a private endpoint connection */
-  status: PrivateLinkServiceConnectionStateStatus | (string & {});
+  status: PrivateLinkServiceConnectionStatus | (string & {});
   /** The description for the current state of a private endpoint connection */
   description: string;
   /** Actions required for a private endpoint connection */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The properties of a private endpoint connection */
 export interface PrivateEndpointConnectionProperties {
-  privateEndpoint?: PrivateEndpoint;
+  /** The private endpoint property of a private endpoint connection */
+  privateEndpoint?: PrivateEndpoint | undefined;
+  /** The current state of a private endpoint connection */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
 /** The private endpoint connection of an IotHub */
 export interface PrivateEndpointConnection {
-  /** The resource identifier. */
-  id?: string;
-  /** The resource name. */
-  name?: string;
-  /** The resource type. */
-  type?: string;
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of a private endpoint connection */
   properties: PrivateEndpointConnectionProperties;
 }
 /** Private endpoint connections created on this IotHub */
@@ -269,187 +304,202 @@ export type EventHubPropertiesPartitionIdsList = Array<string>;
 /** The properties of the provisioned Event Hub-compatible endpoint used by the IoT hub. */
 export interface EventHubProperties {
   /** The retention time for device-to-cloud messages in days. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#device-to-cloud-messages */
-  retentionTimeInDays?: number;
+  retentionTimeInDays?: number | undefined;
   /** The number of partitions for receiving device-to-cloud messages in the Event Hub-compatible endpoint. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#device-to-cloud-messages. */
-  partitionCount?: number;
+  partitionCount?: number | undefined;
   /** The partition ids in the Event Hub-compatible endpoint. */
-  partitionIds?: EventHubPropertiesPartitionIdsList;
+  partitionIds?: EventHubPropertiesPartitionIdsList | undefined;
   /** The Event Hub-compatible name. */
-  path?: string;
+  path?: string | undefined;
   /** The Event Hub-compatible endpoint. */
-  endpoint?: string;
+  endpoint?: string | undefined;
 }
 /** The Event Hub-compatible endpoint properties. The only possible keys to this dictionary is events. This key has to be present in the dictionary while making create or update calls for the IoT hub. */
 export type IotHubPropertiesEventHubEndpointsMap = {
   [key: string]: EventHubProperties | undefined;
 };
-/** Method used to authenticate against the service bus queue endpoint */
-export type RoutingServiceBusQueueEndpointPropertiesAuthenticationType =
-  | "keyBased"
-  | "identityBased";
+/** Specifies authentication type being used for connecting to the storage account. */
+export type AuthenticationType = "keyBased" | "identityBased";
 /** The properties of the Managed identity. */
 export interface ManagedIdentity {
   /** The user assigned identity. */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
 }
 /** The properties related to service bus queue endpoint types. */
 export interface RoutingServiceBusQueueEndpointProperties {
   /** Id of the service bus queue endpoint */
-  id?: string;
+  id?: string | undefined;
   /** The connection string of the service bus queue endpoint. */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
   /** The url of the service bus queue endpoint. It must include the protocol sb:// */
-  endpointUri?: string;
+  endpointUri?: string | undefined;
   /** Queue name on the service bus namespace */
-  entityPath?: string;
+  entityPath?: string | undefined;
   /** Method used to authenticate against the service bus queue endpoint */
-  authenticationType?: RoutingServiceBusQueueEndpointPropertiesAuthenticationType | (string & {});
+  authenticationType?: AuthenticationType | (string & {}) | undefined;
   /** Managed identity properties of routing service bus queue endpoint. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The name that identifies this endpoint. The name can only include alphanumeric characters, periods, underscores, hyphens and has a maximum length of 64 characters. The following names are reserved: events, fileNotifications, $default. Endpoint names must be unique across endpoint types. The name need not be the same as the actual queue name. */
   name: string;
   /** The subscription identifier of the service bus queue endpoint. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The name of the resource group of the service bus queue endpoint. */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
 }
 /** The list of Service Bus queue endpoints that IoT hub routes the messages to, based on the routing rules. */
 export type RoutingEndpointsServiceBusQueuesList = Array<RoutingServiceBusQueueEndpointProperties>;
-/** Method used to authenticate against the service bus topic endpoint */
-export type RoutingServiceBusTopicEndpointPropertiesAuthenticationType =
-  | "keyBased"
-  | "identityBased";
 /** The properties related to service bus topic endpoint types. */
 export interface RoutingServiceBusTopicEndpointProperties {
   /** Id of the service bus topic endpoint */
-  id?: string;
+  id?: string | undefined;
   /** The connection string of the service bus topic endpoint. */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
   /** The url of the service bus topic endpoint. It must include the protocol sb:// */
-  endpointUri?: string;
+  endpointUri?: string | undefined;
   /** Queue name on the service bus topic */
-  entityPath?: string;
+  entityPath?: string | undefined;
   /** Method used to authenticate against the service bus topic endpoint */
-  authenticationType?: RoutingServiceBusTopicEndpointPropertiesAuthenticationType | (string & {});
+  authenticationType?: AuthenticationType | (string & {}) | undefined;
   /** Managed identity properties of routing service bus topic endpoint. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The name that identifies this endpoint. The name can only include alphanumeric characters, periods, underscores, hyphens and has a maximum length of 64 characters. The following names are reserved: events, fileNotifications, $default. Endpoint names must be unique across endpoint types. The name need not be the same as the actual topic name. */
   name: string;
   /** The subscription identifier of the service bus topic endpoint. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The name of the resource group of the service bus topic endpoint. */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
 }
 /** The list of Service Bus topic endpoints that the IoT hub routes the messages to, based on the routing rules. */
 export type RoutingEndpointsServiceBusTopicsList = Array<RoutingServiceBusTopicEndpointProperties>;
-/** Method used to authenticate against the event hub endpoint */
-export type RoutingEventHubPropertiesAuthenticationType = "keyBased" | "identityBased";
 /** The properties related to an event hub endpoint. */
 export interface RoutingEventHubProperties {
   /** Id of the event hub endpoint */
-  id?: string;
+  id?: string | undefined;
   /** The connection string of the event hub endpoint. */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
   /** The url of the event hub endpoint. It must include the protocol sb:// */
-  endpointUri?: string;
+  endpointUri?: string | undefined;
   /** Event hub name on the event hub namespace */
-  entityPath?: string;
+  entityPath?: string | undefined;
   /** Method used to authenticate against the event hub endpoint */
-  authenticationType?: RoutingEventHubPropertiesAuthenticationType | (string & {});
+  authenticationType?: AuthenticationType | (string & {}) | undefined;
   /** Managed identity properties of routing event hub endpoint. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The name that identifies this endpoint. The name can only include alphanumeric characters, periods, underscores, hyphens and has a maximum length of 64 characters. The following names are reserved: events, fileNotifications, $default. Endpoint names must be unique across endpoint types. */
   name: string;
   /** The subscription identifier of the event hub endpoint. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The name of the resource group of the event hub endpoint. */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
 }
 /** The list of Event Hubs endpoints that IoT hub routes messages to, based on the routing rules. This list does not include the built-in Event Hubs endpoint. */
 export type RoutingEndpointsEventHubsList = Array<RoutingEventHubProperties>;
-/** Method used to authenticate against the storage endpoint */
-export type RoutingStorageContainerPropertiesAuthenticationType = "keyBased" | "identityBased";
 /** Encoding that is used to serialize messages to blobs. Supported values are 'avro', 'avrodeflate', and 'JSON'. Default value is 'avro'. */
 export type RoutingStorageContainerPropertiesEncoding = "Avro" | "AvroDeflate" | "JSON";
 /** The properties related to a storage container endpoint. */
 export interface RoutingStorageContainerProperties {
   /** Id of the storage container endpoint */
-  id?: string;
+  id?: string | undefined;
   /** The connection string of the storage account. */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
   /** The url of the storage endpoint. It must include the protocol https:// */
-  endpointUri?: string;
+  endpointUri?: string | undefined;
   /** Method used to authenticate against the storage endpoint */
-  authenticationType?: RoutingStorageContainerPropertiesAuthenticationType | (string & {});
+  authenticationType?: AuthenticationType | (string & {}) | undefined;
   /** Managed identity properties of routing storage endpoint. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The name that identifies this endpoint. The name can only include alphanumeric characters, periods, underscores, hyphens and has a maximum length of 64 characters. The following names are reserved: events, fileNotifications, $default. Endpoint names must be unique across endpoint types. */
   name: string;
   /** The subscription identifier of the storage account. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The name of the resource group of the storage account. */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** The name of storage container in the storage account. */
   containerName: string;
   /** File name format for the blob. Default format is {iothub}/{partition}/{YYYY}/{MM}/{DD}/{HH}/{mm}. All parameters are mandatory but can be reordered. */
-  fileNameFormat?: string;
+  fileNameFormat?: string | undefined;
   /** Time interval at which blobs are written to storage. Value should be between 60 and 720 seconds. Default value is 300 seconds. */
-  batchFrequencyInSeconds?: number;
+  batchFrequencyInSeconds?: number | undefined;
   /** Maximum number of bytes for each blob written to storage. Value should be between 10485760(10MB) and 524288000(500MB). Default value is 314572800(300MB). */
-  maxChunkSizeInBytes?: number;
+  maxChunkSizeInBytes?: number | undefined;
   /** Encoding that is used to serialize messages to blobs. Supported values are 'avro', 'avrodeflate', and 'JSON'. Default value is 'avro'. */
-  encoding?: RoutingStorageContainerPropertiesEncoding | (string & {});
+  encoding?: RoutingStorageContainerPropertiesEncoding | (string & {}) | undefined;
 }
 /** The list of storage container endpoints that IoT hub routes messages to, based on the routing rules. */
 export type RoutingEndpointsStorageContainersList = Array<RoutingStorageContainerProperties>;
-/** Method used to authenticate against the cosmos DB sql container endpoint */
-export type RoutingCosmosDBSqlApiPropertiesAuthenticationType = "keyBased" | "identityBased";
 /** The properties related to a cosmos DB sql container endpoint. */
 export interface RoutingCosmosDBSqlApiProperties {
   /** The name that identifies this endpoint. The name can only include alphanumeric characters, periods, underscores, hyphens and has a maximum length of 64 characters. The following names are reserved: events, fileNotifications, $default. Endpoint names must be unique across endpoint types. */
   name: string;
   /** Id of the cosmos DB sql container endpoint */
-  id?: string;
+  id?: string | undefined;
   /** The subscription identifier of the cosmos DB account. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The name of the resource group of the cosmos DB account. */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** The url of the cosmos DB account. It must include the protocol https:// */
   endpointUri: string;
   /** Method used to authenticate against the cosmos DB sql container endpoint */
-  authenticationType?: RoutingCosmosDBSqlApiPropertiesAuthenticationType;
+  authenticationType?: AuthenticationType | undefined;
   /** Managed identity properties of routing cosmos DB container endpoint. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The primary key of the cosmos DB account. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** The secondary key of the cosmos DB account. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** The name of the cosmos DB database in the cosmos DB account. */
   databaseName: string;
   /** The name of the cosmos DB sql container in the cosmos DB database. */
   containerName: string;
   /** The name of the partition key associated with this cosmos DB sql container if one exists. This is an optional parameter. */
-  partitionKeyName?: string;
+  partitionKeyName?: string | undefined;
   /** The template for generating a synthetic partition key value for use with this cosmos DB sql container. The template must include at least one of the following placeholders: {iothub}, {deviceid}, {DD}, {MM}, and {YYYY}. Any one placeholder may be specified at most once, but order and non-placeholder components are arbitrary. This parameter is only required if PartitionKeyName is specified. */
-  partitionKeyTemplate?: string;
+  partitionKeyTemplate?: string | undefined;
 }
 /** The list of Cosmos DB container endpoints that IoT hub routes messages to, based on the routing rules. */
 export type RoutingEndpointsCosmosDBSqlContainersList = Array<RoutingCosmosDBSqlApiProperties>;
+/** Specifies authentication type being used for connecting to the event stream account. */
+export type EventStreamAuthenticationType = "identityBased";
+/** The properties related to an event stream endpoint. */
+export interface RoutingEventStreamProperties {
+  /** The name that identifies this endpoint. The name can only include alphanumeric characters, periods, underscores, hyphens and has a maximum length of 64 characters. The following names are reserved: events, fileNotifications, $default. Endpoint names must be unique across endpoint types. */
+  name: string;
+  /** Id of the event stream endpoint */
+  id?: string | undefined;
+  /** The url of the underlying event hub namespace of the event stream endpoint. It must include the protocol sb:// */
+  endpointUri: string;
+  /** Event hub name on the event hub namespace */
+  entityPath: string;
+  /** Method used to authenticate against the event stream endpoint */
+  authenticationType?: EventStreamAuthenticationType | undefined;
+  /** Managed identity properties of routing event stream endpoint. */
+  identity?: ManagedIdentity | undefined;
+  /** The unique GUID of the target Microsoft Fabric workspace for the event stream endpoint. */
+  workspaceId?: string | undefined;
+  /** The unique GUID of the target event stream under the workspace. */
+  eventStreamId?: string | undefined;
+  /** The unique GUID of the custom source for the event stream. */
+  sourceId?: string | undefined;
+}
+/** The list of event stream endpoints that IoT hub routes messages to, based on the routing rules. */
+export type RoutingEndpointsEventStreamsList = Array<RoutingEventStreamProperties>;
 /** The properties related to the custom endpoints to which your IoT hub routes messages based on the routing rules. A maximum of 10 custom endpoints are allowed across all endpoint types for paid hubs and only 1 custom endpoint is allowed across all endpoint types for free hubs. */
 export interface RoutingEndpoints {
   /** The list of Service Bus queue endpoints that IoT hub routes the messages to, based on the routing rules. */
-  serviceBusQueues?: RoutingEndpointsServiceBusQueuesList;
+  serviceBusQueues?: RoutingEndpointsServiceBusQueuesList | undefined;
   /** The list of Service Bus topic endpoints that the IoT hub routes the messages to, based on the routing rules. */
-  serviceBusTopics?: RoutingEndpointsServiceBusTopicsList;
+  serviceBusTopics?: RoutingEndpointsServiceBusTopicsList | undefined;
   /** The list of Event Hubs endpoints that IoT hub routes messages to, based on the routing rules. This list does not include the built-in Event Hubs endpoint. */
-  eventHubs?: RoutingEndpointsEventHubsList;
+  eventHubs?: RoutingEndpointsEventHubsList | undefined;
   /** The list of storage container endpoints that IoT hub routes messages to, based on the routing rules. */
-  storageContainers?: RoutingEndpointsStorageContainersList;
+  storageContainers?: RoutingEndpointsStorageContainersList | undefined;
   /** The list of Cosmos DB container endpoints that IoT hub routes messages to, based on the routing rules. */
-  cosmosDBSqlContainers?: RoutingEndpointsCosmosDBSqlContainersList;
+  cosmosDBSqlContainers?: RoutingEndpointsCosmosDBSqlContainersList | undefined;
+  /** The list of event stream endpoints that IoT hub routes messages to, based on the routing rules. */
+  eventStreams?: RoutingEndpointsEventStreamsList | undefined;
 }
 /** The source that the routing rule is to be applied to, such as DeviceMessages. */
-export type RoutePropertiesSource =
+export type RoutingSource =
   | "Invalid"
   | "DeviceMessages"
   | "TwinChangeEvents"
@@ -463,9 +513,9 @@ export interface RouteProperties {
   /** The name of the route. The name can only include alphanumeric characters, periods, underscores, hyphens, has a maximum length of 64 characters, and must be unique. */
   name: string;
   /** The source that the routing rule is to be applied to, such as DeviceMessages. */
-  source: RoutePropertiesSource | (string & {});
+  source: RoutingSource | (string & {});
   /** The condition that is evaluated to apply the routing rule. If no condition is provided, it evaluates to true by default. For grammar, see: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-query-language */
-  condition?: string;
+  condition?: string | undefined;
   /** The list of endpoints to which messages that satisfy the condition are routed. Currently only one endpoint is allowed. */
   endpointNames: RoutePropertiesEndpointNamesList;
   /** Used to specify whether a route is enabled. */
@@ -473,18 +523,18 @@ export interface RouteProperties {
 }
 /** The list of user-provided routing rules that the IoT hub uses to route messages to built-in and custom endpoints. A maximum of 100 routing rules are allowed for paid hubs and a maximum of 5 routing rules are allowed for free hubs. */
 export type RoutingPropertiesRoutesList = Array<RouteProperties>;
-/** The source to which the routing rule is to be applied to. For example, DeviceMessages */
-export type FallbackRoutePropertiesSource = "DeviceMessages";
+/** The source to which the fallback route is applied. */
+export type FallbackRouteSource = "DeviceMessages";
 /** The list of endpoints to which the messages that satisfy the condition are routed to. Currently only 1 endpoint is allowed. */
 export type FallbackRoutePropertiesEndpointNamesList = Array<string>;
 /** The properties of the fallback route. IoT Hub uses these properties when it routes messages to the fallback endpoint. */
 export interface FallbackRouteProperties {
   /** The name of the route. The name can only include alphanumeric characters, periods, underscores, hyphens, has a maximum length of 64 characters, and must be unique. */
-  name?: string;
+  name?: string | undefined;
   /** The source to which the routing rule is to be applied to. For example, DeviceMessages */
-  source: FallbackRoutePropertiesSource | (string & {});
+  source: FallbackRouteSource | (string & {});
   /** The condition which is evaluated in order to apply the fallback route. If the condition is not provided it will evaluate to true by default. For grammar, See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-query-language */
-  condition?: string;
+  condition?: string | undefined;
   /** The list of endpoints to which the messages that satisfy the condition are routed to. Currently only 1 endpoint is allowed. */
   endpointNames: FallbackRoutePropertiesEndpointNamesList;
   /** Used to specify whether the fallback route is enabled. */
@@ -505,28 +555,27 @@ export interface EnrichmentProperties {
 export type RoutingPropertiesEnrichmentsList = Array<EnrichmentProperties>;
 /** The routing related properties of the IoT hub. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging */
 export interface RoutingProperties {
-  endpoints?: RoutingEndpoints;
+  /** The properties related to the custom endpoints to which your IoT hub routes messages based on the routing rules. A maximum of 10 custom endpoints are allowed across all endpoint types for paid hubs and only 1 custom endpoint is allowed across all endpoint types for free hubs. */
+  endpoints?: RoutingEndpoints | undefined;
   /** The list of user-provided routing rules that the IoT hub uses to route messages to built-in and custom endpoints. A maximum of 100 routing rules are allowed for paid hubs and a maximum of 5 routing rules are allowed for free hubs. */
-  routes?: RoutingPropertiesRoutesList;
-  /** The properties of the route that is used as a fall-back route when none of the conditions specified in the 'routes' section are met. This is an optional parameter. When this property is not present in the template, the fallback route is disabled by default. */
-  fallbackRoute?: FallbackRouteProperties;
+  routes?: RoutingPropertiesRoutesList | undefined;
+  /** The properties of the route that is used as a fall-back route when none of the conditions specified in the 'routes' section are met. This is an optional parameter. When this property is not set, the messages which do not meet any of the conditions specified in the 'routes' section get routed to the built-in eventhub endpoint. */
+  fallbackRoute?: FallbackRouteProperties | undefined;
   /** The list of user-provided enrichments that the IoT hub applies to messages to be delivered to built-in and custom endpoints. See: https://aka.ms/telemetryoneventgrid */
-  enrichments?: RoutingPropertiesEnrichmentsList;
+  enrichments?: RoutingPropertiesEnrichmentsList | undefined;
 }
-/** Specifies authentication type being used for connecting to the storage account. */
-export type StorageEndpointPropertiesAuthenticationType = "keyBased" | "identityBased";
 /** The properties of the Azure Storage endpoint for file upload. */
 export interface StorageEndpointProperties {
   /** The period of time for which the SAS URI generated by IoT Hub for file upload is valid. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-file-upload#file-upload-notification-configuration-options. */
-  sasTtlAsIso8601?: string;
+  sasTtlAsIso8601?: string | undefined;
   /** The connection string for the Azure Storage account to which files are uploaded. */
   connectionString: string | Redacted.Redacted<string>;
   /** The name of the root container where you upload files. The container need not exist but should be creatable using the connectionString specified. */
   containerName: string;
   /** Specifies authentication type being used for connecting to the storage account. */
-  authenticationType?: StorageEndpointPropertiesAuthenticationType | (string & {});
+  authenticationType?: AuthenticationType | (string & {}) | undefined;
   /** Managed identity properties of storage endpoint for file upload. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
 }
 /** The list of Azure Storage endpoints where you can upload files. Currently you can configure only one Azure Storage account and that MUST have its key as $default. Specifying more than one storage account causes an error to be thrown. Not specifying a value for this property when the enableFileUploadNotifications property is set to True, causes an error to be thrown. */
 export type IotHubPropertiesStorageEndpointsMap = {
@@ -535,11 +584,11 @@ export type IotHubPropertiesStorageEndpointsMap = {
 /** The properties of the messaging endpoints used by this IoT hub. */
 export interface MessagingEndpointProperties {
   /** The lock duration. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-file-upload. */
-  lockDurationAsIso8601?: string;
+  lockDurationAsIso8601?: string | undefined;
   /** The period of time for which a message is available to consume before it is expired by the IoT hub. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-file-upload. */
-  ttlAsIso8601?: string;
+  ttlAsIso8601?: string | undefined;
   /** The number of times the IoT hub attempts to deliver a message. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-file-upload. */
-  maxDeliveryCount?: number;
+  maxDeliveryCount?: number | undefined;
 }
 /** The messaging endpoint properties for the file upload notification queue. */
 export type IotHubPropertiesMessagingEndpointsMap = {
@@ -548,200 +597,250 @@ export type IotHubPropertiesMessagingEndpointsMap = {
 /** The properties of the feedback queue for cloud-to-device messages. */
 export interface FeedbackProperties {
   /** The lock duration for the feedback queue. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#cloud-to-device-messages. */
-  lockDurationAsIso8601?: string;
+  lockDurationAsIso8601?: string | undefined;
   /** The period of time for which a message is available to consume before it is expired by the IoT hub. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#cloud-to-device-messages. */
-  ttlAsIso8601?: string;
+  ttlAsIso8601?: string | undefined;
   /** The number of times the IoT hub attempts to deliver a message on the feedback queue. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#cloud-to-device-messages. */
-  maxDeliveryCount?: number;
+  maxDeliveryCount?: number | undefined;
 }
 /** The IoT hub cloud-to-device messaging properties. */
 export interface CloudToDeviceProperties {
   /** The max delivery count for cloud-to-device messages in the device queue. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#cloud-to-device-messages. */
-  maxDeliveryCount?: number;
+  maxDeliveryCount?: number | undefined;
   /** The default time to live for cloud-to-device messages in the device queue. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#cloud-to-device-messages. */
-  defaultTtlAsIso8601?: string;
-  feedback?: FeedbackProperties;
+  defaultTtlAsIso8601?: string | undefined;
+  /** The properties of the feedback queue for cloud-to-device messages. */
+  feedback?: FeedbackProperties | undefined;
 }
 /** The capabilities and features enabled for the IoT hub. */
-export type IotHubPropertiesFeatures = "None" | "DeviceManagement";
+export type Capabilities = "None" | "DeviceManagement";
 /** The role of the region, can be either primary or secondary. The primary region is where the IoT hub is currently provisioned. The secondary region is the Azure disaster recovery (DR) paired region and also the region where the IoT hub can failover to. */
-export type IotHubLocationDescriptionRole = "primary" | "secondary";
+export type IotHubReplicaRoleType = "primary" | "secondary";
 /** Public representation of one of the locations where a resource is provisioned. */
 export interface IotHubLocationDescription {
   /** The name of the Azure region */
-  location?: string;
+  location?: string | undefined;
   /** The role of the region, can be either primary or secondary. The primary region is where the IoT hub is currently provisioned. The secondary region is the Azure disaster recovery (DR) paired region and also the region where the IoT hub can failover to. */
-  role?: IotHubLocationDescriptionRole;
+  role?: IotHubReplicaRoleType | undefined;
 }
 /** Primary and secondary location for iot hub */
 export type IotHubPropertiesLocationsList = Array<IotHubLocationDescription>;
+/** The type of the identity. */
+export type DeviceRegistryIdentityType = "SystemAssigned" | "UserAssigned";
+/** The identity used to manage the ADR namespace from the data plane. */
+export interface DeviceRegistryIdentity {
+  /** The type of the identity. */
+  type?: DeviceRegistryIdentityType | undefined;
+  /** The user assigned identity if the identity type is 'UserAssigned'. */
+  userAssignedIdentity?: string | undefined;
+}
+/** Indicates whether the IoT Hub is linked with an Azure Device Registry. */
+export type DeviceRegistryLinkingState = "InProgress" | "Success" | "Orphaned" | "Failed";
+/** Error details. */
+export interface ErrorDetails {
+  /** The error code. */
+  code?: string | undefined;
+  /** The HTTP status code. */
+  httpStatusCode?: string | undefined;
+  /** The error message. */
+  message?: string | undefined;
+  /** The error details. */
+  details?: string | undefined;
+}
+/** The properties related to linking the IoT Hub with the Azure Device Registry. */
+export interface DeviceRegistryLinkingProperties {
+  /** Indicates whether the IoT Hub is linked with an Azure Device Registry. */
+  state?: DeviceRegistryLinkingState | undefined;
+  /** The last error encountered when linking the IoT Hub with an Azure Device Registry. */
+  error?: ErrorDetails | undefined;
+}
+/** Represents properties related to the Azure Device Registry (ADR). */
+export interface DeviceRegistry {
+  /** The identifier of the Azure Device Registry namespace */
+  namespaceResourceId?: string | undefined;
+  /** The UUID of the associated Azure Device Registry namespace. */
+  namespaceUuid?: string | undefined;
+  /** The host name for the data plane endpoint of the associated Azure Device Registry. */
+  dataPlaneHostName?: string | undefined;
+  /** The identity used to manage the ADR namespace from the data plane. */
+  identity?: DeviceRegistryIdentity | undefined;
+  /** The properties related to linking the IoT Hub with the Azure Device Registry. */
+  linkingProperties?: DeviceRegistryLinkingProperties | undefined;
+}
+/** The IoT hub Gateway version. */
+export type GatewayVersion = "V1" | "V2";
+/** Set of additional read-only properties for the IoT hub. */
+export interface IotHubDetails {
+  /** The IoT hub Gateway version. */
+  gatewayVersion?: GatewayVersion | undefined;
+}
 /** The properties of an IoT hub. */
 export interface IotHubProperties {
   /** The shared access policies you can use to secure a connection to the IoT hub. */
-  authorizationPolicies?: IotHubPropertiesAuthorizationPoliciesList;
+  authorizationPolicies?: IotHubPropertiesAuthorizationPoliciesList | undefined;
   /** If true, SAS tokens with Iot hub scoped SAS keys cannot be used for authentication. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** If true, all device(including Edge devices but excluding modules) scoped SAS keys cannot be used for authentication. */
-  disableDeviceSAS?: boolean;
+  disableDeviceSAS?: boolean | undefined;
   /** If true, all module scoped SAS keys cannot be used for authentication. */
-  disableModuleSAS?: boolean;
+  disableModuleSAS?: boolean | undefined;
   /** If true, egress from IotHub will be restricted to only the allowed FQDNs that are configured via allowedFqdnList. */
-  restrictOutboundNetworkAccess?: boolean;
+  restrictOutboundNetworkAccess?: boolean | undefined;
   /** List of allowed FQDNs(Fully Qualified Domain Name) for egress from Iot Hub. */
-  allowedFqdnList?: IotHubPropertiesAllowedFqdnListList;
+  allowedFqdnList?: IotHubPropertiesAllowedFqdnListList | undefined;
   /** Whether requests from Public Network are allowed */
-  publicNetworkAccess?: IotHubPropertiesPublicNetworkAccess;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
   /** The IP filter rules. */
-  ipFilterRules?: IotHubPropertiesIpFilterRulesList;
-  networkRuleSets?: NetworkRuleSetProperties;
+  ipFilterRules?: IotHubPropertiesIpFilterRulesList | undefined;
+  /** Network Rule Set Properties of IotHub */
+  networkRuleSets?: NetworkRuleSetProperties | undefined;
   /** Specifies the minimum TLS version to support for this hub. Can be set to "1.2" to have clients that use a TLS version below 1.2 to be rejected. */
-  minTlsVersion?: string;
+  minTlsVersion?: string | undefined;
   /** Private endpoint connections created on this IotHub */
-  privateEndpointConnections?: IotHubPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: IotHubPropertiesPrivateEndpointConnectionsList | undefined;
   /** The provisioning state. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The hub state. */
-  state?: string;
+  state?: string | undefined;
   /** The name of the host. */
-  hostName?: string;
+  hostName?: string | undefined;
+  /** The name of the device host. Supports secure connections over TLS 1.3. */
+  deviceHostName?: string | undefined;
+  /** The name of the service host. Supports secure connections over TLS 1.3. */
+  serviceHostName?: string | undefined;
   /** The Event Hub-compatible endpoint properties. The only possible keys to this dictionary is events. This key has to be present in the dictionary while making create or update calls for the IoT hub. */
-  eventHubEndpoints?: IotHubPropertiesEventHubEndpointsMap;
-  routing?: RoutingProperties;
+  eventHubEndpoints?: IotHubPropertiesEventHubEndpointsMap | undefined;
+  /** The routing related properties of the IoT hub. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging */
+  routing?: RoutingProperties | undefined;
   /** The list of Azure Storage endpoints where you can upload files. Currently you can configure only one Azure Storage account and that MUST have its key as $default. Specifying more than one storage account causes an error to be thrown. Not specifying a value for this property when the enableFileUploadNotifications property is set to True, causes an error to be thrown. */
-  storageEndpoints?: IotHubPropertiesStorageEndpointsMap;
+  storageEndpoints?: IotHubPropertiesStorageEndpointsMap | undefined;
   /** The messaging endpoint properties for the file upload notification queue. */
-  messagingEndpoints?: IotHubPropertiesMessagingEndpointsMap;
+  messagingEndpoints?: IotHubPropertiesMessagingEndpointsMap | undefined;
   /** If True, file upload notifications are enabled. */
-  enableFileUploadNotifications?: boolean;
-  cloudToDevice?: CloudToDeviceProperties;
+  enableFileUploadNotifications?: boolean | undefined;
+  /** The IoT hub cloud-to-device messaging properties. */
+  cloudToDevice?: CloudToDeviceProperties | undefined;
   /** IoT hub comments. */
-  comments?: string;
+  comments?: string | undefined;
   /** The capabilities and features enabled for the IoT hub. */
-  features?: IotHubPropertiesFeatures;
+  features?: Capabilities | undefined;
   /** Primary and secondary location for iot hub */
-  locations?: IotHubPropertiesLocationsList;
+  locations?: IotHubPropertiesLocationsList | undefined;
   /** This property when set to true, will enable data residency, thus, disabling disaster recovery. */
-  enableDataResidency?: boolean;
+  enableDataResidency?: boolean | undefined;
+  /** Represents properties related to the Azure Device Registry (ADR). */
+  deviceRegistry?: DeviceRegistry | undefined;
+  /** Set of additional read-only properties for the IoT hub. */
+  iotHubDetails?: IotHubDetails | undefined;
 }
 /** The name of the SKU. */
-export type IotHubSkuInfoName = "F1" | "S1" | "S2" | "S3" | "B1" | "B2" | "B3";
+export type IotHubSku = "F1" | "S1" | "S2" | "S3" | "B1" | "B2" | "B3";
 /** The billing tier for the IoT hub. */
-export type IotHubSkuInfoTier = "Free" | "Standard" | "Basic";
+export type IotHubSkuTier = "Free" | "Standard" | "Basic";
 /** Information about the SKU of the IoT hub. */
 export interface IotHubSkuInfo {
   /** The name of the SKU. */
-  name: IotHubSkuInfoName;
+  name: IotHubSku | (string & {});
   /** The billing tier for the IoT hub. */
-  tier?: IotHubSkuInfoTier;
+  tier?: IotHubSkuTier | (string & {}) | undefined;
   /** The number of provisioned IoT Hub units. See: https://docs.microsoft.com/azure/azure-subscription-service-limits#iot-hub-limits. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
-/** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
-export type ArmIdentityType =
+/** The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
+export type ResourceIdentityType =
   | "SystemAssigned"
   | "UserAssigned"
   | "SystemAssigned, UserAssigned"
   | "None";
 export interface ArmUserIdentity {
-  principalId?: string;
-  clientId?: string;
+  principalId?: string | undefined;
+  clientId?: string | undefined;
 }
+/** Dictionary of <ArmUserIdentity> */
 export type ArmIdentityUserAssignedIdentitiesMap = { [key: string]: ArmUserIdentity | undefined };
 export interface ArmIdentity {
   /** Principal Id */
-  principalId?: string;
+  principalId?: string | undefined;
   /** Tenant Id */
-  tenantId?: string;
-  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
-  type?: ArmIdentityType;
-  userAssignedIdentities?: ArmIdentityUserAssignedIdentitiesMap;
-}
-/** The type of identity that created the resource. */
-export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
-/** The type of identity that last modified the resource. */
-export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIdentity" | "Key";
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  tenantId?: string | undefined;
+  /** The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
+  type?: ResourceIdentityType | undefined;
+  /** Dictionary of <ArmUserIdentity> */
+  userAssignedIdentities?: ArmIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface DeleteIotHubResourceResponse {
-  /** The resource identifier. */
-  id?: string;
-  /** The resource name. */
-  name?: string;
-  /** The resource type. */
-  type?: string;
-  /** The resource location. */
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: DeleteIotHubResourceResponseTagsMap | undefined;
+  /** The geo-location where the resource lives */
   location: string;
-  /** The resource tags. */
-  tags?: DeleteIotHubResourceResponseTagsMap;
-  /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
   /** IotHub properties */
-  properties?: IotHubProperties;
+  properties?: IotHubProperties | undefined;
+  /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
+  etag?: string | undefined;
   /** IotHub SKU info */
   sku: IotHubSkuInfo;
   /** The managed identities for the IotHub. */
-  identity?: ArmIdentity;
-  /** The system meta data relating to this resource. */
-  systemData?: SystemData;
-  /** URL to query for status of the operation. */
-  azureAsyncOperation?: string;
-  locationHeader?: string;
+  identity?: ArmIdentity | undefined;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
 }
 export interface DeleteIotHubResourceEventHubConsumerGroupRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
-  /** The name of the Event Hub-compatible endpoint in the IoT hub. */
+  /** The name of the EventHubEndpoint */
   eventHubEndpointName: string;
-  /** The name of the consumer group to delete. */
+  /** The name of the consumer group to retrieve. */
   name: string;
 }
 export interface DeleteIotHubResourceEventHubConsumerGroupResponse {}
 export interface DeletePrivateEndpointConnectionRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the IoT hub. */
+  /** The name of the IoT Hub */
   resourceName: string;
   /** The name of the private endpoint connection */
   privateEndpointConnectionName: string;
 }
-/** The private endpoint connection of an IotHub */
 export interface DeletePrivateEndpointConnectionResponse {
-  /** The resource identifier. */
-  id?: string;
-  /** The resource name. */
-  name?: string;
-  /** The resource type. */
-  type?: string;
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of a private endpoint connection */
   properties: PrivateEndpointConnectionProperties;
-  /** URL to query for status of the operation. */
-  azureAsyncOperation?: string;
-  location?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
 }
-/** Specifies authentication type being used for connecting to the storage account. */
-export type ExportIotHubResourceDevicesRequestAuthenticationType = "keyBased" | "identityBased";
 export interface ExportIotHubResourceDevicesRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
@@ -750,18 +849,18 @@ export interface ExportIotHubResourceDevicesRequest {
   /** The value indicating whether keys should be excluded during export. */
   excludeKeys: boolean;
   /** The name of the blob that will be created in the provided output blob container. This blob will contain the exported device registry information for the IoT Hub. */
-  exportBlobName?: string;
+  exportBlobName?: string | undefined;
   /** Specifies authentication type being used for connecting to the storage account. */
-  authenticationType?: ExportIotHubResourceDevicesRequestAuthenticationType | (string & {});
+  authenticationType?: AuthenticationType | (string & {}) | undefined;
   /** Managed identity properties of storage endpoint for export devices. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The value indicating whether configurations should be exported. */
-  includeConfigurations?: boolean;
+  includeConfigurations?: boolean | undefined;
   /** The name of the blob that will be created in the provided output blob container. This blob will contain the exported configurations for the Iot Hub. */
-  configurationsBlobName?: string;
+  configurationsBlobName?: string | undefined;
 }
 /** The type of the job. */
-export type JobResponseType =
+export type JobType =
   | "unknown"
   | "export"
   | "import"
@@ -773,36 +872,30 @@ export type JobResponseType =
   | "factoryResetDevice"
   | "firmwareUpdate";
 /** The status of the job. */
-export type JobResponseStatus =
-  | "unknown"
-  | "enqueued"
-  | "running"
-  | "completed"
-  | "failed"
-  | "cancelled";
+export type JobStatus = "unknown" | "enqueued" | "running" | "completed" | "failed" | "cancelled";
 /** The properties of the Job Response object. */
 export interface JobResponse {
   /** The job identifier. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** The start time of the job. */
-  startTimeUtc?: string;
+  startTimeUtc?: string | undefined;
   /** The time the job stopped processing. */
-  endTimeUtc?: string;
+  endTimeUtc?: string | undefined;
   /** The type of the job. */
-  type?: JobResponseType;
+  type?: JobType | undefined;
   /** The status of the job. */
-  status?: JobResponseStatus;
+  status?: JobStatus | undefined;
   /** If status == failed, this string containing the reason for the failure. */
-  failureReason?: string;
+  failureReason?: string | undefined;
   /** The status message for the job. */
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   /** The job identifier of the parent job, if any. */
-  parentJobId?: string;
+  parentJobId?: string | undefined;
 }
 export interface GenerateCertificateVerificationCodeRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
@@ -812,129 +905,160 @@ export interface GenerateCertificateVerificationCodeRequest {
 /** The description of an X509 CA Certificate including the challenge nonce issued for the Proof-Of-Possession flow. */
 export interface CertificatePropertiesWithNonce {
   /** The certificate's subject name. */
-  subject?: string;
+  subject?: string | undefined;
   /** The certificate's expiration date and time. */
-  expiry?: string;
+  expiry?: string | undefined;
   /** The certificate's thumbprint. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** Determines whether certificate has been verified. */
-  isVerified?: boolean;
+  isVerified?: boolean | undefined;
   /** The certificate's create date and time. */
-  created?: string;
+  created?: string | undefined;
   /** The certificate's last update date and time. */
-  updated?: string;
+  updated?: string | undefined;
   /** The certificate's verification code that will be used for proof of possession. */
-  verificationCode?: string;
+  verificationCode?: string | undefined;
   /** The certificate content */
-  certificate?: string;
+  certificate?: string | undefined;
+  /** Full certificate authority resource ID for ADR linked standard SKU hubs. */
+  certificateAuthorityResourceId?: string | undefined;
 }
 /** The X509 Certificate. */
 export interface CertificateWithNonceDescription {
-  properties?: CertificatePropertiesWithNonce;
+  /** The description of an X509 CA Certificate including the challenge nonce issued for the Proof-Of-Possession flow. */
+  properties?: CertificatePropertiesWithNonce | undefined;
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the certificate. */
-  name?: string;
+  name?: string | undefined;
   /** The entity tag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface GetCertificateRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
   /** The name of the certificate */
   certificateName: string;
 }
+export interface GetCertificateResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The description of an X509 CA Certificate. */
+  properties?: CertificateProperties | undefined;
+  /** The entity tag. */
+  etag?: string | undefined;
+}
 export interface GetIotHubResourceRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
 }
-/** The resource tags. */
+/** Resource tags. */
 export type GetIotHubResourceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetIotHubResourceResponse {
-  /** The resource identifier. */
-  id?: string;
-  /** The resource name. */
-  name?: string;
-  /** The resource type. */
-  type?: string;
-  /** The resource location. */
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: GetIotHubResourceResponseTagsMap | undefined;
+  /** The geo-location where the resource lives */
   location: string;
-  /** The resource tags. */
-  tags?: GetIotHubResourceResponseTagsMap;
-  /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
   /** IotHub properties */
-  properties?: IotHubProperties;
+  properties?: IotHubProperties | undefined;
+  /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
+  etag?: string | undefined;
   /** IotHub SKU info */
   sku: IotHubSkuInfo;
   /** The managed identities for the IotHub. */
-  identity?: ArmIdentity;
-  /** The system meta data relating to this resource. */
-  systemData?: SystemData;
+  identity?: ArmIdentity | undefined;
 }
 export interface GetIotHubResourceEndpointHealthRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   iotHubName: string;
 }
 /** Health statuses have following meanings. The 'healthy' status shows that the endpoint is accepting messages as expected. The 'unhealthy' status shows that the endpoint is not accepting messages as expected and IoT Hub is retrying to send data to this endpoint. The status of an unhealthy endpoint will be updated to healthy when IoT Hub has established an eventually consistent state of health. The 'dead' status shows that the endpoint is not accepting messages, after IoT Hub retried sending messages for the retrial period. See IoT Hub metrics to identify errors and monitor issues with endpoints. The 'unknown' status shows that the IoT Hub has not established a connection with the endpoint. No messages have been delivered to or rejected from this endpoint */
-export type EndpointHealthDataHealthStatus =
-  | "unknown"
-  | "healthy"
-  | "degraded"
-  | "unhealthy"
-  | "dead";
+export type EndpointHealthStatus = "unknown" | "healthy" | "degraded" | "unhealthy" | "dead";
 /** The health data for an endpoint */
 export interface EndpointHealthData {
   /** Id of the endpoint */
-  endpointId?: string;
+  endpointId?: string | undefined;
   /** Health statuses have following meanings. The 'healthy' status shows that the endpoint is accepting messages as expected. The 'unhealthy' status shows that the endpoint is not accepting messages as expected and IoT Hub is retrying to send data to this endpoint. The status of an unhealthy endpoint will be updated to healthy when IoT Hub has established an eventually consistent state of health. The 'dead' status shows that the endpoint is not accepting messages, after IoT Hub retried sending messages for the retrial period. See IoT Hub metrics to identify errors and monitor issues with endpoints. The 'unknown' status shows that the IoT Hub has not established a connection with the endpoint. No messages have been delivered to or rejected from this endpoint */
-  healthStatus?: EndpointHealthDataHealthStatus;
+  healthStatus?: EndpointHealthStatus | undefined;
   /** Last error obtained when a message failed to be delivered to iot hub */
-  lastKnownError?: string;
+  lastKnownError?: string | undefined;
   /** Time at which the last known error occurred */
-  lastKnownErrorTime?: string;
+  lastKnownErrorTime?: string | undefined;
   /** Last time iot hub successfully sent a message to the endpoint */
-  lastSuccessfulSendAttemptTime?: string;
+  lastSuccessfulSendAttemptTime?: string | undefined;
   /** Last time iot hub tried to send a message to the endpoint */
-  lastSendAttemptTime?: string;
+  lastSendAttemptTime?: string | undefined;
 }
-/** JSON-serialized array of Endpoint health data */
+/** The EndpointHealthData items on this page */
 export type EndpointHealthDataListResultValueList = Array<EndpointHealthData>;
 /** The JSON-serialized array of EndpointHealthData objects with a next link. */
 export interface EndpointHealthDataListResult {
-  /** JSON-serialized array of Endpoint health data */
-  value?: EndpointHealthDataListResultValueList;
-  /** Link to more results */
-  nextLink?: string;
+  /** The EndpointHealthData items on this page */
+  value: EndpointHealthDataListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
 }
 export interface GetIotHubResourceEventHubConsumerGroupRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
-  /** The name of the Event Hub-compatible endpoint in the IoT hub. */
+  /** The name of the EventHubEndpoint */
   eventHubEndpointName: string;
   /** The name of the consumer group to retrieve. */
   name: string;
 }
+/** The tags. */
+export type GetIotHubResourceEventHubConsumerGroupResponsePropertiesMap = {
+  [key: string]: unknown | undefined;
+};
+export interface GetIotHubResourceEventHubConsumerGroupResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The tags. */
+  properties?: GetIotHubResourceEventHubConsumerGroupResponsePropertiesMap | undefined;
+  /** The etag. */
+  etag?: string | undefined;
+}
 export interface GetIotHubResourceJobRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
@@ -942,9 +1066,9 @@ export interface GetIotHubResourceJobRequest {
   jobId: string;
 }
 export interface GetIotHubResourceKeysForKeyNameRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
@@ -952,9 +1076,9 @@ export interface GetIotHubResourceKeysForKeyNameRequest {
   keyName: string;
 }
 export interface GetIotHubResourceQuotaMetricsRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
@@ -962,93 +1086,104 @@ export interface GetIotHubResourceQuotaMetricsRequest {
 /** Quota metrics properties. */
 export interface IotHubQuotaMetricInfo {
   /** The name of the quota metric. */
-  name?: string;
+  name?: string | undefined;
   /** The current value for the quota metric. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** The maximum value of the quota metric. */
-  maxValue?: number;
+  maxValue?: number | undefined;
 }
-/** The array of quota metrics objects. */
+/** The IotHubQuotaMetricInfo items on this page */
 export type IotHubQuotaMetricInfoListResultValueList = Array<IotHubQuotaMetricInfo>;
 /** The JSON-serialized array of IotHubQuotaMetricInfo objects with a next link. */
 export interface IotHubQuotaMetricInfoListResult {
-  /** The array of quota metrics objects. */
-  value?: IotHubQuotaMetricInfoListResultValueList;
-  /** The next link. */
-  nextLink?: string;
+  /** The IotHubQuotaMetricInfo items on this page */
+  value: IotHubQuotaMetricInfoListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
 }
 export interface GetIotHubResourceStatsRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the IoT hub. */
   resourceName: string;
 }
 /** Identity registry statistics. */
 export interface RegistryStatistics {
   /** The total count of devices in the identity registry. */
-  totalDeviceCount?: number;
+  totalDeviceCount?: number | undefined;
   /** The count of enabled devices in the identity registry. */
-  enabledDeviceCount?: number;
+  enabledDeviceCount?: number | undefined;
   /** The count of disabled devices in the identity registry. */
-  disabledDeviceCount?: number;
+  disabledDeviceCount?: number | undefined;
 }
 export interface GetIotHubResourceValidSkusRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
 }
 /** The type of the scaling enabled. */
-export type IotHubCapacityScaleType = "Automatic" | "Manual" | "None";
+export type IotHubScaleType = "Automatic" | "Manual" | "None";
 /** IoT Hub capacity information. */
 export interface IotHubCapacity {
   /** The minimum number of units. */
-  minimum?: number;
+  minimum?: number | undefined;
   /** The maximum number of units. */
-  maximum?: number;
+  maximum?: number | undefined;
   /** The default number of units. */
-  default?: number;
+  default?: number | undefined;
   /** The type of the scaling enabled. */
-  scaleType?: IotHubCapacityScaleType;
+  scaleType?: IotHubScaleType | undefined;
 }
 /** SKU properties. */
 export interface IotHubSkuDescription {
   /** The type of the resource. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The type of the resource. */
   sku: IotHubSkuInfo;
   /** IotHub capacity */
   capacity: IotHubCapacity;
 }
-/** The array of IotHubSkuDescription. */
+/** The IotHubSkuDescription items on this page */
 export type IotHubSkuDescriptionListResultValueList = Array<IotHubSkuDescription>;
 /** The JSON-serialized array of IotHubSkuDescription objects with a next link. */
 export interface IotHubSkuDescriptionListResult {
-  /** The array of IotHubSkuDescription. */
-  value?: IotHubSkuDescriptionListResultValueList;
-  /** The next link. */
-  nextLink?: string;
+  /** The IotHubSkuDescription items on this page */
+  value: IotHubSkuDescriptionListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the IoT hub. */
+  /** The name of the IoT Hub */
   resourceName: string;
   /** The name of the private endpoint connection */
   privateEndpointConnectionName: string;
 }
+export interface GetPrivateEndpointConnectionResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of a private endpoint connection */
+  properties: PrivateEndpointConnectionProperties;
+}
 export interface GetPrivateLinkResourceRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the IoT hub. */
+  /** The name of the IoT Hub */
   resourceName: string;
   /** The name of the private link resource */
   groupId: string;
@@ -1060,60 +1195,62 @@ export type GroupIdInformationPropertiesRequiredZoneNamesList = Array<string>;
 /** The properties for a group information object */
 export interface GroupIdInformationProperties {
   /** The group id */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The required members for a specific group id */
-  requiredMembers?: GroupIdInformationPropertiesRequiredMembersList;
+  requiredMembers?: GroupIdInformationPropertiesRequiredMembersList | undefined;
   /** The required DNS zones for a specific group id */
-  requiredZoneNames?: GroupIdInformationPropertiesRequiredZoneNamesList;
+  requiredZoneNames?: GroupIdInformationPropertiesRequiredZoneNamesList | undefined;
 }
 /** The group information for creating a private endpoint on an IotHub */
 export interface GroupIdInformation {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
+  /** The properties for a group information object */
   properties: GroupIdInformationProperties;
 }
 export interface GetResourceProviderCommonSubscriptionQuotaRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
 }
 /** Name of Iot Hub type */
 export interface Name {
   /** IotHub type */
-  value?: string;
+  value?: string | undefined;
   /** Localized value of name */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** User subscription quota response */
 export interface UserSubscriptionQuota {
   /** IotHub type id */
-  id?: string;
+  id?: string | undefined;
   /** Response type */
-  type?: string;
+  type?: string | undefined;
   /** Unit of IotHub type */
-  unit?: string;
+  unit?: string | undefined;
   /** Current number of IotHub type */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** Numerical limit on IotHub type */
-  limit?: number;
+  limit?: number | undefined;
   /** IotHub type */
-  name?: Name;
+  name?: Name | undefined;
 }
+/** The UserSubscriptionQuota items on this page */
 export type UserSubscriptionQuotaListResultValueList = Array<UserSubscriptionQuota>;
 /** Json-serialized array of User subscription quota response */
 export interface UserSubscriptionQuotaListResult {
-  value?: UserSubscriptionQuotaListResultValueList;
-  nextLink?: string;
+  /** The UserSubscriptionQuota items on this page */
+  value?: UserSubscriptionQuotaListResultValueList | undefined;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
 }
-/** Specifies authentication type being used for connecting to the storage account. */
-export type ImportIotHubResourceDevicesRequestAuthenticationType = "keyBased" | "identityBased";
 export interface ImportIotHubResourceDevicesRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
@@ -1122,53 +1259,56 @@ export interface ImportIotHubResourceDevicesRequest {
   /** The output blob container URI. */
   outputBlobContainerUri: string;
   /** The blob name to be used when importing from the provided input blob container. */
-  inputBlobName?: string;
+  inputBlobName?: string | undefined;
   /** The blob name to use for storing the status of the import job. */
-  outputBlobName?: string;
+  outputBlobName?: string | undefined;
   /** Specifies authentication type being used for connecting to the storage account. */
-  authenticationType?: ImportIotHubResourceDevicesRequestAuthenticationType | (string & {});
+  authenticationType?: AuthenticationType | (string & {}) | undefined;
   /** Managed identity properties of storage endpoint for import devices. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The value indicating whether configurations should be imported. */
-  includeConfigurations?: boolean;
+  includeConfigurations?: boolean | undefined;
   /** The blob name to be used when importing configurations from the provided input blob container. */
-  configurationsBlobName?: string;
+  configurationsBlobName?: string | undefined;
 }
 export interface IotHubManualFailoverRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** Name of the resource group containing the IoT hub resource */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** Name of the IoT hub to failover */
   iotHubName: string;
   /** Region the hub will be failed over to */
   failoverRegion: string;
 }
 export interface IotHubManualFailoverResponse {
-  /** URL to query for status of the operation. */
-  azureAsyncOperation?: string;
-  location?: string;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
 }
-/** The resource tags. */
+/** Resource tags. */
 export type IotHubResourceCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** The shared access policies you can use to secure a connection to the IoT hub. */
 export type IotHubPropertiesInputAuthorizationPoliciesList =
   Array<SharedAccessSignatureAuthorizationRule>;
 /** List of allowed FQDNs(Fully Qualified Domain Name) for egress from Iot Hub. */
 export type IotHubPropertiesInputAllowedFqdnListList = Array<string>;
-/** Whether requests from Public Network are allowed */
-export type IotHubPropertiesInputPublicNetworkAccess = "Enabled" | "Disabled";
 /** The IP filter rules. */
 export type IotHubPropertiesInputIpFilterRulesList = Array<IpFilterRule>;
 /** The private endpoint property of a private endpoint connection */
 export interface PrivateEndpointInput {}
 /** The properties of a private endpoint connection */
 export interface PrivateEndpointConnectionPropertiesInput {
-  privateEndpoint?: PrivateEndpointInput;
+  /** The private endpoint property of a private endpoint connection */
+  privateEndpoint?: PrivateEndpointInput | undefined;
+  /** The current state of a private endpoint connection */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
 /** The private endpoint connection of an IotHub */
 export interface PrivateEndpointConnectionInput {
+  /** The properties of a private endpoint connection */
   properties: PrivateEndpointConnectionPropertiesInput;
 }
 /** Private endpoint connections created on this IotHub */
@@ -1177,9 +1317,9 @@ export type IotHubPropertiesInputPrivateEndpointConnectionsList =
 /** The properties of the provisioned Event Hub-compatible endpoint used by the IoT hub. */
 export interface EventHubPropertiesInput {
   /** The retention time for device-to-cloud messages in days. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#device-to-cloud-messages */
-  retentionTimeInDays?: number;
+  retentionTimeInDays?: number | undefined;
   /** The number of partitions for receiving device-to-cloud messages in the Event Hub-compatible endpoint. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging#device-to-cloud-messages. */
-  partitionCount?: number;
+  partitionCount?: number | undefined;
 }
 /** The Event Hub-compatible endpoint properties. The only possible keys to this dictionary is events. This key has to be present in the dictionary while making create or update calls for the IoT hub. */
 export type IotHubPropertiesInputEventHubEndpointsMap = {
@@ -1195,50 +1335,71 @@ export type RoutingEndpointsInputServiceBusTopicsList =
 export type RoutingEndpointsInputEventHubsList = Array<RoutingEventHubProperties>;
 /** The list of storage container endpoints that IoT hub routes messages to, based on the routing rules. */
 export type RoutingEndpointsInputStorageContainersList = Array<RoutingStorageContainerProperties>;
-/** Method used to authenticate against the cosmos DB sql container endpoint */
-export type RoutingCosmosDBSqlApiPropertiesInputAuthenticationType = "keyBased" | "identityBased";
 /** The properties related to a cosmos DB sql container endpoint. */
 export interface RoutingCosmosDBSqlApiPropertiesInput {
   /** The name that identifies this endpoint. The name can only include alphanumeric characters, periods, underscores, hyphens and has a maximum length of 64 characters. The following names are reserved: events, fileNotifications, $default. Endpoint names must be unique across endpoint types. */
   name: string;
   /** The subscription identifier of the cosmos DB account. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The name of the resource group of the cosmos DB account. */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** The url of the cosmos DB account. It must include the protocol https:// */
   endpointUri: string;
   /** Method used to authenticate against the cosmos DB sql container endpoint */
-  authenticationType?: RoutingCosmosDBSqlApiPropertiesInputAuthenticationType | (string & {});
+  authenticationType?: AuthenticationType | (string & {}) | undefined;
   /** Managed identity properties of routing cosmos DB container endpoint. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The primary key of the cosmos DB account. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** The secondary key of the cosmos DB account. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** The name of the cosmos DB database in the cosmos DB account. */
   databaseName: string;
   /** The name of the cosmos DB sql container in the cosmos DB database. */
   containerName: string;
   /** The name of the partition key associated with this cosmos DB sql container if one exists. This is an optional parameter. */
-  partitionKeyName?: string;
+  partitionKeyName?: string | undefined;
   /** The template for generating a synthetic partition key value for use with this cosmos DB sql container. The template must include at least one of the following placeholders: {iothub}, {deviceid}, {DD}, {MM}, and {YYYY}. Any one placeholder may be specified at most once, but order and non-placeholder components are arbitrary. This parameter is only required if PartitionKeyName is specified. */
-  partitionKeyTemplate?: string;
+  partitionKeyTemplate?: string | undefined;
 }
 /** The list of Cosmos DB container endpoints that IoT hub routes messages to, based on the routing rules. */
 export type RoutingEndpointsInputCosmosDBSqlContainersList =
   Array<RoutingCosmosDBSqlApiPropertiesInput>;
+/** The properties related to an event stream endpoint. */
+export interface RoutingEventStreamPropertiesInput {
+  /** The name that identifies this endpoint. The name can only include alphanumeric characters, periods, underscores, hyphens and has a maximum length of 64 characters. The following names are reserved: events, fileNotifications, $default. Endpoint names must be unique across endpoint types. */
+  name: string;
+  /** The url of the underlying event hub namespace of the event stream endpoint. It must include the protocol sb:// */
+  endpointUri: string;
+  /** Event hub name on the event hub namespace */
+  entityPath: string;
+  /** Method used to authenticate against the event stream endpoint */
+  authenticationType?: EventStreamAuthenticationType | (string & {}) | undefined;
+  /** Managed identity properties of routing event stream endpoint. */
+  identity?: ManagedIdentity | undefined;
+  /** The unique GUID of the target Microsoft Fabric workspace for the event stream endpoint. */
+  workspaceId?: string | undefined;
+  /** The unique GUID of the target event stream under the workspace. */
+  eventStreamId?: string | undefined;
+  /** The unique GUID of the custom source for the event stream. */
+  sourceId?: string | undefined;
+}
+/** The list of event stream endpoints that IoT hub routes messages to, based on the routing rules. */
+export type RoutingEndpointsInputEventStreamsList = Array<RoutingEventStreamPropertiesInput>;
 /** The properties related to the custom endpoints to which your IoT hub routes messages based on the routing rules. A maximum of 10 custom endpoints are allowed across all endpoint types for paid hubs and only 1 custom endpoint is allowed across all endpoint types for free hubs. */
 export interface RoutingEndpointsInput {
   /** The list of Service Bus queue endpoints that IoT hub routes the messages to, based on the routing rules. */
-  serviceBusQueues?: RoutingEndpointsInputServiceBusQueuesList;
+  serviceBusQueues?: RoutingEndpointsInputServiceBusQueuesList | undefined;
   /** The list of Service Bus topic endpoints that the IoT hub routes the messages to, based on the routing rules. */
-  serviceBusTopics?: RoutingEndpointsInputServiceBusTopicsList;
+  serviceBusTopics?: RoutingEndpointsInputServiceBusTopicsList | undefined;
   /** The list of Event Hubs endpoints that IoT hub routes messages to, based on the routing rules. This list does not include the built-in Event Hubs endpoint. */
-  eventHubs?: RoutingEndpointsInputEventHubsList;
+  eventHubs?: RoutingEndpointsInputEventHubsList | undefined;
   /** The list of storage container endpoints that IoT hub routes messages to, based on the routing rules. */
-  storageContainers?: RoutingEndpointsInputStorageContainersList;
+  storageContainers?: RoutingEndpointsInputStorageContainersList | undefined;
   /** The list of Cosmos DB container endpoints that IoT hub routes messages to, based on the routing rules. */
-  cosmosDBSqlContainers?: RoutingEndpointsInputCosmosDBSqlContainersList;
+  cosmosDBSqlContainers?: RoutingEndpointsInputCosmosDBSqlContainersList | undefined;
+  /** The list of event stream endpoints that IoT hub routes messages to, based on the routing rules. */
+  eventStreams?: RoutingEndpointsInputEventStreamsList | undefined;
 }
 /** The list of user-provided routing rules that the IoT hub uses to route messages to built-in and custom endpoints. A maximum of 100 routing rules are allowed for paid hubs and a maximum of 5 routing rules are allowed for free hubs. */
 export type RoutingPropertiesInputRoutesList = Array<RouteProperties>;
@@ -1246,13 +1407,14 @@ export type RoutingPropertiesInputRoutesList = Array<RouteProperties>;
 export type RoutingPropertiesInputEnrichmentsList = Array<EnrichmentProperties>;
 /** The routing related properties of the IoT hub. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging */
 export interface RoutingPropertiesInput {
-  endpoints?: RoutingEndpointsInput;
+  /** The properties related to the custom endpoints to which your IoT hub routes messages based on the routing rules. A maximum of 10 custom endpoints are allowed across all endpoint types for paid hubs and only 1 custom endpoint is allowed across all endpoint types for free hubs. */
+  endpoints?: RoutingEndpointsInput | undefined;
   /** The list of user-provided routing rules that the IoT hub uses to route messages to built-in and custom endpoints. A maximum of 100 routing rules are allowed for paid hubs and a maximum of 5 routing rules are allowed for free hubs. */
-  routes?: RoutingPropertiesInputRoutesList;
-  /** The properties of the route that is used as a fall-back route when none of the conditions specified in the 'routes' section are met. This is an optional parameter. When this property is not present in the template, the fallback route is disabled by default. */
-  fallbackRoute?: FallbackRouteProperties;
+  routes?: RoutingPropertiesInputRoutesList | undefined;
+  /** The properties of the route that is used as a fall-back route when none of the conditions specified in the 'routes' section are met. This is an optional parameter. When this property is not set, the messages which do not meet any of the conditions specified in the 'routes' section get routed to the built-in eventhub endpoint. */
+  fallbackRoute?: FallbackRouteProperties | undefined;
   /** The list of user-provided enrichments that the IoT hub applies to messages to be delivered to built-in and custom endpoints. See: https://aka.ms/telemetryoneventgrid */
-  enrichments?: RoutingPropertiesInputEnrichmentsList;
+  enrichments?: RoutingPropertiesInputEnrichmentsList | undefined;
 }
 /** The list of Azure Storage endpoints where you can upload files. Currently you can configure only one Azure Storage account and that MUST have its key as $default. Specifying more than one storage account causes an error to be thrown. Not specifying a value for this property when the enableFileUploadNotifications property is set to True, causes an error to be thrown. */
 export type IotHubPropertiesInputStorageEndpointsMap = {
@@ -1262,276 +1424,299 @@ export type IotHubPropertiesInputStorageEndpointsMap = {
 export type IotHubPropertiesInputMessagingEndpointsMap = {
   [key: string]: MessagingEndpointProperties | undefined;
 };
-/** The capabilities and features enabled for the IoT hub. */
-export type IotHubPropertiesInputFeatures = "None" | "DeviceManagement";
 /** The properties of an IoT hub. */
 export interface IotHubPropertiesInput {
   /** The shared access policies you can use to secure a connection to the IoT hub. */
-  authorizationPolicies?: IotHubPropertiesInputAuthorizationPoliciesList;
+  authorizationPolicies?: IotHubPropertiesInputAuthorizationPoliciesList | undefined;
   /** If true, SAS tokens with Iot hub scoped SAS keys cannot be used for authentication. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** If true, all device(including Edge devices but excluding modules) scoped SAS keys cannot be used for authentication. */
-  disableDeviceSAS?: boolean;
+  disableDeviceSAS?: boolean | undefined;
   /** If true, all module scoped SAS keys cannot be used for authentication. */
-  disableModuleSAS?: boolean;
+  disableModuleSAS?: boolean | undefined;
   /** If true, egress from IotHub will be restricted to only the allowed FQDNs that are configured via allowedFqdnList. */
-  restrictOutboundNetworkAccess?: boolean;
+  restrictOutboundNetworkAccess?: boolean | undefined;
   /** List of allowed FQDNs(Fully Qualified Domain Name) for egress from Iot Hub. */
-  allowedFqdnList?: IotHubPropertiesInputAllowedFqdnListList;
+  allowedFqdnList?: IotHubPropertiesInputAllowedFqdnListList | undefined;
   /** Whether requests from Public Network are allowed */
-  publicNetworkAccess?: IotHubPropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** The IP filter rules. */
-  ipFilterRules?: IotHubPropertiesInputIpFilterRulesList;
-  networkRuleSets?: NetworkRuleSetProperties;
+  ipFilterRules?: IotHubPropertiesInputIpFilterRulesList | undefined;
+  /** Network Rule Set Properties of IotHub */
+  networkRuleSets?: NetworkRuleSetProperties | undefined;
   /** Specifies the minimum TLS version to support for this hub. Can be set to "1.2" to have clients that use a TLS version below 1.2 to be rejected. */
-  minTlsVersion?: string;
+  minTlsVersion?: string | undefined;
   /** Private endpoint connections created on this IotHub */
-  privateEndpointConnections?: IotHubPropertiesInputPrivateEndpointConnectionsList;
+  privateEndpointConnections?: IotHubPropertiesInputPrivateEndpointConnectionsList | undefined;
   /** The Event Hub-compatible endpoint properties. The only possible keys to this dictionary is events. This key has to be present in the dictionary while making create or update calls for the IoT hub. */
-  eventHubEndpoints?: IotHubPropertiesInputEventHubEndpointsMap;
-  routing?: RoutingPropertiesInput;
+  eventHubEndpoints?: IotHubPropertiesInputEventHubEndpointsMap | undefined;
+  /** The routing related properties of the IoT hub. See: https://docs.microsoft.com/azure/iot-hub/iot-hub-devguide-messaging */
+  routing?: RoutingPropertiesInput | undefined;
   /** The list of Azure Storage endpoints where you can upload files. Currently you can configure only one Azure Storage account and that MUST have its key as $default. Specifying more than one storage account causes an error to be thrown. Not specifying a value for this property when the enableFileUploadNotifications property is set to True, causes an error to be thrown. */
-  storageEndpoints?: IotHubPropertiesInputStorageEndpointsMap;
+  storageEndpoints?: IotHubPropertiesInputStorageEndpointsMap | undefined;
   /** The messaging endpoint properties for the file upload notification queue. */
-  messagingEndpoints?: IotHubPropertiesInputMessagingEndpointsMap;
+  messagingEndpoints?: IotHubPropertiesInputMessagingEndpointsMap | undefined;
   /** If True, file upload notifications are enabled. */
-  enableFileUploadNotifications?: boolean;
-  cloudToDevice?: CloudToDeviceProperties;
+  enableFileUploadNotifications?: boolean | undefined;
+  /** The IoT hub cloud-to-device messaging properties. */
+  cloudToDevice?: CloudToDeviceProperties | undefined;
   /** IoT hub comments. */
-  comments?: string;
+  comments?: string | undefined;
   /** The capabilities and features enabled for the IoT hub. */
-  features?: IotHubPropertiesInputFeatures | (string & {});
+  features?: Capabilities | (string & {}) | undefined;
   /** This property when set to true, will enable data residency, thus, disabling disaster recovery. */
-  enableDataResidency?: boolean;
+  enableDataResidency?: boolean | undefined;
 }
-/** The name of the SKU. */
-export type IotHubSkuInfoInputName = "F1" | "S1" | "S2" | "S3" | "B1" | "B2" | "B3";
-/** Information about the SKU of the IoT hub. */
-export interface IotHubSkuInfoInput {
-  /** The name of the SKU. */
-  name: IotHubSkuInfoInputName | (string & {});
-  /** The number of provisioned IoT Hub units. See: https://docs.microsoft.com/azure/azure-subscription-service-limits#iot-hub-limits. */
-  capacity?: number;
-}
-/** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
-export type ArmIdentityInputType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned"
-  | "None";
 export type ArmUserIdentityInput = PrivateEndpointInput;
+/** Dictionary of <ArmUserIdentity> */
 export type ArmIdentityInputUserAssignedIdentitiesMap = {
   [key: string]: PrivateEndpointInput | undefined;
 };
 export interface ArmIdentityInput {
-  /** The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
-  type?: ArmIdentityInputType | (string & {});
-  userAssignedIdentities?: ArmIdentityInputUserAssignedIdentitiesMap;
+  /** The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the service. */
+  type?: ResourceIdentityType | (string & {}) | undefined;
+  /** Dictionary of <ArmUserIdentity> */
+  userAssignedIdentities?: ArmIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface IotHubResourceCreateOrUpdateRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
-  /** The resource location. */
+  /** Resource tags. */
+  tags?: IotHubResourceCreateOrUpdateRequestTagsMap | undefined;
+  /** The geo-location where the resource lives */
   location: string;
-  /** The resource tags. */
-  tags?: IotHubResourceCreateOrUpdateRequestTagsMap;
-  /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
   /** IotHub properties */
-  properties?: IotHubPropertiesInput;
-  /** IotHub SKU info */
-  sku: IotHubSkuInfoInput;
-  /** The managed identities for the IotHub. */
-  identity?: ArmIdentityInput;
-  /** ETag of the IoT hub. Do not specify for creating a brand new IoT hub. Required to update an existing IoT hub. */
-  ifMatch?: string;
-}
-/** The resource tags. */
-export type IotHubResourceCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
-export interface IotHubResourceCreateOrUpdateResponse {
-  /** The resource identifier. */
-  id?: string;
-  /** The resource name. */
-  name?: string;
-  /** The resource type. */
-  type?: string;
-  /** The resource location. */
-  location: string;
-  /** The resource tags. */
-  tags?: IotHubResourceCreateOrUpdateResponseTagsMap;
+  properties?: IotHubPropertiesInput | undefined;
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
-  /** IotHub properties */
-  properties?: IotHubProperties;
+  etag?: string | undefined;
   /** IotHub SKU info */
   sku: IotHubSkuInfo;
   /** The managed identities for the IotHub. */
-  identity?: ArmIdentity;
-  /** The system meta data relating to this resource. */
-  systemData?: SystemData;
+  identity?: ArmIdentityInput | undefined;
+  /** ETag of the IoT hub. Do not specify for creating a brand new IoT hub. Required to update an existing IoT hub. */
+  ifMatch?: string | undefined;
+}
+/** Resource tags. */
+export type IotHubResourceCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
+export interface IotHubResourceCreateOrUpdateResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: IotHubResourceCreateOrUpdateResponseTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** IotHub properties */
+  properties?: IotHubProperties | undefined;
+  /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
+  etag?: string | undefined;
+  /** IotHub SKU info */
+  sku: IotHubSkuInfo;
+  /** The managed identities for the IotHub. */
+  identity?: ArmIdentity | undefined;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
 }
 export interface ListCertificateByIotHubRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
+}
+/** The X509 Certificate. */
+export interface CertificateDescription {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The description of an X509 CA Certificate. */
+  properties?: CertificateProperties | undefined;
+  /** The entity tag. */
+  etag?: string | undefined;
 }
 /** The array of Certificate objects. */
 export type CertificateListDescriptionValueList = Array<CertificateDescription>;
 /** The JSON-serialized array of Certificate objects. */
 export interface CertificateListDescription {
   /** The array of Certificate objects. */
-  value?: CertificateListDescriptionValueList;
+  value?: CertificateListDescriptionValueList | undefined;
 }
 export interface ListIotHubResourceByResourceGroupRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
 }
-/** The resource tags. */
+/** Resource tags. */
 export type IotHubDescriptionTagsMap = { [key: string]: string | undefined };
 /** The description of the IoT hub. */
 export interface IotHubDescription {
-  /** The resource identifier. */
-  id?: string;
-  /** The resource name. */
-  name?: string;
-  /** The resource type. */
-  type?: string;
-  /** The resource location. */
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: IotHubDescriptionTagsMap | undefined;
+  /** The geo-location where the resource lives */
   location: string;
-  /** The resource tags. */
-  tags?: IotHubDescriptionTagsMap;
-  /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
   /** IotHub properties */
-  properties?: IotHubProperties;
+  properties?: IotHubProperties | undefined;
+  /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
+  etag?: string | undefined;
   /** IotHub SKU info */
   sku: IotHubSkuInfo;
   /** The managed identities for the IotHub. */
-  identity?: ArmIdentity;
-  /** The system meta data relating to this resource. */
-  systemData?: SystemData;
+  identity?: ArmIdentity | undefined;
 }
-/** The array of IotHubDescription objects. */
+/** The IotHubDescription items on this page */
 export type IotHubDescriptionListResultValueList = Array<IotHubDescription>;
-/** The JSON-serialized array of IotHubDescription objects with a next link. */
+/** The response of a IotHubDescription list operation. */
 export interface IotHubDescriptionListResult {
-  /** The array of IotHubDescription objects. */
-  value?: IotHubDescriptionListResultValueList;
-  /** The next link. */
-  nextLink?: string;
+  /** The IotHubDescription items on this page */
+  value: IotHubDescriptionListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
 }
 export interface ListIotHubResourceBySubscriptionRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
 }
 export interface ListIotHubResourceEventHubConsumerGroupsRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
-  /** The name of the Event Hub-compatible endpoint. */
+  /** The name of the EventHubEndpoint */
   eventHubEndpointName: string;
 }
-/** List of consumer groups objects */
+/** The tags. */
+export type EventHubConsumerGroupInfoPropertiesMap = { [key: string]: unknown | undefined };
+/** The properties of the EventHubConsumerGroupInfo object. */
+export interface EventHubConsumerGroupInfo {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The tags. */
+  properties?: EventHubConsumerGroupInfoPropertiesMap | undefined;
+  /** The etag. */
+  etag?: string | undefined;
+}
+/** The EventHubConsumerGroupInfo items on this page */
 export type EventHubConsumerGroupsListResultValueList = Array<EventHubConsumerGroupInfo>;
-/** The JSON-serialized array of Event Hub-compatible consumer group names with a next link. */
+/** The JSON-serialized list of consumer groups for the Event Hub-compatible endpoint. */
 export interface EventHubConsumerGroupsListResult {
-  /** List of consumer groups objects */
-  value?: EventHubConsumerGroupsListResultValueList;
-  /** The next link. */
-  nextLink?: string;
+  /** The EventHubConsumerGroupInfo items on this page */
+  value: EventHubConsumerGroupsListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
 }
 export interface ListIotHubResourceJobsRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
 }
-/** The array of JobResponse objects. */
+/** The JobResponse items on this page */
 export type JobResponseListResultValueList = Array<JobResponse>;
 /** The JSON-serialized array of JobResponse objects with a next link. */
 export interface JobResponseListResult {
-  /** The array of JobResponse objects. */
-  value?: JobResponseListResultValueList;
-  /** The next link. */
-  nextLink?: string;
+  /** The JobResponse items on this page */
+  value: JobResponseListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
 }
 export interface ListIotHubResourceKeysRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
 }
-/** The list of shared access policies. */
+/** The SharedAccessSignatureAuthorizationRule items on this page */
 export type SharedAccessSignatureAuthorizationRuleListResultValueList =
   Array<SharedAccessSignatureAuthorizationRule>;
 /** The list of shared access policies with a next link. */
 export interface SharedAccessSignatureAuthorizationRuleListResult {
-  /** The list of shared access policies. */
-  value?: SharedAccessSignatureAuthorizationRuleListResultValueList;
-  /** The next link. */
-  nextLink?: string;
+  /** The SharedAccessSignatureAuthorizationRule items on this page */
+  value: SharedAccessSignatureAuthorizationRuleListResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft Devices */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource Type: IotHubs */
-  resource?: string;
+  resource?: string | undefined;
   /** Name of the operation */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** IoT Hub REST API operation */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{read | write | action | delete} */
-  name?: string;
+  name?: string | undefined;
   /** The object that represents the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** List of IoT Hub operations supported by the Microsoft.Devices resource provider. */
 export type OperationListResultValueList = Array<Operation>;
 /** Result of the request to list IoT Hub operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of IoT Hub operations supported by the Microsoft.Devices resource provider. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the IoT hub. */
+  /** The name of the IoT Hub */
   resourceName: string;
 }
-/** The list of private endpoint connections for an IotHub */
-export type PrivateEndpointConnectionsList = Array<PrivateEndpointConnection>;
-export type ListPrivateEndpointConnectionsResponse = PrivateEndpointConnectionsList;
+export type ListPrivateEndpointConnectionsResponseBodyList = Array<PrivateEndpointConnection>;
+export type ListPrivateEndpointConnectionsResponse = ListPrivateEndpointConnectionsResponseBodyList;
 export interface ListPrivateLinkResourcesRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** The name of the IoT hub. */
+  /** The name of the IoT Hub */
   resourceName: string;
 }
 /** The list of available private link resources for an IotHub */
@@ -1539,16 +1724,8 @@ export type PrivateLinkResourcesValueList = Array<GroupIdInformation>;
 /** The available private link resources for an IotHub */
 export interface PrivateLinkResources {
   /** The list of available private link resources for an IotHub */
-  value?: PrivateLinkResourcesValueList;
+  value?: PrivateLinkResourcesValueList | undefined;
 }
-/** Routing source */
-export type TestIotHubResourceAllRoutesRequestRoutingSource =
-  | "Invalid"
-  | "DeviceMessages"
-  | "TwinChangeEvents"
-  | "DeviceLifecycleEvents"
-  | "DeviceJobLifecycleEvents"
-  | "DeviceConnectionStateEvents";
 /** App properties */
 export type RoutingMessageAppPropertiesMap = { [key: string]: string | undefined };
 /** System properties */
@@ -1556,174 +1733,215 @@ export type RoutingMessageSystemPropertiesMap = { [key: string]: string | undefi
 /** Routing message */
 export interface RoutingMessage {
   /** Body of routing message */
-  body?: string;
+  body?: string | undefined;
   /** App properties */
-  appProperties?: RoutingMessageAppPropertiesMap;
+  appProperties?: RoutingMessageAppPropertiesMap | undefined;
   /** System properties */
-  systemProperties?: RoutingMessageSystemPropertiesMap;
+  systemProperties?: RoutingMessageSystemPropertiesMap | undefined;
 }
+/** Twin Tags */
+export type RoutingTwinTagsMap = { [key: string]: unknown | undefined };
+/** Twin desired properties */
+export type RoutingTwinPropertiesDesiredMap = { [key: string]: unknown | undefined };
+/** Twin reported properties */
+export type RoutingTwinPropertiesReportedMap = { [key: string]: unknown | undefined };
 export interface RoutingTwinProperties {
   /** Twin desired properties */
-  desired?: unknown;
-  /** Twin desired properties */
-  reported?: unknown;
+  desired?: RoutingTwinPropertiesDesiredMap | undefined;
+  /** Twin reported properties */
+  reported?: RoutingTwinPropertiesReportedMap | undefined;
 }
 /** Twin reference input parameter. This is an optional parameter */
 export interface RoutingTwin {
   /** Twin Tags */
-  tags?: unknown;
-  properties?: RoutingTwinProperties;
+  tags?: RoutingTwinTagsMap | undefined;
+  properties?: RoutingTwinProperties | undefined;
 }
 export interface TestIotHubResourceAllRoutesRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** resource group which Iot Hub belongs to */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** IotHub to be tested */
   iotHubName: string;
   /** Routing source */
-  routingSource?: TestIotHubResourceAllRoutesRequestRoutingSource | (string & {});
+  routingSource?: RoutingSource | (string & {}) | undefined;
   /** Routing message */
-  message?: RoutingMessage;
+  message?: RoutingMessage | undefined;
   /** Routing Twin Reference */
-  twin?: RoutingTwin;
+  twin?: RoutingTwin | undefined;
 }
 /** Routes that matched */
 export interface MatchedRoute {
   /** Properties of routes that matched */
-  properties?: RouteProperties;
+  properties?: RouteProperties | undefined;
 }
 /** JSON-serialized array of matched routes */
 export type TestAllRoutesResultRoutesList = Array<MatchedRoute>;
 /** Result of testing all routes */
 export interface TestAllRoutesResult {
   /** JSON-serialized array of matched routes */
-  routes?: TestAllRoutesResultRoutesList;
+  routes?: TestAllRoutesResultRoutesList | undefined;
 }
 export interface TestIotHubResourceRouteRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** resource group which Iot Hub belongs to */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
-  /** IotHub to be tested */
   iotHubName: string;
   /** Routing message */
-  message?: RoutingMessage;
+  message?: RoutingMessage | undefined;
   /** Route properties */
   route: RouteProperties;
   /** Routing Twin Reference */
-  twin?: RoutingTwin;
+  twin?: RoutingTwin | undefined;
 }
 /** Result of testing route */
-export type TestRouteResultResult = "undefined" | "false" | "true";
+export type TestResultStatus = "undefined" | "false" | "true";
 /** Severity of the route error */
-export type RouteCompilationErrorSeverity = "error" | "warning";
+export type RouteErrorSeverity = "error" | "warning";
 /** Position where the route error happened */
 export interface RouteErrorPosition {
   /** Line where the route error happened */
-  line?: number;
+  line?: number | undefined;
   /** Column where the route error happened */
-  column?: number;
+  column?: number | undefined;
 }
 /** Range of route errors */
 export interface RouteErrorRange {
   /** Start where the route error happened */
-  start?: RouteErrorPosition;
+  start?: RouteErrorPosition | undefined;
   /** End where the route error happened */
-  end?: RouteErrorPosition;
+  end?: RouteErrorPosition | undefined;
 }
 /** Compilation error when evaluating route */
 export interface RouteCompilationError {
   /** Route error message */
-  message?: string;
+  message?: string | undefined;
   /** Severity of the route error */
-  severity?: RouteCompilationErrorSeverity;
+  severity?: RouteErrorSeverity | undefined;
   /** Location where the route error happened */
-  location?: RouteErrorRange;
+  location?: RouteErrorRange | undefined;
 }
 /** JSON-serialized list of route compilation errors */
 export type TestRouteResultDetailsCompilationErrorsList = Array<RouteCompilationError>;
 /** Detailed result of testing a route */
 export interface TestRouteResultDetails {
   /** JSON-serialized list of route compilation errors */
-  compilationErrors?: TestRouteResultDetailsCompilationErrorsList;
+  compilationErrors?: TestRouteResultDetailsCompilationErrorsList | undefined;
 }
 /** Result of testing one route */
 export interface TestRouteResult {
   /** Result of testing route */
-  result?: TestRouteResultResult;
+  result?: TestResultStatus | undefined;
   /** Detailed result of testing route */
-  details?: TestRouteResultDetails;
+  details?: TestRouteResultDetails | undefined;
 }
 /** Resource tags */
 export type UpdateIotHubResourceRequestTagsMap = { [key: string]: string | undefined };
 export interface UpdateIotHubResourceRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** Resource group identifier. */
-  resourceGroupName: string;
-  /** Name of iot hub to update. */
-  resourceName: string;
-  /** Resource tags */
-  tags?: UpdateIotHubResourceRequestTagsMap;
-}
-/** The resource tags. */
-export type UpdateIotHubResourceResponseTagsMap = { [key: string]: string | undefined };
-export interface UpdateIotHubResourceResponse {
-  /** The resource identifier. */
-  id?: string;
-  /** The resource name. */
-  name?: string;
-  /** The resource type. */
-  type?: string;
-  /** The resource location. */
-  location: string;
-  /** The resource tags. */
-  tags?: UpdateIotHubResourceResponseTagsMap;
-  /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
-  /** IotHub properties */
-  properties?: IotHubProperties;
-  /** IotHub SKU info */
-  sku: IotHubSkuInfo;
-  /** The managed identities for the IotHub. */
-  identity?: ArmIdentity;
-  /** The system meta data relating to this resource. */
-  systemData?: SystemData;
-}
-export interface UpdatePrivateEndpointConnectionRequest {
-  /** The subscription identifier. */
-  subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
+  /** Resource tags */
+  tags?: UpdateIotHubResourceRequestTagsMap | undefined;
+}
+/** Resource tags. */
+export type UpdateIotHubResourceResponseTagsMap = { [key: string]: string | undefined };
+export interface UpdateIotHubResourceResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** Resource tags. */
+  tags?: UpdateIotHubResourceResponseTagsMap | undefined;
+  /** The geo-location where the resource lives */
+  location: string;
+  /** IotHub properties */
+  properties?: IotHubProperties | undefined;
+  /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
+  etag?: string | undefined;
+  /** IotHub SKU info */
+  sku: IotHubSkuInfo;
+  /** The managed identities for the IotHub. */
+  identity?: ArmIdentity | undefined;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  locationHeader?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
+export interface UpdatePrivateEndpointConnectionRequest {
+  /** The ID of the target subscription. The value must be an UUID. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** The name of the IoT Hub */
+  resourceName: string;
   /** The name of the private endpoint connection */
   privateEndpointConnectionName: string;
+  /** The properties of a private endpoint connection */
   properties: PrivateEndpointConnectionPropertiesInput;
 }
+export interface UpdatePrivateEndpointConnectionResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The properties of a private endpoint connection */
+  properties: PrivateEndpointConnectionProperties;
+  /** A link to the status monitor */
+  azureAsyncOperation?: string | undefined;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number | undefined;
+}
 export interface VerifyCertificateRequest {
-  /** The subscription identifier. */
+  /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
-  /** The name of the resource group that contains the IoT hub. */
+  /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The name of the IoT hub. */
   resourceName: string;
   /** The name of the certificate */
   certificateName: string;
   /** base-64 representation of X509 certificate .cer file or just .pem file content. */
-  certificate?: string;
+  certificate?: string | undefined;
+}
+export interface VerifyCertificateResponse {
+  /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** The description of an X509 CA Certificate. */
+  properties?: CertificateProperties | undefined;
+  /** The entity tag. */
+  etag?: string | undefined;
 }
 export type CertificatesCreateOrUpdateError = AzureOpError;
 /** Upload the certificate to the IoT hub. Adds new or replaces existing certificate. */
 export const CertificatesCreateOrUpdate: API.OperationMethod<
   CertificatesCreateOrUpdateRequest,
-  CertificateDescription,
+  CertificatesCreateOrUpdateResponse,
   CertificatesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<CertificatesCreateOrUpdateRequest>,
-  output: __S(33, __c1, 1) as any as S.Schema<CertificateDescription>,
+  output: __S(65, __c2, 1) as any as S.Schema<CertificatesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1739,8 +1957,8 @@ export const CheckIotHubResourceNameAvailability: API.OperationMethod<
   CheckIotHubResourceNameAvailabilityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<CheckIotHubResourceNameAvailabilityRequest>,
-  output: __S(65, __c2, 1) as any as S.Schema<IotHubNameAvailabilityInfo>,
+  input: __S(96, __c3, 0) as any as S.Schema<CheckIotHubResourceNameAvailabilityRequest>,
+  output: __S(97, __c3, 1) as any as S.Schema<IotHubNameAvailabilityInfo>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1752,12 +1970,12 @@ export type CreateIotHubResourceEventHubConsumerGroupError = AzureOpError;
 /** Add a consumer group to an Event Hub-compatible endpoint in an IoT hub Add a consumer group to an Event Hub-compatible endpoint in an IoT hub. */
 export const CreateIotHubResourceEventHubConsumerGroup: API.OperationMethod<
   CreateIotHubResourceEventHubConsumerGroupRequest,
-  EventHubConsumerGroupInfo,
+  CreateIotHubResourceEventHubConsumerGroupResponse,
   CreateIotHubResourceEventHubConsumerGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(481, __c15, 1) as any as S.Schema<CreateIotHubResourceEventHubConsumerGroupRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<EventHubConsumerGroupInfo>,
+  input: __S(513, __c16, 1) as any as S.Schema<CreateIotHubResourceEventHubConsumerGroupRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<CreateIotHubResourceEventHubConsumerGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1773,8 +1991,8 @@ export const DeleteCertificate: API.OperationMethod<
   DeleteCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<DeleteCertificateRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<DeleteCertificateResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<DeleteCertificateRequest>,
+  output: __S(1024, __c32, 0) as any as S.Schema<DeleteCertificateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1790,8 +2008,8 @@ export const DeleteIotHubResource: API.OperationMethod<
   DeleteIotHubResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<DeleteIotHubResourceRequest>,
-  output: __S(1281, __c40, 1) as any as S.Schema<DeleteIotHubResourceResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<DeleteIotHubResourceRequest>,
+  output: __S(1664, __c52, 0) as any as S.Schema<DeleteIotHubResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1807,8 +2025,8 @@ export const DeleteIotHubResourceEventHubConsumerGroup: API.OperationMethod<
   DeleteIotHubResourceEventHubConsumerGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<DeleteIotHubResourceEventHubConsumerGroupRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<DeleteIotHubResourceEventHubConsumerGroupResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<DeleteIotHubResourceEventHubConsumerGroupRequest>,
+  output: __S(1024, __c32, 0) as any as S.Schema<DeleteIotHubResourceEventHubConsumerGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1824,8 +2042,8 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   DeletePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
-  output: __S(1665, __c52, 1) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
+  output: __S(1793, __c56, 1) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1841,8 +2059,8 @@ export const ExportIotHubResourceDevices: API.OperationMethod<
   ExportIotHubResourceDevicesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<ExportIotHubResourceDevicesRequest>,
-  output: __S(1728, __c54, 0) as any as S.Schema<JobResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<ExportIotHubResourceDevicesRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<JobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1858,8 +2076,8 @@ export const GenerateCertificateVerificationCode: API.OperationMethod<
   GenerateCertificateVerificationCodeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<GenerateCertificateVerificationCodeRequest>,
-  output: __S(1762, __c55, 2) as any as S.Schema<CertificateWithNonceDescription>,
+  input: __S(1888, __c59, 0) as any as S.Schema<GenerateCertificateVerificationCodeRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<CertificateWithNonceDescription>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1871,12 +2089,12 @@ export type GetCertificateError = AzureOpError;
 /** Get the certificate. Returns the certificate. */
 export const GetCertificate: API.OperationMethod<
   GetCertificateRequest,
-  CertificateDescription,
+  GetCertificateResponse,
   GetCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<GetCertificateRequest>,
-  output: __S(33, __c1, 1) as any as S.Schema<CertificateDescription>,
+  input: __S(1920, __c60, 0) as any as S.Schema<GetCertificateRequest>,
+  output: __S(65, __c2, 1) as any as S.Schema<GetCertificateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1892,8 +2110,8 @@ export const GetIotHubResource: API.OperationMethod<
   GetIotHubResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<GetIotHubResourceRequest>,
-  output: __S(128, __c4, 0) as any as S.Schema<GetIotHubResourceResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<GetIotHubResourceRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<GetIotHubResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1909,8 +2127,8 @@ export const GetIotHubResourceEndpointHealth: API.OperationMethod<
   GetIotHubResourceEndpointHealthError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<GetIotHubResourceEndpointHealthRequest>,
-  output: __S(163, __c5, 3) as any as S.Schema<EndpointHealthDataListResult>,
+  input: __S(192, __c6, 0) as any as S.Schema<GetIotHubResourceEndpointHealthRequest>,
+  output: __S(195, __c6, 3) as any as S.Schema<EndpointHealthDataListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1922,12 +2140,12 @@ export type GetIotHubResourceEventHubConsumerGroupError = AzureOpError;
 /** Get a consumer group from the Event Hub-compatible device-to-cloud endpoint for an IoT hub Get a consumer group from the Event Hub-compatible device-to-cloud endpoint for an IoT hub. */
 export const GetIotHubResourceEventHubConsumerGroup: API.OperationMethod<
   GetIotHubResourceEventHubConsumerGroupRequest,
-  EventHubConsumerGroupInfo,
+  GetIotHubResourceEventHubConsumerGroupResponse,
   GetIotHubResourceEventHubConsumerGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<GetIotHubResourceEventHubConsumerGroupRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<EventHubConsumerGroupInfo>,
+  input: __S(224, __c7, 0) as any as S.Schema<GetIotHubResourceEventHubConsumerGroupRequest>,
+  output: __S(544, __c17, 0) as any as S.Schema<GetIotHubResourceEventHubConsumerGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1943,8 +2161,8 @@ export const GetIotHubResourceJob: API.OperationMethod<
   GetIotHubResourceJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<GetIotHubResourceJobRequest>,
-  output: __S(1728, __c54, 0) as any as S.Schema<JobResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<GetIotHubResourceJobRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<JobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1960,8 +2178,8 @@ export const GetIotHubResourceKeysForKeyName: API.OperationMethod<
   GetIotHubResourceKeysForKeyNameError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<GetIotHubResourceKeysForKeyNameRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<SharedAccessSignatureAuthorizationRule>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetIotHubResourceKeysForKeyNameRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<SharedAccessSignatureAuthorizationRule>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1977,8 +2195,8 @@ export const GetIotHubResourceQuotaMetrics: API.OperationMethod<
   GetIotHubResourceQuotaMetricsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<GetIotHubResourceQuotaMetricsRequest>,
-  output: __S(291, __c9, 3) as any as S.Schema<IotHubQuotaMetricInfoListResult>,
+  input: __S(320, __c10, 0) as any as S.Schema<GetIotHubResourceQuotaMetricsRequest>,
+  output: __S(323, __c10, 3) as any as S.Schema<IotHubQuotaMetricInfoListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1994,8 +2212,8 @@ export const GetIotHubResourceStats: API.OperationMethod<
   GetIotHubResourceStatsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<GetIotHubResourceStatsRequest>,
-  output: __S(321, __c10, 1) as any as S.Schema<RegistryStatistics>,
+  input: __S(352, __c11, 0) as any as S.Schema<GetIotHubResourceStatsRequest>,
+  output: __S(353, __c11, 1) as any as S.Schema<RegistryStatistics>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2011,8 +2229,8 @@ export const GetIotHubResourceValidSkus: API.OperationMethod<
   GetIotHubResourceValidSkusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetIotHubResourceValidSkusRequest>,
-  output: __S(356, __c11, 4) as any as S.Schema<IotHubSkuDescriptionListResult>,
+  input: __S(384, __c12, 0) as any as S.Schema<GetIotHubResourceValidSkusRequest>,
+  output: __S(388, __c12, 4) as any as S.Schema<IotHubSkuDescriptionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2024,12 +2242,12 @@ export type GetPrivateEndpointConnectionError = AzureOpError;
 /** Get private endpoint connection Get private endpoint connection properties */
 export const GetPrivateEndpointConnection: API.OperationMethod<
   GetPrivateEndpointConnectionRequest,
-  PrivateEndpointConnection,
+  GetPrivateEndpointConnectionResponse,
   GetPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
-  output: __S(1376, __c43, 0) as any as S.Schema<PrivateEndpointConnection>,
+  input: __S(416, __c13, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
+  output: __S(1440, __c45, 0) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2045,8 +2263,8 @@ export const GetPrivateLinkResource: API.OperationMethod<
   GetPrivateLinkResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
-  output: __S(449, __c14, 1) as any as S.Schema<GroupIdInformation>,
+  input: __S(448, __c14, 0) as any as S.Schema<GetPrivateLinkResourceRequest>,
+  output: __S(481, __c15, 1) as any as S.Schema<GroupIdInformation>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2062,8 +2280,8 @@ export const GetResourceProviderCommonSubscriptionQuota: API.OperationMethod<
   GetResourceProviderCommonSubscriptionQuotaError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetResourceProviderCommonSubscriptionQuotaRequest>,
-  output: __S(548, __c17, 4) as any as S.Schema<UserSubscriptionQuotaListResult>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetResourceProviderCommonSubscriptionQuotaRequest>,
+  output: __S(612, __c19, 4) as any as S.Schema<UserSubscriptionQuotaListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2079,8 +2297,8 @@ export const ImportIotHubResourceDevices: API.OperationMethod<
   ImportIotHubResourceDevicesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<ImportIotHubResourceDevicesRequest>,
-  output: __S(1728, __c54, 0) as any as S.Schema<JobResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<ImportIotHubResourceDevicesRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<JobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2096,8 +2314,8 @@ export const IotHubManualFailover: API.OperationMethod<
   IotHubManualFailoverError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<IotHubManualFailoverRequest>,
-  output: __S(609, __c19, 1) as any as S.Schema<IotHubManualFailoverResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<IotHubManualFailoverRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<IotHubManualFailoverResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2106,15 +2324,15 @@ export const IotHubManualFailover: API.OperationMethod<
 }));
 
 export type IotHubResourceCreateOrUpdateError = AzureOpError;
-/** Create or update the metadata of an IoT hub. Create or update the metadata of an Iot hub. The usual pattern to modify a property is to retrieve the IoT hub metadata and security metadata, and then combine them with the modified values in a new body to update the IoT hub. If certain properties are missing in the JSON, updating IoT Hub may cause these values to fallback to default, which may lead to unexpected behavior. */
+/** Create or update the metadata of an IoT hub. Create or update the metadata of an Iot hub. The usual pattern to modify a property is to retrieve the IoT hub metadata and security metadata, and then combine them with the modified values in a new body to update the IoT hub. */
 export const IotHubResourceCreateOrUpdate: API.OperationMethod<
   IotHubResourceCreateOrUpdateRequest,
   IotHubResourceCreateOrUpdateResponse,
   IotHubResourceCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(652, __c20, 12) as any as S.Schema<IotHubResourceCreateOrUpdateRequest>,
-  output: __S(128, __c4, 0) as any as S.Schema<IotHubResourceCreateOrUpdateResponse>,
+  input: __S(717, __c22, 13) as any as S.Schema<IotHubResourceCreateOrUpdateRequest>,
+  output: __S(718, __c22, 14) as any as S.Schema<IotHubResourceCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2130,8 +2348,8 @@ export const ListCertificateByIotHub: API.OperationMethod<
   ListCertificateByIotHubError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<ListCertificateByIotHubRequest>,
-  output: __S(706, __c22, 2) as any as S.Schema<CertificateListDescription>,
+  input: __S(768, __c24, 0) as any as S.Schema<ListCertificateByIotHubRequest>,
+  output: __S(770, __c24, 2) as any as S.Schema<CertificateListDescription>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2147,8 +2365,8 @@ export const ListIotHubResourceByResourceGroup: API.OperationMethod<
   ListIotHubResourceByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<ListIotHubResourceByResourceGroupRequest>,
-  output: __S(769, __c24, 1) as any as S.Schema<IotHubDescriptionListResult>,
+  input: __S(800, __c25, 0) as any as S.Schema<ListIotHubResourceByResourceGroupRequest>,
+  output: __S(833, __c26, 1) as any as S.Schema<IotHubDescriptionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2164,8 +2382,8 @@ export const ListIotHubResourceBySubscription: API.OperationMethod<
   ListIotHubResourceBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<ListIotHubResourceBySubscriptionRequest>,
-  output: __S(769, __c24, 1) as any as S.Schema<IotHubDescriptionListResult>,
+  input: __S(864, __c27, 0) as any as S.Schema<ListIotHubResourceBySubscriptionRequest>,
+  output: __S(833, __c26, 1) as any as S.Schema<IotHubDescriptionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2181,8 +2399,8 @@ export const ListIotHubResourceEventHubConsumerGroups: API.OperationMethod<
   ListIotHubResourceEventHubConsumerGroupsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<ListIotHubResourceEventHubConsumerGroupsRequest>,
-  output: __S(834, __c26, 2) as any as S.Schema<EventHubConsumerGroupsListResult>,
+  input: __S(896, __c28, 0) as any as S.Schema<ListIotHubResourceEventHubConsumerGroupsRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<EventHubConsumerGroupsListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2198,8 +2416,8 @@ export const ListIotHubResourceJobs: API.OperationMethod<
   ListIotHubResourceJobsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<ListIotHubResourceJobsRequest>,
-  output: __S(866, __c27, 2) as any as S.Schema<JobResponseListResult>,
+  input: __S(928, __c29, 0) as any as S.Schema<ListIotHubResourceJobsRequest>,
+  output: __S(930, __c29, 2) as any as S.Schema<JobResponseListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2215,8 +2433,8 @@ export const ListIotHubResourceKeys: API.OperationMethod<
   ListIotHubResourceKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<ListIotHubResourceKeysRequest>,
-  output: __S(897, __c28, 1) as any as S.Schema<SharedAccessSignatureAuthorizationRuleListResult>,
+  input: __S(960, __c30, 0) as any as S.Schema<ListIotHubResourceKeysRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<SharedAccessSignatureAuthorizationRuleListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2225,15 +2443,15 @@ export const ListIotHubResourceKeys: API.OperationMethod<
 }));
 
 export type ListOperationsError = AzureOpError;
-/** Lists all of the available IoT Hub REST API operations. */
+/** List the operations for the provider */
 export const ListOperations: API.OperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(996, __c31, 4) as any as S.Schema<OperationListResult>,
+  input: __S(1056, __c33, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(1060, __c33, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2249,8 +2467,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   ListPrivateEndpointConnectionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
-  output: __S(1025, __c32, 1) as any as S.Schema<ListPrivateEndpointConnectionsResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
+  output: __S(1089, __c34, 1) as any as S.Schema<ListPrivateEndpointConnectionsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2266,8 +2484,8 @@ export const ListPrivateLinkResources: API.OperationMethod<
   ListPrivateLinkResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
-  output: __S(1058, __c33, 2) as any as S.Schema<PrivateLinkResources>,
+  input: __S(1120, __c35, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
+  output: __S(1122, __c35, 2) as any as S.Schema<PrivateLinkResources>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2283,8 +2501,8 @@ export const TestIotHubResourceAllRoutes: API.OperationMethod<
   TestIotHubResourceAllRoutesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<TestIotHubResourceAllRoutesRequest>,
-  output: __S(1091, __c34, 3) as any as S.Schema<TestAllRoutesResult>,
+  input: __S(1152, __c36, 0) as any as S.Schema<TestIotHubResourceAllRoutesRequest>,
+  output: __S(1155, __c36, 3) as any as S.Schema<TestAllRoutesResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2300,8 +2518,8 @@ export const TestIotHubResourceRoute: API.OperationMethod<
   TestIotHubResourceRouteError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<TestIotHubResourceRouteRequest>,
-  output: __S(1158, __c36, 6) as any as S.Schema<TestRouteResult>,
+  input: __S(1216, __c38, 0) as any as S.Schema<TestIotHubResourceRouteRequest>,
+  output: __S(1222, __c38, 6) as any as S.Schema<TestRouteResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2317,8 +2535,8 @@ export const UpdateIotHubResource: API.OperationMethod<
   UpdateIotHubResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<UpdateIotHubResourceRequest>,
-  output: __S(128, __c4, 0) as any as S.Schema<UpdateIotHubResourceResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<UpdateIotHubResourceRequest>,
+  output: __S(1664, __c52, 0) as any as S.Schema<UpdateIotHubResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2330,12 +2548,12 @@ export type UpdatePrivateEndpointConnectionError = AzureOpError;
 /** Update private endpoint connection Update the status of a private endpoint connection with the specified name */
 export const UpdatePrivateEndpointConnection: API.OperationMethod<
   UpdatePrivateEndpointConnectionRequest,
-  PrivateEndpointConnection,
+  UpdatePrivateEndpointConnectionResponse,
   UpdatePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<UpdatePrivateEndpointConnectionRequest>,
-  output: __S(1376, __c43, 0) as any as S.Schema<PrivateEndpointConnection>,
+  input: __S(1280, __c40, 0) as any as S.Schema<UpdatePrivateEndpointConnectionRequest>,
+  output: __S(1281, __c40, 1) as any as S.Schema<UpdatePrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2347,12 +2565,12 @@ export type VerifyCertificateError = AzureOpError;
 /** Verify certificate's private key possession. Verifies the certificate's private key possession by providing the leaf cert issued by the verifying pre uploaded certificate. */
 export const VerifyCertificate: API.OperationMethod<
   VerifyCertificateRequest,
-  CertificateDescription,
+  VerifyCertificateResponse,
   VerifyCertificateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<VerifyCertificateRequest>,
-  output: __S(33, __c1, 1) as any as S.Schema<CertificateDescription>,
+  input: __S(1312, __c41, 0) as any as S.Schema<VerifyCertificateRequest>,
+  output: __S(65, __c2, 1) as any as S.Schema<VerifyCertificateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -2368,6 +2586,7 @@ function __c0(j: number): any {
         S.Struct({
           isVerified: S.optional(S.Boolean),
           certificate: S.optional(S.String),
+          certificateAuthorityResourceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CertificatePropertiesInput" });
     case 1:
@@ -2384,13 +2603,28 @@ function __c0(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/certificates/{certificateName}",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CertificatesCreateOrUpdateRequest" });
   }
 }
 function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createdBy: S.optional(S.String),
+          createdByType: S.optional(S.String),
+          createdAt: S.optional(S.String),
+          lastModifiedBy: S.optional(S.String),
+          lastModifiedByType: S.optional(S.String),
+          lastModifiedAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SystemData" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2402,21 +2636,23 @@ function __c1(j: number): any {
           created: S.optional(S.String),
           updated: S.optional(S.String),
           certificate: S.optional(S.String),
+          certificateAuthorityResourceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CertificateProperties" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(32, __c1, 0)),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          etag: S.optional(S.String),
           type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(64, __c2, 0)),
+          etag: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CertificateDescription" });
+      ).annotate({ identifier: "CertificatesCreateOrUpdateResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2428,7 +2664,7 @@ function __c2(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Devices/checkNameAvailability",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CheckIotHubResourceNameAvailabilityRequest" });
@@ -2442,7 +2678,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "IotHubNameAvailabilityInfo" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2455,13 +2691,13 @@ function __c3(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetIotHubResourceRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2469,18 +2705,18 @@ function __c4(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          tags: S.optional(__S(1568, __c49, 0)),
           location: S.String,
-          tags: S.optional(__S(1504, __c47, 0)),
+          properties: S.optional(__S(1633, __c51, 1)),
           etag: S.optional(S.String),
-          properties: S.optional(__S(1562, __c48, 26)),
-          sku: __S(1344, __c42, 0),
-          identity: S.optional(__S(1565, __c48, 29)),
-          systemData: S.optional(__S(1566, __c48, 30)),
+          sku: __S(1408, __c44, 0),
+          identity: S.optional(__S(1636, __c51, 4)),
         }),
       ).annotate({ identifier: "GetIotHubResourceResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2493,7 +2729,7 @@ function __c5(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{iotHubName}/routingEndpointsHealth",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetIotHubResourceEndpointHealthRequest" });
@@ -2509,17 +2745,17 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "EndpointHealthData" });
     case 2:
-      return S.Array(__S(161, __c5, 1));
+      return S.Array(__S(193, __c6, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(162, __c5, 2)),
+          value: __S(194, __c6, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EndpointHealthDataListResult" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2534,13 +2770,13 @@ function __c6(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/eventHubEndpoints/{eventHubEndpointName}/ConsumerGroups/{name}",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetIotHubResourceEventHubConsumerGroupRequest" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2554,13 +2790,13 @@ function __c7(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/jobs/{jobId}",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetIotHubResourceJobRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2574,46 +2810,10 @@ function __c8(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/IotHubKeys/{keyName}/listkeys",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetIotHubResourceKeysForKeyNameRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          resourceName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/quotaMetrics",
-            code: 200,
-            apiVersion: "2023-06-30",
-          }),
-        ),
-      ).annotate({ identifier: "GetIotHubResourceQuotaMetricsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          currentValue: S.optional(S.Number),
-          maxValue: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "IotHubQuotaMetricInfo" });
-    case 2:
-      return S.Array(__S(289, __c9, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(__S(290, __c9, 2)),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IotHubQuotaMetricInfoListResult" });
   }
 }
 function __c10(j: number): any {
@@ -2627,20 +2827,29 @@ function __c10(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/IotHubStats",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/quotaMetrics",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
-      ).annotate({ identifier: "GetIotHubResourceStatsRequest" });
+      ).annotate({ identifier: "GetIotHubResourceQuotaMetricsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          totalDeviceCount: S.optional(S.Number),
-          enabledDeviceCount: S.optional(S.Number),
-          disabledDeviceCount: S.optional(S.Number),
+          name: S.optional(S.String),
+          currentValue: S.optional(S.Number),
+          maxValue: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "RegistryStatistics" });
+      ).annotate({ identifier: "IotHubQuotaMetricInfo" });
+    case 2:
+      return S.Array(__S(321, __c10, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(322, __c10, 2),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IotHubQuotaMetricInfoListResult" });
   }
 }
 function __c11(j: number): any {
@@ -2654,9 +2863,36 @@ function __c11(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/IotHubStats",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "GetIotHubResourceStatsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          totalDeviceCount: S.optional(S.Number),
+          enabledDeviceCount: S.optional(S.Number),
+          disabledDeviceCount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "RegistryStatistics" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          resourceName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/skus",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetIotHubResourceValidSkusRequest" });
@@ -2673,22 +2909,22 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceType: S.optional(S.String),
-          sku: __S(1344, __c42, 0),
-          capacity: __S(353, __c11, 1),
+          sku: __S(1408, __c44, 0),
+          capacity: __S(385, __c12, 1),
         }),
       ).annotate({ identifier: "IotHubSkuDescription" });
     case 3:
-      return S.Array(__S(354, __c11, 2));
+      return S.Array(__S(386, __c12, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(355, __c11, 3)),
+          value: __S(387, __c12, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "IotHubSkuDescriptionListResult" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2702,13 +2938,13 @@ function __c12(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/iotHubs/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetPrivateEndpointConnectionRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2722,20 +2958,20 @@ function __c13(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/iotHubs/{resourceName}/privateLinkResources/{groupId}",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetPrivateLinkResourceRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           groupId: S.optional(S.String),
-          requiredMembers: S.optional(__S(1408, __c44, 0)),
-          requiredZoneNames: S.optional(__S(1408, __c44, 0)),
+          requiredMembers: S.optional(__S(1472, __c46, 0)),
+          requiredZoneNames: S.optional(__S(1472, __c46, 0)),
         }),
       ).annotate({ identifier: "GroupIdInformationProperties" });
     case 1:
@@ -2744,12 +2980,12 @@ function __c14(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: __S(448, __c14, 0),
+          properties: __S(480, __c15, 0),
         }),
       ).annotate({ identifier: "GroupIdInformation" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2765,35 +3001,40 @@ function __c15(j: number): any {
           resourceName: S.String.pipe(T.Label()),
           eventHubEndpointName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(480, __c15, 0),
+          properties: __S(512, __c16, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/eventHubEndpoints/{eventHubEndpointName}/ConsumerGroups/{name}",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateIotHubResourceEventHubConsumerGroupRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.Unknown);
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(512, __c16, 0)),
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: S.optional(__S(576, __c18, 0)),
           etag: S.optional(S.String),
         }),
-      ).annotate({ identifier: "EventHubConsumerGroupInfo" });
+      ).annotate({ identifier: "CreateIotHubResourceEventHubConsumerGroupResponse" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2804,7 +3045,7 @@ function __c17(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Devices/usages",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetResourceProviderCommonSubscriptionQuotaRequest" });
@@ -2823,21 +3064,21 @@ function __c17(j: number): any {
           unit: S.optional(S.String),
           currentValue: S.optional(S.Number),
           limit: S.optional(S.Number),
-          name: S.optional(__S(545, __c17, 1)),
+          name: S.optional(__S(609, __c19, 1)),
         }),
       ).annotate({ identifier: "UserSubscriptionQuota" });
     case 3:
-      return S.Array(__S(546, __c17, 2));
+      return S.Array(__S(610, __c19, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(547, __c17, 3)),
+          value: S.optional(__S(611, __c19, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserSubscriptionQuotaListResult" });
   }
 }
-function __c18(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2850,7 +3091,7 @@ function __c18(j: number): any {
           inputBlobName: S.optional(S.String),
           outputBlobName: S.optional(S.String),
           authenticationType: S.optional(S.String),
-          identity: S.optional(__S(1600, __c50, 0)),
+          identity: S.optional(__S(1728, __c54, 0)),
           includeConfigurations: S.optional(S.Boolean),
           configurationsBlobName: S.optional(S.String),
         }).pipe(
@@ -2858,13 +3099,13 @@ function __c18(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/importDevices",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ImportIotHubResourceDevicesRequest" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2878,7 +3119,7 @@ function __c19(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{iotHubName}/failover",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "IotHubManualFailoverRequest" });
@@ -2887,20 +3128,21 @@ function __c19(j: number): any {
         S.Struct({
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "IotHubManualFailoverResponse" });
   }
 }
-function __c20(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(672, __c21, 0),
+          properties: __S(736, __c23, 0),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionInput" });
     case 1:
-      return S.Array(__S(640, __c20, 0));
+      return S.Array(__S(704, __c22, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -2909,7 +3151,7 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "EventHubPropertiesInput" });
     case 3:
-      return S.Record(S.String, __S(642, __c20, 2));
+      return S.Record(S.String, __S(706, __c22, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -2918,7 +3160,7 @@ function __c20(j: number): any {
           resourceGroup: S.optional(S.String),
           endpointUri: S.String,
           authenticationType: S.optional(S.String),
-          identity: S.optional(__S(1600, __c50, 0)),
+          identity: S.optional(__S(1728, __c54, 0)),
           primaryKey: S.optional(S.String),
           secondaryKey: S.optional(S.String),
           databaseName: S.String,
@@ -2928,103 +3170,129 @@ function __c20(j: number): any {
         }),
       ).annotate({ identifier: "RoutingCosmosDBSqlApiPropertiesInput" });
     case 5:
-      return S.Array(__S(644, __c20, 4));
+      return S.Array(__S(708, __c22, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          serviceBusQueues: S.optional(__S(1544, __c48, 8)),
-          serviceBusTopics: S.optional(__S(1544, __c48, 8)),
-          eventHubs: S.optional(__S(1544, __c48, 8)),
-          storageContainers: S.optional(__S(1546, __c48, 10)),
-          cosmosDBSqlContainers: S.optional(__S(645, __c20, 5)),
+          name: S.String,
+          endpointUri: S.String,
+          entityPath: S.String,
+          authenticationType: S.optional(S.String),
+          identity: S.optional(__S(1728, __c54, 0)),
+          workspaceId: S.optional(S.String),
+          eventStreamId: S.optional(S.String),
+          sourceId: S.optional(S.String),
         }),
-      ).annotate({ identifier: "RoutingEndpointsInput" });
+      ).annotate({ identifier: "RoutingEventStreamPropertiesInput" });
     case 7:
-      return S.suspend(() =>
-        S.Struct({
-          endpoints: S.optional(__S(646, __c20, 6)),
-          routes: S.optional(__S(1550, __c48, 14)),
-          fallbackRoute: S.optional(__S(1551, __c48, 15)),
-          enrichments: S.optional(__S(1553, __c48, 17)),
-        }),
-      ).annotate({ identifier: "RoutingPropertiesInput" });
+      return S.Array(__S(710, __c22, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          authorizationPolicies: S.optional(__S(1440, __c45, 0)),
+          serviceBusQueues: S.optional(__S(1608, __c50, 8)),
+          serviceBusTopics: S.optional(__S(1608, __c50, 8)),
+          eventHubs: S.optional(__S(1608, __c50, 8)),
+          storageContainers: S.optional(__S(1610, __c50, 10)),
+          cosmosDBSqlContainers: S.optional(__S(709, __c22, 5)),
+          eventStreams: S.optional(__S(711, __c22, 7)),
+        }),
+      ).annotate({ identifier: "RoutingEndpointsInput" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          endpoints: S.optional(__S(712, __c22, 8)),
+          routes: S.optional(__S(1616, __c50, 16)),
+          fallbackRoute: S.optional(__S(1617, __c50, 17)),
+          enrichments: S.optional(__S(1619, __c50, 19)),
+        }),
+      ).annotate({ identifier: "RoutingPropertiesInput" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          authorizationPolicies: S.optional(__S(1504, __c47, 0)),
           disableLocalAuth: S.optional(S.Boolean),
           disableDeviceSAS: S.optional(S.Boolean),
           disableModuleSAS: S.optional(S.Boolean),
           restrictOutboundNetworkAccess: S.optional(S.Boolean),
-          allowedFqdnList: S.optional(__S(1408, __c44, 0)),
+          allowedFqdnList: S.optional(__S(1472, __c46, 0)),
           publicNetworkAccess: S.optional(S.String),
-          ipFilterRules: S.optional(__S(1537, __c48, 1)),
-          networkRuleSets: S.optional(__S(1540, __c48, 4)),
+          ipFilterRules: S.optional(__S(1601, __c50, 1)),
+          networkRuleSets: S.optional(__S(1604, __c50, 4)),
           minTlsVersion: S.optional(S.String),
-          privateEndpointConnections: S.optional(__S(641, __c20, 1)),
-          eventHubEndpoints: S.optional(__S(643, __c20, 3)),
-          routing: S.optional(__S(647, __c20, 7)),
-          storageEndpoints: S.optional(__S(1556, __c48, 20)),
-          messagingEndpoints: S.optional(__S(1558, __c48, 22)),
+          privateEndpointConnections: S.optional(__S(705, __c22, 1)),
+          eventHubEndpoints: S.optional(__S(707, __c22, 3)),
+          routing: S.optional(__S(713, __c22, 9)),
+          storageEndpoints: S.optional(__S(1622, __c50, 22)),
+          messagingEndpoints: S.optional(__S(1624, __c50, 24)),
           enableFileUploadNotifications: S.optional(S.Boolean),
-          cloudToDevice: S.optional(__S(1559, __c48, 23)),
+          cloudToDevice: S.optional(__S(1625, __c50, 25)),
           comments: S.optional(S.String),
           features: S.optional(S.String),
           enableDataResidency: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "IotHubPropertiesInput" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          capacity: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "IotHubSkuInfoInput" });
-    case 10:
-      return S.Record(S.String, __S(960, __c30, 0));
     case 11:
+      return S.Record(S.String, __S(1024, __c32, 0));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          userAssignedIdentities: S.optional(__S(650, __c20, 10)),
+          userAssignedIdentities: S.optional(__S(715, __c22, 11)),
         }),
       ).annotate({ identifier: "ArmIdentityInput" });
-    case 12:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
+          tags: S.optional(__S(1568, __c49, 0)),
           location: S.String,
-          tags: S.optional(__S(1504, __c47, 0)),
+          properties: S.optional(__S(714, __c22, 10)),
           etag: S.optional(S.String),
-          properties: S.optional(__S(648, __c20, 8)),
-          sku: __S(649, __c20, 9),
-          identity: S.optional(__S(651, __c20, 11)),
+          sku: __S(1408, __c44, 0),
+          identity: S.optional(__S(716, __c22, 12)),
           ifMatch: S.optional(S.String.pipe(T.Header("If-Match"))),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "IotHubResourceCreateOrUpdateRequest" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          tags: S.optional(__S(1568, __c49, 0)),
+          location: S.String,
+          properties: S.optional(__S(1633, __c51, 1)),
+          etag: S.optional(S.String),
+          sku: __S(1408, __c44, 0),
+          identity: S.optional(__S(1636, __c51, 4)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "IotHubResourceCreateOrUpdateResponse" });
   }
 }
-function __c21(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          privateEndpoint: S.optional(__S(960, __c30, 0)),
-          privateLinkServiceConnectionState: __S(1569, __c49, 1),
+          privateEndpoint: S.optional(__S(1024, __c32, 0)),
+          privateLinkServiceConnectionState: __S(1697, __c53, 1),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionPropertiesInput" });
   }
 }
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3037,21 +3305,21 @@ function __c22(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/certificates",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListCertificateByIotHubRequest" });
     case 1:
-      return S.Array(__S(33, __c1, 1));
+      return S.Array(__S(65, __c2, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(705, __c22, 1)),
+          value: S.optional(__S(769, __c24, 1)),
         }),
       ).annotate({ identifier: "CertificateListDescription" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3063,26 +3331,26 @@ function __c23(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListIotHubResourceByResourceGroupRequest" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(128, __c4, 0));
+      return S.Array(__S(160, __c5, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(768, __c24, 0)),
+          value: __S(832, __c26, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "IotHubDescriptionListResult" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3093,13 +3361,13 @@ function __c25(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Devices/IotHubs",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListIotHubResourceBySubscriptionRequest" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3113,22 +3381,22 @@ function __c26(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/eventHubEndpoints/{eventHubEndpointName}/ConsumerGroups",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListIotHubResourceEventHubConsumerGroupsRequest" });
     case 1:
-      return S.Array(__S(513, __c16, 1));
+      return S.Array(__S(544, __c17, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(833, __c26, 1)),
+          value: __S(897, __c28, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventHubConsumerGroupsListResult" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3141,22 +3409,22 @@ function __c27(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/jobs",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListIotHubResourceJobsRequest" });
     case 1:
-      return S.Array(__S(1728, __c54, 0));
+      return S.Array(__S(1856, __c58, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(865, __c27, 1)),
+          value: __S(929, __c29, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobResponseListResult" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3169,20 +3437,20 @@ function __c28(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/listkeys",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListIotHubResourceKeysRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1440, __c45, 0)),
+          value: __S(1504, __c47, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SharedAccessSignatureAuthorizationRuleListResult" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3197,19 +3465,19 @@ function __c29(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/certificates/{certificateName}",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteCertificateRequest" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteCertificateResponse" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3218,7 +3486,7 @@ function __c31(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.Devices/operations",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -3235,21 +3503,21 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          display: S.optional(__S(993, __c31, 1)),
+          display: S.optional(__S(1057, __c33, 1)),
         }),
       ).annotate({ identifier: "Operation" });
     case 3:
-      return S.Array(__S(994, __c31, 2));
+      return S.Array(__S(1058, __c33, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(995, __c31, 3)),
+          value: S.optional(__S(1059, __c33, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3262,17 +3530,17 @@ function __c32(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/iotHubs/{resourceName}/privateEndpointConnections",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionsRequest" });
     case 1:
-      return S.suspend(() => __S(1472, __c46, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1536, __c48, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListPrivateEndpointConnectionsResponse",
       });
   }
 }
-function __c33(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3285,80 +3553,18 @@ function __c33(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/iotHubs/{resourceName}/privateLinkResources",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourcesRequest" });
     case 1:
-      return S.Array(__S(449, __c14, 1));
+      return S.Array(__S(481, __c15, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1057, __c33, 1)),
+          value: S.optional(__S(1121, __c35, 1)),
         }),
       ).annotate({ identifier: "PrivateLinkResources" });
-  }
-}
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          iotHubName: S.String.pipe(T.Label()),
-          routingSource: S.optional(S.String),
-          message: S.optional(__S(1120, __c35, 0)),
-          twin: S.optional(__S(1122, __c35, 2)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{iotHubName}/routing/routes/$testall",
-            code: 200,
-            apiVersion: "2023-06-30",
-          }),
-        ),
-      ).annotate({ identifier: "TestIotHubResourceAllRoutesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          properties: S.optional(__S(1505, __c47, 1)),
-        }),
-      ).annotate({ identifier: "MatchedRoute" });
-    case 2:
-      return S.Array(__S(1089, __c34, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          routes: S.optional(__S(1090, __c34, 2)),
-        }),
-      ).annotate({ identifier: "TestAllRoutesResult" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          body: S.optional(S.String),
-          appProperties: S.optional(__S(1504, __c47, 0)),
-          systemProperties: S.optional(__S(1504, __c47, 0)),
-        }),
-      ).annotate({ identifier: "RoutingMessage" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          desired: S.optional(S.Unknown),
-          reported: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "RoutingTwinProperties" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          tags: S.optional(S.Unknown),
-          properties: S.optional(__S(1121, __c35, 1)),
-        }),
-      ).annotate({ identifier: "RoutingTwin" });
   }
 }
 function __c36(j: number): any {
@@ -3369,15 +3575,77 @@ function __c36(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           iotHubName: S.String.pipe(T.Label()),
-          message: S.optional(__S(1120, __c35, 0)),
-          route: __S(1505, __c47, 1),
-          twin: S.optional(__S(1122, __c35, 2)),
+          routingSource: S.optional(S.String),
+          message: S.optional(__S(1184, __c37, 0)),
+          twin: S.optional(__S(1186, __c37, 2)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{iotHubName}/routing/routes/$testall",
+            code: 200,
+            apiVersion: "2026-11-01",
+          }),
+        ),
+      ).annotate({ identifier: "TestIotHubResourceAllRoutesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          properties: S.optional(__S(1569, __c49, 1)),
+        }),
+      ).annotate({ identifier: "MatchedRoute" });
+    case 2:
+      return S.Array(__S(1153, __c36, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          routes: S.optional(__S(1154, __c36, 2)),
+        }),
+      ).annotate({ identifier: "TestAllRoutesResult" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          body: S.optional(S.String),
+          appProperties: S.optional(__S(1568, __c49, 0)),
+          systemProperties: S.optional(__S(1568, __c49, 0)),
+        }),
+      ).annotate({ identifier: "RoutingMessage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          desired: S.optional(__S(576, __c18, 0)),
+          reported: S.optional(__S(576, __c18, 0)),
+        }),
+      ).annotate({ identifier: "RoutingTwinProperties" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          tags: S.optional(__S(576, __c18, 0)),
+          properties: S.optional(__S(1185, __c37, 1)),
+        }),
+      ).annotate({ identifier: "RoutingTwin" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          iotHubName: S.String.pipe(T.Label()),
+          message: S.optional(__S(1184, __c37, 0)),
+          route: __S(1569, __c49, 1),
+          twin: S.optional(__S(1186, __c37, 2)),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{iotHubName}/routing/routes/$testnew",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "TestIotHubResourceRouteRequest" });
@@ -3391,8 +3659,8 @@ function __c36(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          start: S.optional(__S(1153, __c36, 1)),
-          end: S.optional(__S(1153, __c36, 1)),
+          start: S.optional(__S(1217, __c38, 1)),
+          end: S.optional(__S(1217, __c38, 1)),
         }),
       ).annotate({ identifier: "RouteErrorRange" });
     case 3:
@@ -3400,27 +3668,27 @@ function __c36(j: number): any {
         S.Struct({
           message: S.optional(S.String),
           severity: S.optional(S.String),
-          location: S.optional(__S(1154, __c36, 2)),
+          location: S.optional(__S(1218, __c38, 2)),
         }),
       ).annotate({ identifier: "RouteCompilationError" });
     case 4:
-      return S.Array(__S(1155, __c36, 3));
+      return S.Array(__S(1219, __c38, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          compilationErrors: S.optional(__S(1156, __c36, 4)),
+          compilationErrors: S.optional(__S(1220, __c38, 4)),
         }),
       ).annotate({ identifier: "TestRouteResultDetails" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           result: S.optional(S.String),
-          details: S.optional(__S(1157, __c36, 5)),
+          details: S.optional(__S(1221, __c38, 5)),
         }),
       ).annotate({ identifier: "TestRouteResult" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3428,19 +3696,19 @@ function __c37(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
-          tags: S.optional(__S(1504, __c47, 0)),
+          tags: S.optional(__S(1568, __c49, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateIotHubResourceRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3449,19 +3717,31 @@ function __c38(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           privateEndpointConnectionName: S.String.pipe(T.Label()),
-          properties: __S(672, __c21, 0),
+          properties: __S(736, __c23, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/iotHubs/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdatePrivateEndpointConnectionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(1698, __c53, 2),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "UpdatePrivateEndpointConnectionResponse" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3476,13 +3756,13 @@ function __c39(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/certificates/{certificateName}/verify",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "VerifyCertificateRequest" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3495,30 +3775,13 @@ function __c40(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteIotHubResourceRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          location: S.String,
-          tags: S.optional(__S(1504, __c47, 0)),
-          etag: S.optional(S.String),
-          properties: S.optional(__S(1562, __c48, 26)),
-          sku: __S(1344, __c42, 0),
-          identity: S.optional(__S(1565, __c48, 29)),
-          systemData: S.optional(__S(1566, __c48, 30)),
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
-        }),
-      ).annotate({ identifier: "DeleteIotHubResourceResponse" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3531,7 +3794,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "SharedAccessSignatureAuthorizationRule" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3543,7 +3806,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "IotHubSkuInfo" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3551,30 +3814,31 @@ function __c43(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: __S(1570, __c49, 2),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(1698, __c53, 2),
         }),
       ).annotate({ identifier: "PrivateEndpointConnection" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1312, __c41, 0));
   }
 }
 function __c46(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1376, __c43, 0));
+      return S.Array(S.String);
   }
 }
 function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1376, __c43, 0));
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(1440, __c45, 0));
+  }
+}
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
@@ -3584,13 +3848,13 @@ function __c47(j: number): any {
           name: S.String,
           source: S.String,
           condition: S.optional(S.String),
-          endpointNames: __S(1408, __c44, 0),
+          endpointNames: __S(1472, __c46, 0),
           isEnabled: S.Boolean,
         }),
       ).annotate({ identifier: "RouteProperties" });
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3601,7 +3865,7 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "IpFilterRule" });
     case 1:
-      return S.Array(__S(1536, __c48, 0));
+      return S.Array(__S(1600, __c50, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3611,13 +3875,13 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "NetworkRuleSetIpRule" });
     case 3:
-      return S.Array(__S(1538, __c48, 2));
+      return S.Array(__S(1602, __c50, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           defaultAction: S.optional(S.String),
           applyToBuiltInEventHubEndpoint: S.Boolean,
-          ipRules: __S(1539, __c48, 3),
+          ipRules: __S(1603, __c50, 3),
         }),
       ).annotate({ identifier: "NetworkRuleSetProperties" });
     case 5:
@@ -3625,13 +3889,13 @@ function __c48(j: number): any {
         S.Struct({
           retentionTimeInDays: S.optional(S.Number),
           partitionCount: S.optional(S.Number),
-          partitionIds: S.optional(__S(1408, __c44, 0)),
+          partitionIds: S.optional(__S(1472, __c46, 0)),
           path: S.optional(S.String),
           endpoint: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventHubProperties" });
     case 6:
-      return S.Record(S.String, __S(1541, __c48, 5));
+      return S.Record(S.String, __S(1605, __c50, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -3640,14 +3904,14 @@ function __c48(j: number): any {
           endpointUri: S.optional(S.String),
           entityPath: S.optional(S.String),
           authenticationType: S.optional(S.String),
-          identity: S.optional(__S(1600, __c50, 0)),
+          identity: S.optional(__S(1728, __c54, 0)),
           name: S.String,
           subscriptionId: S.optional(S.String),
           resourceGroup: S.optional(S.String),
         }),
       ).annotate({ identifier: "RoutingServiceBusQueueEndpointProperties" });
     case 8:
-      return S.Array(__S(1543, __c48, 7));
+      return S.Array(__S(1607, __c50, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -3655,7 +3919,7 @@ function __c48(j: number): any {
           connectionString: S.optional(S.String.pipe(T.SensitiveValue({}))),
           endpointUri: S.optional(S.String),
           authenticationType: S.optional(S.String),
-          identity: S.optional(__S(1600, __c50, 0)),
+          identity: S.optional(__S(1728, __c54, 0)),
           name: S.String,
           subscriptionId: S.optional(S.String),
           resourceGroup: S.optional(S.String),
@@ -3667,7 +3931,7 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "RoutingStorageContainerProperties" });
     case 10:
-      return S.Array(__S(1545, __c48, 9));
+      return S.Array(__S(1609, __c50, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -3677,7 +3941,7 @@ function __c48(j: number): any {
           resourceGroup: S.optional(S.String),
           endpointUri: S.String,
           authenticationType: S.optional(S.String),
-          identity: S.optional(__S(1600, __c50, 0)),
+          identity: S.optional(__S(1728, __c54, 0)),
           primaryKey: S.optional(S.String),
           secondaryKey: S.optional(S.String),
           databaseName: S.String,
@@ -3687,61 +3951,78 @@ function __c48(j: number): any {
         }),
       ).annotate({ identifier: "RoutingCosmosDBSqlApiProperties" });
     case 12:
-      return S.Array(__S(1547, __c48, 11));
+      return S.Array(__S(1611, __c50, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          serviceBusQueues: S.optional(__S(1544, __c48, 8)),
-          serviceBusTopics: S.optional(__S(1544, __c48, 8)),
-          eventHubs: S.optional(__S(1544, __c48, 8)),
-          storageContainers: S.optional(__S(1546, __c48, 10)),
-          cosmosDBSqlContainers: S.optional(__S(1548, __c48, 12)),
+          name: S.String,
+          id: S.optional(S.String),
+          endpointUri: S.String,
+          entityPath: S.String,
+          authenticationType: S.optional(S.String),
+          identity: S.optional(__S(1728, __c54, 0)),
+          workspaceId: S.optional(S.String),
+          eventStreamId: S.optional(S.String),
+          sourceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RoutingEventStreamProperties" });
+    case 14:
+      return S.Array(__S(1613, __c50, 13));
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          serviceBusQueues: S.optional(__S(1608, __c50, 8)),
+          serviceBusTopics: S.optional(__S(1608, __c50, 8)),
+          eventHubs: S.optional(__S(1608, __c50, 8)),
+          storageContainers: S.optional(__S(1610, __c50, 10)),
+          cosmosDBSqlContainers: S.optional(__S(1612, __c50, 12)),
+          eventStreams: S.optional(__S(1614, __c50, 14)),
         }),
       ).annotate({ identifier: "RoutingEndpoints" });
-    case 14:
-      return S.Array(__S(1505, __c47, 1));
-    case 15:
+    case 16:
+      return S.Array(__S(1569, __c49, 1));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           source: S.String,
           condition: S.optional(S.String),
-          endpointNames: __S(1408, __c44, 0),
+          endpointNames: __S(1472, __c46, 0),
           isEnabled: S.Boolean,
         }),
       ).annotate({ identifier: "FallbackRouteProperties" });
-    case 16:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
           value: S.String,
-          endpointNames: __S(1408, __c44, 0),
+          endpointNames: __S(1472, __c46, 0),
         }),
       ).annotate({ identifier: "EnrichmentProperties" });
-    case 17:
-      return S.Array(__S(1552, __c48, 16));
-    case 18:
+    case 19:
+      return S.Array(__S(1618, __c50, 18));
+    case 20:
       return S.suspend(() =>
         S.Struct({
-          endpoints: S.optional(__S(1549, __c48, 13)),
-          routes: S.optional(__S(1550, __c48, 14)),
-          fallbackRoute: S.optional(__S(1551, __c48, 15)),
-          enrichments: S.optional(__S(1553, __c48, 17)),
+          endpoints: S.optional(__S(1615, __c50, 15)),
+          routes: S.optional(__S(1616, __c50, 16)),
+          fallbackRoute: S.optional(__S(1617, __c50, 17)),
+          enrichments: S.optional(__S(1619, __c50, 19)),
         }),
       ).annotate({ identifier: "RoutingProperties" });
-    case 19:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           sasTtlAsIso8601: S.optional(S.String),
           connectionString: S.String.pipe(T.SensitiveValue({})),
           containerName: S.String,
           authenticationType: S.optional(S.String),
-          identity: S.optional(__S(1600, __c50, 0)),
+          identity: S.optional(__S(1728, __c54, 0)),
         }),
       ).annotate({ identifier: "StorageEndpointProperties" });
-    case 20:
-      return S.Record(S.String, __S(1555, __c48, 19));
-    case 21:
+    case 22:
+      return S.Record(S.String, __S(1621, __c50, 21));
+    case 23:
       return S.suspend(() =>
         S.Struct({
           lockDurationAsIso8601: S.optional(S.String),
@@ -3749,86 +4030,144 @@ function __c48(j: number): any {
           maxDeliveryCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MessagingEndpointProperties" });
-    case 22:
-      return S.Record(S.String, __S(1557, __c48, 21));
-    case 23:
+    case 24:
+      return S.Record(S.String, __S(1623, __c50, 23));
+    case 25:
       return S.suspend(() =>
         S.Struct({
           maxDeliveryCount: S.optional(S.Number),
           defaultTtlAsIso8601: S.optional(S.String),
-          feedback: S.optional(__S(1557, __c48, 21)),
+          feedback: S.optional(__S(1623, __c50, 23)),
         }),
       ).annotate({ identifier: "CloudToDeviceProperties" });
-    case 24:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           location: S.optional(S.String),
           role: S.optional(S.String),
         }),
       ).annotate({ identifier: "IotHubLocationDescription" });
-    case 25:
-      return S.Array(__S(1560, __c48, 24));
-    case 26:
+    case 27:
+      return S.Array(__S(1626, __c50, 26));
+    case 28:
       return S.suspend(() =>
         S.Struct({
-          authorizationPolicies: S.optional(__S(1440, __c45, 0)),
+          type: S.optional(S.String),
+          userAssignedIdentity: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeviceRegistryIdentity" });
+    case 29:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          httpStatusCode: S.optional(S.String),
+          message: S.optional(S.String),
+          details: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ErrorDetails" });
+    case 30:
+      return S.suspend(() =>
+        S.Struct({
+          state: S.optional(S.String),
+          error: S.optional(__S(1629, __c50, 29)),
+        }),
+      ).annotate({ identifier: "DeviceRegistryLinkingProperties" });
+    case 31:
+      return S.suspend(() =>
+        S.Struct({
+          namespaceResourceId: S.optional(S.String),
+          namespaceUuid: S.optional(S.String),
+          dataPlaneHostName: S.optional(S.String),
+          identity: S.optional(__S(1628, __c50, 28)),
+          linkingProperties: S.optional(__S(1630, __c50, 30)),
+        }),
+      ).annotate({ identifier: "DeviceRegistry" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IotHubDetails" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          authorizationPolicies: S.optional(__S(1504, __c47, 0)),
           disableLocalAuth: S.optional(S.Boolean),
           disableDeviceSAS: S.optional(S.Boolean),
           disableModuleSAS: S.optional(S.Boolean),
           restrictOutboundNetworkAccess: S.optional(S.Boolean),
-          allowedFqdnList: S.optional(__S(1408, __c44, 0)),
+          allowedFqdnList: S.optional(__S(1472, __c46, 0)),
           publicNetworkAccess: S.optional(S.String),
-          ipFilterRules: S.optional(__S(1537, __c48, 1)),
-          networkRuleSets: S.optional(__S(1540, __c48, 4)),
+          ipFilterRules: S.optional(__S(1601, __c50, 1)),
+          networkRuleSets: S.optional(__S(1604, __c50, 4)),
           minTlsVersion: S.optional(S.String),
-          privateEndpointConnections: S.optional(__S(1472, __c46, 0)),
+          privateEndpointConnections: S.optional(__S(1536, __c48, 0)),
           provisioningState: S.optional(S.String),
           state: S.optional(S.String),
           hostName: S.optional(S.String),
-          eventHubEndpoints: S.optional(__S(1542, __c48, 6)),
-          routing: S.optional(__S(1554, __c48, 18)),
-          storageEndpoints: S.optional(__S(1556, __c48, 20)),
-          messagingEndpoints: S.optional(__S(1558, __c48, 22)),
+          deviceHostName: S.optional(S.String),
+          serviceHostName: S.optional(S.String),
+          eventHubEndpoints: S.optional(__S(1606, __c50, 6)),
+          routing: S.optional(__S(1620, __c50, 20)),
+          storageEndpoints: S.optional(__S(1622, __c50, 22)),
+          messagingEndpoints: S.optional(__S(1624, __c50, 24)),
           enableFileUploadNotifications: S.optional(S.Boolean),
-          cloudToDevice: S.optional(__S(1559, __c48, 23)),
+          cloudToDevice: S.optional(__S(1625, __c50, 25)),
           comments: S.optional(S.String),
           features: S.optional(S.String),
-          locations: S.optional(__S(1561, __c48, 25)),
+          locations: S.optional(__S(1627, __c50, 27)),
           enableDataResidency: S.optional(S.Boolean),
+          deviceRegistry: S.optional(__S(1631, __c50, 31)),
+          iotHubDetails: S.optional(__S(1632, __c51, 0)),
         }),
       ).annotate({ identifier: "IotHubProperties" });
-    case 27:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           principalId: S.optional(S.String),
           clientId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ArmUserIdentity" });
-    case 28:
-      return S.Record(S.String, __S(1563, __c48, 27));
-    case 29:
+    case 3:
+      return S.Record(S.String, __S(1634, __c51, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           principalId: S.optional(S.String),
           tenantId: S.optional(S.String),
           type: S.optional(S.String),
-          userAssignedIdentities: S.optional(__S(1564, __c48, 28)),
+          userAssignedIdentities: S.optional(__S(1635, __c51, 3)),
         }),
       ).annotate({ identifier: "ArmIdentity" });
-    case 30:
-      return S.suspend(() =>
-        S.Struct({
-          createdBy: S.optional(S.String),
-          createdByType: S.optional(S.String),
-          createdAt: S.optional(S.String),
-          lastModifiedBy: S.optional(S.String),
-          lastModifiedByType: S.optional(S.String),
-          lastModifiedAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SystemData" });
   }
 }
-function __c49(j: number): any {
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(32, __c1, 0)),
+          tags: S.optional(__S(1568, __c49, 0)),
+          location: S.String,
+          properties: S.optional(__S(1633, __c51, 1)),
+          etag: S.optional(S.String),
+          sku: __S(1408, __c44, 0),
+          identity: S.optional(__S(1636, __c51, 4)),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          locationHeader: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "DeleteIotHubResourceResponse" });
+  }
+}
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3847,13 +4186,13 @@ function __c49(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          privateEndpoint: S.optional(__S(1568, __c49, 0)),
-          privateLinkServiceConnectionState: __S(1569, __c49, 1),
+          privateEndpoint: S.optional(__S(1696, __c53, 0)),
+          privateLinkServiceConnectionState: __S(1697, __c53, 1),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionProperties" });
   }
 }
-function __c50(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3863,7 +4202,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "ManagedIdentity" });
   }
 }
-function __c51(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3878,13 +4217,13 @@ function __c51(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/eventHubEndpoints/{eventHubEndpointName}/ConsumerGroups/{name}",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteIotHubResourceEventHubConsumerGroupRequest" });
   }
 }
-function __c52(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3898,7 +4237,7 @@ function __c52(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/iotHubs/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeletePrivateEndpointConnectionRequest" });
@@ -3908,14 +4247,16 @@ function __c52(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          properties: __S(1570, __c49, 2),
+          systemData: S.optional(__S(32, __c1, 0)),
+          properties: __S(1698, __c53, 2),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "DeletePrivateEndpointConnectionResponse" });
   }
 }
-function __c53(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3927,7 +4268,7 @@ function __c53(j: number): any {
           excludeKeys: S.Boolean,
           exportBlobName: S.optional(S.String),
           authenticationType: S.optional(S.String),
-          identity: S.optional(__S(1600, __c50, 0)),
+          identity: S.optional(__S(1728, __c54, 0)),
           includeConfigurations: S.optional(S.Boolean),
           configurationsBlobName: S.optional(S.String),
         }).pipe(
@@ -3935,13 +4276,13 @@ function __c53(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/exportDevices",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ExportIotHubResourceDevicesRequest" });
   }
 }
-function __c54(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3958,7 +4299,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "JobResponse" });
   }
 }
-function __c55(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3972,7 +4313,7 @@ function __c55(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/certificates/{certificateName}/generateVerificationCode",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GenerateCertificateVerificationCodeRequest" });
@@ -3987,12 +4328,13 @@ function __c55(j: number): any {
           updated: S.optional(S.String),
           verificationCode: S.optional(S.String),
           certificate: S.optional(S.String),
+          certificateAuthorityResourceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "CertificatePropertiesWithNonce" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(1761, __c55, 1)),
+          properties: S.optional(__S(1889, __c59, 1)),
           id: S.optional(S.String),
           name: S.optional(S.String),
           etag: S.optional(S.String),
@@ -4001,7 +4343,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "CertificateWithNonceDescription" });
   }
 }
-function __c56(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4015,7 +4357,7 @@ function __c56(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Devices/IotHubs/{resourceName}/certificates/{certificateName}",
             code: 200,
-            apiVersion: "2023-06-30",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetCertificateRequest" });

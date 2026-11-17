@@ -30,37 +30,59 @@ export class SessionCommandNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<SessionCommandNotFound>()("SessionCommandNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, message: { includes: "command not found" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 /** The command's input pipe doesn't exist yet: it was just started (HTTP 500 "failed to open input pipe"). Retry shortly. */
 export class SessionInputNotReady
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<SessionInputNotReady>()("SessionInputNotReady", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+      retryAfter: /*@__PURE__*/ S.optional(S.Duration),
     }).pipe(C.withServerError),
     [{ status: 500, message: { includes: "failed to open input pipe" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 /** No session has this ID (HTTP 404 "session not found"). */
 export class SessionNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<SessionNotFound>()("SessionNotFound", {
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404, message: { includes: "session not found" } }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export type CreatePtySessionRequestEnvsMap = { [key: string]: string | undefined };
 export interface CreatePtySessionRequest {
-  cols?: number;
-  cwd?: string;
-  envs?: CreatePtySessionRequestEnvsMap;
-  id?: string;
+  cols?: number | undefined;
+  cwd?: string | undefined;
+  envs?: CreatePtySessionRequestEnvsMap | undefined;
+  id?: string | undefined;
   /** Don't start PTY until first client connects */
-  lazyStart?: boolean;
-  rows?: number;
+  lazyStart?: boolean | undefined;
+  rows?: number | undefined;
 }
 export interface PtyCreateResponse {
   sessionId: string;
@@ -85,19 +107,19 @@ export type ExecuteCommandRequestEnvsMap = { [key: string]: string | undefined }
 export interface ExecuteCommandRequest {
   command: string;
   /** Current working directory */
-  cwd?: string;
+  cwd?: string | undefined;
   /** Environment variables to set for the command */
-  envs?: ExecuteCommandRequestEnvsMap;
+  envs?: ExecuteCommandRequestEnvsMap | undefined;
   /** Timeout in seconds, defaults to 10 seconds */
-  timeout?: number;
+  timeout?: number | undefined;
 }
 export interface ExecuteResponse {
-  exitCode?: number;
+  exitCode?: number | undefined;
   result: string;
 }
 export interface GetEntrypointLogsRequest {
   /** Follow logs in real-time (WebSocket only) */
-  follow?: boolean;
+  follow?: boolean | undefined;
 }
 export interface SessionCommandLogsResponse {
   output: string;
@@ -107,7 +129,7 @@ export interface SessionCommandLogsResponse {
 export interface GetEntrypointSessionRequest {}
 export interface Command {
   command: string;
-  exitCode?: number;
+  exitCode?: number | undefined;
   id: string;
 }
 export type SessionCommandsList = Array<Command>;
@@ -147,7 +169,7 @@ export interface GetSessionCommandLogsRequest {
   /** Command ID */
   commandId: string;
   /** Follow logs in real-time (WebSocket only) */
-  follow?: boolean;
+  follow?: boolean | undefined;
 }
 export interface ListPtySessionsRequest {}
 export type PtyListResponseSessionsList = Array<PtySessionInfo>;
@@ -166,34 +188,34 @@ export interface ResizePtySessionRequest {
 export type RunCodeRequestArgvList = Array<string>;
 export type RunCodeRequestEnvsMap = { [key: string]: string | undefined };
 export interface RunCodeRequest {
-  argv?: RunCodeRequestArgvList;
+  argv?: RunCodeRequestArgvList | undefined;
   code: string;
-  envs?: RunCodeRequestEnvsMap;
+  envs?: RunCodeRequestEnvsMap | undefined;
   /** python, javascript, typescript */
   language: string;
-  timeout?: number;
+  timeout?: number | undefined;
 }
 export type ChartElementOutliersList = Array<number>;
 export type ChartElementPointsItemList = Array<number>;
 export type ChartElementPointsList = Array<ChartElementPointsItemList>;
 export interface ChartElement {
-  angle?: number;
-  first_quartile?: number;
-  group?: string;
-  label?: string;
-  max?: number;
-  median?: number;
-  min?: number;
-  outliers?: ChartElementOutliersList;
-  png?: string;
-  points?: ChartElementPointsList;
-  radius?: number;
-  third_quartile?: number;
-  title?: string;
-  type?: string;
-  value?: string;
-  x_label?: string;
-  y_label?: string;
+  angle?: number | undefined;
+  first_quartile?: number | undefined;
+  group?: string | undefined;
+  label?: string | undefined;
+  max?: number | undefined;
+  median?: number | undefined;
+  min?: number | undefined;
+  outliers?: ChartElementOutliersList | undefined;
+  png?: string | undefined;
+  points?: ChartElementPointsList | undefined;
+  radius?: number | undefined;
+  third_quartile?: number | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
+  value?: string | undefined;
+  x_label?: string | undefined;
+  y_label?: string | undefined;
 }
 export type ChartElementsList = Array<ChartElement>;
 export type ChartXTickLabelsList = Array<string>;
@@ -201,27 +223,27 @@ export type ChartXTicksList = Array<number>;
 export type ChartYTickLabelsList = Array<string>;
 export type ChartYTicksList = Array<number>;
 export interface Chart {
-  elements?: ChartElementsList;
-  png?: string;
-  title?: string;
-  type?: string;
-  x_label?: string;
-  x_scale?: string;
-  x_tick_labels?: ChartXTickLabelsList;
-  x_ticks?: ChartXTicksList;
-  y_label?: string;
-  y_scale?: string;
-  y_tick_labels?: ChartYTickLabelsList;
-  y_ticks?: ChartYTicksList;
+  elements?: ChartElementsList | undefined;
+  png?: string | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
+  x_label?: string | undefined;
+  x_scale?: string | undefined;
+  x_tick_labels?: ChartXTickLabelsList | undefined;
+  x_ticks?: ChartXTicksList | undefined;
+  y_label?: string | undefined;
+  y_scale?: string | undefined;
+  y_tick_labels?: ChartYTickLabelsList | undefined;
+  y_ticks?: ChartYTicksList | undefined;
 }
 export type CodeRunArtifactsChartsList = Array<Chart>;
 export interface CodeRunArtifacts {
-  charts?: CodeRunArtifactsChartsList;
+  charts?: CodeRunArtifactsChartsList | undefined;
 }
 export interface CodeRunResponse {
-  artifacts?: CodeRunArtifacts;
-  exitCode?: number;
-  result?: string;
+  artifacts?: CodeRunArtifacts | undefined;
+  exitCode?: number | undefined;
+  result?: string | undefined;
 }
 export interface SendInputRequest {
   /** Session ID */
@@ -234,17 +256,59 @@ export interface SendInputResponse {}
 export interface SessionExecuteCommandRequest {
   /** Session ID */
   sessionId: string;
-  async?: boolean;
+  async?: boolean | undefined;
   command: string;
-  runAsync?: boolean;
-  suppressInputEcho?: boolean;
+  runAsync?: boolean | undefined;
+  suppressInputEcho?: boolean | undefined;
 }
 export interface SessionExecuteResponse {
   cmdId: string;
-  exitCode?: number;
-  output?: string;
-  stderr?: string;
-  stdout?: string;
+  exitCode?: number | undefined;
+  output?: string | undefined;
+  stderr?: string | undefined;
+  stdout?: string | undefined;
+}
+export type DaemonErrorCode =
+  | "GIT_AUTH_FAILED"
+  | "GIT_REPO_NOT_FOUND"
+  | "GIT_BRANCH_NOT_FOUND"
+  | "GIT_BRANCH_EXISTS"
+  | "GIT_PUSH_REJECTED"
+  | "GIT_DIRTY_WORKTREE"
+  | "GIT_MERGE_CONFLICT"
+  | "GIT_TRANSPORT_FAILED"
+  | "GIT_REMOTE_REJECTED"
+  | "FILE_NOT_FOUND"
+  | "FILE_ACCESS_DENIED"
+  | "INVALID_FILE_PATH"
+  | "FILE_READ_FAILED"
+  | "LSP_SERVER_NOT_INITIALIZED"
+  | "PROCESS_EXECUTION_TIMEOUT"
+  | "PROCESS_NOT_FOUND"
+  | "SESSION_ENDED"
+  | "COMMAND_ALREADY_COMPLETED"
+  | "A11Y_UNAVAILABLE"
+  | "RECORDING_STILL_ACTIVE"
+  | "RECORDING_FFMPEG_NOT_FOUND"
+  | "BAD_REQUEST"
+  | "INVALID_REQUEST_BODY"
+  | "UNAUTHORIZED"
+  | "FORBIDDEN"
+  | "NOT_FOUND"
+  | "CONFLICT"
+  | "REQUEST_TIMEOUT"
+  | "GONE"
+  | "UNPROCESSABLE_ENTITY"
+  | "INTERNAL_SERVER_ERROR";
+/** Error response */
+export interface ErrorResponse {
+  code?: DaemonErrorCode | undefined;
+  message: string;
+  method?: string | undefined;
+  path: string;
+  source?: string | undefined;
+  statusCode: number;
+  timestamp: string;
 }
 export type CreatePtySessionError = DaytonaOpError;
 /** Create a new PTY session Create a new pseudo-terminal session with specified configuration */
@@ -254,8 +318,8 @@ export const createPtySession: API.OperationMethod<
   CreatePtySessionError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<CreatePtySessionRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<PtyCreateResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<CreatePtySessionRequest>,
+  output: __S(193, __c12, 1) as any as S.Schema<PtyCreateResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -271,8 +335,8 @@ export const createSession: API.OperationMethod<
   CreateSessionError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<CreateSessionRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<CreateSessionResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<CreateSessionRequest>,
+  output: __S(240, __c15, 0) as any as S.Schema<CreateSessionResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -288,8 +352,8 @@ export const deletePtySession: API.OperationMethod<
   DeletePtySessionError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<DeletePtySessionRequest>,
-  output: __S(242, __c15, 2) as any as S.Schema<DeletePtySessionResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<DeletePtySessionRequest>,
+  output: __S(258, __c16, 2) as any as S.Schema<DeletePtySessionResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -305,8 +369,8 @@ export const deleteSession: API.OperationMethod<
   DeleteSessionError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<DeleteSessionRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<DeleteSessionResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<DeleteSessionRequest>,
+  output: __S(240, __c15, 0) as any as S.Schema<DeleteSessionResponse>,
   errors: [SessionNotFound, UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -322,8 +386,8 @@ export const executeCommand: API.OperationMethod<
   ExecuteCommandError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<ExecuteCommandRequest>,
-  output: __S(273, __c17, 1) as any as S.Schema<ExecuteResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<ExecuteCommandRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<ExecuteResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -339,8 +403,8 @@ export const getEntrypointLogs: API.OperationMethod<
   GetEntrypointLogsError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<GetEntrypointLogsRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<SessionCommandLogsResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<GetEntrypointLogsRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<SessionCommandLogsResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -356,8 +420,8 @@ export const getEntrypointSession: API.OperationMethod<
   GetEntrypointSessionError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetEntrypointSessionRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<Session>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetEntrypointSessionRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<Session>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -373,8 +437,8 @@ export const getPtySession: API.OperationMethod<
   GetPtySessionError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetPtySessionRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<PtySessionInfo>,
+  input: __S(16, __c1, 0) as any as S.Schema<GetPtySessionRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<PtySessionInfo>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -390,8 +454,8 @@ export const getSession: API.OperationMethod<
   GetSessionError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetSessionRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<Session>,
+  input: __S(48, __c3, 0) as any as S.Schema<GetSessionRequest>,
+  output: __S(369, __c23, 1) as any as S.Schema<Session>,
   errors: [SessionNotFound, UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -407,8 +471,8 @@ export const getSessionCommand: API.OperationMethod<
   GetSessionCommandError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<GetSessionCommandRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<Command>,
+  input: __S(64, __c4, 0) as any as S.Schema<GetSessionCommandRequest>,
+  output: __S(352, __c22, 0) as any as S.Schema<Command>,
   errors: [SessionNotFound, SessionCommandNotFound, UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -424,8 +488,8 @@ export const getSessionCommandLogs: API.OperationMethod<
   GetSessionCommandLogsError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetSessionCommandLogsRequest>,
-  output: __S(304, __c19, 0) as any as S.Schema<SessionCommandLogsResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetSessionCommandLogsRequest>,
+  output: __S(320, __c20, 0) as any as S.Schema<SessionCommandLogsResponse>,
   errors: [SessionNotFound, SessionCommandNotFound, UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -441,8 +505,8 @@ export const listPtySessions: API.OperationMethod<
   ListPtySessionsError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<ListPtySessionsRequest>,
-  output: __S(82, __c5, 2) as any as S.Schema<PtyListResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<ListPtySessionsRequest>,
+  output: __S(98, __c6, 2) as any as S.Schema<PtyListResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -458,8 +522,8 @@ export const listSessions: API.OperationMethod<
   ListSessionsError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<ListSessionsRequest>,
-  output: __S(98, __c6, 2) as any as S.Schema<ListSessionsResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<ListSessionsRequest>,
+  output: __S(114, __c7, 2) as any as S.Schema<ListSessionsResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -475,8 +539,8 @@ export const resizePtySession: API.OperationMethod<
   ResizePtySessionError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<ResizePtySessionRequest>,
-  output: __S(16, __c1, 0) as any as S.Schema<PtySessionInfo>,
+  input: __S(128, __c8, 0) as any as S.Schema<ResizePtySessionRequest>,
+  output: __S(32, __c2, 0) as any as S.Schema<PtySessionInfo>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -492,8 +556,8 @@ export const runCode: API.OperationMethod<
   RunCodeError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(129, __c8, 1) as any as S.Schema<RunCodeRequest>,
-  output: __S(137, __c8, 9) as any as S.Schema<CodeRunResponse>,
+  input: __S(145, __c9, 1) as any as S.Schema<RunCodeRequest>,
+  output: __S(153, __c9, 9) as any as S.Schema<CodeRunResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -513,8 +577,8 @@ export const sendInput: API.OperationMethod<
   SendInputError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<SendInputRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<SendInputResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<SendInputRequest>,
+  output: __S(240, __c15, 0) as any as S.Schema<SendInputResponse>,
   errors: [SessionNotFound, SessionCommandNotFound, SessionInputNotReady, UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -530,8 +594,8 @@ export const sessionExecuteCommand: API.OperationMethod<
   SessionExecuteCommandError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<SessionExecuteCommandRequest>,
-  output: __S(161, __c10, 1) as any as S.Schema<SessionExecuteResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<SessionExecuteCommandRequest>,
+  output: __S(177, __c11, 1) as any as S.Schema<SessionExecuteResponse>,
   errors: [SessionNotFound, UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -545,12 +609,28 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.String),
+          message: S.String,
+          method: S.optional(S.String),
+          path: S.String,
+          source: S.optional(S.String),
+          statusCode: S.Number,
+          timestamp: S.String,
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           sessionId: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/process/pty/{sessionId}", code: 200 })),
       ).annotate({ identifier: "GetPtySessionRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -559,7 +639,7 @@ function __c1(j: number): any {
           cols: S.Number,
           createdAt: S.String,
           cwd: S.String,
-          envs: __S(192, __c12, 0),
+          envs: __S(208, __c13, 0),
           id: S.String,
           lazyStart: S.Boolean,
           rows: S.Number,
@@ -567,7 +647,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "PtySessionInfo" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -577,7 +657,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetSessionRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -594,7 +674,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetSessionCommandRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -612,37 +692,37 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetSessionCommandLogsRequest" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/process/pty", code: 200 })),
       ).annotate({ identifier: "ListPtySessionsRequest" });
     case 1:
-      return S.Array(__S(16, __c1, 0));
+      return S.Array(__S(32, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sessions: __S(81, __c5, 1),
+          sessions: __S(97, __c6, 1),
         }),
       ).annotate({ identifier: "PtyListResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/process/session", code: 200 })),
       ).annotate({ identifier: "ListSessionsRequest" });
     case 1:
-      return S.Array(__S(353, __c22, 1));
+      return S.Array(__S(369, __c23, 1));
     case 2:
-      return S.suspend(() => __S(97, __c6, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(113, __c7, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSessionsResponse",
       });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -654,16 +734,16 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ResizePtySessionRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          argv: S.optional(__S(128, __c8, 0)),
+          argv: S.optional(__S(144, __c9, 0)),
           code: S.String,
-          envs: S.optional(__S(192, __c12, 0)),
+          envs: S.optional(__S(208, __c13, 0)),
           language: S.String,
           timeout: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/process/code-run", code: 200 })),
@@ -671,7 +751,7 @@ function __c8(j: number): any {
     case 2:
       return S.Array(S.Number);
     case 3:
-      return S.Array(__S(130, __c8, 2));
+      return S.Array(__S(146, __c9, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -682,9 +762,9 @@ function __c8(j: number): any {
           max: S.optional(S.Number),
           median: S.optional(S.Number),
           min: S.optional(S.Number),
-          outliers: S.optional(__S(130, __c8, 2)),
+          outliers: S.optional(__S(146, __c9, 2)),
           png: S.optional(S.String),
-          points: S.optional(__S(131, __c8, 3)),
+          points: S.optional(__S(147, __c9, 3)),
           radius: S.optional(S.Number),
           third_quartile: S.optional(S.Number),
           title: S.optional(S.String),
@@ -695,43 +775,43 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "ChartElement" });
     case 5:
-      return S.Array(__S(132, __c8, 4));
+      return S.Array(__S(148, __c9, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          elements: S.optional(__S(133, __c8, 5)),
+          elements: S.optional(__S(149, __c9, 5)),
           png: S.optional(S.String),
           title: S.optional(S.String),
           type: S.optional(S.String),
           x_label: S.optional(S.String),
           x_scale: S.optional(S.String),
-          x_tick_labels: S.optional(__S(128, __c8, 0)),
-          x_ticks: S.optional(__S(130, __c8, 2)),
+          x_tick_labels: S.optional(__S(144, __c9, 0)),
+          x_ticks: S.optional(__S(146, __c9, 2)),
           y_label: S.optional(S.String),
           y_scale: S.optional(S.String),
-          y_tick_labels: S.optional(__S(128, __c8, 0)),
-          y_ticks: S.optional(__S(130, __c8, 2)),
+          y_tick_labels: S.optional(__S(144, __c9, 0)),
+          y_ticks: S.optional(__S(146, __c9, 2)),
         }),
       ).annotate({ identifier: "Chart" });
     case 7:
-      return S.Array(__S(134, __c8, 6));
+      return S.Array(__S(150, __c9, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          charts: S.optional(__S(135, __c8, 7)),
+          charts: S.optional(__S(151, __c9, 7)),
         }),
       ).annotate({ identifier: "CodeRunArtifacts" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          artifacts: S.optional(__S(136, __c8, 8)),
+          artifacts: S.optional(__S(152, __c9, 8)),
           exitCode: S.optional(S.Number),
           result: S.optional(S.String),
         }),
       ).annotate({ identifier: "CodeRunResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -749,7 +829,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "SendInputRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -773,14 +853,14 @@ function __c10(j: number): any {
       ).annotate({ identifier: "SessionExecuteResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           cols: S.optional(S.Number),
           cwd: S.optional(S.String),
-          envs: S.optional(__S(192, __c12, 0)),
+          envs: S.optional(__S(208, __c13, 0)),
           id: S.optional(S.String),
           lazyStart: S.optional(S.Boolean),
           rows: S.optional(S.Number),
@@ -794,13 +874,13 @@ function __c11(j: number): any {
       ).annotate({ identifier: "PtyCreateResponse" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -810,13 +890,13 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateSessionRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CreateSessionResponse" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -827,12 +907,12 @@ function __c15(j: number): any {
     case 1:
       return S.Record(S.String, S.Unknown);
     case 2:
-      return S.suspend(() => __S(241, __c15, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(257, __c16, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "DeletePtySessionResponse",
       });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -842,14 +922,14 @@ function __c16(j: number): any {
       ).annotate({ identifier: "DeleteSessionRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           command: S.String,
           cwd: S.optional(S.String),
-          envs: S.optional(__S(192, __c12, 0)),
+          envs: S.optional(__S(208, __c13, 0)),
           timeout: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/process/execute", code: 200 })),
       ).annotate({ identifier: "ExecuteCommandRequest" });
@@ -862,7 +942,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "ExecuteResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -872,7 +952,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "GetEntrypointLogsRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -884,7 +964,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "SessionCommandLogsResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -892,7 +972,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetEntrypointSessionRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -904,14 +984,14 @@ function __c21(j: number): any {
       ).annotate({ identifier: "Command" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(336, __c21, 0));
+      return S.Array(__S(352, __c22, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          commands: __S(352, __c22, 0),
+          commands: __S(368, __c23, 0),
           sessionId: S.String,
         }),
       ).annotate({ identifier: "Session" });

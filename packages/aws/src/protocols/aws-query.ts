@@ -27,13 +27,22 @@ import {
   getMapKeyValueAST,
   isArrayAST,
   isBooleanAST,
+  isDateAST,
   isMapAST,
   isNumberAST,
+  isStringAST,
 } from "@distilled.cloud/s3/util/ast";
 import { errorBody, inputEncoderSync } from "@distilled.cloud/s3/util/codec";
 import { sanitizeErrorCode } from "@distilled.cloud/s3/util/error";
 import { readStreamAsText } from "@distilled.cloud/s3/util/stream";
-import { extractXmlRoot, parseXml, readXml, unwrapArrayValue } from "@distilled.cloud/s3/util/xml";
+import {
+  elementText,
+  extractXmlRoot,
+  parseXml,
+  readXml,
+  readXmlMap,
+  unwrapArrayValue,
+} from "@distilled.cloud/s3/util/xml";
 import * as Effect from "effect/Effect";
 import type * as S from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
@@ -285,8 +294,11 @@ function serializeValue(
 
   // Handle arrays
   if (Array.isArray(value)) {
-    // Empty arrays are not serialized
-    if (value.length === 0) return;
+    // An empty list is the key with an empty value
+    if (value.length === 0) {
+      params.push(`${encodeURIComponent(key)}=`);
+      return;
+    }
 
     const elementAST = getArrayElementAST(ast);
     const isFlattened = prop ? hasXmlFlattened(prop) : false;
@@ -343,6 +355,8 @@ function serializeValue(
 /** What deserializing a value of a schema needs to know about it, read once per schema. */
 interface ValuePlan {
   readonly map: boolean;
+  /** Strings and blobs: an empty element is an empty value. */
+  readonly string: boolean;
   readonly array: boolean;
   readonly number: boolean;
   readonly boolean: boolean;
@@ -362,6 +376,7 @@ const valuePlanOf = (ast: AST.AST): ValuePlan => {
     const element = array ? getArrayElementAST(ast) : undefined;
     plan = {
       map,
+      string: isStringAST(ast) && !isDateAST(ast),
       array,
       number: isNumberAST(ast),
       boolean: isBooleanAST(ast),
@@ -381,13 +396,16 @@ const isEmptyObject = (value: object): boolean => {
 };
 
 function deserializeValue(ast: AST.AST, value: unknown): unknown {
-  if (value == null || value === "") return undefined;
+  if (value == null) return undefined;
   const plan = valuePlanOf(ast);
 
-  // Handle maps - must check before general object handling
+  // Handle maps - must check before general object handling. An empty
+  // element is an empty map.
   if (plan.map) {
-    return deserializeMap(ast, value);
+    return value === "" ? {} : deserializeMap(ast, value, false);
   }
+  if (value === "") return plan.string ? "" : undefined;
+  value = elementText(value);
 
   // Handle arrays
   if (plan.array) {
@@ -433,6 +451,8 @@ interface MemberPlan {
   readonly element: AST.AST | undefined;
   /** Lists: the element's wrapper tag. */
   readonly elementTag: string | undefined;
+  /** Flattened maps: each entry is a member element. */
+  readonly flattenedMap: boolean;
 }
 
 const memberPlans = /*@__PURE__*/ new WeakMap<AST.AST, ReadonlyArray<MemberPlan>>();
@@ -454,6 +474,7 @@ const memberPlansOf = (ast: AST.AST): ReadonlyArray<MemberPlan> => {
         attribute: hasXmlAttribute(prop) ? `@_${xmlName}` : undefined,
         element,
         elementTag: element ? (getXmlName(element) ?? getIdentifier(element)) : undefined,
+        flattenedMap: hasXmlFlattened(prop) && isMapAST(prop.type),
       };
     });
     memberPlans.set(ast, plans);
@@ -511,6 +532,8 @@ function deserializeObject(ast: AST.AST, value: Record<string, unknown>): Record
       result[key] = items
         .filter((item) => item !== undefined && item !== null && item !== "")
         .map((item) => deserializeValue(elAST, item));
+    } else if (member.flattenedMap) {
+      result[key] = deserializeMap(member.type, propValue, true);
     } else {
       result[key] = deserializeValue(member.type, propValue);
     }
@@ -520,39 +543,18 @@ function deserializeObject(ast: AST.AST, value: Record<string, unknown>): Record
 }
 
 /**
- * Deserialize AWS Query XML map format: <entry><key>K</key><value>V</value></entry>
+ * Deserialize AWS Query XML map format: <entry><key>K</key><value>V</value></entry>,
+ * or for a flattened map, the member element repeated for each entry.
  * Handles empty values (from self-closing <value /> tags) by converting to empty strings.
  */
-function deserializeMap(ast: AST.AST, value: unknown): Record<string, unknown> {
-  if (typeof value !== "object" || value === null) return {};
-
+function deserializeMap(ast: AST.AST, value: unknown, flattened: boolean): Record<string, unknown> {
   const { keyAST, valueAST } = getMapKeyValueAST(ast) ?? {};
   const keyName = keyAST ? (getXmlName(keyAST) ?? "key") : "key";
   const valueName = valueAST ? (getXmlName(valueAST) ?? "value") : "value";
 
-  const objValue = value as Record<string, unknown>;
-  const entries = objValue.entry ?? objValue.Entry;
-  if (entries == null) return {};
-
-  const result: Record<string, unknown> = {};
-  const entriesArray = Array.isArray(entries) ? entries : [entries];
-
-  for (const entry of entriesArray) {
-    if (!entry || typeof entry !== "object") continue;
-
-    const entryObj = entry as Record<string, unknown>;
-    const key = entryObj[keyName] as string | undefined;
-    if (key === undefined) continue;
-
-    const val = entryObj[valueName];
+  return readXmlMap(value, flattened, keyName, valueName, (val) => {
     // Empty XML elements (<value />) become undefined/null/"" - convert to empty string
-    if (val == null || val === "") {
-      result[key] = "";
-    } else {
-      const deserialized = valueAST ? deserializeValue(valueAST, val) : val;
-      result[key] = deserialized ?? "";
-    }
-  }
-
-  return result;
+    if (val == null || val === "") return "";
+    return (valueAST ? deserializeValue(valueAST, val) : val) ?? "";
+  });
 }

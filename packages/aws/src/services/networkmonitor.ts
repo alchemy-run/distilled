@@ -149,19 +149,19 @@ export type TagMap = { [key: string]: string | undefined };
 export interface CreateMonitorProbeInput {
   sourceArn: string;
   destination: string;
-  destinationPort?: number;
+  destinationPort?: number | undefined;
   protocol: Protocol;
-  packetSize?: number;
-  probeTags?: { [key: string]: string | undefined };
+  packetSize?: number | undefined;
+  probeTags?: { [key: string]: string | undefined } | undefined;
 }
 export type CreateMonitorProbeInputList = CreateMonitorProbeInput[];
 export type AggregationPeriod = number;
 export interface CreateMonitorInput {
   monitorName: string;
-  probes?: CreateMonitorProbeInput[];
-  aggregationPeriod?: number;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  probes?: CreateMonitorProbeInput[] | undefined;
+  aggregationPeriod?: number | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type MonitorArn = string;
 export type MonitorState = "PENDING" | "ACTIVE" | "INACTIVE" | "ERROR" | "DELETING" | (string & {});
@@ -169,22 +169,22 @@ export interface CreateMonitorOutput {
   monitorArn: string;
   monitorName: string;
   state: MonitorState;
-  aggregationPeriod?: number;
-  tags?: { [key: string]: string | undefined };
+  aggregationPeriod?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ProbeInput {
   sourceArn: string;
   destination: string;
-  destinationPort?: number;
+  destinationPort?: number | undefined;
   protocol: Protocol;
-  packetSize?: number;
-  tags?: { [key: string]: string | undefined };
+  packetSize?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateProbeInput {
   monitorName: string;
   probe: ProbeInput;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ProbeId = string;
 export type AddressFamily = "IPV4" | "IPV6" | (string & {});
@@ -199,19 +199,19 @@ export type ProbeState =
   | (string & {});
 export type Iso8601Timestamp = Date;
 export interface CreateProbeOutput {
-  probeId?: string;
-  probeArn?: string;
+  probeId?: string | undefined;
+  probeArn?: string | undefined;
   sourceArn: string;
   destination: string;
-  destinationPort?: number;
+  destinationPort?: number | undefined;
   protocol: Protocol;
-  packetSize?: number;
-  addressFamily?: AddressFamily;
-  vpcId?: string;
-  state?: ProbeState;
-  createdAt?: Date;
-  modifiedAt?: Date;
-  tags?: { [key: string]: string | undefined };
+  packetSize?: number | undefined;
+  addressFamily?: AddressFamily | undefined;
+  vpcId?: string | undefined;
+  state?: ProbeState | undefined;
+  createdAt?: Date | undefined;
+  modifiedAt?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DeleteMonitorInput {
   monitorName: string;
@@ -226,19 +226,19 @@ export interface GetMonitorInput {
   monitorName: string;
 }
 export interface Probe {
-  probeId?: string;
-  probeArn?: string;
+  probeId?: string | undefined;
+  probeArn?: string | undefined;
   sourceArn: string;
   destination: string;
-  destinationPort?: number;
+  destinationPort?: number | undefined;
   protocol: Protocol;
-  packetSize?: number;
-  addressFamily?: AddressFamily;
-  vpcId?: string;
-  state?: ProbeState;
-  createdAt?: Date;
-  modifiedAt?: Date;
-  tags?: { [key: string]: string | undefined };
+  packetSize?: number | undefined;
+  addressFamily?: AddressFamily | undefined;
+  vpcId?: string | undefined;
+  state?: ProbeState | undefined;
+  createdAt?: Date | undefined;
+  modifiedAt?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ProbeList = Probe[];
 export interface GetMonitorOutput {
@@ -246,8 +246,8 @@ export interface GetMonitorOutput {
   monitorName: string;
   state: MonitorState;
   aggregationPeriod: number;
-  tags?: { [key: string]: string | undefined };
-  probes?: Probe[];
+  tags?: { [key: string]: string | undefined } | undefined;
+  probes?: Probe[] | undefined;
   createdAt: Date;
   modifiedAt: Date;
 }
@@ -256,44 +256,44 @@ export interface GetProbeInput {
   probeId: string;
 }
 export interface GetProbeOutput {
-  probeId?: string;
-  probeArn?: string;
+  probeId?: string | undefined;
+  probeArn?: string | undefined;
   sourceArn: string;
   destination: string;
-  destinationPort?: number;
+  destinationPort?: number | undefined;
   protocol: Protocol;
-  packetSize?: number;
-  addressFamily?: AddressFamily;
-  vpcId?: string;
-  state?: ProbeState;
-  createdAt?: Date;
-  modifiedAt?: Date;
-  tags?: { [key: string]: string | undefined };
+  packetSize?: number | undefined;
+  addressFamily?: AddressFamily | undefined;
+  vpcId?: string | undefined;
+  state?: ProbeState | undefined;
+  createdAt?: Date | undefined;
+  modifiedAt?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type PaginationToken = string;
 export type MaxResults = number;
 export interface ListMonitorsInput {
-  nextToken?: string;
-  maxResults?: number;
-  state?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  state?: string | undefined;
 }
 export interface MonitorSummary {
   monitorArn: string;
   monitorName: string;
   state: MonitorState;
-  aggregationPeriod?: number;
-  tags?: { [key: string]: string | undefined };
+  aggregationPeriod?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type MonitorList = MonitorSummary[];
 export interface ListMonitorsOutput {
   monitors: MonitorSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceInput {
   resourceArn: string;
@@ -314,32 +314,32 @@ export interface UpdateMonitorOutput {
   monitorArn: string;
   monitorName: string;
   state: MonitorState;
-  aggregationPeriod?: number;
-  tags?: { [key: string]: string | undefined };
+  aggregationPeriod?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateProbeInput {
   monitorName: string;
   probeId: string;
-  state?: ProbeState;
-  destination?: string;
-  destinationPort?: number;
-  protocol?: Protocol;
-  packetSize?: number;
+  state?: ProbeState | undefined;
+  destination?: string | undefined;
+  destinationPort?: number | undefined;
+  protocol?: Protocol | undefined;
+  packetSize?: number | undefined;
 }
 export interface UpdateProbeOutput {
-  probeId?: string;
-  probeArn?: string;
+  probeId?: string | undefined;
+  probeArn?: string | undefined;
   sourceArn: string;
   destination: string;
-  destinationPort?: number;
+  destinationPort?: number | undefined;
   protocol: Protocol;
-  packetSize?: number;
-  addressFamily?: AddressFamily;
-  vpcId?: string;
-  state?: ProbeState;
-  createdAt?: Date;
-  modifiedAt?: Date;
-  tags?: { [key: string]: string | undefined };
+  packetSize?: number | undefined;
+  addressFamily?: AddressFamily | undefined;
+  vpcId?: string | undefined;
+  state?: ProbeState | undefined;
+  createdAt?: Date | undefined;
+  modifiedAt?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CreateMonitorError =
   | AccessDeniedException

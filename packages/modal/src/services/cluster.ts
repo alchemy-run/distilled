@@ -24,20 +24,21 @@ const TELEMETRY = {
 } as const;
 
 export interface GetClusterRequest {
-  clusterId?: string;
+  clusterId?: string | undefined;
 }
 export type StringList = Array<string>;
 export interface ClusterStats {
   appId: string;
   taskIds: StringList;
   clusterId: string;
+  /** Defined as start time of the first task in the cluster */
   startedAt: number;
 }
 export interface GetClusterResponse {
-  cluster?: ClusterStats;
+  cluster?: ClusterStats | undefined;
 }
 export interface ListClusterRequest {
-  environmentName?: string;
+  environmentName?: string | undefined;
 }
 export type ClusterStatsList = Array<ClusterStats>;
 export interface ListClusterResponse {
@@ -53,21 +54,22 @@ export interface ClusterReservationTask {
 }
 export type ClusterReservationTaskList = Array<ClusterReservationTask>;
 export interface ClusterReservation {
-  name: string;
   /** reservation name, as configured by Modal */
-  gpuType: string;
+  name: string;
   /** e.g. "B300" */
+  gpuType: string;
   region: string;
-  minReservedWorkers: number;
   /** workers Modal has committed to keep reserved */
-  reservedWorkers: number;
+  minReservedWorkers: number;
   /** healthy reserved workers currently present (active + idle) */
-  activeWorkers: number;
+  reservedWorkers: number;
   /** reserved workers running this workspace's containers */
-  idleWorkers: number;
+  activeWorkers: number;
   /** reserved workers available for new clusters */
-  unfulfilledWorkers: number;
+  idleWorkers: number;
   /** max(0, min_reserved_workers - reserved_workers) */
+  unfulfilledWorkers: number;
+  /** containers on reserved workers, ordered by cluster then rank */
   tasks: ClusterReservationTaskList;
 }
 export type ClusterReservationList2 = Array<ClusterReservation>;

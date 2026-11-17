@@ -153,8 +153,8 @@ export interface BatchDeleteDevicePositionHistoryRequest {
 }
 export type BatchItemErrorCode = string;
 export interface BatchItemError {
-  Code?: string;
-  Message?: string;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export interface BatchDeleteDevicePositionHistoryError_ {
   DeviceId: string;
@@ -187,8 +187,8 @@ export interface DevicePositionUpdate {
   DeviceId: string;
   SampleTime: Date;
   Position: number[];
-  Accuracy?: PositionalAccuracy;
-  PositionProperties?: { [key: string]: string | undefined };
+  Accuracy?: PositionalAccuracy | undefined;
+  PositionProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type DevicePositionUpdateList = DevicePositionUpdate[];
 export interface BatchEvaluateGeofencesRequest {
@@ -202,7 +202,7 @@ export interface BatchEvaluateGeofencesError_ {
 }
 export type BatchEvaluateGeofencesErrorList = BatchEvaluateGeofencesError_[];
 export interface BatchEvaluateGeofencesResponse {
-  Errors?: BatchEvaluateGeofencesError_[];
+  Errors?: BatchEvaluateGeofencesError_[] | undefined;
 }
 export interface BatchGetDevicePositionRequest {
   TrackerName: string;
@@ -214,12 +214,12 @@ export interface BatchGetDevicePositionError_ {
 }
 export type BatchGetDevicePositionErrorList = BatchGetDevicePositionError_[];
 export interface DevicePosition {
-  DeviceId?: string;
+  DeviceId?: string | undefined;
   SampleTime: Date;
   ReceivedTime: Date;
   Position: number[];
-  Accuracy?: PositionalAccuracy;
-  PositionProperties?: { [key: string]: string | undefined };
+  Accuracy?: PositionalAccuracy | undefined;
+  PositionProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type DevicePositionList = DevicePosition[];
 export interface BatchGetDevicePositionResponse {
@@ -235,16 +235,16 @@ export interface Circle {
 export type Base64EncodedGeobuf = Uint8Array | redacted.Redacted<Uint8Array>;
 export type MultiLinearRings = number[][][][];
 export interface GeofenceGeometry {
-  Polygon?: number[][][];
-  Circle?: Circle;
-  Geobuf?: Uint8Array | redacted.Redacted<Uint8Array>;
-  MultiPolygon?: number[][][][];
+  Polygon?: number[][][] | undefined;
+  Circle?: Circle | undefined;
+  Geobuf?: Uint8Array | redacted.Redacted<Uint8Array> | undefined;
+  MultiPolygon?: number[][][][] | undefined;
 }
 export type PropertyMap = { [key: string]: string | undefined };
 export interface BatchPutGeofenceRequestEntry {
   GeofenceId: string;
   Geometry: GeofenceGeometry;
-  GeofenceProperties?: { [key: string]: string | undefined };
+  GeofenceProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type BatchPutGeofenceRequestEntryList = BatchPutGeofenceRequestEntry[];
 export interface BatchPutGeofenceRequest {
@@ -284,26 +284,26 @@ export type TravelMode = string;
 export type SensitiveBoolean = boolean;
 export type DistanceUnit = string;
 export interface CalculateRouteCarModeOptions {
-  AvoidFerries?: boolean;
-  AvoidTolls?: boolean;
+  AvoidFerries?: boolean | undefined;
+  AvoidTolls?: boolean | undefined;
 }
 export type DimensionUnit = string;
 export interface TruckDimensions {
-  Length?: number;
-  Height?: number;
-  Width?: number;
-  Unit?: string;
+  Length?: number | undefined;
+  Height?: number | undefined;
+  Width?: number | undefined;
+  Unit?: string | undefined;
 }
 export type VehicleWeightUnit = string;
 export interface TruckWeight {
-  Total?: number;
-  Unit?: string;
+  Total?: number | undefined;
+  Unit?: string | undefined;
 }
 export interface CalculateRouteTruckModeOptions {
-  AvoidFerries?: boolean;
-  AvoidTolls?: boolean;
-  Dimensions?: TruckDimensions;
-  Weight?: TruckWeight;
+  AvoidFerries?: boolean | undefined;
+  AvoidTolls?: boolean | undefined;
+  Dimensions?: TruckDimensions | undefined;
+  Weight?: TruckWeight | undefined;
 }
 export type OptimizationMode = string;
 export type ApiKey = string | redacted.Redacted<string>;
@@ -311,28 +311,28 @@ export interface CalculateRouteRequest {
   CalculatorName: string;
   DeparturePosition: number[];
   DestinationPosition: number[];
-  WaypointPositions?: number[][];
-  TravelMode?: string;
-  DepartureTime?: Date;
-  DepartNow?: boolean;
-  DistanceUnit?: string;
-  IncludeLegGeometry?: boolean;
-  CarModeOptions?: CalculateRouteCarModeOptions;
-  TruckModeOptions?: CalculateRouteTruckModeOptions;
-  ArrivalTime?: Date;
-  OptimizeFor?: string;
-  Key?: string | redacted.Redacted<string>;
+  WaypointPositions?: number[][] | undefined;
+  TravelMode?: string | undefined;
+  DepartureTime?: Date | undefined;
+  DepartNow?: boolean | undefined;
+  DistanceUnit?: string | undefined;
+  IncludeLegGeometry?: boolean | undefined;
+  CarModeOptions?: CalculateRouteCarModeOptions | undefined;
+  TruckModeOptions?: CalculateRouteTruckModeOptions | undefined;
+  ArrivalTime?: Date | undefined;
+  OptimizeFor?: string | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export type LineString = number[][];
 export interface LegGeometry {
-  LineString?: number[][];
+  LineString?: number[][] | undefined;
 }
 export interface Step {
   StartPosition: number[];
   EndPosition: number[];
   Distance: number;
   DurationSeconds: number;
-  GeometryOffset?: number;
+  GeometryOffset?: number | undefined;
 }
 export type StepList = Step[];
 export interface Leg {
@@ -340,7 +340,7 @@ export interface Leg {
   EndPosition: number[];
   Distance: number;
   DurationSeconds: number;
-  Geometry?: LegGeometry;
+  Geometry?: LegGeometry | undefined;
   Steps: Step[];
 }
 export type LegList = Leg[];
@@ -361,23 +361,23 @@ export interface CalculateRouteMatrixRequest {
   CalculatorName: string;
   DeparturePositions: number[][];
   DestinationPositions: number[][];
-  TravelMode?: string;
-  DepartureTime?: Date;
-  DepartNow?: boolean;
-  DistanceUnit?: string;
-  CarModeOptions?: CalculateRouteCarModeOptions;
-  TruckModeOptions?: CalculateRouteTruckModeOptions;
-  Key?: string | redacted.Redacted<string>;
+  TravelMode?: string | undefined;
+  DepartureTime?: Date | undefined;
+  DepartNow?: boolean | undefined;
+  DistanceUnit?: string | undefined;
+  CarModeOptions?: CalculateRouteCarModeOptions | undefined;
+  TruckModeOptions?: CalculateRouteTruckModeOptions | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export type RouteMatrixErrorCode = string;
 export interface RouteMatrixEntryError {
   Code: string;
-  Message?: string;
+  Message?: string | undefined;
 }
 export interface RouteMatrixEntry {
-  Distance?: number;
-  DurationSeconds?: number;
-  Error?: RouteMatrixEntryError;
+  Distance?: number | undefined;
+  DurationSeconds?: number | undefined;
+  Error?: RouteMatrixEntryError | undefined;
 }
 export type RouteMatrixRow = RouteMatrixEntry[];
 export type RouteMatrix = RouteMatrixEntry[][];
@@ -389,8 +389,8 @@ export interface CalculateRouteMatrixSummary {
 }
 export interface CalculateRouteMatrixResponse {
   RouteMatrix: RouteMatrixEntry[][];
-  SnappedDeparturePositions?: number[][];
-  SnappedDestinationPositions?: number[][];
+  SnappedDeparturePositions?: number[][] | undefined;
+  SnappedDestinationPositions?: number[][] | undefined;
   Summary: CalculateRouteMatrixSummary;
 }
 export type JobId = string;
@@ -412,11 +412,11 @@ export type TagMap = { [key: string]: string | undefined };
 export type KmsKeyId = string;
 export interface CreateGeofenceCollectionRequest {
   CollectionName: string;
-  PricingPlan?: string;
-  PricingPlanDataSource?: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
-  KmsKeyId?: string;
+  PricingPlan?: string | undefined;
+  PricingPlanDataSource?: string | undefined;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  KmsKeyId?: string | undefined;
 }
 export interface CreateGeofenceCollectionResponse {
   CollectionName: string;
@@ -444,17 +444,17 @@ export type AppleAppList = AppleApp[];
 export interface ApiKeyRestrictions {
   AllowActions: string[];
   AllowResources: string[];
-  AllowReferers?: (string | redacted.Redacted<string>)[];
-  AllowAndroidApps?: AndroidApp[];
-  AllowAppleApps?: AppleApp[];
+  AllowReferers?: (string | redacted.Redacted<string>)[] | undefined;
+  AllowAndroidApps?: AndroidApp[] | undefined;
+  AllowAppleApps?: AppleApp[] | undefined;
 }
 export interface CreateKeyRequest {
   KeyName: string;
   Restrictions: ApiKeyRestrictions;
-  Description?: string;
-  ExpireTime?: Date;
-  NoExpiry?: boolean;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  ExpireTime?: Date | undefined;
+  NoExpiry?: boolean | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateKeyResponse {
   Key: string | redacted.Redacted<string>;
@@ -468,15 +468,15 @@ export type CustomLayer = string;
 export type CustomLayerList = string[];
 export interface MapConfiguration {
   Style: string;
-  PoliticalView?: string | redacted.Redacted<string>;
-  CustomLayers?: string[];
+  PoliticalView?: string | redacted.Redacted<string> | undefined;
+  CustomLayers?: string[] | undefined;
 }
 export interface CreateMapRequest {
   MapName: string;
   Configuration: MapConfiguration;
-  PricingPlan?: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
+  PricingPlan?: string | undefined;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateMapResponse {
   MapName: string;
@@ -485,15 +485,15 @@ export interface CreateMapResponse {
 }
 export type IntendedUse = string;
 export interface DataSourceConfiguration {
-  IntendedUse?: string;
+  IntendedUse?: string | undefined;
 }
 export interface CreatePlaceIndexRequest {
   IndexName: string;
   DataSource: string;
-  PricingPlan?: string;
-  Description?: string;
-  DataSourceConfiguration?: DataSourceConfiguration;
-  Tags?: { [key: string]: string | undefined };
+  PricingPlan?: string | undefined;
+  Description?: string | undefined;
+  DataSourceConfiguration?: DataSourceConfiguration | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreatePlaceIndexResponse {
   IndexName: string;
@@ -503,9 +503,9 @@ export interface CreatePlaceIndexResponse {
 export interface CreateRouteCalculatorRequest {
   CalculatorName: string;
   DataSource: string;
-  PricingPlan?: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
+  PricingPlan?: string | undefined;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateRouteCalculatorResponse {
   CalculatorName: string;
@@ -515,14 +515,14 @@ export interface CreateRouteCalculatorResponse {
 export type PositionFiltering = string;
 export interface CreateTrackerRequest {
   TrackerName: string;
-  PricingPlan?: string;
-  KmsKeyId?: string;
-  PricingPlanDataSource?: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
-  PositionFiltering?: string;
-  EventBridgeEnabled?: boolean;
-  KmsKeyEnableGeospatialQueries?: boolean;
+  PricingPlan?: string | undefined;
+  KmsKeyId?: string | undefined;
+  PricingPlanDataSource?: string | undefined;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  PositionFiltering?: string | undefined;
+  EventBridgeEnabled?: boolean | undefined;
+  KmsKeyEnableGeospatialQueries?: boolean | undefined;
 }
 export interface CreateTrackerResponse {
   TrackerName: string;
@@ -535,7 +535,7 @@ export interface DeleteGeofenceCollectionRequest {
 export interface DeleteGeofenceCollectionResponse {}
 export interface DeleteKeyRequest {
   KeyName: string;
-  ForceDelete?: boolean;
+  ForceDelete?: boolean | undefined;
 }
 export interface DeleteKeyResponse {}
 export interface DeleteMapRequest {
@@ -560,14 +560,14 @@ export interface DescribeGeofenceCollectionRequest {
 export interface DescribeGeofenceCollectionResponse {
   CollectionName: string;
   CollectionArn: string;
-  Description?: string;
-  PricingPlan?: string;
-  PricingPlanDataSource?: string;
-  KmsKeyId?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  PricingPlan?: string | undefined;
+  PricingPlanDataSource?: string | undefined;
+  KmsKeyId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
   CreateTime: Date;
   UpdateTime: Date;
-  GeofenceCount?: number;
+  GeofenceCount?: number | undefined;
 }
 export interface DescribeKeyRequest {
   KeyName: string;
@@ -580,8 +580,8 @@ export interface DescribeKeyResponse {
   CreateTime: Date;
   ExpireTime: Date;
   UpdateTime: Date;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeMapRequest {
   MapName: string;
@@ -589,11 +589,11 @@ export interface DescribeMapRequest {
 export interface DescribeMapResponse {
   MapName: string;
   MapArn: string;
-  PricingPlan?: string;
+  PricingPlan?: string | undefined;
   DataSource: string;
   Configuration: MapConfiguration;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
   CreateTime: Date;
   UpdateTime: Date;
 }
@@ -603,13 +603,13 @@ export interface DescribePlaceIndexRequest {
 export interface DescribePlaceIndexResponse {
   IndexName: string;
   IndexArn: string;
-  PricingPlan?: string;
-  Description?: string;
+  PricingPlan?: string | undefined;
+  Description?: string | undefined;
   CreateTime: Date;
   UpdateTime: Date;
   DataSource: string;
   DataSourceConfiguration: DataSourceConfiguration;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeRouteCalculatorRequest {
   CalculatorName: string;
@@ -617,12 +617,12 @@ export interface DescribeRouteCalculatorRequest {
 export interface DescribeRouteCalculatorResponse {
   CalculatorName: string;
   CalculatorArn: string;
-  PricingPlan?: string;
-  Description?: string;
+  PricingPlan?: string | undefined;
+  Description?: string | undefined;
   CreateTime: Date;
   UpdateTime: Date;
   DataSource: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeTrackerRequest {
   TrackerName: string;
@@ -630,16 +630,16 @@ export interface DescribeTrackerRequest {
 export interface DescribeTrackerResponse {
   TrackerName: string;
   TrackerArn: string;
-  Description?: string;
-  PricingPlan?: string;
-  PricingPlanDataSource?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  PricingPlan?: string | undefined;
+  PricingPlanDataSource?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
   CreateTime: Date;
   UpdateTime: Date;
-  KmsKeyId?: string;
-  PositionFiltering?: string;
-  EventBridgeEnabled?: boolean;
-  KmsKeyEnableGeospatialQueries?: boolean;
+  KmsKeyId?: string | undefined;
+  PositionFiltering?: string | undefined;
+  EventBridgeEnabled?: boolean | undefined;
+  KmsKeyEnableGeospatialQueries?: boolean | undefined;
 }
 export interface DisassociateTrackerConsumerRequest {
   TrackerName: string;
@@ -648,18 +648,18 @@ export interface DisassociateTrackerConsumerRequest {
 export interface DisassociateTrackerConsumerResponse {}
 export interface ForecastGeofenceEventsDeviceState {
   Position: number[];
-  Speed?: number;
+  Speed?: number | undefined;
 }
 export type SpeedUnit = string;
 export type LargeToken = string;
 export interface ForecastGeofenceEventsRequest {
   CollectionName: string;
   DeviceState: ForecastGeofenceEventsDeviceState;
-  TimeHorizonMinutes?: number;
-  DistanceUnit?: string;
-  SpeedUnit?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  TimeHorizonMinutes?: number | undefined;
+  DistanceUnit?: string | undefined;
+  SpeedUnit?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type Uuid = string;
 export type NearestDistance = number;
@@ -670,13 +670,13 @@ export interface ForecastedEvent {
   IsDeviceInGeofence: boolean;
   NearestDistance: number;
   EventType: string;
-  ForecastedBreachTime?: Date;
-  GeofenceProperties?: { [key: string]: string | undefined };
+  ForecastedBreachTime?: Date | undefined;
+  GeofenceProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type ForecastedEventsList = ForecastedEvent[];
 export interface ForecastGeofenceEventsResponse {
   ForecastedEvents: ForecastedEvent[];
-  NextToken?: string;
+  NextToken?: string | undefined;
   DistanceUnit: string;
   SpeedUnit: string;
 }
@@ -685,25 +685,25 @@ export interface GetDevicePositionRequest {
   DeviceId: string;
 }
 export interface GetDevicePositionResponse {
-  DeviceId?: string;
+  DeviceId?: string | undefined;
   SampleTime: Date;
   ReceivedTime: Date;
   Position: number[];
-  Accuracy?: PositionalAccuracy;
-  PositionProperties?: { [key: string]: string | undefined };
+  Accuracy?: PositionalAccuracy | undefined;
+  PositionProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type Token = string;
 export interface GetDevicePositionHistoryRequest {
   TrackerName: string;
   DeviceId: string;
-  NextToken?: string;
-  StartTimeInclusive?: Date;
-  EndTimeExclusive?: Date;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  StartTimeInclusive?: Date | undefined;
+  EndTimeExclusive?: Date | undefined;
+  MaxResults?: number | undefined;
 }
 export interface GetDevicePositionHistoryResponse {
   DevicePositions: DevicePosition[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetGeofenceRequest {
   CollectionName: string;
@@ -715,7 +715,7 @@ export interface GetGeofenceResponse {
   Status: string;
   CreateTime: Date;
   UpdateTime: Date;
-  GeofenceProperties?: { [key: string]: string | undefined };
+  GeofenceProperties?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetJobRequest {
   JobId: string;
@@ -724,17 +724,17 @@ export type JobAction = string;
 export type ValidateAddressAdditionalFeature = string;
 export type ValidateAddressAdditionalFeatureList = string[];
 export interface ValidateAddressActionOptions {
-  AdditionalFeatures?: string[];
+  AdditionalFeatures?: string[] | undefined;
 }
 export interface JobActionOptions {
-  ValidateAddress?: ValidateAddressActionOptions;
+  ValidateAddress?: ValidateAddressActionOptions | undefined;
 }
 export type JobErrorCode = string;
 export type JobErrorMessage = string;
 export type JobErrorMessagesList = string[];
 export interface JobError {
   Code: string;
-  Messages?: string[];
+  Messages?: string[] | undefined;
 }
 export type IamRoleArn = string;
 export type JobInputLocation = string;
@@ -751,49 +751,49 @@ export interface JobOutputOptions {
 }
 export interface GetJobResponse {
   Action: string;
-  ActionOptions?: JobActionOptions;
+  ActionOptions?: JobActionOptions | undefined;
   CreatedAt: Date;
-  EndedAt?: Date;
-  Error?: JobError;
+  EndedAt?: Date | undefined;
+  Error?: JobError | undefined;
   ExecutionRoleArn: string;
   InputOptions: JobInputOptions;
   JobArn: string;
   JobId: string;
-  Name?: string;
+  Name?: string | undefined;
   OutputOptions: JobOutputOptions;
   Status: string;
   UpdatedAt: Date;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetMapGlyphsRequest {
   MapName: string;
   FontStack: string;
   FontUnicodeRange: string;
-  Key?: string | redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetMapGlyphsResponse {
-  Blob?: Uint8Array;
-  ContentType?: string;
-  CacheControl?: string;
+  Blob?: Uint8Array | undefined;
+  ContentType?: string | undefined;
+  CacheControl?: string | undefined;
 }
 export interface GetMapSpritesRequest {
   MapName: string;
   FileName: string;
-  Key?: string | redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetMapSpritesResponse {
-  Blob?: Uint8Array;
-  ContentType?: string;
-  CacheControl?: string;
+  Blob?: Uint8Array | undefined;
+  ContentType?: string | undefined;
+  CacheControl?: string | undefined;
 }
 export interface GetMapStyleDescriptorRequest {
   MapName: string;
-  Key?: string | redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetMapStyleDescriptorResponse {
-  Blob?: Uint8Array;
-  ContentType?: string;
-  CacheControl?: string;
+  Blob?: Uint8Array | undefined;
+  ContentType?: string | undefined;
+  CacheControl?: string | undefined;
 }
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface GetMapTileRequest {
@@ -801,97 +801,97 @@ export interface GetMapTileRequest {
   Z: string | redacted.Redacted<string>;
   X: string | redacted.Redacted<string>;
   Y: string | redacted.Redacted<string>;
-  Key?: string | redacted.Redacted<string>;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetMapTileResponse {
-  Blob?: Uint8Array;
-  ContentType?: string;
-  CacheControl?: string;
+  Blob?: Uint8Array | undefined;
+  ContentType?: string | undefined;
+  CacheControl?: string | undefined;
 }
 export type PlaceId = string | redacted.Redacted<string>;
 export type LanguageTag = string;
 export interface GetPlaceRequest {
   IndexName: string;
   PlaceId: string | redacted.Redacted<string>;
-  Language?: string;
-  Key?: string | redacted.Redacted<string>;
+  Language?: string | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export interface PlaceGeometry {
-  Point?: number[];
+  Point?: number[] | undefined;
 }
 export type SensitiveInteger = number;
 export interface TimeZone {
   Name: string | redacted.Redacted<string>;
-  Offset?: number;
+  Offset?: number | undefined;
 }
 export type PlaceCategory = string | redacted.Redacted<string>;
 export type PlaceCategoryList = (string | redacted.Redacted<string>)[];
 export type PlaceSupplementalCategory = string | redacted.Redacted<string>;
 export type PlaceSupplementalCategoryList = (string | redacted.Redacted<string>)[];
 export interface Place {
-  Label?: string | redacted.Redacted<string>;
+  Label?: string | redacted.Redacted<string> | undefined;
   Geometry: PlaceGeometry;
-  AddressNumber?: string | redacted.Redacted<string>;
-  Street?: string | redacted.Redacted<string>;
-  Neighborhood?: string | redacted.Redacted<string>;
-  Municipality?: string | redacted.Redacted<string>;
-  SubRegion?: string | redacted.Redacted<string>;
-  Region?: string | redacted.Redacted<string>;
-  Country?: string | redacted.Redacted<string>;
-  PostalCode?: string | redacted.Redacted<string>;
-  Interpolated?: boolean;
-  TimeZone?: TimeZone;
-  UnitType?: string | redacted.Redacted<string>;
-  UnitNumber?: string | redacted.Redacted<string>;
-  Categories?: (string | redacted.Redacted<string>)[];
-  SupplementalCategories?: (string | redacted.Redacted<string>)[];
-  SubMunicipality?: string | redacted.Redacted<string>;
+  AddressNumber?: string | redacted.Redacted<string> | undefined;
+  Street?: string | redacted.Redacted<string> | undefined;
+  Neighborhood?: string | redacted.Redacted<string> | undefined;
+  Municipality?: string | redacted.Redacted<string> | undefined;
+  SubRegion?: string | redacted.Redacted<string> | undefined;
+  Region?: string | redacted.Redacted<string> | undefined;
+  Country?: string | redacted.Redacted<string> | undefined;
+  PostalCode?: string | redacted.Redacted<string> | undefined;
+  Interpolated?: boolean | undefined;
+  TimeZone?: TimeZone | undefined;
+  UnitType?: string | redacted.Redacted<string> | undefined;
+  UnitNumber?: string | redacted.Redacted<string> | undefined;
+  Categories?: (string | redacted.Redacted<string>)[] | undefined;
+  SupplementalCategories?: (string | redacted.Redacted<string>)[] | undefined;
+  SubMunicipality?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetPlaceResponse {
   Place: Place;
 }
 export interface TrackingFilterGeometry {
-  Polygon?: number[][][];
+  Polygon?: number[][][] | undefined;
 }
 export interface ListDevicePositionsRequest {
   TrackerName: string;
-  MaxResults?: number;
-  NextToken?: string;
-  FilterGeometry?: TrackingFilterGeometry;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  FilterGeometry?: TrackingFilterGeometry | undefined;
 }
 export interface ListDevicePositionsResponseEntry {
   DeviceId: string;
   SampleTime: Date;
   Position: number[];
-  Accuracy?: PositionalAccuracy;
-  PositionProperties?: { [key: string]: string | undefined };
+  Accuracy?: PositionalAccuracy | undefined;
+  PositionProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type ListDevicePositionsResponseEntryList = ListDevicePositionsResponseEntry[];
 export interface ListDevicePositionsResponse {
   Entries: ListDevicePositionsResponseEntry[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListGeofenceCollectionsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGeofenceCollectionsResponseEntry {
   CollectionName: string;
-  Description?: string;
-  PricingPlan?: string;
-  PricingPlanDataSource?: string;
+  Description?: string | undefined;
+  PricingPlan?: string | undefined;
+  PricingPlanDataSource?: string | undefined;
   CreateTime: Date;
   UpdateTime: Date;
 }
 export type ListGeofenceCollectionsResponseEntryList = ListGeofenceCollectionsResponseEntry[];
 export interface ListGeofenceCollectionsResponse {
   Entries: ListGeofenceCollectionsResponseEntry[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListGeofencesRequest {
   CollectionName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListGeofenceResponseEntry {
   GeofenceId: string;
@@ -899,32 +899,32 @@ export interface ListGeofenceResponseEntry {
   Status: string;
   CreateTime: Date;
   UpdateTime: Date;
-  GeofenceProperties?: { [key: string]: string | undefined };
+  GeofenceProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type ListGeofenceResponseEntryList = ListGeofenceResponseEntry[];
 export interface ListGeofencesResponse {
   Entries: ListGeofenceResponseEntry[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface JobsFilter {
-  JobStatus?: string;
+  JobStatus?: string | undefined;
 }
 export interface ListJobsRequest {
-  Filter?: JobsFilter;
-  MaxResults?: number;
-  NextToken?: string;
+  Filter?: JobsFilter | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListJobsResponseEntry {
   Action: string;
-  ActionOptions?: JobActionOptions;
+  ActionOptions?: JobActionOptions | undefined;
   CreatedAt: Date;
   ExecutionRoleArn: string;
-  EndedAt?: Date;
-  Error?: JobError;
+  EndedAt?: Date | undefined;
+  Error?: JobError | undefined;
   InputOptions: JobInputOptions;
   JobId: string;
   JobArn: string;
-  Name?: string;
+  Name?: string | undefined;
   OutputOptions: JobOutputOptions;
   Status: string;
   UpdatedAt: Date;
@@ -932,21 +932,21 @@ export interface ListJobsResponseEntry {
 export type ListJobsResponseEntryList = ListJobsResponseEntry[];
 export interface ListJobsResponse {
   Entries: ListJobsResponseEntry[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type Status = string;
 export interface ApiKeyFilter {
-  KeyStatus?: string;
+  KeyStatus?: string | undefined;
 }
 export interface ListKeysRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filter?: ApiKeyFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filter?: ApiKeyFilter | undefined;
 }
 export interface ListKeysResponseEntry {
   KeyName: string;
   ExpireTime: Date;
-  Description?: string;
+  Description?: string | undefined;
   Restrictions: ApiKeyRestrictions;
   CreateTime: Date;
   UpdateTime: Date;
@@ -954,97 +954,97 @@ export interface ListKeysResponseEntry {
 export type ListKeysResponseEntryList = ListKeysResponseEntry[];
 export interface ListKeysResponse {
   Entries: ListKeysResponseEntry[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListMapsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMapsResponseEntry {
   MapName: string;
-  Description?: string;
+  Description?: string | undefined;
   DataSource: string;
-  PricingPlan?: string;
+  PricingPlan?: string | undefined;
   CreateTime: Date;
   UpdateTime: Date;
 }
 export type ListMapsResponseEntryList = ListMapsResponseEntry[];
 export interface ListMapsResponse {
   Entries: ListMapsResponseEntry[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListPlaceIndexesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPlaceIndexesResponseEntry {
   IndexName: string;
-  Description?: string;
+  Description?: string | undefined;
   DataSource: string;
-  PricingPlan?: string;
+  PricingPlan?: string | undefined;
   CreateTime: Date;
   UpdateTime: Date;
 }
 export type ListPlaceIndexesResponseEntryList = ListPlaceIndexesResponseEntry[];
 export interface ListPlaceIndexesResponse {
   Entries: ListPlaceIndexesResponseEntry[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListRouteCalculatorsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRouteCalculatorsResponseEntry {
   CalculatorName: string;
-  Description?: string;
+  Description?: string | undefined;
   DataSource: string;
-  PricingPlan?: string;
+  PricingPlan?: string | undefined;
   CreateTime: Date;
   UpdateTime: Date;
 }
 export type ListRouteCalculatorsResponseEntryList = ListRouteCalculatorsResponseEntry[];
 export interface ListRouteCalculatorsResponse {
   Entries: ListRouteCalculatorsResponseEntry[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTrackerConsumersRequest {
   TrackerName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ArnList = string[];
 export interface ListTrackerConsumersResponse {
   ConsumerArns: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTrackersRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTrackersResponseEntry {
   TrackerName: string;
-  Description?: string;
-  PricingPlan?: string;
-  PricingPlanDataSource?: string;
+  Description?: string | undefined;
+  PricingPlan?: string | undefined;
+  PricingPlanDataSource?: string | undefined;
   CreateTime: Date;
   UpdateTime: Date;
 }
 export type ListTrackersResponseEntryList = ListTrackersResponseEntry[];
 export interface ListTrackersResponse {
   Entries: ListTrackersResponseEntry[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface PutGeofenceRequest {
   CollectionName: string;
   GeofenceId: string;
   Geometry: GeofenceGeometry;
-  GeofenceProperties?: { [key: string]: string | undefined };
+  GeofenceProperties?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutGeofenceResponse {
   GeofenceId: string;
@@ -1055,20 +1055,20 @@ export type PlaceIndexSearchResultLimit = number;
 export interface SearchPlaceIndexForPositionRequest {
   IndexName: string;
   Position: number[];
-  MaxResults?: number;
-  Language?: string;
-  Key?: string | redacted.Redacted<string>;
+  MaxResults?: number | undefined;
+  Language?: string | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export interface SearchPlaceIndexForPositionSummary {
   Position: number[];
-  MaxResults?: number;
+  MaxResults?: number | undefined;
   DataSource: string;
-  Language?: string;
+  Language?: string | undefined;
 }
 export interface SearchForPositionResult {
   Place: Place;
   Distance: number;
-  PlaceId?: string | redacted.Redacted<string>;
+  PlaceId?: string | redacted.Redacted<string> | undefined;
 }
 export type SearchForPositionResultList = SearchForPositionResult[];
 export interface SearchPlaceIndexForPositionResponse {
@@ -1080,29 +1080,29 @@ export type FilterPlaceCategoryList = (string | redacted.Redacted<string>)[];
 export interface SearchPlaceIndexForSuggestionsRequest {
   IndexName: string;
   Text: string | redacted.Redacted<string>;
-  BiasPosition?: number[];
-  FilterBBox?: number[];
-  FilterCountries?: (string | redacted.Redacted<string>)[];
-  MaxResults?: number;
-  Language?: string;
-  FilterCategories?: (string | redacted.Redacted<string>)[];
-  Key?: string | redacted.Redacted<string>;
+  BiasPosition?: number[] | undefined;
+  FilterBBox?: number[] | undefined;
+  FilterCountries?: (string | redacted.Redacted<string>)[] | undefined;
+  MaxResults?: number | undefined;
+  Language?: string | undefined;
+  FilterCategories?: (string | redacted.Redacted<string>)[] | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export interface SearchPlaceIndexForSuggestionsSummary {
   Text: string | redacted.Redacted<string>;
-  BiasPosition?: number[];
-  FilterBBox?: number[];
-  FilterCountries?: (string | redacted.Redacted<string>)[];
-  MaxResults?: number;
+  BiasPosition?: number[] | undefined;
+  FilterBBox?: number[] | undefined;
+  FilterCountries?: (string | redacted.Redacted<string>)[] | undefined;
+  MaxResults?: number | undefined;
   DataSource: string;
-  Language?: string;
-  FilterCategories?: (string | redacted.Redacted<string>)[];
+  Language?: string | undefined;
+  FilterCategories?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface SearchForSuggestionsResult {
   Text: string | redacted.Redacted<string>;
-  PlaceId?: string | redacted.Redacted<string>;
-  Categories?: (string | redacted.Redacted<string>)[];
-  SupplementalCategories?: (string | redacted.Redacted<string>)[];
+  PlaceId?: string | redacted.Redacted<string> | undefined;
+  Categories?: (string | redacted.Redacted<string>)[] | undefined;
+  SupplementalCategories?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type SearchForSuggestionsResultList = SearchForSuggestionsResult[];
 export interface SearchPlaceIndexForSuggestionsResponse {
@@ -1112,30 +1112,30 @@ export interface SearchPlaceIndexForSuggestionsResponse {
 export interface SearchPlaceIndexForTextRequest {
   IndexName: string;
   Text: string | redacted.Redacted<string>;
-  BiasPosition?: number[];
-  FilterBBox?: number[];
-  FilterCountries?: (string | redacted.Redacted<string>)[];
-  MaxResults?: number;
-  Language?: string;
-  FilterCategories?: (string | redacted.Redacted<string>)[];
-  Key?: string | redacted.Redacted<string>;
+  BiasPosition?: number[] | undefined;
+  FilterBBox?: number[] | undefined;
+  FilterCountries?: (string | redacted.Redacted<string>)[] | undefined;
+  MaxResults?: number | undefined;
+  Language?: string | undefined;
+  FilterCategories?: (string | redacted.Redacted<string>)[] | undefined;
+  Key?: string | redacted.Redacted<string> | undefined;
 }
 export interface SearchPlaceIndexForTextSummary {
   Text: string | redacted.Redacted<string>;
-  BiasPosition?: number[];
-  FilterBBox?: number[];
-  FilterCountries?: (string | redacted.Redacted<string>)[];
-  MaxResults?: number;
-  ResultBBox?: number[];
+  BiasPosition?: number[] | undefined;
+  FilterBBox?: number[] | undefined;
+  FilterCountries?: (string | redacted.Redacted<string>)[] | undefined;
+  MaxResults?: number | undefined;
+  ResultBBox?: number[] | undefined;
   DataSource: string;
-  Language?: string;
-  FilterCategories?: (string | redacted.Redacted<string>)[];
+  Language?: string | undefined;
+  FilterCategories?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface SearchForTextResult {
   Place: Place;
-  Distance?: number;
-  Relevance?: number;
-  PlaceId?: string | redacted.Redacted<string>;
+  Distance?: number | undefined;
+  Relevance?: number | undefined;
+  PlaceId?: string | redacted.Redacted<string> | undefined;
 }
 export type SearchForTextResultList = SearchForTextResult[];
 export interface SearchPlaceIndexForTextResponse {
@@ -1144,14 +1144,14 @@ export interface SearchPlaceIndexForTextResponse {
 }
 export type ClientToken = string;
 export interface StartJobRequest {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   Action: string;
-  ActionOptions?: JobActionOptions;
+  ActionOptions?: JobActionOptions | undefined;
   ExecutionRoleArn: string;
   InputOptions: JobInputOptions;
-  Name?: string;
+  Name?: string | undefined;
   OutputOptions: JobOutputOptions;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartJobResponse {
   CreatedAt: Date;
@@ -1172,9 +1172,9 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateGeofenceCollectionRequest {
   CollectionName: string;
-  PricingPlan?: string;
-  PricingPlanDataSource?: string;
-  Description?: string;
+  PricingPlan?: string | undefined;
+  PricingPlanDataSource?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateGeofenceCollectionResponse {
   CollectionName: string;
@@ -1183,11 +1183,11 @@ export interface UpdateGeofenceCollectionResponse {
 }
 export interface UpdateKeyRequest {
   KeyName: string;
-  Description?: string;
-  ExpireTime?: Date;
-  NoExpiry?: boolean;
-  ForceUpdate?: boolean;
-  Restrictions?: ApiKeyRestrictions;
+  Description?: string | undefined;
+  ExpireTime?: Date | undefined;
+  NoExpiry?: boolean | undefined;
+  ForceUpdate?: boolean | undefined;
+  Restrictions?: ApiKeyRestrictions | undefined;
 }
 export interface UpdateKeyResponse {
   KeyArn: string;
@@ -1196,14 +1196,14 @@ export interface UpdateKeyResponse {
 }
 export type CountryCode3OrEmpty = string | redacted.Redacted<string>;
 export interface MapConfigurationUpdate {
-  PoliticalView?: string | redacted.Redacted<string>;
-  CustomLayers?: string[];
+  PoliticalView?: string | redacted.Redacted<string> | undefined;
+  CustomLayers?: string[] | undefined;
 }
 export interface UpdateMapRequest {
   MapName: string;
-  PricingPlan?: string;
-  Description?: string;
-  ConfigurationUpdate?: MapConfigurationUpdate;
+  PricingPlan?: string | undefined;
+  Description?: string | undefined;
+  ConfigurationUpdate?: MapConfigurationUpdate | undefined;
 }
 export interface UpdateMapResponse {
   MapName: string;
@@ -1212,9 +1212,9 @@ export interface UpdateMapResponse {
 }
 export interface UpdatePlaceIndexRequest {
   IndexName: string;
-  PricingPlan?: string;
-  Description?: string;
-  DataSourceConfiguration?: DataSourceConfiguration;
+  PricingPlan?: string | undefined;
+  Description?: string | undefined;
+  DataSourceConfiguration?: DataSourceConfiguration | undefined;
 }
 export interface UpdatePlaceIndexResponse {
   IndexName: string;
@@ -1223,8 +1223,8 @@ export interface UpdatePlaceIndexResponse {
 }
 export interface UpdateRouteCalculatorRequest {
   CalculatorName: string;
-  PricingPlan?: string;
-  Description?: string;
+  PricingPlan?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateRouteCalculatorResponse {
   CalculatorName: string;
@@ -1233,12 +1233,12 @@ export interface UpdateRouteCalculatorResponse {
 }
 export interface UpdateTrackerRequest {
   TrackerName: string;
-  PricingPlan?: string;
-  PricingPlanDataSource?: string;
-  Description?: string;
-  PositionFiltering?: string;
-  EventBridgeEnabled?: boolean;
-  KmsKeyEnableGeospatialQueries?: boolean;
+  PricingPlan?: string | undefined;
+  PricingPlanDataSource?: string | undefined;
+  Description?: string | undefined;
+  PositionFiltering?: string | undefined;
+  EventBridgeEnabled?: boolean | undefined;
+  KmsKeyEnableGeospatialQueries?: boolean | undefined;
 }
 export interface UpdateTrackerResponse {
   TrackerName: string;
@@ -1263,21 +1263,21 @@ export interface LteNetworkMeasurements {
   Earfcn: number;
   CellId: number;
   Pci: number;
-  Rsrp?: number;
-  Rsrq?: number;
+  Rsrp?: number | undefined;
+  Rsrq?: number | undefined;
 }
 export type LteNetworkMeasurementsList = LteNetworkMeasurements[];
 export interface LteCellDetails {
   CellId: number;
   Mcc: number;
   Mnc: number;
-  LocalId?: LteLocalId;
-  NetworkMeasurements?: LteNetworkMeasurements[];
-  TimingAdvance?: number;
-  NrCapable?: boolean;
-  Rsrp?: number;
-  Rsrq?: number;
-  Tac?: number;
+  LocalId?: LteLocalId | undefined;
+  NetworkMeasurements?: LteNetworkMeasurements[] | undefined;
+  TimingAdvance?: number | undefined;
+  NrCapable?: boolean | undefined;
+  Rsrp?: number | undefined;
+  Rsrq?: number | undefined;
+  Tac?: number | undefined;
 }
 export type LteCellDetailsList = LteCellDetails[];
 export interface CellSignals {
@@ -1287,20 +1287,20 @@ export interface DeviceState {
   DeviceId: string;
   SampleTime: Date;
   Position: number[];
-  Accuracy?: PositionalAccuracy;
-  Ipv4Address?: string;
-  WiFiAccessPoints?: WiFiAccessPoint[];
-  CellSignals?: CellSignals;
+  Accuracy?: PositionalAccuracy | undefined;
+  Ipv4Address?: string | undefined;
+  WiFiAccessPoints?: WiFiAccessPoint[] | undefined;
+  CellSignals?: CellSignals | undefined;
 }
 export interface VerifyDevicePositionRequest {
   TrackerName: string;
   DeviceState: DeviceState;
-  DistanceUnit?: string;
+  DistanceUnit?: string | undefined;
 }
 export interface InferredState {
-  Position?: number[];
-  Accuracy?: PositionalAccuracy;
-  DeviationDistance?: number;
+  Position?: number[] | undefined;
+  Accuracy?: PositionalAccuracy | undefined;
+  DeviationDistance?: number | undefined;
   ProxyDetected: boolean;
 }
 export interface VerifyDevicePositionResponse {

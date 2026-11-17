@@ -1,59 +1,7 @@
-- strict distilled (runtime check for inputs and output)
-- benchmarking
-  - runtime perf
-  - bundle time
-  - bundle size
-- new website
-  - name and shame apis based on how many patches
-- logging/otel/debug mode
 - unlisted properties
 - readme.md
-- license.md
-- extract cf docs mirror into its own submodule
-- fix runaway spec-submodule size — DONE (stacks/distilled-submodules)
-  - the general problem: `specs:sync` at the repo root was a recursive
-    `submodule update --init` over every package, so it materialised each
-    upstream in full — github/rest-api-description at ~6.7 GB checked out for
-    one 13 MB file, kubernetes/kubernetes ~1.5 GB for one, and
-    Azure/azure-rest-api-specs (338k paths for ~780 documents).
-  - `stacks/distilled-submodules` manages one `distilled-mirror/spec-mirror-<pkg>`
-    repository per spec-consuming package, and an Alchemy Action commits the
-    exact file set into each — a per-upstream `fetch-specs.ts` plus a daily
-    refresh workflow.
-  - all 24 unblocked packages now submodule their mirror instead of the
-    upstream; `specs:sync` is 406 MB of working tree, shallow and
-    non-recursive. `pnpm specs:check` fails if a package drops back off its
-    mirror or loses `shallow = true`.
-  - contributors who cannot create a mirror develop against
-    `pnpm specs:local <pkg>` + `DISTILLED_SPECS_LOCAL=1`; see
-    `.agents/skills/distilled-sdk`.
-- cloudflare spec source is broken upstream
-  - developers.cloudflare.com migrated to Astro/Starlight and now serves the
-    full HTML page at every `<page>/index.md` URL — including the ones its own
-    /api/llms.txt still advertises as markdown. So
-    `packages/cloudflare/scripts/download-api-docs.ts` no longer downloads
-    markdown: a crawl today yields 7.2 GB of HTML instead of ~16 MB of
-    markdown, and `packages/cloudflare/specs` is a stale snapshot.
-  - `spec-mirror-cloudflare` is therefore managed but unscaffolded.
-  - likely fix: move the generator off the docs crawl and onto
-    cloudflare/api-schemas, which publishes a real 24 MB openapi.json. That is
-    a generator change (spec-to-smithy.ts parses markdown today), not a mirror
-    change.
 - requested sdks (name — source of the request)
-  - xata — distilled#354
-  - sentry — alchemy#1003 (review comment r3709110628)
-  - spacetimedb — alchemy#1044 (review comment r3710539021)
-  - docker — distilled#170
-  - meilisearch — distilled#377
-  - polar — distilled#373, distilled#236
-  - clerk — distilled#317
-  - resend — distilled#346
-  - turbopuffer — distilled#357
   - better-auth — distilled#372
-  - unkey — distilled#323
-  - hostinger — distilled#338
-  - discord — distilled#276
-  - modrinth — distilled#287
 - upload converted specs on release to our own infra (R2), not GitHub
   - once #933 stops committing `packages/*/.generated-specs/`, the few people
     who read the converted models need another place to get them
@@ -62,6 +10,18 @@
     package's models into `packages/<pkg>/.generated-specs/`
   - not GitHub Actions artifacts or a mirror repo; `pnpm convert <pkg>` stays
     the local fallback
+  - we should also release builds on our own; that way in alchemy post install
+    can just pull down those pre-builts instead of having to build everything
+    again (especially since distilled-lazy is slow to build and alchemy uses that)
+  - extract OpenWhisk into `@distilled.cloud/openwhisk`, the way S3 left aws
+    - DigitalOcean Functions is the generic Apache OpenWhisk API at each
+      namespace's `api_host` with basic auth; `@distilled.cloud/digitalocean/Functions`
+      generates it from Apache's `apiv1swagger.json` in the DigitalOcean mirror
+    - the package would own the generated client and its protocol, and take
+      `{ apiHost, user, secret }` through a layer; DigitalOcean keeps a layer
+      that fills it from a namespace (`uuid` + `key`), like `R2.layerS3()`
+    - other OpenWhisk hosts (self-hosted OpenWhisk, Adobe I/O Runtime) could
+      use it; the spec then moves to its own `spec-mirror-openwhisk`
 - rethink github webhooks
   - #936 generates `@distilled.cloud/github/webhooks`: one type per payload
     in the spec's `x-webhooks` plus a `WebhookEvents` map. It is types only,
@@ -71,3 +31,16 @@
     three
   - decide the shape: a separate subpath or package, runtime decoding or
     types only, and whether other providers' webhooks follow the same pattern
+- go over the gRPC client
+  - core/src: protocol-grpc.ts, protobuf.ts, grpc-transport.ts and the two
+    transports (grpc-transport-node-http2.ts, grpc-transport-cloudflare-sockets.ts);
+    modal is the only SDK on it
+  - webpack breaks the Workers transport: `import(SOCKETS_MODULE)` becomes an
+    empty context that always rejects ("Cannot find module"), so every call
+    fails with a transport error. esbuild, rolldown, Vite and wrangler keep
+    the import. benches/bundlers marks the webpack case `it.fails`; a
+    `/* webpackIgnore: true */` comment on the import is the likely fix
+  - protobuf.ts throws its encode/decode errors (43 throws) and
+    protocol-grpc.ts catches them; decide if that stays or becomes typed
+- layer to enable PII redaction; we know some things will be PII (e.g. from stripe calls);
+  we might want to either redact; or have a layer to redact that information

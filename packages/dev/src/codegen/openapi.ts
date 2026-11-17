@@ -42,8 +42,12 @@
  *     `next_token`/`NextToken`/`nextToken`, `next_page` + input alias lists +
  *     first top-level array property) → `smithy.api#paginated` on the op
  *     (with the non-standard `mode` member the core runtime dispatches on)
+ *   • discriminated hierarchies (a base with a `discriminator` and `allOf`
+ *     subtypes) → unions of the subtypes, see `unionizeDiscriminators`
  */
 
+import { unionizeDiscriminators } from "./discriminators.ts";
+import { ERROR_BODIES_TRAIT } from "./generator.ts";
 import { ADDITIONAL_PROPERTIES_TRAIT } from "./members.ts";
 import {
   isMechanicalOperationId,
@@ -179,6 +183,25 @@ export interface OpenApiConvertOptions {
    * otherwise generate as a `void` output.
    */
   readonly successStatuses?: readonly string[];
+  /**
+   * Names for the hosts an OpenAPI 3 operation (or its path item) declares
+   * in its own `servers`, keyed by that URL. An operation on a named host
+   * carries the name as `smithy.api#http.server` (`T.Http({ server })`), and
+   * the protocol maps the name to a base URL from its credentials. The spec
+   * URL only identifies the host; requests never go to it directly, so a
+   * configured base URL always wins and a spec change cannot send the
+   * credentials to a new host.
+   *
+   * DigitalOcean serves Serverless Inference from
+   * `https://inference.do-ai.run` next to `https://api.digitalocean.com`:
+   * `{ "https://inference.do-ai.run": "inference" }`.
+   *
+   * `null` keeps an operation on the document's host, for a server the
+   * caller has to supply (`https://{agent_url}`). Once set, a server that is
+   * neither the document's first server nor in the map fails the
+   * conversion. Default: operation `servers` are ignored.
+   */
+  readonly servers?: Readonly<Record<string, string | null>>;
   /**
    * Response headers (matched case-insensitively) to add to an operation's
    * output as optional `smithy.api#httpHeader` members wherever one of its
@@ -879,6 +902,17 @@ const convertSchema = (
       entry.nullable = r.nullable;
       return inline(r.target, r.nullable || siteNullable);
     }
+    if (resolved.$ref) {
+      // An alias of another component has no shape of its own: it becomes
+      // the target's shape. Reserving a placeholder for it would leave a
+      // dangling reference when a cycle re-enters the alias before its
+      // target finishes, so cache it only once resolved. The name is still
+      // taken, as it always was, so the names of other shapes do not move.
+      uniqueName(ctx, refName);
+      const r = convertSchema(ctx, resolved, pascal(refName), depth + 1, dir);
+      ctx.refs.set(cacheKey, { target: r.target, nullable: r.nullable });
+      return inline(r.target, r.nullable || siteNullable);
+    }
     // Reserve the component name before converting so cycles resolve.
     const id = `${ctx.ns}#${uniqueName(ctx, refName)}`;
     const entry: Converted = { target: id, nullable: false };
@@ -1334,6 +1368,23 @@ const targetCounts = (shapes: Record<string, any>): Map<string, number> => {
   return counts;
 };
 
+/**
+ * The JSON schema an error response documents, or `undefined` for none (an
+ * empty, non-JSON or schema-less response). Any `*json` media type counts,
+ * e.g. `application/problem+json`.
+ */
+const errorBodySchema = (ctx: Ctx, raw: any): any | undefined => {
+  const resp = raw?.$ref ? resolvePointer(ctx.spec, raw.$ref) : raw;
+  if (!resp || typeof resp !== "object") return undefined;
+  if (ctx.version === "2.0") return resp.schema ?? undefined;
+  for (const [type, media] of Object.entries<any>(resp.content ?? {})) {
+    if (/json/i.test(type) && media?.schema && typeof media.schema === "object") {
+      return media.schema;
+    }
+  }
+  return undefined;
+};
+
 /** First declared status wins; resolve response refs and preserve JSON or binary bodies. */
 const successSchema = (
   ctx: Ctx,
@@ -1488,9 +1539,13 @@ const DEFAULT_SUCCESS_STATUSES = ["200", "201", "204"];
 export { RENAME_METADATA_KEY };
 
 export const convertOpenApiToSmithy = (
-  spec: unknown,
+  input: unknown,
   options: OpenApiConvertOptions,
 ): SmithyModel => {
+  const { spec, stats } = unionizeDiscriminators(input);
+  for (const conflict of stats.conflicts) {
+    console.warn(`   ⚠️  ${options.namespace}: discriminator keys disagree for ${conflict}`);
+  }
   const named = convertOnce(spec, options);
   if (!options.deferNaming) return named;
   const upstream = convertOnce(spec, {
@@ -1558,6 +1613,20 @@ const convertOnce = (spec: unknown, options: OpenApiConvertOptions): SmithyModel
   const serviceName = uniqueName(ctx, options.serviceName);
 
   const usedErrors = new Map<string, number>(); // class name → first status
+  // A documented error-body schema → its shape (undefined: untyped), so a
+  // schema repeated inline across operations becomes one shape.
+  const errorBodyShapes = new Map<string, string | undefined>();
+  const errorBodyShape = (status: string, schema: any): string | undefined => {
+    const key = typeof schema.$ref === "string" ? schema.$ref : JSON.stringify(schema);
+    if (!errorBodyShapes.has(key)) {
+      const { target } = convertSchema(ctx, schema, `Error${status}Body`, 0, "out");
+      errorBodyShapes.set(
+        key,
+        target === PRELUDE.Document || target === PRELUDE.Unit ? undefined : target,
+      );
+    }
+    return errorBodyShapes.get(key);
+  };
   const serviceOps: Array<{ target: string }> = [];
   const componentHeaders: Array<{
     readonly opId: string;
@@ -1567,6 +1636,25 @@ const convertOnce = (spec: unknown, options: OpenApiConvertOptions): SmithyModel
   const allowedResponseHeaders = new Set(
     (options.responseHeaders ?? []).map((name) => name.toLowerCase()),
   );
+
+  // ---- Operation hosts (`servers` option) ----
+  const trimUrl = (url: unknown): string =>
+    typeof url === "string" ? url.replace(/\/+$/, "") : "";
+  const documentServer = trimUrl(doc.servers?.[0]?.url);
+  const serverNames = new Map(
+    Object.entries(options.servers ?? {}).map(([url, name]) => [trimUrl(url), name] as const),
+  );
+  const unnamedServers = new Set<string>();
+  /** The `servers` option's name for an operation's own server, if any. */
+  const serverName = (servers: unknown): string | undefined => {
+    if (options.servers === undefined || !Array.isArray(servers)) return undefined;
+    if (servers.length === 0) return undefined;
+    const url = trimUrl(servers[0]?.url);
+    if (url === documentServer) return undefined;
+    const name = serverNames.get(url);
+    if (name === undefined) unnamedServers.add(url);
+    return name ?? undefined;
+  };
 
   for (const [rawPath, pathItem] of Object.entries(doc.paths ?? {})) {
     if (!pathItem || typeof pathItem !== "object") continue;
@@ -1876,8 +1964,12 @@ const convertOnce = (spec: unknown, options: OpenApiConvertOptions): SmithyModel
 
       // ---- Errors ----
       const errors: Array<{ target: string }> = [];
+      const errorBodies: Array<{ status: number; target: string }> = [];
       for (const status of Object.keys(op.responses ?? {})) {
         if (!/^[45]\d\d$/.test(status)) continue;
+        const schema = errorBodySchema(ctx, op.responses[status]);
+        const body = schema === undefined ? undefined : errorBodyShape(status, schema);
+        if (body !== undefined) errorBodies.push({ status: Number(status), target: body });
         if (defaultErrorStatuses.has(status)) continue;
         const cls = statusToErrorClass[status];
         if (!cls) continue;
@@ -1896,10 +1988,13 @@ const convertOnce = (spec: unknown, options: OpenApiConvertOptions): SmithyModel
         code: 200,
       };
       if (contentType === "multipart") httpTrait.contentType = "multipart";
+      const server = serverName(op.servers ?? (pathItem as any).servers);
+      if (server !== undefined) httpTrait.server = server;
       const traits: Record<string, any> = { "smithy.api#http": httpTrait };
       const documentation = opDoc(op);
       if (documentation) traits["smithy.api#documentation"] = documentation;
       if (pagination) traits["smithy.api#paginated"] = pagination;
+      if (errorBodies.length > 0) traits[ERROR_BODIES_TRAIT] = errorBodies;
       if (contentType) traits[CONTENT_TYPE_TRAIT] = contentType;
       if (options.apiVersion !== undefined) {
         traits[API_VERSION_TRAIT] = options.apiVersion;
@@ -1917,6 +2012,12 @@ const convertOnce = (spec: unknown, options: OpenApiConvertOptions): SmithyModel
         componentHeaders.push({ opId, opName, members: pendingHeaders });
       }
     }
+  }
+
+  if (unnamedServers.size > 0) {
+    throw new Error(
+      `${options.namespace}: operations declare servers the \`servers\` option does not name: ${[...unnamedServers].join(", ")}. Name each one, or map it to null to keep its operations on ${documentServer || "the document's host"}.`,
+    );
   }
 
   // ---- Response headers on named components ----

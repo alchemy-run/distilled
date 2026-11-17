@@ -29,6 +29,8 @@ export class EnvironmentNotFound
     /*@__PURE__*/ S.TaggedError<EnvironmentNotFound>()("EnvironmentNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5, message: { includes: "Environment" } }],
   ) {}
@@ -39,6 +41,8 @@ export class SecretAlreadyExists
     /*@__PURE__*/ S.TaggedError<SecretAlreadyExists>()("SecretAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 6 }],
   ) {}
@@ -49,32 +53,34 @@ export class SecretNotFound
     /*@__PURE__*/ S.TaggedError<SecretNotFound>()("SecretNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 5 }],
   ) {}
 
 export interface DeleteSecretRequest {
-  secretId?: string;
+  secretId?: string | undefined;
 }
 export interface DeleteSecretResponse {}
 export interface ListPagination {
-  maxObjects?: number;
-  createdBefore?: number;
+  maxObjects?: number | undefined;
+  createdBefore?: number | undefined;
 }
 export interface ListSecretRequest {
-  environmentName?: string;
-  pagination?: ListPagination;
+  environmentName?: string | undefined;
+  pagination?: ListPagination | undefined;
 }
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
   createdAt: number;
-  /** Timestamp of resource creation */
+  /** User name or service name */
   createdBy: string;
 }
 export type StringList = Array<string>;
 export interface SecretMetadata {
   name: string;
-  creationInfo?: CreationInfo;
+  creationInfo?: CreationInfo | undefined;
   keys: StringList;
   environmentName: string;
   lastUsedAt: number;
@@ -82,13 +88,13 @@ export interface SecretMetadata {
 }
 export interface SecretListItem {
   label: string;
-  createdAt: number;
   /** Superseded by metadata, used by clients up to 1.1.2 */
+  createdAt: number;
   lastUsedAt: number;
-  environmentName: string;
   /** Unused by client */
+  environmentName: string;
   secretId: string;
-  metadata?: SecretMetadata;
+  metadata?: SecretMetadata | undefined;
 }
 export type SecretListItemList = Array<SecretListItem>;
 export interface ListSecretResponse {
@@ -96,10 +102,10 @@ export interface ListSecretResponse {
   environmentName: string;
 }
 export interface SecretGetInfoRequest {
-  secretId?: string;
+  secretId?: string | undefined;
 }
 export interface SecretGetInfoResponse {
-  metadata?: SecretMetadata;
+  metadata?: SecretMetadata | undefined;
 }
 export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_UNSPECIFIED"
@@ -110,29 +116,28 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
 export type StringMap = { [key: string]: string | undefined };
 export interface SecretGetOrCreateRequest {
-  deploymentName?: string;
-  /** removed namespace */
-  environmentName?: string;
-  objectCreationType?: ObjectCreationType | (string & {});
+  deploymentName?: string | undefined;
+  environmentName?: string | undefined;
   /** Not used atm */
-  envDict?: StringMap;
-  appId?: string;
+  objectCreationType?: ObjectCreationType | (string & {}) | undefined;
+  envDict?: StringMap | undefined;
   /** only used with OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP */
-  requiredKeys?: StringList;
+  appId?: string | undefined;
+  requiredKeys?: StringList | undefined;
 }
 export interface SecretGetOrCreateResponse {
   secretId: string;
-  metadata?: SecretMetadata;
+  metadata?: SecretMetadata | undefined;
 }
 export interface UpdateSecretRequestUpdate {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  /** If not set, the key is removed. */
+  value?: string | undefined;
 }
 export type UpdateSecretRequestUpdateList = Array<UpdateSecretRequestUpdate>;
 export interface UpdateSecretRequest {
-  /** If not set, the key is removed. */
-  secretId?: string;
-  updates?: UpdateSecretRequestUpdateList;
+  secretId?: string | undefined;
+  updates?: UpdateSecretRequestUpdateList | undefined;
 }
 export interface UpdateSecretResponse {}
 export type DeleteSecretError = SecretNotFound | ModalOpError;

@@ -1,0 +1,110 @@
+{
+  "description": "The third-party agent credentials a devbox template, blueprint or activation carries (Devin connect token and code, Cursor and Claude API keys, Claude environment key and webhook signing key) carry no sensitive mark, although the proto documents them as credentials that \"are stored as tenant Vault secrets and never returned\". Nor does the devbox SSH private key Fetch and Activate return (`bytes`, base64 on the wire). proto/namespace/private/devbox/devbox.proto. Source: buf.build/namespace/cloud, fetched 2026-11-11.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.devbox#ActivateRequestExperimentalDevinOutposts/members/connectToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.devbox#CreateTemplateRequestExperimental/members/cursorApiKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.devbox#CreateTemplateRequestExperimental/members/claudeApiKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.devbox#UpdateTemplateRequestExperimental/members/cursorApiKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.devbox#UpdateTemplateRequestExperimental/members/claudeApiKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.devbox#ClaudeIntegrationSpec/members/claudeApiKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.devbox#FetchResponse/members/privateSshKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.devbox#ActivateResponse/members/privateSshKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.devbox#ClaudeIntegrationSpec/members/claudeEnvironmentKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.devbox#ClaudeIntegrationSpec/members/claudeWebhookSigningKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.devbox#CreateTemplateRequestExperimental/members/claudeEnvironmentKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.devbox#CreateTemplateRequestExperimental/members/claudeWebhookSigningKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.devbox#CreateTemplateRequestExperimental/members/devinConnectCode/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.devbox#UpdateTemplateRequestExperimental/members/claudeEnvironmentKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.devbox#UpdateTemplateRequestExperimental/members/claudeWebhookSigningKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.devbox#UpdateTemplateRequestExperimental/members/devinConnectCode/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.devbox#CreateBlueprintRequestExperimental/members/devinConnectCode/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.devbox#CreateBlueprintRequestExperimental/members/cursorApiKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.devbox#CreateBlueprintRequestExperimental/members/claudeApiKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.devbox#CreateBlueprintRequestExperimental/members/claudeEnvironmentKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.devbox#CreateBlueprintRequestExperimental/members/claudeWebhookSigningKey/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

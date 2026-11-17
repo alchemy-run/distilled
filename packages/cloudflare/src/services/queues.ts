@@ -80,6 +80,8 @@ export class ConsumerAlreadyExists
     /*@__PURE__*/ S.TaggedError<ConsumerAlreadyExists>()("ConsumerAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 11004 }],
   ) {}
@@ -89,6 +91,8 @@ export class ConsumerNotFound
     /*@__PURE__*/ S.TaggedError<ConsumerNotFound>()("ConsumerNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10013 }, { code: 10105 }, { code: 11006 }],
   ) {}
@@ -98,6 +102,8 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 403 }],
   ) {}
@@ -107,6 +113,8 @@ export class InvalidMessageBody
     /*@__PURE__*/ S.TaggedError<InvalidMessageBody>()("InvalidMessageBody", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10207 }, { code: 10013 }],
   ) {}
@@ -116,6 +124,8 @@ export class InvalidQueueId
     /*@__PURE__*/ S.TaggedError<InvalidQueueId>()("InvalidQueueId", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10107 }],
   ) {}
@@ -125,6 +135,8 @@ export class InvalidQueueName
     /*@__PURE__*/ S.TaggedError<InvalidQueueName>()("InvalidQueueName", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 11003 }],
   ) {}
@@ -134,6 +146,8 @@ export class InvalidRequestBody
     /*@__PURE__*/ S.TaggedError<InvalidRequestBody>()("InvalidRequestBody", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10026 }],
   ) {}
@@ -143,6 +157,8 @@ export class InvalidRoute
     /*@__PURE__*/ S.TaggedError<InvalidRoute>()("InvalidRoute", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 7003 }],
   ) {}
@@ -152,6 +168,8 @@ export class QueueAlreadyExists
     /*@__PURE__*/ S.TaggedError<QueueAlreadyExists>()("QueueAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 11009 }],
   ) {}
@@ -161,6 +179,8 @@ export class QueueHandlerMissing
     /*@__PURE__*/ S.TaggedError<QueueHandlerMissing>()("QueueHandlerMissing", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 11001 }, { status: 400, message: { includes: "queue handler is missing" } }],
   ) {}
@@ -170,6 +190,8 @@ export class QueueHttpPullNotEnabled
     /*@__PURE__*/ S.TaggedError<QueueHttpPullNotEnabled>()("QueueHttpPullNotEnabled", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 0, message: "messages cannot be pulled unless http_pull mode is enabled" }],
   ) {}
@@ -179,6 +201,8 @@ export class QueueInUseByEventNotification
     /*@__PURE__*/ S.TaggedError<QueueInUseByEventNotification>()("QueueInUseByEventNotification", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 11017 }],
   ) {}
@@ -188,6 +212,8 @@ export class QueueInUseByWorkerBinding
     /*@__PURE__*/ S.TaggedError<QueueInUseByWorkerBinding>()("QueueInUseByWorkerBinding", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 11005 }],
   ) {}
@@ -197,6 +223,8 @@ export class QueueNotFound
     /*@__PURE__*/ S.TaggedError<QueueNotFound>()("QueueNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [
       { code: 11000 },
@@ -210,6 +238,8 @@ export class SubscriptionAlreadyExists
     /*@__PURE__*/ S.TaggedError<SubscriptionAlreadyExists>()("SubscriptionAlreadyExists", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 405, message: { includes: "do not support multiple subscriptions" } }],
   ) {}
@@ -219,6 +249,8 @@ export class SubscriptionNotFound
     /*@__PURE__*/ S.TaggedError<SubscriptionNotFound>()("SubscriptionNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 404, message: { includes: "No subscription with this ID" } }],
   ) {}
@@ -228,6 +260,8 @@ export class UnrecognizedEventType
     /*@__PURE__*/ S.TaggedError<UnrecognizedEventType>()("UnrecognizedEventType", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 0, message: { includes: "Unrecognized event types" } }],
   ) {}
@@ -237,20 +271,22 @@ export class WorkerNotFound
     /*@__PURE__*/ S.TaggedError<WorkerNotFound>()("WorkerNotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ code: 10007 }],
   ) {}
 
 export interface MessagesAckRequestAcksItem {
   /** An ID that represents an "in-flight" message that has been pulled from a Queue. You must hold on to this ID and use it to acknowledge this message. */
-  leaseId?: string;
+  leaseId?: string | undefined;
 }
 export type MessagesAckRequestAcksList = Array<MessagesAckRequestAcksItem>;
 export interface MessagesAckRequestRetriesItem {
   /** The number of seconds to delay before making the message available for another attempt. */
-  delaySeconds?: number;
+  delaySeconds?: number | undefined;
   /** An ID that represents an "in-flight" message that has been pulled from a Queue. You must hold on to this ID and use it to acknowledge this message. */
-  leaseId?: string;
+  leaseId?: string | undefined;
 }
 export type MessagesAckRequestRetriesList = Array<MessagesAckRequestRetriesItem>;
 export interface AckMessageRequest {
@@ -258,32 +294,38 @@ export interface AckMessageRequest {
   accountId: string;
   /** A Resource identifier. */
   queueId: string;
-  acks?: MessagesAckRequestAcksList;
-  retries?: MessagesAckRequestRetriesList;
+  acks?: MessagesAckRequestAcksList | undefined;
+  retries?: MessagesAckRequestRetriesList | undefined;
 }
 export type MessagesAckResponseWarningsMap = { [key: string]: string | undefined };
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface AckMessageResponse {
   /** The number of messages that were succesfully acknowledged. */
-  ackCount?: number | null;
+  ackCount?: number | null | undefined;
   /** The number of messages that were succesfully retried. */
-  retryCount?: number | null;
+  retryCount?: number | null | undefined;
   /** Map of lease IDs to warning messages encountered during acknowledgement. */
-  warnings?: MessagesAckResponseWarningsMap | null;
+  warnings?: MessagesAckResponseWarningsMap | null | undefined;
 }
 export type MessagesBulkPushRequestMessagesItemMqQueueMessageTextContentType = "text";
 export interface MessagesBulkPushRequestMessagesItemMqQueueMessageText {
-  body?: string;
-  contentType?: MessagesBulkPushRequestMessagesItemMqQueueMessageTextContentType | (string & {});
+  body?: string | undefined;
+  contentType?:
+    | MessagesBulkPushRequestMessagesItemMqQueueMessageTextContentType
+    | (string & {})
+    | undefined;
   /** The number of seconds to wait for attempting to deliver this message to consumers */
-  delaySeconds?: number;
+  delaySeconds?: number | undefined;
 }
 export type MessagesBulkPushRequestMessagesItemMqQueueMessageJsonContentType = "json";
 export interface MessagesBulkPushRequestMessagesItemMqQueueMessageJson {
-  body?: unknown;
-  contentType?: MessagesBulkPushRequestMessagesItemMqQueueMessageJsonContentType | (string & {});
+  body?: unknown | undefined;
+  contentType?:
+    | MessagesBulkPushRequestMessagesItemMqQueueMessageJsonContentType
+    | (string & {})
+    | undefined;
   /** The number of seconds to wait for attempting to deliver this message to consumers */
-  delaySeconds?: number;
+  delaySeconds?: number | undefined;
 }
 export type MessagesBulkPushRequestMessagesItem =
   | MessagesBulkPushRequestMessagesItemMqQueueMessageText
@@ -295,8 +337,8 @@ export interface BulkPushMessagesRequest {
   /** A Resource identifier. */
   queueId: string;
   /** The number of seconds to wait for attempting to deliver this batch to consumers */
-  delaySeconds?: number;
-  messages?: MessagesBulkPushRequestMessagesList;
+  delaySeconds?: number | undefined;
+  messages?: MessagesBulkPushRequestMessagesList | undefined;
 }
 export interface MessagesBulkPushResponseMetadataMetrics {
   /** The size in bytes of unacknowledged messages in the queue. */
@@ -308,34 +350,34 @@ export interface MessagesBulkPushResponseMetadataMetrics {
 }
 export interface MessagesBulkPushResponseMetadata {
   /** Best-effort metrics for the queue. Values may be approximate due to the distributed nature of queues. */
-  metrics?: MessagesBulkPushResponseMetadataMetrics | null;
+  metrics?: MessagesBulkPushResponseMetadataMetrics | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface BulkPushMessagesResponse {
-  metadata?: MessagesBulkPushResponseMetadata | null;
+  metadata?: MessagesBulkPushResponseMetadata | null | undefined;
 }
 export type ConsumersCreateRequestType = "worker" | "http_pull";
 export interface ConsumersCreateRequestSettingsWorker {
   /** The maximum number of messages to include in a batch. */
-  batchSize?: number;
+  batchSize?: number | undefined;
   /** Maximum number of concurrent consumers that may consume from this Queue. Set to `null` to automatically opt in to the platform's maximum (recommended). */
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
   /** The maximum number of retries */
-  maxRetries?: number;
+  maxRetries?: number | undefined;
   /** The number of milliseconds to wait for a batch to fill up before attempting to deliver it */
-  maxWaitTimeMs?: number;
+  maxWaitTimeMs?: number | undefined;
   /** The number of seconds to delay before making the message available for another attempt. */
-  retryDelay?: number;
+  retryDelay?: number | undefined;
 }
 export interface ConsumersCreateRequestSettingsHTTPPull {
   /** The maximum number of messages to include in a batch. */
-  batchSize?: number;
+  batchSize?: number | undefined;
   /** The maximum number of retries */
-  maxRetries?: number;
+  maxRetries?: number | undefined;
   /** The number of seconds to delay before making the message available for another attempt. */
-  retryDelay?: number;
+  retryDelay?: number | undefined;
   /** The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt. */
-  visibilityTimeoutMs?: number;
+  visibilityTimeoutMs?: number | undefined;
 }
 export type ConsumersCreateRequestSettings =
   | ConsumersCreateRequestSettingsWorker
@@ -346,56 +388,56 @@ export interface CreateConsumerRequest {
   /** A Resource identifier. */
   queueId: string;
   /** Name of a Worker */
-  scriptName?: string;
+  scriptName?: string | undefined;
   type: ConsumersCreateRequestType | (string & {});
-  deadLetterQueue?: string;
-  settings?: ConsumersCreateRequestSettings;
+  deadLetterQueue?: string | undefined;
+  settings?: ConsumersCreateRequestSettings | undefined;
 }
 export interface ConsumersCreateResultWorkerSettings {
   /** The maximum number of messages to include in a batch. */
-  batchSize?: number | null;
+  batchSize?: number | null | undefined;
   /** Maximum number of concurrent consumers that may consume from this Queue. Set to `null` to automatically opt in to the platform's maximum (recommended). */
-  maxConcurrency?: number | null;
+  maxConcurrency?: number | null | undefined;
   /** The maximum number of retries */
-  maxRetries?: number | null;
+  maxRetries?: number | null | undefined;
   /** The number of milliseconds to wait for a batch to fill up before attempting to deliver it */
-  maxWaitTimeMs?: number | null;
+  maxWaitTimeMs?: number | null | undefined;
   /** The number of seconds to delay before making the message available for another attempt. */
-  retryDelay?: number | null;
+  retryDelay?: number | null | undefined;
 }
 export type ConsumersCreateResultWorkerType = "worker";
 export interface ConsumersCreateResultWorker {
   /** A Resource identifier. */
-  consumerId?: string | null;
-  createdOn?: string | null;
+  consumerId?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Name of the dead letter queue, or empty string if not configured */
-  deadLetterQueue?: string | null;
-  queueName?: string | null;
+  deadLetterQueue?: string | null | undefined;
+  queueName?: string | null | undefined;
   /** Name of a Worker */
-  scriptName?: string | null;
-  settings?: ConsumersCreateResultWorkerSettings | null;
-  type?: ConsumersCreateResultWorkerType | null;
+  scriptName?: string | null | undefined;
+  settings?: ConsumersCreateResultWorkerSettings | null | undefined;
+  type?: ConsumersCreateResultWorkerType | null | undefined;
 }
 export interface ConsumersCreateResultHTTPPullSettings {
   /** The maximum number of messages to include in a batch. */
-  batchSize?: number | null;
+  batchSize?: number | null | undefined;
   /** The maximum number of retries */
-  maxRetries?: number | null;
+  maxRetries?: number | null | undefined;
   /** The number of seconds to delay before making the message available for another attempt. */
-  retryDelay?: number | null;
+  retryDelay?: number | null | undefined;
   /** The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt. */
-  visibilityTimeoutMs?: number | null;
+  visibilityTimeoutMs?: number | null | undefined;
 }
 export type ConsumersCreateResultHTTPPullType = "http_pull";
 export interface ConsumersCreateResultHTTPPull {
   /** A Resource identifier. */
-  consumerId?: string | null;
-  createdOn?: string | null;
+  consumerId?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Name of the dead letter queue, or empty string if not configured */
-  deadLetterQueue?: string | null;
-  queueName?: string | null;
-  settings?: ConsumersCreateResultHTTPPullSettings | null;
-  type?: ConsumersCreateResultHTTPPullType | null;
+  deadLetterQueue?: string | null | undefined;
+  queueName?: string | null | undefined;
+  settings?: ConsumersCreateResultHTTPPullSettings | null | undefined;
+  type?: ConsumersCreateResultHTTPPullType | null | undefined;
 }
 export type ConsumersCreateResult = ConsumersCreateResultWorker | ConsumersCreateResultHTTPPull;
 export type CreateConsumerResponse = ConsumersCreateResult;
@@ -404,33 +446,33 @@ export interface CreateQueueRequest {
   /** A Resource identifier. */
   accountId: string;
   queueName: string;
-  jurisdiction?: CreateRequestJurisdiction | (string & {});
+  jurisdiction?: CreateRequestJurisdiction | (string & {}) | undefined;
 }
 export type CreateResponseConsumersItemWorkerSettings = ConsumersCreateResultWorkerSettings;
 export type CreateResponseConsumersItemWorkerType = "worker";
 export interface CreateResponseConsumersItemWorker {
   /** A Resource identifier. */
-  consumerId?: string | null;
-  createdOn?: string | null;
+  consumerId?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Name of the dead letter queue, or empty string if not configured */
-  deadLetterQueue?: string | null;
-  queueName?: string | null;
+  deadLetterQueue?: string | null | undefined;
+  queueName?: string | null | undefined;
   /** Name of a Worker */
-  scriptName?: string | null;
-  settings?: ConsumersCreateResultWorkerSettings | null;
-  type?: CreateResponseConsumersItemWorkerType | null;
+  scriptName?: string | null | undefined;
+  settings?: ConsumersCreateResultWorkerSettings | null | undefined;
+  type?: CreateResponseConsumersItemWorkerType | null | undefined;
 }
 export type CreateResponseConsumersItemHTTPPullSettings = ConsumersCreateResultHTTPPullSettings;
 export type CreateResponseConsumersItemHTTPPullType = "http_pull";
 export interface CreateResponseConsumersItemHTTPPull {
   /** A Resource identifier. */
-  consumerId?: string | null;
-  createdOn?: string | null;
+  consumerId?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Name of the dead letter queue, or empty string if not configured */
-  deadLetterQueue?: string | null;
-  queueName?: string | null;
-  settings?: ConsumersCreateResultHTTPPullSettings | null;
-  type?: CreateResponseConsumersItemHTTPPullType | null;
+  deadLetterQueue?: string | null | undefined;
+  queueName?: string | null | undefined;
+  settings?: ConsumersCreateResultHTTPPullSettings | null | undefined;
+  type?: CreateResponseConsumersItemHTTPPullType | null | undefined;
 }
 export type CreateResponseConsumersItem =
   | CreateResponseConsumersItemWorker
@@ -439,13 +481,13 @@ export type CreateResponseConsumersList = Array<CreateResponseConsumersItem>;
 export type CreateResponseJurisdiction = "eu" | "us" | "fedramp";
 export type CreateResponseProducersItemMqWorkerProducerType = "worker";
 export interface CreateResponseProducersItemMqWorkerProducer {
-  type?: CreateResponseProducersItemMqWorkerProducerType | null;
-  scriptName?: string | null;
+  type?: CreateResponseProducersItemMqWorkerProducerType | null | undefined;
+  scriptName?: string | null | undefined;
 }
 export type CreateResponseProducersItemMqR2ProducerType = "r2_bucket";
 export interface CreateResponseProducersItemMqR2Producer {
-  bucketName?: string | null;
-  type?: CreateResponseProducersItemMqR2ProducerType | null;
+  bucketName?: string | null | undefined;
+  type?: CreateResponseProducersItemMqR2ProducerType | null | undefined;
 }
 export type CreateResponseProducersItem =
   | CreateResponseProducersItemMqWorkerProducer
@@ -453,24 +495,24 @@ export type CreateResponseProducersItem =
 export type CreateResponseProducersList = Array<CreateResponseProducersItem>;
 export interface CreateResponseSettings {
   /** Number of seconds to delay delivery of all messages to consumers. */
-  deliveryDelay?: number | null;
+  deliveryDelay?: number | null | undefined;
   /** Indicates if message delivery to consumers is currently paused. */
-  deliveryPaused?: boolean | null;
+  deliveryPaused?: boolean | null | undefined;
   /** Number of seconds after which an unconsumed message will be delayed. */
-  messageRetentionPeriod?: number | null;
+  messageRetentionPeriod?: number | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateQueueResponse {
-  consumers?: CreateResponseConsumersList | null;
-  consumersTotalCount?: number | null;
-  createdOn?: string | null;
-  jurisdiction?: CreateResponseJurisdiction | null;
-  modifiedOn?: string | null;
-  producers?: CreateResponseProducersList | null;
-  producersTotalCount?: number | null;
-  queueId?: string | null;
-  queueName?: string | null;
-  settings?: CreateResponseSettings | null;
+  consumers?: CreateResponseConsumersList | null | undefined;
+  consumersTotalCount?: number | null | undefined;
+  createdOn?: string | null | undefined;
+  jurisdiction?: CreateResponseJurisdiction | null | undefined;
+  modifiedOn?: string | null | undefined;
+  producers?: CreateResponseProducersList | null | undefined;
+  producersTotalCount?: number | null | undefined;
+  queueId?: string | null | undefined;
+  queueName?: string | null | undefined;
+  settings?: CreateResponseSettings | null | undefined;
 }
 export type SubscriptionsCreateRequestDestinationType = "queues.queue";
 export interface SubscriptionsCreateRequestDestination {
@@ -483,67 +525,76 @@ export type SubscriptionsCreateRequestEventsList = Array<string>;
 export type SubscriptionsCreateRequestSourceMqEventSourceImagesType = "images";
 export interface SubscriptionsCreateRequestSourceMqEventSourceImages {
   /** Type of source */
-  type?: SubscriptionsCreateRequestSourceMqEventSourceImagesType | (string & {});
+  type?: SubscriptionsCreateRequestSourceMqEventSourceImagesType | (string & {}) | undefined;
 }
 export type SubscriptionsCreateRequestSourceMqEventSourceKVType = "kv";
 export interface SubscriptionsCreateRequestSourceMqEventSourceKV {
   /** Type of source */
-  type?: SubscriptionsCreateRequestSourceMqEventSourceKVType | (string & {});
+  type?: SubscriptionsCreateRequestSourceMqEventSourceKVType | (string & {}) | undefined;
 }
 export type SubscriptionsCreateRequestSourceMqEventSourceR2Type = "r2";
 export interface SubscriptionsCreateRequestSourceMqEventSourceR2 {
   /** Type of source */
-  type?: SubscriptionsCreateRequestSourceMqEventSourceR2Type | (string & {});
+  type?: SubscriptionsCreateRequestSourceMqEventSourceR2Type | (string & {}) | undefined;
 }
 export type SubscriptionsCreateRequestSourceMqEventSourceSuperSlurperType = "superSlurper";
 export interface SubscriptionsCreateRequestSourceMqEventSourceSuperSlurper {
   /** Type of source */
-  type?: SubscriptionsCreateRequestSourceMqEventSourceSuperSlurperType | (string & {});
+  type?: SubscriptionsCreateRequestSourceMqEventSourceSuperSlurperType | (string & {}) | undefined;
 }
 export type SubscriptionsCreateRequestSourceMqEventSourceVectorizeType = "vectorize";
 export interface SubscriptionsCreateRequestSourceMqEventSourceVectorize {
   /** Type of source */
-  type?: SubscriptionsCreateRequestSourceMqEventSourceVectorizeType | (string & {});
+  type?: SubscriptionsCreateRequestSourceMqEventSourceVectorizeType | (string & {}) | undefined;
 }
 export type SubscriptionsCreateRequestSourceMqEventSourceWorkersAIModelType = "workersAi.model";
 export interface SubscriptionsCreateRequestSourceMqEventSourceWorkersAIModel {
   /** Name of the Workers AI model */
-  modelName?: string;
+  modelName?: string | undefined;
   /** Type of source */
-  type?: SubscriptionsCreateRequestSourceMqEventSourceWorkersAIModelType | (string & {});
+  type?:
+    | SubscriptionsCreateRequestSourceMqEventSourceWorkersAIModelType
+    | (string & {})
+    | undefined;
 }
 export type SubscriptionsCreateRequestSourceMqEventSourceWorkersBuildsWorkerType =
   "workersBuilds.worker";
 export interface SubscriptionsCreateRequestSourceMqEventSourceWorkersBuildsWorker {
   /** Type of source */
-  type?: SubscriptionsCreateRequestSourceMqEventSourceWorkersBuildsWorkerType | (string & {});
+  type?:
+    | SubscriptionsCreateRequestSourceMqEventSourceWorkersBuildsWorkerType
+    | (string & {})
+    | undefined;
   /** Name of the worker */
-  workerName?: string;
+  workerName?: string | undefined;
 }
 export type SubscriptionsCreateRequestSourceMqEventSourceWorkersScriptType = "workers.script";
 export interface SubscriptionsCreateRequestSourceMqEventSourceWorkersScript {
   /** Tag of the Worker script */
-  scriptTag?: string;
+  scriptTag?: string | undefined;
   /** Type of source */
-  type?: SubscriptionsCreateRequestSourceMqEventSourceWorkersScriptType | (string & {});
+  type?: SubscriptionsCreateRequestSourceMqEventSourceWorkersScriptType | (string & {}) | undefined;
 }
 export type SubscriptionsCreateRequestSourceMqEventSourceWorkflowsWorkflowType =
   "workflows.workflow";
 export interface SubscriptionsCreateRequestSourceMqEventSourceWorkflowsWorkflow {
   /** Type of source */
-  type?: SubscriptionsCreateRequestSourceMqEventSourceWorkflowsWorkflowType | (string & {});
+  type?:
+    | SubscriptionsCreateRequestSourceMqEventSourceWorkflowsWorkflowType
+    | (string & {})
+    | undefined;
   /** Name of the workflow */
-  workflowName?: string;
+  workflowName?: string | undefined;
 }
 export type SubscriptionsCreateRequestSourceMqEventSourceArtifactsType = "artifacts";
 export interface SubscriptionsCreateRequestSourceMqEventSourceArtifacts {
   /** Type of source */
-  type?: SubscriptionsCreateRequestSourceMqEventSourceArtifactsType | (string & {});
+  type?: SubscriptionsCreateRequestSourceMqEventSourceArtifactsType | (string & {}) | undefined;
 }
 export type SubscriptionsCreateRequestSourceMqEventSourceArtifactsRepoType = "artifacts.repo";
 export interface SubscriptionsCreateRequestSourceMqEventSourceArtifactsRepo {
   /** Type of source */
-  type?: SubscriptionsCreateRequestSourceMqEventSourceArtifactsRepoType | (string & {});
+  type?: SubscriptionsCreateRequestSourceMqEventSourceArtifactsRepoType | (string & {}) | undefined;
   /** Artifacts namespace of the repository */
   namespace: string;
   /** Name of the repository */
@@ -552,11 +603,11 @@ export interface SubscriptionsCreateRequestSourceMqEventSourceArtifactsRepo {
 export type SubscriptionsCreateRequestSourceMqEventSourceEmailSendingType = "email.sending";
 export interface SubscriptionsCreateRequestSourceMqEventSourceEmailSending {
   /** Sending domain: the zone apex or a verified sending subdomain */
-  domain?: string;
+  domain?: string | undefined;
   /** Type of source */
-  type?: SubscriptionsCreateRequestSourceMqEventSourceEmailSendingType | (string & {});
+  type?: SubscriptionsCreateRequestSourceMqEventSourceEmailSendingType | (string & {}) | undefined;
   /** Zone ID of the sending domain */
-  zoneId?: string;
+  zoneId?: string | undefined;
 }
 export type SubscriptionsCreateRequestSource =
   | SubscriptionsCreateRequestSourceMqEventSourceImages
@@ -575,15 +626,15 @@ export interface CreateSubscriptionRequest {
   /** A Resource identifier. */
   accountId: string;
   /** Destination configuration for the subscription */
-  destination?: SubscriptionsCreateRequestDestination;
+  destination?: SubscriptionsCreateRequestDestination | undefined;
   /** Whether the subscription is active */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** List of event types this subscription handles */
-  events?: SubscriptionsCreateRequestEventsList;
+  events?: SubscriptionsCreateRequestEventsList | undefined;
   /** Name of the subscription */
-  name?: string;
+  name?: string | undefined;
   /** Source configuration for the subscription */
-  source?: SubscriptionsCreateRequestSource;
+  source?: SubscriptionsCreateRequestSource | undefined;
 }
 export type SubscriptionsCreateResponseDestinationType = "queues.queue";
 export interface SubscriptionsCreateResponseDestination {
@@ -596,67 +647,67 @@ export type SubscriptionsCreateResponseEventsList = Array<string>;
 export type SubscriptionsCreateResponseSourceMqEventSourceImagesType = "images";
 export interface SubscriptionsCreateResponseSourceMqEventSourceImages {
   /** Type of source */
-  type?: SubscriptionsCreateResponseSourceMqEventSourceImagesType | null;
+  type?: SubscriptionsCreateResponseSourceMqEventSourceImagesType | null | undefined;
 }
 export type SubscriptionsCreateResponseSourceMqEventSourceKVType = "kv";
 export interface SubscriptionsCreateResponseSourceMqEventSourceKV {
   /** Type of source */
-  type?: SubscriptionsCreateResponseSourceMqEventSourceKVType | null;
+  type?: SubscriptionsCreateResponseSourceMqEventSourceKVType | null | undefined;
 }
 export type SubscriptionsCreateResponseSourceMqEventSourceR2Type = "r2";
 export interface SubscriptionsCreateResponseSourceMqEventSourceR2 {
   /** Type of source */
-  type?: SubscriptionsCreateResponseSourceMqEventSourceR2Type | null;
+  type?: SubscriptionsCreateResponseSourceMqEventSourceR2Type | null | undefined;
 }
 export type SubscriptionsCreateResponseSourceMqEventSourceSuperSlurperType = "superSlurper";
 export interface SubscriptionsCreateResponseSourceMqEventSourceSuperSlurper {
   /** Type of source */
-  type?: SubscriptionsCreateResponseSourceMqEventSourceSuperSlurperType | null;
+  type?: SubscriptionsCreateResponseSourceMqEventSourceSuperSlurperType | null | undefined;
 }
 export type SubscriptionsCreateResponseSourceMqEventSourceVectorizeType = "vectorize";
 export interface SubscriptionsCreateResponseSourceMqEventSourceVectorize {
   /** Type of source */
-  type?: SubscriptionsCreateResponseSourceMqEventSourceVectorizeType | null;
+  type?: SubscriptionsCreateResponseSourceMqEventSourceVectorizeType | null | undefined;
 }
 export type SubscriptionsCreateResponseSourceMqEventSourceWorkersAIModelType = "workersAi.model";
 export interface SubscriptionsCreateResponseSourceMqEventSourceWorkersAIModel {
   /** Name of the Workers AI model */
-  modelName?: string | null;
+  modelName?: string | null | undefined;
   /** Type of source */
-  type?: SubscriptionsCreateResponseSourceMqEventSourceWorkersAIModelType | null;
+  type?: SubscriptionsCreateResponseSourceMqEventSourceWorkersAIModelType | null | undefined;
 }
 export type SubscriptionsCreateResponseSourceMqEventSourceWorkersBuildsWorkerType =
   "workersBuilds.worker";
 export interface SubscriptionsCreateResponseSourceMqEventSourceWorkersBuildsWorker {
   /** Type of source */
-  type?: SubscriptionsCreateResponseSourceMqEventSourceWorkersBuildsWorkerType | null;
+  type?: SubscriptionsCreateResponseSourceMqEventSourceWorkersBuildsWorkerType | null | undefined;
   /** Name of the worker */
-  workerName?: string | null;
+  workerName?: string | null | undefined;
 }
 export type SubscriptionsCreateResponseSourceMqEventSourceWorkersScriptType = "workers.script";
 export interface SubscriptionsCreateResponseSourceMqEventSourceWorkersScript {
   /** Tag of the Worker script */
-  scriptTag?: string | null;
+  scriptTag?: string | null | undefined;
   /** Type of source */
-  type?: SubscriptionsCreateResponseSourceMqEventSourceWorkersScriptType | null;
+  type?: SubscriptionsCreateResponseSourceMqEventSourceWorkersScriptType | null | undefined;
 }
 export type SubscriptionsCreateResponseSourceMqEventSourceWorkflowsWorkflowType =
   "workflows.workflow";
 export interface SubscriptionsCreateResponseSourceMqEventSourceWorkflowsWorkflow {
   /** Type of source */
-  type?: SubscriptionsCreateResponseSourceMqEventSourceWorkflowsWorkflowType | null;
+  type?: SubscriptionsCreateResponseSourceMqEventSourceWorkflowsWorkflowType | null | undefined;
   /** Name of the workflow */
-  workflowName?: string | null;
+  workflowName?: string | null | undefined;
 }
 export type SubscriptionsCreateResponseSourceMqEventSourceArtifactsType = "artifacts";
 export interface SubscriptionsCreateResponseSourceMqEventSourceArtifacts {
   /** Type of source */
-  type?: SubscriptionsCreateResponseSourceMqEventSourceArtifactsType | null;
+  type?: SubscriptionsCreateResponseSourceMqEventSourceArtifactsType | null | undefined;
 }
 export type SubscriptionsCreateResponseSourceMqEventSourceArtifactsRepoType = "artifacts.repo";
 export interface SubscriptionsCreateResponseSourceMqEventSourceArtifactsRepo {
   /** Type of source */
-  type?: SubscriptionsCreateResponseSourceMqEventSourceArtifactsRepoType | null;
+  type?: SubscriptionsCreateResponseSourceMqEventSourceArtifactsRepoType | null | undefined;
   /** Artifacts namespace of the repository */
   namespace: string;
   /** Name of the repository */
@@ -665,11 +716,11 @@ export interface SubscriptionsCreateResponseSourceMqEventSourceArtifactsRepo {
 export type SubscriptionsCreateResponseSourceMqEventSourceEmailSendingType = "email.sending";
 export interface SubscriptionsCreateResponseSourceMqEventSourceEmailSending {
   /** Sending domain: the zone apex or a verified sending subdomain */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** Type of source */
-  type?: SubscriptionsCreateResponseSourceMqEventSourceEmailSendingType | null;
+  type?: SubscriptionsCreateResponseSourceMqEventSourceEmailSendingType | null | undefined;
   /** Zone ID of the sending domain */
-  zoneId?: string | null;
+  zoneId?: string | null | undefined;
 }
 export type SubscriptionsCreateResponseSource =
   | SubscriptionsCreateResponseSourceMqEventSourceImages
@@ -736,67 +787,67 @@ export type SubscriptionsDeleteResponseEventsList = Array<string>;
 export type SubscriptionsDeleteResponseSourceMqEventSourceImagesType = "images";
 export interface SubscriptionsDeleteResponseSourceMqEventSourceImages {
   /** Type of source */
-  type?: SubscriptionsDeleteResponseSourceMqEventSourceImagesType | null;
+  type?: SubscriptionsDeleteResponseSourceMqEventSourceImagesType | null | undefined;
 }
 export type SubscriptionsDeleteResponseSourceMqEventSourceKVType = "kv";
 export interface SubscriptionsDeleteResponseSourceMqEventSourceKV {
   /** Type of source */
-  type?: SubscriptionsDeleteResponseSourceMqEventSourceKVType | null;
+  type?: SubscriptionsDeleteResponseSourceMqEventSourceKVType | null | undefined;
 }
 export type SubscriptionsDeleteResponseSourceMqEventSourceR2Type = "r2";
 export interface SubscriptionsDeleteResponseSourceMqEventSourceR2 {
   /** Type of source */
-  type?: SubscriptionsDeleteResponseSourceMqEventSourceR2Type | null;
+  type?: SubscriptionsDeleteResponseSourceMqEventSourceR2Type | null | undefined;
 }
 export type SubscriptionsDeleteResponseSourceMqEventSourceSuperSlurperType = "superSlurper";
 export interface SubscriptionsDeleteResponseSourceMqEventSourceSuperSlurper {
   /** Type of source */
-  type?: SubscriptionsDeleteResponseSourceMqEventSourceSuperSlurperType | null;
+  type?: SubscriptionsDeleteResponseSourceMqEventSourceSuperSlurperType | null | undefined;
 }
 export type SubscriptionsDeleteResponseSourceMqEventSourceVectorizeType = "vectorize";
 export interface SubscriptionsDeleteResponseSourceMqEventSourceVectorize {
   /** Type of source */
-  type?: SubscriptionsDeleteResponseSourceMqEventSourceVectorizeType | null;
+  type?: SubscriptionsDeleteResponseSourceMqEventSourceVectorizeType | null | undefined;
 }
 export type SubscriptionsDeleteResponseSourceMqEventSourceWorkersAIModelType = "workersAi.model";
 export interface SubscriptionsDeleteResponseSourceMqEventSourceWorkersAIModel {
   /** Name of the Workers AI model */
-  modelName?: string | null;
+  modelName?: string | null | undefined;
   /** Type of source */
-  type?: SubscriptionsDeleteResponseSourceMqEventSourceWorkersAIModelType | null;
+  type?: SubscriptionsDeleteResponseSourceMqEventSourceWorkersAIModelType | null | undefined;
 }
 export type SubscriptionsDeleteResponseSourceMqEventSourceWorkersBuildsWorkerType =
   "workersBuilds.worker";
 export interface SubscriptionsDeleteResponseSourceMqEventSourceWorkersBuildsWorker {
   /** Type of source */
-  type?: SubscriptionsDeleteResponseSourceMqEventSourceWorkersBuildsWorkerType | null;
+  type?: SubscriptionsDeleteResponseSourceMqEventSourceWorkersBuildsWorkerType | null | undefined;
   /** Name of the worker */
-  workerName?: string | null;
+  workerName?: string | null | undefined;
 }
 export type SubscriptionsDeleteResponseSourceMqEventSourceWorkersScriptType = "workers.script";
 export interface SubscriptionsDeleteResponseSourceMqEventSourceWorkersScript {
   /** Tag of the Worker script */
-  scriptTag?: string | null;
+  scriptTag?: string | null | undefined;
   /** Type of source */
-  type?: SubscriptionsDeleteResponseSourceMqEventSourceWorkersScriptType | null;
+  type?: SubscriptionsDeleteResponseSourceMqEventSourceWorkersScriptType | null | undefined;
 }
 export type SubscriptionsDeleteResponseSourceMqEventSourceWorkflowsWorkflowType =
   "workflows.workflow";
 export interface SubscriptionsDeleteResponseSourceMqEventSourceWorkflowsWorkflow {
   /** Type of source */
-  type?: SubscriptionsDeleteResponseSourceMqEventSourceWorkflowsWorkflowType | null;
+  type?: SubscriptionsDeleteResponseSourceMqEventSourceWorkflowsWorkflowType | null | undefined;
   /** Name of the workflow */
-  workflowName?: string | null;
+  workflowName?: string | null | undefined;
 }
 export type SubscriptionsDeleteResponseSourceMqEventSourceArtifactsType = "artifacts";
 export interface SubscriptionsDeleteResponseSourceMqEventSourceArtifacts {
   /** Type of source */
-  type?: SubscriptionsDeleteResponseSourceMqEventSourceArtifactsType | null;
+  type?: SubscriptionsDeleteResponseSourceMqEventSourceArtifactsType | null | undefined;
 }
 export type SubscriptionsDeleteResponseSourceMqEventSourceArtifactsRepoType = "artifacts.repo";
 export interface SubscriptionsDeleteResponseSourceMqEventSourceArtifactsRepo {
   /** Type of source */
-  type?: SubscriptionsDeleteResponseSourceMqEventSourceArtifactsRepoType | null;
+  type?: SubscriptionsDeleteResponseSourceMqEventSourceArtifactsRepoType | null | undefined;
   /** Artifacts namespace of the repository */
   namespace: string;
   /** Name of the repository */
@@ -805,11 +856,11 @@ export interface SubscriptionsDeleteResponseSourceMqEventSourceArtifactsRepo {
 export type SubscriptionsDeleteResponseSourceMqEventSourceEmailSendingType = "email.sending";
 export interface SubscriptionsDeleteResponseSourceMqEventSourceEmailSending {
   /** Sending domain: the zone apex or a verified sending subdomain */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** Type of source */
-  type?: SubscriptionsDeleteResponseSourceMqEventSourceEmailSendingType | null;
+  type?: SubscriptionsDeleteResponseSourceMqEventSourceEmailSendingType | null | undefined;
   /** Zone ID of the sending domain */
-  zoneId?: string | null;
+  zoneId?: string | null | undefined;
 }
 export type SubscriptionsDeleteResponseSource =
   | SubscriptionsDeleteResponseSourceMqEventSourceImages
@@ -855,27 +906,27 @@ export type ConsumersGetResultWorkerSettings = ConsumersCreateResultWorkerSettin
 export type ConsumersGetResultWorkerType = "worker";
 export interface ConsumersGetResultWorker {
   /** A Resource identifier. */
-  consumerId?: string | null;
-  createdOn?: string | null;
+  consumerId?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Name of the dead letter queue, or empty string if not configured */
-  deadLetterQueue?: string | null;
-  queueName?: string | null;
+  deadLetterQueue?: string | null | undefined;
+  queueName?: string | null | undefined;
   /** Name of a Worker */
-  scriptName?: string | null;
-  settings?: ConsumersCreateResultWorkerSettings | null;
-  type?: ConsumersGetResultWorkerType | null;
+  scriptName?: string | null | undefined;
+  settings?: ConsumersCreateResultWorkerSettings | null | undefined;
+  type?: ConsumersGetResultWorkerType | null | undefined;
 }
 export type ConsumersGetResultHTTPPullSettings = ConsumersCreateResultHTTPPullSettings;
 export type ConsumersGetResultHTTPPullType = "http_pull";
 export interface ConsumersGetResultHTTPPull {
   /** A Resource identifier. */
-  consumerId?: string | null;
-  createdOn?: string | null;
+  consumerId?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Name of the dead letter queue, or empty string if not configured */
-  deadLetterQueue?: string | null;
-  queueName?: string | null;
-  settings?: ConsumersCreateResultHTTPPullSettings | null;
-  type?: ConsumersGetResultHTTPPullType | null;
+  deadLetterQueue?: string | null | undefined;
+  queueName?: string | null | undefined;
+  settings?: ConsumersCreateResultHTTPPullSettings | null | undefined;
+  type?: ConsumersGetResultHTTPPullType | null | undefined;
 }
 export type ConsumersGetResult = ConsumersGetResultWorker | ConsumersGetResultHTTPPull;
 export type GetConsumerResponse = ConsumersGetResult;
@@ -904,27 +955,27 @@ export type GetResponseConsumersItemWorkerSettings = ConsumersCreateResultWorker
 export type GetResponseConsumersItemWorkerType = "worker";
 export interface GetResponseConsumersItemWorker {
   /** A Resource identifier. */
-  consumerId?: string | null;
-  createdOn?: string | null;
+  consumerId?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Name of the dead letter queue, or empty string if not configured */
-  deadLetterQueue?: string | null;
-  queueName?: string | null;
+  deadLetterQueue?: string | null | undefined;
+  queueName?: string | null | undefined;
   /** Name of a Worker */
-  scriptName?: string | null;
-  settings?: ConsumersCreateResultWorkerSettings | null;
-  type?: GetResponseConsumersItemWorkerType | null;
+  scriptName?: string | null | undefined;
+  settings?: ConsumersCreateResultWorkerSettings | null | undefined;
+  type?: GetResponseConsumersItemWorkerType | null | undefined;
 }
 export type GetResponseConsumersItemHTTPPullSettings = ConsumersCreateResultHTTPPullSettings;
 export type GetResponseConsumersItemHTTPPullType = "http_pull";
 export interface GetResponseConsumersItemHTTPPull {
   /** A Resource identifier. */
-  consumerId?: string | null;
-  createdOn?: string | null;
+  consumerId?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Name of the dead letter queue, or empty string if not configured */
-  deadLetterQueue?: string | null;
-  queueName?: string | null;
-  settings?: ConsumersCreateResultHTTPPullSettings | null;
-  type?: GetResponseConsumersItemHTTPPullType | null;
+  deadLetterQueue?: string | null | undefined;
+  queueName?: string | null | undefined;
+  settings?: ConsumersCreateResultHTTPPullSettings | null | undefined;
+  type?: GetResponseConsumersItemHTTPPullType | null | undefined;
 }
 export type GetResponseConsumersItem =
   | GetResponseConsumersItemWorker
@@ -933,13 +984,13 @@ export type GetResponseConsumersList = Array<GetResponseConsumersItem>;
 export type GetResponseJurisdiction = "eu" | "us" | "fedramp";
 export type GetResponseProducersItemMqWorkerProducerType = "worker";
 export interface GetResponseProducersItemMqWorkerProducer {
-  type?: GetResponseProducersItemMqWorkerProducerType | null;
-  scriptName?: string | null;
+  type?: GetResponseProducersItemMqWorkerProducerType | null | undefined;
+  scriptName?: string | null | undefined;
 }
 export type GetResponseProducersItemMqR2ProducerType = "r2_bucket";
 export interface GetResponseProducersItemMqR2Producer {
-  bucketName?: string | null;
-  type?: GetResponseProducersItemMqR2ProducerType | null;
+  bucketName?: string | null | undefined;
+  type?: GetResponseProducersItemMqR2ProducerType | null | undefined;
 }
 export type GetResponseProducersItem =
   | GetResponseProducersItemMqWorkerProducer
@@ -948,16 +999,16 @@ export type GetResponseProducersList = Array<GetResponseProducersItem>;
 export type GetResponseSettings = CreateResponseSettings;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetQueueResponse {
-  consumers?: GetResponseConsumersList | null;
-  consumersTotalCount?: number | null;
-  createdOn?: string | null;
-  jurisdiction?: GetResponseJurisdiction | null;
-  modifiedOn?: string | null;
-  producers?: GetResponseProducersList | null;
-  producersTotalCount?: number | null;
-  queueId?: string | null;
-  queueName?: string | null;
-  settings?: CreateResponseSettings | null;
+  consumers?: GetResponseConsumersList | null | undefined;
+  consumersTotalCount?: number | null | undefined;
+  createdOn?: string | null | undefined;
+  jurisdiction?: GetResponseJurisdiction | null | undefined;
+  modifiedOn?: string | null | undefined;
+  producers?: GetResponseProducersList | null | undefined;
+  producersTotalCount?: number | null | undefined;
+  queueId?: string | null | undefined;
+  queueName?: string | null | undefined;
+  settings?: CreateResponseSettings | null | undefined;
 }
 export interface GetSubscriptionRequest {
   /** A Resource identifier. */
@@ -976,66 +1027,66 @@ export type SubscriptionsGetResponseEventsList = Array<string>;
 export type SubscriptionsGetResponseSourceMqEventSourceImagesType = "images";
 export interface SubscriptionsGetResponseSourceMqEventSourceImages {
   /** Type of source */
-  type?: SubscriptionsGetResponseSourceMqEventSourceImagesType | null;
+  type?: SubscriptionsGetResponseSourceMqEventSourceImagesType | null | undefined;
 }
 export type SubscriptionsGetResponseSourceMqEventSourceKVType = "kv";
 export interface SubscriptionsGetResponseSourceMqEventSourceKV {
   /** Type of source */
-  type?: SubscriptionsGetResponseSourceMqEventSourceKVType | null;
+  type?: SubscriptionsGetResponseSourceMqEventSourceKVType | null | undefined;
 }
 export type SubscriptionsGetResponseSourceMqEventSourceR2Type = "r2";
 export interface SubscriptionsGetResponseSourceMqEventSourceR2 {
   /** Type of source */
-  type?: SubscriptionsGetResponseSourceMqEventSourceR2Type | null;
+  type?: SubscriptionsGetResponseSourceMqEventSourceR2Type | null | undefined;
 }
 export type SubscriptionsGetResponseSourceMqEventSourceSuperSlurperType = "superSlurper";
 export interface SubscriptionsGetResponseSourceMqEventSourceSuperSlurper {
   /** Type of source */
-  type?: SubscriptionsGetResponseSourceMqEventSourceSuperSlurperType | null;
+  type?: SubscriptionsGetResponseSourceMqEventSourceSuperSlurperType | null | undefined;
 }
 export type SubscriptionsGetResponseSourceMqEventSourceVectorizeType = "vectorize";
 export interface SubscriptionsGetResponseSourceMqEventSourceVectorize {
   /** Type of source */
-  type?: SubscriptionsGetResponseSourceMqEventSourceVectorizeType | null;
+  type?: SubscriptionsGetResponseSourceMqEventSourceVectorizeType | null | undefined;
 }
 export type SubscriptionsGetResponseSourceMqEventSourceWorkersAIModelType = "workersAi.model";
 export interface SubscriptionsGetResponseSourceMqEventSourceWorkersAIModel {
   /** Name of the Workers AI model */
-  modelName?: string | null;
+  modelName?: string | null | undefined;
   /** Type of source */
-  type?: SubscriptionsGetResponseSourceMqEventSourceWorkersAIModelType | null;
+  type?: SubscriptionsGetResponseSourceMqEventSourceWorkersAIModelType | null | undefined;
 }
 export type SubscriptionsGetResponseSourceMqEventSourceWorkersBuildsWorkerType =
   "workersBuilds.worker";
 export interface SubscriptionsGetResponseSourceMqEventSourceWorkersBuildsWorker {
   /** Type of source */
-  type?: SubscriptionsGetResponseSourceMqEventSourceWorkersBuildsWorkerType | null;
+  type?: SubscriptionsGetResponseSourceMqEventSourceWorkersBuildsWorkerType | null | undefined;
   /** Name of the worker */
-  workerName?: string | null;
+  workerName?: string | null | undefined;
 }
 export type SubscriptionsGetResponseSourceMqEventSourceWorkersScriptType = "workers.script";
 export interface SubscriptionsGetResponseSourceMqEventSourceWorkersScript {
   /** Tag of the Worker script */
-  scriptTag?: string | null;
+  scriptTag?: string | null | undefined;
   /** Type of source */
-  type?: SubscriptionsGetResponseSourceMqEventSourceWorkersScriptType | null;
+  type?: SubscriptionsGetResponseSourceMqEventSourceWorkersScriptType | null | undefined;
 }
 export type SubscriptionsGetResponseSourceMqEventSourceWorkflowsWorkflowType = "workflows.workflow";
 export interface SubscriptionsGetResponseSourceMqEventSourceWorkflowsWorkflow {
   /** Type of source */
-  type?: SubscriptionsGetResponseSourceMqEventSourceWorkflowsWorkflowType | null;
+  type?: SubscriptionsGetResponseSourceMqEventSourceWorkflowsWorkflowType | null | undefined;
   /** Name of the workflow */
-  workflowName?: string | null;
+  workflowName?: string | null | undefined;
 }
 export type SubscriptionsGetResponseSourceMqEventSourceArtifactsType = "artifacts";
 export interface SubscriptionsGetResponseSourceMqEventSourceArtifacts {
   /** Type of source */
-  type?: SubscriptionsGetResponseSourceMqEventSourceArtifactsType | null;
+  type?: SubscriptionsGetResponseSourceMqEventSourceArtifactsType | null | undefined;
 }
 export type SubscriptionsGetResponseSourceMqEventSourceArtifactsRepoType = "artifacts.repo";
 export interface SubscriptionsGetResponseSourceMqEventSourceArtifactsRepo {
   /** Type of source */
-  type?: SubscriptionsGetResponseSourceMqEventSourceArtifactsRepoType | null;
+  type?: SubscriptionsGetResponseSourceMqEventSourceArtifactsRepoType | null | undefined;
   /** Artifacts namespace of the repository */
   namespace: string;
   /** Name of the repository */
@@ -1044,11 +1095,11 @@ export interface SubscriptionsGetResponseSourceMqEventSourceArtifactsRepo {
 export type SubscriptionsGetResponseSourceMqEventSourceEmailSendingType = "email.sending";
 export interface SubscriptionsGetResponseSourceMqEventSourceEmailSending {
   /** Sending domain: the zone apex or a verified sending subdomain */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** Type of source */
-  type?: SubscriptionsGetResponseSourceMqEventSourceEmailSendingType | null;
+  type?: SubscriptionsGetResponseSourceMqEventSourceEmailSendingType | null | undefined;
   /** Zone ID of the sending domain */
-  zoneId?: string | null;
+  zoneId?: string | null | undefined;
 }
 export type SubscriptionsGetResponseSource =
   | SubscriptionsGetResponseSourceMqEventSourceImages
@@ -1092,27 +1143,27 @@ export type ConsumersListResultItemWorkerSettings = ConsumersCreateResultWorkerS
 export type ConsumersListResultItemWorkerType = "worker";
 export interface ConsumersListResultItemWorker {
   /** A Resource identifier. */
-  consumerId?: string | null;
-  createdOn?: string | null;
+  consumerId?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Name of the dead letter queue, or empty string if not configured */
-  deadLetterQueue?: string | null;
-  queueName?: string | null;
+  deadLetterQueue?: string | null | undefined;
+  queueName?: string | null | undefined;
   /** Name of a Worker */
-  scriptName?: string | null;
-  settings?: ConsumersCreateResultWorkerSettings | null;
-  type?: ConsumersListResultItemWorkerType | null;
+  scriptName?: string | null | undefined;
+  settings?: ConsumersCreateResultWorkerSettings | null | undefined;
+  type?: ConsumersListResultItemWorkerType | null | undefined;
 }
 export type ConsumersListResultItemHTTPPullSettings = ConsumersCreateResultHTTPPullSettings;
 export type ConsumersListResultItemHTTPPullType = "http_pull";
 export interface ConsumersListResultItemHTTPPull {
   /** A Resource identifier. */
-  consumerId?: string | null;
-  createdOn?: string | null;
+  consumerId?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Name of the dead letter queue, or empty string if not configured */
-  deadLetterQueue?: string | null;
-  queueName?: string | null;
-  settings?: ConsumersCreateResultHTTPPullSettings | null;
-  type?: ConsumersListResultItemHTTPPullType | null;
+  deadLetterQueue?: string | null | undefined;
+  queueName?: string | null | undefined;
+  settings?: ConsumersCreateResultHTTPPullSettings | null | undefined;
+  type?: ConsumersListResultItemHTTPPullType | null | undefined;
 }
 export type ConsumersListResultItem =
   | ConsumersListResultItemWorker
@@ -1122,41 +1173,41 @@ export interface ListConsumersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ConsumersListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListQueuesRequest {
   /** A Resource identifier. */
   accountId: string;
   /** Page number. */
-  page?: number;
+  page?: number | undefined;
   /** Number of queues to return per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type ListResultItemConsumersItemWorkerSettings = ConsumersCreateResultWorkerSettings;
 export type ListResultItemConsumersItemWorkerType = "worker";
 export interface ListResultItemConsumersItemWorker {
   /** A Resource identifier. */
-  consumerId?: string | null;
-  createdOn?: string | null;
+  consumerId?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Name of the dead letter queue, or empty string if not configured */
-  deadLetterQueue?: string | null;
-  queueName?: string | null;
+  deadLetterQueue?: string | null | undefined;
+  queueName?: string | null | undefined;
   /** Name of a Worker */
-  scriptName?: string | null;
-  settings?: ConsumersCreateResultWorkerSettings | null;
-  type?: ListResultItemConsumersItemWorkerType | null;
+  scriptName?: string | null | undefined;
+  settings?: ConsumersCreateResultWorkerSettings | null | undefined;
+  type?: ListResultItemConsumersItemWorkerType | null | undefined;
 }
 export type ListResultItemConsumersItemHTTPPullSettings = ConsumersCreateResultHTTPPullSettings;
 export type ListResultItemConsumersItemHTTPPullType = "http_pull";
 export interface ListResultItemConsumersItemHTTPPull {
   /** A Resource identifier. */
-  consumerId?: string | null;
-  createdOn?: string | null;
+  consumerId?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Name of the dead letter queue, or empty string if not configured */
-  deadLetterQueue?: string | null;
-  queueName?: string | null;
-  settings?: ConsumersCreateResultHTTPPullSettings | null;
-  type?: ListResultItemConsumersItemHTTPPullType | null;
+  deadLetterQueue?: string | null | undefined;
+  queueName?: string | null | undefined;
+  settings?: ConsumersCreateResultHTTPPullSettings | null | undefined;
+  type?: ListResultItemConsumersItemHTTPPullType | null | undefined;
 }
 export type ListResultItemConsumersItem =
   | ListResultItemConsumersItemWorker
@@ -1165,13 +1216,13 @@ export type ListResultItemConsumersList = Array<ListResultItemConsumersItem>;
 export type ListResultItemJurisdiction = "eu" | "us" | "fedramp";
 export type ListResultItemProducersItemMqWorkerProducerType = "worker";
 export interface ListResultItemProducersItemMqWorkerProducer {
-  type?: ListResultItemProducersItemMqWorkerProducerType | null;
-  scriptName?: string | null;
+  type?: ListResultItemProducersItemMqWorkerProducerType | null | undefined;
+  scriptName?: string | null | undefined;
 }
 export type ListResultItemProducersItemMqR2ProducerType = "r2_bucket";
 export interface ListResultItemProducersItemMqR2Producer {
-  bucketName?: string | null;
-  type?: ListResultItemProducersItemMqR2ProducerType | null;
+  bucketName?: string | null | undefined;
+  type?: ListResultItemProducersItemMqR2ProducerType | null | undefined;
 }
 export type ListResultItemProducersItem =
   | ListResultItemProducersItemMqWorkerProducer
@@ -1179,23 +1230,23 @@ export type ListResultItemProducersItem =
 export type ListResultItemProducersList = Array<ListResultItemProducersItem>;
 export type ListResultItemSettings = CreateResponseSettings;
 export interface ListResultItem {
-  consumers?: ListResultItemConsumersList | null;
-  consumersTotalCount?: number | null;
-  createdOn?: string | null;
-  jurisdiction?: ListResultItemJurisdiction | null;
-  modifiedOn?: string | null;
-  producers?: ListResultItemProducersList | null;
-  producersTotalCount?: number | null;
-  queueId?: string | null;
-  queueName?: string | null;
-  settings?: CreateResponseSettings | null;
+  consumers?: ListResultItemConsumersList | null | undefined;
+  consumersTotalCount?: number | null | undefined;
+  createdOn?: string | null | undefined;
+  jurisdiction?: ListResultItemJurisdiction | null | undefined;
+  modifiedOn?: string | null | undefined;
+  producers?: ListResultItemProducersList | null | undefined;
+  producersTotalCount?: number | null | undefined;
+  queueId?: string | null | undefined;
+  queueName?: string | null | undefined;
+  settings?: CreateResponseSettings | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListQueuesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type SubscriptionsListRequestDirection = "asc" | "desc";
 export type SubscriptionsListRequestOrder = "created_at" | "name" | "enabled" | "source";
@@ -1203,13 +1254,13 @@ export interface ListSubscriptionsRequest {
   /** A Resource identifier. */
   accountId: string;
   /** Sort direction */
-  direction?: SubscriptionsListRequestDirection | (string & {});
+  direction?: SubscriptionsListRequestDirection | (string & {}) | undefined;
   /** Field to sort by */
-  order?: SubscriptionsListRequestOrder | (string & {});
+  order?: SubscriptionsListRequestOrder | (string & {}) | undefined;
   /** Page number for pagination */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type SubscriptionsListResultItemDestinationType = "queues.queue";
 export interface SubscriptionsListResultItemDestination {
@@ -1222,67 +1273,67 @@ export type SubscriptionsListResultItemEventsList = Array<string>;
 export type SubscriptionsListResultItemSourceMqEventSourceImagesType = "images";
 export interface SubscriptionsListResultItemSourceMqEventSourceImages {
   /** Type of source */
-  type?: SubscriptionsListResultItemSourceMqEventSourceImagesType | null;
+  type?: SubscriptionsListResultItemSourceMqEventSourceImagesType | null | undefined;
 }
 export type SubscriptionsListResultItemSourceMqEventSourceKVType = "kv";
 export interface SubscriptionsListResultItemSourceMqEventSourceKV {
   /** Type of source */
-  type?: SubscriptionsListResultItemSourceMqEventSourceKVType | null;
+  type?: SubscriptionsListResultItemSourceMqEventSourceKVType | null | undefined;
 }
 export type SubscriptionsListResultItemSourceMqEventSourceR2Type = "r2";
 export interface SubscriptionsListResultItemSourceMqEventSourceR2 {
   /** Type of source */
-  type?: SubscriptionsListResultItemSourceMqEventSourceR2Type | null;
+  type?: SubscriptionsListResultItemSourceMqEventSourceR2Type | null | undefined;
 }
 export type SubscriptionsListResultItemSourceMqEventSourceSuperSlurperType = "superSlurper";
 export interface SubscriptionsListResultItemSourceMqEventSourceSuperSlurper {
   /** Type of source */
-  type?: SubscriptionsListResultItemSourceMqEventSourceSuperSlurperType | null;
+  type?: SubscriptionsListResultItemSourceMqEventSourceSuperSlurperType | null | undefined;
 }
 export type SubscriptionsListResultItemSourceMqEventSourceVectorizeType = "vectorize";
 export interface SubscriptionsListResultItemSourceMqEventSourceVectorize {
   /** Type of source */
-  type?: SubscriptionsListResultItemSourceMqEventSourceVectorizeType | null;
+  type?: SubscriptionsListResultItemSourceMqEventSourceVectorizeType | null | undefined;
 }
 export type SubscriptionsListResultItemSourceMqEventSourceWorkersAIModelType = "workersAi.model";
 export interface SubscriptionsListResultItemSourceMqEventSourceWorkersAIModel {
   /** Name of the Workers AI model */
-  modelName?: string | null;
+  modelName?: string | null | undefined;
   /** Type of source */
-  type?: SubscriptionsListResultItemSourceMqEventSourceWorkersAIModelType | null;
+  type?: SubscriptionsListResultItemSourceMqEventSourceWorkersAIModelType | null | undefined;
 }
 export type SubscriptionsListResultItemSourceMqEventSourceWorkersBuildsWorkerType =
   "workersBuilds.worker";
 export interface SubscriptionsListResultItemSourceMqEventSourceWorkersBuildsWorker {
   /** Type of source */
-  type?: SubscriptionsListResultItemSourceMqEventSourceWorkersBuildsWorkerType | null;
+  type?: SubscriptionsListResultItemSourceMqEventSourceWorkersBuildsWorkerType | null | undefined;
   /** Name of the worker */
-  workerName?: string | null;
+  workerName?: string | null | undefined;
 }
 export type SubscriptionsListResultItemSourceMqEventSourceWorkersScriptType = "workers.script";
 export interface SubscriptionsListResultItemSourceMqEventSourceWorkersScript {
   /** Tag of the Worker script */
-  scriptTag?: string | null;
+  scriptTag?: string | null | undefined;
   /** Type of source */
-  type?: SubscriptionsListResultItemSourceMqEventSourceWorkersScriptType | null;
+  type?: SubscriptionsListResultItemSourceMqEventSourceWorkersScriptType | null | undefined;
 }
 export type SubscriptionsListResultItemSourceMqEventSourceWorkflowsWorkflowType =
   "workflows.workflow";
 export interface SubscriptionsListResultItemSourceMqEventSourceWorkflowsWorkflow {
   /** Type of source */
-  type?: SubscriptionsListResultItemSourceMqEventSourceWorkflowsWorkflowType | null;
+  type?: SubscriptionsListResultItemSourceMqEventSourceWorkflowsWorkflowType | null | undefined;
   /** Name of the workflow */
-  workflowName?: string | null;
+  workflowName?: string | null | undefined;
 }
 export type SubscriptionsListResultItemSourceMqEventSourceArtifactsType = "artifacts";
 export interface SubscriptionsListResultItemSourceMqEventSourceArtifacts {
   /** Type of source */
-  type?: SubscriptionsListResultItemSourceMqEventSourceArtifactsType | null;
+  type?: SubscriptionsListResultItemSourceMqEventSourceArtifactsType | null | undefined;
 }
 export type SubscriptionsListResultItemSourceMqEventSourceArtifactsRepoType = "artifacts.repo";
 export interface SubscriptionsListResultItemSourceMqEventSourceArtifactsRepo {
   /** Type of source */
-  type?: SubscriptionsListResultItemSourceMqEventSourceArtifactsRepoType | null;
+  type?: SubscriptionsListResultItemSourceMqEventSourceArtifactsRepoType | null | undefined;
   /** Artifacts namespace of the repository */
   namespace: string;
   /** Name of the repository */
@@ -1291,11 +1342,11 @@ export interface SubscriptionsListResultItemSourceMqEventSourceArtifactsRepo {
 export type SubscriptionsListResultItemSourceMqEventSourceEmailSendingType = "email.sending";
 export interface SubscriptionsListResultItemSourceMqEventSourceEmailSending {
   /** Sending domain: the zone apex or a verified sending subdomain */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** Type of source */
-  type?: SubscriptionsListResultItemSourceMqEventSourceEmailSendingType | null;
+  type?: SubscriptionsListResultItemSourceMqEventSourceEmailSendingType | null | undefined;
   /** Zone ID of the sending domain */
-  zoneId?: string | null;
+  zoneId?: string | null | undefined;
 }
 export type SubscriptionsListResultItemSource =
   | SubscriptionsListResultItemSourceMqEventSourceImages
@@ -1333,7 +1384,7 @@ export interface ListSubscriptionsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SubscriptionsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface MessagesPeekRequest {
   /** A Resource identifier. */
@@ -1341,65 +1392,65 @@ export interface MessagesPeekRequest {
   /** A Resource identifier. */
   queueId: string;
   /** The maximum number of messages to include in a batch. */
-  batchSize?: number;
+  batchSize?: number | undefined;
 }
 export interface MessagesPeekResponseMessagesItem {
-  id?: string | null;
-  attempts?: number | null;
-  body?: string | null;
-  metadata?: unknown | null;
+  id?: string | null | undefined;
+  attempts?: number | null | undefined;
+  body?: string | null | undefined;
+  metadata?: unknown | null | undefined;
   /** An opaque reference to a peeked message. You must hold on to this value and use it to purge the message. */
-  ref?: string | null;
-  timestampMs?: number | null;
+  ref?: string | null | undefined;
+  timestampMs?: number | null | undefined;
 }
 export type MessagesPeekResponseMessagesList = Array<MessagesPeekResponseMessagesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface MessagesPeekResponse {
-  messages?: MessagesPeekResponseMessagesList | null;
+  messages?: MessagesPeekResponseMessagesList | null | undefined;
 }
 export type EditRequestJurisdiction = "eu" | "us" | "fedramp";
 export interface EditRequestSettings {
   /** Number of seconds to delay delivery of all messages to consumers. */
-  deliveryDelay?: number;
+  deliveryDelay?: number | undefined;
   /** Indicates if message delivery to consumers is currently paused. */
-  deliveryPaused?: boolean;
+  deliveryPaused?: boolean | undefined;
   /** Number of seconds after which an unconsumed message will be delayed. */
-  messageRetentionPeriod?: number;
+  messageRetentionPeriod?: number | undefined;
 }
 export interface PatchQueueRequest {
   /** A Resource identifier. */
   accountId: string;
   /** A Resource identifier. */
   queueId: string;
-  jurisdiction?: EditRequestJurisdiction | (string & {});
-  queueName?: string;
-  settings?: EditRequestSettings;
+  jurisdiction?: EditRequestJurisdiction | (string & {}) | undefined;
+  queueName?: string | undefined;
+  settings?: EditRequestSettings | undefined;
 }
 export type EditResponseConsumersItemWorkerSettings = ConsumersCreateResultWorkerSettings;
 export type EditResponseConsumersItemWorkerType = "worker";
 export interface EditResponseConsumersItemWorker {
   /** A Resource identifier. */
-  consumerId?: string | null;
-  createdOn?: string | null;
+  consumerId?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Name of the dead letter queue, or empty string if not configured */
-  deadLetterQueue?: string | null;
-  queueName?: string | null;
+  deadLetterQueue?: string | null | undefined;
+  queueName?: string | null | undefined;
   /** Name of a Worker */
-  scriptName?: string | null;
-  settings?: ConsumersCreateResultWorkerSettings | null;
-  type?: EditResponseConsumersItemWorkerType | null;
+  scriptName?: string | null | undefined;
+  settings?: ConsumersCreateResultWorkerSettings | null | undefined;
+  type?: EditResponseConsumersItemWorkerType | null | undefined;
 }
 export type EditResponseConsumersItemHTTPPullSettings = ConsumersCreateResultHTTPPullSettings;
 export type EditResponseConsumersItemHTTPPullType = "http_pull";
 export interface EditResponseConsumersItemHTTPPull {
   /** A Resource identifier. */
-  consumerId?: string | null;
-  createdOn?: string | null;
+  consumerId?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Name of the dead letter queue, or empty string if not configured */
-  deadLetterQueue?: string | null;
-  queueName?: string | null;
-  settings?: ConsumersCreateResultHTTPPullSettings | null;
-  type?: EditResponseConsumersItemHTTPPullType | null;
+  deadLetterQueue?: string | null | undefined;
+  queueName?: string | null | undefined;
+  settings?: ConsumersCreateResultHTTPPullSettings | null | undefined;
+  type?: EditResponseConsumersItemHTTPPullType | null | undefined;
 }
 export type EditResponseConsumersItem =
   | EditResponseConsumersItemWorker
@@ -1408,13 +1459,13 @@ export type EditResponseConsumersList = Array<EditResponseConsumersItem>;
 export type EditResponseJurisdiction = "eu" | "us" | "fedramp";
 export type EditResponseProducersItemMqWorkerProducerType = "worker";
 export interface EditResponseProducersItemMqWorkerProducer {
-  type?: EditResponseProducersItemMqWorkerProducerType | null;
-  scriptName?: string | null;
+  type?: EditResponseProducersItemMqWorkerProducerType | null | undefined;
+  scriptName?: string | null | undefined;
 }
 export type EditResponseProducersItemMqR2ProducerType = "r2_bucket";
 export interface EditResponseProducersItemMqR2Producer {
-  bucketName?: string | null;
-  type?: EditResponseProducersItemMqR2ProducerType | null;
+  bucketName?: string | null | undefined;
+  type?: EditResponseProducersItemMqR2ProducerType | null | undefined;
 }
 export type EditResponseProducersItem =
   | EditResponseProducersItemMqWorkerProducer
@@ -1423,16 +1474,16 @@ export type EditResponseProducersList = Array<EditResponseProducersItem>;
 export type EditResponseSettings = CreateResponseSettings;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchQueueResponse {
-  consumers?: EditResponseConsumersList | null;
-  consumersTotalCount?: number | null;
-  createdOn?: string | null;
-  jurisdiction?: EditResponseJurisdiction | null;
-  modifiedOn?: string | null;
-  producers?: EditResponseProducersList | null;
-  producersTotalCount?: number | null;
-  queueId?: string | null;
-  queueName?: string | null;
-  settings?: CreateResponseSettings | null;
+  consumers?: EditResponseConsumersList | null | undefined;
+  consumersTotalCount?: number | null | undefined;
+  createdOn?: string | null | undefined;
+  jurisdiction?: EditResponseJurisdiction | null | undefined;
+  modifiedOn?: string | null | undefined;
+  producers?: EditResponseProducersList | null | undefined;
+  producersTotalCount?: number | null | undefined;
+  queueId?: string | null | undefined;
+  queueName?: string | null | undefined;
+  settings?: CreateResponseSettings | null | undefined;
 }
 export type SubscriptionsUpdateRequestDestinationType = "queues.queue";
 export interface SubscriptionsUpdateRequestDestination {
@@ -1448,13 +1499,13 @@ export interface PatchSubscriptionRequest {
   /** A Resource identifier. */
   subscriptionId: string;
   /** Destination configuration for the subscription */
-  destination?: SubscriptionsUpdateRequestDestination;
+  destination?: SubscriptionsUpdateRequestDestination | undefined;
   /** Whether the subscription is active */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** List of event types this subscription handles */
-  events?: SubscriptionsUpdateRequestEventsList;
+  events?: SubscriptionsUpdateRequestEventsList | undefined;
   /** Name of the subscription */
-  name?: string;
+  name?: string | undefined;
 }
 export type SubscriptionsUpdateResponseDestinationType = "queues.queue";
 export interface SubscriptionsUpdateResponseDestination {
@@ -1467,67 +1518,67 @@ export type SubscriptionsUpdateResponseEventsList = Array<string>;
 export type SubscriptionsUpdateResponseSourceMqEventSourceImagesType = "images";
 export interface SubscriptionsUpdateResponseSourceMqEventSourceImages {
   /** Type of source */
-  type?: SubscriptionsUpdateResponseSourceMqEventSourceImagesType | null;
+  type?: SubscriptionsUpdateResponseSourceMqEventSourceImagesType | null | undefined;
 }
 export type SubscriptionsUpdateResponseSourceMqEventSourceKVType = "kv";
 export interface SubscriptionsUpdateResponseSourceMqEventSourceKV {
   /** Type of source */
-  type?: SubscriptionsUpdateResponseSourceMqEventSourceKVType | null;
+  type?: SubscriptionsUpdateResponseSourceMqEventSourceKVType | null | undefined;
 }
 export type SubscriptionsUpdateResponseSourceMqEventSourceR2Type = "r2";
 export interface SubscriptionsUpdateResponseSourceMqEventSourceR2 {
   /** Type of source */
-  type?: SubscriptionsUpdateResponseSourceMqEventSourceR2Type | null;
+  type?: SubscriptionsUpdateResponseSourceMqEventSourceR2Type | null | undefined;
 }
 export type SubscriptionsUpdateResponseSourceMqEventSourceSuperSlurperType = "superSlurper";
 export interface SubscriptionsUpdateResponseSourceMqEventSourceSuperSlurper {
   /** Type of source */
-  type?: SubscriptionsUpdateResponseSourceMqEventSourceSuperSlurperType | null;
+  type?: SubscriptionsUpdateResponseSourceMqEventSourceSuperSlurperType | null | undefined;
 }
 export type SubscriptionsUpdateResponseSourceMqEventSourceVectorizeType = "vectorize";
 export interface SubscriptionsUpdateResponseSourceMqEventSourceVectorize {
   /** Type of source */
-  type?: SubscriptionsUpdateResponseSourceMqEventSourceVectorizeType | null;
+  type?: SubscriptionsUpdateResponseSourceMqEventSourceVectorizeType | null | undefined;
 }
 export type SubscriptionsUpdateResponseSourceMqEventSourceWorkersAIModelType = "workersAi.model";
 export interface SubscriptionsUpdateResponseSourceMqEventSourceWorkersAIModel {
   /** Name of the Workers AI model */
-  modelName?: string | null;
+  modelName?: string | null | undefined;
   /** Type of source */
-  type?: SubscriptionsUpdateResponseSourceMqEventSourceWorkersAIModelType | null;
+  type?: SubscriptionsUpdateResponseSourceMqEventSourceWorkersAIModelType | null | undefined;
 }
 export type SubscriptionsUpdateResponseSourceMqEventSourceWorkersBuildsWorkerType =
   "workersBuilds.worker";
 export interface SubscriptionsUpdateResponseSourceMqEventSourceWorkersBuildsWorker {
   /** Type of source */
-  type?: SubscriptionsUpdateResponseSourceMqEventSourceWorkersBuildsWorkerType | null;
+  type?: SubscriptionsUpdateResponseSourceMqEventSourceWorkersBuildsWorkerType | null | undefined;
   /** Name of the worker */
-  workerName?: string | null;
+  workerName?: string | null | undefined;
 }
 export type SubscriptionsUpdateResponseSourceMqEventSourceWorkersScriptType = "workers.script";
 export interface SubscriptionsUpdateResponseSourceMqEventSourceWorkersScript {
   /** Tag of the Worker script */
-  scriptTag?: string | null;
+  scriptTag?: string | null | undefined;
   /** Type of source */
-  type?: SubscriptionsUpdateResponseSourceMqEventSourceWorkersScriptType | null;
+  type?: SubscriptionsUpdateResponseSourceMqEventSourceWorkersScriptType | null | undefined;
 }
 export type SubscriptionsUpdateResponseSourceMqEventSourceWorkflowsWorkflowType =
   "workflows.workflow";
 export interface SubscriptionsUpdateResponseSourceMqEventSourceWorkflowsWorkflow {
   /** Type of source */
-  type?: SubscriptionsUpdateResponseSourceMqEventSourceWorkflowsWorkflowType | null;
+  type?: SubscriptionsUpdateResponseSourceMqEventSourceWorkflowsWorkflowType | null | undefined;
   /** Name of the workflow */
-  workflowName?: string | null;
+  workflowName?: string | null | undefined;
 }
 export type SubscriptionsUpdateResponseSourceMqEventSourceArtifactsType = "artifacts";
 export interface SubscriptionsUpdateResponseSourceMqEventSourceArtifacts {
   /** Type of source */
-  type?: SubscriptionsUpdateResponseSourceMqEventSourceArtifactsType | null;
+  type?: SubscriptionsUpdateResponseSourceMqEventSourceArtifactsType | null | undefined;
 }
 export type SubscriptionsUpdateResponseSourceMqEventSourceArtifactsRepoType = "artifacts.repo";
 export interface SubscriptionsUpdateResponseSourceMqEventSourceArtifactsRepo {
   /** Type of source */
-  type?: SubscriptionsUpdateResponseSourceMqEventSourceArtifactsRepoType | null;
+  type?: SubscriptionsUpdateResponseSourceMqEventSourceArtifactsRepoType | null | undefined;
   /** Artifacts namespace of the repository */
   namespace: string;
   /** Name of the repository */
@@ -1536,11 +1587,11 @@ export interface SubscriptionsUpdateResponseSourceMqEventSourceArtifactsRepo {
 export type SubscriptionsUpdateResponseSourceMqEventSourceEmailSendingType = "email.sending";
 export interface SubscriptionsUpdateResponseSourceMqEventSourceEmailSending {
   /** Sending domain: the zone apex or a verified sending subdomain */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** Type of source */
-  type?: SubscriptionsUpdateResponseSourceMqEventSourceEmailSendingType | null;
+  type?: SubscriptionsUpdateResponseSourceMqEventSourceEmailSendingType | null | undefined;
   /** Zone ID of the sending domain */
-  zoneId?: string | null;
+  zoneId?: string | null | undefined;
 }
 export type SubscriptionsUpdateResponseSource =
   | SubscriptionsUpdateResponseSourceMqEventSourceImages
@@ -1580,18 +1631,18 @@ export interface PullMessageRequest {
   /** A Resource identifier. */
   queueId: string;
   /** The maximum number of messages to include in a batch. */
-  batchSize?: number;
+  batchSize?: number | undefined;
   /** The number of milliseconds that a message is exclusively leased. After the timeout, the message becomes available for another attempt. */
-  visibilityTimeoutMs?: number;
+  visibilityTimeoutMs?: number | undefined;
 }
 export interface MessagesPullResponseMessagesItem {
-  id?: string | null;
-  attempts?: number | null;
-  body?: string | null;
+  id?: string | null | undefined;
+  attempts?: number | null | undefined;
+  body?: string | null | undefined;
   /** An ID that represents an "in-flight" message that has been pulled from a Queue. You must hold on to this ID and use it to acknowledge this message. */
-  leaseId?: string | null;
-  metadata?: unknown | null;
-  timestampMs?: number | null;
+  leaseId?: string | null | undefined;
+  metadata?: unknown | null | undefined;
+  timestampMs?: number | null | undefined;
 }
 export type MessagesPullResponseMessagesList = Array<MessagesPullResponseMessagesItem>;
 export type MessagesPullResponseMetadataMetrics = MessagesBulkPushResponseMetadataMetrics;
@@ -1599,9 +1650,9 @@ export type MessagesPullResponseMetadata = MessagesBulkPushResponseMetadata;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PullMessageResponse {
   /** The number of unacknowledged messages in the queue. */
-  messageBacklogCount?: number | null;
-  messages?: MessagesPullResponseMessagesList | null;
-  metadata?: MessagesBulkPushResponseMetadata | null;
+  messageBacklogCount?: number | null | undefined;
+  messages?: MessagesPullResponseMessagesList | null | undefined;
+  metadata?: MessagesBulkPushResponseMetadata | null | undefined;
 }
 export interface PurgeMessageRequestRefsItem {
   /** An opaque reference to a peeked message. You must hold on to this value and use it to purge the message. */
@@ -1616,16 +1667,16 @@ export interface PurgeMessageRequest {
   refs: PurgeMessageRequestRefsList;
 }
 export interface PurgeMessageResponseErrorsItem {
-  message?: string | null;
+  message?: string | null | undefined;
 }
 export type PurgeMessageResponseErrorsList = Array<PurgeMessageResponseErrorsItem>;
 export type PurgeMessageResponseWarningsMap = { [key: string]: string | undefined };
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PurgeMessageResponse {
   /** Errors encountered while purging messages. */
-  errors?: PurgeMessageResponseErrorsList | null;
+  errors?: PurgeMessageResponseErrorsList | null | undefined;
   /** Map of refs to warning messages encountered during purge. */
-  warnings?: PurgeMessageResponseWarningsMap | null;
+  warnings?: PurgeMessageResponseWarningsMap | null | undefined;
 }
 export interface PurgeStatusRequest {
   /** A Resource identifier. */
@@ -1636,9 +1687,9 @@ export interface PurgeStatusRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PurgeStatusResponse {
   /** Indicates if the last purge operation completed successfully. */
-  completed?: string | null;
+  completed?: string | null | undefined;
   /** Timestamp when the last purge operation started. */
-  startedAt?: string | null;
+  startedAt?: string | null | undefined;
 }
 export type MessagesPushRequestContentType = "text" | "json";
 export interface PushMessageRequest {
@@ -1646,16 +1697,16 @@ export interface PushMessageRequest {
   accountId: string;
   /** A Resource identifier. */
   queueId: string;
-  body?: unknown;
-  contentType?: MessagesPushRequestContentType | (string & {});
+  body?: unknown | undefined;
+  contentType?: MessagesPushRequestContentType | (string & {}) | undefined;
   /** The number of seconds to wait for attempting to deliver this message to consumers */
-  delaySeconds?: number;
+  delaySeconds?: number | undefined;
 }
 export type MessagesPushResponseMetadataMetrics = MessagesBulkPushResponseMetadataMetrics;
 export type MessagesPushResponseMetadata = MessagesBulkPushResponseMetadata;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PushMessageResponse {
-  metadata?: MessagesBulkPushResponseMetadata | null;
+  metadata?: MessagesBulkPushResponseMetadata | null | undefined;
 }
 export interface StartPurgeRequest {
   /** A Resource identifier. */
@@ -1663,33 +1714,33 @@ export interface StartPurgeRequest {
   /** A Resource identifier. */
   queueId: string;
   /** Confirms that all messages will be permanently deleted. */
-  deleteMessagesPermanently?: boolean;
+  deleteMessagesPermanently?: boolean | undefined;
 }
 export type PurgeStartResponseConsumersItemWorkerSettings = ConsumersCreateResultWorkerSettings;
 export type PurgeStartResponseConsumersItemWorkerType = "worker";
 export interface PurgeStartResponseConsumersItemWorker {
   /** A Resource identifier. */
-  consumerId?: string | null;
-  createdOn?: string | null;
+  consumerId?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Name of the dead letter queue, or empty string if not configured */
-  deadLetterQueue?: string | null;
-  queueName?: string | null;
+  deadLetterQueue?: string | null | undefined;
+  queueName?: string | null | undefined;
   /** Name of a Worker */
-  scriptName?: string | null;
-  settings?: ConsumersCreateResultWorkerSettings | null;
-  type?: PurgeStartResponseConsumersItemWorkerType | null;
+  scriptName?: string | null | undefined;
+  settings?: ConsumersCreateResultWorkerSettings | null | undefined;
+  type?: PurgeStartResponseConsumersItemWorkerType | null | undefined;
 }
 export type PurgeStartResponseConsumersItemHTTPPullSettings = ConsumersCreateResultHTTPPullSettings;
 export type PurgeStartResponseConsumersItemHTTPPullType = "http_pull";
 export interface PurgeStartResponseConsumersItemHTTPPull {
   /** A Resource identifier. */
-  consumerId?: string | null;
-  createdOn?: string | null;
+  consumerId?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Name of the dead letter queue, or empty string if not configured */
-  deadLetterQueue?: string | null;
-  queueName?: string | null;
-  settings?: ConsumersCreateResultHTTPPullSettings | null;
-  type?: PurgeStartResponseConsumersItemHTTPPullType | null;
+  deadLetterQueue?: string | null | undefined;
+  queueName?: string | null | undefined;
+  settings?: ConsumersCreateResultHTTPPullSettings | null | undefined;
+  type?: PurgeStartResponseConsumersItemHTTPPullType | null | undefined;
 }
 export type PurgeStartResponseConsumersItem =
   | PurgeStartResponseConsumersItemWorker
@@ -1698,13 +1749,13 @@ export type PurgeStartResponseConsumersList = Array<PurgeStartResponseConsumersI
 export type PurgeStartResponseJurisdiction = "eu" | "us" | "fedramp";
 export type PurgeStartResponseProducersItemMqWorkerProducerType = "worker";
 export interface PurgeStartResponseProducersItemMqWorkerProducer {
-  type?: PurgeStartResponseProducersItemMqWorkerProducerType | null;
-  scriptName?: string | null;
+  type?: PurgeStartResponseProducersItemMqWorkerProducerType | null | undefined;
+  scriptName?: string | null | undefined;
 }
 export type PurgeStartResponseProducersItemMqR2ProducerType = "r2_bucket";
 export interface PurgeStartResponseProducersItemMqR2Producer {
-  bucketName?: string | null;
-  type?: PurgeStartResponseProducersItemMqR2ProducerType | null;
+  bucketName?: string | null | undefined;
+  type?: PurgeStartResponseProducersItemMqR2ProducerType | null | undefined;
 }
 export type PurgeStartResponseProducersItem =
   | PurgeStartResponseProducersItemMqWorkerProducer
@@ -1713,16 +1764,16 @@ export type PurgeStartResponseProducersList = Array<PurgeStartResponseProducersI
 export type PurgeStartResponseSettings = CreateResponseSettings;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface StartPurgeResponse {
-  consumers?: PurgeStartResponseConsumersList | null;
-  consumersTotalCount?: number | null;
-  createdOn?: string | null;
-  jurisdiction?: PurgeStartResponseJurisdiction | null;
-  modifiedOn?: string | null;
-  producers?: PurgeStartResponseProducersList | null;
-  producersTotalCount?: number | null;
-  queueId?: string | null;
-  queueName?: string | null;
-  settings?: CreateResponseSettings | null;
+  consumers?: PurgeStartResponseConsumersList | null | undefined;
+  consumersTotalCount?: number | null | undefined;
+  createdOn?: string | null | undefined;
+  jurisdiction?: PurgeStartResponseJurisdiction | null | undefined;
+  modifiedOn?: string | null | undefined;
+  producers?: PurgeStartResponseProducersList | null | undefined;
+  producersTotalCount?: number | null | undefined;
+  queueId?: string | null | undefined;
+  queueName?: string | null | undefined;
+  settings?: CreateResponseSettings | null | undefined;
 }
 export type ConsumersUpdateRequestType = "worker" | "http_pull";
 export type ConsumersUpdateRequestSettingsWorker = ConsumersCreateRequestSettingsWorker;
@@ -1738,36 +1789,36 @@ export interface UpdateConsumerRequest {
   /** A Resource identifier. */
   consumerId: string;
   /** Name of a Worker */
-  scriptName?: string;
+  scriptName?: string | undefined;
   type: ConsumersUpdateRequestType | (string & {});
-  deadLetterQueue?: string;
-  settings?: ConsumersUpdateRequestSettings;
+  deadLetterQueue?: string | undefined;
+  settings?: ConsumersUpdateRequestSettings | undefined;
 }
 export type ConsumersUpdateResultWorkerSettings = ConsumersCreateResultWorkerSettings;
 export type ConsumersUpdateResultWorkerType = "worker";
 export interface ConsumersUpdateResultWorker {
   /** A Resource identifier. */
-  consumerId?: string | null;
-  createdOn?: string | null;
+  consumerId?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Name of the dead letter queue, or empty string if not configured */
-  deadLetterQueue?: string | null;
-  queueName?: string | null;
+  deadLetterQueue?: string | null | undefined;
+  queueName?: string | null | undefined;
   /** Name of a Worker */
-  scriptName?: string | null;
-  settings?: ConsumersCreateResultWorkerSettings | null;
-  type?: ConsumersUpdateResultWorkerType | null;
+  scriptName?: string | null | undefined;
+  settings?: ConsumersCreateResultWorkerSettings | null | undefined;
+  type?: ConsumersUpdateResultWorkerType | null | undefined;
 }
 export type ConsumersUpdateResultHTTPPullSettings = ConsumersCreateResultHTTPPullSettings;
 export type ConsumersUpdateResultHTTPPullType = "http_pull";
 export interface ConsumersUpdateResultHTTPPull {
   /** A Resource identifier. */
-  consumerId?: string | null;
-  createdOn?: string | null;
+  consumerId?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Name of the dead letter queue, or empty string if not configured */
-  deadLetterQueue?: string | null;
-  queueName?: string | null;
-  settings?: ConsumersCreateResultHTTPPullSettings | null;
-  type?: ConsumersUpdateResultHTTPPullType | null;
+  deadLetterQueue?: string | null | undefined;
+  queueName?: string | null | undefined;
+  settings?: ConsumersCreateResultHTTPPullSettings | null | undefined;
+  type?: ConsumersUpdateResultHTTPPullType | null | undefined;
 }
 export type ConsumersUpdateResult = ConsumersUpdateResultWorker | ConsumersUpdateResultHTTPPull;
 export type UpdateConsumerResponse = ConsumersUpdateResult;
@@ -1778,35 +1829,35 @@ export interface UpdateQueueRequest {
   accountId: string;
   /** A Resource identifier. */
   queueId: string;
-  jurisdiction?: UpdateRequestJurisdiction | (string & {});
-  queueName?: string;
-  settings?: EditRequestSettings;
+  jurisdiction?: UpdateRequestJurisdiction | (string & {}) | undefined;
+  queueName?: string | undefined;
+  settings?: EditRequestSettings | undefined;
 }
 export type UpdateResponseConsumersItemWorkerSettings = ConsumersCreateResultWorkerSettings;
 export type UpdateResponseConsumersItemWorkerType = "worker";
 export interface UpdateResponseConsumersItemWorker {
   /** A Resource identifier. */
-  consumerId?: string | null;
-  createdOn?: string | null;
+  consumerId?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Name of the dead letter queue, or empty string if not configured */
-  deadLetterQueue?: string | null;
-  queueName?: string | null;
+  deadLetterQueue?: string | null | undefined;
+  queueName?: string | null | undefined;
   /** Name of a Worker */
-  scriptName?: string | null;
-  settings?: ConsumersCreateResultWorkerSettings | null;
-  type?: UpdateResponseConsumersItemWorkerType | null;
+  scriptName?: string | null | undefined;
+  settings?: ConsumersCreateResultWorkerSettings | null | undefined;
+  type?: UpdateResponseConsumersItemWorkerType | null | undefined;
 }
 export type UpdateResponseConsumersItemHTTPPullSettings = ConsumersCreateResultHTTPPullSettings;
 export type UpdateResponseConsumersItemHTTPPullType = "http_pull";
 export interface UpdateResponseConsumersItemHTTPPull {
   /** A Resource identifier. */
-  consumerId?: string | null;
-  createdOn?: string | null;
+  consumerId?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** Name of the dead letter queue, or empty string if not configured */
-  deadLetterQueue?: string | null;
-  queueName?: string | null;
-  settings?: ConsumersCreateResultHTTPPullSettings | null;
-  type?: UpdateResponseConsumersItemHTTPPullType | null;
+  deadLetterQueue?: string | null | undefined;
+  queueName?: string | null | undefined;
+  settings?: ConsumersCreateResultHTTPPullSettings | null | undefined;
+  type?: UpdateResponseConsumersItemHTTPPullType | null | undefined;
 }
 export type UpdateResponseConsumersItem =
   | UpdateResponseConsumersItemWorker
@@ -1815,13 +1866,13 @@ export type UpdateResponseConsumersList = Array<UpdateResponseConsumersItem>;
 export type UpdateResponseJurisdiction = "eu" | "us" | "fedramp";
 export type UpdateResponseProducersItemMqWorkerProducerType = "worker";
 export interface UpdateResponseProducersItemMqWorkerProducer {
-  type?: UpdateResponseProducersItemMqWorkerProducerType | null;
-  scriptName?: string | null;
+  type?: UpdateResponseProducersItemMqWorkerProducerType | null | undefined;
+  scriptName?: string | null | undefined;
 }
 export type UpdateResponseProducersItemMqR2ProducerType = "r2_bucket";
 export interface UpdateResponseProducersItemMqR2Producer {
-  bucketName?: string | null;
-  type?: UpdateResponseProducersItemMqR2ProducerType | null;
+  bucketName?: string | null | undefined;
+  type?: UpdateResponseProducersItemMqR2ProducerType | null | undefined;
 }
 export type UpdateResponseProducersItem =
   | UpdateResponseProducersItemMqWorkerProducer
@@ -1830,16 +1881,16 @@ export type UpdateResponseProducersList = Array<UpdateResponseProducersItem>;
 export type UpdateResponseSettings = CreateResponseSettings;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateQueueResponse {
-  consumers?: UpdateResponseConsumersList | null;
-  consumersTotalCount?: number | null;
-  createdOn?: string | null;
-  jurisdiction?: UpdateResponseJurisdiction | null;
-  modifiedOn?: string | null;
-  producers?: UpdateResponseProducersList | null;
-  producersTotalCount?: number | null;
-  queueId?: string | null;
-  queueName?: string | null;
-  settings?: CreateResponseSettings | null;
+  consumers?: UpdateResponseConsumersList | null | undefined;
+  consumersTotalCount?: number | null | undefined;
+  createdOn?: string | null | undefined;
+  jurisdiction?: UpdateResponseJurisdiction | null | undefined;
+  modifiedOn?: string | null | undefined;
+  producers?: UpdateResponseProducersList | null | undefined;
+  producersTotalCount?: number | null | undefined;
+  queueId?: string | null | undefined;
+  queueName?: string | null | undefined;
+  settings?: CreateResponseSettings | null | undefined;
 }
 export type AckMessageError =
   | InvalidRequestBody

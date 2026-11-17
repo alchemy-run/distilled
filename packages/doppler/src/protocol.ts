@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * DopplerProtocol -- hand-written.
  *
@@ -38,7 +39,8 @@ export type DopplerOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | DopplerParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Doppler operation. */
 export type DopplerOpContext = Credentials | HttpClient.HttpClient;
@@ -78,12 +80,7 @@ export const DopplerProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRest
     if (code === undefined && message === undefined) return undefined;
     return { code, message };
   },
-  unknownError: ({ code, message, body }) =>
-    new UnknownDopplerError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownDopplerError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new DopplerParseError({ body, cause }),
 });
 
@@ -93,11 +90,6 @@ export const DopplerPublicProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ ma
   credentials: /*@__PURE__*/ Effect.succeed(undefined),
   baseUrl: () => "https://api.doppler.com",
   headers: () => ({ Accept: "application/json" }),
-  unknownError: ({ code, message }) =>
-    new UnknownDopplerError({
-      code: code === undefined ? undefined : String(code),
-      message,
-      body: undefined,
-    }),
+  unknownError: (info) => new UnknownDopplerError({ ...unknownErrorProps(info), body: undefined }),
   parseError: ({ body, cause }) => new DopplerParseError({ body, cause }),
 });

@@ -24,6 +24,7 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -31,11 +32,10 @@ import * as Schema from "@distilled.cloud/core/schema-lite-typed";
  * mapped error class. Carries the raw body for later cataloging.
  */
 export class UnknownWorkosError
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownWorkosError>()("UnknownWorkosError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownWorkosError>()(
+    "UnknownWorkosError",
+    UnknownErrorFields,
+  ) {}
 
 /** Schema parse error wrapper. */
 export class WorkosParseError

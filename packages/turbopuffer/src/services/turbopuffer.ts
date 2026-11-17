@@ -46,11 +46,11 @@ export interface CreateNamespaceAsyncRequest {
   /** The namespace to copy documents from. */
   source_namespace: string;
   /** (Optional) An API key for the organization containing the source namespace */
-  source_api_key?: string;
+  source_api_key?: string | undefined;
   /** (Optional) The region of the source namespace. */
-  source_region?: string;
+  source_region?: string | undefined;
   /** (Optional) The encryption configuration for the destination namespace. */
-  dest_encryption?: Encryption;
+  dest_encryption?: Encryption | undefined;
 }
 export interface CreateNamespaceAsyncResponse {
   /** The token identifying the copy operation. */
@@ -60,15 +60,15 @@ export interface CreateNamespaceDebugRecallRequest {
   /** The name of the namespace. */
   namespace: string;
   /** The number of searches to run. */
-  num?: number;
+  num?: number | undefined;
   /** Search for `top_k` nearest neighbors. */
-  top_k?: number;
+  top_k?: number | undefined;
   /** Filter by attributes. Same syntax as the query endpoint. */
-  filters?: unknown;
+  filters?: unknown | undefined;
   /** Include ground truth data (query vectors and true nearest neighbors) in the response. */
-  include_ground_truth?: boolean;
+  include_ground_truth?: boolean | undefined;
   /** The ranking function to evaluate recall for. If provided, `num` must be either null or 1. */
-  rank_by?: unknown;
+  rank_by?: unknown | undefined;
 }
 /** The query vector used for this search. */
 export type CreateNamespaceDebugRecallResponseGroundTruthItemQueryVectorList = Array<number>;
@@ -81,7 +81,7 @@ export type Vector = VectorCase0List | string;
 /** A single document, in a row-based format. */
 export interface Row {
   id: Id;
-  vector?: Vector;
+  vector?: Vector | undefined;
   [key: string]: unknown;
 }
 /** The true nearest neighbors with their distances and vectors. */
@@ -103,12 +103,12 @@ export interface CreateNamespaceDebugRecallResponse {
   /** The average number of documents retrieved by the approximate nearest neighbor searches. */
   avg_ann_count: number;
   /** Ground truth data including query vectors and true nearest neighbors. Only included when include_ground_truth is true. */
-  ground_truth?: CreateNamespaceDebugRecallResponseGroundTruthList;
+  ground_truth?: CreateNamespaceDebugRecallResponseGroundTruthList | undefined;
 }
 /** The consistency level for a query. */
 export interface CreateNamespaceExplainQueryRequestConsistency {
   /** The query's consistency level. */
-  level?: unknown;
+  level?: unknown | undefined;
 }
 /** Include exactly the specified attributes in the response. */
 export type IncludeAttributesCase1List = Array<string>;
@@ -140,38 +140,38 @@ export interface Limit {
   /** Limits the total number of documents returned. */
   total: number;
   /** Limits the number of documents with the same value for a set of attributes (the "limit key") that can appear in the results. */
-  per?: LimitPer;
+  per?: LimitPer | undefined;
 }
 export type CreateNamespaceExplainQueryRequestLimit = number | Limit;
 export interface CreateNamespaceExplainQueryRequest {
   /** The name of the namespace. */
   namespace: string;
-  vector_encoding?: unknown;
+  vector_encoding?: unknown | undefined;
   /** The consistency level for a query. */
-  consistency?: CreateNamespaceExplainQueryRequestConsistency;
+  consistency?: CreateNamespaceExplainQueryRequestConsistency | undefined;
   /** How to rank the documents in the namespace. */
-  rank_by?: unknown;
+  rank_by?: unknown | undefined;
   /** The number of results to return. */
-  top_k?: number;
+  top_k?: number | undefined;
   /** Number of documents to skip before returning results. Supported only in v2 queries with an explicit `rank_by` and `top_k` or `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Exact filters for attributes to refine search results for. Think of it as a SQL WHERE clause. */
-  filters?: unknown;
-  include_attributes?: IncludeAttributes;
+  filters?: unknown | undefined;
+  include_attributes?: IncludeAttributes | undefined;
   /** List of attribute names to exclude from the response. All other attributes will be included in the response. */
-  exclude_attributes?: CreateNamespaceExplainQueryRequestExcludeAttributesList;
+  exclude_attributes?: CreateNamespaceExplainQueryRequestExcludeAttributesList | undefined;
   /** Aggregations to compute over all documents in the namespace that match the filters. */
-  aggregate_by?: CreateNamespaceExplainQueryRequestAggregateByMap;
+  aggregate_by?: CreateNamespaceExplainQueryRequestAggregateByMap | undefined;
   /** Groups documents by the specified attributes (the "group key") before computing aggregates. Aggregates are computed separately for each group. */
-  group_by?: CreateNamespaceExplainQueryRequestGroupByList;
+  group_by?: CreateNamespaceExplainQueryRequestGroupByList | undefined;
   /** Computes additional values on documents returned by a query. Each key is the name of the computed attribute; each value is an expression describing how to compute it. */
-  compute_attributes?: CreateNamespaceExplainQueryRequestComputeAttributesMap;
-  distance_metric?: unknown;
-  limit?: CreateNamespaceExplainQueryRequestLimit;
+  compute_attributes?: CreateNamespaceExplainQueryRequestComputeAttributesMap | undefined;
+  distance_metric?: unknown | undefined;
+  limit?: CreateNamespaceExplainQueryRequestLimit | undefined;
 }
 export interface CreateNamespaceExplainQueryResponse {
   /** The textual representation of the query plan. */
-  plan_text?: string;
+  plan_text?: string | undefined;
 }
 /** The consistency level for a query. */
 export type CreateNamespaceQueryRequestConsistency = CreateNamespaceExplainQueryRequestConsistency;
@@ -189,28 +189,28 @@ export type CreateNamespaceQueryRequestLimit = number | Limit;
 export interface CreateNamespaceQueryRequest {
   /** The name of the namespace. */
   namespace: string;
-  vector_encoding?: unknown;
+  vector_encoding?: unknown | undefined;
   /** The consistency level for a query. */
-  consistency?: CreateNamespaceExplainQueryRequestConsistency;
+  consistency?: CreateNamespaceExplainQueryRequestConsistency | undefined;
   /** How to rank the documents in the namespace. */
-  rank_by?: unknown;
+  rank_by?: unknown | undefined;
   /** The number of results to return. */
-  top_k?: number;
+  top_k?: number | undefined;
   /** Number of documents to skip before returning results. Supported only in v2 queries with an explicit `rank_by` and `top_k` or `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Exact filters for attributes to refine search results for. Think of it as a SQL WHERE clause. */
-  filters?: unknown;
-  include_attributes?: IncludeAttributes;
+  filters?: unknown | undefined;
+  include_attributes?: IncludeAttributes | undefined;
   /** List of attribute names to exclude from the response. All other attributes will be included in the response. */
-  exclude_attributes?: CreateNamespaceQueryRequestExcludeAttributesList;
+  exclude_attributes?: CreateNamespaceQueryRequestExcludeAttributesList | undefined;
   /** Aggregations to compute over all documents in the namespace that match the filters. */
-  aggregate_by?: CreateNamespaceQueryRequestAggregateByMap;
+  aggregate_by?: CreateNamespaceQueryRequestAggregateByMap | undefined;
   /** Groups documents by the specified attributes (the "group key") before computing aggregates. Aggregates are computed separately for each group. */
-  group_by?: CreateNamespaceQueryRequestGroupByList;
+  group_by?: CreateNamespaceQueryRequestGroupByList | undefined;
   /** Computes additional values on documents returned by a query. Each key is the name of the computed attribute; each value is an expression describing how to compute it. */
-  compute_attributes?: CreateNamespaceQueryRequestComputeAttributesMap;
-  distance_metric?: unknown;
-  limit?: CreateNamespaceQueryRequestLimit;
+  compute_attributes?: CreateNamespaceQueryRequestComputeAttributesMap | undefined;
+  distance_metric?: unknown | undefined;
+  limit?: CreateNamespaceQueryRequestLimit | undefined;
 }
 export type CreateNamespaceQueryResponseAggregationsMap = { [key: string]: unknown | undefined };
 /** A single aggregation group. */
@@ -240,9 +240,9 @@ export interface QueryBilling {
   billable_logical_bytes_returned: number;
 }
 export interface CreateNamespaceQueryResponse {
-  aggregations?: CreateNamespaceQueryResponseAggregationsMap;
-  aggregation_groups?: CreateNamespaceQueryResponseAggregationGroupsList;
-  rows?: CreateNamespaceQueryResponseRowsList;
+  aggregations?: CreateNamespaceQueryResponseAggregationsMap | undefined;
+  aggregation_groups?: CreateNamespaceQueryResponseAggregationGroupsList | undefined;
+  rows?: CreateNamespaceQueryResponseRowsList | undefined;
   performance: QueryPerformance;
   billing: QueryBilling;
 }
@@ -260,24 +260,24 @@ export type QueryLimit = number | Limit;
 /** Query, filter, full-text search and vector search documents. */
 export interface Query {
   /** How to rank the documents in the namespace. */
-  rank_by?: unknown;
+  rank_by?: unknown | undefined;
   /** The number of results to return. */
-  top_k?: number;
+  top_k?: number | undefined;
   /** Number of documents to skip before returning results. Supported only in v2 queries with an explicit `rank_by` and `top_k` or `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Exact filters for attributes to refine search results for. Think of it as a SQL WHERE clause. */
-  filters?: unknown;
-  include_attributes?: IncludeAttributes;
+  filters?: unknown | undefined;
+  include_attributes?: IncludeAttributes | undefined;
   /** List of attribute names to exclude from the response. All other attributes will be included in the response. */
-  exclude_attributes?: QueryExcludeAttributesList;
+  exclude_attributes?: QueryExcludeAttributesList | undefined;
   /** Aggregations to compute over all documents in the namespace that match the filters. */
-  aggregate_by?: QueryAggregateByMap;
+  aggregate_by?: QueryAggregateByMap | undefined;
   /** Groups documents by the specified attributes (the "group key") before computing aggregates. Aggregates are computed separately for each group. */
-  group_by?: QueryGroupByList;
+  group_by?: QueryGroupByList | undefined;
   /** Computes additional values on documents returned by a query. Each key is the name of the computed attribute; each value is an expression describing how to compute it. */
-  compute_attributes?: QueryComputeAttributesMap;
-  distance_metric?: unknown;
-  limit?: QueryLimit;
+  compute_attributes?: QueryComputeAttributesMap | undefined;
+  distance_metric?: unknown | undefined;
+  limit?: QueryLimit | undefined;
 }
 export type CreateNamespaceQueryRequestQueriesList = Array<Query>;
 /** Limits the total number of reranked documents returned. */
@@ -290,24 +290,24 @@ export type CreateNamespaceQueryRequestLimit2 = number | RerankLimit;
 export interface CreateNamespaceQueryRequest2 {
   /** The name of the namespace. */
   namespace: string;
-  vector_encoding?: unknown;
+  vector_encoding?: unknown | undefined;
   /** The consistency level for a query. */
-  consistency?: CreateNamespaceExplainQueryRequestConsistency;
+  consistency?: CreateNamespaceExplainQueryRequestConsistency | undefined;
   queries: CreateNamespaceQueryRequestQueriesList;
   /** How to combine the rows returned by each sub-query into a single ranked list. */
-  rerank_by?: unknown;
+  rerank_by?: unknown | undefined;
   /** Limits the total number of reranked documents returned. */
-  limit?: CreateNamespaceQueryRequestLimit2;
+  limit?: CreateNamespaceQueryRequestLimit2 | undefined;
   /** Number of reranked documents to skip before returning results. Requires `rerank_by` and `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type SingleQueryResultAggregationsMap = { [key: string]: unknown | undefined };
 export type SingleQueryResultAggregationGroupsList = Array<AggregationGroup>;
 export type SingleQueryResultRowsList = Array<Row>;
 export interface SingleQueryResult {
-  aggregations?: SingleQueryResultAggregationsMap;
-  aggregation_groups?: SingleQueryResultAggregationGroupsList;
-  rows?: SingleQueryResultRowsList;
+  aggregations?: SingleQueryResultAggregationsMap | undefined;
+  aggregation_groups?: SingleQueryResultAggregationGroupsList | undefined;
+  rows?: SingleQueryResultRowsList | undefined;
 }
 export type MultiQueryResultResultsList = Array<SingleQueryResult>;
 /** The result of a multi-query. */
@@ -319,29 +319,29 @@ export interface MultiQueryResult {
 /** Configuration options for full-text search. */
 export interface FullTextSearchConfig {
   /** The `k1` term saturation parameter for BM25. Defaults to `1.2`. */
-  k1?: number;
+  k1?: number | undefined;
   /** The `b` document length normalization parameter for BM25. Defaults to `0.75`. */
-  b?: number;
-  language?: unknown;
+  b?: number | undefined;
+  language?: unknown | undefined;
   /** Language-specific stemming for the text. Defaults to `false` (i.e., do not stem). */
-  stemming?: boolean;
+  stemming?: boolean | undefined;
   /** Removes common words from the text based on language. Defaults to `true` (i.e. remove common words). */
-  remove_stopwords?: boolean;
+  remove_stopwords?: boolean | undefined;
   /** Whether to convert each non-ASCII character in a token to its ASCII equivalent, if one exists (e.g., à -> a). Defaults to `false` (i.e., no folding). */
-  ascii_folding?: boolean;
+  ascii_folding?: boolean | undefined;
   /** Whether searching is case-sensitive. Defaults to `false` (i.e. case-insensitive). */
-  case_sensitive?: boolean;
+  case_sensitive?: boolean | undefined;
   /** Maximum length of a token in bytes. Tokens larger than this value during tokenization will be filtered out. Has to be between `1` and `254` (inclusive). Defaults to `39`. */
-  max_token_length?: number;
-  tokenizer?: unknown;
+  max_token_length?: number | undefined;
+  tokenizer?: unknown | undefined;
 }
 /** Whether this attribute can be used as part of a BM25 full-text search. Requires the `string` or `[]string` type, and by default, BM25-enabled attributes are not filterable. You can override this by setting `filterable: true`. */
 export type FullTextSearch = boolean | FullTextSearchConfig;
 /** Configuration options for ANN (Approximate Nearest Neighbor) indexing. */
 export interface AnnConfig {
-  distance_metric?: unknown;
+  distance_metric?: unknown | undefined;
   /** Opt in to late-interaction (MUVERA) indexing. Only valid on fixed-dim `[][N]f32` vector array attributes, and is required to enable an ANN index on such attributes. Defaults to `false`. */
-  late_interaction?: boolean;
+  late_interaction?: boolean | undefined;
 }
 /** Whether to create an approximate nearest neighbor index for the attribute. Can be a boolean or a detailed configuration object. */
 export type Ann = boolean | AnnConfig;
@@ -352,11 +352,11 @@ export interface SparseKnn {
 /** Configuration options for automatic embedding. */
 export interface AttributeEmbedConfig {
   /** The name of an existing vector attribute to store embeddings in. If omitted, turbopuffer will generate a computed vector attribute named `$embed_<attribute>`. */
-  attribute?: string;
+  attribute?: string | undefined;
   /** The model to use for embedding. See our documentation for a list of models supported in each region. */
   model: string;
   /** The dimensionality to embed at. If not set, will pick the default for this model. If you're storing embeddings in an existing attribute, this can be omitted, and may not be set to a value other than the dimensions of that attribute. */
-  dims?: number;
+  dims?: number | undefined;
 }
 /** Whether to automatically embed this string attribute into a vector attribute. Can be a model name, a detailed configuration object, or `null` to remove an existing embedding configuration. */
 export type AttributeEmbed = string | AttributeEmbedConfig;
@@ -364,17 +364,17 @@ export type AttributeEmbed = string | AttributeEmbedConfig;
 export interface AttributeSchemaConfig {
   type: string;
   /** Whether or not the attributes can be used in filters. */
-  filterable?: boolean;
+  filterable?: boolean | undefined;
   /** Whether to enable Regex filters on this attribute. */
-  regex?: boolean;
+  regex?: boolean | undefined;
   /** Whether to enable Glob filters on this attribute. */
-  glob?: boolean;
+  glob?: boolean | undefined;
   /** Whether to enable Fuzzy filters on this attribute. */
-  fuzzy?: boolean;
-  full_text_search?: FullTextSearch;
-  ann?: Ann;
-  sparse_knn?: SparseKnn;
-  embed?: AttributeEmbed | null;
+  fuzzy?: boolean | undefined;
+  full_text_search?: FullTextSearch | undefined;
+  ann?: Ann | undefined;
+  sparse_knn?: SparseKnn | undefined;
+  embed?: AttributeEmbed | null | undefined;
 }
 /** The schema for an attribute attached to a document. */
 export type AttributeSchema = string | AttributeSchemaConfig;
@@ -383,7 +383,7 @@ export type CreateNamespaceSchemaRequestBodyMap = { [key: string]: AttributeSche
 export interface CreateNamespaceSchemaRequest {
   /** The name of the namespace. */
   namespace: string;
-  body?: CreateNamespaceSchemaRequestBodyMap;
+  body?: CreateNamespaceSchemaRequestBodyMap | undefined;
 }
 /** The updated schema for the namespace. */
 export type CreateNamespaceSchemaResponseBodyMap = {
@@ -405,7 +405,7 @@ export interface GetNamespaceHintCacheWarmRequest {
 export interface GetNamespaceHintCacheWarmResponse {
   /** The status of the request. */
   status: unknown;
-  message?: string;
+  message?: string | undefined;
 }
 export interface GetNamespaceMetadataRequest {
   /** The name of the namespace. */
@@ -436,8 +436,8 @@ export interface PinningStatus {
 /** Configuration for namespace pinning, along with the current status of the pinned namespace. */
 export interface PinningConfigResponse {
   /** The number of read replicas to provision. Defaults to 1 if not specified. */
-  replicas?: number;
-  status?: PinningStatus;
+  replicas?: number | undefined;
+  status?: PinningStatus | undefined;
 }
 /** Configuration for namespace sharding, which partitions a namespace's documents across multiple internal shards to scale indexing and query throughput beyond a single machine. Sharding can only be configured on a namespace's inaugural write, and cannot be added to or changed on an existing namespace. */
 export interface ShardingConfig {
@@ -458,10 +458,10 @@ export interface NamespaceMetadata {
   updated_at: string;
   encryption: Encryption;
   index: NamespaceMetadataIndex;
-  pinning?: PinningConfigResponse;
-  sharding?: ShardingConfig;
+  pinning?: PinningConfigResponse | undefined;
+  sharding?: ShardingConfig | undefined;
   /** Whether document and schema writes are rejected. Omitted when `false`. */
-  read_only?: boolean;
+  read_only?: boolean | undefined;
 }
 export interface GetNamespaceOperationRequest {
   /** The name of the namespace. */
@@ -474,7 +474,7 @@ export interface CopyFromNamespaceOperationCase0 {
   /** The time at which the operation started. */
   start_time: string;
   /** A freeform description of the operation's progress. May be absent, and its format may change. */
-  progress?: string;
+  progress?: string | undefined;
 }
 /** The IDs of documents that were upserted. Only included when `return_affected_ids` is true and at least one document was upserted. */
 export type WriteResultUpsertedIdsList = Array<Id>;
@@ -486,7 +486,7 @@ export type WriteResultDeletedIdsList = Array<Id>;
 export interface WriteBilling {
   /** The number of billable logical bytes written to the namespace. */
   billable_logical_bytes_written: number;
-  query?: QueryBilling;
+  query?: QueryBilling | undefined;
 }
 /** The performance information for a write request. */
 export interface WritePerformance {
@@ -502,21 +502,21 @@ export interface WriteResult {
   /** The number of rows affected by the write request. */
   rows_affected: number;
   /** The number of rows upserted by the write request. */
-  rows_upserted?: number;
+  rows_upserted?: number | undefined;
   /** The number of rows patched by the write request. */
-  rows_patched?: number;
+  rows_patched?: number | undefined;
   /** The number of rows deleted by the write request. */
-  rows_deleted?: number;
+  rows_deleted?: number | undefined;
   /** Whether more documents match the filter for partial operations. */
-  rows_remaining?: boolean;
+  rows_remaining?: boolean | undefined;
   /** The IDs of documents that were upserted. Only included when `return_affected_ids` is true and at least one document was upserted. */
-  upserted_ids?: WriteResultUpsertedIdsList;
+  upserted_ids?: WriteResultUpsertedIdsList | undefined;
   /** The IDs of documents that were patched. Only included when `return_affected_ids` is true and at least one document was patched. */
-  patched_ids?: WriteResultPatchedIdsList;
+  patched_ids?: WriteResultPatchedIdsList | undefined;
   /** The IDs of documents that were deleted. Only included when `return_affected_ids` is true and at least one document was deleted. */
-  deleted_ids?: WriteResultDeletedIdsList;
+  deleted_ids?: WriteResultDeletedIdsList | undefined;
   billing: WriteBilling;
-  performance?: WritePerformance;
+  performance?: WritePerformance | undefined;
 }
 export interface CopyFromNamespaceOperationResultCase0 {
   success: WriteResult;
@@ -563,11 +563,11 @@ export type GetNamespaceSchemaResponseBodyMap = {
 export type GetNamespaceSchemaResponse = GetNamespaceSchemaResponseBodyMap;
 export interface ListNamespacesRequest {
   /** Retrieve the next page of results. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Retrieve only the namespaces that match the prefix. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Limit the number of results per page. */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 /** A summary of a namespace. */
 export interface NamespaceSummary {
@@ -578,9 +578,9 @@ export interface NamespaceSummary {
 export type ListNamespacesResponseNamespacesList = Array<NamespaceSummary>;
 export interface ListNamespacesResponse {
   /** The list of namespaces. */
-  namespaces?: ListNamespacesResponseNamespacesList;
+  namespaces?: ListNamespacesResponseNamespacesList | undefined;
   /** The cursor to use to retrieve the next page of results. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 /** The IDs of the documents. */
 export type ColumnsIdList = Array<Id>;
@@ -591,7 +591,7 @@ export type ColumnsVector = ColumnsVectorCase0List | Vector;
 export interface Columns {
   /** The IDs of the documents. */
   id: ColumnsIdList;
-  vector?: ColumnsVector;
+  vector?: ColumnsVector | undefined;
   [key: string]: unknown;
 }
 export type UpdateNamespaceRequestUpsertRowsList = Array<Row>;
@@ -608,9 +608,9 @@ export interface CopyFromNamespaceConfig {
   /** The namespace to copy documents from. */
   source_namespace: string;
   /** (Optional) An API key for the organization containing the source namespace */
-  source_api_key?: string;
+  source_api_key?: string | undefined;
   /** (Optional) The region of the source namespace. */
-  source_region?: string;
+  source_region?: string | undefined;
 }
 export type CopyFromNamespaceParams = string | CopyFromNamespaceConfig;
 export type PatchByFilterPatchMap = { [key: string]: unknown | undefined };
@@ -623,35 +623,35 @@ export interface PatchByFilter {
 export interface UpdateNamespaceRequest {
   /** The name of the namespace. */
   namespace: string;
-  upsert_columns?: Columns;
-  upsert_rows?: UpdateNamespaceRequestUpsertRowsList;
-  patch_columns?: Columns;
-  patch_rows?: UpdateNamespaceRequestPatchRowsList;
-  deletes?: UpdateNamespaceRequestDeletesList;
+  upsert_columns?: Columns | undefined;
+  upsert_rows?: UpdateNamespaceRequestUpsertRowsList | undefined;
+  patch_columns?: Columns | undefined;
+  patch_rows?: UpdateNamespaceRequestPatchRowsList | undefined;
+  deletes?: UpdateNamespaceRequestDeletesList | undefined;
   /** A condition evaluated against the current value of each document targeted by an upsert write. Only documents that pass the condition are upserted. */
-  upsert_condition?: unknown;
+  upsert_condition?: unknown | undefined;
   /** A condition evaluated against the current value of each document targeted by a patch write. Only documents that pass the condition are patched. */
-  patch_condition?: unknown;
+  patch_condition?: unknown | undefined;
   /** A condition evaluated against the current value of each document targeted by a delete write. Only documents that pass the condition are deleted. */
-  delete_condition?: unknown;
-  distance_metric?: unknown;
+  delete_condition?: unknown | undefined;
+  distance_metric?: unknown | undefined;
   /** The schema of the attributes attached to the documents. */
-  schema?: UpdateNamespaceRequestSchemaMap;
-  branch_from_namespace?: BranchFromNamespaceParams;
-  copy_from_namespace?: CopyFromNamespaceParams;
+  schema?: UpdateNamespaceRequestSchemaMap | undefined;
+  branch_from_namespace?: BranchFromNamespaceParams | undefined;
+  copy_from_namespace?: CopyFromNamespaceParams | undefined;
   /** The filter specifying which documents to delete. */
-  delete_by_filter?: unknown;
+  delete_by_filter?: unknown | undefined;
   /** Allow partial completion when filter matches too many documents. */
-  delete_by_filter_allow_partial?: boolean;
-  patch_by_filter?: PatchByFilter;
+  delete_by_filter_allow_partial?: boolean | undefined;
+  patch_by_filter?: PatchByFilter | undefined;
   /** Allow partial completion when filter matches too many documents. */
-  patch_by_filter_allow_partial?: boolean;
+  patch_by_filter_allow_partial?: boolean | undefined;
   /** If true, return the IDs of affected rows (deleted, patched, upserted) in the response. For filtered and conditional writes, only IDs for writes that succeeded will be included. */
-  return_affected_ids?: boolean;
-  encryption?: Encryption;
-  sharding?: ShardingConfig;
+  return_affected_ids?: boolean | undefined;
+  encryption?: Encryption | undefined;
+  sharding?: ShardingConfig | undefined;
   /** Disables write throttling (HTTP 429 responses) during high-volume ingestion. */
-  disable_backpressure?: boolean;
+  disable_backpressure?: boolean | undefined;
 }
 export interface UpdateNamespaceByNamespaceRequest {
   /** The name of the namespace. */
@@ -665,16 +665,16 @@ export interface UpdateNamespaceByNamespaceRequest2 {
   /** The namespace to copy documents from. */
   source_namespace: string;
   /** (Optional) An API key for the organization containing the source namespace */
-  source_api_key?: string;
+  source_api_key?: string | undefined;
   /** (Optional) The region of the source namespace. */
-  source_region?: string;
+  source_region?: string | undefined;
   /** (Optional) The encryption configuration for the destination namespace. */
-  dest_encryption?: Encryption;
+  dest_encryption?: Encryption | undefined;
 }
 /** Configuration for namespace pinning. */
 export interface PinningConfig {
   /** The number of read replicas to provision. Defaults to 1 if not specified. */
-  replicas?: number;
+  replicas?: number | undefined;
 }
 /** Configuration for namespace pinning. - Missing field: no change to pinning configuration - `null` or `false`: explicitly remove pinning - `true`: enable pinning with default configuration - Object: set pinning configuration */
 export type UpdateNamespaceMetadataRequestPinning = boolean | PinningConfig;
@@ -682,9 +682,9 @@ export interface UpdateNamespaceMetadataRequest {
   /** The name of the namespace. */
   namespace: string;
   /** Configuration for namespace pinning. - Missing field: no change to pinning configuration - `null` or `false`: explicitly remove pinning - `true`: enable pinning with default configuration - Object: set pinning configuration */
-  pinning?: UpdateNamespaceMetadataRequestPinning | null;
+  pinning?: UpdateNamespaceMetadataRequestPinning | null | undefined;
   /** Set to `true` to reject document and schema writes, or `false` to allow them. Writes already in progress may still commit. Metadata updates remain available. */
-  read_only?: boolean;
+  read_only?: boolean | undefined;
 }
 export type CreateNamespaceAsyncError = TurbopufferOpError;
 /** Start copying all documents from another namespace into this one. Returns an operation token without waiting for the copy to finish. Use the token to poll for progress and the result. */

@@ -52,11 +52,11 @@ export interface ConfirmOvhCloudConnectTerminationRequest {
   /** Service name */
   serviceName: string;
   /** Commentary about your termination request */
-  commentary?: string;
+  commentary?: string | undefined;
   /** All future uses you can provide for a service termination */
-  futureUse?: ServiceTerminationFutureUseEnum | (string & {});
+  futureUse?: ServiceTerminationFutureUseEnum | (string & {}) | undefined;
   /** All reasons you can provide for a service termination */
-  reason?: ServiceTerminationReasonEnum | (string & {});
+  reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
   token: string;
 }
@@ -65,11 +65,11 @@ export interface CreateOvhCloudConnectChangeContactRequest {
   /** Service name */
   serviceName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateOvhCloudConnectChangeContactResponseBodyList = Array<number>;
 export type CreateOvhCloudConnectChangeContactResponse =
@@ -80,13 +80,13 @@ export interface CreateOvhCloudConnectConfigPopRequest {
   /** Service name */
   serviceName: string;
   /** Customer Private AS */
-  customerBgpArea?: number | null;
+  customerBgpArea?: number | null | undefined;
   /** ID of the interface */
   interfaceId: number;
   /** OVH Private AS */
-  ovhBgpArea?: number | null;
+  ovhBgpArea?: number | null | undefined;
   /** Subnet should be a /30, first IP for OVH, second IP for customer */
-  subnet?: string | null;
+  subnet?: string | null | undefined;
   /** Type of the pop configuration */
   type: OvhcloudconnectPopConfigTypeEnum | (string & {});
 }
@@ -113,13 +113,13 @@ export type OvhcloudconnectTaskStatusEnum =
 /** OVHcloud Connect Task */
 export interface OvhcloudconnectTask {
   /** Task function */
-  function?: OvhcloudconnectTaskFunctionEnum;
+  function?: OvhcloudconnectTaskFunctionEnum | undefined;
   /** Task id */
-  id?: number;
+  id?: number | undefined;
   /** Reference of the created resource */
-  resourceId?: number;
+  resourceId?: number | undefined;
   /** Task status */
-  status?: OvhcloudconnectTaskStatusEnum;
+  status?: OvhcloudconnectTaskStatusEnum | undefined;
 }
 export interface CreateOvhCloudConnectConfigPopDatacenterRequest {
   /** Service name */
@@ -129,9 +129,9 @@ export interface CreateOvhCloudConnectConfigPopDatacenterRequest {
   /** ID of the datacenter linked */
   datacenterId: number;
   /** OVH Private AS */
-  ovhBgpArea?: number | null;
+  ovhBgpArea?: number | null | undefined;
   /** Subnet should be a /28 min */
-  subnet?: string | null;
+  subnet?: string | null | undefined;
 }
 /** Enum values for Datacenter Extra Configuration Type */
 export type OvhcloudconnectDatacenterExtraConfigTypeEnum = "bgp" | "network";
@@ -143,13 +143,13 @@ export interface CreateOvhCloudConnectConfigPopDatacenterExtraRequest {
   /** Datacenter ID */
   datacenterId: number;
   /** BGP AS number */
-  bgpNeighborArea?: number | null;
+  bgpNeighborArea?: number | null | undefined;
   /** Router IP for BGP */
-  bgpNeighborIp?: string | null;
+  bgpNeighborIp?: string | null | undefined;
   /** Static route next hop */
-  nextHop?: string | null;
+  nextHop?: string | null | undefined;
   /** Static route ip */
-  subnet?: string | null;
+  subnet?: string | null | undefined;
   /** Type of the configuration */
   type: OvhcloudconnectDatacenterExtraConfigTypeEnum | (string & {});
 }
@@ -165,55 +165,55 @@ export interface CreateOvhCloudConnectDiagnosticRequest {
   /** Service name */
   serviceName: string;
   /** ID of the Datacenter configuration */
-  dcConfigId?: number;
+  dcConfigId?: number | undefined;
   /** Name of the diagnostic */
   diagnosticName: OvhcloudconnectDiagnosticFunctionEnum | (string & {});
   /** Type of the diagnostic */
-  diagnosticType?: OvhcloudconnectDiagnosticTypeEnum | (string & {});
+  diagnosticType?: OvhcloudconnectDiagnosticTypeEnum | (string & {}) | undefined;
   /** ID of the extra configuration */
-  extraConfigId?: number;
+  extraConfigId?: number | undefined;
   /** ID of the Pop Configuration */
   popConfigId: number;
 }
 /** OVHcloud Connect Diagnostic Result */
 export interface OvhcloudconnectDiagnosticResult {
   /** As-path for routes */
-  aspath?: string | null;
+  aspath?: string | null | undefined;
   /** Command sent to equipment */
-  cmd?: string | null;
+  cmd?: string | null | undefined;
   /** Local prefix used for routes */
-  localprefix?: number | null;
+  localprefix?: number | null | undefined;
   /** Mac address */
-  mac?: string | null;
+  mac?: string | null | undefined;
   /** BGP Med (Metric) */
-  med?: number | null;
+  med?: number | null | undefined;
   /** Output of command sent to equipment */
-  output?: string | null;
+  output?: string | null | undefined;
   /** Prefix for routes */
-  prefix?: string | null;
+  prefix?: string | null | undefined;
   /** eVPN router mac */
-  routermac?: string | null;
+  routermac?: string | null | undefined;
   /** Local date when route/mac was declared */
-  timestamp?: string | null;
+  timestamp?: string | null | undefined;
 }
 /** Diagnostic result */
 export type OvhcloudconnectDiagnosticResultList = Array<OvhcloudconnectDiagnosticResult>;
 /** OVHcloud Connect Diagnostic */
 export interface OvhcloudconnectDiagnostic {
   /** Date of the diagnostic */
-  date?: string | null;
+  date?: string | null | undefined;
   /** Description of the diagnostic */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Diagnostic function */
-  function?: OvhcloudconnectDiagnosticFunctionEnum;
+  function?: OvhcloudconnectDiagnosticFunctionEnum | undefined;
   /** Diagnostic id */
-  id?: number;
+  id?: number | undefined;
   /** Diagnostic result */
-  result?: OvhcloudconnectDiagnosticResultList | null;
+  result?: OvhcloudconnectDiagnosticResultList | null | undefined;
   /** Source where the diagnostic was run */
-  source?: string | null;
+  source?: string | null | undefined;
   /** Diagnostic status */
-  status?: OvhcloudconnectTaskStatusEnum;
+  status?: OvhcloudconnectTaskStatusEnum | undefined;
 }
 export interface CreateOvhCloudConnectLoaRequest {
   /** Service name */
@@ -231,9 +231,9 @@ export interface CreateOvhCloudConnectLogSubscriptionRequest {
 /** Asynchronous operation after subscribing or unsubscribing to a resource logs */
 export interface DbaasLogsLogSubscriptionResponse {
   /** Identifier of the operation */
-  operationId?: string;
+  operationId?: string | undefined;
   /** Operation owner's service name */
-  serviceName?: string;
+  serviceName?: string | undefined;
 }
 export interface CreateOvhCloudConnectLogUrlRequest {
   /** Service name */
@@ -244,9 +244,9 @@ export interface CreateOvhCloudConnectLogUrlRequest {
 /** Temporary url information */
 export interface DbaasLogsTemporaryLogsLink {
   /** Temporary url expiration date */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Temporary url */
-  url?: string;
+  url?: string | undefined;
 }
 /** List of subscriptions alerts. */
 export type CreateOvhCloudConnectMonitoringRequestSubscriptionsList = Array<string>;
@@ -254,7 +254,7 @@ export interface CreateOvhCloudConnectMonitoringRequest {
   /** Service name */
   serviceName: string;
   /** List of subscriptions alerts. */
-  subscriptions?: CreateOvhCloudConnectMonitoringRequestSubscriptionsList;
+  subscriptions?: CreateOvhCloudConnectMonitoringRequestSubscriptionsList | undefined;
 }
 export interface CreateOvhCloudConnectMonitoringResponse {}
 export interface DeleteOvhCloudConnectConfigPopRequest {
@@ -312,13 +312,13 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** List of interfaces linked to a service */
 export type OvhcloudconnectServiceWithIAMInterfaceListList = Array<number>;
@@ -342,27 +342,27 @@ export type OvhcloudconnectServiceStatusEnum = "active" | "closed";
 /** OVHcloud Connect Service */
 export interface OvhcloudconnectServiceWithIAM {
   /** Service bandwidth */
-  bandwidth?: OvhcloudconnectServiceBandwidthEnum;
+  bandwidth?: OvhcloudconnectServiceBandwidthEnum | undefined;
   /** Service description */
-  description?: string;
+  description?: string | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** List of interfaces linked to a service */
-  interfaceList?: OvhcloudconnectServiceWithIAMInterfaceListList;
+  interfaceList?: OvhcloudconnectServiceWithIAMInterfaceListList | undefined;
   /** Pop reference where the service is delivered */
-  pop?: string;
+  pop?: string | undefined;
   /** Port quantity */
-  portQuantity?: OvhcloudconnectServicePortEnum;
+  portQuantity?: OvhcloudconnectServicePortEnum | undefined;
   /** Product name of the service */
-  product?: string;
+  product?: string | undefined;
   /** Service provider */
-  provider?: OvhcloudconnectServiceProviderEnum;
+  provider?: OvhcloudconnectServiceProviderEnum | undefined;
   /** Service status */
-  status?: OvhcloudconnectServiceStatusEnum;
+  status?: OvhcloudconnectServiceStatusEnum | undefined;
   /** Service UUID */
-  uuid?: string;
+  uuid?: string | undefined;
   /** vrack linked to the service */
-  vrack?: string | null;
+  vrack?: string | null | undefined;
 }
 export interface GetOvhCloudConnectConfigPopRequest {
   /** Service name */
@@ -375,17 +375,17 @@ export type OvhcloudconnectPopConfigStatusEnum = "active" | "init" | "toDelete";
 /** OVHcloud Connect Service Pop Configuration */
 export interface OvhcloudconnectPopConfig {
   /** Customer Private AS */
-  customerBgpArea?: number | null;
+  customerBgpArea?: number | null | undefined;
   /** ID of the Pop Configuration */
-  id?: number;
+  id?: number | undefined;
   /** ID of the interface */
   interfaceId: number;
   /** OVH Private AS */
-  ovhBgpArea?: number | null;
+  ovhBgpArea?: number | null | undefined;
   /** Status of the pop configuration */
-  status?: OvhcloudconnectPopConfigStatusEnum;
+  status?: OvhcloudconnectPopConfigStatusEnum | undefined;
   /** Subnet should be a /30, first IP for OVH, second IP for customer */
-  subnet?: string | null;
+  subnet?: string | null | undefined;
   /** Type of the pop configuration */
   type: OvhcloudconnectPopConfigTypeEnum;
 }
@@ -402,13 +402,13 @@ export interface OvhcloudconnectDatacenterConfig {
   /** ID of the datacenter linked */
   datacenterId: number;
   /** ID of the Datacenter configuration */
-  id?: number;
+  id?: number | undefined;
   /** OVH Private AS */
-  ovhBgpArea?: number | null;
+  ovhBgpArea?: number | null | undefined;
   /** Status of the pop configuration */
-  status?: OvhcloudconnectPopConfigStatusEnum;
+  status?: OvhcloudconnectPopConfigStatusEnum | undefined;
   /** Subnet should be a /28 min */
-  subnet?: string | null;
+  subnet?: string | null | undefined;
 }
 export interface GetOvhCloudConnectConfigPopDatacenterExtraRequest {
   /** Service name */
@@ -423,17 +423,17 @@ export interface GetOvhCloudConnectConfigPopDatacenterExtraRequest {
 /** OVHcloud Connect Service Datacenter Extra Configuration */
 export interface OvhcloudconnectDatacenterExtraConfig {
   /** BGP AS number */
-  bgpNeighborArea?: number | null;
+  bgpNeighborArea?: number | null | undefined;
   /** Router IP for BGP */
-  bgpNeighborIp?: string | null;
+  bgpNeighborIp?: string | null | undefined;
   /** ID of the extra configuration */
-  id?: number;
+  id?: number | undefined;
   /** Static route next hop */
-  nextHop?: string | null;
+  nextHop?: string | null | undefined;
   /** Status of the pop configuration */
-  status?: OvhcloudconnectPopConfigStatusEnum;
+  status?: OvhcloudconnectPopConfigStatusEnum | undefined;
   /** Static route ip */
-  subnet?: string | null;
+  subnet?: string | null | undefined;
   /** Type of the configuration */
   type: OvhcloudconnectDatacenterExtraConfigTypeEnum;
 }
@@ -448,17 +448,17 @@ export type OvhcloudconnectStatusStatusEnum = "down" | "up";
 /** OVHcloud Connect L3 peering current status */
 export interface OvhcloudconnectPopConfStatus {
   /** Number of flap since last UP */
-  flapCount?: number | null;
+  flapCount?: number | null | undefined;
   /** Last time the interface changed status */
-  lastChange?: string | null;
+  lastChange?: string | null | undefined;
   /** Last time the interface status went from up to down */
-  lastDown?: string | null;
+  lastDown?: string | null | undefined;
   /** Last time the interface status went from down to up */
-  lastUp?: string | null;
+  lastUp?: string | null | undefined;
   /** Last time the status was updated */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Status of the peering */
-  status?: OvhcloudconnectStatusStatusEnum;
+  status?: OvhcloudconnectStatusStatusEnum | undefined;
 }
 export interface GetOvhCloudConnectDatacenterRequest {
   /** Service name */
@@ -510,15 +510,15 @@ export type OvhcloudconnectDatacenterRegionTypeEnum = "1-AZ" | "3-AZ";
 /** OVHcloud Connect Datacenter */
 export interface OvhcloudconnectDatacenter {
   /** Get availability to add new configuration on it */
-  available?: boolean;
+  available?: boolean | undefined;
   /** ID of the datacenter */
-  id?: number;
+  id?: number | undefined;
   /** name of the datacenter */
-  name?: string;
+  name?: string | undefined;
   /** region of the datacenter */
-  region?: CommonRegionEnum;
+  region?: CommonRegionEnum | undefined;
   /** region type of the datacenter */
-  regionType?: OvhcloudconnectDatacenterRegionTypeEnum;
+  regionType?: OvhcloudconnectDatacenterRegionTypeEnum | undefined;
 }
 export interface GetOvhCloudConnectDiagnosticRequest {
   /** Service name */
@@ -537,13 +537,13 @@ export type OvhcloudconnectIncidentTypeEnum = "incident" | "maintenance";
 /** OVHcloud Connect Incident */
 export interface OvhcloudconnectIncident {
   /** Ending date of the incident */
-  endDate?: string | null;
+  endDate?: string | null | undefined;
   /** Incident reference */
-  id?: number;
+  id?: number | undefined;
   /** Starting date of the incident */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Type of incident */
-  type?: OvhcloudconnectIncidentTypeEnum;
+  type?: OvhcloudconnectIncidentTypeEnum | undefined;
 }
 export interface GetOvhCloudConnectInterfaceRequest {
   /** Service name */
@@ -560,31 +560,31 @@ export type OvhcloudconnectInterfaceStatusEnum = "disabled" | "enabled" | "reser
 /** OVHcloud Connect Interface */
 export interface OvhcloudconnectInterface {
   /** Patch panel name */
-  deviceDisplayName?: string | null;
+  deviceDisplayName?: string | null | undefined;
   /** Equipment name in the rack */
-  deviceRackDisplayName?: string | null;
+  deviceRackDisplayName?: string | null | undefined;
   /** Interface reference */
-  id?: number;
+  id?: number | undefined;
   /** Status of the light received on the port (checked every 5 min) */
-  incomingLightStatus?: OvhcloudconnectInterfaceLightStatusEnum;
+  incomingLightStatus?: OvhcloudconnectInterfaceLightStatusEnum | undefined;
   /** Value of the light received on the port (checked every 5 min) */
-  incomingLightValue?: number | null;
+  incomingLightValue?: number | null | undefined;
   /** Port location */
-  interfaceName?: string | null;
+  interfaceName?: string | null | undefined;
   /** Status of the interface */
-  interfaceStatus?: OvhcloudconnectInterfaceLightStatusEnum;
+  interfaceStatus?: OvhcloudconnectInterfaceLightStatusEnum | undefined;
   /** Date of the last interface status change detected */
-  interfaceStatusLastUpdate?: string;
+  interfaceStatusLastUpdate?: string | undefined;
   /** Fiber termination type */
-  interfaceTerminationType?: OvhcloudconnectInterfaceTerminationTypeEnum | null;
+  interfaceTerminationType?: OvhcloudconnectInterfaceTerminationTypeEnum | null | undefined;
   /** Date of the last light change detected */
-  lightLastUpdate?: string;
+  lightLastUpdate?: string | undefined;
   /** Status of the light emitted on the port (checked every 5 min) */
-  outgoingLightStatus?: OvhcloudconnectInterfaceLightStatusEnum;
+  outgoingLightStatus?: OvhcloudconnectInterfaceLightStatusEnum | undefined;
   /** Value of the light emitted on the port (checked every 5 min) */
-  outgoingLightValue?: number | null;
+  outgoingLightValue?: number | null | undefined;
   /** Status of the port */
-  status?: OvhcloudconnectInterfaceStatusEnum;
+  status?: OvhcloudconnectInterfaceStatusEnum | undefined;
 }
 export interface GetOvhCloudConnectInterfaceStatusRequest {
   /** Service name */
@@ -595,15 +595,15 @@ export interface GetOvhCloudConnectInterfaceStatusRequest {
 /** OVHcloud Connect Interface status */
 export interface OvhcloudconnectInterfaceStatus {
   /** Last time the interface changed status */
-  lastChange?: string | null;
+  lastChange?: string | null | undefined;
   /** Last time the interface status went from up to down */
-  lastDown?: string | null;
+  lastDown?: string | null | undefined;
   /** Last time the interface status went from down to up */
-  lastUp?: string | null;
+  lastUp?: string | null | undefined;
   /** Last time the status was updated */
-  lastUpdate?: string;
+  lastUpdate?: string | undefined;
   /** Status of the interface */
-  status?: OvhcloudconnectStatusStatusEnum;
+  status?: OvhcloudconnectStatusStatusEnum | undefined;
 }
 export interface GetOvhCloudConnectLogKindRequest {
   /** Service name */
@@ -616,17 +616,17 @@ export type DbaasLogsLogKindAdditionalReturnedFieldsList = Array<string>;
 /** Log kind */
 export interface DbaasLogsLogKind {
   /** List of additional log fields managed in this log kind */
-  additionalReturnedFields?: DbaasLogsLogKindAdditionalReturnedFieldsList;
+  additionalReturnedFields?: DbaasLogsLogKindAdditionalReturnedFieldsList | undefined;
   /** Creation date of the log kind */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Log kind display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Log kind ID */
-  kindId?: string;
+  kindId?: string | undefined;
   /** Log kind name */
-  name?: string;
+  name?: string | undefined;
   /** Last update date of the log kind */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetOvhCloudConnectLogSubscriptionRequest {
   /** Service name */
@@ -637,26 +637,26 @@ export interface GetOvhCloudConnectLogSubscriptionRequest {
 /** Log subscription resource */
 export interface DbaasLogsLogSubscriptionResource {
   /** Name of subscribed resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of subscribed resource */
-  type?: string;
+  type?: string | undefined;
 }
 /** Log subscription */
 export interface DbaasLogsLogSubscription {
   /** Creation date of the subscription */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Log kind name of this subscription */
-  kind?: string;
+  kind?: string | undefined;
   /** Subscribed resource, where the logs come from */
-  resource?: DbaasLogsLogSubscriptionResource;
+  resource?: DbaasLogsLogSubscriptionResource | undefined;
   /** Name of the destination log service */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Id of the destination log stream */
-  streamId?: string;
+  streamId?: string | undefined;
   /** Subscription ID */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Last update date of the subscription */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetOvhCloudConnectServiceInfosRequest {
   /** Service name */
@@ -667,15 +667,15 @@ export type ServicesServicePossibleRenewPeriodList = Array<number>;
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -697,21 +697,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetOvhCloudConnectServiceKeyRequest {
   /** Service name */
@@ -729,13 +729,13 @@ export type OvhcloudconnectKeyStatusEnum =
 /** OVHcloud Connect Service Key */
 export interface OvhcloudconnectKey {
   /** Service Key id */
-  id?: number;
+  id?: number | undefined;
   /** Reference of the service */
-  key?: string;
+  key?: string | undefined;
   /** Service Key provider */
-  provider?: OvhcloudconnectServiceProviderEnum;
+  provider?: OvhcloudconnectServiceProviderEnum | undefined;
   /** Service Key status */
-  status?: OvhcloudconnectKeyStatusEnum;
+  status?: OvhcloudconnectKeyStatusEnum | undefined;
 }
 export interface GetOvhCloudConnectTaskRequest {
   /** Service name */
@@ -751,7 +751,7 @@ export type ListOvhCloudConnectRequestIamTagsMap = {
 };
 export interface ListOvhCloudConnectRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListOvhCloudConnectRequestIamTagsMap;
+  iamTags?: ListOvhCloudConnectRequestIamTagsMap | undefined;
 }
 export type ListOvhCloudConnectResponseBodyList = Array<string>;
 export type ListOvhCloudConnectResponse = ListOvhCloudConnectResponseBodyList;
@@ -805,14 +805,14 @@ export type OvhcloudconnectInterfaceMetricsUnitEnum =
 /** OVHcloud Connect Metrics value */
 export interface OvhcloudconnectMetricsValue {
   /** Unit in which the value is expressed */
-  unit?: OvhcloudconnectInterfaceMetricsUnitEnum;
-  value?: number;
+  unit?: OvhcloudconnectInterfaceMetricsUnitEnum | undefined;
+  value?: number | undefined;
 }
 /** OVHcloud Connect Metrics */
 export interface OvhcloudconnectMetrics {
   /** timestamp corresponding to the value */
-  timestamp?: number;
-  value?: OvhcloudconnectMetricsValue;
+  timestamp?: number | undefined;
+  value?: OvhcloudconnectMetricsValue | undefined;
 }
 export type ListOvhCloudConnectConfigPopStatisticsResponseBodyList = Array<OvhcloudconnectMetrics>;
 export type ListOvhCloudConnectConfigPopStatisticsResponse =
@@ -872,7 +872,7 @@ export interface ListOvhCloudConnectLogSubscriptionRequest {
   /** Service name */
   serviceName: string;
   /** Filter on a specific kind (e.g., audit) */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListOvhCloudConnectLogSubscriptionResponseBodyList = Array<string>;
 export type ListOvhCloudConnectLogSubscriptionResponse =
@@ -884,13 +884,13 @@ export interface ListOvhCloudConnectMonitoringRequest {
 /** OVHcloud Connect Monitoring */
 export interface OvhcloudconnectMonitoring {
   /** Whether alert is activated */
-  activated?: boolean;
+  activated?: boolean | undefined;
   /** Description of the monitoring alert */
-  description?: string;
+  description?: string | undefined;
   /** Name of the monitoring alert */
-  name?: string;
+  name?: string | undefined;
   /** Type of the monitoring alert */
-  type?: string;
+  type?: string | undefined;
 }
 export type ListOvhCloudConnectMonitoringResponseBodyList = Array<OvhcloudconnectMonitoring>;
 export type ListOvhCloudConnectMonitoringResponse = ListOvhCloudConnectMonitoringResponseBodyList;
@@ -916,14 +916,14 @@ export interface PutOvhCloudConnectRequest {
   /** Service name */
   serviceName: string;
   /** New description for your service */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export interface PutOvhCloudConnectResponse {}
 export interface PutOvhCloudConnectServiceInfosRequest {
   /** Service name */
   serviceName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutOvhCloudConnectServiceInfosResponse {}
 export interface RegenerateOvhCloudConnectServiceKeyRequest {
@@ -945,7 +945,7 @@ export type OvhcloudconnectMessageCodeEnum = "mailSent";
 /** OVHcloud Connect send key answer */
 export interface OvhcloudconnectSendKeyAnswer {
   /** message code for UX to display appropriate text */
-  messageCode?: OvhcloudconnectMessageCodeEnum;
+  messageCode?: OvhcloudconnectMessageCodeEnum | undefined;
 }
 export interface TerminateOvhCloudConnectRequest {
   /** Service name */

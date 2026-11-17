@@ -34,17 +34,17 @@ export type CustomerProfileConfigScopeEnum =
 export interface CreateCustomerProfileConfigRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  scope?: CustomerProfileConfigScopeEnum | (string & {});
-  content?: unknown;
-  sidebar?: unknown;
+  scope?: CustomerProfileConfigScopeEnum | (string & {}) | undefined;
+  content?: unknown | undefined;
+  sidebar?: unknown | undefined;
 }
 export interface CustomerProfileConfig {
-  id?: string;
-  scope?: CustomerProfileConfigScopeEnum;
-  content?: unknown;
-  sidebar?: unknown;
-  created_at?: string;
-  updated_at?: string | null;
+  id?: string | undefined;
+  scope?: CustomerProfileConfigScopeEnum | undefined;
+  content?: unknown | undefined;
+  sidebar?: unknown | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | null | undefined;
 }
 export interface CustomerProfileConfigsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -61,32 +61,32 @@ export interface ListCustomerProfileConfigsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedCustomerProfileConfigListResultsList = Array<CustomerProfileConfig>;
 export interface PaginatedCustomerProfileConfigList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedCustomerProfileConfigListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedCustomerProfileConfigListResultsList | undefined;
 }
 export interface UpdateCustomerProfileConfigRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
-  scope?: CustomerProfileConfigScopeEnum | (string & {});
-  content?: unknown;
-  sidebar?: unknown;
+  scope?: CustomerProfileConfigScopeEnum | (string & {}) | undefined;
+  content?: unknown | undefined;
+  sidebar?: unknown | undefined;
 }
 export interface UpdateCustomerProfileConfigsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
-  scope?: CustomerProfileConfigScopeEnum | (string & {});
-  content?: unknown;
-  sidebar?: unknown;
+  scope?: CustomerProfileConfigScopeEnum | (string & {}) | undefined;
+  content?: unknown | undefined;
+  sidebar?: unknown | undefined;
 }
 export type CreateCustomerProfileConfigError = PosthogOpError;
 export const createCustomerProfileConfig: API.OperationMethod<

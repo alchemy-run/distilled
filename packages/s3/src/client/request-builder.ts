@@ -46,7 +46,11 @@ export const makeRequestBuilder = (
   if (!middleware.length && !getStreamingPayloadInfo(inputSchema.ast).hasStreamingPayload) {
     return (input) => {
       const request = serialize(input);
-      return request instanceof InvalidInput ? Effect.fail(request) : withUserAgent(request);
+      return request instanceof InvalidInput
+        ? Effect.fail(request)
+        : Effect.isEffect(request)
+          ? Effect.map(request, withUserAgent)
+          : withUserAgent(request);
     };
   }
 

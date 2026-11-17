@@ -156,16 +156,16 @@ export type NextToken = string;
 export type MaxResults = number;
 export interface DescribeAffectedAccountsForOrganizationRequest {
   eventArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type AccountId = string;
 export type AffectedAccountsList = string[];
 export type EventScopeCode = "PUBLIC" | "ACCOUNT_SPECIFIC" | "NONE" | (string & {});
 export interface DescribeAffectedAccountsForOrganizationResponse {
-  affectedAccounts?: string[];
-  eventScopeCode?: EventScopeCode;
-  nextToken?: string;
+  affectedAccounts?: string[] | undefined;
+  eventScopeCode?: EventScopeCode | undefined;
+  nextToken?: string | undefined;
 }
 export type EventArnList = string[];
 export type EntityArn = string;
@@ -173,8 +173,8 @@ export type EntityArnList = string[];
 export type EntityValue = string;
 export type EntityValueList = string[];
 export interface DateTimeRange {
-  from?: Date;
-  to?: Date;
+  from?: Date | undefined;
+  to?: Date | undefined;
 }
 export type DateTimeRangeList = DateTimeRange[];
 export type TagKey = string;
@@ -191,107 +191,107 @@ export type EntityStatusCode =
 export type EntityStatusCodeList = EntityStatusCode[];
 export interface EntityFilter {
   eventArns: string[];
-  entityArns?: string[];
-  entityValues?: string[];
-  lastUpdatedTimes?: DateTimeRange[];
-  tags?: { [key: string]: string | undefined }[];
-  statusCodes?: EntityStatusCode[];
+  entityArns?: string[] | undefined;
+  entityValues?: string[] | undefined;
+  lastUpdatedTimes?: DateTimeRange[] | undefined;
+  tags?: { [key: string]: string | undefined }[] | undefined;
+  statusCodes?: EntityStatusCode[] | undefined;
 }
 export type Locale = string;
 export type MaxResultsLowerRange = number;
 export interface DescribeAffectedEntitiesRequest {
   filter: EntityFilter;
-  locale?: string;
-  nextToken?: string;
-  maxResults?: number;
+  locale?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type EntityUrl = string;
 export type EntityMetadataKey = string;
 export type EntityMetadataValue = string;
 export type EntityMetadata = { [key: string]: string | undefined };
 export interface AffectedEntity {
-  entityArn?: string;
-  eventArn?: string;
-  entityValue?: string;
-  entityUrl?: string;
-  awsAccountId?: string;
-  lastUpdatedTime?: Date;
-  statusCode?: EntityStatusCode;
-  tags?: { [key: string]: string | undefined };
-  entityMetadata?: { [key: string]: string | undefined };
+  entityArn?: string | undefined;
+  eventArn?: string | undefined;
+  entityValue?: string | undefined;
+  entityUrl?: string | undefined;
+  awsAccountId?: string | undefined;
+  lastUpdatedTime?: Date | undefined;
+  statusCode?: EntityStatusCode | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  entityMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export type EntityList = AffectedEntity[];
 export interface DescribeAffectedEntitiesResponse {
-  entities?: AffectedEntity[];
-  nextToken?: string;
+  entities?: AffectedEntity[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface EventAccountFilter {
   eventArn: string;
-  awsAccountId?: string;
+  awsAccountId?: string | undefined;
 }
 export type OrganizationEntityFiltersList = EventAccountFilter[];
 export interface EntityAccountFilter {
   eventArn: string;
-  awsAccountId?: string;
-  statusCodes?: EntityStatusCode[];
+  awsAccountId?: string | undefined;
+  statusCodes?: EntityStatusCode[] | undefined;
 }
 export type OrganizationEntityAccountFiltersList = EntityAccountFilter[];
 export interface DescribeAffectedEntitiesForOrganizationRequest {
-  organizationEntityFilters?: EventAccountFilter[];
-  locale?: string;
-  nextToken?: string;
-  maxResults?: number;
-  organizationEntityAccountFilters?: EntityAccountFilter[];
+  organizationEntityFilters?: EventAccountFilter[] | undefined;
+  locale?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  organizationEntityAccountFilters?: EntityAccountFilter[] | undefined;
 }
 export interface OrganizationAffectedEntitiesErrorItem {
-  awsAccountId?: string;
-  eventArn?: string;
-  errorName?: string;
-  errorMessage?: string;
+  awsAccountId?: string | undefined;
+  eventArn?: string | undefined;
+  errorName?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export type DescribeAffectedEntitiesForOrganizationFailedSet =
   OrganizationAffectedEntitiesErrorItem[];
 export interface DescribeAffectedEntitiesForOrganizationResponse {
-  entities?: AffectedEntity[];
-  failedSet?: OrganizationAffectedEntitiesErrorItem[];
-  nextToken?: string;
+  entities?: AffectedEntity[] | undefined;
+  failedSet?: OrganizationAffectedEntitiesErrorItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export type EventArnsList = string[];
 export interface DescribeEntityAggregatesRequest {
-  eventArns?: string[];
+  eventArns?: string[] | undefined;
 }
 export type Count = number;
-export type EntityStatuses = { [key in EntityStatusCode]?: number };
+export type EntityStatuses = { [key in EntityStatusCode]?: number | undefined };
 export interface EntityAggregate {
-  eventArn?: string;
-  count?: number;
-  statuses?: { [key: string]: number | undefined };
+  eventArn?: string | undefined;
+  count?: number | undefined;
+  statuses?: { [key: string]: number | undefined } | undefined;
 }
 export type EntityAggregateList = EntityAggregate[];
 export interface DescribeEntityAggregatesResponse {
-  entityAggregates?: EntityAggregate[];
+  entityAggregates?: EntityAggregate[] | undefined;
 }
 export type OrganizationEventArnsList = string[];
 export type OrganizationAccountIdsList = string[];
 export interface DescribeEntityAggregatesForOrganizationRequest {
   eventArns: string[];
-  awsAccountIds?: string[];
+  awsAccountIds?: string[] | undefined;
 }
 export interface AccountEntityAggregate {
-  accountId?: string;
-  count?: number;
-  statuses?: { [key: string]: number | undefined };
+  accountId?: string | undefined;
+  count?: number | undefined;
+  statuses?: { [key: string]: number | undefined } | undefined;
 }
 export type AccountEntityAggregatesList = AccountEntityAggregate[];
 export interface OrganizationEntityAggregate {
-  eventArn?: string;
-  count?: number;
-  statuses?: { [key: string]: number | undefined };
-  accounts?: AccountEntityAggregate[];
+  eventArn?: string | undefined;
+  count?: number | undefined;
+  statuses?: { [key: string]: number | undefined } | undefined;
+  accounts?: AccountEntityAggregate[] | undefined;
 }
 export type OrganizationEntityAggregatesList = OrganizationEntityAggregate[];
 export interface DescribeEntityAggregatesForOrganizationResponse {
-  organizationEntityAggregates?: OrganizationEntityAggregate[];
+  organizationEntityAggregates?: OrganizationEntityAggregate[] | undefined;
 }
 export type EventActionability =
   | "ACTION_REQUIRED"
@@ -319,156 +319,156 @@ export type EventStatusCodeList = EventStatusCode[];
 export type EventPersona = "OPERATIONS" | "SECURITY" | "BILLING" | (string & {});
 export type EventPersonaList = EventPersona[];
 export interface EventFilter {
-  actionabilities?: EventActionability[];
-  eventArns?: string[];
-  eventTypeCodes?: string[];
-  services?: string[];
-  regions?: string[];
-  availabilityZones?: string[];
-  startTimes?: DateTimeRange[];
-  endTimes?: DateTimeRange[];
-  lastUpdatedTimes?: DateTimeRange[];
-  entityArns?: string[];
-  entityValues?: string[];
-  eventTypeCategories?: EventTypeCategory[];
-  tags?: { [key: string]: string | undefined }[];
-  eventStatusCodes?: EventStatusCode[];
-  personas?: EventPersona[];
+  actionabilities?: EventActionability[] | undefined;
+  eventArns?: string[] | undefined;
+  eventTypeCodes?: string[] | undefined;
+  services?: string[] | undefined;
+  regions?: string[] | undefined;
+  availabilityZones?: string[] | undefined;
+  startTimes?: DateTimeRange[] | undefined;
+  endTimes?: DateTimeRange[] | undefined;
+  lastUpdatedTimes?: DateTimeRange[] | undefined;
+  entityArns?: string[] | undefined;
+  entityValues?: string[] | undefined;
+  eventTypeCategories?: EventTypeCategory[] | undefined;
+  tags?: { [key: string]: string | undefined }[] | undefined;
+  eventStatusCodes?: EventStatusCode[] | undefined;
+  personas?: EventPersona[] | undefined;
 }
 export type EventAggregateField = "eventTypeCategory" | (string & {});
 export interface DescribeEventAggregatesRequest {
-  filter?: EventFilter;
+  filter?: EventFilter | undefined;
   aggregateField: EventAggregateField;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type AggregateValue = string;
 export interface EventAggregate {
-  aggregateValue?: string;
-  count?: number;
+  aggregateValue?: string | undefined;
+  count?: number | undefined;
 }
 export type EventAggregateList = EventAggregate[];
 export interface DescribeEventAggregatesResponse {
-  eventAggregates?: EventAggregate[];
-  nextToken?: string;
+  eventAggregates?: EventAggregate[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeEventDetailsRequest {
   eventArns: string[];
-  locale?: string;
+  locale?: string | undefined;
 }
 export type EventTypeCode = string;
 export interface Event {
-  arn?: string;
-  service?: string;
-  eventTypeCode?: string;
-  eventTypeCategory?: EventTypeCategory;
-  region?: string;
-  availabilityZone?: string;
-  startTime?: Date;
-  endTime?: Date;
-  lastUpdatedTime?: Date;
-  statusCode?: EventStatusCode;
-  eventScopeCode?: EventScopeCode;
-  actionability?: EventActionability;
-  personas?: EventPersona[];
+  arn?: string | undefined;
+  service?: string | undefined;
+  eventTypeCode?: string | undefined;
+  eventTypeCategory?: EventTypeCategory | undefined;
+  region?: string | undefined;
+  availabilityZone?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  lastUpdatedTime?: Date | undefined;
+  statusCode?: EventStatusCode | undefined;
+  eventScopeCode?: EventScopeCode | undefined;
+  actionability?: EventActionability | undefined;
+  personas?: EventPersona[] | undefined;
 }
 export type EventDescription2 = string;
 export interface EventDescription {
-  latestDescription?: string;
+  latestDescription?: string | undefined;
 }
 export type MetadataKey = string;
 export type MetadataValue = string;
 export type EventMetadata = { [key: string]: string | undefined };
 export interface EventDetails {
-  event?: Event;
-  eventDescription?: EventDescription;
-  eventMetadata?: { [key: string]: string | undefined };
+  event?: Event | undefined;
+  eventDescription?: EventDescription | undefined;
+  eventMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export type DescribeEventDetailsSuccessfulSet = EventDetails[];
 export interface EventDetailsErrorItem {
-  eventArn?: string;
-  errorName?: string;
-  errorMessage?: string;
+  eventArn?: string | undefined;
+  errorName?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export type DescribeEventDetailsFailedSet = EventDetailsErrorItem[];
 export interface DescribeEventDetailsResponse {
-  successfulSet?: EventDetails[];
-  failedSet?: EventDetailsErrorItem[];
+  successfulSet?: EventDetails[] | undefined;
+  failedSet?: EventDetailsErrorItem[] | undefined;
 }
 export type OrganizationEventDetailFiltersList = EventAccountFilter[];
 export interface DescribeEventDetailsForOrganizationRequest {
   organizationEventDetailFilters: EventAccountFilter[];
-  locale?: string;
+  locale?: string | undefined;
 }
 export interface OrganizationEventDetails {
-  awsAccountId?: string;
-  event?: Event;
-  eventDescription?: EventDescription;
-  eventMetadata?: { [key: string]: string | undefined };
+  awsAccountId?: string | undefined;
+  event?: Event | undefined;
+  eventDescription?: EventDescription | undefined;
+  eventMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export type DescribeEventDetailsForOrganizationSuccessfulSet = OrganizationEventDetails[];
 export interface OrganizationEventDetailsErrorItem {
-  awsAccountId?: string;
-  eventArn?: string;
-  errorName?: string;
-  errorMessage?: string;
+  awsAccountId?: string | undefined;
+  eventArn?: string | undefined;
+  errorName?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export type DescribeEventDetailsForOrganizationFailedSet = OrganizationEventDetailsErrorItem[];
 export interface DescribeEventDetailsForOrganizationResponse {
-  successfulSet?: OrganizationEventDetails[];
-  failedSet?: OrganizationEventDetailsErrorItem[];
+  successfulSet?: OrganizationEventDetails[] | undefined;
+  failedSet?: OrganizationEventDetailsErrorItem[] | undefined;
 }
 export interface DescribeEventsRequest {
-  filter?: EventFilter;
-  nextToken?: string;
-  maxResults?: number;
-  locale?: string;
+  filter?: EventFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  locale?: string | undefined;
 }
 export type EventList = Event[];
 export interface DescribeEventsResponse {
-  events?: Event[];
-  nextToken?: string;
+  events?: Event[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AwsAccountIdsList = string[];
 export interface OrganizationEventFilter {
-  actionabilities?: EventActionability[];
-  eventTypeCodes?: string[];
-  awsAccountIds?: string[];
-  services?: string[];
-  regions?: string[];
-  startTime?: DateTimeRange;
-  endTime?: DateTimeRange;
-  lastUpdatedTime?: DateTimeRange;
-  entityArns?: string[];
-  entityValues?: string[];
-  eventTypeCategories?: EventTypeCategory[];
-  eventStatusCodes?: EventStatusCode[];
-  personas?: EventPersona[];
+  actionabilities?: EventActionability[] | undefined;
+  eventTypeCodes?: string[] | undefined;
+  awsAccountIds?: string[] | undefined;
+  services?: string[] | undefined;
+  regions?: string[] | undefined;
+  startTime?: DateTimeRange | undefined;
+  endTime?: DateTimeRange | undefined;
+  lastUpdatedTime?: DateTimeRange | undefined;
+  entityArns?: string[] | undefined;
+  entityValues?: string[] | undefined;
+  eventTypeCategories?: EventTypeCategory[] | undefined;
+  eventStatusCodes?: EventStatusCode[] | undefined;
+  personas?: EventPersona[] | undefined;
 }
 export interface DescribeEventsForOrganizationRequest {
-  filter?: OrganizationEventFilter;
-  nextToken?: string;
-  maxResults?: number;
-  locale?: string;
+  filter?: OrganizationEventFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  locale?: string | undefined;
 }
 export interface OrganizationEvent {
-  arn?: string;
-  service?: string;
-  eventTypeCode?: string;
-  eventTypeCategory?: EventTypeCategory;
-  eventScopeCode?: EventScopeCode;
-  region?: string;
-  startTime?: Date;
-  endTime?: Date;
-  lastUpdatedTime?: Date;
-  statusCode?: EventStatusCode;
-  actionability?: EventActionability;
-  personas?: EventPersona[];
+  arn?: string | undefined;
+  service?: string | undefined;
+  eventTypeCode?: string | undefined;
+  eventTypeCategory?: EventTypeCategory | undefined;
+  eventScopeCode?: EventScopeCode | undefined;
+  region?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  lastUpdatedTime?: Date | undefined;
+  statusCode?: EventStatusCode | undefined;
+  actionability?: EventActionability | undefined;
+  personas?: EventPersona[] | undefined;
 }
 export type OrganizationEventList = OrganizationEvent[];
 export interface DescribeEventsForOrganizationResponse {
-  events?: OrganizationEvent[];
-  nextToken?: string;
+  events?: OrganizationEvent[] | undefined;
+  nextToken?: string | undefined;
 }
 export type EventTypeCodeList = string[];
 export type EventTypeCategoryList = EventTypeCategory[];
@@ -481,64 +481,64 @@ export type EventTypeActionabilityList = EventTypeActionability[];
 export type EventTypePersona = "OPERATIONS" | "SECURITY" | "BILLING" | (string & {});
 export type EventTypePersonaList = EventTypePersona[];
 export interface EventTypeFilter {
-  eventTypeCodes?: string[];
-  services?: string[];
-  eventTypeCategories?: EventTypeCategory[];
-  actionabilities?: EventTypeActionability[];
-  personas?: EventTypePersona[];
+  eventTypeCodes?: string[] | undefined;
+  services?: string[] | undefined;
+  eventTypeCategories?: EventTypeCategory[] | undefined;
+  actionabilities?: EventTypeActionability[] | undefined;
+  personas?: EventTypePersona[] | undefined;
 }
 export interface DescribeEventTypesRequest {
-  filter?: EventTypeFilter;
-  locale?: string;
-  nextToken?: string;
-  maxResults?: number;
+  filter?: EventTypeFilter | undefined;
+  locale?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface EventType {
-  service?: string;
-  code?: string;
-  category?: EventTypeCategory;
-  actionability?: EventTypeActionability;
-  personas?: EventTypePersona[];
+  service?: string | undefined;
+  code?: string | undefined;
+  category?: EventTypeCategory | undefined;
+  actionability?: EventTypeActionability | undefined;
+  personas?: EventTypePersona[] | undefined;
 }
 export type EventTypeList = EventType[];
 export interface DescribeEventTypesResponse {
-  eventTypes?: EventType[];
-  nextToken?: string;
+  eventTypes?: EventType[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DescribeHealthServiceStatusForOrganizationRequest {}
 export type HealthServiceAccessStatusForOrganization = string;
 export interface DescribeHealthServiceStatusForOrganizationResponse {
-  healthServiceAccessStatusForOrganization?: string;
+  healthServiceAccessStatusForOrganization?: string | undefined;
 }
 export interface ServiceLifecycleFilter {
-  service?: string;
+  service?: string | undefined;
 }
 export type LifecycleMaxResults = number;
 export interface DescribeServiceLifecycleRequest {
-  filter?: ServiceLifecycleFilter;
-  nextToken?: string;
-  maxResults?: number;
+  filter?: ServiceLifecycleFilter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ImpactRiskList = string[];
 export interface LifecycleEvent {
-  lifecycleEventType?: string;
-  date?: Date;
-  regions?: string[];
-  impactRisks?: string[];
-  description?: string;
+  lifecycleEventType?: string | undefined;
+  date?: Date | undefined;
+  regions?: string[] | undefined;
+  impactRisks?: string[] | undefined;
+  description?: string | undefined;
 }
 export type LifecycleEventList = LifecycleEvent[];
 export interface ServiceLifecycle {
-  service?: string;
-  version?: string;
-  title?: string;
-  recommendedVersion?: string;
-  lifecycleEvents?: LifecycleEvent[];
+  service?: string | undefined;
+  version?: string | undefined;
+  title?: string | undefined;
+  recommendedVersion?: string | undefined;
+  lifecycleEvents?: LifecycleEvent[] | undefined;
 }
 export type ServiceLifecycleList = ServiceLifecycle[];
 export interface DescribeServiceLifecycleResponse {
-  serviceLifecycles?: ServiceLifecycle[];
-  nextToken?: string;
+  serviceLifecycles?: ServiceLifecycle[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface DisableHealthServiceAccessForOrganizationRequest {}
 export interface DisableHealthServiceAccessForOrganizationResponse {}

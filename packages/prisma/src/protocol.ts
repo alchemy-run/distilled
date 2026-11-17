@@ -1,6 +1,11 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * PrismaProtocol -- hand-written.
  *
@@ -38,7 +43,8 @@ export type PrismaOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Prisma operation. */
 export type PrismaOpContext = Credentials | HttpClient.HttpClient;
@@ -81,10 +87,10 @@ export const PrismaProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestP
   unknownError: (info) => {
     const env = envelopeOf(info.body);
     return new UnknownPrismaError({
+      ...unknownErrorProps(info),
       code: env?.code,
       message: env?.message ?? info.message,
       hint: env?.hint,
-      body: info.body,
     });
   },
   parseError: ({ body, cause }) => new PrismaParseError({ body, cause }),

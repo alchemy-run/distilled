@@ -35,15 +35,15 @@ export interface CreateFloatingIpRequest {
   /** The Floating IP type. */
   type: CreateFloatingIpRequestType | (string & {});
   /** [Server](#tag/servers) the [Floating IP](#tag/floating-ips) is assigned to. `null` if not assigned. */
-  server?: number | null;
+  server?: number | null | undefined;
   /** Home [Location](#tag/locations) for the [Floating IP](#tag/floating-ips). Either the ID or the name of the [Location](#tag/locations). Only optional if no [Server](#tag/servers) is provided. Routing is optimized for this [Locations](#tag/locations). */
-  home_location?: CreateFloatingIpRequestHomeLocation;
+  home_location?: CreateFloatingIpRequestHomeLocation | undefined;
   /** Description of the Resource. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Name of the Resource. Must be unique per Project. A name will be generated if none is given. */
-  name?: string;
+  name?: string | undefined;
   /** User-defined labels (`key/value` pairs) for the Resource. For more information, see "[Labels](#description/labels)". */
-  labels?: CreateFloatingIpRequestLabelsMap;
+  labels?: CreateFloatingIpRequestLabelsMap | undefined;
 }
 /** The Floating IP type. */
 export type CreateFloatingIpResponseFloatingIpType = "ipv4" | "ipv6";
@@ -148,7 +148,7 @@ export interface CreateFloatingIpResponseAction {
 export interface CreateFloatingIpResponse {
   floating_ip: CreateFloatingIpResponseFloatingIp;
   /** Action will only be returned if the [Floating IP](#tag/floating-ips) is getting assigned. */
-  action?: CreateFloatingIpResponseAction | null;
+  action?: CreateFloatingIpResponseAction | null | undefined;
 }
 export interface DeleteFloatingIpRequest {
   /** ID of the Floating IP. */
@@ -213,15 +213,15 @@ export type ListFloatingIpsRequestSortItem =
 export type ListFloatingIpsRequestSortList = Array<ListFloatingIpsRequestSortItem | (string & {})>;
 export interface ListFloatingIpsRequest {
   /** Filter resources by their name. The response will only contain the resources matching exactly the specified name. */
-  name?: string;
+  name?: string | undefined;
   /** Filter resources by labels. The response will only contain resources matching the label selector. For more information, see "[Label Selector](#description/label-selector)". */
-  label_selector?: string;
+  label_selector?: string | undefined;
   /** Sort resources by field and direction. May be used multiple times. For more information, see "[Sorting](#description/sorting)". */
-  sort?: ListFloatingIpsRequestSortList;
+  sort?: ListFloatingIpsRequestSortList | undefined;
   /** Page number to return. For more information, see "[Pagination](#description/pagination)". */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of entries returned per page. For more information, see "[Pagination](#description/pagination)". */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The Floating IP type. */
 export type ListFloatingIpsResponseFloatingIpsItemType = "ipv4" | "ipv6";
@@ -294,11 +294,11 @@ export interface UpdateFloatingIpRequest {
   /** ID of the Floating IP. */
   id: number;
   /** Description of the Resource. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Name of the Resource. Must be unique per Project. */
-  name?: string;
+  name?: string | undefined;
   /** User-defined labels (`key/value` pairs) for the Resource. Note that the set of [Labels](#description/labels) provided in the request will overwrite the existing one. For more information, see "[Labels](#description/labels)". */
-  labels?: UpdateFloatingIpRequestLabelsMap;
+  labels?: UpdateFloatingIpRequestLabelsMap | undefined;
 }
 /** The Floating IP type. */
 export type UpdateFloatingIpResponseFloatingIpType = "ipv4" | "ipv6";

@@ -30,18 +30,32 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       code: S.Number,
       message: S.String,
+      body: /*@__PURE__*/ S.optional(
+        /*@__PURE__*/ S.Union([/*@__PURE__*/ S.suspend(() => __S(0, __c0, 0)), S.String]),
+      ),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
-  ) {}
+  )
+{
+  declare readonly body?: ErrorResponse | string;
+}
 
 export type CreateCommandRequestParametersMap = { [key: string]: string | undefined };
 export interface CreateCommandRequest {
@@ -52,10 +66,10 @@ export interface CreateCommandRequest {
   /** Server ID of the machine */
   serverId: string;
   commandTemplateName: string;
-  parameters?: CreateCommandRequestParametersMap;
+  parameters?: CreateCommandRequestParametersMap | undefined;
 }
 export interface NewCommandResponse {
-  id?: number;
+  id?: number | undefined;
 }
 export interface GetCommandRequest {
   /** ID of the project */
@@ -69,15 +83,15 @@ export interface GetCommandRequest {
 }
 export type CommandDetailsStatus = "pending" | "running" | "completed" | "failed";
 export interface CommandDetails {
-  commandTemplateName?: string;
-  commandTemplateTitle?: string;
-  exitCode?: number;
-  finishedAt?: string;
-  id?: number;
-  output?: string;
-  script?: string;
-  startedAt?: string;
-  status?: CommandDetailsStatus;
+  commandTemplateName?: string | undefined;
+  commandTemplateTitle?: string | undefined;
+  exitCode?: number | undefined;
+  finishedAt?: string | undefined;
+  id?: number | undefined;
+  output?: string | undefined;
+  script?: string | undefined;
+  startedAt?: string | undefined;
+  status?: CommandDetailsStatus | undefined;
 }
 export interface GetCommandTemplateRequest {
   /** ID of the project */
@@ -91,32 +105,32 @@ export interface GetCommandTemplateRequest {
 }
 export type CommandTemplateSchemaOsTypeList = Array<string>;
 export interface Field {
-  default?: string;
-  description?: string;
-  maxLen?: number;
-  minLen?: number;
-  readOnly?: boolean;
-  title?: string;
-  type?: string;
+  default?: string | undefined;
+  description?: string | undefined;
+  maxLen?: number | undefined;
+  minLen?: number | undefined;
+  readOnly?: boolean | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
 }
 export type PropertiesRequiredList = Array<string>;
 export interface Properties {
-  ConfirmPassword?: Field;
-  Password?: Field;
-  Script?: Field;
-  Username?: Field;
-  required?: PropertiesRequiredList;
-  type?: string;
+  ConfirmPassword?: Field | undefined;
+  Password?: Field | undefined;
+  Script?: Field | undefined;
+  Username?: Field | undefined;
+  required?: PropertiesRequiredList | undefined;
+  type?: string | undefined;
 }
 export interface ParametersSchema {
-  properties?: Properties;
+  properties?: Properties | undefined;
 }
 export interface CommandTemplateSchema {
-  description?: string;
-  name?: string;
-  osType?: CommandTemplateSchemaOsTypeList;
-  parametersSchema?: ParametersSchema;
-  title?: string;
+  description?: string | undefined;
+  name?: string | undefined;
+  osType?: CommandTemplateSchemaOsTypeList | undefined;
+  parametersSchema?: ParametersSchema | undefined;
+  title?: string | undefined;
 }
 export interface ListCommandsRequest {
   /** ID of the project */
@@ -128,30 +142,36 @@ export interface ListCommandsRequest {
 }
 export type CommandsStatus = "pending" | "running" | "completed" | "failed";
 export interface Commands {
-  commandTemplateName?: string;
-  commandTemplateTitle?: string;
-  finishedAt?: string;
-  id?: number;
-  startedAt?: string;
-  status?: CommandsStatus;
+  commandTemplateName?: string | undefined;
+  commandTemplateTitle?: string | undefined;
+  finishedAt?: string | undefined;
+  id?: number | undefined;
+  startedAt?: string | undefined;
+  status?: CommandsStatus | undefined;
 }
 export type GetCommandsResponseItemsList = Array<Commands>;
 export interface GetCommandsResponse {
-  items?: GetCommandsResponseItemsList;
+  items?: GetCommandsResponseItemsList | undefined;
 }
 export interface ListCommandTemplatesRequest {
   /** The type of the Operating System (windows or linux). If not provided will return data for all OS types. */
-  osType?: string;
+  osType?: string | undefined;
 }
 export type CommandTemplateOsTypeList = Array<string>;
 export interface CommandTemplate {
-  name?: string;
-  osType?: CommandTemplateOsTypeList;
-  title?: string;
+  name?: string | undefined;
+  osType?: CommandTemplateOsTypeList | undefined;
+  title?: string | undefined;
 }
 export type CommandTemplateResponseItemsList = Array<CommandTemplate>;
 export interface CommandTemplateResponse {
-  items?: CommandTemplateResponseItemsList;
+  items?: CommandTemplateResponseItemsList | undefined;
+}
+export interface ErrorResponse {
+  /** Details about the error */
+  message: string;
+  /** The string representation of the http status code (i.e. Not Found, Bad Request, etc) */
+  status: string;
 }
 export type CreateCommandError = BadRequest | NotFound | StackitOpError;
 /** Creates a new command for execution */
@@ -161,8 +181,8 @@ export const createCommand: API.OperationMethod<
   CreateCommandError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1, __c0, 1) as any as S.Schema<CreateCommandRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<NewCommandResponse>,
+  input: __S(9, __c1, 1) as any as S.Schema<CreateCommandRequest>,
+  output: __S(10, __c1, 2) as any as S.Schema<NewCommandResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -178,8 +198,8 @@ export const getCommand: API.OperationMethod<
   GetCommandError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<GetCommandRequest>,
-  output: __S(9, __c1, 1) as any as S.Schema<CommandDetails>,
+  input: __S(16, __c2, 0) as any as S.Schema<GetCommandRequest>,
+  output: __S(17, __c2, 1) as any as S.Schema<CommandDetails>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -195,8 +215,8 @@ export const getCommandTemplate: API.OperationMethod<
   GetCommandTemplateError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetCommandTemplateRequest>,
-  output: __S(20, __c2, 4) as any as S.Schema<CommandTemplateSchema>,
+  input: __S(24, __c3, 0) as any as S.Schema<GetCommandTemplateRequest>,
+  output: __S(28, __c3, 4) as any as S.Schema<CommandTemplateSchema>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -212,8 +232,8 @@ export const listCommands: API.OperationMethod<
   ListCommandsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<ListCommandsRequest>,
-  output: __S(35, __c4, 3) as any as S.Schema<GetCommandsResponse>,
+  input: __S(40, __c5, 0) as any as S.Schema<ListCommandsRequest>,
+  output: __S(43, __c5, 3) as any as S.Schema<GetCommandsResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -229,8 +249,8 @@ export const listCommandTemplates: API.OperationMethod<
   ListCommandTemplatesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ListCommandTemplatesRequest>,
-  output: __S(43, __c5, 3) as any as S.Schema<CommandTemplateResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<ListCommandTemplatesRequest>,
+  output: __S(51, __c6, 3) as any as S.Schema<CommandTemplateResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -242,6 +262,17 @@ export const listCommandTemplates: API.OperationMethod<
 function __c0(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          message: S.String,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "ErrorResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
       return S.Record(S.String, S.String);
     case 1:
       return S.suspend(() =>
@@ -250,7 +281,7 @@ function __c0(j: number): any {
           region: S.String.pipe(T.Label()),
           serverId: S.String.pipe(T.Label()),
           commandTemplateName: S.String,
-          parameters: S.optional(__S(0, __c0, 0)),
+          parameters: S.optional(__S(8, __c1, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -268,7 +299,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "NewCommandResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -302,7 +333,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CommandDetails" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -335,18 +366,18 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ConfirmPassword: S.optional(__S(17, __c2, 1)),
-          Password: S.optional(__S(17, __c2, 1)),
-          Script: S.optional(__S(17, __c2, 1)),
-          Username: S.optional(__S(17, __c2, 1)),
-          required: S.optional(__S(24, __c3, 0)),
+          ConfirmPassword: S.optional(__S(25, __c3, 1)),
+          Password: S.optional(__S(25, __c3, 1)),
+          Script: S.optional(__S(25, __c3, 1)),
+          Username: S.optional(__S(25, __c3, 1)),
+          required: S.optional(__S(32, __c4, 0)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "Properties" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(18, __c2, 2)),
+          properties: S.optional(__S(26, __c3, 2)),
         }),
       ).annotate({ identifier: "ParametersSchema" });
     case 4:
@@ -354,20 +385,20 @@ function __c2(j: number): any {
         S.Struct({
           description: S.optional(S.String),
           name: S.optional(S.String),
-          osType: S.optional(__S(24, __c3, 0)),
-          parametersSchema: S.optional(__S(19, __c2, 3)),
+          osType: S.optional(__S(32, __c4, 0)),
+          parametersSchema: S.optional(__S(27, __c3, 3)),
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "CommandTemplateSchema" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -396,16 +427,16 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "Commands" });
     case 2:
-      return S.Array(__S(33, __c4, 1));
+      return S.Array(__S(41, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(34, __c4, 2)),
+          items: S.optional(__S(42, __c5, 2)),
         }),
       ).annotate({ identifier: "GetCommandsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -424,16 +455,16 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          osType: S.optional(__S(24, __c3, 0)),
+          osType: S.optional(__S(32, __c4, 0)),
           title: S.optional(S.String),
         }),
       ).annotate({ identifier: "CommandTemplate" });
     case 2:
-      return S.Array(__S(41, __c5, 1));
+      return S.Array(__S(49, __c6, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: S.optional(__S(42, __c5, 2)),
+          items: S.optional(__S(50, __c6, 2)),
         }),
       ).annotate({ identifier: "CommandTemplateResponse" });
   }

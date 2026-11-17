@@ -200,29 +200,29 @@ export type BandwidthAllocation = number;
 export type DialingCapacity = number;
 export interface ProgressiveDialerConfig {
   bandwidthAllocation: number;
-  dialingCapacity?: number;
+  dialingCapacity?: number | undefined;
 }
 export interface PredictiveDialerConfig {
   bandwidthAllocation: number;
-  dialingCapacity?: number;
+  dialingCapacity?: number | undefined;
 }
 export interface AgentlessDialerConfig {
-  dialingCapacity?: number;
+  dialingCapacity?: number | undefined;
 }
 export type DialerConfig =
   | {
       progressiveDialerConfig: ProgressiveDialerConfig;
-      predictiveDialerConfig?: never;
-      agentlessDialerConfig?: never;
+      predictiveDialerConfig?: undefined;
+      agentlessDialerConfig?: undefined;
     }
   | {
-      progressiveDialerConfig?: never;
+      progressiveDialerConfig?: undefined;
       predictiveDialerConfig: PredictiveDialerConfig;
-      agentlessDialerConfig?: never;
+      agentlessDialerConfig?: undefined;
     }
   | {
-      progressiveDialerConfig?: never;
-      predictiveDialerConfig?: never;
+      progressiveDialerConfig?: undefined;
+      predictiveDialerConfig?: undefined;
       agentlessDialerConfig: AgentlessDialerConfig;
     };
 export type ContactFlowId = string;
@@ -230,13 +230,13 @@ export type SourcePhoneNumber = string;
 export type QueueId = string;
 export interface AnswerMachineDetectionConfig {
   enableAnswerMachineDetection: boolean;
-  awaitAnswerMachinePrompt?: boolean;
+  awaitAnswerMachinePrompt?: boolean | undefined;
 }
 export interface OutboundCallConfig {
   connectContactFlowId: string;
-  connectSourcePhoneNumber?: string;
-  connectQueueId?: string;
-  answerMachineDetectionConfig?: AnswerMachineDetectionConfig;
+  connectSourcePhoneNumber?: string | undefined;
+  connectQueueId?: string | undefined;
+  answerMachineDetectionConfig?: AnswerMachineDetectionConfig | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -246,14 +246,14 @@ export interface CreateCampaignRequest {
   connectInstanceId: string;
   dialerConfig: DialerConfig;
   outboundCallConfig: OutboundCallConfig;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CampaignId = string;
 export type CampaignArn = string;
 export interface CreateCampaignResponse {
-  id?: string;
-  arn?: string;
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  arn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DeleteCampaignRequest {
   id: string;
@@ -277,36 +277,36 @@ export interface Campaign {
   connectInstanceId: string;
   dialerConfig: DialerConfig;
   outboundCallConfig: OutboundCallConfig;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeCampaignResponse {
-  campaign?: Campaign;
+  campaign?: Campaign | undefined;
 }
 export interface GetCampaignStateRequest {
   id: string;
 }
 export type CampaignState = string;
 export interface GetCampaignStateResponse {
-  state?: string;
+  state?: string | undefined;
 }
 export type CampaignIdList = string[];
 export interface GetCampaignStateBatchRequest {
   campaignIds: string[];
 }
 export interface SuccessfulCampaignStateResponse {
-  campaignId?: string;
-  state?: string;
+  campaignId?: string | undefined;
+  state?: string | undefined;
 }
 export type SuccessfulCampaignStateResponseList = SuccessfulCampaignStateResponse[];
 export type GetCampaignStateBatchFailureCode = string;
 export interface FailedCampaignStateResponse {
-  campaignId?: string;
-  failureCode?: string;
+  campaignId?: string | undefined;
+  failureCode?: string | undefined;
 }
 export type FailedCampaignStateResponseList = FailedCampaignStateResponse[];
 export interface GetCampaignStateBatchResponse {
-  successfulRequests?: SuccessfulCampaignStateResponse[];
-  failedRequests?: FailedCampaignStateResponse[];
+  successfulRequests?: SuccessfulCampaignStateResponse[] | undefined;
+  failedRequests?: FailedCampaignStateResponse[] | undefined;
 }
 export interface GetConnectInstanceConfigRequest {
   connectInstanceId: string;
@@ -317,8 +317,8 @@ export type EncryptionType = string;
 export type EncryptionKey = string;
 export interface EncryptionConfig {
   enabled: boolean;
-  encryptionType?: string;
-  keyArn?: string;
+  encryptionType?: string | undefined;
+  keyArn?: string | undefined;
 }
 export interface InstanceConfig {
   connectInstanceId: string;
@@ -326,7 +326,7 @@ export interface InstanceConfig {
   encryptionConfig: EncryptionConfig;
 }
 export interface GetConnectInstanceConfigResponse {
-  connectInstanceConfig?: InstanceConfig;
+  connectInstanceConfig?: InstanceConfig | undefined;
 }
 export interface GetInstanceOnboardingJobStatusRequest {
   connectInstanceId: string;
@@ -336,10 +336,10 @@ export type InstanceOnboardingJobFailureCode = string;
 export interface InstanceOnboardingJobStatus {
   connectInstanceId: string;
   status: string;
-  failureCode?: string;
+  failureCode?: string | undefined;
 }
 export interface GetInstanceOnboardingJobStatusResponse {
-  connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus;
+  connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
@@ -349,12 +349,12 @@ export interface InstanceIdFilter {
   operator: string;
 }
 export interface CampaignFilters {
-  instanceIdFilter?: InstanceIdFilter;
+  instanceIdFilter?: InstanceIdFilter | undefined;
 }
 export interface ListCampaignsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  filters?: CampaignFilters;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filters?: CampaignFilters | undefined;
 }
 export interface CampaignSummary {
   id: string;
@@ -364,15 +364,15 @@ export interface CampaignSummary {
 }
 export type CampaignSummaryList = CampaignSummary[];
 export interface ListCampaignsResponse {
-  nextToken?: string;
-  campaignSummaryList?: CampaignSummary[];
+  nextToken?: string | undefined;
+  campaignSummaryList?: CampaignSummary[] | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   arn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PauseCampaignRequest {
   id: string;
@@ -396,20 +396,20 @@ export interface PutDialRequestBatchRequest {
 }
 export type DialRequestId = string;
 export interface SuccessfulRequest {
-  clientToken?: string;
-  id?: string;
+  clientToken?: string | undefined;
+  id?: string | undefined;
 }
 export type SuccessfulRequestList = SuccessfulRequest[];
 export type FailureCode = string;
 export interface FailedRequest {
-  clientToken?: string;
-  id?: string;
-  failureCode?: string;
+  clientToken?: string | undefined;
+  id?: string | undefined;
+  failureCode?: string | undefined;
 }
 export type FailedRequestList = FailedRequest[];
 export interface PutDialRequestBatchResponse {
-  successfulRequests?: SuccessfulRequest[];
-  failedRequests?: FailedRequest[];
+  successfulRequests?: SuccessfulRequest[] | undefined;
+  failedRequests?: FailedRequest[] | undefined;
 }
 export interface ResumeCampaignRequest {
   id: string;
@@ -424,7 +424,7 @@ export interface StartInstanceOnboardingJobRequest {
   encryptionConfig: EncryptionConfig;
 }
 export interface StartInstanceOnboardingJobResponse {
-  connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus;
+  connectInstanceOnboardingJobStatus?: InstanceOnboardingJobStatus | undefined;
 }
 export interface StopCampaignRequest {
   id: string;
@@ -453,9 +453,9 @@ export interface UpdateCampaignNameRequest {
 export interface UpdateCampaignNameResponse {}
 export interface UpdateCampaignOutboundCallConfigRequest {
   id: string;
-  connectContactFlowId?: string;
-  connectSourcePhoneNumber?: string;
-  answerMachineDetectionConfig?: AnswerMachineDetectionConfig;
+  connectContactFlowId?: string | undefined;
+  connectSourcePhoneNumber?: string | undefined;
+  answerMachineDetectionConfig?: AnswerMachineDetectionConfig | undefined;
 }
 export interface UpdateCampaignOutboundCallConfigResponse {}
 export type XAmazonErrorType = string;

@@ -52,11 +52,11 @@ export interface ConfirmVrackTerminationRequest {
   /** The internal name of your vrack */
   serviceName: string;
   /** Commentary about your termination request */
-  commentary?: string;
+  commentary?: string | undefined;
   /** What next after your termination request */
-  futureUse?: ServiceTerminationFutureUseEnum | (string & {});
+  futureUse?: ServiceTerminationFutureUseEnum | (string & {}) | undefined;
   /** Reason of your termination request */
-  reason?: ServiceTerminationReasonEnum | (string & {});
+  reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
   token: string;
 }
@@ -65,11 +65,11 @@ export interface CreateVrackChangeContactRequest {
   /** The internal name of your vrack */
   serviceName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateVrackChangeContactResponseBodyList = Array<number>;
 export type CreateVrackChangeContactResponse = CreateVrackChangeContactResponseBodyList;
@@ -83,15 +83,15 @@ export interface CreateVrackCloudProjectRequest {
 export type VrackTaskStatusEnum = "cancelled" | "doing" | "done" | "init" | "todo";
 /** vrack tasks */
 export interface VrackTask {
-  function?: string;
-  id?: number;
-  lastUpdate?: string | null;
-  orderId?: number | null;
-  serviceName?: string | null;
+  function?: string | undefined;
+  id?: number | undefined;
+  lastUpdate?: string | null | undefined;
+  orderId?: number | null | undefined;
+  serviceName?: string | null | undefined;
   /** Task status */
-  status?: VrackTaskStatusEnum;
-  targetDomain?: string | null;
-  todoDate?: string | null;
+  status?: VrackTaskStatusEnum | undefined;
+  targetDomain?: string | null | undefined;
+  todoDate?: string | null | undefined;
 }
 export interface CreateVrackDedicatedCloudRequest {
   /** The internal name of your vrack */
@@ -126,7 +126,7 @@ export interface CreateVrackIpRequest {
   /** Your IP block */
   block: string;
   /** Choose the region in which to route the block */
-  region?: string;
+  region?: string | undefined;
 }
 export interface CreateVrackIpLoadbalancingRequest {
   /** The internal name of your vrack */
@@ -262,24 +262,24 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** vrack */
 export interface VrackVrackWithIAM {
   /** Description of the vRack */
-  description?: string;
+  description?: string | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Name of the vRack */
-  name?: string;
+  name?: string | undefined;
   /** Service name of your vRack on OVHcloud */
-  serviceName?: string;
+  serviceName?: string | undefined;
 }
 export interface GetVrackCloudProjectRequest {
   /** The internal name of your vrack */
@@ -290,9 +290,9 @@ export interface GetVrackCloudProjectRequest {
 /** PublicCloud project in vrack */
 export interface VrackCloudProject {
   /** publicCloud project */
-  project?: string;
+  project?: string | undefined;
   /** vrack name */
-  vrack?: string;
+  vrack?: string | undefined;
 }
 export interface GetVrackDedicatedCloudRequest {
   /** The internal name of your vrack */
@@ -303,11 +303,11 @@ export interface GetVrackDedicatedCloudRequest {
 /** VMware on OVHcloud vRack link */
 export interface VrackDedicatedCloud {
   /** your dedicated cloud service */
-  dedicatedCloud?: string;
+  dedicatedCloud?: string | undefined;
   /** Dedicated cloud vlanId used */
-  vlanId?: number | null;
+  vlanId?: number | null | undefined;
   /** vrack name */
-  vrack?: string;
+  vrack?: string | undefined;
 }
 export interface GetVrackDedicatedCloudDatacenterRequest {
   /** The internal name of your vrack */
@@ -318,11 +318,11 @@ export interface GetVrackDedicatedCloudDatacenterRequest {
 /** vrack datacenter interface */
 export interface VrackPccDatacenter {
   /** Your dedicatedCloud datacenter name */
-  datacenter?: string;
+  datacenter?: string | undefined;
   /** Your dedicatedCloud name */
-  dedicatedCloud?: string;
+  dedicatedCloud?: string | undefined;
   /** vrack name */
-  vrack?: string;
+  vrack?: string | undefined;
 }
 export interface GetVrackDedicatedConnectRequest {
   /** The internal name of your vrack */
@@ -333,7 +333,7 @@ export interface GetVrackDedicatedConnectRequest {
 /** vrack dedicated connect interface */
 export interface VrackDedicatedConnect {
   /** A name for your dedicatedConnect link */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetVrackDedicatedServerRequest {
   /** The internal name of your vrack */
@@ -344,9 +344,9 @@ export interface GetVrackDedicatedServerRequest {
 /** vrack dedicated server interfaces (LEGACY) */
 export interface VrackDedicatedServer {
   /** Dedicated Server */
-  dedicatedServer?: string;
+  dedicatedServer?: string | undefined;
   /** vrack name */
-  vrack?: string;
+  vrack?: string | undefined;
 }
 export interface GetVrackDedicatedServerInterfaceRequest {
   /** The internal name of your vrack */
@@ -357,9 +357,9 @@ export interface GetVrackDedicatedServerInterfaceRequest {
 /** vrack dedicated server interfaces */
 export interface VrackDedicatedServerInterface {
   /** Dedicated Server Interface */
-  dedicatedServerInterface?: string;
+  dedicatedServerInterface?: string | undefined;
   /** vrack name */
-  vrack?: string;
+  vrack?: string | undefined;
 }
 export interface GetVrackIpRequest {
   /** The internal name of your vrack */
@@ -386,13 +386,13 @@ export type VrackVrackZoneEnum =
 /** IP block in vrack */
 export interface VrackIp {
   /** Your gateway */
-  gateway?: string | null;
+  gateway?: string | null | undefined;
   /** Your IP block */
-  ip?: string;
+  ip?: string | undefined;
   /** Where you want your block announced on the network */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Where you want your block announced on the network */
-  zone?: VrackVrackZoneEnum | null;
+  zone?: VrackVrackZoneEnum | null | undefined;
 }
 export interface GetVrackIpLoadbalancingRequest {
   /** The internal name of your vrack */
@@ -403,9 +403,9 @@ export interface GetVrackIpLoadbalancingRequest {
 /** ipLoadbalancing in vrack */
 export interface VrackIplb {
   /** Your ipLoadbalancing */
-  ipLoadbalancing?: string;
+  ipLoadbalancing?: string | undefined;
   /** vrack name */
-  vrack?: string;
+  vrack?: string | undefined;
 }
 export interface GetVrackIpv6Request {
   /** The internal name of your vrack */
@@ -416,9 +416,9 @@ export interface GetVrackIpv6Request {
 /** IP v6 block in vrack */
 export interface VrackIpv6 {
   /** Your IP v6 block */
-  ipv6?: string;
+  ipv6?: string | undefined;
   /** Where you want your block announced on the network */
-  region?: string | null;
+  region?: string | null | undefined;
 }
 export interface GetVrackIpv6BridgedSubrangeRequest {
   /** The internal name of your vrack */
@@ -433,11 +433,11 @@ export type VrackSlaacEnum = "disabled" | "enabled";
 /** Bridged subrange within your IP v6 block */
 export interface VrackBridgedSubrange {
   /** subrange bridged into your vrack */
-  bridgedSubrange?: string;
+  bridgedSubrange?: string | undefined;
   /** Your gateway */
-  gateway?: string;
+  gateway?: string | undefined;
   /** Slaac status */
-  slaac?: VrackSlaacEnum;
+  slaac?: VrackSlaacEnum | undefined;
 }
 export interface GetVrackIpv6RoutedSubrangeRequest {
   /** The internal name of your vrack */
@@ -450,9 +450,9 @@ export interface GetVrackIpv6RoutedSubrangeRequest {
 /** Routed subranges within your IP v6 block */
 export interface VrackRoutedSubrange {
   /** nexthop used as a gateway for your routed subrange */
-  nexthop?: string;
+  nexthop?: string | undefined;
   /** subrange routed into your vrack */
-  routedSubrange?: string;
+  routedSubrange?: string | undefined;
 }
 export interface GetVrackLegacyVrackRequest {
   /** The internal name of your vrack */
@@ -463,9 +463,9 @@ export interface GetVrackLegacyVrackRequest {
 /** interface between legacy vrack (vrackXXXX) and vrack (pn-XXXX) */
 export interface VrackLegacyVrack {
   /** your legacy vrack service */
-  legacyVrack?: string;
+  legacyVrack?: string | undefined;
   /** vlan to set on legacy vrack equipments */
-  vlanId?: number;
+  vlanId?: number | undefined;
 }
 export interface GetVrackOvhCloudConnectRequest {
   /** The internal name of your vrack */
@@ -476,9 +476,9 @@ export interface GetVrackOvhCloudConnectRequest {
 /** ovhCloudConnect in vrack */
 export interface VrackOvhCloudConnect {
   /** ovhCloudConnect service name */
-  ovhCloudConnect?: string;
+  ovhCloudConnect?: string | undefined;
   /** vrack name */
-  vrack?: string;
+  vrack?: string | undefined;
 }
 export interface GetVrackPublicRoutingOptionRequest {
   /** The internal name of your vrack */
@@ -487,7 +487,7 @@ export interface GetVrackPublicRoutingOptionRequest {
 /** A structure describing the public routing option */
 export interface VrackPublicRoutingOption {
   /** Global bandwidth for blocks in your vrack (in Mbps) */
-  bandwidth?: number | null;
+  bandwidth?: number | null | undefined;
 }
 export interface GetVrackServiceInfosRequest {
   /** The internal name of your vrack */
@@ -502,13 +502,13 @@ export type ServiceStateEnum =
   | "unPaid";
 /** Details about a non-expiring Service */
 export interface ServicesNonExpiringService {
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetVrackTaskRequest {
   /** The internal name of your vrack */
@@ -524,9 +524,9 @@ export interface GetVrackVmwareCloudDirectorVirtualDataCenterRequest {
 /** vmwareCloudDirector virtualDataCenter in vrack */
 export interface VrackVmwareCloudDirectorVirtualDataCenter {
   /** vmwareCloudDirectorVirtualDataCenter service name */
-  vmwareCloudDirectorVirtualDataCenter?: string;
+  vmwareCloudDirectorVirtualDataCenter?: string | undefined;
   /** vrack name */
-  vrack?: string;
+  vrack?: string | undefined;
 }
 export interface GetVrackVrackServiceRequest {
   /** The internal name of your vrack */
@@ -537,9 +537,9 @@ export interface GetVrackVrackServiceRequest {
 /** vrackServices in vrack */
 export interface VrackVrackServices {
   /** vrack name */
-  vrack?: string;
+  vrack?: string | undefined;
   /** vrackServices service name */
-  vrackServices?: string;
+  vrackServices?: string | undefined;
 }
 /** Resource tag filter */
 export interface IamResourceTagFilterInput {}
@@ -549,7 +549,7 @@ export type ListVrackRequestIamTagsMap = {
 };
 export interface ListVrackRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListVrackRequestIamTagsMap;
+  iamTags?: ListVrackRequestIamTagsMap | undefined;
 }
 export type ListVrackResponseBodyList = Array<string>;
 export type ListVrackResponse = ListVrackResponseBodyList;
@@ -572,7 +572,7 @@ export interface ListVrackAllowedServicesRequest {
   /** The internal name of your vrack */
   serviceName: string;
   /** Filter on a specific service family */
-  serviceFamily?: VrackAllowedServiceEnum | (string & {});
+  serviceFamily?: VrackAllowedServiceEnum | (string & {}) | undefined;
 }
 /** list of publicCloud projects allowed to be connected to vrack */
 export type VrackAllowedServicesCloudProjectList = Array<string>;
@@ -587,11 +587,11 @@ export type VrackAllowedServicesDedicatedServerList = Array<string>;
 /** A structure giving all dedicated server interfaces allowed for this vrack */
 export interface VrackAllowedDedicatedServerInterfaces {
   /** the name of dedicatedServer */
-  dedicatedServer?: string;
+  dedicatedServer?: string | undefined;
   /** the unique identifier of dedicatedServerInterface */
-  dedicatedServerInterface?: string;
+  dedicatedServerInterface?: string | undefined;
   /** the name of dedicatedServerInterface */
-  name?: string;
+  name?: string | undefined;
 }
 /** list of dedicated server interfaces allowed to be connected to vrack */
 export type VrackAllowedServicesDedicatedServerInterfaceList =
@@ -613,31 +613,34 @@ export type VrackAllowedServicesVrackServicesList = Array<string>;
 /** A structure given all service allowed for this vrack */
 export interface VrackAllowedServices {
   /** list of publicCloud projects allowed to be connected to vrack */
-  cloudProject?: VrackAllowedServicesCloudProjectList | null;
+  cloudProject?: VrackAllowedServicesCloudProjectList | null | undefined;
   /** list of dedicated cloud allowed to be connected to vrack */
-  dedicatedCloud?: VrackAllowedServicesDedicatedCloudList | null;
+  dedicatedCloud?: VrackAllowedServicesDedicatedCloudList | null | undefined;
   /** list of dedicated cloud datacenters allowed to be connected to vrack */
-  dedicatedCloudDatacenter?: VrackAllowedServicesDedicatedCloudDatacenterList | null;
+  dedicatedCloudDatacenter?: VrackAllowedServicesDedicatedCloudDatacenterList | null | undefined;
   /** list of dedicated connect links allowed to be connected to vrack */
-  dedicatedConnect?: VrackAllowedServicesDedicatedConnectList | null;
+  dedicatedConnect?: VrackAllowedServicesDedicatedConnectList | null | undefined;
   /** list of dedicated servers allowed to be connected to vrack */
-  dedicatedServer?: VrackAllowedServicesDedicatedServerList | null;
+  dedicatedServer?: VrackAllowedServicesDedicatedServerList | null | undefined;
   /** list of dedicated server interfaces allowed to be connected to vrack */
-  dedicatedServerInterface?: VrackAllowedServicesDedicatedServerInterfaceList | null;
+  dedicatedServerInterface?: VrackAllowedServicesDedicatedServerInterfaceList | null | undefined;
   /** list of blocks allowed to be connected to vrack */
-  ip?: VrackAllowedServicesIpList | null;
+  ip?: VrackAllowedServicesIpList | null | undefined;
   /** list of ipLoadbalancing allowed to be connected to vrack */
-  ipLoadbalancing?: VrackAllowedServicesIpLoadbalancingList | null;
+  ipLoadbalancing?: VrackAllowedServicesIpLoadbalancingList | null | undefined;
   /** list of ipv6 blocks allowed to be connected to vrack */
-  ipv6?: VrackAllowedServicesIpv6List | null;
+  ipv6?: VrackAllowedServicesIpv6List | null | undefined;
   /** list of legacy vrack (1.0) allowed to be connected to vrack */
-  legacyVrack?: VrackAllowedServicesLegacyVrackList | null;
+  legacyVrack?: VrackAllowedServicesLegacyVrackList | null | undefined;
   /** List of the ovhCloudConnect services allowed to be connected to vrack */
-  ovhCloudConnect?: VrackAllowedServicesOvhCloudConnectList | null;
+  ovhCloudConnect?: VrackAllowedServicesOvhCloudConnectList | null | undefined;
   /** List of the vmwareCloudDirectorVirtualDataCenter allowed to be connected to vrack */
-  vmwareCloudDirectorVirtualDataCenter?: VrackAllowedServicesVmwareCloudDirectorVirtualDataCenterList | null;
+  vmwareCloudDirectorVirtualDataCenter?:
+    | VrackAllowedServicesVmwareCloudDirectorVirtualDataCenterList
+    | null
+    | undefined;
   /** List of the vrackServices allowed to be connected to vrack */
-  vrackServices?: VrackAllowedServicesVrackServicesList | null;
+  vrackServices?: VrackAllowedServicesVrackServicesList | null | undefined;
 }
 export interface ListVrackCloudProjectRequest {
   /** The internal name of your vrack */
@@ -713,11 +716,11 @@ export type VrackEligibleServicesDedicatedServerList = Array<string>;
 /** Dedicated server interfaces allowed for this vRack */
 export interface VrackEligibleDedicatedServerInterfaces {
   /** The name of the dedicatedServer */
-  dedicatedServer?: string;
+  dedicatedServer?: string | undefined;
   /** The unique identifier of the dedicatedServerInterface */
-  dedicatedServerInterface?: string;
+  dedicatedServerInterface?: string | undefined;
   /** The name of the dedicatedServerInterface */
-  name?: string;
+  name?: string | undefined;
 }
 /** List of dedicated server interfaces allowed to be connected to this vRack */
 export type VrackEligibleServicesDedicatedServerInterfaceList =
@@ -739,42 +742,45 @@ export type VrackEligibleServicesVrackServicesList = Array<string>;
 /** Eligible services for this vRack */
 export interface VrackEligibleServices {
   /** List of publicCloud projects allowed to be connected to this vRack */
-  cloudProject?: VrackEligibleServicesCloudProjectList | null;
+  cloudProject?: VrackEligibleServicesCloudProjectList | null | undefined;
   /** List of dedicated cloud allowed to be connected to this vRack */
-  dedicatedCloud?: VrackEligibleServicesDedicatedCloudList | null;
+  dedicatedCloud?: VrackEligibleServicesDedicatedCloudList | null | undefined;
   /** List of dedicated cloud datacenters allowed to be connected to this vRack */
-  dedicatedCloudDatacenter?: VrackEligibleServicesDedicatedCloudDatacenterList | null;
+  dedicatedCloudDatacenter?: VrackEligibleServicesDedicatedCloudDatacenterList | null | undefined;
   /** List of dedicated connect links allowed to be connected to this vRack */
-  dedicatedConnect?: VrackEligibleServicesDedicatedConnectList | null;
+  dedicatedConnect?: VrackEligibleServicesDedicatedConnectList | null | undefined;
   /** List of dedicated servers allowed to be connected to this vRack */
-  dedicatedServer?: VrackEligibleServicesDedicatedServerList | null;
+  dedicatedServer?: VrackEligibleServicesDedicatedServerList | null | undefined;
   /** List of dedicated server interfaces allowed to be connected to this vRack */
-  dedicatedServerInterface?: VrackEligibleServicesDedicatedServerInterfaceList | null;
+  dedicatedServerInterface?: VrackEligibleServicesDedicatedServerInterfaceList | null | undefined;
   /** List of blocks allowed to be connected to this vRack */
-  ip?: VrackEligibleServicesIpList | null;
+  ip?: VrackEligibleServicesIpList | null | undefined;
   /** List of ipLoadbalancing allowed to be connected to this vRack */
-  ipLoadbalancing?: VrackEligibleServicesIpLoadbalancingList | null;
+  ipLoadbalancing?: VrackEligibleServicesIpLoadbalancingList | null | undefined;
   /** List of ipv6 blocks allowed to be connected to this vRack */
-  ipv6?: VrackEligibleServicesIpv6List | null;
+  ipv6?: VrackEligibleServicesIpv6List | null | undefined;
   /** List of legacy vRack (1.0) allowed to be connected to this vRack */
-  legacyVrack?: VrackEligibleServicesLegacyVrackList | null;
+  legacyVrack?: VrackEligibleServicesLegacyVrackList | null | undefined;
   /** List of the ovhCloudConnect services allowed to be connected to this vRack */
-  ovhCloudConnect?: VrackEligibleServicesOvhCloudConnectList | null;
+  ovhCloudConnect?: VrackEligibleServicesOvhCloudConnectList | null | undefined;
   /** List of the VMwareCloudDirectorVirtualDatacenter allowed to be connected to this vRack */
-  vmwareCloudDirectorVirtualDataCenter?: VrackEligibleServicesVmwareCloudDirectorVirtualDataCenterList | null;
+  vmwareCloudDirectorVirtualDataCenter?:
+    | VrackEligibleServicesVmwareCloudDirectorVirtualDataCenterList
+    | null
+    | undefined;
   /** List of the vrackServices allowed to be connected to this vRack */
-  vrackServices?: VrackEligibleServicesVrackServicesList | null;
+  vrackServices?: VrackEligibleServicesVrackServicesList | null | undefined;
 }
 /** Eligible services call response */
 export interface VrackEligibleServicesResponse {
   /** Creation date of the call */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** List of services where an error has been encountered */
-  errors?: VrackEligibleServicesResponseErrorsList;
+  errors?: VrackEligibleServicesResponseErrorsList | undefined;
   /** Eligible services for this vRack */
-  result?: VrackEligibleServices;
+  result?: VrackEligibleServices | undefined;
   /** Status of the call */
-  status?: string;
+  status?: string | undefined;
 }
 export interface ListVrackIpRequest {
   /** The internal name of your vrack */
@@ -853,9 +859,9 @@ export interface PutVrackRequest {
   /** The internal name of your vrack */
   serviceName: string;
   /** Description of the vRack */
-  description?: string;
+  description?: string | undefined;
   /** Name of the vRack */
-  name?: string;
+  name?: string | undefined;
 }
 export interface PutVrackResponse {}
 export interface PutVrackDedicatedConnectRequest {
@@ -873,7 +879,7 @@ export interface PutVrackIpv6BridgedSubrangeRequest {
   /** subrange bridged into your vrack */
   bridgedSubrange: string;
   /** Slaac status */
-  slaac?: VrackSlaacEnum | (string & {});
+  slaac?: VrackSlaacEnum | (string & {}) | undefined;
 }
 export interface TerminateVrackRequest {
   /** The internal name of your vrack */

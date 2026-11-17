@@ -20,7 +20,7 @@ export { paginateCursor } from "@distilled.cloud/core/pagination";
 export const paginateRender: Pagination.PaginationStrategy = (operation, input, pagination) => {
   const inputToken = pagination.inputToken;
   if (!inputToken) {
-    return Stream.die(new Error("Render cursor pagination requires inputToken"));
+    return Pagination.missingPaginationConfig("Render cursor pagination requires inputToken");
   }
   const itemsPath = pagination.items ?? "body";
 
