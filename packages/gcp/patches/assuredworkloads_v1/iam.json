@@ -5,132 +5,88 @@
       "op": "add",
       "path": "/shapes/com.gcp.assuredworkloads_v1#AcknowledgeOrganizationsLocationsWorkloadsViolations/traits/com.distilled.iam#operation",
       "value": {
-        "actions": [
-          "assuredworkloads.violations.update"
-        ],
-        "roles": [
-          "roles/assuredworkloads.admin"
-        ]
+        "actions": ["assuredworkloads.violations.update"],
+        "roles": ["roles/assuredworkloads.admin"]
       }
     },
     {
       "op": "add",
       "path": "/shapes/com.gcp.assuredworkloads_v1#AnalyzeWorkloadMoveOrganizationsLocationsWorkloads/traits/com.distilled.iam#operation",
       "value": {
-        "actions": [
-          "assuredworkloads.workload.update"
-        ],
-        "roles": [
-          "roles/assuredworkloads.admin"
-        ]
+        "actions": ["assuredworkloads.workload.update"],
+        "roles": ["roles/assuredworkloads.admin"]
       }
     },
     {
       "op": "add",
       "path": "/shapes/com.gcp.assuredworkloads_v1#ApplyOrganizationsLocationsWorkloadsUpdates/traits/com.distilled.iam#operation",
       "value": {
-        "actions": [
-          "assuredworkloads.updates.update"
-        ],
-        "roles": [
-          "roles/assuredworkloads.admin"
-        ]
+        "actions": ["assuredworkloads.updates.update"],
+        "roles": ["roles/assuredworkloads.admin"]
       }
     },
     {
       "op": "add",
       "path": "/shapes/com.gcp.assuredworkloads_v1#EnableComplianceUpdatesOrganizationsLocationsWorkloads/traits/com.distilled.iam#operation",
       "value": {
-        "actions": [
-          "assuredworkloads.workload.update"
-        ],
-        "roles": [
-          "roles/assuredworkloads.admin"
-        ]
+        "actions": ["assuredworkloads.workload.update"],
+        "roles": ["roles/assuredworkloads.admin"]
       }
     },
     {
       "op": "add",
       "path": "/shapes/com.gcp.assuredworkloads_v1#EnableResourceMonitoringOrganizationsLocationsWorkloads/traits/com.distilled.iam#operation",
       "value": {
-        "actions": [
-          "assuredworkloads.workload.update"
-        ],
-        "roles": [
-          "roles/assuredworkloads.admin"
-        ]
+        "actions": ["assuredworkloads.workload.update"],
+        "roles": ["roles/assuredworkloads.admin"]
       }
     },
     {
       "op": "add",
       "path": "/shapes/com.gcp.assuredworkloads_v1#GetOrganizationsLocationsWorkloads/traits/com.distilled.iam#operation",
       "value": {
-        "actions": [
-          "assuredworkloads.workload.get"
-        ],
-        "roles": [
-          "roles/assuredworkloads.reader"
-        ]
+        "actions": ["assuredworkloads.workload.get"],
+        "roles": ["roles/assuredworkloads.reader"]
       }
     },
     {
       "op": "add",
       "path": "/shapes/com.gcp.assuredworkloads_v1#GetOrganizationsLocationsWorkloadsViolations/traits/com.distilled.iam#operation",
       "value": {
-        "actions": [
-          "assuredworkloads.violations.get"
-        ],
-        "roles": [
-          "roles/assuredworkloads.reader"
-        ]
+        "actions": ["assuredworkloads.violations.get"],
+        "roles": ["roles/assuredworkloads.reader"]
       }
     },
     {
       "op": "add",
       "path": "/shapes/com.gcp.assuredworkloads_v1#ListOrganizationsLocationsWorkloadsUpdates/traits/com.distilled.iam#operation",
       "value": {
-        "actions": [
-          "assuredworkloads.updates.list"
-        ],
-        "roles": [
-          "roles/assuredworkloads.reader"
-        ]
+        "actions": ["assuredworkloads.updates.list"],
+        "roles": ["roles/assuredworkloads.reader"]
       }
     },
     {
       "op": "add",
       "path": "/shapes/com.gcp.assuredworkloads_v1#ListOrganizationsLocationsWorkloadsViolations/traits/com.distilled.iam#operation",
       "value": {
-        "actions": [
-          "assuredworkloads.violations.list"
-        ],
-        "roles": [
-          "roles/assuredworkloads.reader"
-        ]
+        "actions": ["assuredworkloads.violations.list"],
+        "roles": ["roles/assuredworkloads.reader"]
       }
     },
     {
       "op": "add",
       "path": "/shapes/com.gcp.assuredworkloads_v1#MutatePartnerPermissionsOrganizationsLocationsWorkloads/traits/com.distilled.iam#operation",
       "value": {
-        "actions": [
-          "assuredworkloads.workload.update"
-        ],
-        "roles": [
-          "roles/assuredworkloads.admin"
-        ]
+        "actions": ["assuredworkloads.workload.update"],
+        "roles": ["roles/assuredworkloads.admin"]
       }
     },
     {
       "op": "add",
       "path": "/shapes/com.gcp.assuredworkloads_v1#RestrictAllowedResourcesOrganizationsLocationsWorkloads/traits/com.distilled.iam#operation",
       "value": {
-        "actions": [
-          "assuredworkloads.workload.update"
-        ],
-        "roles": [
-          "roles/assuredworkloads.admin"
-        ]
+        "actions": ["assuredworkloads.workload.update"],
+        "roles": ["roles/assuredworkloads.admin"]
       }
     }
   ]

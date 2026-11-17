@@ -5,96 +5,64 @@
       "op": "add",
       "path": "/shapes/com.gcp.datacatalog_v1#ExportProjectsLocationsTaxonomies/traits/com.distilled.iam#operation",
       "value": {
-        "actions": [
-          "datacatalog.taxonomies.update"
-        ],
-        "roles": [
-          "roles/datacatalog.categoryAdmin"
-        ]
+        "actions": ["datacatalog.taxonomies.update"],
+        "roles": ["roles/datacatalog.categoryAdmin"]
       }
     },
     {
       "op": "add",
       "path": "/shapes/com.gcp.datacatalog_v1#GetProjectsLocationsTaxonomies/traits/com.distilled.iam#operation",
       "value": {
-        "actions": [
-          "datacatalog.taxonomies.get"
-        ],
-        "roles": [
-          "roles/datacatalog.viewer"
-        ]
+        "actions": ["datacatalog.taxonomies.get"],
+        "roles": ["roles/datacatalog.viewer"]
       }
     },
     {
       "op": "add",
       "path": "/shapes/com.gcp.datacatalog_v1#GetProjectsLocationsTaxonomiesPolicyTags/traits/com.distilled.iam#operation",
       "value": {
-        "actions": [
-          "datacatalog.taxonomies.get"
-        ],
-        "roles": [
-          "roles/datacatalog.viewer"
-        ]
+        "actions": ["datacatalog.taxonomies.get"],
+        "roles": ["roles/datacatalog.viewer"]
       }
     },
     {
       "op": "add",
       "path": "/shapes/com.gcp.datacatalog_v1#ImportProjectsLocationsTaxonomies/traits/com.distilled.iam#operation",
       "value": {
-        "actions": [
-          "datacatalog.taxonomies.update"
-        ],
-        "roles": [
-          "roles/datacatalog.categoryAdmin"
-        ]
+        "actions": ["datacatalog.taxonomies.update"],
+        "roles": ["roles/datacatalog.categoryAdmin"]
       }
     },
     {
       "op": "add",
       "path": "/shapes/com.gcp.datacatalog_v1#ListProjectsLocationsTaxonomies/traits/com.distilled.iam#operation",
       "value": {
-        "actions": [
-          "datacatalog.taxonomies.list"
-        ],
-        "roles": [
-          "roles/datacatalog.viewer"
-        ]
+        "actions": ["datacatalog.taxonomies.list"],
+        "roles": ["roles/datacatalog.viewer"]
       }
     },
     {
       "op": "add",
       "path": "/shapes/com.gcp.datacatalog_v1#ListProjectsLocationsTaxonomiesPolicyTags/traits/com.distilled.iam#operation",
       "value": {
-        "actions": [
-          "datacatalog.taxonomies.get"
-        ],
-        "roles": [
-          "roles/datacatalog.viewer"
-        ]
+        "actions": ["datacatalog.taxonomies.get"],
+        "roles": ["roles/datacatalog.viewer"]
       }
     },
     {
       "op": "add",
       "path": "/shapes/com.gcp.datacatalog_v1#ReplaceProjectsLocationsTaxonomies/traits/com.distilled.iam#operation",
       "value": {
-        "actions": [
-          "datacatalog.taxonomies.update"
-        ],
-        "roles": [
-          "roles/datacatalog.categoryAdmin"
-        ]
+        "actions": ["datacatalog.taxonomies.update"],
+        "roles": ["roles/datacatalog.categoryAdmin"]
       }
     },
     {
       "op": "add",
       "path": "/shapes/com.gcp.datacatalog_v1#SearchCatalog/traits/com.distilled.iam#operation",
       "value": {
-        "actions": [
-          "datacatalog.catalogs.searchAll"
-        ],
-        "roles": [
-          "roles/datacatalog.viewer"
-        ]
+        "actions": ["datacatalog.catalogs.searchAll"],
+        "roles": ["roles/datacatalog.viewer"]
       }
     }
   ]
