@@ -83,8 +83,9 @@ Responses keep Mux's wire shape: a resource arrives as `{ data: ... }`, a list
 as `{ data: [...] }`. Member names stay snake_case, as in Mux's API reference.
 
 Live-stream ingest credentials come back as `Redacted` values: `stream_key`,
-`srt_passphrase`, a simulcast target's `stream_key` and SRT `url`, a signing
-key's `private_key`, and a webhook's `signing_secret`. Read them with
+`srt_passphrase`, a simulcast target's `stream_key` and SRT `url`, a direct
+upload's signed `url`, a signing key's `private_key`, and a webhook's
+`signing_secret`. Read them with
 `Redacted.value`. Inputs take a plain string or a `Redacted`.
 
 ## Pagination

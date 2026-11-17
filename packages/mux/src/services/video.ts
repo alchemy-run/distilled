@@ -252,7 +252,7 @@ export interface Upload {
   /** If the upload URL will be used in a browser, you must specify the origin in order for the signed URL to have the correct CORS headers. */
   cors_origin: string;
   /** The URL to upload the associated source media to. */
-  url?: string | undefined;
+  url?: string | Redacted.Redacted<string> | undefined;
   /** Indicates if this is a test Direct Upload, in which case the Asset that gets created will be a `test` Asset. */
   test?: boolean | undefined;
 }
@@ -2693,7 +2693,7 @@ function __c8(j: number): any {
           asset_id: S.optional(S.String),
           error: S.optional(__S(64, __c8, 0)),
           cors_origin: S.String,
-          url: S.optional(S.String),
+          url: S.optional(S.String.pipe(T.SensitiveValue({}))),
           test: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Upload" });
