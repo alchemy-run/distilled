@@ -152,6 +152,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "technitium" },
   { package: "temporal" },
   { package: "tencentcloud" },
+  { package: "tinybird" },
   { package: "trigger-dev" },
   { package: "turbopuffer" },
   { package: "turso" },

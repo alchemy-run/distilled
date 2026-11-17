@@ -1,0 +1,22 @@
+{
+  "description": "createPipeNode's SQL is the request body: the reference's examples `curl -d 'select * from node_0' .../v0/pipes/:name/nodes?name=node_name&description=...` (https://www.tinybird.co/docs/api-reference/pipe-api). The body is plain text, sent verbatim.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.pipe#PostV0PipesPipeNodesRequest/members/body",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The node's SQL."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.pipe#PostV0PipesPipeNodes/traits/smithy.api#http/bodyMediaType",
+      "value": "text/plain"
+    }
+  ]
+}

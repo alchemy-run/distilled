@@ -1,0 +1,15 @@
+{
+  "description": "The explain tables type `pipe_name` as Float, but it is \"The name or id of the pipe.\" (https://www.tinybird.co/docs/api-reference/pipe-api) — a string.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.pipe#GetV0PipesPipeExplainRequest/members/pipe_name/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.pipe#GetV0PipesPipeNodesNodeExplainRequest/members/pipe_name/target",
+      "value": "smithy.api#String"
+    }
+  ]
+}

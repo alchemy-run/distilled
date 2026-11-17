@@ -583,3 +583,8 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-hydradb.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/tinybird/specs/spec-mirror-tinybird"]
+	path = packages/tinybird/specs/spec-mirror-tinybird
+	url = https://github.com/distilled-mirror/spec-mirror-tinybird.git
+	ignore = dirty
+	shallow = true

@@ -1,0 +1,21 @@
+{
+  "description": "The SQL is the call (https://www.tinybird.co/docs/api-reference/query-api): GET /v0/sql takes it as `q` (\"The SQL query\"), and POST /v0/sql takes it in the body — the reference's examples send `{\"q\": \"...\", <template params>}` as application/json. The POST table omits `q` because it lives in the body. Template parameters beside `q` are caller-chosen names and travel as extra JSON keys. Live: GET /v0/sql?q=SELECT 1 ... FORMAT CSVWithNames 200 text/csv; POST /v0/sql {\"q\": \"SELECT count() ... FORMAT JSON\"} 200 application/json.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.query#GetV0SqlRequest/members/q/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.tinybird.query#PostV0SqlRequest/members/q",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The SQL query, templated or not. Template parameters go beside it as extra keys."
+        }
+      }
+    }
+  ]
+}
