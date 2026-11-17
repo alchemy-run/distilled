@@ -1,6 +1,11 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
+import { responseErrorFields } from "@distilled.cloud/core/protocol-http";
+import {
+  makeRestProtocol,
+  unknownErrorProps,
+  type RestErrorInfo,
+} from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * RivetProtocol -- the shared bearer-REST protocol instantiated for the
@@ -15,7 +20,9 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  * Per-operation error matchers in `patches/` match that header, so a missing
  * pool and a missing namespace are different tags; status classes from
  * core's shared map cover the rest. The envelope reports `<group>.<code>` as
- * the code of an unknown error.
+ * the code of an unknown error. A 404 without `x-rivet-ray-id` is a
+ * platform's router answering for an engine that is down, so it is
+ * `ServiceUnavailable`.
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
@@ -23,7 +30,12 @@ import type * as HttpClientError from "effect/http/HttpClientError";
 import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { Credentials, type Config } from "./credentials.ts";
-import { RivetParseError, UnknownRivetError, type DefaultErrors } from "./errors.ts";
+import {
+  RivetParseError,
+  ServiceUnavailable,
+  UnknownRivetError,
+  type DefaultErrors,
+} from "./errors.ts";
 
 /**
  * Error channel shared by every generated Rivet operation. Generated service
@@ -55,6 +67,24 @@ const errorEnvelope = (body: unknown) => {
   };
 };
 
+/**
+ * A 404 without `x-rivet-ray-id` did not come from the engine, which sends
+ * the header on every response (https://rivet.dev/docs/api/errors#ray-ids),
+ * including a 404 for a path it does not serve. Something in front of the
+ * engine answered instead, such as a platform's router while the engine is
+ * down or still starting (Railway answers "Application not found"). It means
+ * the engine is unavailable, not that the requested pool or namespace is
+ * missing.
+ */
+const unavailableBehindProxy = (info: RestErrorInfo): ServiceUnavailable | undefined =>
+  info.status === 404 && info.headers["x-rivet-ray-id"] === undefined
+    ? new ServiceUnavailable({
+        message:
+          "The Rivet engine did not answer: its endpoint returned a 404 without x-rivet-ray-id",
+        ...responseErrorFields(undefined, { body: info.body, headers: info.headers }),
+      })
+    : undefined;
+
 export const RivetProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
   // Resolved on the calling fiber per request, so a rotated token is picked
   // up without rebuilding the layer.
@@ -64,6 +94,7 @@ export const RivetProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestPr
     Authorization: `Bearer ${Redacted.value(creds.token)}`,
   }),
   errorEnvelope,
+  classifyError: unavailableBehindProxy,
   unknownError: (info) => new UnknownRivetError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new RivetParseError({ body, cause }),
 });

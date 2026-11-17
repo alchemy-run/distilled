@@ -55,3 +55,7 @@ typed per operation:
 
 Everything else surfaces as the shared HTTP status classes or `UnknownRivetError`, whose `code`
 is the `<group>.<code>` pair.
+
+A 404 without `x-rivet-ray-id` did not come from the engine, which sends that header on every
+response: a platform's router answered while the engine is down or starting. It surfaces as
+`ServiceUnavailable`, so callers wait for the engine instead of treating the resource as missing.
