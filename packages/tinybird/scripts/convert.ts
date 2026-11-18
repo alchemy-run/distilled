@@ -1,6 +1,6 @@
 #!/usr/bin/env -S node --conditions=bun
 /**
- * convert — Tinybird's API reference pages → Smithy JSON models in
+ * convert -- Tinybird's API reference pages -> Smithy JSON models in
  * .generated-specs.
  *
  * Tinybird publishes no machine-readable API description. Its API reference
@@ -9,49 +9,49 @@
  * per page, listed in `specs/_manifest.json` (see the mirror's
  * fetch-specs.ts). Every page describes its operations the same way:
  *
- *   ## POST /v0/pipes/(.+)/nodes          ← one section per operation
+ *   ## POST /v0/pipes/(.+)/nodes          <- one section per operation
  *   <prose>
- *   ### Request parameters               ← {% table %} Key | Type | Description
- *   ### Request body fields              ← {% table %} Field | Type | Description
- *   ### Response fields                  ← {% table %} Field | Type | Description
- *   ### Response codes                   ← {% table %} Code | Description
- *   ### Available formats                ← {% table %} format | Description
+ *   ### Request parameters               <- {% table %} Key | Type | Description
+ *   ### Request body fields              <- {% table %} Field | Type | Description
+ *   ### Response fields                  <- {% table %} Field | Type | Description
+ *   ### Response codes                   <- {% table %} Code | Description
+ *   ### Available formats                <- {% table %} format | Description
  *
  * This script reads those sections into one OpenAPI 3.0 document per page
- * ({@link pageToOpenApi}) and hands each to the shared OpenAPI → Smithy
+ * ({@link pageToOpenApi}) and hands each to the shared OpenAPI -> Smithy
  * converter (`runOpenApiConvert`), so patches, naming and finalization are
- * the ones every OpenAPI package gets. One model — one service module — per
- * page: `datasource-api` → `datasource`, `pipe-api/copy-pipes-api` →
+ * the ones every OpenAPI package gets. One model -- one service module -- per
+ * page: `datasource-api` -> `datasource`, `pipe-api/copy-pipes-api` ->
  * `copy_pipes`.
  *
  * The reading rules, all structural:
  *
- *   • Routes are written as Tornado patterns. A trailing `/?` is an optional
+ *   - Routes are written as Tornado patterns. A trailing `/?` is an optional
  *     slash and drops. A capture group `(.+)` / `([^/]+)` is a path label
  *     named after the collection segment before it, singularised
- *     (`/v0/pipes/(.+)/nodes/(.+)` → `/v0/pipes/{pipe}/nodes/{node}`); a
- *     literal suffix inside the group stays a literal (`(.+\.pipe)` →
- *     `{pipe}.pipe`). An alternation group (`(json|csv|…)`) is an enum label
+ *     (`/v0/pipes/(.+)/nodes/(.+)` -> `/v0/pipes/{pipe}/nodes/{node}`); a
+ *     literal suffix inside the group stays a literal (`(.+\.pipe)` ->
+ *     `{pipe}.pipe`). An alternation group (`(json|csv|...)`) is an enum label
  *     named by the header of the section's table listing exactly those
- *     values (`Available formats` → `format`). `{name}` labels pass through.
- *   • Request parameters are query parameters on every method. That is how
+ *     values (`Available formats` -> `format`). `{name}` labels pass through.
+ *   - Request parameters are query parameters on every method. That is how
  *     the reference's own examples send them, POSTs and PUTs included
- *     (`/v0/pipes/:name/nodes?name=…&description=…` with the node SQL as the
+ *     (`/v0/pipes/:name/nodes?name=...&description=...` with the node SQL as the
  *     body); bodies are the SQL, NDJSON, files or JSON documents each
  *     operation describes in prose, added by patches with that evidence.
  *     A key that is not an identifier (`engine_*`, `{key}`) names a family
  *     of parameters, not one, and is left out of the model.
- *   • Request body fields are a JSON body; response fields the 2xx JSON
+ *   - Request body fields are a JSON body; response fields the 2xx JSON
  *     body. `a[].b` and `a.<k>[].b` rows describe nested members.
- *   • A parameter is required only when its description says so
+ *   - A parameter is required only when its description says so
  *     unconditionally (`Required.`, `Mandatory.`); everything else is
  *     optional, since the reference marks optionality inconsistently.
- *   • A route with an `Available formats` table (in any of its sections on
- *     the page) answers in the format the caller picks — CSV, NDJSON, Parquet, Prometheus text or JSON — so its
+ *   - A route with an `Available formats` table (in any of its sections on
+ *     the page) answers in the format the caller picks -- CSV, NDJSON, Parquet, Prometheus text or JSON -- so its
  *     output is the raw response bytes.
- *   • Every other 2xx body is JSON the reference shows only by example; its
+ *   - Every other 2xx body is JSON the reference shows only by example; its
  *     output is an open object, typed further by patches with evidence.
- *   • Status-code tables declare responses; failures dispatch by status
+ *   - Status-code tables declare responses; failures dispatch by status
  *     through core's shared map (see src/errors.ts), so no per-operation
  *     error classes are generated.
  *
@@ -116,7 +116,7 @@ const readTables = (lines: readonly string[]): Table[] => {
   return tables;
 };
 
-/** Prose without code blocks, tables or headings — the operation's documentation. */
+/** Prose without code blocks, tables or headings -- the operation's documentation. */
 const readProse = (lines: readonly string[]): string => {
   const out: string[] = [];
   let fenced = false;
@@ -171,7 +171,11 @@ const readSections = (markdown: string): Section[] => {
 // Routes
 // ---------------------------------------------------------------------------
 
-/** `pipes` → `pipe`, `replicas` → `replica`. */
+/**
+ * `pipes` -> `pipe`, `replicas` -> `replica`; undefined for a segment that is
+ * not a plural. Every collection in the reference is a regular `-s` plural.
+ * Not dev's `singularize`: it is tuned for operation ids and keeps `replicas`.
+ */
 const singular = (segment: string): string | undefined =>
   /^[a-z][a-z0-9_]*s$/.test(segment) ? segment.slice(0, -1) : undefined;
 
@@ -181,7 +185,7 @@ interface Route {
 }
 
 /**
- * `related` is every table of the page's sections on the same route — the
+ * `related` is every table of the page's sections on the same route -- the
  * POST twin of a GET route names its labels by the GET's tables ("See the
  * get endpoint for more information").
  */
@@ -196,7 +200,7 @@ const route = (section: Section, related: readonly Table[], where: string): Rout
   });
   if (/[()]/.test(lifted)) throw new Error(`${where}: unbalanced group in ${section.route}`);
   const segments = lifted.split("/").map((segment, index, all) => {
-    // `{pipe_id}` — already a label.
+    // `{pipe_id}` -- already a label.
     for (const [, name] of segment.matchAll(/\{([A-Za-z_][A-Za-z0-9_]*)\}/g)) {
       labels.push({ name: name! });
     }
@@ -357,7 +361,7 @@ const objectFrom = (rows: readonly (readonly string[])[], where: string): Record
 };
 
 // ---------------------------------------------------------------------------
-// Page → OpenAPI
+// Page -> OpenAPI
 // ---------------------------------------------------------------------------
 
 const lower = (s: string | undefined) => (s ?? "").trim().toLowerCase();
@@ -462,10 +466,10 @@ const pageToOpenApi = (markdown: string, file: string): Record<string, any> => {
 };
 
 // ---------------------------------------------------------------------------
-// Pages → models
+// Pages -> models
 // ---------------------------------------------------------------------------
 
-/** `api-reference/pipe-api/copy-pipes-api/index.md` → `copy_pipes`. */
+/** `api-reference/pipe-api/copy-pipes-api/index.md` -> `copy_pipes`. */
 const modelName = (file: string): string =>
   path
     .basename(path.dirname(file))
@@ -564,7 +568,7 @@ await runOpenApiConvert({
       "PUT /v0/tokens/{token}": "updateToken",
     },
     successStatuses: ["200", "201", "202", "204"],
-    // Failures are typed by status through core's shared map — src/errors.ts.
+    // Failures are typed by status through core's shared map -- src/errors.ts.
     statusToErrorClass: {},
   },
 });

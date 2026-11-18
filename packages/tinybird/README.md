@@ -44,7 +44,7 @@ program.pipe(Effect.provide(Live), Effect.runPromise).then(console.log);
 `TINYBIRD_TOKEN` as `Authorization: Bearer`: a workspace token with the scopes the call needs
 (`DATASOURCES:APPEND:<name>` for `sendEvents`, `PIPES:READ:<pipe>` for `queryPipe`, `ADMIN`, ...).
 Optional `TINYBIRD_API_BASE_URL`, the API host of the workspace's
-[region](https://www.tinybird.co/docs/api-reference#regions-and-endpoints) — default
+[region](https://www.tinybird.co/docs/api-reference#regions-and-endpoints) -- default
 `https://api.tinybird.co`. Or provide them yourself:
 
 ```ts

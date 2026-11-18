@@ -1,5 +1,5 @@
 {
-  "description": "The `token` parameter is an auth token — \"Auth token. Only required if no Bearer Authorization header is sent\" (https://www.tinybird.co/docs/api-reference). The SDK already sends the configured token as Bearer; a token passed here is a secret, so it is sensitive.",
+  "description": "The `token` parameter is an auth token -- \"Auth token. Only required if no Bearer Authorization header is sent\" (https://www.tinybird.co/docs/api-reference). The SDK already sends the configured token as Bearer; a token passed here is a secret, so it is sensitive.",
   "patches": [
     {
       "op": "add",

@@ -1,14 +1,14 @@
 #!/usr/bin/env -S node --conditions=bun
 import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
- * generate — turn the Smithy JSON models in .generated-specs into the
+ * generate -- turn the Smithy JSON models in .generated-specs into the
  * Tinybird Effect SDK.
  *
  * Input:  .generated-specs/<page>.json  (one model per API reference page,
  *         converted in-process by scripts/convert.ts)
  * Output: src/services/<page>.ts  +  src/services/index.ts
  *
- * The smithy→SDK compiler and CLI pipeline live in
+ * The smithy->SDK compiler and CLI pipeline live in
  * `@distilled.cloud/dev/codegen`; this script is Tinybird's provider spec:
  * the `com.distilled.openapi` trait vocabulary, sensitive members as
  * `Redacted`, and the protocol/retry/error names. Tinybird's parameters are
@@ -18,6 +18,7 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  * (`copyPipes`).
  */
 import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
+import { camel } from "@distilled.cloud/dev/codegen/naming";
 import {
   ERROR_MATCHERS_TRAIT,
   NULLABLE_TRAIT,
@@ -26,14 +27,6 @@ import {
 import { JSON_PRELUDE, TS_JSON_PRELUDE } from "@distilled.cloud/dev/codegen/prelude";
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
-
-/** `copy_pipes` → `copyPipes` (the barrel's export name). */
-const camel = (slug: string): string =>
-  slug
-    .split("_")
-    .filter(Boolean)
-    .map((s, i) => (i === 0 ? s : s.charAt(0).toUpperCase() + s.slice(1)))
-    .join("");
 
 const spec: SdkSpec = {
   nullableTrait: NULLABLE_TRAIT,
@@ -46,7 +39,7 @@ const spec: SdkSpec = {
   extraBindings: [
     {
       // Sole member of a synthesized wrapper for bare array/scalar response
-      // bodies — as a response's sole member, the response IS the payload.
+      // bodies -- as a response's sole member, the response IS the payload.
       trait: RAW_RESPONSE_TRAIT,
       binding: "rawResponse",
       pipe: "T.RawResponse()",
@@ -98,7 +91,7 @@ const spec: SdkSpec = {
     retry: "Retry.Retry",
   },
 
-  // `effect/Redacted` is only referenced by modules with sensitive members —
+  // `effect/Redacted` is only referenced by modules with sensitive members --
   // import it exactly there.
   postProcess: (code) =>
     code.includes("Redacted.Redacted<")
@@ -114,8 +107,9 @@ runGeneratorCli({
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   // patches/<page>/*.json apply to the Smithy models via finalizeConvert in
-  // scripts/convert.ts (runOpenApiConvert) — never here.
+  // scripts/convert.ts (runOpenApiConvert) -- never here.
   patchesDir: false,
+  // `copy_pipes` -> `copyPipes`.
   barrelExportName: camel,
   spec: () => spec,
 });

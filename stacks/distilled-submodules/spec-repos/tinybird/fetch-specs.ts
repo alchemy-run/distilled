@@ -14,7 +14,7 @@
  * whole reference in the twin: one `## METHOD /path` heading per operation,
  * followed by `{% table %}` blocks for its parameters and status codes. Older
  * pages are generated from Sphinx, and their twin holds only an
- * `{% api_reference api="…" /%}` placeholder where the operations should be.
+ * `{% api_reference api="..." /%}` placeholder where the operations should be.
  * The page's HTML has them, one `<div class="body" role="main">` per
  * placeholder, as Sphinx `dl.http` definitions. This script renders each of
  * those divs into the same Markdown the newer pages use and splices it in
@@ -48,7 +48,7 @@ const SPECS_DIR = resolve(import.meta.dirname, "..", "specs");
 
 const fetchText = async (url: string): Promise<string> => {
   const response = await fetch(url, { headers: { "user-agent": "spec-mirror-tinybird" } });
-  if (!response.ok) throw new Error(`GET ${url} → ${response.status}`);
+  if (!response.ok) throw new Error(`GET ${url} -> ${response.status}`);
   return response.text();
 };
 
@@ -56,7 +56,7 @@ const fetchText = async (url: string): Promise<string> => {
 // Page list
 // ---------------------------------------------------------------------------
 
-/** Every `/docs/api-reference…` path linked from the docs index, sorted. */
+/** Every `/docs/api-reference...` path linked from the docs index, sorted. */
 const pagePaths = (index: string): string[] => {
   const paths = new Set<string>();
   for (const [, url] of index.matchAll(/\]\((https?:\/\/[^)\s]+)\)/g)) {
@@ -67,7 +67,7 @@ const pagePaths = (index: string): string[] => {
 };
 
 // ---------------------------------------------------------------------------
-// HTML → Markdown
+// HTML -> Markdown
 // ---------------------------------------------------------------------------
 
 const isElement = (node: Node): node is Element => "tagName" in node;
@@ -287,7 +287,7 @@ const operation = (dl: Element): string[][] => {
 const PLACEHOLDER = /\{%\s*api_reference\b[^%]*\/%\}/g;
 
 /**
- * Replace every `{% api_reference … /%}` placeholder in a twin with the
+ * Replace every `{% api_reference ... /%}` placeholder in a twin with the
  * Markdown rendering of the matching `div.body[role=main]` of the page HTML.
  */
 const renderReference = (twin: string, html: string, url: string): string => {
@@ -359,5 +359,5 @@ const operations = pages.reduce(
   0,
 );
 console.log(
-  `✅ ${pages.length} pages (${pages.filter((p) => p.renderedFromHtml).length} rendered from HTML), ${operations} operation headings → ${SPECS_DIR}`,
+  `ok: ${pages.length} pages (${pages.filter((p) => p.renderedFromHtml).length} rendered from HTML), ${operations} operation headings -> ${SPECS_DIR}`,
 );
