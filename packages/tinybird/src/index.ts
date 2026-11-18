@@ -7,8 +7,8 @@
  * Everything else in this folder is hand-written.
  *
  * One module per reference page: `datasource`, `events`, `query`, `pipe`,
- * `apiEndpoints`, `copyPipes`, `materializedViews`, `sinkPipes`, `token`,
- * `environmentVariables`, `jobs`, `analyze` and `organizations`. Import each
+ * `api_endpoints`, `copy_pipes`, `materialized_views`, `sink_pipes`, `token`,
+ * `environment_variables`, `jobs`, `analyze` and `organizations`. Import each
  * from its subpath.
  *
  * @example

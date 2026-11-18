@@ -66,12 +66,12 @@ One module per reference page, each imported from its subpath:
 | `events` | `sendEvents` |
 | `query` | `querySql`, `querySqlWithBody` |
 | `pipe` | `listPipes`, `getPipe`, `createPipe`, `updatePipe`, `deletePipe`, `getPipeByFileName`, `updatePipeByFileName`, `deletePipeByFileName`, `queryPipe`, `queryPipeWithBody`, `createPipeNode`, `updatePipeNode`, `deletePipeNode`, `explainPipe`, `explainPipeNode` |
-| `apiEndpoints` | `createPipeNodeEndpoint`, `deletePipeNodeEndpoint` |
-| `copyPipes` | `createPipeNodeCopy`, `updatePipeNodeCopy`, `deletePipeNodeCopy`, `runPipeCopy`, `pausePipeCopy`, `resumePipeCopy`, `cancelPipeCopy` |
-| `materializedViews` | `createPipeNodeMaterialization`, `deletePipeNodeMaterialization`, `populatePipeNode` |
-| `sinkPipes` | `createPipeNodeSink`, `deletePipeNodeSink`, `triggerPipeSink`, `getS3Settings`, `getS3TrustPolicy`, `getS3WriteAccessPolicy` |
+| `api_endpoints` | `createPipeNodeEndpoint`, `deletePipeNodeEndpoint` |
+| `copy_pipes` | `createPipeNodeCopy`, `updatePipeNodeCopy`, `deletePipeNodeCopy`, `runPipeCopy`, `pausePipeCopy`, `resumePipeCopy`, `cancelPipeCopy` |
+| `materialized_views` | `createPipeNodeMaterialization`, `deletePipeNodeMaterialization`, `populatePipeNode` |
+| `sink_pipes` | `createPipeNodeSink`, `deletePipeNodeSink`, `triggerPipeSink`, `getS3Settings`, `getS3TrustPolicy`, `getS3WriteAccessPolicy` |
 | `token` | `listTokens`, `getToken`, `createToken`, `updateToken`, `refreshToken`, `deleteToken` |
-| `environmentVariables` | `listVariables`, `getVariable`, `createVariable`, `updateVariable`, `deleteVariable` |
+| `environment_variables` | `listVariables`, `getVariable`, `createVariable`, `updateVariable`, `deleteVariable` |
 | `jobs` | `listJobs`, `getJob`, `cancelJob` |
 | `analyze` | `analyzeData` |
 | `organizations` | `listOrganizationClusters`, `getOrganizationClustersConfiguration`, `updateOrganizationClusterWeights`, `addOrganizationClusterReplica`, `addOrganizationClusterReplicaByName`, `removeOrganizationClusterReplica`, `removeOrganizationClusterReplicaByName` |
