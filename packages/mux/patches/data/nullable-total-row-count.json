@@ -1,0 +1,10 @@
+{
+  "description": "`GET /data/v1/annotations` returns `total_row_count: null`, where the spec's `ListAnnotationsResponse` declares a required integer. Live call on 2026-11-17 against a development environment with no annotations: HTTP 200, body `{\"total_row_count\":null,\"timeframe\":[1794820293,1794906693],\"data\":[]}`. `ResponseValidation.strict` failed it with `MuxParseError` (\"Expected number, got null at [\\\"total_row_count\\\"]\"). Marks the member nullable; it stays required, since the key is always sent.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.mux.data#ListAnnotationsResponse/members/total_row_count/traits/com.distilled.openapi#nullable",
+      "value": {}
+    }
+  ]
+}

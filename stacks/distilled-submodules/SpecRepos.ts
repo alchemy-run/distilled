@@ -104,6 +104,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "mongodb-atlas" },
   { package: "modal" },
   { package: "modrinth" },
+  { package: "mux" },
   { package: "namespacelabs" },
   { package: "neon" },
   { package: "netbird" },

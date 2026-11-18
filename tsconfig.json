@@ -562,6 +562,12 @@
       "path": "./packages/modrinth/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/mux/tsconfig.json"
+    },
+    {
+      "path": "./packages/mux/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/namespacelabs/tsconfig.json"
     },
     {
