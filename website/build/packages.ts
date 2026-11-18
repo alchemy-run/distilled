@@ -158,7 +158,17 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
   ],
   [
     "Messaging & support",
-    ["slack", "discord", "twitch", "resend", "intercom", "zendesk", "customerio", "mailchimp"],
+    [
+      "slack",
+      "discord",
+      "twitch",
+      "resend",
+      "whatsapp",
+      "intercom",
+      "zendesk",
+      "customerio",
+      "mailchimp",
+    ],
   ],
   [
     "Developer tools",
@@ -188,6 +198,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
 export const SEARCH_HINTS: Record<string, string> = {
   mux: "video streaming live hls playback analytics",
   twitch: "helix live streaming chat eventsub clips moderation",
+  whatsapp: "meta messaging cloud api business templates chat",
   neon: "postgres serverless",
   supabase: "postgres auth storage",
   planetscale: "mysql postgres",

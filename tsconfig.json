@@ -227,6 +227,12 @@
       "path": "./packages/vercel/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/whatsapp/tsconfig.json"
+    },
+    {
+      "path": "./packages/whatsapp/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/whop/tsconfig.json"
     },
     {

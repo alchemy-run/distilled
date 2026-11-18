@@ -162,6 +162,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "unkey" },
   { package: "vanta" },
   { package: "vercel" },
+  { package: "whatsapp" },
   { package: "whop" },
   { package: "workos" },
   { package: "xata" },

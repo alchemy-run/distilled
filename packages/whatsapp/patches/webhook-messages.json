@@ -1,0 +1,289 @@
+{
+  "description": "Webhook messages. The spec types every message in a `messages` webhook (`IncomingMessage`, a union of `TextMessage`, `ImageMessage`, `ButtonMessage`, ...) with the shapes used to SEND messages: each requires `messaging_product`, `recipient_type` and `to`, and none has `from`, `id` or `timestamp` (the unified spec merged the send and webhook schemas; same-named schemas such as `TextMessage` kept the send version). Live webhooks on 2026-11-18 (v23.0 app, test number, through a tunnel) carried text, reply (`context: { from, id }`), image (`caption`, `mime_type`, `sha256`, `id`, `url`), voice note (`audio` with `voice: true`), reaction (`message_id`, `emoji`), shared contact (`contacts[]` with `name`, `phones`, `vcard`, `origin`) and location (`latitude`/`longitude` as numbers, `name`, `address`, `url`) messages, each as `{ from, from_user_id, id, timestamp, type, <type>: {...} }`, without `messaging_product`, `recipient_type` or `to`. `IncomingMessage` becomes that one structure with one optional member per type. `video`, `document` and `sticker` share the image/audio media object, as in Meta's webhook reference (https://developers.facebook.com/documentation/business-messaging/whatsapp/webhooks/reference/messages); `button`, `interactive`, `order`, `system` and `errors` reuse the spec's own content shapes. System messages use the same structure. Status webhooks from the same runs also carried `statuses[].recipient_user_id`, `statuses[].pricing.type` (`regular`) and a top-level `contacts` list whose items have `wa_id` and `user_id` but no `profile`; message webhooks carried `contacts[].user_id` too. Those are added as optional and `profile` is no longer required. A second run the same day carried a button reply (`interactive: { type: \"button_reply\", button_reply: { id, title } }`), a list reply (`interactive: { type: \"list_reply\", list_reply: { id, title, description } }`), a video, a document (`filename`) and a sticker (`animated: false`), all with the same envelope; the interactive reply shapes gain `type` and the media object gains `animated`.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.meta.whatsapp#IncomingMessage",
+      "value": {
+        "type": "structure",
+        "members": {
+          "from": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "WhatsApp ID (phone number) of the customer who sent the message."
+            }
+          },
+          "from_user_id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Business-scoped user ID of the sender."
+            }
+          },
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Message ID (`wamid.…`)."
+            }
+          },
+          "timestamp": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Unix time the message was sent, in seconds, as a string."
+            }
+          },
+          "type": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Message type: `text`, `image`, `audio`, `video`, `document`, `sticker`, `reaction`, `location`, `contacts`, `button`, `interactive`, `order`, `system` or `unsupported`. The member of the same name carries its content."
+            }
+          },
+          "context": {
+            "target": "com.meta.whatsapp#IncomingMessageContext"
+          },
+          "text": {
+            "target": "com.meta.whatsapp#TextMessageText"
+          },
+          "image": {
+            "target": "com.meta.whatsapp#IncomingMediaObject"
+          },
+          "audio": {
+            "target": "com.meta.whatsapp#IncomingMediaObject"
+          },
+          "video": {
+            "target": "com.meta.whatsapp#IncomingMediaObject"
+          },
+          "document": {
+            "target": "com.meta.whatsapp#IncomingMediaObject"
+          },
+          "sticker": {
+            "target": "com.meta.whatsapp#IncomingMediaObject"
+          },
+          "reaction": {
+            "target": "com.meta.whatsapp#ReactionMessageReaction"
+          },
+          "location": {
+            "target": "com.meta.whatsapp#IncomingLocation"
+          },
+          "contacts": {
+            "target": "com.meta.whatsapp#IncomingContactsList"
+          },
+          "button": {
+            "target": "com.meta.whatsapp#ButtonMessageButton"
+          },
+          "interactive": {
+            "target": "com.meta.whatsapp#InteractiveMessageReplyInteractive"
+          },
+          "order": {
+            "target": "com.meta.whatsapp#OrderMessageOrder"
+          },
+          "system": {
+            "target": "com.meta.whatsapp#SystemMessageSystem"
+          },
+          "errors": {
+            "target": "com.meta.whatsapp#UnsupportedMessageErrorsList"
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A message a customer sent, as delivered in a `messages` webhook. `type` says which content member is set."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#IncomingMessageContext",
+      "value": {
+        "type": "structure",
+        "members": {
+          "from": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "WhatsApp ID of the sender of the quoted message (the business number for a reply to one of its messages)."
+            }
+          },
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "ID of the quoted message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "Set when the customer replied to (quoted) an earlier message."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#IncomingMediaObject",
+      "value": {
+        "type": "structure",
+        "members": {
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Media ID, for getMedia."
+            }
+          },
+          "mime_type": {
+            "target": "smithy.api#String"
+          },
+          "sha256": {
+            "target": "smithy.api#String"
+          },
+          "url": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Download URL; fetch it with the access token as `Authorization: Bearer`."
+            }
+          },
+          "caption": {
+            "target": "smithy.api#String"
+          },
+          "voice": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "`true` for a voice note recorded in WhatsApp."
+            }
+          },
+          "filename": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Document file name."
+            }
+          },
+          "animated": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "`true` for an animated sticker."
+            }
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#IncomingLocation",
+      "value": {
+        "type": "structure",
+        "members": {
+          "latitude": {
+            "target": "smithy.api#Double"
+          },
+          "longitude": {
+            "target": "smithy.api#Double"
+          },
+          "name": {
+            "target": "smithy.api#String"
+          },
+          "address": {
+            "target": "smithy.api#String"
+          },
+          "url": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#IncomingContactsList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.meta.whatsapp#ContactObject"
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#ContactObject/members/vcard",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Base64 vCard of the shared contact (incoming messages)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#ContactObject/members/origin",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.meta.whatsapp#IncomingMessageValueSystemMessagesList/member/target",
+      "value": "com.meta.whatsapp#IncomingMessage"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#ContactProfile/members/user_id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Business-scoped user ID of the customer."
+        }
+      }
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.meta.whatsapp#ContactProfile/members/profile/traits/smithy.api#required"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#Statuses/members/recipient_user_id",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Business-scoped user ID of the recipient."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#Pricing/members/type",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Pricing type, e.g. `regular`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#InteractiveButtonReplyContent/members/type",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Reply type: `button_reply` or `list_reply`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#InteractiveListReplyContent/members/type",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Reply type: `button_reply` or `list_reply`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.meta.whatsapp#StatusMessageValue/members/contacts",
+      "value": {
+        "target": "com.meta.whatsapp#IncomingMessageValueGeneralContactsList"
+      }
+    }
+  ]
+}
