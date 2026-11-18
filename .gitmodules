@@ -593,3 +593,8 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-tinybird.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/twitch/specs/spec-mirror-twitch"]
+	path = packages/twitch/specs/spec-mirror-twitch
+	url = https://github.com/distilled-mirror/spec-mirror-twitch.git
+	ignore = dirty
+	shallow = true
