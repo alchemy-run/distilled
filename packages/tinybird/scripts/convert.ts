@@ -155,7 +155,7 @@ const readSections = (markdown: string): Section[] => {
     const m = OPERATION.exec(lines[i]!);
     if (!m) continue;
     let end = i + 1;
-    while (end < lines.length && !/^## /.test(lines[end]!)) end++;
+    while (end < lines.length && !lines[end]!.startsWith("## ")) end++;
     const body = lines.slice(i + 1, end);
     sections.push({
       method: m[1]!,
@@ -230,7 +230,12 @@ const route = (section: Section, related: readonly Table[], where: string): Rout
       if (alternatives) {
         const values = [...alternatives].sort().join("|");
         const table = related.find(
-          (t) => t.header.length > 0 && [...t.rows.map((r) => r[0])].sort().join("|") === values,
+          (t) =>
+            t.header.length > 0 &&
+            t.rows
+              .map((r) => r[0])
+              .sort()
+              .join("|") === values,
         );
         const name = table?.header[0]?.toLowerCase();
         if (name === undefined || !/^[a-z][a-z0-9_]*$/.test(name)) {

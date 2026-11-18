@@ -87,9 +87,35 @@ One module per reference page, each imported from its subpath:
   `Uint8Array`.
 - Template parameters are caller-named. Pass them as extra keys to `querySqlWithBody` and
   `queryPipeWithBody`, which send them in the JSON body. `queryPipe` and `querySql` are `GET`s and only send
-  the parameters they model.
+  the parameters they model (see below).
+- `createToken` makes a static token from `scope`, or a JWT when you give `expiration_time` (Unix seconds)
+  and `scopes`. Each JWT scope can pin template parameters with `fixed_params`. Every query made with that
+  JWT uses them, which is how one token serves one tenant:
+
+  ```ts
+  const { token } = yield* Token.createToken({
+    name: "tenant_42",
+    expiration_time: Math.floor(Date.now() / 1000) + 3600,
+    scopes: [{ type: "PIPES:READ", resource: "events_by_city", fixed_params: { tenant_id: 42 } }],
+  });
+  ```
 - The reference types most JSON responses by example only, so those outputs are open objects. Token
   responses are modeled, and their `token` values come back `Redacted`.
+
+## Not covered yet
+
+Some parameters have names the caller picks, and the reference documents them as a family. They need
+query-parameter maps, which distilled core does not have yet, so these calls cannot send them:
+
+| Operation | Parameters it cannot send | It does send |
+| --- | --- | --- |
+| `querySql`, `queryPipe` (`GET`) | template parameters | the modeled parameters; use `querySqlWithBody` / `queryPipeWithBody` for templates |
+| `createDatasource` | `engine_*` other than `engine_sorting_key`, `engine_ver`, `engine_settings` | `engine` and those three |
+| `createPipeNode`, `createPipeNodeMaterialization` | `engine_*` settings of the target Data Source | `engine` |
+| `triggerPipeSink` | `{key}` template variables for the sink query | `file_template`, `format`, `compression`, `write_strategy` |
+
+`engine_*` settings only apply when a Data Source is created. In Tinybird Forward that happens through
+deployments, not these calls (see below), so the `engine_*` rows only affect Classic workspaces.
 
 ## Errors
 

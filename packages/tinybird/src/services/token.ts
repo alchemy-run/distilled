@@ -25,6 +25,16 @@ const TELEMETRY = {
 } as const;
 
 export type ScopeList = Array<string>;
+export type JwtFixedParams = { [key: string]: unknown | undefined };
+export interface JwtScope {
+  /** Scope type, e.g. `PIPES:READ` or `DATASOURCES:READ`. */
+  type: string;
+  /** The Pipe or Data Source the scope grants. */
+  resource: string;
+  /** Template parameters pinned into the token: every query made with it uses these values, whatever the caller sends. */
+  fixed_params?: JwtFixedParams | undefined;
+}
+export type JwtScopeList = Array<JwtScope>;
 export interface CreateTokenRequest {
   /** Name of the token */
   name?: string | undefined;
@@ -32,6 +42,10 @@ export interface CreateTokenRequest {
   description?: string | undefined;
   /** Scope(s) to set. Format is [SCOPE:TYPE[:arg][:filter]](#id2). This is only used for the Static Tokens */
   scope?: ScopeList | undefined;
+  /** Optional. Expiry as a Unix timestamp in seconds. When set, the token is created as a JWT with the `scopes` of the body. */
+  expiration_time?: number | undefined;
+  /** JWT scopes, sent as the JSON body. Only used with `expiration_time`; static tokens take `scope`. */
+  scopes?: JwtScopeList | undefined;
 }
 export interface TokenScope {
   /** Scope type, e.g. `ADMIN`, `PIPES:READ`, `DATASOURCES:APPEND`. */
@@ -40,6 +54,8 @@ export interface TokenScope {
   resource?: string | undefined;
   /** SQL filter of a resource-scoped read scope. */
   filter?: string | undefined;
+  /** Template parameters pinned into a JWT scope. */
+  fixed_params?: JwtFixedParams | undefined;
 }
 export type TokenScopeList = Array<TokenScope>;
 export interface Token {
@@ -52,6 +68,8 @@ export interface Token {
   origin?: unknown | undefined;
   host?: string | undefined;
   is_internal?: boolean | undefined;
+  /** JWT expiry as a Unix timestamp in seconds. Only on JWTs. */
+  exp?: number | undefined;
 }
 export type CreateTokenResponse = Token;
 export interface DeleteTokenRequest {
@@ -93,8 +111,8 @@ export const createToken: API.OperationMethod<
   CreateTokenError,
   TinybirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateTokenRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<CreateTokenResponse>,
+  input: __S(2, __c0, 2) as any as S.Schema<CreateTokenRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<CreateTokenResponse>,
   errors: [UnknownTinybirdError],
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
@@ -110,8 +128,8 @@ export const deleteToken: API.OperationMethod<
   DeleteTokenError,
   TinybirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<DeleteTokenRequest>,
-  output: __S(18, __c4, 2) as any as S.Schema<DeleteTokenResponse>,
+  input: __S(20, __c5, 0) as any as S.Schema<DeleteTokenRequest>,
+  output: __S(21, __c5, 1) as any as S.Schema<DeleteTokenResponse>,
   errors: [UnknownTinybirdError],
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
@@ -127,8 +145,8 @@ export const getToken: API.OperationMethod<
   GetTokenError,
   TinybirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<GetTokenRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<GetTokenResponse>,
+  input: __S(24, __c6, 0) as any as S.Schema<GetTokenRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<GetTokenResponse>,
   errors: [UnknownTinybirdError],
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
@@ -144,8 +162,8 @@ export const listTokens: API.OperationMethod<
   ListTokensError,
   TinybirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<ListTokensRequest>,
-  output: __S(27, __c6, 3) as any as S.Schema<ListTokensResponse>,
+  input: __S(28, __c7, 0) as any as S.Schema<ListTokensRequest>,
+  output: __S(31, __c7, 3) as any as S.Schema<ListTokensResponse>,
   errors: [UnknownTinybirdError],
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
@@ -161,8 +179,8 @@ export const refreshToken: API.OperationMethod<
   RefreshTokenError,
   TinybirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<RefreshTokenRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<RefreshTokenResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<RefreshTokenRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<RefreshTokenResponse>,
   errors: [UnknownTinybirdError],
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
@@ -178,8 +196,8 @@ export const updateToken: API.OperationMethod<
   UpdateTokenError,
   TinybirdOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<UpdateTokenRequest>,
-  output: __S(8, __c2, 0) as any as S.Schema<UpdateTokenResponse>,
+  input: __S(36, __c9, 0) as any as S.Schema<UpdateTokenRequest>,
+  output: __S(12, __c3, 0) as any as S.Schema<UpdateTokenResponse>,
   errors: [UnknownTinybirdError],
   protocol: TinybirdProtocol,
   retry: Retry.Retry,
@@ -193,9 +211,21 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          type: S.String,
+          resource: S.String,
+          fixed_params: S.optional(__S(4, __c1, 0)),
+        }),
+      ).annotate({ identifier: "JwtScope" });
+    case 1:
+      return S.Array(__S(0, __c0, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           name: S.optional(S.String.pipe(T.Query())),
           description: S.optional(S.String.pipe(T.Query())),
-          scope: S.optional(__S(12, __c3, 0).pipe(T.Query())),
+          scope: S.optional(__S(16, __c4, 0).pipe(T.Query())),
+          expiration_time: S.optional(S.Number.pipe(T.Query())),
+          scopes: S.optional(__S(1, __c0, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v0/tokens", code: 200 })),
       ).annotate({ identifier: "CreateTokenRequest" });
   }
@@ -203,45 +233,53 @@ function __c0(j: number): any {
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          resource: S.optional(S.String),
-          filter: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "TokenScope" });
-    case 1:
-      return S.Array(__S(4, __c1, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          scopes: S.optional(__S(5, __c1, 1)),
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          origin: S.optional(S.Unknown),
-          host: S.optional(S.String),
-          is_internal: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "Token" });
+      return S.Record(S.String, S.Unknown);
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => __S(6, __c1, 2).pipe(T.RawResponseRoot())).annotate({
-        identifier: "CreateTokenResponse",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          resource: S.optional(S.String),
+          filter: S.optional(S.String),
+          fixed_params: S.optional(__S(4, __c1, 0)),
+        }),
+      ).annotate({ identifier: "TokenScope" });
+    case 1:
+      return S.Array(__S(8, __c2, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          scopes: S.optional(__S(9, __c2, 1)),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          origin: S.optional(S.Unknown),
+          host: S.optional(S.String),
+          is_internal: S.optional(S.Boolean),
+          exp: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Token" });
   }
 }
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.suspend(() => __S(10, __c2, 2).pipe(T.RawResponseRoot())).annotate({
+        identifier: "CreateTokenResponse",
+      });
   }
 }
 function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -250,14 +288,12 @@ function __c4(j: number): any {
         }).pipe(T.Http({ method: "DELETE", uri: "/v0/tokens/{token}", code: 200 })),
       ).annotate({ identifier: "DeleteTokenRequest" });
     case 1:
-      return S.Record(S.String, S.Unknown);
-    case 2:
-      return S.suspend(() => __S(17, __c4, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4, __c1, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "DeleteTokenResponse",
       });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -267,27 +303,27 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetTokenRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v0/tokens", code: 200 })),
       ).annotate({ identifier: "ListTokensRequest" });
     case 1:
-      return S.Array(__S(6, __c1, 2));
+      return S.Array(__S(10, __c2, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tokens: S.optional(__S(25, __c6, 1)),
+          tokens: S.optional(__S(29, __c7, 1)),
         }),
       ).annotate({ identifier: "Tokens" });
     case 3:
-      return S.suspend(() => __S(26, __c6, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(30, __c7, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListTokensResponse",
       });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -298,7 +334,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "RefreshTokenRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -306,7 +342,7 @@ function __c8(j: number): any {
           token: S.String.pipe(T.Label(), T.SensitiveValue({})),
           name: S.optional(S.String.pipe(T.Query())),
           description: S.optional(S.String.pipe(T.Query())),
-          scope: S.optional(__S(12, __c3, 0).pipe(T.Query())),
+          scope: S.optional(__S(16, __c4, 0).pipe(T.Query())),
         }).pipe(T.Http({ method: "PUT", uri: "/v0/tokens/{token}", code: 200 })),
       ).annotate({ identifier: "UpdateTokenRequest" });
   }
