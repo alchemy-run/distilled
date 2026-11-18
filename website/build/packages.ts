@@ -158,7 +158,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
   ],
   [
     "Messaging & support",
-    ["slack", "discord", "resend", "intercom", "zendesk", "customerio", "mailchimp"],
+    ["slack", "discord", "twitch", "resend", "intercom", "zendesk", "customerio", "mailchimp"],
   ],
   [
     "Developer tools",
@@ -187,6 +187,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
 /** Extra words the catalogue filter matches on, keyed by `packages/<dir>`. */
 export const SEARCH_HINTS: Record<string, string> = {
   mux: "video streaming live hls playback analytics",
+  twitch: "helix live streaming chat eventsub clips moderation",
   neon: "postgres serverless",
   supabase: "postgres auth storage",
   planetscale: "mysql postgres",

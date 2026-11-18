@@ -707,6 +707,8 @@
     { "path": "./packages/hydradb/tsconfig.json" },
     { "path": "./packages/hydradb/tsconfig.scripts.json" },
     { "path": "./packages/tinybird/tsconfig.json" },
-    { "path": "./packages/tinybird/tsconfig.scripts.json" }
+    { "path": "./packages/tinybird/tsconfig.scripts.json" },
+    { "path": "./packages/twitch/tsconfig.json" },
+    { "path": "./packages/twitch/tsconfig.scripts.json" }
   ]
 }
