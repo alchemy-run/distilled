@@ -789,14 +789,82 @@ export interface ListTriggersRequest {
   /** System-generated tag of the Worker. This is not the Worker name. */
   externalScriptId: string;
 }
-export type ListTriggersResponse = unknown;
+export type ListTriggersResultItemBranchExcludesList = Array<string>;
+export type ListTriggersResultItemBranchIncludesList = Array<string>;
+export type ListTriggersResultItemPathExcludesList = Array<string>;
+export type ListTriggersResultItemPathIncludesList = Array<string>;
+export type ListTriggersResultItemRepoConnectionProviderType =
+  | "github"
+  | "gitlab"
+  | "gitlab_internal"
+  | "origin";
+export interface ListTriggersResultItemRepoConnection {
+  createdOn?: string | null | undefined;
+  deletedOn?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
+  /** Provider-specific identifier of the account or namespace that owns the repository. */
+  providerAccountId?: string | null | undefined;
+  /** Human-readable name of the account or namespace that owns the repository. */
+  providerAccountName?: string | null | undefined;
+  /** Source control provider. */
+  providerType?: ListTriggersResultItemRepoConnectionProviderType | null | undefined;
+  /** Repository connection UUID. */
+  repoConnectionUuid?: string | null | undefined;
+  /** Provider-specific repository identifier. */
+  repoId?: string | null | undefined;
+  /** Human-readable repository name. */
+  repoName?: string | null | undefined;
+}
+export interface ListTriggersResultItem {
+  /** Branch patterns that must not start builds. */
+  branchExcludes?: ListTriggersResultItemBranchExcludesList | null | undefined;
+  /** Branch patterns that can start builds. */
+  branchIncludes?: ListTriggersResultItemBranchIncludesList | null | undefined;
+  /** Whether builds reuse cached dependencies and build artifacts. */
+  buildCachingEnabled?: boolean | null | undefined;
+  /** Command to build the Worker. */
+  buildCommand?: string | null | undefined;
+  buildTokenName?: string | null | undefined;
+  /** UUID of the build token used when deploying the Worker. */
+  buildTokenUuid?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  deletedOn?: string | null | undefined;
+  /** Command to deploy the Worker. */
+  deployCommand?: string | null | undefined;
+  /** System-generated tag of the Worker. This is not the Worker name. */
+  externalScriptId?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
+  /** Path patterns that must not start builds. */
+  pathExcludes?: ListTriggersResultItemPathExcludesList | null | undefined;
+  /** Path patterns that can start builds. */
+  pathIncludes?: ListTriggersResultItemPathIncludesList | null | undefined;
+  repoConnection?: ListTriggersResultItemRepoConnection | null | undefined;
+  /** Repository directory in which build and deploy commands run. */
+  rootDirectory?: string | null | undefined;
+  /** Human-readable name of the build trigger. */
+  triggerName?: string | null | undefined;
+  /** Trigger UUID. */
+  triggerUuid?: string | null | undefined;
+}
+export type ListTriggersResultList = Array<ListTriggersResultItem>;
+export type ListTriggersResponse = ListTriggersResultList;
 export interface ListTriggersEnvironmentVariablesRequest {
   /** Account identifier. */
   accountId: string;
   /** Trigger UUID. */
   triggerUuid: string;
 }
-export type ListTriggersEnvironmentVariablesResponse = unknown;
+export interface ListTriggersEnvironmentVariablesResultValue {
+  createdOn: string;
+  /** Whether to hide the value after it is saved. Secret values remain available to builds but appear as `null` when you list variables; non-secret values remain visible. */
+  isSecret: boolean;
+  /** Value is null for secret environment variables */
+  value?: string | null | undefined;
+}
+export type ListTriggersEnvironmentVariablesResultMap = {
+  [key: string]: ListTriggersEnvironmentVariablesResultValue | undefined;
+};
+export type ListTriggersEnvironmentVariablesResponse = ListTriggersEnvironmentVariablesResultMap;
 export type TriggersCreateBuildRequestSeedRepoProvider = "github" | "gitlab";
 export interface TriggersCreateBuildRequestSeedRepoFilesItem {
   content: string;
@@ -1158,7 +1226,7 @@ export const createTrigger: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<CreateTriggerRequest>,
-  output: __S(225, __c28, 1) as any as S.Schema<CreateTriggerResponse>,
+  output: __S(232, __c29, 0) as any as S.Schema<CreateTriggerResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1174,8 +1242,8 @@ export const deleteReposConnection: API.OperationMethod<
   DeleteReposConnectionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<DeleteReposConnectionRequest>,
-  output: __S(240, __c30, 0) as any as S.Schema<DeleteReposConnectionResponse>,
+  input: __S(240, __c30, 0) as any as S.Schema<DeleteReposConnectionRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<DeleteReposConnectionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1191,8 +1259,8 @@ export const deleteToken: API.OperationMethod<
   DeleteTokenError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<DeleteTokenRequest>,
-  output: __S(240, __c30, 0) as any as S.Schema<DeleteTokenResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<DeleteTokenRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<DeleteTokenResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1208,8 +1276,8 @@ export const deleteTrigger: API.OperationMethod<
   DeleteTriggerError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<DeleteTriggerRequest>,
-  output: __S(240, __c30, 0) as any as S.Schema<DeleteTriggerResponse>,
+  input: __S(264, __c33, 0) as any as S.Schema<DeleteTriggerRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<DeleteTriggerResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1225,8 +1293,8 @@ export const deleteTriggersEnvironmentVariable: API.OperationMethod<
   DeleteTriggersEnvironmentVariableError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<DeleteTriggersEnvironmentVariableRequest>,
-  output: __S(240, __c30, 0) as any as S.Schema<DeleteTriggersEnvironmentVariableResponse>,
+  input: __S(272, __c34, 0) as any as S.Schema<DeleteTriggersEnvironmentVariableRequest>,
+  output: __S(248, __c31, 0) as any as S.Schema<DeleteTriggersEnvironmentVariableResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1242,8 +1310,8 @@ export const deployHooksCreate: API.OperationMethod<
   DeployHooksCreateError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<DeployHooksCreateRequest>,
-  output: __S(281, __c35, 1) as any as S.Schema<DeployHooksCreateResponse>,
+  input: __S(280, __c35, 0) as any as S.Schema<DeployHooksCreateRequest>,
+  output: __S(289, __c36, 1) as any as S.Schema<DeployHooksCreateResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1259,8 +1327,8 @@ export const deployHooksDelete: API.OperationMethod<
   DeployHooksDeleteError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<DeployHooksDeleteRequest>,
-  output: __S(281, __c35, 1) as any as S.Schema<DeployHooksDeleteResponse>,
+  input: __S(296, __c37, 0) as any as S.Schema<DeployHooksDeleteRequest>,
+  output: __S(289, __c36, 1) as any as S.Schema<DeployHooksDeleteResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1277,7 +1345,7 @@ export const deployHooksGet: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<DeployHooksGetRequest>,
-  output: __S(281, __c35, 1) as any as S.Schema<DeployHooksGetResponse>,
+  output: __S(289, __c36, 1) as any as S.Schema<DeployHooksGetResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1294,7 +1362,7 @@ export const deployHooksList: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<DeployHooksListRequest>,
-  output: __S(240, __c30, 0) as any as S.Schema<DeployHooksListResponse>,
+  output: __S(248, __c31, 0) as any as S.Schema<DeployHooksListResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1328,7 +1396,7 @@ export const deployHooksUpdate: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<DeployHooksUpdateRequest>,
-  output: __S(281, __c35, 1) as any as S.Schema<DeployHooksUpdateResponse>,
+  output: __S(289, __c36, 1) as any as S.Schema<DeployHooksUpdateResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1447,7 +1515,7 @@ export const listBuilds: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<ListBuildsRequest>,
-  output: __S(240, __c30, 0) as any as S.Schema<ListBuildsResponse>,
+  output: __S(248, __c31, 0) as any as S.Schema<ListBuildsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1464,7 +1532,7 @@ export const listTokens: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<ListTokensRequest>,
-  output: __S(240, __c30, 0) as any as S.Schema<ListTokensResponse>,
+  output: __S(248, __c31, 0) as any as S.Schema<ListTokensResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1481,7 +1549,7 @@ export const listTriggers: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<ListTriggersRequest>,
-  output: __S(240, __c30, 0) as any as S.Schema<ListTriggersResponse>,
+  output: __S(146, __c18, 2) as any as S.Schema<ListTriggersResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1498,7 +1566,7 @@ export const listTriggersEnvironmentVariables: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<ListTriggersEnvironmentVariablesRequest>,
-  output: __S(240, __c30, 0) as any as S.Schema<ListTriggersEnvironmentVariablesResponse>,
+  output: __S(155, __c19, 3) as any as S.Schema<ListTriggersEnvironmentVariablesResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1532,7 +1600,7 @@ export const triggersPurgeCache: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<TriggersPurgeCacheRequest>,
-  output: __S(240, __c30, 0) as any as S.Schema<TriggersPurgeCacheResponse>,
+  output: __S(248, __c31, 0) as any as S.Schema<TriggersPurgeCacheResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1549,7 +1617,7 @@ export const updateTrigger: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<UpdateTriggerRequest>,
-  output: __S(225, __c28, 1) as any as S.Schema<UpdateTriggerResponse>,
+  output: __S(232, __c29, 0) as any as S.Schema<UpdateTriggerResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -1583,7 +1651,7 @@ export const upsertTriggersEnvironmentVariable: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(194, __c24, 2) as any as S.Schema<UpsertTriggersEnvironmentVariableRequest>,
-  output: __S(240, __c30, 0) as any as S.Schema<UpsertTriggersEnvironmentVariableResponse>,
+  output: __S(248, __c31, 0) as any as S.Schema<UpsertTriggersEnvironmentVariableResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -2025,6 +2093,12 @@ function __c18(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListTriggersRequest" });
+    case 1:
+      return S.Array(__S(224, __c28, 0));
+    case 2:
+      return S.suspend(() => __S(145, __c18, 1).pipe(T.EnvelopePayloadRoot())).annotate({
+        identifier: "ListTriggersResponse",
+      });
   }
 }
 function __c19(j: number): any {
@@ -2042,6 +2116,20 @@ function __c19(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListTriggersEnvironmentVariablesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          createdOn: S.String.pipe(T.Body("created_on")),
+          isSecret: S.Boolean.pipe(T.Body("is_secret")),
+          value: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ListTriggersEnvironmentVariablesResultValue" });
+    case 2:
+      return S.Record(S.String, __S(153, __c19, 1));
+    case 3:
+      return S.suspend(() => __S(154, __c19, 2).pipe(T.EnvelopePayloadRoot())).annotate({
+        identifier: "ListTriggersEnvironmentVariablesResponse",
+      });
   }
 }
 function __c20(j: number): any {
@@ -2256,13 +2344,17 @@ function __c28(j: number): any {
           triggerUuid: S.optional(S.NullOr(S.String).pipe(T.Body("trigger_uuid"))),
         }),
       ).annotate({ identifier: "CreateTriggerResult" });
-    case 1:
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() => __S(224, __c28, 0).pipe(T.EnvelopePayloadRoot())).annotate({
         identifier: "CreateTriggerResponse",
       });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2279,7 +2371,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteReposConnectionRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.EnvelopePayloadRoot())).annotate({
@@ -2287,7 +2379,7 @@ function __c30(j: number): any {
       });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2304,7 +2396,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DeleteTokenRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2321,7 +2413,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DeleteTriggerRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2339,7 +2431,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "DeleteTriggersEnvironmentVariableRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2358,7 +2450,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "DeployHooksCreateRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2372,12 +2464,12 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "DeployHooksCreateResult" });
     case 1:
-      return S.suspend(() => __S(280, __c35, 0).pipe(T.EnvelopePayloadRoot())).annotate({
+      return S.suspend(() => __S(288, __c36, 0).pipe(T.EnvelopePayloadRoot())).annotate({
         identifier: "DeployHooksCreateResponse",
       });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

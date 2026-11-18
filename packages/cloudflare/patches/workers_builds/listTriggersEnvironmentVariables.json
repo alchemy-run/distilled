@@ -1,0 +1,51 @@
+{
+  "description": "The docs type listTriggersEnvironmentVariables result as `unknown or unknown` since the 2026-10-30 spec mirror update. The API returns a map from variable name to {created_on, is_secret, value}, value null for secrets, the shape the docs published until then; observed on a live account 2026-11-18.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers_builds#ListTriggersEnvironmentVariablesResultValue",
+      "value": {
+        "type": "structure",
+        "members": {
+          "created_on": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "is_secret": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Whether to hide the value after it is saved. Secret values remain available to builds but appear as `null` when you list variables; non-secret values remain visible.",
+              "smithy.api#required": {}
+            }
+          },
+          "value": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Value is null for secret environment variables"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers_builds#ListTriggersEnvironmentVariablesResultMap",
+      "value": {
+        "type": "map",
+        "key": {
+          "target": "smithy.api#String"
+        },
+        "value": {
+          "target": "com.cloudflare.workers_builds#ListTriggersEnvironmentVariablesResultValue"
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.workers_builds#TriggersEnvironmentVariablesListResponse/members/result/target",
+      "value": "com.cloudflare.workers_builds#ListTriggersEnvironmentVariablesResultMap"
+    }
+  ]
+}
