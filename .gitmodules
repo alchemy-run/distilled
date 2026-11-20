@@ -603,3 +603,8 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-whatsapp.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/browserbase/specs/spec-mirror-browserbase"]
+	path = packages/browserbase/specs/spec-mirror-browserbase
+	url = https://github.com/distilled-mirror/spec-mirror-browserbase.git
+	ignore = dirty
+	shallow = true
