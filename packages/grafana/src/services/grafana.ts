@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownGrafanaError } from "../errors.ts";
+import { GrafanaServiceErrors } from "../errors.ts";
 import { GrafanaProtocol, type GrafanaOpError, type GrafanaOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -3439,7 +3439,8 @@ export const addDataSource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7680, __c240, 0) as any as S.Schema<AddDataSourceRequest>,
   output: __S(7744, __c242, 0) as any as S.Schema<AddDataSourceResponse>,
-  errors: [Forbidden, Conflict, UnknownGrafanaError],
+  errors: [Forbidden, Conflict],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3456,7 +3457,8 @@ export const addOrgInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8160, __c255, 0) as any as S.Schema<AddOrgInviteRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3473,7 +3475,8 @@ export const addOrgUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8544, __c267, 0) as any as S.Schema<AddOrgUserRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3490,7 +3493,8 @@ export const addOrgUserToCurrentOrg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8960, __c280, 0) as any as S.Schema<AddOrgUserToCurrentOrgRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3507,7 +3511,8 @@ export const addTeamGroupApi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9440, __c295, 0) as any as S.Schema<AddTeamGroupApiRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3524,7 +3529,8 @@ export const addTeamMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<AddTeamMemberRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3541,7 +3547,8 @@ export const addTeamRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<AddTeamRoleRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3558,7 +3565,8 @@ export const addUserRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<AddUserRoleRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3575,7 +3583,8 @@ export const adminCreateUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<AdminCreateUserRequest>,
   output: __S(1441, __c45, 1) as any as S.Schema<AdminCreateUserResponse>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3592,7 +3601,8 @@ export const adminDeleteUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<AdminDeleteUserRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3609,7 +3619,8 @@ export const adminDisableUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<AdminDisableUserRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3626,7 +3637,8 @@ export const adminEnableUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<AdminEnableUserRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3643,7 +3655,8 @@ export const adminGetSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3072, __c96, 0) as any as S.Schema<AdminGetSettingsRequest>,
   output: __S(3074, __c96, 2) as any as S.Schema<AdminGetSettingsResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3660,7 +3673,8 @@ export const adminGetStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3424, __c107, 0) as any as S.Schema<AdminGetStatsRequest>,
   output: __S(3425, __c107, 1) as any as S.Schema<AdminStats>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3677,7 +3691,8 @@ export const adminGetUserAuthTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3776, __c118, 0) as any as S.Schema<AdminGetUserAuthTokensRequest>,
   output: __S(3810, __c119, 2) as any as S.Schema<AdminGetUserAuthTokensResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3694,7 +3709,8 @@ export const adminLogoutUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4224, __c132, 0) as any as S.Schema<AdminLogoutUserRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3711,7 +3727,8 @@ export const adminProvisioningReloadAccessControl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<AdminProvisioningReloadAccessControlRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<AdminProvisioningReloadAccessControlResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3728,7 +3745,8 @@ export const adminProvisioningReloadDashboards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<AdminProvisioningReloadDashboardsRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3745,7 +3763,8 @@ export const adminProvisioningReloadDatasources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5344, __c167, 0) as any as S.Schema<AdminProvisioningReloadDatasourcesRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3762,7 +3781,8 @@ export const adminProvisioningReloadPlugins: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5696, __c178, 0) as any as S.Schema<AdminProvisioningReloadPluginsRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3779,7 +3799,8 @@ export const adminRevokeUserAuthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6048, __c189, 0) as any as S.Schema<AdminRevokeUserAuthTokenRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3796,7 +3817,8 @@ export const adminUpdateUserPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c195, 0) as any as S.Schema<AdminUpdateUserPasswordRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3813,7 +3835,8 @@ export const adminUpdateUserPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6272, __c196, 0) as any as S.Schema<AdminUpdateUserPermissionsRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3830,7 +3853,8 @@ export const callDatasourceResourceWithUID: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<CallDatasourceResourceWithUIDRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3847,7 +3871,8 @@ export const cancelSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6336, __c198, 0) as any as S.Schema<CancelSnapshotRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<CancelSnapshotResponse>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3864,7 +3889,8 @@ export const changeUserPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6368, __c199, 0) as any as S.Schema<ChangeUserPasswordRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3881,7 +3907,8 @@ export const checkDatasourceHealthWithUID: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6400, __c200, 0) as any as S.Schema<CheckDatasourceHealthWithUIDRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3898,7 +3925,8 @@ export const cleanDataSourceCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<CleanDataSourceCacheRequest>,
   output: __S(6464, __c202, 0) as any as S.Schema<CacheConfigResponse>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3915,7 +3943,8 @@ export const createAnnotation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6496, __c203, 0) as any as S.Schema<CreateAnnotationRequest>,
   output: __S(6528, __c204, 0) as any as S.Schema<CreateAnnotationResponse>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3932,7 +3961,8 @@ export const createCloudMigrationToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6592, __c206, 0) as any as S.Schema<CreateCloudMigrationTokenRequest>,
   output: __S(6593, __c206, 1) as any as S.Schema<CreateAccessTokenResponseDTO>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3949,7 +3979,8 @@ export const createCorrelation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6624, __c207, 0) as any as S.Schema<CreateCorrelationRequest>,
   output: __S(6656, __c208, 0) as any as S.Schema<CreateCorrelationResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3966,7 +3997,8 @@ export const createDashboardSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6721, __c210, 1) as any as S.Schema<CreateDashboardSnapshotRequest>,
   output: __S(6722, __c210, 2) as any as S.Schema<CreateDashboardSnapshotResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3983,7 +4015,8 @@ export const createLibraryElement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6752, __c211, 0) as any as S.Schema<CreateLibraryElementRequest>,
   output: __S(6848, __c214, 0) as any as S.Schema<LibraryElementResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4000,7 +4033,8 @@ export const createOrg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6880, __c215, 0) as any as S.Schema<CreateOrgRequest>,
   output: __S(6881, __c215, 1) as any as S.Schema<CreateOrgResponse>,
-  errors: [Forbidden, Conflict, UnknownGrafanaError],
+  errors: [Forbidden, Conflict],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4017,7 +4051,8 @@ export const createPublicDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6912, __c216, 0) as any as S.Schema<CreatePublicDashboardRequest>,
   output: __S(6946, __c217, 2) as any as S.Schema<PublicDashboard>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4034,7 +4069,8 @@ export const createQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6976, __c218, 0) as any as S.Schema<CreateQueryRequest>,
   output: __S(7040, __c220, 0) as any as S.Schema<QueryHistoryResponse>,
-  errors: [BadRequest, UnknownGrafanaError],
+  errors: [BadRequest],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4051,7 +4087,8 @@ export const createRecordingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<CreateRecordingRuleRequest>,
   output: __S(7136, __c223, 0) as any as S.Schema<RecordingRuleJSON>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4072,7 +4109,8 @@ export const createRecordingRuleWriteTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7168, __c224, 0) as any as S.Schema<CreateRecordingRuleWriteTargetRequest>,
   output: __S(7200, __c225, 0) as any as S.Schema<PrometheusRemoteWriteTargetJSON>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownGrafanaError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4089,7 +4127,8 @@ export const createReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7232, __c226, 0) as any as S.Schema<CreateReportRequest>,
   output: __S(7328, __c229, 0) as any as S.Schema<CreateReportResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4106,7 +4145,8 @@ export const createRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7360, __c230, 0) as any as S.Schema<CreateRoleRequest>,
   output: __S(7394, __c231, 2) as any as S.Schema<RoleDTO>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4123,7 +4163,8 @@ export const createServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7424, __c232, 0) as any as S.Schema<CreateServiceAccountRequest>,
   output: __S(7456, __c233, 0) as any as S.Schema<ServiceAccountDTO>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4140,7 +4181,8 @@ export const createSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7488, __c234, 0) as any as S.Schema<CreateSessionRequest>,
   output: __S(7520, __c235, 0) as any as S.Schema<CloudMigrationSessionResponseDTO>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4157,7 +4199,8 @@ export const createSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7552, __c236, 0) as any as S.Schema<CreateSnapshotRequest>,
   output: __S(7553, __c236, 1) as any as S.Schema<CreateSnapshotResponseDTO>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4174,7 +4217,8 @@ export const createTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7616, __c238, 0) as any as S.Schema<CreateTeamRequest>,
   output: __S(7617, __c238, 1) as any as S.Schema<CreateTeamResponse>,
-  errors: [Forbidden, Conflict, UnknownGrafanaError],
+  errors: [Forbidden, Conflict],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4191,7 +4235,8 @@ export const createToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7648, __c239, 0) as any as S.Schema<CreateTokenRequest>,
   output: __S(7649, __c239, 1) as any as S.Schema<NewApiKeyResult>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4212,7 +4257,8 @@ export const datasourceProxyDELETEByUIDcalls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7840, __c245, 0) as any as S.Schema<DatasourceProxyDELETEByUIDcallsRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<DatasourceProxyDELETEByUIDcallsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4229,7 +4275,8 @@ export const datasourceProxyGETByUIDcalls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7872, __c246, 0) as any as S.Schema<DatasourceProxyGETByUIDcallsRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<DatasourceProxyGETByUIDcallsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4246,7 +4293,8 @@ export const datasourceProxyPOSTByUIDcalls: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7904, __c247, 0) as any as S.Schema<DatasourceProxyPOSTByUIDcallsRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<DatasourceProxyPOSTByUIDcallsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4263,7 +4311,8 @@ export const deleteAnnotation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7936, __c248, 0) as any as S.Schema<DeleteAnnotationRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4280,7 +4329,8 @@ export const deleteCloudMigrationToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7968, __c249, 0) as any as S.Schema<DeleteCloudMigrationTokenRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<DeleteCloudMigrationTokenResponse>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4297,7 +4347,8 @@ export const deleteCorrelation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8000, __c250, 0) as any as S.Schema<DeleteCorrelationRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<DeleteCorrelationResponseBody>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4314,7 +4365,8 @@ export const deleteDashboardSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8032, __c251, 0) as any as S.Schema<DeleteDashboardSnapshotRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4331,7 +4383,8 @@ export const deleteDashboardSnapshotByDeleteKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8064, __c252, 0) as any as S.Schema<DeleteDashboardSnapshotByDeleteKeyRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4348,7 +4401,8 @@ export const deleteDataSourceByUID: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8096, __c253, 0) as any as S.Schema<DeleteDataSourceByUIDRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4365,7 +4419,8 @@ export const deleteLibraryElementByUID: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8128, __c254, 0) as any as S.Schema<DeleteLibraryElementByUIDRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4382,7 +4437,8 @@ export const deleteLicenseToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8224, __c257, 0) as any as S.Schema<DeleteLicenseTokenRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<DeleteLicenseTokenResponse>,
-  errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, UnprocessableEntity],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4399,7 +4455,8 @@ export const deleteOrg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8256, __c258, 0) as any as S.Schema<DeleteOrgRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4416,7 +4473,8 @@ export const deletePublicDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8288, __c259, 0) as any as S.Schema<DeletePublicDashboardRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4433,7 +4491,8 @@ export const deleteQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<DeleteQueryRequest>,
   output: __S(7328, __c229, 0) as any as S.Schema<QueryHistoryDeleteQueryResponse>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4450,7 +4509,8 @@ export const deleteRecordingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<DeleteRecordingRuleRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4467,7 +4527,8 @@ export const deleteRecordingRuleWriteTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8384, __c262, 0) as any as S.Schema<DeleteRecordingRuleWriteTargetRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4484,7 +4545,8 @@ export const deleteRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8416, __c263, 0) as any as S.Schema<DeleteRoleRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4501,7 +4563,8 @@ export const deleteServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8448, __c264, 0) as any as S.Schema<DeleteServiceAccountRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4518,7 +4581,8 @@ export const deleteSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8480, __c265, 0) as any as S.Schema<DeleteSessionRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<DeleteSessionResponse>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4535,7 +4599,8 @@ export const deleteTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8512, __c266, 0) as any as S.Schema<DeleteTeamRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, Conflict, UnknownGrafanaError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4552,7 +4617,8 @@ export const deleteToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8576, __c268, 0) as any as S.Schema<DeleteTokenRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4569,7 +4635,8 @@ export const disableDataSourceCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8608, __c269, 0) as any as S.Schema<DisableDataSourceCacheRequest>,
   output: __S(6464, __c202, 0) as any as S.Schema<CacheConfigResponse>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4586,7 +4653,8 @@ export const enableDataSourceCache: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8640, __c270, 0) as any as S.Schema<EnableDataSourceCacheRequest>,
   output: __S(6464, __c202, 0) as any as S.Schema<CacheConfigResponse>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4603,7 +4671,8 @@ export const getAccessControlStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8672, __c271, 0) as any as S.Schema<GetAccessControlStatusRequest>,
   output: __S(8673, __c271, 1) as any as S.Schema<AccessControlStatus>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4620,7 +4689,8 @@ export const getAnnotation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<GetAnnotationRequest>,
   output: __S(8736, __c273, 0) as any as S.Schema<Annotation>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4637,7 +4707,8 @@ export const getAnnotations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8768, __c274, 0) as any as S.Schema<GetAnnotationsRequest>,
   output: __S(8770, __c274, 2) as any as S.Schema<GetAnnotationsResponse>,
-  errors: [BadRequest, UnknownGrafanaError],
+  errors: [BadRequest],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4654,7 +4725,8 @@ export const getAnnotationTags: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8800, __c275, 0) as any as S.Schema<GetAnnotationTagsRequest>,
   output: __S(8804, __c275, 4) as any as S.Schema<GetAnnotationTagsResponse>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4671,7 +4743,8 @@ export const getCloudMigrationToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8832, __c276, 0) as any as S.Schema<GetCloudMigrationTokenRequest>,
   output: __S(8833, __c276, 1) as any as S.Schema<GetAccessTokenResponseDTO>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4688,7 +4761,8 @@ export const getCorrelation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8864, __c277, 0) as any as S.Schema<GetCorrelationRequest>,
   output: __S(6691, __c209, 3) as any as S.Schema<Correlation>,
-  errors: [NotFound, UnknownGrafanaError],
+  errors: [NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4705,7 +4779,8 @@ export const getCorrelations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8896, __c278, 0) as any as S.Schema<GetCorrelationsRequest>,
   output: __S(8929, __c279, 1) as any as S.Schema<GetCorrelationsResponse>,
-  errors: [NotFound, UnknownGrafanaError],
+  errors: [NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4722,7 +4797,8 @@ export const getCorrelationsBySourceUID: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8992, __c281, 0) as any as S.Schema<GetCorrelationsBySourceUIDRequest>,
   output: __S(8929, __c279, 1) as any as S.Schema<GetCorrelationsBySourceUIDResponse>,
-  errors: [NotFound, UnknownGrafanaError],
+  errors: [NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4739,7 +4815,8 @@ export const getCurrentOrg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9024, __c282, 0) as any as S.Schema<GetCurrentOrgRequest>,
   output: __S(9057, __c283, 1) as any as S.Schema<OrgDetailsDTO>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4756,7 +4833,8 @@ export const getCurrentOrgQuota: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9088, __c284, 0) as any as S.Schema<GetCurrentOrgQuotaRequest>,
   output: __S(9122, __c285, 2) as any as S.Schema<GetCurrentOrgQuotaResponse>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4773,7 +4851,8 @@ export const getDashboardSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9152, __c286, 0) as any as S.Schema<GetDashboardSnapshotRequest>,
   output: __S(9187, __c287, 3) as any as S.Schema<DashboardFullWithMeta>,
-  errors: [BadRequest, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4790,7 +4869,8 @@ export const getDataSourceByUID: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9216, __c288, 0) as any as S.Schema<GetDataSourceByUIDRequest>,
   output: __S(7808, __c244, 0) as any as S.Schema<DataSource>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4807,7 +4887,8 @@ export const getDataSourceCacheConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9248, __c289, 0) as any as S.Schema<GetDataSourceCacheConfigRequest>,
   output: __S(6464, __c202, 0) as any as S.Schema<CacheConfigResponse>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4824,7 +4905,8 @@ export const getDataSources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9280, __c290, 0) as any as S.Schema<GetDataSourcesRequest>,
   output: __S(9283, __c290, 3) as any as S.Schema<GetDataSourcesResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4841,7 +4923,8 @@ export const getHealth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9312, __c291, 0) as any as S.Schema<GetHealthRequest>,
   output: __S(9313, __c291, 1) as any as S.Schema<HealthResponse>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4858,7 +4941,8 @@ export const getJWKS: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9344, __c292, 0) as any as S.Schema<GetJWKSRequest>,
   output: __S(9359, __c292, 15) as any as S.Schema<GetJWKSResponse>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4875,7 +4959,8 @@ export const getLDAPStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9408, __c294, 0) as any as S.Schema<GetLDAPStatusRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4892,7 +4977,8 @@ export const getLibraryElementByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9472, __c296, 0) as any as S.Schema<GetLibraryElementByNameRequest>,
   output: __S(9473, __c296, 1) as any as S.Schema<LibraryElementArrayResponse>,
-  errors: [NotFound, UnknownGrafanaError],
+  errors: [NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4909,7 +4995,8 @@ export const getLibraryElementByUID: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9536, __c298, 0) as any as S.Schema<GetLibraryElementByUIDRequest>,
   output: __S(6848, __c214, 0) as any as S.Schema<LibraryElementResponse>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4926,7 +5013,8 @@ export const getLibraryElementConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9568, __c299, 0) as any as S.Schema<GetLibraryElementConnectionsRequest>,
   output: __S(9571, __c299, 3) as any as S.Schema<LibraryElementConnectionsResponse>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4943,7 +5031,8 @@ export const getLibraryElements: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9600, __c300, 0) as any as S.Schema<GetLibraryElementsRequest>,
   output: __S(9602, __c300, 2) as any as S.Schema<LibraryElementSearchResponse>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4960,7 +5049,8 @@ export const getLicenseToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9632, __c301, 0) as any as S.Schema<GetLicenseTokenRequest>,
   output: __S(9664, __c302, 0) as any as S.Schema<Token>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4977,7 +5067,8 @@ export const getMetadata: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9696, __c303, 0) as any as S.Schema<GetMetadataRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<GetMetadataResponse>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4994,7 +5085,8 @@ export const getOrg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9760, __c305, 0) as any as S.Schema<GetOrgRequest>,
   output: __S(9057, __c283, 1) as any as S.Schema<OrgDetailsDTO>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5011,7 +5103,8 @@ export const getOrgByName: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9792, __c306, 0) as any as S.Schema<GetOrgByNameRequest>,
   output: __S(9057, __c283, 1) as any as S.Schema<OrgDetailsDTO>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5028,7 +5121,8 @@ export const getOrgQuota: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9824, __c307, 0) as any as S.Schema<GetOrgQuotaRequest>,
   output: __S(9122, __c285, 2) as any as S.Schema<GetOrgQuotaResponse>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5045,7 +5139,8 @@ export const getOrgUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9856, __c308, 0) as any as S.Schema<GetOrgUsersRequest>,
   output: __S(9888, __c309, 0) as any as S.Schema<GetOrgUsersResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5062,7 +5157,8 @@ export const getOrgUsersForCurrentOrg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c3, 0) as any as S.Schema<GetOrgUsersForCurrentOrgRequest>,
   output: __S(9888, __c309, 0) as any as S.Schema<GetOrgUsersForCurrentOrgResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5079,7 +5175,8 @@ export const getOrgUsersForCurrentOrgLookup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<GetOrgUsersForCurrentOrgLookupRequest>,
   output: __S(131, __c4, 3) as any as S.Schema<GetOrgUsersForCurrentOrgLookupResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5096,7 +5193,8 @@ export const getPendingOrgInvites: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<GetPendingOrgInvitesRequest>,
   output: __S(163, __c5, 3) as any as S.Schema<GetPendingOrgInvitesResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5113,7 +5211,8 @@ export const getProviderSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<GetProviderSettingsRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<GetProviderSettingsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5130,7 +5229,8 @@ export const getPublicAnnotations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<GetPublicAnnotationsRequest>,
   output: __S(263, __c8, 7) as any as S.Schema<GetPublicAnnotationsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5147,7 +5247,8 @@ export const getPublicDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<GetPublicDashboardRequest>,
   output: __S(6946, __c217, 2) as any as S.Schema<PublicDashboard>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5164,7 +5265,8 @@ export const getRecordingRuleWriteTarget: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<GetRecordingRuleWriteTargetRequest>,
   output: __S(7200, __c225, 0) as any as S.Schema<PrometheusRemoteWriteTargetJSON>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5181,7 +5283,8 @@ export const getReports: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<GetReportsRequest>,
   output: __S(386, __c12, 2) as any as S.Schema<GetReportsResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5198,7 +5301,8 @@ export const getReportsByDashboardUID: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<GetReportsByDashboardUIDRequest>,
   output: __S(386, __c12, 2) as any as S.Schema<GetReportsByDashboardUIDResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5215,7 +5319,8 @@ export const getReportSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetReportSettingsRequest>,
   output: __S(449, __c14, 1) as any as S.Schema<ReportSettings>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5232,7 +5337,8 @@ export const getResourceDependencies: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<GetResourceDependenciesRequest>,
   output: __S(547, __c17, 3) as any as S.Schema<ResourceDependenciesResponseDTO>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5249,7 +5355,8 @@ export const getResourceDescription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<GetResourceDescriptionRequest>,
   output: __S(578, __c18, 2) as any as S.Schema<Description>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5266,7 +5373,8 @@ export const getResourcePermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<GetResourcePermissionsRequest>,
   output: __S(611, __c19, 3) as any as S.Schema<GetResourcePermissionsResponse>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5279,7 +5387,8 @@ export const getRole: API.OperationMethod<GetRoleRequest, RoleDTO, GetRoleError,
   /*@__PURE__*/ API.make(() => ({
     input: __S(640, __c20, 0) as any as S.Schema<GetRoleRequest>,
     output: __S(7394, __c231, 2) as any as S.Schema<RoleDTO>,
-    errors: [Forbidden, UnknownGrafanaError],
+    errors: [Forbidden],
+    serviceErrors: GrafanaServiceErrors,
     protocol: GrafanaProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5296,7 +5405,8 @@ export const getRoleAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<GetRoleAssignmentsRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<RoleAssignmentsDTO>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5313,7 +5423,8 @@ export const getSAMLLogout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<GetSAMLLogoutRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<GetSAMLLogoutResponse>,
-  errors: [NotFound, UnknownGrafanaError],
+  errors: [NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5330,7 +5441,8 @@ export const getServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<GetServiceAccountRequest>,
   output: __S(7456, __c233, 0) as any as S.Schema<ServiceAccountDTO>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5347,7 +5459,8 @@ export const getSession: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetSessionRequest>,
   output: __S(7520, __c235, 0) as any as S.Schema<CloudMigrationSessionResponseDTO>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5364,7 +5477,8 @@ export const getSessionList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<GetSessionListRequest>,
   output: __S(834, __c26, 2) as any as S.Schema<CloudMigrationSessionListResponseDTO>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5381,7 +5495,8 @@ export const getSettingsImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<GetSettingsImageRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<GetSettingsImageResponse>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5398,7 +5513,8 @@ export const getShapshotList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<GetShapshotListRequest>,
   output: __S(931, __c29, 3) as any as S.Schema<SnapshotListResponseDTO>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5415,7 +5531,8 @@ export const getSharingOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetSharingOptionsRequest>,
   output: __S(961, __c30, 1) as any as S.Schema<GetSharingOptionsResponse>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5432,7 +5549,8 @@ export const getSignedInUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<GetSignedInUserRequest>,
   output: __S(1024, __c32, 0) as any as S.Schema<UserProfileDTO>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5449,7 +5567,8 @@ export const getSignedInUserOrgList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<GetSignedInUserOrgListRequest>,
   output: __S(1090, __c34, 2) as any as S.Schema<GetSignedInUserOrgListResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5466,7 +5585,8 @@ export const getSignedInUserTeamList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetSignedInUserTeamListRequest>,
   output: __S(1184, __c37, 0) as any as S.Schema<GetSignedInUserTeamListResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5483,7 +5603,8 @@ export const getSLO: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<GetSLORequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<GetSLOResponse>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5500,7 +5621,8 @@ export const getSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<GetSnapshotRequest>,
   output: __S(1285, __c40, 5) as any as S.Schema<GetSnapshotResponseDTO>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5517,7 +5639,8 @@ export const getStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<GetStatusRequest>,
   output: __S(1344, __c42, 0) as any as S.Schema<GetStatusResponse>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5534,7 +5657,8 @@ export const getSyncStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<GetSyncStatusRequest>,
   output: __S(1380, __c43, 4) as any as S.Schema<ActiveSyncStatusDTO>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5547,7 +5671,8 @@ export const getTeam: API.OperationMethod<GetTeamRequest, TeamDTO, GetTeamError,
   /*@__PURE__*/ API.make(() => ({
     input: __S(1408, __c44, 0) as any as S.Schema<GetTeamRequest>,
     output: __S(1152, __c36, 0) as any as S.Schema<TeamDTO>,
-    errors: [Forbidden, NotFound, UnknownGrafanaError],
+    errors: [Forbidden, NotFound],
+    serviceErrors: GrafanaServiceErrors,
     protocol: GrafanaProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -5564,7 +5689,8 @@ export const getTeamGroupsApi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<GetTeamGroupsApiRequest>,
   output: __S(1473, __c46, 1) as any as S.Schema<GetTeamGroupsApiResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5581,7 +5707,8 @@ export const getTeamLBACRulesApi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<GetTeamLBACRulesApiRequest>,
   output: __S(1537, __c48, 1) as any as S.Schema<TeamLBACRules>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5598,7 +5725,8 @@ export const getTeamMembers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GetTeamMembersRequest>,
   output: __S(1603, __c50, 3) as any as S.Schema<GetTeamMembersResponse>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5615,7 +5743,8 @@ export const getTeamPreferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<GetTeamPreferencesRequest>,
   output: __S(1633, __c51, 1) as any as S.Schema<PreferencesSpec>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5632,7 +5761,8 @@ export const getUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c53, 0) as any as S.Schema<GetUserRequest>,
   output: __S(1024, __c32, 0) as any as S.Schema<UserProfileDTO>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5649,7 +5779,8 @@ export const getUserAuthTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<GetUserAuthTokensRequest>,
   output: __S(3810, __c119, 2) as any as S.Schema<GetUserAuthTokensResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5666,7 +5797,8 @@ export const getUserByLoginOrEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c55, 0) as any as S.Schema<GetUserByLoginOrEmailRequest>,
   output: __S(1024, __c32, 0) as any as S.Schema<UserProfileDTO>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5683,7 +5815,8 @@ export const getUserFromLDAP: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<GetUserFromLDAPRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5700,7 +5833,8 @@ export const getUserOrgList: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<GetUserOrgListRequest>,
   output: __S(1090, __c34, 2) as any as S.Schema<GetUserOrgListResponse>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5717,7 +5851,8 @@ export const getUserQuota: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<GetUserQuotaRequest>,
   output: __S(9122, __c285, 2) as any as S.Schema<GetUserQuotaResponse>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5734,7 +5869,8 @@ export const getUserQuotas: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<GetUserQuotasRequest>,
   output: __S(9122, __c285, 2) as any as S.Schema<GetUserQuotasResponse>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5751,7 +5887,8 @@ export const getUserTeams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<GetUserTeamsRequest>,
   output: __S(1184, __c37, 0) as any as S.Schema<GetUserTeamsResponse>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5768,7 +5905,8 @@ export const importDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1986, __c62, 2) as any as S.Schema<ImportDashboardRequest>,
   output: __S(1987, __c62, 3) as any as S.Schema<ImportDashboardResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownGrafanaError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5785,7 +5923,8 @@ export const interpolateDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<InterpolateDashboardRequest>,
   output: __S(2017, __c63, 1) as any as S.Schema<InterpolateDashboardResponse>,
-  errors: [BadRequest, UnprocessableEntity, UnknownGrafanaError],
+  errors: [BadRequest, UnprocessableEntity],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5802,7 +5941,8 @@ export const listAllProvidersSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<ListAllProvidersSettingsRequest>,
   output: __S(2050, __c64, 2) as any as S.Schema<ListAllProvidersSettingsResponse>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5819,7 +5959,8 @@ export const listDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<ListDevicesRequest>,
   output: __S(2083, __c65, 3) as any as S.Schema<ListDevicesResponse>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5836,7 +5977,8 @@ export const listPublicDashboards: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<ListPublicDashboardsRequest>,
   output: __S(2115, __c66, 3) as any as S.Schema<PublicDashboardListResponseWithPagination>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5853,7 +5995,8 @@ export const listRecordingRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<ListRecordingRulesRequest>,
   output: __S(2146, __c67, 2) as any as S.Schema<ListRecordingRulesResponse>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5870,7 +6013,8 @@ export const listRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<ListRolesRequest>,
   output: __S(2240, __c70, 0) as any as S.Schema<ListRolesResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5887,7 +6031,8 @@ export const listSortOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<ListSortOptionsRequest>,
   output: __S(2273, __c71, 1) as any as S.Schema<ListSortOptionsResponse>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5904,7 +6049,8 @@ export const listTeamRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ListTeamRolesRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5921,7 +6067,8 @@ export const listTeamsRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<ListTeamsRolesRequest>,
   output: __S(2401, __c75, 1) as any as S.Schema<ListTeamsRolesResponse>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5938,7 +6085,8 @@ export const listTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<ListTokensRequest>,
   output: __S(2435, __c76, 3) as any as S.Schema<ListTokensResponse>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5955,7 +6103,8 @@ export const listUserRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2464, __c77, 0) as any as S.Schema<ListUserRolesRequest>,
   output: __S(2240, __c70, 0) as any as S.Schema<ListUserRolesResponse>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5972,7 +6121,8 @@ export const listUsersRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<ListUsersRolesRequest>,
   output: __S(2401, __c75, 1) as any as S.Schema<ListUsersRolesResponse>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5989,7 +6139,8 @@ export const massDeleteAnnotations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<MassDeleteAnnotationsRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6006,7 +6157,8 @@ export const patchProviderSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2560, __c80, 0) as any as S.Schema<PatchProviderSettingsRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6023,7 +6175,8 @@ export const patchQueryComment: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<PatchQueryCommentRequest>,
   output: __S(7040, __c220, 0) as any as S.Schema<QueryHistoryResponse>,
-  errors: [BadRequest, UnknownGrafanaError],
+  errors: [BadRequest],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6040,7 +6193,8 @@ export const postACS: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<PostACSRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<PostACSResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6057,7 +6211,8 @@ export const postGraphiteAnnotation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<PostGraphiteAnnotationRequest>,
   output: __S(6528, __c204, 0) as any as S.Schema<PostGraphiteAnnotationResponse>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6074,7 +6229,8 @@ export const postLicenseToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<PostLicenseTokenRequest>,
   output: __S(9664, __c302, 0) as any as S.Schema<Token>,
-  errors: [BadRequest, UnknownGrafanaError],
+  errors: [BadRequest],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6091,7 +6247,8 @@ export const postRenewLicenseToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c86, 0) as any as S.Schema<PostRenewLicenseTokenRequest>,
   output: __S(1344, __c42, 0) as any as S.Schema<PostRenewLicenseTokenResponse>,
-  errors: [NotFound, UnknownGrafanaError],
+  errors: [NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6108,7 +6265,8 @@ export const postSLO: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c87, 0) as any as S.Schema<PostSLORequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<PostSLOResponse>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6125,7 +6283,8 @@ export const postSyncUserWithLDAP: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2816, __c88, 0) as any as S.Schema<PostSyncUserWithLDAPRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6142,7 +6301,8 @@ export const queryMetricsWithExpressions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<QueryMetricsWithExpressionsRequest>,
   output: __S(2903, __c90, 23) as any as S.Schema<QueryDataResponse>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6159,7 +6319,8 @@ export const queryPublicDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2912, __c91, 0) as any as S.Schema<QueryPublicDashboardRequest>,
   output: __S(2903, __c90, 23) as any as S.Schema<QueryDataResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6176,7 +6337,8 @@ export const refreshLicenseStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<RefreshLicenseStatsRequest>,
   output: __S(2945, __c92, 1) as any as S.Schema<ActiveUserStats>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6193,7 +6355,8 @@ export const reloadLDAPCfg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2976, __c93, 0) as any as S.Schema<ReloadLDAPCfgRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<ReloadLDAPCfgResponse>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6210,7 +6373,8 @@ export const removeOrgUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3008, __c94, 0) as any as S.Schema<RemoveOrgUserRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6227,7 +6391,8 @@ export const removeOrgUserForCurrentOrg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3040, __c95, 0) as any as S.Schema<RemoveOrgUserForCurrentOrgRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6244,7 +6409,8 @@ export const removeProviderSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3104, __c97, 0) as any as S.Schema<RemoveProviderSettingsRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6261,7 +6427,8 @@ export const removeTeamGroupApiQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3136, __c98, 0) as any as S.Schema<RemoveTeamGroupApiQueryRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6278,7 +6445,8 @@ export const removeTeamMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3168, __c99, 0) as any as S.Schema<RemoveTeamMemberRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6295,7 +6463,8 @@ export const removeTeamRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3200, __c100, 0) as any as S.Schema<RemoveTeamRoleRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6312,7 +6481,8 @@ export const removeUserRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3232, __c101, 0) as any as S.Schema<RemoveUserRoleRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6329,7 +6499,8 @@ export const renderReportCSVs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3264, __c102, 0) as any as S.Schema<RenderReportCSVsRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<RenderReportCSVsResponse>,
-  errors: [BadRequest, UnknownGrafanaError],
+  errors: [BadRequest],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6346,7 +6517,8 @@ export const renderReportPDFs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3296, __c103, 0) as any as S.Schema<RenderReportPDFsRequest>,
   output: __S(9728, __c304, 0) as any as S.Schema<RenderReportPDFsResponse>,
-  errors: [BadRequest, UnknownGrafanaError],
+  errors: [BadRequest],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6363,7 +6535,8 @@ export const revokeInvite: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<RevokeInviteRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6380,7 +6553,8 @@ export const revokeUserAuthToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3360, __c105, 0) as any as S.Schema<RevokeUserAuthTokenRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6405,7 +6579,8 @@ export const routeConvertPrometheusCortexDeleteNamespace: API.OperationMethod<
     __c144,
     0,
   ) as any as S.Schema<RouteConvertPrometheusCortexDeleteNamespaceResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6430,7 +6605,8 @@ export const routeConvertPrometheusCortexDeleteRuleGroup: API.OperationMethod<
     __c144,
     0,
   ) as any as S.Schema<RouteConvertPrometheusCortexDeleteRuleGroupResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6447,7 +6623,8 @@ export const routeConvertPrometheusCortexGetNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3488, __c109, 0) as any as S.Schema<RouteConvertPrometheusCortexGetNamespaceRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusCortexGetNamespaceResponse>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6464,7 +6641,8 @@ export const routeConvertPrometheusCortexGetRuleGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3520, __c110, 0) as any as S.Schema<RouteConvertPrometheusCortexGetRuleGroupRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusCortexGetRuleGroupResponse>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6481,7 +6659,8 @@ export const routeConvertPrometheusCortexGetRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3552, __c111, 0) as any as S.Schema<RouteConvertPrometheusCortexGetRulesRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusCortexGetRulesResponse>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6502,7 +6681,8 @@ export const routeConvertPrometheusCortexPostRuleGroup: API.OperationMethod<
     __c144,
     0,
   ) as any as S.Schema<RouteConvertPrometheusCortexPostRuleGroupResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6523,7 +6703,8 @@ export const routeConvertPrometheusCortexPostRuleGroups: API.OperationMethod<
     __c144,
     0,
   ) as any as S.Schema<RouteConvertPrometheusCortexPostRuleGroupsResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6540,7 +6721,8 @@ export const routeConvertPrometheusDeleteNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3648, __c114, 0) as any as S.Schema<RouteConvertPrometheusDeleteNamespaceRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusDeleteNamespaceResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6557,7 +6739,8 @@ export const routeConvertPrometheusDeleteRuleGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3680, __c115, 0) as any as S.Schema<RouteConvertPrometheusDeleteRuleGroupRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusDeleteRuleGroupResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6574,7 +6757,8 @@ export const routeConvertPrometheusGetNamespace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3712, __c116, 0) as any as S.Schema<RouteConvertPrometheusGetNamespaceRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusGetNamespaceResponse>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6591,7 +6775,8 @@ export const routeConvertPrometheusGetRuleGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3744, __c117, 0) as any as S.Schema<RouteConvertPrometheusGetRuleGroupRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusGetRuleGroupResponse>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6608,7 +6793,8 @@ export const routeConvertPrometheusGetRules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3840, __c120, 0) as any as S.Schema<RouteConvertPrometheusGetRulesRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusGetRulesResponse>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6625,7 +6811,8 @@ export const routeConvertPrometheusPostRuleGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3872, __c121, 0) as any as S.Schema<RouteConvertPrometheusPostRuleGroupRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusPostRuleGroupResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6642,7 +6829,8 @@ export const routeConvertPrometheusPostRuleGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3904, __c122, 0) as any as S.Schema<RouteConvertPrometheusPostRuleGroupsRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<RouteConvertPrometheusPostRuleGroupsResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6659,7 +6847,8 @@ export const routeExportMuteTiming: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3936, __c123, 0) as any as S.Schema<RouteExportMuteTimingRequest>,
   output: __S(3994, __c124, 26) as any as S.Schema<AlertingFileExport>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6676,7 +6865,8 @@ export const routeExportMuteTimings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4000, __c125, 0) as any as S.Schema<RouteExportMuteTimingsRequest>,
   output: __S(3994, __c124, 26) as any as S.Schema<AlertingFileExport>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6693,7 +6883,8 @@ export const routeGetAlertRuleExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4032, __c126, 0) as any as S.Schema<RouteGetAlertRuleExportRequest>,
   output: __S(3994, __c124, 26) as any as S.Schema<AlertingFileExport>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6710,7 +6901,8 @@ export const routeGetAlertRuleGroupExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4064, __c127, 0) as any as S.Schema<RouteGetAlertRuleGroupExportRequest>,
   output: __S(3994, __c124, 26) as any as S.Schema<AlertingFileExport>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6727,7 +6919,8 @@ export const routeGetAlertRulesExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4096, __c128, 0) as any as S.Schema<RouteGetAlertRulesExportRequest>,
   output: __S(3994, __c124, 26) as any as S.Schema<AlertingFileExport>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6744,7 +6937,8 @@ export const routeGetContactpointsExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4128, __c129, 0) as any as S.Schema<RouteGetContactpointsExportRequest>,
   output: __S(3994, __c124, 26) as any as S.Schema<AlertingFileExport>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6761,7 +6955,8 @@ export const routeGetPolicyTreeExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4160, __c130, 0) as any as S.Schema<RouteGetPolicyTreeExportRequest>,
   output: __S(3994, __c124, 26) as any as S.Schema<AlertingFileExport>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6778,7 +6973,8 @@ export const saveReportSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4256, __c133, 0) as any as S.Schema<SaveReportSettingsRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6794,7 +6990,8 @@ export const search: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4288, __c134, 0) as any as S.Schema<SearchRequest>,
   output: __S(4291, __c134, 3) as any as S.Schema<SearchResponse>,
-  errors: [UnprocessableEntity, UnknownGrafanaError],
+  errors: [UnprocessableEntity],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6811,7 +7008,8 @@ export const searchDashboardSnapshots: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4320, __c135, 0) as any as S.Schema<SearchDashboardSnapshotsRequest>,
   output: __S(4323, __c135, 3) as any as S.Schema<SearchDashboardSnapshotsResponse>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6828,7 +7026,8 @@ export const searchDevices: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<SearchDevicesRequest>,
   output: __S(4355, __c136, 3) as any as S.Schema<SearchDeviceQueryResult>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6845,7 +7044,8 @@ export const searchOrgs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4384, __c137, 0) as any as S.Schema<SearchOrgsRequest>,
   output: __S(4387, __c137, 3) as any as S.Schema<SearchOrgsResponse>,
-  errors: [Forbidden, Conflict, UnknownGrafanaError],
+  errors: [Forbidden, Conflict],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6862,7 +7062,8 @@ export const searchOrgServiceAccountsWithPaging: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4416, __c138, 0) as any as S.Schema<SearchOrgServiceAccountsWithPagingRequest>,
   output: __S(4418, __c138, 2) as any as S.Schema<SearchOrgServiceAccountsResult>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6879,7 +7080,8 @@ export const searchOrgUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4448, __c139, 0) as any as S.Schema<SearchOrgUsersRequest>,
   output: __S(4449, __c139, 1) as any as S.Schema<SearchOrgUsersQueryResult>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6896,7 +7098,8 @@ export const searchQueries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<SearchQueriesRequest>,
   output: __S(4483, __c140, 3) as any as S.Schema<QueryHistorySearchResponse>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6913,7 +7116,8 @@ export const searchTeamGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<SearchTeamGroupsRequest>,
   output: __S(4515, __c141, 3) as any as S.Schema<SearchTeamGroupsResponse>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6930,7 +7134,8 @@ export const searchTeams: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<SearchTeamsRequest>,
   output: __S(4545, __c142, 1) as any as S.Schema<SearchTeamQueryResult>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6947,7 +7152,8 @@ export const searchUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<SearchUsersRequest>,
   output: __S(4641, __c145, 1) as any as S.Schema<SearchUsersResponse>,
-  errors: [Forbidden, UnknownGrafanaError],
+  errors: [Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6964,7 +7170,8 @@ export const searchUsersWithPaging: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<SearchUsersWithPagingRequest>,
   output: __S(4705, __c147, 1) as any as S.Schema<SearchUserQueryResult>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6981,7 +7188,8 @@ export const sendReport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<SendReportRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6998,7 +7206,8 @@ export const sendTestEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c149, 0) as any as S.Schema<SendTestEmailRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7015,7 +7224,8 @@ export const setDataSourceCacheConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<SetDataSourceCacheConfigRequest>,
   output: __S(6464, __c202, 0) as any as S.Schema<CacheConfigResponse>,
-  errors: [BadRequest, UnknownGrafanaError],
+  errors: [BadRequest],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7032,7 +7242,8 @@ export const setResourcePermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4834, __c151, 2) as any as S.Schema<SetResourcePermissionsRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7053,7 +7264,8 @@ export const setResourcePermissionsForBuiltInRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c152, 0) as any as S.Schema<SetResourcePermissionsForBuiltInRoleRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7070,7 +7282,8 @@ export const setResourcePermissionsForTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4896, __c153, 0) as any as S.Schema<SetResourcePermissionsForTeamRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7087,7 +7300,8 @@ export const setResourcePermissionsForUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<SetResourcePermissionsForUserRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7104,7 +7318,8 @@ export const setRoleAssignments: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<SetRoleAssignmentsRequest>,
   output: __S(704, __c22, 0) as any as S.Schema<RoleAssignmentsDTO>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7121,7 +7336,8 @@ export const setTeamMemberships: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<SetTeamMembershipsRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7138,7 +7354,8 @@ export const setTeamRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<SetTeamRolesRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7155,7 +7372,8 @@ export const setUserRoles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<SetUserRolesRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7172,7 +7390,8 @@ export const starQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<StarQueryRequest>,
   output: __S(7040, __c220, 0) as any as S.Schema<QueryHistoryResponse>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7193,7 +7412,8 @@ export const testCreateRecordingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5152, __c161, 0) as any as S.Schema<TestCreateRecordingRuleRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownGrafanaError],
+  errors: [Forbidden, NotFound, UnprocessableEntity],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7210,7 +7430,8 @@ export const unstarQuery: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<UnstarQueryRequest>,
   output: __S(7040, __c220, 0) as any as S.Schema<QueryHistoryResponse>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7227,7 +7448,8 @@ export const updateAnnotation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<UpdateAnnotationRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7244,7 +7466,8 @@ export const updateAnnotationByAnnotationId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5248, __c164, 0) as any as S.Schema<UpdateAnnotationByAnnotationIdRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7261,7 +7484,8 @@ export const updateCorrelation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5281, __c165, 1) as any as S.Schema<UpdateCorrelationRequest>,
   output: __S(6656, __c208, 0) as any as S.Schema<UpdateCorrelationResponseBody>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7278,7 +7502,8 @@ export const updateCurrentOrg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<UpdateCurrentOrgRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7295,7 +7520,8 @@ export const updateCurrentOrgAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5376, __c168, 0) as any as S.Schema<UpdateCurrentOrgAddressRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7312,7 +7538,8 @@ export const updateDataSourceByUID: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<UpdateDataSourceByUIDRequest>,
   output: __S(7744, __c242, 0) as any as S.Schema<UpdateDataSourceByUIDResponse>,
-  errors: [Forbidden, Conflict, UnknownGrafanaError],
+  errors: [Forbidden, Conflict],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7329,7 +7556,8 @@ export const updateFolderPermissions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5442, __c170, 2) as any as S.Schema<UpdateFolderPermissionsRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7346,7 +7574,8 @@ export const updateLibraryElement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<UpdateLibraryElementRequest>,
   output: __S(6848, __c214, 0) as any as S.Schema<LibraryElementResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7363,7 +7592,8 @@ export const updateOrg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5504, __c172, 0) as any as S.Schema<UpdateOrgRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7380,7 +7610,8 @@ export const updateOrgAddress: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5536, __c173, 0) as any as S.Schema<UpdateOrgAddressRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7397,7 +7628,8 @@ export const updateOrgQuota: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5568, __c174, 0) as any as S.Schema<UpdateOrgQuotaRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7414,7 +7646,8 @@ export const updateOrgUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<UpdateOrgUserRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7431,7 +7664,8 @@ export const updateOrgUserForCurrentOrg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<UpdateOrgUserForCurrentOrgRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7448,7 +7682,8 @@ export const updateProviderSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5664, __c177, 0) as any as S.Schema<UpdateProviderSettingsRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7465,7 +7700,8 @@ export const updatePublicDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5728, __c179, 0) as any as S.Schema<UpdatePublicDashboardRequest>,
   output: __S(6946, __c217, 2) as any as S.Schema<PublicDashboard>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7482,7 +7718,8 @@ export const updateRecordingRule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<UpdateRecordingRuleRequest>,
   output: __S(7136, __c223, 0) as any as S.Schema<RecordingRuleJSON>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7499,7 +7736,8 @@ export const updateRole: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c181, 0) as any as S.Schema<UpdateRoleRequest>,
   output: __S(7394, __c231, 2) as any as S.Schema<RoleDTO>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7516,7 +7754,8 @@ export const updateServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5824, __c182, 0) as any as S.Schema<UpdateServiceAccountRequest>,
   output: __S(5826, __c182, 2) as any as S.Schema<UpdateServiceAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7533,7 +7772,8 @@ export const updateSignedInUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5856, __c183, 0) as any as S.Schema<UpdateSignedInUserRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, Conflict, UnknownGrafanaError],
+  errors: [Forbidden, Conflict],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7550,7 +7790,8 @@ export const updateTeam: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5888, __c184, 0) as any as S.Schema<UpdateTeamRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, Conflict, UnknownGrafanaError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7567,7 +7808,8 @@ export const updateTeamLBACRulesApi: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5920, __c185, 0) as any as S.Schema<UpdateTeamLBACRulesApiRequest>,
   output: __S(5921, __c185, 1) as any as S.Schema<UpdateTeamLBACRulesApiResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7584,7 +7826,8 @@ export const updateTeamMember: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5952, __c186, 0) as any as S.Schema<UpdateTeamMemberRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7601,7 +7844,8 @@ export const updateTeamPreferences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5984, __c187, 0) as any as S.Schema<UpdateTeamPreferencesRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, UnknownGrafanaError],
+  errors: [BadRequest],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7618,7 +7862,8 @@ export const updateUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6016, __c188, 0) as any as S.Schema<UpdateUserRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, Conflict, UnknownGrafanaError],
+  errors: [Forbidden, NotFound, Conflict],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7635,7 +7880,8 @@ export const updateUserEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6080, __c190, 0) as any as S.Schema<UpdateUserEmailRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<UpdateUserEmailResponse>,
-  errors: [UnknownGrafanaError],
+  errors: [],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7652,7 +7898,8 @@ export const updateUserQuota: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6112, __c191, 0) as any as S.Schema<UpdateUserQuotaRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [Forbidden, NotFound, UnknownGrafanaError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7669,7 +7916,8 @@ export const uploadSnapshot: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6144, __c192, 0) as any as S.Schema<UploadSnapshotRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<UploadSnapshotResponse>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7686,7 +7934,8 @@ export const userSetUsingOrg: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6176, __c193, 0) as any as S.Schema<UserSetUsingOrgRequest>,
   output: __S(8192, __c256, 0) as any as S.Schema<SuccessResponseBody>,
-  errors: [BadRequest, Forbidden, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7703,7 +7952,8 @@ export const viewPublicDashboard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6208, __c194, 0) as any as S.Schema<ViewPublicDashboardRequest>,
   output: __S(9187, __c287, 3) as any as S.Schema<DashboardFullWithMeta>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownGrafanaError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: GrafanaServiceErrors,
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

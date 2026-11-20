@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownE2BError } from "../errors.ts";
+import { E2BServiceErrors } from "../errors.ts";
 import { E2BProtocol, type E2BOpError, type E2BOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -206,7 +206,8 @@ export const createWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateWebhookRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<WebhookCreation>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -223,7 +224,8 @@ export const deleteWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c2, 0) as any as S.Schema<DeleteWebhookRequest>,
   output: __S(17, __c2, 1) as any as S.Schema<DeleteWebhookResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -240,7 +242,8 @@ export const getWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<GetWebhookRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<WebhookDetail>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -257,7 +260,8 @@ export const getWebhookStats: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<GetWebhookStatsRequest>,
   output: __S(44, __c5, 4) as any as S.Schema<WebhookDeliveryStats>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -274,7 +278,8 @@ export const listWebhookDeliveries: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(49, __c6, 1) as any as S.Schema<ListWebhookDeliveriesRequest>,
   output: __S(54, __c6, 6) as any as S.Schema<WebhookDeliveriesListPayload>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -291,7 +296,8 @@ export const listWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<ListWebhooksRequest>,
   output: __S(58, __c7, 2) as any as S.Schema<ListWebhooksResponse>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -308,7 +314,8 @@ export const updateWebhook: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<UpdateWebhookRequest>,
   output: __S(32, __c4, 0) as any as S.Schema<WebhookDetail>,
-  errors: [UnknownE2BError],
+  errors: [],
+  serviceErrors: E2BServiceErrors,
   protocol: E2BProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

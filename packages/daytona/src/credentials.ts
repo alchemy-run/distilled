@@ -62,6 +62,9 @@ export class Credentials
     "DaytonaCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   apiKey: /*@__PURE__*/ EffectConfig.Redacted("DAYTONA_API_KEY"),
   apiBaseUrl: /*@__PURE__*/ EffectConfig.String("DAYTONA_API_URL").pipe(

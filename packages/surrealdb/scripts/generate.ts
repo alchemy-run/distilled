@@ -66,7 +66,9 @@ const surrealdbSpec: SdkSpec = {
   operationDecl: {
     contextType: "SurrealdbOpContext",
     commonErrorType: "SurrealdbOpError",
-    commonErrorClasses: ["UnknownSurrealdbError"],
+    // UnknownSurrealdbError is declared on the protocol, whose type adds it.
+    commonErrorClasses: [],
+    serviceErrors: "SurrealdbServiceErrors",
     protocol: "SurrealdbProtocol",
     retry: "Retry.Retry",
   },

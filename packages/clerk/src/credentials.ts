@@ -29,6 +29,9 @@ export class Credentials
     "ClerkCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 /** Layer from a redacted secret key + optional base URL and API version. */
 export const fromApiKey = (config: {
   readonly apiKey: Redacted.Redacted<string>;
@@ -86,6 +89,9 @@ export class PlatformCredentials
     PlatformCredentials,
     Effect.Effect<PlatformConfig, ConfigError>
   >()("ClerkPlatformCredentials") {}
+
+/** What resolving the credentials can fail with: declared on {@link PlatformCredentials}. */
+export type PlatformCredentialsError = Effect.Error<(typeof PlatformCredentials)["Service"]>;
 
 /**
  * Builds a Platform credential layer from a redacted bearer token and optional URL.

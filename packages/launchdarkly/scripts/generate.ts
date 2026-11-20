@@ -65,7 +65,10 @@ const launchdarklySpec: SdkSpec = {
   operationDecl: {
     contextType: "LaunchDarklyOpContext",
     commonErrorType: "LaunchDarklyOpError",
-    commonErrorClasses: ["UnknownLaunchDarklyError"],
+    // UnknownLaunchDarklyError is declared on the protocol, whose type adds
+    // it.
+    commonErrorClasses: [],
+    serviceErrors: "LaunchDarklyServiceErrors",
     protocol: "LaunchDarklyProtocol",
     retry: "Retry.Retry",
   },

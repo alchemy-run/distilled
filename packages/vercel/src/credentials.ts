@@ -31,6 +31,9 @@ export class Credentials
     "VercelCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   // `VERCEL_TOKEN` is what the Vercel CLI and the official SDK read.
   token: /*@__PURE__*/ EffectConfig.String("VERCEL_TOKEN"),

@@ -24,6 +24,9 @@ export class Credentials
     "RemoteCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 /** Layer from a redacted API token + optional base URL. */
 export const fromApiKey = (config: {
   readonly apiKey: Redacted.Redacted<string>;

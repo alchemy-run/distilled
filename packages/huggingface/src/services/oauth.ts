@@ -3,6 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { HuggingFaceServiceErrors } from "../errors.ts";
 import {
   HuggingFaceProtocol,
   type HuggingFaceOpError,
@@ -286,6 +287,7 @@ export const getUserInfo: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<GetUserInfoRequest>,
   output: __S(15, __c1, 7) as any as S.Schema<GetUserInfoResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -303,6 +305,7 @@ export const initiateDeviceAuthorization: API.OperationMethod<
   input: __S(24, __c3, 0) as any as S.Schema<InitiateDeviceAuthorizationRequest>,
   output: __S(25, __c3, 1) as any as S.Schema<InitiateDeviceAuthorizationResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -320,6 +323,7 @@ export const postUserInfo: API.OperationMethod<
   input: __S(32, __c4, 0) as any as S.Schema<PostUserInfoRequest>,
   output: __S(15, __c1, 7) as any as S.Schema<PostUserInfoResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -337,6 +341,7 @@ export const registerOAuthApp: API.OperationMethod<
   input: __S(40, __c5, 0) as any as S.Schema<RegisterOAuthAppRequest>,
   output: __S(41, __c5, 1) as any as S.Schema<RegisterOAuthAppResponse>,
   errors: [],
+  serviceErrors: HuggingFaceServiceErrors,
   protocol: HuggingFaceProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

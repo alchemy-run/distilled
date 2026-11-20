@@ -57,7 +57,9 @@ const dockerSpec: SdkSpec = {
   operationDecl: {
     contextType: "DockerOpContext",
     commonErrorType: "DockerOpError",
-    commonErrorClasses: ["UnknownDockerError"],
+    // UnknownDockerError is declared on the protocol, whose type adds it.
+    commonErrorClasses: [],
+    serviceErrors: "DockerServiceErrors",
     protocol: "DockerProtocol",
     retry: "Retry.Retry",
   },

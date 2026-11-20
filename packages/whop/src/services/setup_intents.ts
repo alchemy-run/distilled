@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { WhopServiceErrors } from "../errors.ts";
 import { paginateRelay } from "../pagination.ts";
 import { WhopProtocol, type WhopOpError, type WhopOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
@@ -605,6 +606,7 @@ export const createSetupIntent: API.OperationMethod<
   input: __S(9, __c1, 1) as any as S.Schema<CreateSetupIntentRequest>,
   output: __S(31, __c3, 7) as any as S.Schema<SetupIntent>,
   errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -622,6 +624,7 @@ export const getSetupIntent: API.OperationMethod<
   input: __S(32, __c4, 0) as any as S.Schema<GetSetupIntentRequest>,
   output: __S(31, __c3, 7) as any as S.Schema<SetupIntent>,
   errors: [Forbidden, NotFound],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -639,6 +642,7 @@ export const getStatusSetupIntent: API.OperationMethod<
   input: __S(40, __c5, 0) as any as S.Schema<GetStatusSetupIntentRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<SetupStatus>,
   errors: [Forbidden, NotFound],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -658,6 +662,7 @@ export const listSetupIntents: API.PaginatedOperationMethod<
     input: __S(56, __c7, 0) as any as S.Schema<ListSetupIntentsRequest>,
     output: __S(59, __c7, 3) as any as S.Schema<ListSetupIntentsResponse>,
     errors: [BadRequest, Forbidden],
+    serviceErrors: WhopServiceErrors,
     protocol: WhopProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -685,6 +690,7 @@ export const updateReturnUrlSetupIntent: API.OperationMethod<
   input: __S(64, __c8, 0) as any as S.Schema<UpdateReturnUrlSetupIntentRequest>,
   output: __S(48, __c6, 0) as any as S.Schema<SetupStatus>,
   errors: [BadRequest, Forbidden],
+  serviceErrors: WhopServiceErrors,
   protocol: WhopProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

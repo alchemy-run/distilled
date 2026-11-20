@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownOvhError } from "../errors.ts";
+import { OvhServiceErrors } from "../errors.ts";
 import { OvhProtocol, type OvhOpError, type OvhOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1102,7 +1102,8 @@ export const createEmailProAccountAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateEmailProAccountAliasRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1119,7 +1120,8 @@ export const createEmailProAccountChangePassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<CreateEmailProAccountChangePasswordRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1136,7 +1138,8 @@ export const createEmailProAccountDiagnostic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(52, __c13, 0) as any as S.Schema<CreateEmailProAccountDiagnosticRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1153,7 +1156,8 @@ export const createEmailProAccountFullAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c28, 0) as any as S.Schema<CreateEmailProAccountFullAccessRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1170,7 +1174,8 @@ export const createEmailProChangeContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(172, __c43, 0) as any as S.Schema<CreateEmailProChangeContactRequest>,
   output: __S(180, __c45, 0) as any as S.Schema<CreateEmailProChangeContactResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1187,7 +1192,8 @@ export const createEmailProDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c56, 0) as any as S.Schema<CreateEmailProDomainRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1204,7 +1210,8 @@ export const createEmailProDomainDisclaimer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(268, __c67, 0) as any as S.Schema<CreateEmailProDomainDisclaimerRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1221,7 +1228,8 @@ export const createEmailProDomainDkim: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c68, 0) as any as S.Schema<CreateEmailProDomainDkimRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1238,7 +1246,8 @@ export const createEmailProExternalContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(276, __c69, 0) as any as S.Schema<CreateEmailProExternalContactRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1255,7 +1264,8 @@ export const deleteEmailProAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(280, __c70, 0) as any as S.Schema<DeleteEmailProAccountRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1272,7 +1282,8 @@ export const deleteEmailProAccountAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<DeleteEmailProAccountAliasRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1289,7 +1300,8 @@ export const deleteEmailProAccountFullAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<DeleteEmailProAccountFullAccessRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1306,7 +1318,8 @@ export const deleteEmailProAccountSendAs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<DeleteEmailProAccountSendAsRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1323,7 +1336,8 @@ export const deleteEmailProAccountSendOnBehalfTo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<DeleteEmailProAccountSendOnBehalfToRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1340,7 +1354,8 @@ export const deleteEmailProDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<DeleteEmailProDomainRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1357,7 +1372,8 @@ export const deleteEmailProDomainDisclaimer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<DeleteEmailProDomainDisclaimerRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1374,7 +1390,8 @@ export const deleteEmailProDomainDkim: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<DeleteEmailProDomainDkimRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1391,7 +1408,8 @@ export const deleteEmailProExternalContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<DeleteEmailProExternalContactRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1408,7 +1426,8 @@ export const disableEmailProDomainDkim: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(44, __c11, 0) as any as S.Schema<DisableEmailProDomainDkimRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1425,7 +1444,8 @@ export const enableEmailProDomainDkim: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<EnableEmailProDomainDkimRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1442,7 +1462,8 @@ export const getEmailPro: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<GetEmailProRequest>,
   output: __S(59, __c14, 3) as any as S.Schema<EmailProServiceNativeWithIAM>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1459,7 +1480,8 @@ export const getEmailProAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<GetEmailProAccountRequest>,
   output: __S(65, __c16, 1) as any as S.Schema<EmailProAccountNative>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1476,7 +1498,8 @@ export const getEmailProAccountAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c18, 0) as any as S.Schema<GetEmailProAccountAliasRequest>,
   output: __S(73, __c18, 1) as any as S.Schema<EmailProAccountAlias>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1493,7 +1516,8 @@ export const getEmailProAccountDiagnostics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<GetEmailProAccountDiagnosticsRequest>,
   output: __S(77, __c19, 1) as any as S.Schema<EmailProAccountDiagnosis>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1510,7 +1534,8 @@ export const getEmailProAccountFullAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c20, 0) as any as S.Schema<GetEmailProAccountFullAccessRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<EmailProAccountFullAccess>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1527,7 +1552,8 @@ export const getEmailProAccountSendAs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c22, 0) as any as S.Schema<GetEmailProAccountSendAsRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<EmailProAccountSendAs>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1544,7 +1570,8 @@ export const getEmailProAccountSendOnBehalfTo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(92, __c23, 0) as any as S.Schema<GetEmailProAccountSendOnBehalfToRequest>,
   output: __S(84, __c21, 0) as any as S.Schema<EmailProAccountSendOnBehalfTo>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1561,7 +1588,8 @@ export const getEmailProAccountTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c24, 0) as any as S.Schema<GetEmailProAccountTaskRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1578,7 +1606,8 @@ export const getEmailProBillingMigrated: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(100, __c25, 0) as any as S.Schema<GetEmailProBillingMigratedRequest>,
   output: __S(101, __c25, 1) as any as S.Schema<GetEmailProBillingMigratedResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1595,7 +1624,8 @@ export const getEmailProBillingPlan: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c26, 0) as any as S.Schema<GetEmailProBillingPlanRequest>,
   output: __S(108, __c27, 0) as any as S.Schema<GetEmailProBillingPlanResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1612,7 +1642,8 @@ export const getEmailProDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(116, __c29, 0) as any as S.Schema<GetEmailProDomainRequest>,
   output: __S(118, __c29, 2) as any as S.Schema<EmailProDomainNative>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1629,7 +1660,8 @@ export const getEmailProDomainDisclaimer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(124, __c31, 0) as any as S.Schema<GetEmailProDomainDisclaimerRequest>,
   output: __S(125, __c31, 1) as any as S.Schema<EmailProDisclaimerNative>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1646,7 +1678,8 @@ export const getEmailProDomainDkim: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c32, 0) as any as S.Schema<GetEmailProDomainDkimRequest>,
   output: __S(129, __c32, 1) as any as S.Schema<EmailProDkim>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1663,7 +1696,8 @@ export const getEmailProExternalContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(132, __c33, 0) as any as S.Schema<GetEmailProExternalContactRequest>,
   output: __S(133, __c33, 1) as any as S.Schema<EmailProExternalContactNative>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1680,7 +1714,8 @@ export const getEmailProServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c34, 0) as any as S.Schema<GetEmailProServerRequest>,
   output: __S(137, __c34, 1) as any as S.Schema<EmailProServer>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1697,7 +1732,8 @@ export const getEmailProServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(140, __c35, 0) as any as S.Schema<GetEmailProServiceInfosRequest>,
   output: __S(141, __c35, 1) as any as S.Schema<ServicesService>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1714,7 +1750,8 @@ export const getEmailProTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(148, __c37, 0) as any as S.Schema<GetEmailProTaskRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1731,7 +1768,8 @@ export const listEmailPro: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(154, __c38, 2) as any as S.Schema<ListEmailProRequest>,
   output: __S(156, __c39, 0) as any as S.Schema<ListEmailProResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1748,7 +1786,8 @@ export const listEmailProAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(164, __c41, 0) as any as S.Schema<ListEmailProAccountRequest>,
   output: __S(156, __c39, 0) as any as S.Schema<ListEmailProAccountResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1765,7 +1804,8 @@ export const listEmailProAccountAlias: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c42, 0) as any as S.Schema<ListEmailProAccountAliasRequest>,
   output: __S(156, __c39, 0) as any as S.Schema<ListEmailProAccountAliasResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1782,7 +1822,8 @@ export const listEmailProAccountFullAccess: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c46, 0) as any as S.Schema<ListEmailProAccountFullAccessRequest>,
   output: __S(180, __c45, 0) as any as S.Schema<ListEmailProAccountFullAccessResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1799,7 +1840,8 @@ export const listEmailProAccountSendAs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(188, __c47, 0) as any as S.Schema<ListEmailProAccountSendAsRequest>,
   output: __S(180, __c45, 0) as any as S.Schema<ListEmailProAccountSendAsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1816,7 +1858,8 @@ export const listEmailProAccountSendOnBehalfTo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c48, 0) as any as S.Schema<ListEmailProAccountSendOnBehalfToRequest>,
   output: __S(180, __c45, 0) as any as S.Schema<ListEmailProAccountSendOnBehalfToResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1833,7 +1876,8 @@ export const listEmailProAccountTasks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(196, __c49, 0) as any as S.Schema<ListEmailProAccountTasksRequest>,
   output: __S(180, __c45, 0) as any as S.Schema<ListEmailProAccountTasksResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1850,7 +1894,8 @@ export const listEmailProDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(200, __c50, 0) as any as S.Schema<ListEmailProDomainRequest>,
   output: __S(156, __c39, 0) as any as S.Schema<ListEmailProDomainResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1867,7 +1912,8 @@ export const listEmailProDomainDisclaimerAttribute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(204, __c51, 0) as any as S.Schema<ListEmailProDomainDisclaimerAttributeRequest>,
   output: __S(205, __c51, 1) as any as S.Schema<ListEmailProDomainDisclaimerAttributeResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1884,7 +1930,8 @@ export const listEmailProDomainDkim: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c52, 0) as any as S.Schema<ListEmailProDomainDkimRequest>,
   output: __S(156, __c39, 0) as any as S.Schema<ListEmailProDomainDkimResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1901,7 +1948,8 @@ export const listEmailProDomainDkimSelector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(212, __c53, 0) as any as S.Schema<ListEmailProDomainDkimSelectorRequest>,
   output: __S(156, __c39, 0) as any as S.Schema<ListEmailProDomainDkimSelectorResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1918,7 +1966,8 @@ export const listEmailProExternalContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(216, __c54, 0) as any as S.Schema<ListEmailProExternalContactRequest>,
   output: __S(156, __c39, 0) as any as S.Schema<ListEmailProExternalContactResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1935,7 +1984,8 @@ export const listEmailProTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(220, __c55, 0) as any as S.Schema<ListEmailProTaskRequest>,
   output: __S(180, __c45, 0) as any as S.Schema<ListEmailProTaskResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1952,7 +2002,8 @@ export const putEmailPro: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(228, __c57, 0) as any as S.Schema<PutEmailProRequest>,
   output: __S(160, __c40, 0) as any as S.Schema<PutEmailProResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1969,7 +2020,8 @@ export const putEmailProAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c58, 0) as any as S.Schema<PutEmailProAccountRequest>,
   output: __S(160, __c40, 0) as any as S.Schema<PutEmailProAccountResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1986,7 +2038,8 @@ export const putEmailProDomain: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(236, __c59, 0) as any as S.Schema<PutEmailProDomainRequest>,
   output: __S(160, __c40, 0) as any as S.Schema<PutEmailProDomainResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2003,7 +2056,8 @@ export const putEmailProDomainDisclaimer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c60, 0) as any as S.Schema<PutEmailProDomainDisclaimerRequest>,
   output: __S(160, __c40, 0) as any as S.Schema<PutEmailProDomainDisclaimerResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2020,7 +2074,8 @@ export const putEmailProExternalContact: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(244, __c61, 0) as any as S.Schema<PutEmailProExternalContactRequest>,
   output: __S(160, __c40, 0) as any as S.Schema<PutEmailProExternalContactResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2037,7 +2092,8 @@ export const putEmailProServiceInfos: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(248, __c62, 0) as any as S.Schema<PutEmailProServiceInfosRequest>,
   output: __S(160, __c40, 0) as any as S.Schema<PutEmailProServiceInfosResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2054,7 +2110,8 @@ export const sendEmailProAccountAs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(252, __c63, 0) as any as S.Schema<SendEmailProAccountAsRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2071,7 +2128,8 @@ export const sendEmailProAccountOnBehalfTo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c64, 0) as any as S.Schema<SendEmailProAccountOnBehalfToRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<EmailProTask>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2088,7 +2146,8 @@ export const terminateEmailProAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(260, __c65, 0) as any as S.Schema<TerminateEmailProAccountRequest>,
   output: __S(108, __c27, 0) as any as S.Schema<TerminateEmailProAccountResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2105,7 +2164,8 @@ export const updateEmailProFlagsOnAllAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(264, __c66, 0) as any as S.Schema<UpdateEmailProFlagsOnAllAccountsRequest>,
   output: __S(160, __c40, 0) as any as S.Schema<UpdateEmailProFlagsOnAllAccountsResponse>,
-  errors: [UnknownOvhError],
+  errors: [],
+  serviceErrors: OvhServiceErrors,
   protocol: OvhProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

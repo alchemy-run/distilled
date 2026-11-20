@@ -1,16 +1,15 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { Protocol } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
+  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * AxiomProtocol -- hand-written.
  *
  * Axiom speaks plain bearer-authenticated JSON REST (no response envelope),
- * so the whole protocol is one `makeRestProtocol` call from
+ * so the whole protocol is one `restProtocol` call from
  * `core/protocol-rest`:
  *
  *   request:  credentials -> `Authorization: Bearer <apiKey>` (+ optional
@@ -30,26 +29,27 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownAxiomError, AxiomParseError } from "./errors.ts";
+import { Credentials, type CredentialsError } from "./credentials.ts";
+import { UnknownAxiomError, AxiomParseError, type AxiomServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Axiom operation. Generated service
- * files annotate operations with `API.OperationMethod<I, O, AxiomOpError,
- * AxiomOpContext>` explicitly so the compiler never infers these back out of
- * the schema generics.
+ * The errors declared on Axiom's protocol: what the code that builds requests
+ * and reads responses fails with. A response that does not match its schema
+ * ({@link AxiomParseError}), a failed response that neither the operation nor
+ * the service declares ({@link UnknownAxiomError}), and core's REST errors (a
+ * bad path label, a request that can't be built, the transport).
  */
-export type AxiomOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownAxiomError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | AxiomParseError
-  | InvalidInput
-  | SdkError;
+export type AxiomProtocolError = RestProtocolError | AxiomParseError | UnknownAxiomError;
+
+/**
+ * What every generated Axiom operation fails with besides its own errors: the
+ * service's errors, the protocol's, and what resolving the credentials fails
+ * with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, AxiomOpError, AxiomOpContext>` explicitly so the
+ * compiler never infers these back out of the schema generics.
+ */
+export type AxiomOpError = AxiomServiceError | AxiomProtocolError | CredentialsError;
 
 /** Context (requirements) shared by every generated Axiom operation. */
 export type AxiomOpContext = Credentials | HttpClient.HttpClient;
@@ -91,17 +91,20 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return { code, message };
 };
 
-export const AxiomProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // The Credentials service holds an effect -- resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => ({
-    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    ...(creds.orgId ? { "X-Axiom-Org-ID": creds.orgId } : {}),
-  }),
-  errorEnvelope,
-  transformResponse: stripNulls,
-  unknownError: (info) => new UnknownAxiomError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new AxiomParseError({ body, cause }),
-});
+// The annotation is the check: everything the protocol fails with, besides
+// the errors an operation and the service declare, must be listed here.
+export const AxiomProtocol: Protocol<AxiomProtocolError | CredentialsError, Credentials> =
+  /*@__PURE__*/ restProtocol({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => ({
+      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+      ...(creds.orgId ? { "X-Axiom-Org-ID": creds.orgId } : {}),
+    }),
+    errorEnvelope,
+    transformResponse: stripNulls,
+    unknownError: (info) => new UnknownAxiomError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new AxiomParseError({ body, cause }),
+  });

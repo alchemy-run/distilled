@@ -66,7 +66,9 @@ const archilSpec: SdkSpec = {
   operationDecl: {
     contextType: "ArchilOpContext",
     commonErrorType: "ArchilOpError",
-    commonErrorClasses: ["UnknownArchilError"],
+    // UnknownArchilError is declared on the protocol, whose type adds it.
+    commonErrorClasses: [],
+    serviceErrors: "ArchilServiceErrors",
     protocol: "ArchilProtocol",
     retry: "Retry.Retry",
   },

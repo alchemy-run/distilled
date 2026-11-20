@@ -40,6 +40,9 @@ export class Credentials
     "IcebergCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   uri: /*@__PURE__*/ EffectConfig.String("ICEBERG_CATALOG_URI"),
   prefix: /*@__PURE__*/ EffectConfig.String("ICEBERG_PREFIX").pipe(EffectConfig.option),

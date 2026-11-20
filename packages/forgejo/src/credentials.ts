@@ -45,6 +45,9 @@ export class Credentials
     "ForgejoCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   // `FORGEJO_URL` / `FORGEJO_TOKEN` are the names Forgejo's own Actions
   // runner and the Terraform/OpenTofu providers read.

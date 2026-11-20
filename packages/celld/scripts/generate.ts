@@ -25,6 +25,7 @@ runGeneratorCli({
       contextType: "CelldOpContext",
       commonErrorType: "CelldOpError",
       commonErrorClasses: [],
+      serviceErrors: "CelldServiceErrors",
       protocol: "CelldProtocol",
       // Replaying signed requests reuses the nonce; mutations may already have run.
     },

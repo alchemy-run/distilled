@@ -59,6 +59,7 @@ const spec: SdkSpec = {
     contextType: "TypesenseOpContext",
     commonErrorType: "TypesenseOpError",
     commonErrorClasses: [],
+    serviceErrors: "TypesenseServiceErrors",
     protocol: "TypesenseProtocol",
     retry: "Retry.Retry",
   },

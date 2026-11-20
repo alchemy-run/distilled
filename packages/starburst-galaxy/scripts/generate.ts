@@ -75,7 +75,10 @@ const starburstGalaxySpec: SdkSpec = {
   operationDecl: {
     contextType: "StarburstGalaxyOpContext",
     commonErrorType: "StarburstGalaxyOpError",
-    commonErrorClasses: ["UnknownStarburstGalaxyError"],
+    // UnknownStarburstGalaxyError is declared on the protocol, whose type adds
+    // it.
+    commonErrorClasses: [],
+    serviceErrors: "StarburstGalaxyServiceErrors",
     protocol: "StarburstGalaxyProtocol",
     retry: "Retry.Retry",
   },

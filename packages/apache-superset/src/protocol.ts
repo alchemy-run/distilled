@@ -1,12 +1,14 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import type { Protocol } from "@distilled.cloud/core/protocol";
+import {
+  restProtocol,
+  unknownErrorProps,
+  type RestProtocolError,
+} from "@distilled.cloud/core/protocol-rest";
 /**
  * ApacheSupersetProtocol -- hand-written.
  *
  * Apache Superset speaks plain bearer-authenticated JSON REST (no response
- * envelope), so the whole protocol is one `makeRestProtocol` call from
+ * envelope), so the whole protocol is one `restProtocol` call from
  * `core/protocol-rest`:
  *
  *   request:  credentials -> `Authorization: Bearer <apiKey>` + instance origin
@@ -21,40 +23,56 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownApacheSupersetError, ApacheSupersetParseError } from "./errors.ts";
+import { Credentials, type CredentialsError } from "./credentials.ts";
+import {
+  UnknownApacheSupersetError,
+  ApacheSupersetParseError,
+  type ApacheSupersetServiceError,
+} from "./errors.ts";
 
 /**
- * Error channel shared by every generated Apache Superset operation.
- * Generated service files annotate operations with
+ * The errors declared on Apache Superset's protocol: what the code that builds
+ * requests and reads responses fails with. A response that does not match its
+ * schema ({@link ApacheSupersetParseError}), a failed response that neither
+ * the operation nor the service declares ({@link UnknownApacheSupersetError}),
+ * and core's REST errors (a bad path label, a request that can't be built, the
+ * transport).
+ */
+export type ApacheSupersetProtocolError =
+  | RestProtocolError
+  | ApacheSupersetParseError
+  | UnknownApacheSupersetError;
+
+/**
+ * What every generated Apache Superset operation fails with besides its own
+ * errors: the service's errors, the protocol's, and what resolving the
+ * credentials fails with. Generated service files annotate operations with
  * `API.OperationMethod<I, O, ApacheSupersetOpError, ApacheSupersetOpContext>`
  * explicitly so the compiler never infers these back out of the schema
  * generics.
  */
 export type ApacheSupersetOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownApacheSupersetError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | ApacheSupersetParseError
-  | InvalidInput
-  | SdkError;
+  | ApacheSupersetServiceError
+  | ApacheSupersetProtocolError
+  | CredentialsError;
 
 /** Context (requirements) shared by every generated Apache Superset operation. */
 export type ApacheSupersetOpContext = Credentials | HttpClient.HttpClient;
 
-export const ApacheSupersetProtocol: Layer.Layer<API.Protocol> =
-  /*@__PURE__*/ makeRestProtocol<Config>({
-    // The Credentials service holds an effect -- resolving it here (per
-    // request, on the calling fiber) picks up context-provided credentials.
-    credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-    baseUrl: (creds) => creds.apiBaseUrl,
-    headers: (creds) => ({
-      Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
-    }),
-    unknownError: (info) => new UnknownApacheSupersetError(unknownErrorProps(info)),
-    parseError: ({ body, cause }) => new ApacheSupersetParseError({ body, cause }),
-  });
+// The annotation is the check: everything the protocol fails with, besides
+// the errors an operation and the service declare, must be listed here.
+export const ApacheSupersetProtocol: Protocol<
+  ApacheSupersetProtocolError | CredentialsError,
+  Credentials
+> = /*@__PURE__*/ restProtocol({
+  // The Credentials service holds an effect -- resolving it here (per
+  // request, on the calling fiber) picks up context-provided credentials.
+  credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+  baseUrl: (creds) => creds.apiBaseUrl,
+  headers: (creds) => ({
+    Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
+  }),
+  unknownError: (info) => new UnknownApacheSupersetError(unknownErrorProps(info)),
+  parseError: ({ body, cause }) => new ApacheSupersetParseError({ body, cause }),
+});

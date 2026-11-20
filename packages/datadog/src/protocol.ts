@@ -1,16 +1,15 @@
-import type * as API from "@distilled.cloud/core/api";
-import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
+import type { Protocol } from "@distilled.cloud/core/protocol";
 import {
-  makeRestProtocol,
+  restProtocol,
   type RestErrorEnvelope,
   unknownErrorProps,
+  type RestProtocolError,
 } from "@distilled.cloud/core/protocol-rest";
-import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * DatadogProtocol -- hand-written.
  *
  * Datadog speaks plain JSON REST (no response envelope), so the whole
- * protocol is one `makeRestProtocol` call from `core/protocol-rest`:
+ * protocol is one `restProtocol` call from `core/protocol-rest`:
  *
  *   request:  credentials -> `DD-API-KEY` + optional `DD-APPLICATION-KEY` +
  *             base URL (default https://api.datadoghq.com), resolved from
@@ -23,26 +22,28 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  */
 import * as Effect from "effect/Effect";
 import type * as HttpClient from "effect/http/HttpClient";
-import type * as HttpClientError from "effect/http/HttpClientError";
-import type * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
-import { Credentials, type Config } from "./credentials.ts";
-import { UnknownDatadogError, DatadogParseError } from "./errors.ts";
+import { Credentials, type CredentialsError } from "./credentials.ts";
+import { UnknownDatadogError, DatadogParseError, type DatadogServiceError } from "./errors.ts";
 
 /**
- * Error channel shared by every generated Datadog operation. Generated
- * service files annotate operations with `API.OperationMethod<I, O,
- * DatadogOpError, DatadogOpContext>` explicitly so the compiler never infers
- * these back out of the schema generics.
+ * The errors declared on Datadog's protocol: what the code that builds
+ * requests and reads responses fails with. A response that does not match its
+ * schema ({@link DatadogParseError}), a failed response that neither the
+ * operation nor the service declares ({@link UnknownDatadogError}), and core's
+ * REST errors (a bad path label, a request that can't be built, the
+ * transport).
  */
-export type DatadogOpError =
-  | InstanceType<(typeof API_ERRORS)[number]>
-  | UnknownDatadogError
-  | ConfigError
-  | HttpClientError.HttpClientError
-  | DatadogParseError
-  | InvalidInput
-  | SdkError;
+export type DatadogProtocolError = RestProtocolError | DatadogParseError | UnknownDatadogError;
+
+/**
+ * What every generated Datadog operation fails with besides its own errors:
+ * the service's errors, the protocol's, and what resolving the credentials
+ * fails with. Generated service files annotate operations with
+ * `API.OperationMethod<I, O, DatadogOpError, DatadogOpContext>` explicitly so
+ * the compiler never infers these back out of the schema generics.
+ */
+export type DatadogOpError = DatadogServiceError | DatadogProtocolError | CredentialsError;
 
 /** Context (requirements) shared by every generated Datadog operation. */
 export type DatadogOpContext = Credentials | HttpClient.HttpClient;
@@ -78,22 +79,25 @@ const errorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
   return message !== undefined || code !== undefined ? { code, message } : undefined;
 };
 
-export const DatadogProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProtocol<Config>({
-  // The Credentials service holds an effect -- resolving it here (per
-  // request, on the calling fiber) picks up context-provided credentials.
-  credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
-  headers: (creds) => {
-    const headers: Record<string, string> = {
-      "DD-API-KEY": Redacted.value(creds.apiKey),
-      Accept: "application/json",
-    };
-    if (creds.applicationKey !== undefined) {
-      headers["DD-APPLICATION-KEY"] = Redacted.value(creds.applicationKey);
-    }
-    return headers;
-  },
-  errorEnvelope,
-  unknownError: (info) => new UnknownDatadogError(unknownErrorProps(info)),
-  parseError: ({ body, cause }) => new DatadogParseError({ body, cause }),
-});
+// The annotation is the check: everything the protocol fails with, besides
+// the errors an operation and the service declare, must be listed here.
+export const DatadogProtocol: Protocol<DatadogProtocolError | CredentialsError, Credentials> =
+  /*@__PURE__*/ restProtocol({
+    // The Credentials service holds an effect -- resolving it here (per
+    // request, on the calling fiber) picks up context-provided credentials.
+    credentials: /*@__PURE__*/ Effect.flatten(Credentials),
+    baseUrl: (creds) => creds.apiBaseUrl,
+    headers: (creds) => {
+      const headers: Record<string, string> = {
+        "DD-API-KEY": Redacted.value(creds.apiKey),
+        Accept: "application/json",
+      };
+      if (creds.applicationKey !== undefined) {
+        headers["DD-APPLICATION-KEY"] = Redacted.value(creds.applicationKey);
+      }
+      return headers;
+    },
+    errorEnvelope,
+    unknownError: (info) => new UnknownDatadogError(unknownErrorProps(info)),
+    parseError: ({ body, cause }) => new DatadogParseError({ body, cause }),
+  });

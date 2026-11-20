@@ -66,7 +66,9 @@ const xataSpec: SdkSpec = {
   operationDecl: {
     contextType: "XataOpContext",
     commonErrorType: "XataOpError",
-    commonErrorClasses: ["UnknownXataError"],
+    // UnknownXataError is declared on the protocol, whose type adds it.
+    commonErrorClasses: [],
+    serviceErrors: "XataServiceErrors",
     protocol: "XataProtocol",
     retry: "Retry.Retry",
   },

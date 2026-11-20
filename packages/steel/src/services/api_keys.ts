@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownSteelError } from "../errors.ts";
+import { SteelServiceErrors } from "../errors.ts";
 import { SteelProtocol, type SteelOpError, type SteelOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -128,7 +128,8 @@ export const createApiKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<CreateApiKeyRequest>,
   output: __S(5, __c1, 1) as any as S.Schema<ApiKeyResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownSteelError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: SteelServiceErrors,
   protocol: SteelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

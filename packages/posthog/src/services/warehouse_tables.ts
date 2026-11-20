@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import { PosthogServiceErrors } from "../errors.ts";
 import { PosthogProtocol, type PosthogOpError, type PosthogOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -346,6 +347,7 @@ export const createWarehouseTable: API.OperationMethod<
   input: __S(40, __c5, 0) as any as S.Schema<CreateWarehouseTableRequest>,
   output: __S(68, __c8, 4) as any as S.Schema<TableOutput>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -363,6 +365,7 @@ export const createWarehouseTablesFile: API.OperationMethod<
   input: __S(72, __c9, 0) as any as S.Schema<CreateWarehouseTablesFileRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<CreateWarehouseTablesFileResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -380,6 +383,7 @@ export const getWarehouseTable: API.OperationMethod<
   input: __S(88, __c11, 0) as any as S.Schema<GetWarehouseTableRequest>,
   output: __S(68, __c8, 4) as any as S.Schema<TableOutput>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -397,6 +401,7 @@ export const listWarehouseTables: API.OperationMethod<
   input: __S(96, __c12, 0) as any as S.Schema<ListWarehouseTablesRequest>,
   output: __S(98, __c12, 2) as any as S.Schema<PaginatedTableListOutput>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -414,6 +419,7 @@ export const updateWarehouseTable: API.OperationMethod<
   input: __S(104, __c13, 0) as any as S.Schema<UpdateWarehouseTableRequest>,
   output: __S(68, __c8, 4) as any as S.Schema<TableOutput>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -431,6 +437,7 @@ export const updateWarehouseTablesPartial: API.OperationMethod<
   input: __S(112, __c14, 0) as any as S.Schema<UpdateWarehouseTablesPartialRequest>,
   output: __S(68, __c8, 4) as any as S.Schema<TableOutput>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -448,6 +455,7 @@ export const warehouseTablesCreateFromUploadCreate: API.OperationMethod<
   input: __S(120, __c15, 0) as any as S.Schema<WarehouseTablesCreateFromUploadCreateRequest>,
   output: __S(68, __c8, 4) as any as S.Schema<TableOutput>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -465,6 +473,7 @@ export const warehouseTablesDestroy: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<WarehouseTablesDestroyRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<WarehouseTablesDestroyResponse>,
   errors: [Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -486,6 +495,7 @@ export const warehouseTablesRefreshSchemaCreate: API.OperationMethod<
   input: __S(8, __c1, 0) as any as S.Schema<WarehouseTablesRefreshSchemaCreateRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<WarehouseTablesRefreshSchemaCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -503,6 +513,7 @@ export const warehouseTablesReplaceFileCreate: API.OperationMethod<
   input: __S(16, __c2, 0) as any as S.Schema<WarehouseTablesReplaceFileCreateRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<WarehouseTablesReplaceFileCreateResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -524,6 +535,7 @@ export const warehouseTablesUpdateSchemaCreate: API.OperationMethod<
   input: __S(24, __c3, 0) as any as S.Schema<WarehouseTablesUpdateSchemaCreateRequest>,
   output: __S(80, __c10, 0) as any as S.Schema<WarehouseTablesUpdateSchemaCreateResponse>,
   errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -541,6 +553,7 @@ export const warehouseTablesUploadFileCreate: API.OperationMethod<
   input: __S(32, __c4, 0) as any as S.Schema<WarehouseTablesUploadFileCreateRequest>,
   output: __S(33, __c4, 1) as any as S.Schema<FileUploadResponse>,
   errors: [],
+  serviceErrors: PosthogServiceErrors,
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

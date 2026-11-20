@@ -33,6 +33,9 @@ export class Credentials
     "NotionCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   token: /*@__PURE__*/ EffectConfig.Redacted("NOTION_TOKEN"),
   apiBaseUrl: /*@__PURE__*/ EffectConfig.String("NOTION_API_BASE_URL").pipe(

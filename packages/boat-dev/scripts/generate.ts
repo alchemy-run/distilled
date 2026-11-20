@@ -78,7 +78,9 @@ const boatSpec: SdkSpec = {
     extraConfig: (ctx) => (streamsOutput(ctx.op.def.traits) ? ["framing: T.ndjson"] : []),
     contextType: "BoatOpContext",
     commonErrorType: "BoatOpError",
-    commonErrorClasses: ["UnknownBoatError"],
+    // UnknownBoatError is declared on the protocol, whose type adds it.
+    commonErrorClasses: [],
+    serviceErrors: "BoatServiceErrors",
     protocol: "BoatProtocol",
     retry: "Retry.Retry",
   },

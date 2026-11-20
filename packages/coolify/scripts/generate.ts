@@ -66,7 +66,9 @@ const coolifySpec: SdkSpec = {
   operationDecl: {
     contextType: "CoolifyOpContext",
     commonErrorType: "CoolifyOpError",
-    commonErrorClasses: ["UnknownCoolifyError"],
+    // UnknownCoolifyError is declared on the protocol, whose type adds it.
+    commonErrorClasses: [],
+    serviceErrors: "CoolifyServiceErrors",
     protocol: "CoolifyProtocol",
     retry: "Retry.Retry",
   },

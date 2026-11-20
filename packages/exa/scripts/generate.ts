@@ -92,7 +92,9 @@ const specFor = (model: any): SdkSpec => {
     operationDecl: {
       contextType: "ExaOpContext",
       commonErrorType: "ExaOpError",
-      commonErrorClasses: ["UnknownExaError"],
+      // UnknownExaError is declared on the protocol, whose type adds it.
+      commonErrorClasses: [],
+      serviceErrors: "ExaServiceErrors",
       protocol,
       retry: "Retry.Retry",
     },

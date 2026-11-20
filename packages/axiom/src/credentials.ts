@@ -33,6 +33,9 @@ export class Credentials
     "AxiomCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 /** Layer from a redacted API token + optional base URL / org ID. */
 export const fromApiKey = (config: {
   readonly apiKey: Redacted.Redacted<string>;

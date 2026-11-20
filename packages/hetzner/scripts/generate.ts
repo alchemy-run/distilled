@@ -98,7 +98,9 @@ const spec: SdkSpec = {
     // No per-operation error classes: the spec types failures only as the
     // `4xx`/`5xx` wildcards, so every status rides HetznerOpError and the
     // protocol picks the class (see src/errors.ts).
-    commonErrorClasses: ["UnknownHetznerError"],
+    // UnknownHetznerError is declared on the protocol, whose type adds it.
+    commonErrorClasses: [],
+    serviceErrors: "HetznerServiceErrors",
     protocol: "HetznerProtocol",
     retry: "Retry.Retry",
   },

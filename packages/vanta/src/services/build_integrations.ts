@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownVantaError } from "../errors.ts";
+import { VantaServiceErrors } from "../errors.ts";
 import { VantaProtocol, type VantaOpError, type VantaOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1529,7 +1529,8 @@ export const getApiEndpointVulnerabilityConnectors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetApiEndpointVulnerabilityConnectorsRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<GetApiEndpointVulnerabilityConnectorsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1546,7 +1547,8 @@ export const getBackgroundCheckConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c2, 0) as any as S.Schema<GetBackgroundCheckConnectorRequest>,
   output: __S(33, __c2, 1) as any as S.Schema<GetBackgroundCheckConnectorResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1563,7 +1565,8 @@ export const getCustomResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<GetCustomResourceRequest>,
   output: __S(273, __c17, 1) as any as S.Schema<GetCustomResourceResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1580,7 +1583,8 @@ export const getMacosUserComputer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<GetMacosUserComputerRequest>,
   output: __S(385, __c24, 1) as any as S.Schema<GetMacosUserComputerResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1597,7 +1601,8 @@ export const getPackageVulnerabilityConnectors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<GetPackageVulnerabilityConnectorsRequest>,
   output: __S(433, __c27, 1) as any as S.Schema<GetPackageVulnerabilityConnectorsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1614,7 +1619,8 @@ export const getSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<GetSecretRequest>,
   output: __S(465, __c29, 1) as any as S.Schema<GetSecretResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1631,7 +1637,8 @@ export const getSecurityTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<GetSecurityTaskRequest>,
   output: __S(497, __c31, 1) as any as S.Schema<GetSecurityTaskResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1652,7 +1659,8 @@ export const getStaticAnalysisCodeVulnerabilityConnectors: API.OperationMethod<
     __c34,
     1,
   ) as any as S.Schema<GetStaticAnalysisCodeVulnerabilityConnectorsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1669,7 +1677,8 @@ export const getUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<GetUserAccountRequest>,
   output: __S(577, __c36, 1) as any as S.Schema<GetUserAccountResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1686,7 +1695,8 @@ export const getUserSecurityTrainingStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<GetUserSecurityTrainingStatusRequest>,
   output: __S(625, __c39, 1) as any as S.Schema<GetUserSecurityTrainingStatusResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1703,7 +1713,8 @@ export const getVulnerableComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<GetVulnerableComponentRequest>,
   output: __S(65, __c4, 1) as any as S.Schema<GetVulnerableComponentResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1720,7 +1731,8 @@ export const getWindowsUserComputer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<GetWindowsUserComputerRequest>,
   output: __S(97, __c6, 1) as any as S.Schema<GetWindowsUserComputerResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1737,7 +1749,8 @@ export const putApiEndpointVulnerabilityConnectors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<PutApiEndpointVulnerabilityConnectorsRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<PutApiEndpointVulnerabilityConnectorsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1754,7 +1767,8 @@ export const putBackgroundCheckConnector: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<PutBackgroundCheckConnectorRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<PutBackgroundCheckConnectorResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1771,7 +1785,8 @@ export const putCustomResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<PutCustomResourceRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<PutCustomResourceResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1788,7 +1803,8 @@ export const putMacosUserComputer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<PutMacosUserComputerRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<PutMacosUserComputerResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1805,7 +1821,8 @@ export const putPackageVulnerabilityConnectors: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<PutPackageVulnerabilityConnectorsRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<PutPackageVulnerabilityConnectorsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1822,7 +1839,8 @@ export const putSecret: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<PutSecretRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<PutSecretResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1839,7 +1857,8 @@ export const putSecurityTask: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<PutSecurityTaskRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<PutSecurityTaskResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1860,7 +1879,8 @@ export const putStaticAnalysisCodeVulnerabilityConnectors: API.OperationMethod<
     __c9,
     0,
   ) as any as S.Schema<PutStaticAnalysisCodeVulnerabilityConnectorsResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1877,7 +1897,8 @@ export const putUserAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<PutUserAccountRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<PutUserAccountResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1894,7 +1915,8 @@ export const putUserSecurityTrainingStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<PutUserSecurityTrainingStatusRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<PutUserSecurityTrainingStatusResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1911,7 +1933,8 @@ export const putVulnerableComponent: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<PutVulnerableComponentRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<PutVulnerableComponentResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1928,7 +1951,8 @@ export const putWindowsUserComputer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<PutWindowsUserComputerRequest>,
   output: __S(144, __c9, 0) as any as S.Schema<PutWindowsUserComputerResponse>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1945,7 +1969,8 @@ export const uploadFileForDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<UploadFileForDocumentRequest>,
   output: __S(370, __c23, 2) as any as S.Schema<UploadedFileT>,
-  errors: [UnknownVantaError],
+  errors: [],
+  serviceErrors: VantaServiceErrors,
   protocol: VantaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownRevenueCatError } from "../errors.ts";
+import { RevenueCatServiceErrors } from "../errors.ts";
 import { paginateNextPage } from "../pagination.ts";
 import {
   RevenueCatProtocol,
@@ -5926,7 +5926,8 @@ export const archiveEntitlement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c116, 0) as any as S.Schema<ArchiveEntitlementRequest>,
   output: __S(1888, __c118, 0) as any as S.Schema<Entitlement>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5949,7 +5950,8 @@ export const archiveOffering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c130, 0) as any as S.Schema<ArchiveOfferingRequest>,
   output: __S(2160, __c135, 0) as any as S.Schema<Offering>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5972,7 +5974,8 @@ export const archiveProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2352, __c147, 0) as any as S.Schema<ArchiveProductRequest>,
   output: __S(1907, __c119, 3) as any as S.Schema<Product>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -5995,7 +5998,8 @@ export const archiveVirtualCurrency: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2544, __c159, 0) as any as S.Schema<ArchiveVirtualCurrencyRequest>,
   output: __S(2562, __c160, 2) as any as S.Schema<VirtualCurrency>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6018,7 +6022,8 @@ export const assignCustomerOffering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2752, __c172, 0) as any as S.Schema<AssignCustomerOfferingRequest>,
   output: __S(2768, __c173, 0) as any as S.Schema<AssignCustomerOfferingResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6041,7 +6046,8 @@ export const attachOfferingToPaywall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<AttachOfferingToPaywallRequest>,
   output: __S(50, __c3, 2) as any as S.Schema<Paywall>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6064,7 +6070,8 @@ export const attachProductsToEntitlement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<AttachProductsToEntitlementRequest>,
   output: __S(1888, __c118, 0) as any as S.Schema<Entitlement>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6087,7 +6094,8 @@ export const attachProductsToPackage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(434, __c27, 2) as any as S.Schema<AttachProductsToPackageRequest>,
   output: __S(2096, __c131, 0) as any as S.Schema<Package>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6110,7 +6118,8 @@ export const authenticateSubscriber: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<AuthenticateSubscriberRequest>,
   output: __S(609, __c38, 1) as any as S.Schema<Authentication>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6133,7 +6142,8 @@ export const blockCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<BlockCustomerRequest>,
   output: __S(2768, __c173, 0) as any as S.Schema<BlockCustomerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6156,7 +6166,8 @@ export const cancelSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<CancelSubscriptionRequest>,
   output: __S(962, __c60, 2) as any as S.Schema<Subscription>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6179,7 +6190,8 @@ export const createApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<CreateAppRequest>,
   output: __S(992, __c62, 0) as any as S.Schema<CreateAppResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6202,7 +6214,8 @@ export const createAudience: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<CreateAudienceRequest>,
   output: __S(1050, __c65, 10) as any as S.Schema<Audience>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6225,7 +6238,8 @@ export const createChartSubscriberListExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1058, __c66, 2) as any as S.Schema<CreateChartSubscriberListExportRequest>,
   output: __S(2768, __c173, 0) as any as S.Schema<CreateChartSubscriberListExportResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6248,7 +6262,8 @@ export const createCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1090, __c68, 2) as any as S.Schema<CreateCustomerRequest>,
   output: __S(1137, __c71, 1) as any as S.Schema<Customer>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6271,7 +6286,8 @@ export const createDiscount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<CreateDiscountRequest>,
   output: __S(1184, __c74, 0) as any as S.Schema<CreateDiscountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6294,7 +6310,8 @@ export const createDiscountCodes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<CreateDiscountCodesRequest>,
   output: __S(1201, __c75, 1) as any as S.Schema<CreateDiscountCodesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6317,7 +6334,8 @@ export const createEntitlement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<CreateEntitlementRequest>,
   output: __S(1888, __c118, 0) as any as S.Schema<Entitlement>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6340,7 +6358,8 @@ export const createFont: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<CreateFontRequest>,
   output: __S(1264, __c79, 0) as any as S.Schema<Font>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6363,7 +6382,8 @@ export const createIamAuthenticationMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<CreateIamAuthenticationMethodRequest>,
   output: __S(1296, __c81, 0) as any as S.Schema<CreateIamAuthenticationMethodResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6386,7 +6406,8 @@ export const createMediaAsset: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<CreateMediaAssetRequest>,
   output: __S(1330, __c83, 2) as any as S.Schema<MediaAsset>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6409,7 +6430,8 @@ export const createOffering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1344, __c84, 0) as any as S.Schema<CreateOfferingRequest>,
   output: __S(2160, __c135, 0) as any as S.Schema<Offering>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6432,7 +6454,8 @@ export const createPackages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<CreatePackagesRequest>,
   output: __S(2096, __c131, 0) as any as S.Schema<Package>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6455,7 +6478,8 @@ export const createPaywall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c86, 0) as any as S.Schema<CreatePaywallRequest2>,
   output: __S(50, __c3, 2) as any as S.Schema<Paywall>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6478,7 +6502,8 @@ export const createPaywallVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<CreatePaywallVersionRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<PaywallVersion>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6501,7 +6526,8 @@ export const createProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1425, __c89, 1) as any as S.Schema<CreateProductRequest>,
   output: __S(1907, __c119, 3) as any as S.Schema<Product>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6524,7 +6550,8 @@ export const createProductInStore: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c90, 0) as any as S.Schema<CreateProductInStoreRequest>,
   output: __S(1442, __c90, 2) as any as S.Schema<StoreProductCreation>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6547,7 +6574,8 @@ export const createProject: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<CreateProjectRequest>,
   output: __S(1472, __c92, 0) as any as S.Schema<Project>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6570,7 +6598,8 @@ export const createVirtualCurrenciesTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<CreateVirtualCurrenciesTransactionRequest>,
   output: __S(1506, __c94, 2) as any as S.Schema<VirtualCurrenciesBalancesList>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6593,7 +6622,8 @@ export const createVirtualCurrency: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c96, 0) as any as S.Schema<CreateVirtualCurrencyRequest>,
   output: __S(2562, __c160, 2) as any as S.Schema<VirtualCurrency>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6616,7 +6646,8 @@ export const createWebhookIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c98, 0) as any as S.Schema<CreateWebhookIntegrationRequest>,
   output: __S(1600, __c100, 0) as any as S.Schema<WebhookIntegration>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6639,7 +6670,8 @@ export const deleteApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1616, __c101, 0) as any as S.Schema<DeleteAppRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6662,7 +6694,8 @@ export const deleteCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<DeleteCustomerRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6685,7 +6718,8 @@ export const deleteDiscount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c104, 0) as any as S.Schema<DeleteDiscountRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6708,7 +6742,8 @@ export const deleteDiscountCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<DeleteDiscountCodeRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6731,7 +6766,8 @@ export const deleteEntitlement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<DeleteEntitlementRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6754,7 +6790,8 @@ export const deleteIamAuthenticationMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1712, __c107, 0) as any as S.Schema<DeleteIamAuthenticationMethodRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6777,7 +6814,8 @@ export const deleteOffering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c108, 0) as any as S.Schema<DeleteOfferingRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6800,7 +6838,8 @@ export const deletePackageFromOffering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c109, 0) as any as S.Schema<DeletePackageFromOfferingRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6823,7 +6862,8 @@ export const deletePaywall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c110, 0) as any as S.Schema<DeletePaywallRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6846,7 +6886,8 @@ export const deleteProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1776, __c111, 0) as any as S.Schema<DeleteProductRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6869,7 +6910,8 @@ export const deleteVirtualCurrency: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c112, 0) as any as S.Schema<DeleteVirtualCurrencyRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6892,7 +6934,8 @@ export const deleteWebhookIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<DeleteWebhookIntegrationRequest>,
   output: __S(1632, __c102, 0) as any as S.Schema<DeletedObject>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6915,7 +6958,8 @@ export const detachOfferingFromPaywall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<DetachOfferingFromPaywallRequest>,
   output: __S(50, __c3, 2) as any as S.Schema<Paywall>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6938,7 +6982,8 @@ export const detachProductsFromEntitlement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<DetachProductsFromEntitlementRequest>,
   output: __S(1888, __c118, 0) as any as S.Schema<Entitlement>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6961,7 +7006,8 @@ export const detachProductsFromPackage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c120, 0) as any as S.Schema<DetachProductsFromPackageRequest>,
   output: __S(2096, __c131, 0) as any as S.Schema<Package>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -6984,7 +7030,8 @@ export const disableDiscount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1936, __c121, 0) as any as S.Schema<DisableDiscountRequest>,
   output: __S(1184, __c74, 0) as any as S.Schema<DisableDiscountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7007,7 +7054,8 @@ export const duplicatePaywall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1953, __c122, 1) as any as S.Schema<DuplicatePaywallRequest>,
   output: __S(50, __c3, 2) as any as S.Schema<Paywall>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7030,7 +7078,8 @@ export const enableDiscount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1968, __c123, 0) as any as S.Schema<EnableDiscountRequest>,
   output: __S(1184, __c74, 0) as any as S.Schema<EnableDiscountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7053,7 +7102,8 @@ export const extendSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c124, 0) as any as S.Schema<ExtendSubscriptionRequest2>,
   output: __S(962, __c60, 2) as any as S.Schema<Subscription>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7070,7 +7120,8 @@ export const getApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2000, __c125, 0) as any as S.Schema<GetAppRequest>,
   output: __S(992, __c62, 0) as any as S.Schema<GetAppResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7087,7 +7138,8 @@ export const getAppStorekitConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c126, 0) as any as S.Schema<GetAppStorekitConfigRequest>,
   output: __S(2017, __c126, 1) as any as S.Schema<StoreKitConfigFile>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7104,7 +7156,8 @@ export const getAudience: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2032, __c127, 0) as any as S.Schema<GetAudienceRequest>,
   output: __S(1050, __c65, 10) as any as S.Schema<Audience>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7121,7 +7174,8 @@ export const getAudienceFilterOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2049, __c128, 1) as any as S.Schema<GetAudienceFilterOptionsRequest>,
   output: __S(2054, __c128, 6) as any as S.Schema<ListAudienceFilterOptions>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7142,7 +7196,8 @@ export const getAuthorizedSubscriptionManagementUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2064, __c129, 0) as any as S.Schema<GetAuthorizedSubscriptionManagementUrlRequest>,
   output: __S(2065, __c129, 1) as any as S.Schema<AuthenticatedManagementUrl>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7159,7 +7214,8 @@ export const getBenchmarks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c136, 0) as any as S.Schema<GetBenchmarksRequest>,
   output: __S(2179, __c136, 3) as any as S.Schema<Benchmarks>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7176,7 +7232,8 @@ export const getChartData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2192, __c137, 0) as any as S.Schema<GetChartDataRequest>,
   output: __S(2201, __c137, 9) as any as S.Schema<ChartData>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7193,7 +7250,8 @@ export const getChartOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c138, 0) as any as S.Schema<GetChartOptionsRequest>,
   output: __S(2219, __c138, 11) as any as S.Schema<ChartOptions>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7214,7 +7272,8 @@ export const getChartSubscriberListExport: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2224, __c139, 0) as any as S.Schema<GetChartSubscriberListExportRequest>,
   output: __S(2225, __c139, 1) as any as S.Schema<ChartSubscriberListExport>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7231,7 +7290,8 @@ export const getCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2240, __c140, 0) as any as S.Schema<GetCustomerRequest>,
   output: __S(1137, __c71, 1) as any as S.Schema<Customer>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7248,7 +7308,8 @@ export const getCustomerCenterConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<GetCustomerCenterConfigRequest>,
   output: __S(2257, __c141, 1) as any as S.Schema<CustomerCenterConfig>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7265,7 +7326,8 @@ export const getDiscount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c142, 0) as any as S.Schema<GetDiscountRequest>,
   output: __S(1184, __c74, 0) as any as S.Schema<GetDiscountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7282,7 +7344,8 @@ export const getEntitlement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2288, __c143, 0) as any as S.Schema<GetEntitlementRequest>,
   output: __S(1888, __c118, 0) as any as S.Schema<Entitlement>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7299,7 +7362,8 @@ export const getIamAuthenticationMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c144, 0) as any as S.Schema<GetIamAuthenticationMethodRequest>,
   output: __S(1296, __c81, 0) as any as S.Schema<GetIamAuthenticationMethodResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7316,7 +7380,8 @@ export const getIamSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2320, __c145, 0) as any as S.Schema<GetIamSettingsRequest>,
   output: __S(2336, __c146, 0) as any as S.Schema<IAMSettings>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7333,7 +7398,8 @@ export const getInvoice: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c148, 0) as any as S.Schema<GetInvoiceRequest>,
   output: __S(2768, __c173, 0) as any as S.Schema<GetInvoiceResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7350,7 +7416,8 @@ export const getOffering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2384, __c149, 0) as any as S.Schema<GetOfferingRequest>,
   output: __S(2160, __c135, 0) as any as S.Schema<Offering>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7367,7 +7434,8 @@ export const getOverviewMetrics: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c150, 0) as any as S.Schema<GetOverviewMetricsRequest>,
   output: __S(2403, __c150, 3) as any as S.Schema<OverviewMetrics>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7384,7 +7452,8 @@ export const getPackage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2416, __c151, 0) as any as S.Schema<GetPackageRequest>,
   output: __S(2096, __c131, 0) as any as S.Schema<Package>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7401,7 +7470,8 @@ export const getPaywall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c152, 0) as any as S.Schema<GetPaywallRequest>,
   output: __S(50, __c3, 2) as any as S.Schema<Paywall>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7418,7 +7488,8 @@ export const getPaywallVersion: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2448, __c153, 0) as any as S.Schema<GetPaywallVersionRequest>,
   output: __S(1408, __c88, 0) as any as S.Schema<PaywallVersion>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7445,7 +7516,8 @@ export const getPlayStoreOrAppStoreSubscriptionTransactions: API.PaginatedOperat
       0,
     ) as any as S.Schema<GetPlayStoreOrAppStoreSubscriptionTransactionsRequest>,
     output: __S(2466, __c154, 2) as any as S.Schema<ListSubscriptionTransaction>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7471,7 +7543,8 @@ export const getProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2496, __c156, 0) as any as S.Schema<GetProductRequest>,
   output: __S(1907, __c119, 3) as any as S.Schema<Product>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7490,7 +7563,8 @@ export const getProductsFromEntitlement: API.PaginatedOperationMethod<
   () => ({
     input: __S(2512, __c157, 0) as any as S.Schema<GetProductsFromEntitlementRequest>,
     output: __S(1873, __c117, 1) as any as S.Schema<ProductsFromEntitlement>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7518,7 +7592,8 @@ export const getProductsFromPackage: API.PaginatedOperationMethod<
   () => ({
     input: __S(2528, __c158, 0) as any as S.Schema<GetProductsFromPackageRequest>,
     output: __S(2114, __c132, 2) as any as S.Schema<ProductsFromPackage>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7544,7 +7619,8 @@ export const getPurchase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2576, __c161, 0) as any as S.Schema<GetPurchaseRequest>,
   output: __S(2592, __c162, 0) as any as S.Schema<Purchase>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7561,7 +7637,8 @@ export const getRevenueMetric: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2608, __c163, 0) as any as S.Schema<GetRevenueMetricRequest>,
   output: __S(2609, __c163, 1) as any as S.Schema<RevenueMetric>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7578,7 +7655,8 @@ export const getSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c164, 0) as any as S.Schema<GetSubscriptionRequest>,
   output: __S(962, __c60, 2) as any as S.Schema<Subscription>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7595,7 +7673,8 @@ export const getVirtualCurrency: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2640, __c165, 0) as any as S.Schema<GetVirtualCurrencyRequest>,
   output: __S(2562, __c160, 2) as any as S.Schema<VirtualCurrency>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7612,7 +7691,8 @@ export const getWebhookIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c166, 0) as any as S.Schema<GetWebhookIntegrationRequest>,
   output: __S(1600, __c100, 0) as any as S.Schema<WebhookIntegration>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7635,7 +7715,8 @@ export const grantCustomerEntitlement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2672, __c167, 0) as any as S.Schema<GrantCustomerEntitlementRequest>,
   output: __S(1137, __c71, 1) as any as S.Schema<Customer>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7652,7 +7733,8 @@ export const listAppPublicApiKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2688, __c168, 0) as any as S.Schema<ListAppPublicApiKeysRequest>,
   output: __S(2691, __c168, 3) as any as S.Schema<ListPublicApiKeys>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7671,7 +7753,8 @@ export const listApps: API.PaginatedOperationMethod<
   () => ({
     input: __S(2704, __c169, 0) as any as S.Schema<ListAppsRequest>,
     output: __S(2706, __c169, 2) as any as S.Schema<AppList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7697,7 +7780,8 @@ export const listAudiences: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c170, 0) as any as S.Schema<ListAudiencesRequest>,
   output: __S(2722, __c170, 2) as any as S.Schema<AudienceList>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7716,7 +7800,8 @@ export const listAuditLogs: API.PaginatedOperationMethod<
   () => ({
     input: __S(2736, __c171, 0) as any as S.Schema<ListAuditLogsRequest>,
     output: __S(2739, __c171, 3) as any as S.Schema<AuditLogList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7742,7 +7827,8 @@ export const listBlockedCustomers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2784, __c174, 0) as any as S.Schema<ListBlockedCustomersRequest>,
   output: __S(2785, __c174, 1) as any as S.Schema<BlockedCustomerList>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7761,7 +7847,8 @@ export const listCollaborators: API.PaginatedOperationMethod<
   () => ({
     input: __S(2800, __c175, 0) as any as S.Schema<ListCollaboratorsRequest>,
     output: __S(2803, __c175, 3) as any as S.Schema<CollaboratorList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7793,7 +7880,8 @@ export const listCustomerActiveEntitlements: API.PaginatedOperationMethod<
   () => ({
     input: __S(2816, __c176, 0) as any as S.Schema<ListCustomerActiveEntitlementsRequest>,
     output: __S(1106, __c69, 2) as any as S.Schema<CustomerActiveEntitlementList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7821,7 +7909,8 @@ export const listCustomerAliases: API.PaginatedOperationMethod<
   () => ({
     input: __S(2832, __c177, 0) as any as S.Schema<ListCustomerAliasesRequest>,
     output: __S(2835, __c177, 3) as any as S.Schema<CustomerAliasList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7849,7 +7938,8 @@ export const listCustomerAttributes: API.PaginatedOperationMethod<
   () => ({
     input: __S(2848, __c178, 0) as any as S.Schema<ListCustomerAttributesRequest>,
     output: __S(1122, __c70, 2) as any as S.Schema<CustomerAttributeList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7877,7 +7967,8 @@ export const listCustomerEvents: API.PaginatedOperationMethod<
   () => ({
     input: __S(2864, __c179, 0) as any as S.Schema<ListCustomerEventsRequest>,
     output: __S(2867, __c179, 3) as any as S.Schema<CustomerEventsList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7905,7 +7996,8 @@ export const listCustomerInvoices: API.PaginatedOperationMethod<
   () => ({
     input: __S(2880, __c180, 0) as any as S.Schema<ListCustomerInvoicesRequest>,
     output: __S(2885, __c180, 5) as any as S.Schema<CustomerInvoicesList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7933,7 +8025,8 @@ export const listCustomers: API.PaginatedOperationMethod<
   () => ({
     input: __S(2896, __c181, 0) as any as S.Schema<ListCustomersRequest>,
     output: __S(2898, __c181, 2) as any as S.Schema<CustomerList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7961,7 +8054,8 @@ export const listDiscountCodes: API.PaginatedOperationMethod<
   () => ({
     input: __S(2912, __c182, 0) as any as S.Schema<ListDiscountCodesRequest>,
     output: __S(2913, __c182, 1) as any as S.Schema<DiscountCodeList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -7989,7 +8083,8 @@ export const listDiscounts: API.PaginatedOperationMethod<
   () => ({
     input: __S(2928, __c183, 0) as any as S.Schema<ListDiscountsRequest>,
     output: __S(2930, __c183, 2) as any as S.Schema<DiscountList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8017,7 +8112,8 @@ export const listEntitlements: API.PaginatedOperationMethod<
   () => ({
     input: __S(64, __c4, 0) as any as S.Schema<ListEntitlementsRequest>,
     output: __S(929, __c58, 1) as any as S.Schema<EntitlementList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8045,7 +8141,8 @@ export const listFonts: API.PaginatedOperationMethod<
   () => ({
     input: __S(80, __c5, 0) as any as S.Schema<ListFontsRequest>,
     output: __S(82, __c5, 2) as any as S.Schema<FontList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8077,7 +8174,8 @@ export const listIamAuthenticationMethods: API.PaginatedOperationMethod<
   () => ({
     input: __S(96, __c6, 0) as any as S.Schema<ListIamAuthenticationMethodsRequest>,
     output: __S(98, __c6, 2) as any as S.Schema<ListIAMAuthenticationMethods>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8105,7 +8203,8 @@ export const listMediaAssets: API.PaginatedOperationMethod<
   () => ({
     input: __S(112, __c7, 0) as any as S.Schema<ListMediaAssetsRequest>,
     output: __S(114, __c7, 2) as any as S.Schema<MediaAssetList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8133,7 +8232,8 @@ export const listOfferings: API.PaginatedOperationMethod<
   () => ({
     input: __S(128, __c8, 0) as any as S.Schema<ListOfferingsRequest>,
     output: __S(130, __c8, 2) as any as S.Schema<OfferingList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8161,7 +8261,8 @@ export const listPackages: API.PaginatedOperationMethod<
   () => ({
     input: __S(144, __c9, 0) as any as S.Schema<ListPackagesRequest>,
     output: __S(2145, __c134, 1) as any as S.Schema<PackageList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8189,7 +8290,8 @@ export const listPaywalls: API.PaginatedOperationMethod<
   () => ({
     input: __S(160, __c10, 0) as any as S.Schema<ListPaywallsRequest>,
     output: __S(162, __c10, 2) as any as S.Schema<PaywallList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8217,7 +8319,8 @@ export const listProducts: API.PaginatedOperationMethod<
   () => ({
     input: __S(176, __c11, 0) as any as S.Schema<ListProductsRequest>,
     output: __S(1873, __c117, 1) as any as S.Schema<ProductList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8245,7 +8348,8 @@ export const listProjects: API.PaginatedOperationMethod<
   () => ({
     input: __S(192, __c12, 0) as any as S.Schema<ListProjectsRequest>,
     output: __S(194, __c12, 2) as any as S.Schema<ProjectList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8273,7 +8377,8 @@ export const listPurchaseEntitlements: API.PaginatedOperationMethod<
   () => ({
     input: __S(208, __c13, 0) as any as S.Schema<ListPurchaseEntitlementsRequest>,
     output: __S(929, __c58, 1) as any as S.Schema<EntitlementList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8301,7 +8406,8 @@ export const listPurchases: API.PaginatedOperationMethod<
   () => ({
     input: __S(240, __c15, 0) as any as S.Schema<ListPurchasesRequest>,
     output: __S(257, __c16, 1) as any as S.Schema<PurchaseList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8333,7 +8439,8 @@ export const listSubscriptionEntitlements: API.PaginatedOperationMethod<
   () => ({
     input: __S(272, __c17, 0) as any as S.Schema<ListSubscriptionEntitlementsRequest>,
     output: __S(929, __c58, 1) as any as S.Schema<EntitlementList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8361,7 +8468,8 @@ export const listSubscriptions: API.PaginatedOperationMethod<
   () => ({
     input: __S(288, __c18, 0) as any as S.Schema<ListSubscriptionsRequest>,
     output: __S(305, __c19, 1) as any as S.Schema<SubscriptionList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8389,7 +8497,8 @@ export const listVirtualCurrencies: API.PaginatedOperationMethod<
   () => ({
     input: __S(320, __c20, 0) as any as S.Schema<ListVirtualCurrenciesRequest>,
     output: __S(322, __c20, 2) as any as S.Schema<VirtualCurrencyList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8421,7 +8530,8 @@ export const listVirtualCurrenciesBalances: API.PaginatedOperationMethod<
   () => ({
     input: __S(336, __c21, 0) as any as S.Schema<ListVirtualCurrenciesBalancesRequest>,
     output: __S(1506, __c94, 2) as any as S.Schema<VirtualCurrenciesBalancesList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8449,7 +8559,8 @@ export const listWebhookIntegrations: API.PaginatedOperationMethod<
   () => ({
     input: __S(352, __c22, 0) as any as S.Schema<ListWebhookIntegrationsRequest>,
     output: __S(354, __c22, 2) as any as S.Schema<WebhookIntegrationList>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: RevenueCatServiceErrors,
     protocol: RevenueCatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -8481,7 +8592,8 @@ export const previewAudience: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<PreviewAudienceRequest2>,
   output: __S(369, __c23, 1) as any as S.Schema<AudiencePreview>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8504,7 +8616,8 @@ export const publishPaywall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<PublishPaywallRequest>,
   output: __S(50, __c3, 2) as any as S.Schema<Paywall>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8531,7 +8644,8 @@ export const refundPlayStoreOrGalaxySubscriptionTransaction: API.OperationMethod
     0,
   ) as any as S.Schema<RefundPlayStoreOrGalaxySubscriptionTransactionRequest>,
   output: __S(2480, __c155, 0) as any as S.Schema<SubscriptionTransaction>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8554,7 +8668,8 @@ export const refundPurchase: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<RefundPurchaseRequest>,
   output: __S(2592, __c162, 0) as any as S.Schema<Purchase>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8577,7 +8692,8 @@ export const refundSubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<RefundSubscriptionRequest>,
   output: __S(962, __c60, 2) as any as S.Schema<Subscription>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8600,7 +8716,8 @@ export const restorePurchaseByOrderId: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<RestorePurchaseByOrderIdRequest>,
   output: __S(1137, __c71, 1) as any as S.Schema<Customer>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8623,7 +8740,8 @@ export const revokeCustomerGrantedEntitlement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<RevokeCustomerGrantedEntitlementRequest>,
   output: __S(1137, __c71, 1) as any as S.Schema<Customer>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8640,7 +8758,8 @@ export const searchPurchases: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<SearchPurchasesRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<PurchaseList>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8657,7 +8776,8 @@ export const searchSubscriptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<SearchSubscriptionsRequest>,
   output: __S(305, __c19, 1) as any as S.Schema<SubscriptionList>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8680,7 +8800,8 @@ export const setCustomerAttributes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(530, __c33, 2) as any as S.Schema<SetCustomerAttributesRequest>,
   output: __S(1122, __c70, 2) as any as S.Schema<CustomerAttributeList>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8703,7 +8824,8 @@ export const transferCustomerData: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<TransferCustomerDataRequest>,
   output: __S(545, __c34, 1) as any as S.Schema<Transfer>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8726,7 +8848,8 @@ export const unarchiveEntitlement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<UnarchiveEntitlementRequest>,
   output: __S(1888, __c118, 0) as any as S.Schema<Entitlement>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8749,7 +8872,8 @@ export const unarchiveOffering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<UnarchiveOfferingRequest>,
   output: __S(2160, __c135, 0) as any as S.Schema<Offering>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8772,7 +8896,8 @@ export const unarchiveProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<UnarchiveProductRequest>,
   output: __S(1907, __c119, 3) as any as S.Schema<Product>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8795,7 +8920,8 @@ export const unarchiveVirtualCurrency: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<UnarchiveVirtualCurrencyRequest>,
   output: __S(2562, __c160, 2) as any as S.Schema<VirtualCurrency>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8818,7 +8944,8 @@ export const unblockCustomer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<UnblockCustomerRequest>,
   output: __S(2768, __c173, 0) as any as S.Schema<UnblockCustomerResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8841,7 +8968,8 @@ export const unpublishPaywall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<UnpublishPaywallRequest>,
   output: __S(50, __c3, 2) as any as S.Schema<Paywall>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8864,7 +8992,8 @@ export const updateApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(680, __c42, 8) as any as S.Schema<UpdateAppRequest>,
   output: __S(992, __c62, 0) as any as S.Schema<UpdateAppResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8887,7 +9016,8 @@ export const updateAudience: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<UpdateAudienceRequest>,
   output: __S(1050, __c65, 10) as any as S.Schema<Audience>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8910,7 +9040,8 @@ export const updateDiscountOffer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<UpdateDiscountOfferRequest>,
   output: __S(1184, __c74, 0) as any as S.Schema<UpdateDiscountOfferResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8933,7 +9064,8 @@ export const updateEntitlement: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<UpdateEntitlementRequest>,
   output: __S(1888, __c118, 0) as any as S.Schema<Entitlement>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8956,7 +9088,8 @@ export const updateIamAuthenticationMethod: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c46, 0) as any as S.Schema<UpdateIamAuthenticationMethodRequest>,
   output: __S(1296, __c81, 0) as any as S.Schema<UpdateIamAuthenticationMethodResponse>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -8979,7 +9112,8 @@ export const updateIamSettings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<UpdateIamSettingsRequest>,
   output: __S(2336, __c146, 0) as any as S.Schema<IAMSettings>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9002,7 +9136,8 @@ export const updateOffering: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<UpdateOfferingRequest>,
   output: __S(2160, __c135, 0) as any as S.Schema<Offering>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9025,7 +9160,8 @@ export const updatePackage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<UpdatePackageRequest>,
   output: __S(2096, __c131, 0) as any as S.Schema<Package>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9048,7 +9184,8 @@ export const updatePaywall: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(817, __c51, 1) as any as S.Schema<UpdatePaywallRequest>,
   output: __S(50, __c3, 2) as any as S.Schema<Paywall>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9071,7 +9208,8 @@ export const updateProduct: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<UpdateProductRequest>,
   output: __S(1907, __c119, 3) as any as S.Schema<Product>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9094,7 +9232,8 @@ export const updateVirtualCurrenciesBalance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<UpdateVirtualCurrenciesBalanceRequest>,
   output: __S(1506, __c94, 2) as any as S.Schema<VirtualCurrenciesBalancesList>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9117,7 +9256,8 @@ export const updateVirtualCurrency: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<UpdateVirtualCurrencyRequest>,
   output: __S(2562, __c160, 2) as any as S.Schema<VirtualCurrency>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9140,7 +9280,8 @@ export const updateWebhookIntegration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<UpdateWebhookIntegrationRequest>,
   output: __S(1600, __c100, 0) as any as S.Schema<WebhookIntegration>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity, UnknownRevenueCatError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict, UnprocessableEntity],
+  serviceErrors: RevenueCatServiceErrors,
   protocol: RevenueCatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownStarburstGalaxyError } from "../errors.ts";
+import { StarburstGalaxyServiceErrors } from "../errors.ts";
 import { paginateToken } from "../pagination.ts";
 import {
   StarburstGalaxyProtocol,
@@ -219,7 +219,8 @@ export const createServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<CreateServiceAccountRequest>,
   output: __S(14, __c3, 2) as any as S.Schema<ServiceAccount>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -241,7 +242,8 @@ export const createServiceAccountPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<CreateServiceAccountPasswordRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<ServiceAccountPassword>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -258,7 +260,8 @@ export const deleteServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<DeleteServiceAccountRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<DeleteServiceAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -279,7 +282,8 @@ export const deleteServiceAccountPassword: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<DeleteServiceAccountPasswordRequest>,
   output: __S(24, __c6, 0) as any as S.Schema<DeleteServiceAccountPasswordResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -296,7 +300,8 @@ export const getServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<GetServiceAccountRequest>,
   output: __S(14, __c3, 2) as any as S.Schema<ServiceAccount>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -315,7 +320,8 @@ export const listServiceAccounts: API.PaginatedOperationMethod<
   () => ({
     input: __S(36, __c9, 0) as any as S.Schema<ListServiceAccountsRequest>,
     output: __S(38, __c9, 2) as any as S.Schema<PaginatedServiceAccount>,
-    errors: [BadRequest, Forbidden, NotFound, UnknownStarburstGalaxyError],
+    errors: [BadRequest, Forbidden, NotFound],
+    serviceErrors: StarburstGalaxyServiceErrors,
     protocol: StarburstGalaxyProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -346,7 +352,8 @@ export const updateServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<UpdateServiceAccountRequest>,
   output: __S(14, __c3, 2) as any as S.Schema<ServiceAccount>,
-  errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownStarburstGalaxyError],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
+  serviceErrors: StarburstGalaxyServiceErrors,
   protocol: StarburstGalaxyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

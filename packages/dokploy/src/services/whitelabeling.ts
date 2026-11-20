@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownDokployError } from "../errors.ts";
+import { DokployServiceErrors } from "../errors.ts";
 import { DokployProtocol, type DokployOpError, type DokployOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -150,7 +150,8 @@ export const getWhitelabeling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<GetWhitelabelingRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<GetWhitelabelingResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -166,7 +167,8 @@ export const getWhitelabelingPublic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<GetWhitelabelingPublicRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<GetWhitelabelingPublicResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownDokployError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -182,7 +184,8 @@ export const resetWhitelabeling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<ResetWhitelabelingRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<ResetWhitelabelingResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -198,7 +201,8 @@ export const updateWhitelabeling: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(21, __c5, 1) as any as S.Schema<UpdateWhitelabelingRequest>,
   output: __S(8, __c2, 0) as any as S.Schema<UpdateWhitelabelingResponse>,
-  errors: [BadRequest, Forbidden, UnknownDokployError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: DokployServiceErrors,
   protocol: DokployProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

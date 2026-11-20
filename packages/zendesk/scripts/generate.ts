@@ -71,7 +71,9 @@ const zendeskSpec: SdkSpec = {
   operationDecl: {
     contextType: "ZendeskOpContext",
     commonErrorType: "ZendeskOpError",
-    commonErrorClasses: ["UnknownZendeskError"],
+    // UnknownZendeskError is declared on the protocol, whose type adds it.
+    commonErrorClasses: [],
+    serviceErrors: "ZendeskServiceErrors",
     protocol: "ZendeskProtocol",
     retry: "Retry.Retry",
   },

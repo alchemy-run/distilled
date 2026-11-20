@@ -29,6 +29,9 @@ export class Credentials
     "ZendeskCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const stripTrailingSlash = (url: string): string => url.replace(/\/+$/, "");
 
 /** Account origin from a subdomain (`acme`) or host (`acme.zendesk.com`). */

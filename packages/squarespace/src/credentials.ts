@@ -34,6 +34,9 @@ export class Credentials
     "SquarespaceCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 /** Layer from a redacted API key + optional base URL / User-Agent. */
 export const fromApiKey = (config: {
   readonly apiKey: Redacted.Redacted<string>;

@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownOnepasswordError } from "../errors.ts";
+import { OnepasswordServiceErrors } from "../errors.ts";
 import { OAuthProtocol, type OnepasswordOpError, type OAuthOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -128,7 +128,8 @@ export const introspectAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2, __c1, 0) as any as S.Schema<IntrospectAccessTokenRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<IntrospectionResponse>,
-  errors: [BadRequest, UnknownOnepasswordError],
+  errors: [BadRequest],
+  serviceErrors: OnepasswordServiceErrors,
   protocol: OAuthProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -145,7 +146,8 @@ export const requestAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c2, 0) as any as S.Schema<RequestAccessTokenRequest>,
   output: __S(5, __c2, 1) as any as S.Schema<TokenResponse>,
-  errors: [BadRequest, UnknownOnepasswordError],
+  errors: [BadRequest],
+  serviceErrors: OnepasswordServiceErrors,
   protocol: OAuthProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -162,7 +164,8 @@ export const revokeAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6, __c3, 0) as any as S.Schema<RevokeAccessTokenRequest>,
   output: __S(7, __c3, 1) as any as S.Schema<RevokeAccessTokenResponse>,
-  errors: [BadRequest, UnknownOnepasswordError],
+  errors: [BadRequest],
+  serviceErrors: OnepasswordServiceErrors,
   protocol: OAuthProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

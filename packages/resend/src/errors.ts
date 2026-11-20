@@ -28,7 +28,7 @@ export {
 export type { DefaultErrors } from "@distilled.cloud/core/errors";
 
 import * as Category from "@distilled.cloud/core/category";
-import { UnknownErrorFields } from "@distilled.cloud/core/errors";
+import { API_ERRORS, UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 import { applyErrorMatchers } from "@distilled.cloud/core/trait";
 
@@ -43,8 +43,8 @@ export class UnknownResendError
 // (api-reference/errors) and the live runs of 2026-10-29. Each matches
 // Resend's machine-readable `name` (core's matcher `code` is numeric, so the
 // name is matched as `body: {"/name": ...}`), with the status and, where one
-// name covers several cases, the message. generate.ts appends them to every
-// operation's error list.
+// name covers several cases, the message. They are declared on the service
+// (`ResendServiceErrors` below).
 
 /** No `Authorization` header (401 `missing_api_key`). */
 export class MissingApiKey
@@ -158,6 +158,28 @@ export type ResendCommonError =
   | MissingRequiredParameter
   | InvalidParameter
   | ResourceLocked;
+
+/**
+ * The errors declared on the Resend service: any operation can return them,
+ * and every generated operation lists them as its `serviceErrors`. The
+ * errors above, matched by Resend's `name`, then each of core's status
+ * classes (401, 403, 404, 429, the 5xx ...).
+ */
+export const ResendServiceErrors = [
+  MissingApiKey,
+  InvalidApiKey,
+  RestrictedApiKey,
+  InactiveApiKey,
+  SuspendedApiKey,
+  InvalidPermission,
+  ValidationError,
+  MissingRequiredField,
+  MissingRequiredParameter,
+  InvalidParameter,
+  ResourceLocked,
+  ...API_ERRORS,
+] as const;
+export type ResendServiceError = InstanceType<(typeof ResendServiceErrors)[number]>;
 
 /** Schema parse error wrapper. */
 export class ResendParseError
