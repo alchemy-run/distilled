@@ -95,7 +95,9 @@ const makeGoogleWorkspaceSpec = (metadata: { baseUrl?: string }): SdkSpec => ({
   operationDecl: {
     contextType: "GoogleWorkspaceOpContext",
     commonErrorType: "GoogleWorkspaceOpError",
-    commonErrorClasses: ["UnknownGoogleWorkspaceError"],
+    // UnknownGoogleWorkspaceError is declared on the protocol, whose type adds it.
+    commonErrorClasses: [],
+    serviceErrors: "GoogleWorkspaceServiceErrors",
     protocol: "GoogleWorkspaceProtocol",
     retry: "Retry.Retry",
   },

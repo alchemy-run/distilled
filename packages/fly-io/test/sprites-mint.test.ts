@@ -1,4 +1,3 @@
-import * as API from "@distilled.cloud/core/api";
 import * as Cause from "effect/Cause";
 import * as Deferred from "effect/Deferred";
 import * as Effect from "effect/Effect";
@@ -15,7 +14,7 @@ import { listSprites } from "../src/services/sprites.ts";
 
 const mintFixture = (apiKey: string) =>
   Effect.gen(function* () {
-    const protocol = yield* API.Protocol;
+    const protocol = SpritesProtocol;
     const attempts = yield* Effect.forEach([0, 1], () =>
       Effect.gen(function* () {
         return {
@@ -78,7 +77,7 @@ const mintFixture = (apiKey: string) =>
       respond: (body: unknown, status = 200, attempt = 0) =>
         Deferred.succeed(attempts[attempt]!.response, { status, body }),
     };
-  }).pipe(Effect.provide(SpritesProtocol));
+  });
 
 describe("Sprites token mint coordination", () => {
   test("shares concurrent minting and reuses the successful token without exposing it in request JSON", () =>

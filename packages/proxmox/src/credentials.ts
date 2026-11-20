@@ -29,6 +29,9 @@ export class Credentials
     "ProxmoxCredentials",
   ) {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 /**
  * The API root for an endpoint given as `https://<host>:8006` or
  * `https://<host>:8006/api2/json`. Anything else fails, so a token is never

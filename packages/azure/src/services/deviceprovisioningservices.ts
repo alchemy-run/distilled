@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownAzureError } from "../errors.ts";
+import { AzureServiceErrors } from "../errors.ts";
 import { AzureProtocol, type AzureOpError, type AzureOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -1090,7 +1090,8 @@ export const CheckIotDpsResourceProvisioningServiceNameAvailability: API.Operati
     0,
   ) as any as S.Schema<CheckIotDpsResourceProvisioningServiceNameAvailabilityRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<NameAvailabilityInfo>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1107,7 +1108,8 @@ export const DeleteDpsCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c1, 0) as any as S.Schema<DeleteDpsCertificateRequest>,
   output: __S(32, __c2, 0) as any as S.Schema<DeleteDpsCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1124,7 +1126,8 @@ export const DeleteIotDpsResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<DeleteIotDpsResourceRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<DeleteIotDpsResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1149,7 +1152,8 @@ export const DeleteIotDpsResourcePrivateEndpointConnection: API.OperationMethod<
     __c22,
     0,
   ) as any as S.Schema<DeleteIotDpsResourcePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1166,7 +1170,8 @@ export const DpsCertificateCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(401, __c25, 1) as any as S.Schema<DpsCertificateCreateOrUpdateRequest>,
   output: __S(417, __c26, 1) as any as S.Schema<DpsCertificateCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1183,7 +1188,8 @@ export const GenerateDpsCertificateVerificationCode: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(432, __c27, 0) as any as S.Schema<GenerateDpsCertificateVerificationCodeRequest>,
   output: __S(434, __c27, 2) as any as S.Schema<VerificationCodeResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1200,7 +1206,8 @@ export const GetDpsCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<GetDpsCertificateRequest>,
   output: __S(417, __c26, 1) as any as S.Schema<GetDpsCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1217,7 +1224,8 @@ export const GetIotDpsResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<GetIotDpsResourceRequest>,
   output: __S(544, __c34, 0) as any as S.Schema<GetIotDpsResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1234,7 +1242,8 @@ export const GetIotDpsResourceOperationResult: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<GetIotDpsResourceOperationResultRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<AsyncOperationResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1251,7 +1260,8 @@ export const GetIotDpsResourcePrivateEndpointConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<GetIotDpsResourcePrivateEndpointConnectionRequest>,
   output: __S(560, __c35, 0) as any as S.Schema<GetIotDpsResourcePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1268,7 +1278,8 @@ export const GetIotDpsResourcePrivateLinkResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<GetIotDpsResourcePrivateLinkResourcesRequest>,
   output: __S(66, __c4, 2) as any as S.Schema<GetIotDpsResourcePrivateLinkResourcesResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1285,7 +1296,8 @@ export const IotDpsResourceCreateOrUpdate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c5, 8) as any as S.Schema<IotDpsResourceCreateOrUpdateRequest>,
   output: __S(89, __c5, 9) as any as S.Schema<IotDpsResourceCreateOrUpdateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1310,7 +1322,8 @@ export const IotDpsResourceCreateOrUpdatePrivateEndpointConnection: API.Operatio
     __c22,
     0,
   ) as any as S.Schema<IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1327,7 +1340,8 @@ export const ListDpsCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<ListDpsCertificateRequest>,
   output: __S(130, __c8, 2) as any as S.Schema<CertificateListDescription>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1344,7 +1358,8 @@ export const ListIotDpsResourceByResourceGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<ListIotDpsResourceByResourceGroupRequest>,
   output: __S(161, __c10, 1) as any as S.Schema<ProvisioningServiceDescriptionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1361,7 +1376,8 @@ export const ListIotDpsResourceBySubscription: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<ListIotDpsResourceBySubscriptionRequest>,
   output: __S(161, __c10, 1) as any as S.Schema<ProvisioningServiceDescriptionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1378,7 +1394,8 @@ export const ListIotDpsResourceKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<ListIotDpsResourceKeysRequest>,
   output: __S(193, __c12, 1) as any as S.Schema<SharedAccessSignatureAuthorizationRuleListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1399,7 +1416,8 @@ export const ListIotDpsResourceKeysForKeyName: API.OperationMethod<
     __c30,
     0,
   ) as any as S.Schema<SharedAccessSignatureAuthorizationRuleAccessRightsDescription>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1420,7 +1438,8 @@ export const ListIotDpsResourcePrivateEndpointConnections: API.OperationMethod<
     __c14,
     1,
   ) as any as S.Schema<ListIotDpsResourcePrivateEndpointConnectionsResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1437,7 +1456,8 @@ export const ListIotDpsResourcePrivateLinkResources: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<ListIotDpsResourcePrivateLinkResourcesRequest>,
   output: __S(242, __c15, 2) as any as S.Schema<PrivateLinkResources>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1454,7 +1474,8 @@ export const ListIotDpsResourceValidSkus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<ListIotDpsResourceValidSkusRequest>,
   output: __S(275, __c17, 3) as any as S.Schema<IotDpsSkuDefinitionListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1471,7 +1492,8 @@ export const ListOperations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(292, __c18, 4) as any as S.Schema<OperationListResult>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1488,7 +1510,8 @@ export const UpdateIotDpsResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<UpdateIotDpsResourceRequest>,
   output: __S(305, __c19, 1) as any as S.Schema<UpdateIotDpsResourceResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1505,7 +1528,8 @@ export const VerifyDpsCertificateCertificate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<VerifyDpsCertificateCertificateRequest>,
   output: __S(417, __c26, 1) as any as S.Schema<VerifyDpsCertificateCertificateResponse>,
-  errors: [UnknownAzureError],
+  errors: [],
+  serviceErrors: AzureServiceErrors,
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownStackitError } from "../errors.ts";
+import { StackitServiceErrors } from "../errors.ts";
 import { StackitProtocol, type StackitOpError, type StackitOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -446,7 +446,8 @@ export const createFederatedIdentityProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c12, 0) as any as S.Schema<CreateFederatedIdentityProviderRequest>,
   output: __S(54, __c13, 2) as any as S.Schema<FederatedIdentityProvider>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -463,7 +464,8 @@ export const createServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(60, __c15, 0) as any as S.Schema<CreateServiceAccountRequest>,
   output: __S(64, __c16, 0) as any as S.Schema<ServiceAccount2>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -480,7 +482,8 @@ export const createServiceAccountKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<CreateServiceAccountKeyRequest>,
   output: __S(70, __c17, 2) as any as S.Schema<CreateServiceAccountKeyResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -497,7 +500,8 @@ export const createShortLivedAccessToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c18, 0) as any as S.Schema<CreateShortLivedAccessTokenRequest>,
   output: __S(73, __c18, 1) as any as S.Schema<CreateShortLivedAccessTokenResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -514,7 +518,8 @@ export const deleteServiceAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<DeleteServiceAccountRequest>,
   output: __S(80, __c20, 0) as any as S.Schema<DeleteServiceAccountResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -531,7 +536,8 @@ export const deleteServiceAccountKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(84, __c21, 0) as any as S.Schema<DeleteServiceAccountKeyRequest>,
   output: __S(80, __c20, 0) as any as S.Schema<DeleteServiceAccountKeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -548,7 +554,8 @@ export const deleteServiceFederatedIdentityProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<DeleteServiceFederatedIdentityProviderRequest>,
   output: __S(80, __c20, 0) as any as S.Schema<DeleteServiceFederatedIdentityProviderResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -565,7 +572,8 @@ export const getFederatedIdentityProvider: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<GetFederatedIdentityProviderRequest>,
   output: __S(54, __c13, 2) as any as S.Schema<FederatedIdentityProvider>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -578,7 +586,8 @@ export const getJWKS: API.OperationMethod<GetJWKSRequest, JWKS, GetJWKSError, St
   /*@__PURE__*/ API.make(() => ({
     input: __S(12, __c3, 0) as any as S.Schema<GetJWKSRequest>,
     output: __S(15, __c3, 3) as any as S.Schema<JWKS>,
-    errors: [UnknownStackitError],
+    errors: [],
+    serviceErrors: StackitServiceErrors,
     protocol: StackitProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -595,7 +604,8 @@ export const getServiceAccountKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<GetServiceAccountKeyRequest>,
   output: __S(18, __c4, 2) as any as S.Schema<GetServiceAccountKeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -612,7 +622,8 @@ export const listFederatedIdentityProviders: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<ListFederatedIdentityProvidersRequest>,
   output: __S(22, __c5, 2) as any as S.Schema<FederatedListFederatedIdentityProvidersResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -629,7 +640,8 @@ export const listServiceAccountKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<ListServiceAccountKeysRequest>,
   output: __S(26, __c6, 2) as any as S.Schema<ListServiceAccountKeysResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -646,7 +658,8 @@ export const listServiceAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<ListServiceAccountsRequest>,
   output: __S(34, __c8, 2) as any as S.Schema<ListServiceAccountsResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -671,7 +684,8 @@ export const partialUpdateServiceAccountFederatedIdentityProvider: API.Operation
     0,
   ) as any as S.Schema<PartialUpdateServiceAccountFederatedIdentityProviderRequest>,
   output: __S(54, __c13, 2) as any as S.Schema<FederatedIdentityProvider>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -692,7 +706,8 @@ export const partialUpdateServiceAccountKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c10, 0) as any as S.Schema<PartialUpdateServiceAccountKeyRequest>,
   output: __S(28, __c7, 0) as any as S.Schema<PartialUpdateServiceAccountKeyResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownStackitError],
+  errors: [BadRequest, Forbidden, Conflict],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

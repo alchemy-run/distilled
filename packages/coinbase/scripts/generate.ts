@@ -63,7 +63,9 @@ const coinbaseSpec: SdkSpec = {
   operationDecl: {
     contextType: "CoinbaseOpContext",
     commonErrorType: "CoinbaseOpError",
-    commonErrorClasses: ["UnknownCoinbaseError"],
+    // UnknownCoinbaseError is declared on the protocol, whose type adds it.
+    commonErrorClasses: [],
+    serviceErrors: "CoinbaseServiceErrors",
     protocol: "CoinbaseProtocol",
     retry: "Retry.Retry",
   },

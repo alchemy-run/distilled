@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownPolymarketError } from "../errors.ts";
+import { PolymarketServiceErrors } from "../errors.ts";
 import { RelayerProtocol, type PolymarketOpError, type PolymarketOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -172,7 +172,8 @@ export const getDeployed: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<GetDeployedRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<DeployedResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: RelayerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -189,7 +190,8 @@ export const getNonce: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<GetNonceRequest>,
   output: __S(5, __c1, 1) as any as S.Schema<NonceResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: RelayerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -206,7 +208,8 @@ export const getRelayPayload: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<GetRelayPayloadRequest>,
   output: __S(9, __c2, 1) as any as S.Schema<RelayPayloadResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: RelayerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -223,7 +226,8 @@ export const listRelayerKeys: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<ListRelayerKeysRequest>,
   output: __S(15, __c3, 3) as any as S.Schema<ListRelayerKeysResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: RelayerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -240,7 +244,8 @@ export const listTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<ListTransactionRequest>,
   output: __S(22, __c5, 2) as any as S.Schema<ListTransactionResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: RelayerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -257,7 +262,8 @@ export const listTransactions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<ListTransactionsRequest>,
   output: __S(22, __c5, 2) as any as S.Schema<ListTransactionsResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: RelayerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -274,7 +280,8 @@ export const submit: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(29, __c7, 1) as any as S.Schema<SubmitRequest>,
   output: __S(30, __c7, 2) as any as S.Schema<SubmitResponse>,
-  errors: [UnknownPolymarketError],
+  errors: [],
+  serviceErrors: PolymarketServiceErrors,
   protocol: RelayerProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

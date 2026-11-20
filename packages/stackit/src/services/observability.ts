@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownStackitError } from "../errors.ts";
+import { StackitServiceErrors } from "../errors.ts";
 import { StackitProtocol, type StackitOpError, type StackitOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -2186,7 +2186,8 @@ export const createAlertConfigReceiver: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<CreateAlertConfigReceiverRequest>,
   output: __S(896, __c56, 0) as any as S.Schema<AlertConfigReceiversResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2203,7 +2204,8 @@ export const createAlertConfigRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c68, 0) as any as S.Schema<CreateAlertConfigRouteRequest>,
   output: __S(1120, __c70, 0) as any as S.Schema<AlertConfigRouteResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2220,7 +2222,8 @@ export const createAlertgroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1328, __c83, 0) as any as S.Schema<CreateAlertgroupsRequest>,
   output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2237,7 +2240,8 @@ export const createAlertRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c102, 0) as any as S.Schema<CreateAlertRecordRequest>,
   output: __S(1665, __c104, 1) as any as S.Schema<AlertRecordsResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2254,7 +2258,8 @@ export const createAlertrules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c115, 0) as any as S.Schema<CreateAlertrulesRequest>,
   output: __S(1873, __c117, 1) as any as S.Schema<AlertRulesResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2271,7 +2276,8 @@ export const createBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2048, __c128, 0) as any as S.Schema<CreateBackupRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<Message>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2288,7 +2294,8 @@ export const createBackupSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c142, 0) as any as S.Schema<CreateBackupScheduleRequest>,
   output: __S(2273, __c142, 1) as any as S.Schema<BackupSchedulePostResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2305,7 +2312,8 @@ export const createCertCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<CreateCertCheckRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<CertCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2322,7 +2330,8 @@ export const createCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<CreateCredentialsRequest>,
   output: __S(274, __c17, 2) as any as S.Schema<CreateCredentialsResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2339,7 +2348,8 @@ export const createElasticsearchCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<CreateElasticsearchCheckRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<ElasticsearchCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2356,7 +2366,8 @@ export const createHttpCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<CreateHttpCheckRequest>,
   output: __S(368, __c23, 0) as any as S.Schema<HttpCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2373,7 +2384,8 @@ export const createInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<CreateInstanceRequest>,
   output: __S(385, __c24, 1) as any as S.Schema<CreateInstanceResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2390,7 +2402,8 @@ export const createLogsAlertgroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<CreateLogsAlertgroupsRequest>,
   output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2407,7 +2420,8 @@ export const createMongodbCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(416, __c26, 0) as any as S.Schema<CreateMongodbCheckRequest>,
   output: __S(448, __c28, 0) as any as S.Schema<MongodbCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2424,7 +2438,8 @@ export const createMysqlCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<CreateMysqlCheckRequest>,
   output: __S(480, __c30, 0) as any as S.Schema<MysqlCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2441,7 +2456,8 @@ export const createNetworkCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<CreateNetworkCheckRequest>,
   output: __S(528, __c33, 0) as any as S.Schema<NetworkCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2458,7 +2474,8 @@ export const createPingCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<CreatePingCheckRequest>,
   output: __S(560, __c35, 0) as any as S.Schema<PingCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2475,7 +2492,8 @@ export const createPostgresqlCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<CreatePostgresqlCheckRequest>,
   output: __S(592, __c37, 0) as any as S.Schema<PostgresqlCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2492,7 +2510,8 @@ export const createRabbitmqCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<CreateRabbitmqCheckRequest>,
   output: __S(626, __c39, 2) as any as S.Schema<RabbitmqCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2509,7 +2528,8 @@ export const createRedisCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<CreateRedisCheckRequest>,
   output: __S(656, __c41, 0) as any as S.Schema<RedisCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2526,7 +2546,8 @@ export const createScrapeConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<CreateScrapeConfigRequest>,
   output: __S(705, __c44, 1) as any as S.Schema<ScrapeConfigsResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2543,7 +2564,8 @@ export const deleteAlertConfigReceiver: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<DeleteAlertConfigReceiverRequest>,
   output: __S(896, __c56, 0) as any as S.Schema<AlertConfigReceiversResponse>,
-  errors: [Forbidden, NotFound, UnknownStackitError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2560,7 +2582,8 @@ export const deleteAlertConfigRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c48, 0) as any as S.Schema<DeleteAlertConfigRouteRequest>,
   output: __S(1120, __c70, 0) as any as S.Schema<AlertConfigRouteResponse>,
-  errors: [Forbidden, NotFound, UnknownStackitError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2577,7 +2600,8 @@ export const deleteAlertgroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<DeleteAlertgroupRequest>,
   output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2594,7 +2618,8 @@ export const deleteAlertgroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c50, 0) as any as S.Schema<DeleteAlertgroupsRequest>,
   output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2611,7 +2636,8 @@ export const deleteAlertRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<DeleteAlertRecordRequest>,
   output: __S(1665, __c104, 1) as any as S.Schema<AlertRecordsResponse>,
-  errors: [Forbidden, NotFound, UnknownStackitError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2628,7 +2654,8 @@ export const deleteAlertRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<DeleteAlertRecordsRequest>,
   output: __S(1665, __c104, 1) as any as S.Schema<AlertRecordsResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2645,7 +2672,8 @@ export const deleteAlertrule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<DeleteAlertruleRequest>,
   output: __S(1873, __c117, 1) as any as S.Schema<AlertRulesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2662,7 +2690,8 @@ export const deleteAlertrules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<DeleteAlertrulesRequest>,
   output: __S(1873, __c117, 1) as any as S.Schema<AlertRulesResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2679,7 +2708,8 @@ export const deleteCertCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<DeleteCertCheckRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<CertCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2696,7 +2726,8 @@ export const deleteCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<DeleteCredentialsRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<Message>,
-  errors: [Forbidden, NotFound, UnknownStackitError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2717,7 +2748,8 @@ export const deleteCredentialsRemoteWriteConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<DeleteCredentialsRemoteWriteConfigRequest>,
   output: __S(993, __c62, 1) as any as S.Schema<CredentialsRemoteWriteDeleteResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2734,7 +2766,8 @@ export const deleteElasticsearchCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<DeleteElasticsearchCheckRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<ElasticsearchCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2751,7 +2784,8 @@ export const deleteHttpCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<DeleteHttpCheckRequest>,
   output: __S(368, __c23, 0) as any as S.Schema<HttpCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2768,7 +2802,8 @@ export const deleteInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<DeleteInstanceRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<InstanceResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2785,7 +2820,8 @@ export const deleteLogsAlertgroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<DeleteLogsAlertgroupRequest>,
   output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2802,7 +2838,8 @@ export const deleteMongodbCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<DeleteMongodbCheckRequest>,
   output: __S(448, __c28, 0) as any as S.Schema<MongodbCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2819,7 +2856,8 @@ export const deleteMysqlCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<DeleteMysqlCheckRequest>,
   output: __S(480, __c30, 0) as any as S.Schema<MysqlCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2836,7 +2874,8 @@ export const deleteNetworkCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<DeleteNetworkCheckRequest>,
   output: __S(528, __c33, 0) as any as S.Schema<NetworkCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2853,7 +2892,8 @@ export const deletePingCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<DeletePingCheckRequest>,
   output: __S(560, __c35, 0) as any as S.Schema<PingCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2870,7 +2910,8 @@ export const deletePostgresqlCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<DeletePostgresqlCheckRequest>,
   output: __S(592, __c37, 0) as any as S.Schema<PostgresqlCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2887,7 +2928,8 @@ export const deleteRabbitmqCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1232, __c77, 0) as any as S.Schema<DeleteRabbitmqCheckRequest>,
   output: __S(626, __c39, 2) as any as S.Schema<RabbitmqCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2904,7 +2946,8 @@ export const deleteRedisCheck: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<DeleteRedisCheckRequest>,
   output: __S(656, __c41, 0) as any as S.Schema<RedisCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2921,7 +2964,8 @@ export const deleteScrapeConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1264, __c79, 0) as any as S.Schema<DeleteScrapeConfigRequest>,
   output: __S(705, __c44, 1) as any as S.Schema<DeleteScrapeConfigResponse>,
-  errors: [Forbidden, NotFound, UnknownStackitError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2938,7 +2982,8 @@ export const deleteScrapeConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c80, 0) as any as S.Schema<DeleteScrapeConfigsRequest>,
   output: __S(705, __c44, 1) as any as S.Schema<ScrapeConfigsResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2955,7 +3000,8 @@ export const getAlertConfigReceiver: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<GetAlertConfigReceiverRequest>,
   output: __S(1297, __c81, 1) as any as S.Schema<Receiver>,
-  errors: [Forbidden, NotFound, UnknownStackitError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2972,7 +3018,8 @@ export const getAlertConfigRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<GetAlertConfigRouteRequest>,
   output: __S(1120, __c70, 0) as any as S.Schema<AlertConfigRouteResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2989,7 +3036,8 @@ export const getAlertConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1392, __c87, 0) as any as S.Schema<GetAlertConfigsRequest>,
   output: __S(1412, __c88, 4) as any as S.Schema<GetAlertConfigsResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3006,7 +3054,8 @@ export const getAlertgroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1424, __c89, 0) as any as S.Schema<GetAlertgroupRequest>,
   output: __S(1440, __c90, 0) as any as S.Schema<AlertGroupResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3023,7 +3072,8 @@ export const getAlertRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1456, __c91, 0) as any as S.Schema<GetAlertRecordRequest>,
   output: __S(1457, __c91, 1) as any as S.Schema<AlertRecordResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3040,7 +3090,8 @@ export const getAlertrule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<GetAlertruleRequest>,
   output: __S(1473, __c92, 1) as any as S.Schema<AlertRuleResponse>,
-  errors: [Forbidden, NotFound, UnknownStackitError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3057,7 +3108,8 @@ export const getCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1488, __c93, 0) as any as S.Schema<GetCredentialsRequest>,
   output: __S(1489, __c93, 1) as any as S.Schema<GetCredentialsResponse>,
-  errors: [Forbidden, NotFound, UnknownStackitError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3074,7 +3126,8 @@ export const getCredentialsRemoteWriteConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<GetCredentialsRemoteWriteConfigRequest>,
   output: __S(1520, __c95, 0) as any as S.Schema<CredentialsRemoteWriteConfig>,
-  errors: [Forbidden, NotFound, UnknownStackitError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3091,7 +3144,8 @@ export const getGrafanaConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1536, __c96, 0) as any as S.Schema<GetGrafanaConfigsRequest>,
   output: __S(1537, __c96, 1) as any as S.Schema<GrafanaConfigs>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3108,7 +3162,8 @@ export const getInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1568, __c98, 0) as any as S.Schema<GetInstanceRequest>,
   output: __S(1571, __c98, 3) as any as S.Schema<GetInstanceResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3125,7 +3180,8 @@ export const getLogsAlertgroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1584, __c99, 0) as any as S.Schema<GetLogsAlertgroupRequest>,
   output: __S(1440, __c90, 0) as any as S.Schema<AlertGroupResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3142,7 +3198,8 @@ export const getLogsConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<GetLogsConfigsRequest>,
   output: __S(1617, __c101, 1) as any as S.Schema<LogsConfigResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3159,7 +3216,8 @@ export const getMetricsStorageRetention: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<GetMetricsStorageRetentionRequest>,
   output: __S(1681, __c105, 1) as any as S.Schema<GetMetricsStorageRetentionResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3176,7 +3234,8 @@ export const getScrapeConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<GetScrapeConfigRequest>,
   output: __S(1697, __c106, 1) as any as S.Schema<GetScrapeConfigResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3193,7 +3252,8 @@ export const getTracesConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1712, __c107, 0) as any as S.Schema<GetTracesConfigsRequest>,
   output: __S(1617, __c101, 1) as any as S.Schema<TracesConfigResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3210,7 +3270,8 @@ export const listACL: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1728, __c108, 0) as any as S.Schema<ListACLRequest>,
   output: __S(1729, __c108, 1) as any as S.Schema<ListACLResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3227,7 +3288,8 @@ export const listAlertConfigReceivers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1744, __c109, 0) as any as S.Schema<ListAlertConfigReceiversRequest>,
   output: __S(896, __c56, 0) as any as S.Schema<AlertConfigReceiversResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3244,7 +3306,8 @@ export const listAlertConfigRoutes: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1760, __c110, 0) as any as S.Schema<ListAlertConfigRoutesRequest>,
   output: __S(1120, __c70, 0) as any as S.Schema<AlertConfigRouteResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3261,7 +3324,8 @@ export const listAlertgroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1776, __c111, 0) as any as S.Schema<ListAlertgroupsRequest>,
   output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3278,7 +3342,8 @@ export const listAlertRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1792, __c112, 0) as any as S.Schema<ListAlertRecordsRequest>,
   output: __S(1665, __c104, 1) as any as S.Schema<AlertRecordsResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3295,7 +3360,8 @@ export const listAlertrules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<ListAlertrulesRequest>,
   output: __S(1873, __c117, 1) as any as S.Schema<AlertRulesResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3312,7 +3378,8 @@ export const listBackupRetentions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1824, __c114, 0) as any as S.Schema<ListBackupRetentionsRequest>,
   output: __S(1825, __c114, 1) as any as S.Schema<BackupRetentionResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3329,7 +3396,8 @@ export const listBackups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c118, 0) as any as S.Schema<ListBackupsRequest>,
   output: __S(1889, __c118, 1) as any as S.Schema<BackupResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3346,7 +3414,8 @@ export const listBackupSchedules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1904, __c119, 0) as any as S.Schema<ListBackupSchedulesRequest>,
   output: __S(1907, __c119, 3) as any as S.Schema<BackupScheduleResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3363,7 +3432,8 @@ export const listCertChecks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c120, 0) as any as S.Schema<ListCertChecksRequest>,
   output: __S(114, __c7, 2) as any as S.Schema<CertCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3380,7 +3450,8 @@ export const listCredentials: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1936, __c121, 0) as any as S.Schema<ListCredentialsRequest>,
   output: __S(1939, __c121, 3) as any as S.Schema<ListCredentialsResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3397,7 +3468,8 @@ export const listElasticsearchChecks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c122, 0) as any as S.Schema<ListElasticsearchChecksRequest>,
   output: __S(320, __c20, 0) as any as S.Schema<ElasticsearchCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3414,7 +3486,8 @@ export const listHttpChecks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1968, __c123, 0) as any as S.Schema<ListHttpChecksRequest>,
   output: __S(368, __c23, 0) as any as S.Schema<HttpCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3431,7 +3504,8 @@ export const listInstances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c124, 0) as any as S.Schema<ListInstancesRequest>,
   output: __S(1987, __c124, 3) as any as S.Schema<ListInstancesResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3448,7 +3522,8 @@ export const listLogsAlertgroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2000, __c125, 0) as any as S.Schema<ListLogsAlertgroupsRequest>,
   output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3465,7 +3540,8 @@ export const listMongodbChecks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2016, __c126, 0) as any as S.Schema<ListMongodbChecksRequest>,
   output: __S(448, __c28, 0) as any as S.Schema<MongodbCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3482,7 +3558,8 @@ export const listMysqlChecks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2032, __c127, 0) as any as S.Schema<ListMysqlChecksRequest>,
   output: __S(480, __c30, 0) as any as S.Schema<MysqlCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3499,7 +3576,8 @@ export const listNetworkChecks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2080, __c130, 0) as any as S.Schema<ListNetworkChecksRequest>,
   output: __S(528, __c33, 0) as any as S.Schema<NetworkCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3516,7 +3594,8 @@ export const listOfferings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2096, __c131, 0) as any as S.Schema<ListOfferingsRequest>,
   output: __S(2097, __c131, 1) as any as S.Schema<Offerings>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3533,7 +3612,8 @@ export const listPingChecks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2128, __c133, 0) as any as S.Schema<ListPingChecksRequest>,
   output: __S(560, __c35, 0) as any as S.Schema<PingCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3550,7 +3630,8 @@ export const listPlans: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c134, 0) as any as S.Schema<ListPlansRequest>,
   output: __S(2145, __c134, 1) as any as S.Schema<PlansResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3567,7 +3648,8 @@ export const listPostgresqlChecks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2160, __c135, 0) as any as S.Schema<ListPostgresqlChecksRequest>,
   output: __S(592, __c37, 0) as any as S.Schema<PostgresqlCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3584,7 +3666,8 @@ export const listRabbitmqChecks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2176, __c136, 0) as any as S.Schema<ListRabbitmqChecksRequest>,
   output: __S(626, __c39, 2) as any as S.Schema<RabbitmqCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3601,7 +3684,8 @@ export const listRedisChecks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2192, __c137, 0) as any as S.Schema<ListRedisChecksRequest>,
   output: __S(656, __c41, 0) as any as S.Schema<RedisCheckResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3618,7 +3702,8 @@ export const listScrapeConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2208, __c138, 0) as any as S.Schema<ListScrapeConfigsRequest>,
   output: __S(705, __c44, 1) as any as S.Schema<ListScrapeConfigsResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3635,7 +3720,8 @@ export const partialUpdateAlertgroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2224, __c139, 0) as any as S.Schema<PartialUpdateAlertgroupsRequest>,
   output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3652,7 +3738,8 @@ export const partialUpdateAlertRecords: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2258, __c141, 2) as any as S.Schema<PartialUpdateAlertRecordsRequest>,
   output: __S(1665, __c104, 1) as any as S.Schema<AlertRecordsResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3669,7 +3756,8 @@ export const partialUpdateAlertrules: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2290, __c143, 2) as any as S.Schema<PartialUpdateAlertrulesRequest>,
   output: __S(1873, __c117, 1) as any as S.Schema<AlertRulesResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3686,7 +3774,8 @@ export const partialUpdateScrapeConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2306, __c144, 2) as any as S.Schema<PartialUpdateScrapeConfigsRequest>,
   output: __S(705, __c44, 1) as any as S.Schema<ScrapeConfigsResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3703,7 +3792,8 @@ export const restoreBackup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2320, __c145, 0) as any as S.Schema<RestoreBackupRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<Message>,
-  errors: [Forbidden, NotFound, UnknownStackitError],
+  errors: [Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3720,7 +3810,8 @@ export const updateACL: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c146, 0) as any as S.Schema<UpdateACLRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<Message>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3737,7 +3828,8 @@ export const updateAlertConfigReceiver: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2352, __c147, 0) as any as S.Schema<UpdateAlertConfigReceiverRequest>,
   output: __S(896, __c56, 0) as any as S.Schema<AlertConfigReceiversResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3754,7 +3846,8 @@ export const updateAlertConfigRoute: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c148, 0) as any as S.Schema<UpdateAlertConfigRouteRequest>,
   output: __S(1120, __c70, 0) as any as S.Schema<AlertConfigRouteResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3771,7 +3864,8 @@ export const updateAlertConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2388, __c149, 4) as any as S.Schema<UpdateAlertConfigsRequest>,
   output: __S(1412, __c88, 4) as any as S.Schema<UpdateAlertConfigsResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3788,7 +3882,8 @@ export const updateAlertgroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2400, __c150, 0) as any as S.Schema<UpdateAlertgroupRequest>,
   output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3805,7 +3900,8 @@ export const updateAlertgroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2416, __c151, 0) as any as S.Schema<UpdateAlertgroupsRequest>,
   output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3822,7 +3918,8 @@ export const updateAlertRecord: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2432, __c152, 0) as any as S.Schema<UpdateAlertRecordRequest>,
   output: __S(1665, __c104, 1) as any as S.Schema<AlertRecordsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3839,7 +3936,8 @@ export const updateAlertrule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<UpdateAlertruleRequest>,
   output: __S(1873, __c117, 1) as any as S.Schema<AlertRulesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3860,7 +3958,8 @@ export const updateCredentialsRemoteWriteConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<UpdateCredentialsRemoteWriteConfigRequest>,
   output: __S(1520, __c95, 0) as any as S.Schema<CredentialsRemoteWriteConfig>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3877,7 +3976,8 @@ export const updateGrafanaConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<UpdateGrafanaConfigsRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<Message>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3894,7 +3994,8 @@ export const updateInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c11, 0) as any as S.Schema<UpdateInstanceRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<InstanceResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3911,7 +4012,8 @@ export const updateLogsAlertgroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<UpdateLogsAlertgroupRequest>,
   output: __S(1361, __c85, 1) as any as S.Schema<AlertGroupsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3928,7 +4030,8 @@ export const updateLogsConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<UpdateLogsConfigsRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<Message>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3945,7 +4048,8 @@ export const updateMetricsStorageRetention: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<UpdateMetricsStorageRetentionRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<Message>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3962,7 +4066,8 @@ export const updateScrapeConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<UpdateScrapeConfigRequest>,
   output: __S(705, __c44, 1) as any as S.Schema<ScrapeConfigsResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3979,7 +4084,8 @@ export const updateTracesConfigs: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<UpdateTracesConfigsRequest>,
   output: __S(0, __c0, 0) as any as S.Schema<Message>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden],
+  serviceErrors: StackitServiceErrors,
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

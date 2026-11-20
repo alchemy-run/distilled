@@ -41,6 +41,7 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
+import { API_ERRORS } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /** A failed response whose HTTP status has no mapped error class. */
@@ -74,3 +75,12 @@ export type DefaultErrors =
   | CoreUnprocessableEntity
   | CoreLocked
   | ClientErrors;
+
+/**
+ * The errors declared on the Proxmox service: any operation can return them,
+ * and every generated operation lists them as its `serviceErrors`. Each of
+ * core's status classes: the schema declares no failures per operation, so
+ * the protocol builds the one for a failed response's status.
+ */
+export const ProxmoxServiceErrors = API_ERRORS;
+export type ProxmoxServiceError = InstanceType<(typeof ProxmoxServiceErrors)[number]>;
