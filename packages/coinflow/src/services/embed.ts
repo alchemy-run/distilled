@@ -30,6 +30,7 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -81,6 +82,9 @@ export interface EmbedSessionInfo {
 export interface RefreshEmbedSessionRequest {
   /** The embed session token minted by the parent merchant for an embedded onboarding iframe */
   embedSession: string | Redacted.Redacted<string>;
+}
+export interface CreateEmbedSessionRequestBadRequestError {
+  msg: string;
 }
 export type CreateEmbedSessionError = BadRequest | CoinflowOpError;
 /** Create Embed Session Mint an embed session token for one of your sub-merchants, to hand to an embedded onboarding iframe. Requires an ADMIN API key and the `x-coinflow-submerchant-id` header naming a child or grandchild merchant. Each token is valid for 15 minutes. The iframe renews it itself through `POST /embed/session/refresh`; renewals stop 8 hours after this mint, at which point a new token must be minted here. `parentOrigin` is the origin of the page that frames the iframe. It must be covered by one of the whitelisted URLs, and the iframe posts its onboarding events only to this origin. Omit it to mint a link-only session: the sub-merchant opens the page directly instead of in an iframe, and the page refuses to load when framed. `returnUrl` is where a sub-merchant who opened the page as a link goes back to after submitting. It must be covered by one of the whitelisted URLs. */

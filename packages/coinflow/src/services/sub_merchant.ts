@@ -30,6 +30,7 @@ export class BadRequest
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 400 }],
   ) {}
@@ -39,6 +40,7 @@ export class Conflict
     /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -48,6 +50,7 @@ export class Forbidden
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withAuthError),
     [{ status: 403 }],
   ) {}
@@ -57,6 +60,7 @@ export class NotFound
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -498,6 +502,7 @@ export type ExternalMerchantResponseCustomPayInFeesList =
 export type MerchantScope =
   | "admin"
   | "editor"
+  | "payouts"
   | "chargeback"
   | "chargeback_analyst"
   | "chargeback_analyst_read"
@@ -1473,6 +1478,13 @@ export interface PatchSubmerchantResponse {
   warnings?: PatchSubmerchantResponseWarningsList | undefined;
   merchantId: string;
 }
+export interface CreateSubmerchantRequestBadRequestError {
+  msg: string;
+}
+export type UpdateSubmerchantRequestBadRequestError = CreateSubmerchantRequestBadRequestError;
+export type UpdateSubmerchantRequestConflictError = CreateSubmerchantRequestBadRequestError;
+export type UpdateSubmerchantRequestForbiddenError = CreateSubmerchantRequestBadRequestError;
+export type UpdateSubmerchantRequestNotFoundError = CreateSubmerchantRequestBadRequestError;
 export type CreateSubmerchantError = BadRequest | CoinflowOpError;
 /** Create Submerchant Create a sub-merchant under your account and pre-fill its onboarding application. `merchantId` and `email` become the sub-merchant's identity and account owner; every other field is optional and is shown to the sub-merchant pre-filled when it opens onboarding. Fields that don't apply to the sub-merchant are accepted and kept, but not shown. Unknown fields are rejected. Limited to 30 sub-merchants per hour per API key. */
 export const createSubmerchant: API.OperationMethod<

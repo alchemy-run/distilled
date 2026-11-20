@@ -28,6 +28,7 @@ export class PreconditionFailed
     /*@__PURE__*/ S.TaggedError<PreconditionFailed>()("PreconditionFailed", {
       message: S.String,
       body: S.Unknown,
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
     }),
     [{ status: 412 }],
   ) {}
@@ -227,7 +228,6 @@ export interface SafeMintRedeem {
 /** Transaction to be called. */
 export type ReturnedTokenIdRedeemTransaction = SafeMintRedeemTransaction;
 export type ReturnedTokenIdRedeemType = "returned";
-/** (EVM only) If your contract returns the NFT ID, then utilize this object. The contract mints the NFT to msg.sender (which is the Coinflow contract), the Coinflow contract picks up the returned NFT ID, and fwd's the NFT to the end user's wallet. */
 export interface ReturnedTokenIdRedeem {
   /** Whether the UI should wait for the transaction to be sent and the hash to be returned. */
   waitForHash?: boolean | undefined;
@@ -513,6 +513,11 @@ export interface SendEvmCreditsGaslessTxRequest {
 }
 export interface RedeemSendEvmCreditsGaslessTxResponse200 {
   hash: string;
+}
+export interface ApiError {
+  name: string;
+  message: string;
+  stack?: string | undefined;
 }
 export type GetEvmCreditsAuthMsgError = PreconditionFailed | CoinflowOpError;
 /** (EVM only) Get Credits Authorization Message Endpoint to generate an EIP-712 typed data message for authorizing credits usage on EVM chains. This endpoint is used to retrieve a "CreditsAuthorization" message that the user must sign using their wallet (e.g., MetaMask) via the eth_signTypedData_v4 method. The resulting signed message (permitCredits) is then supplied to the `/api/redeem/evm/sendGaslessTx` endpoint to execute a gasless redeem transaction. **Request Body:** - `merchantId` (string): The ID of the merchant requesting redemption. - `subtotal` (Subtotal): The transaction subtotal (either in USDC or a token-based subtotal). - `transactionData` (EvmTransactionData): Transaction details used for calculating gas fees and total credits required. **Response:** Returns an object with the following properties: - `message` (string): A JSON string representing the EIP-712 typed data. - `validBefore` (string): A timestamp or block number indicating until when the message is valid. - `nonce` (string): A unique value to prevent replay attacks. - `creditsRawAmount` (number): The raw credits amount calculated based on the transaction subtotal and estimated gas fees. */
