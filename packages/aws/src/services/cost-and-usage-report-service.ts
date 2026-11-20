@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -257,6 +258,7 @@ export const deleteReportDefinition: API.OperationMethod<
   input: __S(12, __c3, 0) as any as S.Schema<DeleteReportDefinitionRequest>,
   output: __S(13, __c3, 1) as any as S.Schema<DeleteReportDefinitionResponse>,
   errors: [InternalErrorException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReportDefinition",
@@ -278,6 +280,7 @@ export const describeReportDefinitions: API.PaginatedOperationMethod<
   input: __S(16, __c4, 0) as any as S.Schema<DescribeReportDefinitionsRequest>,
   output: __S(18, __c4, 2) as any as S.Schema<DescribeReportDefinitionsResponse>,
   errors: [InternalErrorException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReportDefinitions",
@@ -307,6 +310,7 @@ export const listTagsForResource: API.OperationMethod<
   input: __S(24, __c6, 0) as any as S.Schema<ListTagsForResourceRequest>,
   output: __S(25, __c6, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [InternalErrorException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -331,6 +335,7 @@ export const modifyReportDefinition: API.OperationMethod<
   input: __S(32, __c8, 0) as any as S.Schema<ModifyReportDefinitionRequest>,
   output: __S(36, __c9, 0) as any as S.Schema<ModifyReportDefinitionResponse>,
   errors: [InternalErrorException, ValidationException, ReportBucketNotVerified],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyReportDefinition",
@@ -365,6 +370,7 @@ export const putReportDefinition: API.OperationMethod<
     ValidationException,
     ReportBucketNotVerified,
   ],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutReportDefinition",
@@ -389,6 +395,7 @@ export const tagResource: API.OperationMethod<
   input: __S(4, __c1, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(36, __c9, 0) as any as S.Schema<TagResourceResponse>,
   errors: [InternalErrorException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -413,6 +420,7 @@ export const untagResource: API.OperationMethod<
   input: __S(9, __c2, 1) as any as S.Schema<UntagResourceRequest>,
   output: __S(36, __c9, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [InternalErrorException, ResourceNotFoundException, ValidationException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",

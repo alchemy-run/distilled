@@ -7,6 +7,7 @@ import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { awsServiceErrorsWith } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -472,7 +473,12 @@ export const associateGatewayToServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<AssociateGatewayToServerInput>,
   output: __S(200, __c25, 0) as any as S.Schema<AssociateGatewayToServerOutput>,
-  errors: [ConflictException, InternalServerException, ThrottlingException, ValidationException],
+  errors: [ConflictException],
+  serviceErrors: awsServiceErrorsWith(
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateGatewayToServer",
@@ -496,7 +502,12 @@ export const createGateway: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<CreateGatewayInput>,
   output: __S(200, __c25, 0) as any as S.Schema<CreateGatewayOutput>,
-  errors: [InternalServerException, ThrottlingException, ValidationException],
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGateway",
@@ -521,12 +532,12 @@ export const deleteGateway: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<DeleteGatewayInput>,
   output: __S(200, __c25, 0) as any as S.Schema<DeleteGatewayOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGateway",
@@ -553,14 +564,12 @@ export const deleteHypervisor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<DeleteHypervisorInput>,
   output: __S(240, __c30, 0) as any as S.Schema<DeleteHypervisorOutput>,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [AccessDeniedException, ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHypervisor",
@@ -586,13 +595,12 @@ export const disassociateGatewayFromServer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DisassociateGatewayFromServerInput>,
   output: __S(200, __c25, 0) as any as S.Schema<DisassociateGatewayFromServerOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateGatewayFromServer",
@@ -617,12 +625,12 @@ export const getBandwidthRateLimitSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<GetBandwidthRateLimitScheduleInput>,
   output: __S(9, __c1, 1) as any as S.Schema<GetBandwidthRateLimitScheduleOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBandwidthRateLimitSchedule",
@@ -647,12 +655,12 @@ export const getGateway: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<GetGatewayInput>,
   output: __S(27, __c3, 3) as any as S.Schema<GetGatewayOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGateway",
@@ -677,12 +685,12 @@ export const getHypervisor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<GetHypervisorInput>,
   output: __S(34, __c4, 2) as any as S.Schema<GetHypervisorOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHypervisor",
@@ -707,12 +715,12 @@ export const getHypervisorPropertyMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<GetHypervisorPropertyMappingsInput>,
   output: __S(41, __c5, 1) as any as S.Schema<GetHypervisorPropertyMappingsOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHypervisorPropertyMappings",
@@ -737,12 +745,12 @@ export const getVirtualMachine: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c7, 0) as any as S.Schema<GetVirtualMachineInput>,
   output: __S(60, __c7, 4) as any as S.Schema<GetVirtualMachineOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVirtualMachine",
@@ -768,13 +776,12 @@ export const importHypervisorConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<ImportHypervisorConfigurationInput>,
   output: __S(240, __c30, 0) as any as S.Schema<ImportHypervisorConfigurationOutput>,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
+  errors: [AccessDeniedException, ConflictException],
+  serviceErrors: awsServiceErrorsWith(
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportHypervisorConfiguration",
@@ -799,7 +806,12 @@ export const listGateways: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<ListGatewaysInput>,
   output: __S(75, __c9, 3) as any as S.Schema<ListGatewaysOutput>,
-  errors: [InternalServerException, ThrottlingException, ValidationException],
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGateways",
@@ -830,7 +842,12 @@ export const listHypervisors: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<ListHypervisorsInput>,
   output: __S(83, __c10, 3) as any as S.Schema<ListHypervisorsOutput>,
-  errors: [InternalServerException, ThrottlingException, ValidationException],
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHypervisors",
@@ -861,12 +878,12 @@ export const listTagsForResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<ListTagsForResourceInput>,
   output: __S(89, __c11, 1) as any as S.Schema<ListTagsForResourceOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
@@ -891,7 +908,12 @@ export const listVirtualMachines: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<ListVirtualMachinesInput>,
   output: __S(99, __c12, 3) as any as S.Schema<ListVirtualMachinesOutput>,
-  errors: [InternalServerException, ThrottlingException, ValidationException],
+  errors: [],
+  serviceErrors: awsServiceErrorsWith(
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVirtualMachines",
@@ -922,12 +944,12 @@ export const putBandwidthRateLimitSchedule: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<PutBandwidthRateLimitScheduleInput>,
   output: __S(200, __c25, 0) as any as S.Schema<PutBandwidthRateLimitScheduleOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBandwidthRateLimitSchedule",
@@ -954,14 +976,12 @@ export const putHypervisorPropertyMappings: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<PutHypervisorPropertyMappingsInput>,
   output: __S(240, __c30, 0) as any as S.Schema<PutHypervisorPropertyMappingsOutput>,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [AccessDeniedException, ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutHypervisorPropertyMappings",
@@ -987,13 +1007,12 @@ export const putMaintenanceStartTime: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<PutMaintenanceStartTimeInput>,
   output: __S(200, __c25, 0) as any as S.Schema<PutMaintenanceStartTimeOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMaintenanceStartTime",
@@ -1019,13 +1038,12 @@ export const startVirtualMachinesMetadataSync: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<StartVirtualMachinesMetadataSyncInput>,
   output: __S(240, __c30, 0) as any as S.Schema<StartVirtualMachinesMetadataSyncOutput>,
-  errors: [
-    AccessDeniedException,
-    ResourceNotFoundException,
+  errors: [AccessDeniedException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartVirtualMachinesMetadataSync",
@@ -1050,12 +1068,12 @@ export const tagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<TagResourceInput>,
   output: __S(144, __c18, 0) as any as S.Schema<TagResourceOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
@@ -1081,13 +1099,12 @@ export const testHypervisorConfiguration: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<TestHypervisorConfigurationInput>,
   output: __S(153, __c19, 1) as any as S.Schema<TestHypervisorConfigurationOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestHypervisorConfiguration",
@@ -1112,12 +1129,12 @@ export const untagResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(161, __c20, 1) as any as S.Schema<UntagResourceInput>,
   output: __S(144, __c18, 0) as any as S.Schema<UntagResourceOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
@@ -1143,13 +1160,12 @@ export const updateGatewayInformation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<UpdateGatewayInformationInput>,
   output: __S(200, __c25, 0) as any as S.Schema<UpdateGatewayInformationOutput>,
-  errors: [
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayInformation",
@@ -1176,12 +1192,12 @@ export const updateGatewaySoftwareNow: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<UpdateGatewaySoftwareNowInput>,
   output: __S(200, __c25, 0) as any as S.Schema<UpdateGatewaySoftwareNowOutput>,
-  errors: [
-    ResourceNotFoundException,
+  errors: [ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewaySoftwareNow",
@@ -1208,14 +1224,12 @@ export const updateHypervisor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(184, __c23, 0) as any as S.Schema<UpdateHypervisorInput>,
   output: __S(240, __c30, 0) as any as S.Schema<UpdateHypervisorOutput>,
-  errors: [
-    AccessDeniedException,
-    ConflictException,
-    ResourceNotFoundException,
+  errors: [AccessDeniedException, ConflictException, ResourceNotFoundException],
+  serviceErrors: awsServiceErrorsWith(
     InternalServerException,
     ThrottlingException,
     ValidationException,
-  ],
+  ),
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHypervisor",

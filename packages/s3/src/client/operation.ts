@@ -12,7 +12,13 @@ export type Instance<T> = T extends new (...args: any) => infer U ? U : T;
 export interface Operation<Input extends S.Top = S.Any, Output extends S.Top = S.Top, Error = any> {
   input: Input;
   output: Output;
+  /** The classes the operation declares. */
   errors: Error[];
+  /**
+   * The classes the operation's service declares: any of its operations can
+   * return them. A failed response is matched against `errors`, then these.
+   */
+  serviceErrors?: ReadonlyArray<Error>;
   /**
    * The Smithy operation name (e.g. "DescribeAutoScalingGroups"). Used as the
    * wire `Action` / `X-Amz-Target` operation. When absent, protocols fall back

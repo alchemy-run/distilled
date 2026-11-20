@@ -1,15 +1,22 @@
 import * as API from "@distilled.cloud/core/api";
+import type {
+  DeclaredError,
+  DeclaredErrorClass,
+  DecodeArgs,
+  EncodeArgs,
+  Operation as ProtocolOperation,
+  Protocol,
+} from "@distilled.cloud/core/protocol";
 import type { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Send from "@distilled.cloud/core/send";
 import * as Telemetry from "@distilled.cloud/core/telemetry";
 /**
- * AwsProtocol -- AWS's implementation of `@distilled.cloud/core`'s Protocol
- * seam.
+ * AwsProtocol -- AWS's implementation of `@distilled.cloud/core`'s Protocol.
  *
  * Generated operations are plain `API.make(() => ({ input, output, errors,
- * protocol: AwsProtocol, retry: Retry.Retry, operationName }))` calls; this
- * layer supplies everything AWS-specific per request:
+ * serviceErrors, protocol: AwsProtocol, retry: Retry.Retry, operationName }))`
+ * calls; this protocol supplies everything AWS-specific per request:
  *
  *   encode:  idempotency-token fill -> wire-family serializer (awsJson 1.0/1.1,
  *            awsQuery, ec2Query, restJson1, restXml -- discovered from the
@@ -20,10 +27,10 @@ import * as Telemetry from "@distilled.cloud/core/telemetry";
  *            signing with per-request lazy Credentials/Region.
  *
  *   decode:  wire-family deserializer -> event-stream parsing -> output schema
- *            decode; error responses map wire codes onto the operation's
- *            typed error classes (plus the shared COMMON_ERRORS), stamping
- *            server `retryAfterSeconds` hints as the `retryAfter` Duration
- *            core's default retry policy honors.
+ *            decode; error responses map wire codes onto the classes the
+ *            operation and its service declare (its `errors`, then its
+ *            `serviceErrors`), stamping server `retryAfterSeconds` hints as
+ *            the `retryAfter` Duration core's default retry policy honors.
  *
  *   call:    the whole call as one effect. An operation whose request and
  *            response need no effects of their own (no middleware, no
@@ -42,9 +49,9 @@ import * as Effect from "effect/Effect";
 import { pipe } from "effect/Function";
 import * as HttpBody from "effect/http/HttpBody";
 import * as HttpClient from "effect/http/HttpClient";
+import type * as HttpClientError from "effect/http/HttpClientError";
 import * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
-import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
 import type { Operation } from "./client/operation.ts";
@@ -57,11 +64,22 @@ import {
 } from "./client/protocol.ts";
 import { makeRequestBuilder } from "./client/request-builder.ts";
 import type { Request } from "./client/request.ts";
-import { type Decoded, makeResponseParser, makeSuccessDecoder } from "./client/response-parser.ts";
+import {
+  type Decoded,
+  makeResponseParser,
+  makeSuccessDecoder,
+  type ResponseParseError,
+} from "./client/response-parser.ts";
 import type { Response } from "./client/response.ts";
 import * as Credentials from "./credentials.ts";
 import * as Endpoint from "./endpoint.ts";
-import { EndpointError, ParseError } from "./errors.ts";
+import {
+  EndpointError,
+  type InternalError,
+  type NoMatchingRuleError,
+  type ParseError,
+  type UnknownAwsError,
+} from "./errors.ts";
 import * as Region from "./region.ts";
 import { dnsSuffix } from "./rules-engine/aws-functions.ts";
 import { makeEndpointResolver } from "./rules-engine/endpoint-resolver.ts";
@@ -90,6 +108,39 @@ import { bodyStream, isStreamBody, type StreamBody } from "./util/stream.ts";
  */
 export type AwsOpContext = Credentials.Credentials | HttpClient.HttpClient;
 
+/**
+ * The errors declared on the AWS protocol: what the code that builds
+ * requests and reads responses fails with, besides the errors an operation
+ * and its service declare.
+ *
+ * - `ParseError`: an input or a response that does not match its schema, or
+ *   an error response the wire protocol can't read.
+ * - `UnknownAwsError`: an error code that no declared class answers to.
+ * - `InternalError`: a 5xx without an error code.
+ * - `InvalidInput`: a path or host label that would address another
+ *   resource, refused before anything is signed.
+ * - `SdkError`: this SDK can't make the call (a protocol, middleware or
+ *   codec module that did not load, an operation without a protocol).
+ * - `EndpointError`, `NoMatchingRuleError`: the endpoint rules reject the
+ *   call's parameters.
+ * - `SigV4.SigningError`: the request can't be signed.
+ * - `HttpClientError`: the request failed, or the response body could not
+ *   be read.
+ */
+export type AwsProtocolError =
+  | ParseError
+  | UnknownAwsError
+  | InternalError
+  | InvalidInput
+  | SdkError
+  | EndpointError
+  | NoMatchingRuleError
+  | SigV4.SigningError
+  | HttpClientError.HttpClientError;
+
+/** What a response parser fails with. */
+type ParseFailure = DeclaredError | ResponseParseError;
+
 interface Prepared {
   readonly op: Operation;
   /** Set by {@link planOf}. */
@@ -97,12 +148,19 @@ interface Prepared {
   readonly handler: ProtocolHandler | LazyHandler | undefined;
   readonly hostPrefix: string | undefined;
   readonly operationName: string | undefined;
-  readonly parseResponse: (response: {
+  /**
+   * How many classes the operation declares itself. Core hands `decode` and
+   * `call` those classes first, then the ones the operation's service
+   * declares.
+   */
+  readonly ownErrors: number;
+  /** Set by {@link parserOf}. */
+  readonly parseResponse?: (response: {
     status: number;
     statusText: string;
     headers: Record<string, string>;
     body: string | StreamBody;
-  }) => Effect.Effect<any, any, any>;
+  }) => Effect.Effect<any, ParseFailure>;
   readonly sigv4: { name: string } | undefined;
   /** Legacy SigV2 (SimpleDB only) -- signs via body parameters, no header. */
   readonly sigv2: AwsAuthSigv2Trait | undefined;
@@ -134,7 +192,8 @@ const prepare = (config: API.ProtocolOperationConfig): Prepared => {
   const op: Operation = {
     input: config.input as any,
     output: config.output as any,
-    errors: [...(config.errors ?? [])] as any[],
+    // Filled by `parserOf`: only `decode` and `call` receive the classes.
+    errors: [],
     operationName: config.operationName,
     pagination: config.pagination as Operation["pagination"],
   };
@@ -147,19 +206,12 @@ const prepare = (config: API.ProtocolOperationConfig): Prepared => {
   // response parser and the call plan.
   const factory = getProtocol(inputAst);
   const handler = factory?.(op);
-  const protocol = handler && (() => handler);
   const prepared: Prepared = {
     op,
     handler,
     hostPrefix: config.endpointHostPrefix,
     operationName,
-    parseResponse: makeResponseParser(op, {
-      protocol,
-      service: serviceSdkId,
-      operation: operationName,
-      // Validation follows the caller's ResponseValidation layer
-      // (@distilled.cloud/core, lenient by default).
-    }),
+    ownErrors: config.errors?.length ?? 0,
     sigv4: getAwsAuthSigv4(inputAst),
     sigv2: getAwsAuthSigv2(inputAst),
     serviceSdkId,
@@ -173,6 +225,31 @@ const prepare = (config: API.ProtocolOperationConfig): Prepared => {
   return prepared;
 };
 
+/**
+ * The operation's response parser, built on its first response. `errors` is
+ * what core hands `decode` and `call`: the classes the operation declares,
+ * then the ones its service declares. The parser matches a failed response
+ * against both, and an operation's class replaces the service's class of
+ * the same name.
+ */
+const parserOf = (
+  prepared: Prepared,
+  errors: ReadonlyArray<DeclaredErrorClass>,
+  handler: ProtocolHandler,
+): NonNullable<Prepared["parseResponse"]> => {
+  if (prepared.parseResponse !== undefined) return prepared.parseResponse;
+  prepared.op.errors = errors.slice(0, prepared.ownErrors);
+  prepared.op.serviceErrors = errors.slice(prepared.ownErrors);
+  return ((prepared as { parseResponse?: Prepared["parseResponse"] }).parseResponse =
+    makeResponseParser(prepared.op, {
+      protocol: () => handler,
+      service: prepared.serviceSdkId,
+      operation: prepared.operationName,
+      // Validation follows the caller's ResponseValidation layer
+      // (@distilled.cloud/core, lenient by default).
+    }));
+};
+
 type Fiber = Parameters<typeof SigV4.signSync>[1];
 
 /**
@@ -180,15 +257,15 @@ type Fiber = Parameters<typeof SigV4.signSync>[1];
  * them. Each service holds an effect; an already-resolved one costs no
  * fiber step (see `API.withValue`).
  */
-const withAwsContext = (
+const withAwsContext = <A, E, R>(
   context: Context.Context<any>,
   callRegion: string | undefined,
   f: (
     credentials: Credentials.ResolvedCredentials,
     region: string,
     customEndpoint: string | undefined,
-  ) => Effect.Effect<any, any, any>,
-): Effect.Effect<any, any, any> =>
+  ) => Effect.Effect<A, E, R>,
+): Effect.Effect<A, E | Credentials.ProviderError, R> =>
   API.withValue(Context.get(context, Credentials.Credentials), (credentials) => {
     // The call's own `region`, else this scope's `Region` override, else
     // the region the credentials authenticated against. `Region` is
@@ -224,7 +301,10 @@ const toHttpRequest = (
   presign: PresignSettings | undefined,
 ):
   | HttpClientRequest.HttpClientRequest
-  | Effect.Effect<HttpClientRequest.HttpClientRequest, any, any> => {
+  | Effect.Effect<
+      HttpClientRequest.HttpClientRequest,
+      EndpointError | InvalidInput | SigV4.SigningError | SdkError
+    > => {
   const { sigv4, sigv2, serviceSdkId, resolveEndpoint: rulesResolver } = prepared;
   const serviceName = sigv4?.name ?? "s3";
 
@@ -432,7 +512,16 @@ const toHttpRequest = (
   try {
     signed = SigV4.signSync(options, fiber);
   } catch (e) {
-    return Effect.fail(e);
+    // signSync throws a SigningError; anything else is a bug in the signer.
+    return Effect.fail(
+      e instanceof SigV4.InvalidSigningUrl ||
+        e instanceof SigV4.InvalidSigningHeaders ||
+        e instanceof SigV4.CryptoError
+        ? e
+        : new SdkError({
+            message: `SigV4 signing threw: ${e instanceof Error ? e.message : String(e)}`,
+          }),
+    );
   }
   return signed === undefined ? Effect.map(SigV4.sign(options), toRequest) : toRequest(signed);
 };
@@ -488,12 +577,10 @@ const httpRequestOf = (
 };
 
 /** `f` on a request that may still be an effect. */
-const thenSend = <A>(
-  r:
-    | HttpClientRequest.HttpClientRequest
-    | Effect.Effect<HttpClientRequest.HttpClientRequest, any, any>,
-  f: (request: HttpClientRequest.HttpClientRequest) => Effect.Effect<A, any, any>,
-): Effect.Effect<A, any, any> =>
+const thenSend = <A, E1, E2, R>(
+  r: HttpClientRequest.HttpClientRequest | Effect.Effect<HttpClientRequest.HttpClientRequest, E1>,
+  f: (request: HttpClientRequest.HttpClientRequest) => Effect.Effect<A, E2, R>,
+): Effect.Effect<A, E1 | E2, R> =>
   HttpClientRequest.isHttpClientRequest(r) ? f(r) : Effect.flatMap(r, f);
 
 /**
@@ -501,7 +588,7 @@ const thenSend = <A>(
  * throttling errors) as the `retryAfter` Duration that core's default retry
  * policy treats as the least it waits (RFC 9110).
  */
-const stampRetryAfter = (error: unknown): unknown => {
+const stampRetryAfter = <E>(error: E): E => {
   if (typeof error !== "object" || error === null) return error;
   const e = error as Record<string, unknown>;
   if (e.retryAfter !== undefined) return error;
@@ -518,26 +605,28 @@ const stampRetryAfter = (error: unknown): unknown => {
  * outputs that are read as text. Missing parts run as effects.
  */
 interface Plan {
-  readonly build: (input: unknown) => Request | Effect.Effect<Request, ParseError | InvalidInput>;
+  readonly protocol: ProtocolHandler;
+  readonly build: (
+    input: unknown,
+  ) => Request | Effect.Effect<Request, ParseError | InvalidInput | SdkError>;
   readonly decodeText:
     | ((context: Context.Context<any>, response: Response, text: string) => Decoded)
     | undefined;
 }
 
 /** The operation's plan, compiled on first use (its protocol module loads then). */
-const planOf = (prepared: Prepared): Effect.Effect<Plan> => {
+const planOf = (prepared: Prepared): Effect.Effect<Plan, SdkError> => {
   if (prepared.plan !== undefined) return Effect.succeed(prepared.plan);
   const handler = prepared.handler;
   if (handler === undefined)
-    return Effect.fail(
-      new SdkError({ message: "No protocol found on input schema" }),
-    ) as Effect.Effect<never>;
+    return Effect.fail(new SdkError({ message: "No protocol found on input schema" }));
   return Effect.map(loadHandler(handler), (protocol) => {
     const decodeSuccess = makeSuccessDecoder(prepared.op, {
       service: prepared.serviceSdkId,
       operation: prepared.operationName,
     });
     const plan: Plan = {
+      protocol,
       build: makeRequestBuilder(prepared.op, protocol),
       decodeText: prepared.textBody
         ? (context, response, text) =>
@@ -557,14 +646,14 @@ const planOf = (prepared: Prepared): Effect.Effect<Plan> => {
 };
 
 /** The signed (or, given `presign`, presigned) HTTP request for `input`, on the calling fiber. */
-const encodeWith = <A>(
+const encodeWith = <A, E, R>(
   prepared: Prepared,
   plan: Plan,
   fiber: Fiber,
   input: unknown,
-  f: (request: HttpClientRequest.HttpClientRequest) => Effect.Effect<A, any, any>,
+  f: (request: HttpClientRequest.HttpClientRequest) => Effect.Effect<A, E, R>,
   presign?: PresignSettings,
-): Effect.Effect<A, any, any> => {
+) => {
   const context = fiber.context as Context.Context<any>;
   const traceDebug = Telemetry.isDebug(context);
   const callRegion = prepared.regionInput
@@ -621,7 +710,7 @@ const encodeWith = <A>(
       sendSigned,
     );
   }
-  let request: Request | Effect.Effect<Request, ParseError | InvalidInput>;
+  let request: Request | Effect.Effect<Request, ParseError | InvalidInput | SdkError>;
   try {
     request = plan.build(input);
   } catch (e) {
@@ -641,7 +730,8 @@ const decodeWith = (
   plan: Plan,
   context: Context.Context<any>,
   response: HttpClientResponse.HttpClientResponse,
-): Effect.Effect<unknown, any, any> => {
+  errors: ReadonlyArray<DeclaredErrorClass>,
+): Effect.Effect<unknown, ParseFailure | HttpClientError.HttpClientError> => {
   // HEAD requests never have a body, and some responses have no body (204,
   // etc.) -- Effect's HttpClientResponse.stream raises on empty bodies, so
   // detect those up front.
@@ -651,7 +741,11 @@ const decodeWith = (
     response.status === 204;
   const parse = (body: string | StreamBody) =>
     Effect.mapError(
-      prepared.parseResponse({
+      parserOf(
+        prepared,
+        errors,
+        plan.protocol,
+      )({
         status: response.status,
         statusText: "OK",
         headers: response.headers as Record<string, string>,
@@ -682,7 +776,7 @@ const decodeWith = (
  * -> decode. The operation's plan is compiled on its first call (the
  * protocol implementation loads then).
  */
-const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown> =>
+const call = (op: ProtocolOperation, input: unknown) =>
   Effect.withFiber((fiber) => {
     const prepared = prepare(op.config);
     const context = fiber.context as Context.Context<any>;
@@ -693,7 +787,7 @@ const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown>
           Telemetry.phase(
             context,
             "aws.deserialize",
-            decodeWith(prepared, plan, context, response),
+            decodeWith(prepared, plan, context, response, op.errors),
           ),
         ),
       );
@@ -706,35 +800,38 @@ const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown>
           }),
           run,
         );
-  }) as Effect.Effect<unknown>;
+  });
 
 /**
- * The Protocol layer every generated AWS operation references. Failure and
- * requirement channels are erased at this boundary (see the note on
- * `encode`); the generated operation types reintroduce them.
+ * The protocol every generated AWS operation references. The annotation is
+ * the check: everything its methods fail with, besides the errors an
+ * operation and its service declare, must be in {@link AwsProtocolError} or
+ * come from the provided `Credentials`, `Region` and `Endpoint`
+ * (`Credentials.ProviderError`).
+ *
+ * It is one module-level value shared by every operation, so nothing here
+ * captures credentials: they, the region and the endpoint are read from the
+ * calling fiber's context on every request.
  */
-export const AwsProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.succeed(
-  API.Protocol,
-  /*@__PURE__*/ API.Protocol.of({
-    // The protocol layer is memoized per process by `API.make`, so nothing
-    // here captures credentials: they, the region and the endpoint are read
-    // from the calling fiber's context on every request.
-    encode: ({ input, config }) =>
-      Effect.withFiber((fiber) => {
-        const prepared = prepare(config);
-        // `Presign.presignRequest` sets `Presigning` to sign into the query string.
-        const presign = Context.getOrUndefined(fiber.context, Presigning);
-        return Effect.flatMap(planOf(prepared), (plan) =>
-          encodeWith(prepared, plan, fiber as unknown as Fiber, input, Effect.succeed, presign),
-        );
-      }) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-    decode: ({ response, config }) =>
-      Effect.withFiber((fiber) => {
-        const prepared = prepare(config);
-        return Effect.flatMap(planOf(prepared), (plan) =>
-          decodeWith(prepared, plan, fiber.context as any, response),
-        );
-      }) as Effect.Effect<unknown>,
-    call,
-  }),
-);
+export const AwsProtocol: Protocol<
+  AwsProtocolError | Credentials.ProviderError,
+  Credentials.Credentials
+> = {
+  encode: ({ input, config }: EncodeArgs) =>
+    Effect.withFiber((fiber) => {
+      const prepared = prepare(config);
+      // `Presign.presignRequest` sets `Presigning` to sign into the query string.
+      const presign = Context.getOrUndefined(fiber.context, Presigning);
+      return Effect.flatMap(planOf(prepared), (plan) =>
+        encodeWith(prepared, plan, fiber as unknown as Fiber, input, Effect.succeed, presign),
+      );
+    }),
+  decode: ({ response, config, errors }: DecodeArgs) =>
+    Effect.withFiber((fiber) => {
+      const prepared = prepare(config);
+      return Effect.flatMap(planOf(prepared), (plan) =>
+        decodeWith(prepared, plan, fiber.context as Context.Context<any>, response, errors),
+      );
+    }),
+  call,
+};

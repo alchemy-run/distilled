@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
+import { AwsServiceErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
@@ -149,6 +150,7 @@ export const getRawMessageContent: API.OperationMethod<
   input: __S(0, __c0, 0) as any as S.Schema<GetRawMessageContentRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<GetRawMessageContentResponse>,
   errors: [ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRawMessageContent",
@@ -184,6 +186,7 @@ export const putRawMessageContent: API.OperationMethod<
   input: __S(6, __c1, 2) as any as S.Schema<PutRawMessageContentRequest>,
   output: __S(7, __c1, 3) as any as S.Schema<PutRawMessageContentResponse>,
   errors: [InvalidContentLocation, MessageFrozen, MessageRejected, ResourceNotFoundException],
+  serviceErrors: AwsServiceErrors,
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRawMessageContent",
