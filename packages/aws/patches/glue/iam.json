@@ -1,0 +1,29 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.glue#GetTable/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "AWS lists it for the operation, but the Glue Bindings suite calls it successfully without it.",
+        "remove": ["athena:GetTable"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.glue#GetTables/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "AWS lists it for the operation, but the Glue Bindings suite calls it successfully without it.",
+        "remove": ["athena:GetTables"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.glue#StartJobRun/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "AWS lists it for the operation, but the Glue Bindings suite calls it successfully without it.",
+        "remove": ["glue:GetUsageProfile"]
+      }
+    }
+  ]
+}

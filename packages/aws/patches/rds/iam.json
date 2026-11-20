@@ -1,0 +1,24 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.rds#CopyDBSnapshot/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "AWS lists it for the operation, but the RDS Bindings suite calls it successfully without it.",
+        "remove": ["rds:CopyCustomDBEngineVersion"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.rds#StopDBInstance/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Needed only when the request names a DBSnapshotIdentifier (a snapshot taken on stop).",
+        "conditional": {
+          "rds:AddTagsToResource": "DBSnapshotIdentifier",
+          "rds:CreateDBSnapshot": "DBSnapshotIdentifier"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.servicecatalogappregistry#SyncResource/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "The target is an arbitrary external resource, so nothing here supports resource-level scoping.",
+        "add": [
+          "cloudformation:DescribeStacks",
+          "cloudformation:UpdateStack",
+          "tag:GetResources",
+          "tag:TagResources",
+          "tag:UntagResources"
+        ]
+      }
+    }
+  ]
+}

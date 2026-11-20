@@ -1,0 +1,29 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssoadmin#DescribePermissionSet/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "AWS also lists Identity Center's older sso-directory/sso console actions; the Identity Store and SSO Admin APIs authorize their own identitystore:/sso: action. Not verified live: the E2E suite is gated on ALCHEMY_TEST_IDENTITY_CENTER.",
+        "remove": ["sso:GetPermissionSet"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssoadmin#ListAccountAssignments/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "AWS also lists Identity Center's older sso-directory/sso console actions; the Identity Store and SSO Admin APIs authorize their own identitystore:/sso: action. Not verified live: the E2E suite is gated on ALCHEMY_TEST_IDENTITY_CENTER.",
+        "remove": ["sso:ListProfileAssociations"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ssoadmin#ListAccountsForProvisionedPermissionSet/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "AWS also lists Identity Center's older sso-directory/sso console actions; the Identity Store and SSO Admin APIs authorize their own identitystore:/sso: action. Not verified live: the E2E suite is gated on ALCHEMY_TEST_IDENTITY_CENTER.",
+        "remove": ["sso:GetApplicationInstance", "sso:ListApplicationInstances"]
+      }
+    }
+  ]
+}

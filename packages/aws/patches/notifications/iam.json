@@ -1,0 +1,41 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.notifications#GetManagedNotificationChildEvent/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:notifications::${Account}:managed-notification-configuration/category/*/sub-category/*/event/*/child-event/*), the call was denied live in the Notifications Bindings suite; the grant stays on *.",
+        "resources": {
+          "notifications:GetManagedNotificationChildEvent": "*"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.notifications#GetManagedNotificationEvent/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "AWS lists it for the operation, but the Notifications Bindings suite calls it successfully without it.",
+        "remove": ["notifications:AccessSensitiveEvents"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.notifications#GetNotificationEvent/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:notifications:${Region}:${Account}:configuration/*/event/*), the call was denied live in the Notifications Bindings suite; the grant stays on *.",
+        "resources": {
+          "notifications:GetNotificationEvent": "*"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.notifications#ListManagedNotificationEvents/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "AWS lists it for the operation, but the Notifications Bindings suite calls it successfully without it.",
+        "remove": ["notifications:AccessSensitiveEvents"]
+      }
+    }
+  ]
+}

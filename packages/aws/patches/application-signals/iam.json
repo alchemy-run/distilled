@@ -1,0 +1,14 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.applicationsignals#ListAuditFindings/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "application - cloudwatch:GetMetricData: The auditors run with the CALLER's credentials — verified live: a service-target audit fails with AccessDeniedException (empty message) unless the caller can also enumerate SLOs and read metric data. signals:GetServiceLevelObjective: AWS lists it for the operation, but the ApplicationSignals Bindings suite calls it successfully without it.",
+        "add": ["cloudwatch:GetMetricData"],
+        "remove": ["application-signals:GetServiceLevelObjective"]
+      }
+    }
+  ]
+}

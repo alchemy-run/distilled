@@ -1,0 +1,15 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ram#GetPermission/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:ram:${Region}:${Account}:permission/*, arn:${Partition}:ram::${Account}:permission/*), the call was denied live in the RAM Bindings suite; the grant stays on *.",
+        "resources": {
+          "ram:GetPermission": "*"
+        }
+      }
+    }
+  ]
+}

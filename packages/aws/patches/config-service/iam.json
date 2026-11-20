@@ -1,0 +1,13 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.configservice#StartResourceEvaluation/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "cloudformation:DescribeType is a dependent action: Config validates the CFN_RESOURCE_SCHEMA resource type schema with the CALLER's permissions and rejects with AccessDeniedException without it (observed live; see the StartResourceEvaluation API reference).",
+        "add": ["cloudformation:DescribeType"]
+      }
+    }
+  ]
+}

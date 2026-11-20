@@ -1,0 +1,53 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kafka#CreateTopic/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
+        "add": ["kafka:CreateTopic"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kafka#DeleteTopic/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
+        "add": ["kafka:DeleteTopic"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kafka#DescribeTopic/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
+        "add": ["kafka:DescribeTopic"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kafka#DescribeTopicPartitions/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
+        "add": ["kafka:DescribeTopicPartitions"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kafka#ListTopics/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
+        "add": ["kafka:ListTopics"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.kafka#UpdateTopic/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "The MSK topic API authorizes the control-plane kafka: action on the topic as well as the kafka-cluster: data-plane ones.",
+        "add": ["kafka:UpdateTopic"]
+      }
+    }
+  ]
+}

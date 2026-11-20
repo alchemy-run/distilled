@@ -1,0 +1,95 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#AWSControlTowerApis/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
+        "remove": ["controltower:GetLandingZoneStatus"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#GetBaselineOperation/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
+        "remove": ["controltower:DescribeRegisterOrganizationalUnitOperation"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#GetEnabledBaseline/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "A legacy Control Tower action AWS lists alongside the current one; eleven other ControlTower bindings are authorized live without theirs.",
+        "remove": [
+          "controltower:DescribeManagedAccount",
+          "controltower:DescribeManagedOrganizationalUnit"
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#GetEnabledControl/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "A legacy Control Tower action AWS lists alongside the current one; eleven other ControlTower bindings are authorized live without theirs.",
+        "remove": ["controltower:DescribeGuardrailForTarget"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#GetLandingZone/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
+        "remove": [
+          "controltower:DescribeLandingZoneConfiguration",
+          "controltower:GetAvailableUpdates",
+          "controltower:GetLandingZoneDriftStatus"
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#ListEnabledBaselines/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
+        "remove": [
+          "controltower:ListManagedAccounts",
+          "controltower:ListManagedOrganizationalUnits"
+        ]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#ListEnabledControls/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
+        "remove": ["controltower:ListGuardrailsForTarget"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#ListLandingZones/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "AWS lists it for the operation, but the ControlTower Bindings suite calls it successfully without it.",
+        "remove": ["controltower:GetHomeRegion"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#ResetEnabledBaseline/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "A legacy Control Tower action AWS lists alongside the current one; eleven other ControlTower bindings are authorized live without theirs.",
+        "remove": ["controltower:ManageOrganizationalUnit"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.controltower#ResetLandingZone/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "A legacy Control Tower action AWS lists alongside the current one; eleven other ControlTower bindings are authorized live without theirs.",
+        "remove": ["controltower:SetupLandingZone"]
+      }
+    }
+  ]
+}

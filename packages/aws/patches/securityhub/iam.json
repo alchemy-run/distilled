@@ -1,0 +1,29 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securityhub#SecurityHubAPIService/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "The standards-control action of Security Hub's pre-consolidation controls API; the consolidated security-controls call authorizes its own action.",
+        "remove": ["securityhub:DescribeStandardsControls"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securityhub#BatchUpdateStandardsControlAssociations/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "The standards-control action of Security Hub's pre-consolidation controls API; the consolidated security-controls call authorizes its own action.",
+        "remove": ["securityhub:UpdateStandardsControl"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.securityhub#UpdateSecurityControl/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "The standards-control action of Security Hub's pre-consolidation controls API; the consolidated security-controls call authorizes its own action.",
+        "remove": ["securityhub:UpdateStandardsControl"]
+      }
+    }
+  ]
+}

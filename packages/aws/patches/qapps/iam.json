@@ -1,0 +1,13 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.qapps#CreatePresignedUrl/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "Not in AWS's reference; kept alongside qapps:ImportDocument, which the presigned upload authorizes, since the reference is known to miss actions.",
+        "add": ["qapps:CreatePresignedUrl"]
+      }
+    }
+  ]
+}

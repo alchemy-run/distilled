@@ -1,0 +1,24 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iotfleetwise#BatchCreateVehicle/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "iot:CreateThing, iot:DescribeThing, iotfleetwise:BatchCreateVehicle: The vehicle ARNs only exist after the call; iot:CreateThing / iot:DescribeThing are dependent actions when the association behavior auto-creates the backing IoT thing. iotfleetwise:TagResource: Needed only when the request sets tags; not granted, since tagging can change tag-based access.",
+        "add": ["iot:CreateThing", "iot:DescribeThing", "iotfleetwise:BatchCreateVehicle"],
+        "conditional": {
+          "iotfleetwise:TagResource": "Needed only when the request sets tags; not granted, since tagging can change tag-based access."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iotfleetwise#BatchUpdateVehicle/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "BatchUpdateVehicle is authorized per vehicle as iotfleetwise:UpdateVehicle (IoT FleetWise API reference); not verified live.",
+        "actions": ["iotfleetwise:BatchUpdateVehicle", "iotfleetwise:UpdateVehicle"]
+      }
+    }
+  ]
+}

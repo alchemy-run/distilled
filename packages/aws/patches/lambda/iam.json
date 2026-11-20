@@ -1,0 +1,13 @@
+{
+  "description": "Corrections to what AWS's Service Authorization Reference says these operations are authorized as, where a live call disagrees (scripts/iam.ts). Each `reason` is the evidence.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#GetFunction/traits/com.distilled.iam#override",
+      "value": {
+        "reason": "AWS lists it for the operation, but the Lambda Bindings suite calls it successfully without it.",
+        "remove": ["lambda:ListTags"]
+      }
+    }
+  ]
+}
