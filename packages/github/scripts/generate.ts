@@ -95,6 +95,7 @@ const spec: SdkSpec = {
     // Per-op error lists carry exactly the statuses the spec declares
     // (400/403/404/409/410/422); everything else rides GithubOpError.
     commonErrorClasses: [],
+    serviceErrors: "GithubServiceErrors",
     protocol: "GithubProtocol",
     retry: "Retry.Retry",
   },

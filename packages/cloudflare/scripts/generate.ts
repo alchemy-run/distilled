@@ -161,7 +161,9 @@ const makeCfSpec = (
   operationDecl: {
     contextType: "CloudflareOpContext",
     commonErrorType: "CloudflareOpError",
-    commonErrorClasses: ["CloudflareRateLimited", "CloudflareError"],
+    // CloudflareRateLimited and CloudflareError are in the service's list.
+    commonErrorClasses: [],
+    serviceErrors: "CloudflareServiceErrors",
     protocol: "CloudflareProtocol",
     retry: "Retry.Retry",
   },

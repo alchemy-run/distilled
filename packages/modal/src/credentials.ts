@@ -84,6 +84,9 @@ export class Credentials
     Effect.Effect<Config, ConfigError | AuthTokenError>
   >()("ModalCredentials") {}
 
+/** What resolving the credentials can fail with: declared on {@link Credentials}. */
+export type CredentialsError = Effect.Error<(typeof Credentials)["Service"]>;
+
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   tokenId: /*@__PURE__*/ EffectConfig.Redacted("MODAL_TOKEN_ID"),
   tokenSecret: /*@__PURE__*/ EffectConfig.Redacted("MODAL_TOKEN_SECRET"),
@@ -272,9 +275,9 @@ export interface RouterAccess {
 
 /** The caller's credentials (or none), aimed at the router with its JWT. */
 const routerCredentials = (
-  outer: Option.Option<Effect.Effect<Config, ConfigError | AuthTokenError>>,
+  outer: Option.Option<Effect.Effect<Config, CredentialsError>>,
   access: RouterAccess,
-): Effect.Effect<Config, ConfigError | AuthTokenError> =>
+): Effect.Effect<Config, CredentialsError> =>
   Effect.map(
     Option.isSome(outer)
       ? outer.value
