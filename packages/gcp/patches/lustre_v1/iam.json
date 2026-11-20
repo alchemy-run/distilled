@@ -1,0 +1,141 @@
+{
+  "description": "What each lustre_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.lustre_v1#CreateProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["lustre.instances.create"],
+        "roles": ["roles/lustre.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.lustre_v1#CreateProjectsLocationsInstancesDirectoryPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["lustre.instances.update"],
+        "roles": ["roles/lustre.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.lustre_v1#CreateProjectsLocationsInstancesMirrors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["lustre.instances.update"],
+        "roles": ["roles/lustre.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.lustre_v1#DeleteProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["lustre.instances.delete"],
+        "roles": ["roles/lustre.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.lustre_v1#DeleteProjectsLocationsInstancesDirectoryPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["lustre.instances.update"],
+        "roles": ["roles/lustre.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.lustre_v1#DeleteProjectsLocationsInstancesMirrors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["lustre.instances.update"],
+        "roles": ["roles/lustre.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.lustre_v1#ExportDataProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["lustre.instances.exportData"],
+        "roles": ["roles/lustre.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.lustre_v1#GetProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["lustre.instances.get"],
+        "roles": ["roles/lustre.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.lustre_v1#GetProjectsLocationsInstancesDirectoryPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["lustre.instances.get"],
+        "roles": ["roles/lustre.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.lustre_v1#GetProjectsLocationsInstancesMirrors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["lustre.instances.get"],
+        "roles": ["roles/lustre.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.lustre_v1#ImportDataProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["lustre.instances.importData"],
+        "roles": ["roles/lustre.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.lustre_v1#ListProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["lustre.instances.list"],
+        "roles": ["roles/lustre.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.lustre_v1#ListProjectsLocationsInstancesDirectoryPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["lustre.instances.get"],
+        "roles": ["roles/lustre.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.lustre_v1#ListProjectsLocationsInstancesMirrors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["lustre.instances.get"],
+        "roles": ["roles/lustre.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.lustre_v1#PatchProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["lustre.instances.update"],
+        "roles": ["roles/lustre.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.lustre_v1#PatchProjectsLocationsInstancesMirrors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["lustre.instances.update"],
+        "roles": ["roles/lustre.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.lustre_v1#RescheduleMaintenanceProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["lustre.instances.rescheduleMaintenance"],
+        "roles": ["roles/lustre.admin"]
+      }
+    }
+  ]
+}

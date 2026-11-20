@@ -1,0 +1,565 @@
+{
+  "description": "What each logging_v2 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#CopyEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.logEntries.download"],
+        "roles": ["roles/logging.viewAccessor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#CreateAsyncProjectsLocationsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.buckets.update"],
+        "roles": ["roles/logging.configWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#CreateProjectsMetrics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.logMetrics.create"],
+        "roles": ["roles/logging.configWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#CreateProjectsSinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.sinks.create"],
+        "roles": ["roles/logging.configWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#DeleteProjectsLogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.logs.delete"],
+        "roles": ["roles/logging.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#DeleteProjectsMetrics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.logMetrics.delete"],
+        "roles": ["roles/logging.configWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#DeleteProjectsSinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.sinks.delete"],
+        "roles": ["roles/logging.configWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetBillingAccountsExclusions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.exclusions.get"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetBillingAccountsLocationsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.buckets.get"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetBillingAccountsLocationsBucketsLinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.links.get"],
+        "roles": ["roles/logging.linkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetBillingAccountsLocationsBucketsViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.views.get"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetCmekSettingsProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.settings.get"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetCmekSettingsV2/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.settings.get"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetFoldersExclusions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.exclusions.get"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetFoldersLocationsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.buckets.get"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetFoldersLocationsBucketsLinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.links.get"],
+        "roles": ["roles/logging.linkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetFoldersLocationsBucketsViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.views.get"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetFoldersLocationsLogScopes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.logScopes.get"],
+        "roles": ["roles/logging.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetOrganizationsExclusions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.exclusions.get"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetOrganizationsLocationsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.buckets.get"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetOrganizationsLocationsBucketsLinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.links.get"],
+        "roles": ["roles/logging.linkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetOrganizationsLocationsBucketsViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.views.get"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetOrganizationsLocationsLogScopes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.logScopes.get"],
+        "roles": ["roles/logging.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetProjectsExclusions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.exclusions.get"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetProjectsLocationsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.buckets.get"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetProjectsLocationsBucketsLinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.links.get"],
+        "roles": ["roles/logging.linkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetProjectsLocationsBucketsViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.views.get"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetProjectsLocationsLogScopes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.logScopes.get"],
+        "roles": ["roles/logging.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetProjectsLocationsSavedQueries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.queries.getShared"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetProjectsMetrics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.logMetrics.get"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetProjectsSinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.sinks.get"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetSettingsProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.settings.get"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#GetSettingsV2/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.settings.get"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListBillingAccountsLocationsBucketsLinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.links.list"],
+        "roles": ["roles/logging.linkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListBillingAccountsLocationsBucketsViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.views.list"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListBillingAccountsLocationsBucketsViewsLogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.logs.list"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.logEntries.list"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListFoldersLocationsBucketsLinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.links.list"],
+        "roles": ["roles/logging.linkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListFoldersLocationsBucketsViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.views.list"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListFoldersLocationsBucketsViewsLogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.logs.list"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListMonitoredResourceDescriptors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.logs.list"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListOrganizationsLocationsBucketsLinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.links.list"],
+        "roles": ["roles/logging.linkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListOrganizationsLocationsBucketsViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.views.list"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListOrganizationsLocationsBucketsViewsLogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.logs.list"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListProjectsExclusions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.exclusions.list"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListProjectsLocationsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.buckets.list"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListProjectsLocationsBucketsLinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.links.list"],
+        "roles": ["roles/logging.linkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListProjectsLocationsBucketsViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.views.list"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListProjectsLocationsBucketsViewsLogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.logs.list"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListProjectsLocationsLogScopes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.logScopes.list"],
+        "roles": ["roles/logging.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListProjectsLocationsRecentQueries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.queries.listShared"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListProjectsLocationsSavedQueries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.queries.listShared"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListProjectsLogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.logs.list"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListProjectsMetrics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.logMetrics.list"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#ListProjectsSinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.sinks.list"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#PatchProjectsSinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.sinks.update"],
+        "roles": ["roles/logging.configWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#TailEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.logEntries.list"],
+        "roles": ["roles/logging.privateLogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#UndeleteBillingAccountsLocationsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.buckets.undelete"],
+        "roles": ["roles/logging.configWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#UndeleteFoldersLocationsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.buckets.undelete"],
+        "roles": ["roles/logging.configWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#UndeleteOrganizationsLocationsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.buckets.undelete"],
+        "roles": ["roles/logging.configWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#UndeleteProjectsLocationsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.buckets.undelete"],
+        "roles": ["roles/logging.configWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#UpdateAsyncBillingAccountsLocationsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.buckets.update"],
+        "roles": ["roles/logging.configWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#UpdateAsyncFoldersLocationsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.buckets.update"],
+        "roles": ["roles/logging.configWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#UpdateAsyncOrganizationsLocationsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.buckets.update"],
+        "roles": ["roles/logging.configWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#UpdateAsyncProjectsLocationsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.buckets.update"],
+        "roles": ["roles/logging.configWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#UpdateCmekSettingsV2/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.settings.update"],
+        "roles": ["roles/logging.configWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#UpdateProjectsMetrics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.logMetrics.update"],
+        "roles": ["roles/logging.configWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#UpdateProjectsSinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.sinks.update"],
+        "roles": ["roles/logging.configWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#UpdateSettingsV2/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.settings.update"],
+        "roles": ["roles/logging.configWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.logging_v2#WriteEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["logging.logEntries.create"],
+        "roles": ["roles/logging.logWriter"]
+      }
+    }
+  ]
+}

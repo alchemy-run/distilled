@@ -1,0 +1,77 @@
+{
+  "description": "What each deploymentmanager_v2 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.deploymentmanager_v2#CancelPreviewDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["deploymentmanager.deployments.cancelPreview"],
+        "roles": ["roles/deploymentmanager.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.deploymentmanager_v2#GetDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["deploymentmanager.deployments.get"],
+        "roles": ["roles/deploymentmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.deploymentmanager_v2#GetManifests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["deploymentmanager.manifests.get"],
+        "roles": ["roles/deploymentmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.deploymentmanager_v2#GetResources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["deploymentmanager.resources.get"],
+        "roles": ["roles/deploymentmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.deploymentmanager_v2#ListDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["deploymentmanager.deployments.list"],
+        "roles": ["roles/deploymentmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.deploymentmanager_v2#ListManifests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["deploymentmanager.manifests.list"],
+        "roles": ["roles/deploymentmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.deploymentmanager_v2#ListResources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["deploymentmanager.resources.list"],
+        "roles": ["roles/deploymentmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.deploymentmanager_v2#ListTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["deploymentmanager.types.list"],
+        "roles": ["roles/deploymentmanager.typeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.deploymentmanager_v2#StopDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["deploymentmanager.deployments.stop"],
+        "roles": ["roles/deploymentmanager.editor"]
+      }
+    }
+  ]
+}

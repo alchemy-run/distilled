@@ -1,0 +1,341 @@
+{
+  "description": "What each oracledatabase_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ConfigureExascaleProjectsLocationsCloudExadataInfrastructures/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.cloudExadataInfrastructures.update"],
+        "roles": ["roles/oracledatabase.cloudExadataInfrastructureAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#FailoverProjectsLocationsAutonomousDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.autonomousDatabases.failover"],
+        "roles": ["roles/oracledatabase.autonomousDatabaseAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#GetProjectsLocationsDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.databases.get"],
+        "roles": ["roles/oracledatabase.databaseViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#GetProjectsLocationsPluggableDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.pluggableDatabases.get"],
+        "roles": ["roles/oracledatabase.pluggableDatabaseViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#GetRefreshableClonesProjectsLocationsAutonomousDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.autonomousDatabases.get"],
+        "roles": ["roles/oracledatabase.autonomousDatabaseViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsAutonomousDatabaseBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.autonomousDatabaseBackups.list"],
+        "roles": ["roles/oracledatabase.autonomousDatabaseViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsAutonomousDatabaseCharacterSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.autonomousDatabaseCharacterSets.list"],
+        "roles": ["roles/oracledatabase.autonomousDatabaseViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsAutonomousDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.autonomousDatabases.list"],
+        "roles": ["roles/oracledatabase.autonomousDatabaseViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsAutonomousDbVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.autonomousDbVersions.list"],
+        "roles": ["roles/oracledatabase.autonomousDatabaseViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsCloudExadataInfrastructures/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.cloudExadataInfrastructures.list"],
+        "roles": ["roles/oracledatabase.cloudExadataInfrastructureViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsCloudExadataInfrastructuresDbServers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.dbServers.list"],
+        "roles": ["roles/oracledatabase.cloudExadataInfrastructureViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsCloudVmClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.cloudVmClusters.list"],
+        "roles": ["roles/oracledatabase.cloudVmClusterViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsCloudVmClustersDbNodes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.dbNodes.list"],
+        "roles": ["roles/oracledatabase.cloudVmClusterViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsDatabaseCharacterSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.databaseCharacterSets.list"],
+        "roles": ["roles/oracledatabase.dbSystemViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.databases.list"],
+        "roles": ["roles/oracledatabase.databaseViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsDbSystemInitialStorageSizes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.dbSystemInitialStorageSizes.list"],
+        "roles": ["roles/oracledatabase.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsDbSystemShapes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.dbSystemShapes.list"],
+        "roles": ["roles/oracledatabase.cloudExadataInfrastructureViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsDbSystems/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.dbSystems.list"],
+        "roles": ["roles/oracledatabase.dbSystemViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsDbVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.dbVersions.list"],
+        "roles": ["roles/oracledatabase.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsEntitlements/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.entitlements.list"],
+        "roles": ["roles/oracledatabase.odbNetworkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsExadbVmClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.exadbVmClusters.list"],
+        "roles": ["roles/oracledatabase.exadbVmClusterViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsExadbVmClustersDbNodes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.dbNodes.list"],
+        "roles": ["roles/oracledatabase.cloudVmClusterViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsExascaleDbStorageVaults/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.exascaleDbStorageVaults.list"],
+        "roles": ["roles/oracledatabase.exascaleDbStorageVaultViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsGiVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.giVersions.list"],
+        "roles": ["roles/oracledatabase.cloudExadataInfrastructureViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsGiVersionsMinorVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.minorVersions.list"],
+        "roles": ["roles/oracledatabase.exadbVmClusterViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsGoldengateConnectionAssignments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.goldenGateConnectionAssignments.list"],
+        "roles": ["roles/oracledatabase.goldenGateConnectionAssignmentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsGoldengateConnectionTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.goldenGateConnectionTypes.list"],
+        "roles": ["roles/oracledatabase.goldenGateConnectionAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsGoldengateConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.goldenGateConnections.list"],
+        "roles": ["roles/oracledatabase.goldenGateConnectionViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsGoldengateDeploymentEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.goldenGateDeploymentEnvironments.list"],
+        "roles": ["roles/oracledatabase.goldenGateDeploymentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsGoldengateDeploymentTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.goldenGateDeploymentTypes.list"],
+        "roles": ["roles/oracledatabase.goldenGateDeploymentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsGoldengateDeploymentVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.goldenGateDeploymentVersions.list"],
+        "roles": ["roles/oracledatabase.goldenGateDeploymentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsGoldengateDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.goldenGateDeployments.list"],
+        "roles": ["roles/oracledatabase.goldenGateDeploymentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsOdbNetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.odbNetworks.list"],
+        "roles": ["roles/oracledatabase.odbNetworkViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsOdbNetworksOdbSubnets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.odbSubnets.list"],
+        "roles": ["roles/oracledatabase.odbSubnetViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#ListProjectsLocationsPluggableDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.pluggableDatabases.list"],
+        "roles": ["roles/oracledatabase.pluggableDatabaseViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#RefreshProjectsLocationsAutonomousDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.autonomousDatabases.refresh"],
+        "roles": ["roles/oracledatabase.autonomousDatabaseAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#RemoveVirtualMachineProjectsLocationsExadbVmClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.exadbVmClusters.update"],
+        "roles": ["roles/oracledatabase.exadbVmClusterAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#RestoreProjectsLocationsAutonomousDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.autonomousDatabases.restore"],
+        "roles": ["roles/oracledatabase.autonomousDatabaseAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#StartProjectsLocationsGoldengateDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.goldenGateDeployments.start"],
+        "roles": ["roles/oracledatabase.goldenGateDeploymentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#StopProjectsLocationsGoldengateDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.goldenGateDeployments.stop"],
+        "roles": ["roles/oracledatabase.goldenGateDeploymentAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#SwitchoverProjectsLocationsAutonomousDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.autonomousDatabases.switchover"],
+        "roles": ["roles/oracledatabase.autonomousDatabaseAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.oracledatabase_v1#TestProjectsLocationsGoldengateConnectionAssignments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["oracledatabase.goldenGateConnectionAssignments.test"],
+        "roles": ["roles/oracledatabase.goldenGateConnectionAssignmentAdmin"]
+      }
+    }
+  ]
+}

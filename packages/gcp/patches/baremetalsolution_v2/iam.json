@@ -1,0 +1,317 @@
+{
+  "description": "What each baremetalsolution_v2 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#CreateProjectsLocationsSshKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.sshKeys.create"],
+        "roles": ["roles/baremetalsolution.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#DeleteProjectsLocationsSshKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.sshKeys.delete"],
+        "roles": ["roles/baremetalsolution.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#DetachLunProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.instances.detachLun"],
+        "roles": ["roles/baremetalsolution.instancesadmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#DisableHyperthreadingProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.instances.update"],
+        "roles": ["roles/baremetalsolution.instancesadmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#DisableInteractiveSerialConsoleProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.instances.disableInteractiveSerialConsole"],
+        "roles": ["roles/baremetalsolution.instancesadmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#EnableHyperthreadingProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.instances.update"],
+        "roles": ["roles/baremetalsolution.instancesadmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#EnableInteractiveSerialConsoleProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.instances.enableInteractiveSerialConsole"],
+        "roles": ["roles/baremetalsolution.instancesadmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#EvictProjectsLocationsVolumes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.volumes.evict"],
+        "roles": ["roles/baremetalsolution.volumesadmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#EvictProjectsLocationsVolumesLuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.luns.evict"],
+        "roles": ["roles/baremetalsolution.storageadmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#GetProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.instances.get"],
+        "roles": ["roles/baremetalsolution.instancesviewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#GetProjectsLocationsNetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.networks.get"],
+        "roles": ["roles/baremetalsolution.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#GetProjectsLocationsNfsShares/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.nfsshares.get"],
+        "roles": ["roles/baremetalsolution.nfssharesviewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#GetProjectsLocationsOsImages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.osimages.list"],
+        "roles": ["roles/baremetalsolution.osimagesviewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#GetProjectsLocationsVolumes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.volumes.get"],
+        "roles": ["roles/baremetalsolution.volumessviewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#GetProjectsLocationsVolumesLuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.luns.get"],
+        "roles": ["roles/baremetalsolution.lunsviewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#GetProjectsLocationsVolumesSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.volumes.get"],
+        "roles": ["roles/baremetalsolution.volumessviewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ListNetworkUsageProjectsLocationsNetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.networks.get"],
+        "roles": ["roles/baremetalsolution.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ListProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.instances.list"],
+        "roles": ["roles/baremetalsolution.instancesviewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ListProjectsLocationsNetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.networks.list"],
+        "roles": ["roles/baremetalsolution.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ListProjectsLocationsNfsShares/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.nfsshares.list"],
+        "roles": ["roles/baremetalsolution.nfssharesviewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ListProjectsLocationsOsImages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.osimages.list"],
+        "roles": ["roles/baremetalsolution.osimagesviewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ListProjectsLocationsSshKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.sshKeys.list"],
+        "roles": ["roles/baremetalsolution.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ListProjectsLocationsVolumes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.volumes.list"],
+        "roles": ["roles/baremetalsolution.volumessviewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ListProjectsLocationsVolumesLuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.luns.list"],
+        "roles": ["roles/baremetalsolution.lunsviewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ListProjectsLocationsVolumesSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.volumes.get"],
+        "roles": ["roles/baremetalsolution.volumessviewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#LoadAuthInfoProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.instances.update"],
+        "roles": ["roles/baremetalsolution.instancesadmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#PatchProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.instances.update"],
+        "roles": ["roles/baremetalsolution.instancesadmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#PatchProjectsLocationsNetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.networks.update"],
+        "roles": ["roles/baremetalsolution.networksadmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#PatchProjectsLocationsVolumes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.volumes.update"],
+        "roles": ["roles/baremetalsolution.volumesadmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ReimageProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.instances.update"],
+        "roles": ["roles/baremetalsolution.instancesadmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#RenameProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.instances.rename"],
+        "roles": ["roles/baremetalsolution.instancesadmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#RenameProjectsLocationsNetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.networks.rename"],
+        "roles": ["roles/baremetalsolution.networksadmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#RenameProjectsLocationsNfsShares/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.nfsshares.rename"],
+        "roles": ["roles/baremetalsolution.nfssharesadmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#RenameProjectsLocationsVolumes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.volumes.rename"],
+        "roles": ["roles/baremetalsolution.volumesadmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ResetProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.instances.reset"],
+        "roles": ["roles/baremetalsolution.instancesadmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#ResizeProjectsLocationsVolumes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.volumes.resize"],
+        "roles": ["roles/baremetalsolution.volumesadmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#RestoreVolumeSnapshotProjectsLocationsVolumesSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.volumes.update"],
+        "roles": ["roles/baremetalsolution.volumesadmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#StartProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.instances.start"],
+        "roles": ["roles/baremetalsolution.instancesadmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.baremetalsolution_v2#StopProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["baremetalsolution.instances.stop"],
+        "roles": ["roles/baremetalsolution.instancesadmin"]
+      }
+    }
+  ]
+}

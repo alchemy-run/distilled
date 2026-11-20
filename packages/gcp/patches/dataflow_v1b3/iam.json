@@ -1,0 +1,173 @@
+{
+  "description": "What each dataflow_v1b3 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataflow_v1b3#AggregatedProjectsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataflow.jobs.list"],
+        "roles": ["roles/dataflow.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataflow_v1b3#CreateProjectsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataflow.jobs.create"],
+        "roles": ["roles/dataflow.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataflow_v1b3#CreateProjectsTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataflow.jobs.create"],
+        "roles": ["roles/dataflow.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataflow_v1b3#DeleteSnapshotsProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataflow.snapshots.delete"],
+        "roles": ["roles/dataflow.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataflow_v1b3#GetConfigProjectsJobsDebug/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataflow.jobs.get"],
+        "roles": ["roles/dataflow.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataflow_v1b3#GetExecutionDetailsProjectsLocationsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataflow.jobs.get"],
+        "roles": ["roles/dataflow.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataflow_v1b3#GetExecutionDetailsProjectsLocationsJobsStages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataflow.jobs.get"],
+        "roles": ["roles/dataflow.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataflow_v1b3#GetMetricsProjectsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataflow.jobs.get"],
+        "roles": ["roles/dataflow.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataflow_v1b3#GetProjectsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataflow.jobs.get"],
+        "roles": ["roles/dataflow.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataflow_v1b3#GetProjectsSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataflow.snapshots.get"],
+        "roles": ["roles/dataflow.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataflow_v1b3#GetProjectsTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataflow.jobs.get"],
+        "roles": ["roles/dataflow.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataflow_v1b3#GetWorkerStacktracesProjectsLocationsJobsDebug/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataflow.jobs.get"],
+        "roles": ["roles/dataflow.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataflow_v1b3#LaunchProjectsLocationsFlexTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataflow.jobs.create"],
+        "roles": ["roles/dataflow.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataflow_v1b3#LaunchProjectsTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataflow.jobs.create"],
+        "roles": ["roles/dataflow.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataflow_v1b3#LeaseProjectsJobsWorkItems/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataflow.workItems.lease"],
+        "roles": ["roles/dataflow.worker"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataflow_v1b3#ListProjectsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataflow.jobs.list"],
+        "roles": ["roles/dataflow.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataflow_v1b3#ListProjectsJobsMessages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataflow.messages.list"],
+        "roles": ["roles/dataflow.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataflow_v1b3#ListProjectsLocationsJobsSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataflow.snapshots.list"],
+        "roles": ["roles/dataflow.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataflow_v1b3#ListProjectsSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataflow.snapshots.list"],
+        "roles": ["roles/dataflow.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataflow_v1b3#ReportStatusProjectsJobsWorkItems/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataflow.workItems.update"],
+        "roles": ["roles/dataflow.worker"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataflow_v1b3#SnapshotProjectsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataflow.jobs.snapshot"],
+        "roles": ["roles/dataflow.developer"]
+      }
+    }
+  ]
+}

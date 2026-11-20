@@ -1,0 +1,101 @@
+{
+  "description": "What each looker_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.looker_v1#CreateProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["looker.instances.create"],
+        "roles": ["roles/looker.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.looker_v1#DeleteProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["looker.instances.delete"],
+        "roles": ["roles/looker.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.looker_v1#ExportProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["looker.instances.export"],
+        "roles": ["roles/looker.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.looker_v1#GetProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["looker.instances.get"],
+        "roles": ["roles/looker.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.looker_v1#GetProjectsLocationsInstancesBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["looker.backups.get"],
+        "roles": ["roles/looker.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.looker_v1#ImportProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["looker.instances.import"],
+        "roles": ["roles/looker.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.looker_v1#ListProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["looker.instances.list"],
+        "roles": ["roles/looker.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.looker_v1#ListProjectsLocationsInstancesBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["looker.backups.list"],
+        "roles": ["roles/looker.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.looker_v1#PatchProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["looker.instances.update"],
+        "roles": ["roles/looker.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.looker_v1#RestartProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["looker.instances.update"],
+        "roles": ["roles/looker.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.looker_v1#RestoreProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["looker.instances.update"],
+        "roles": ["roles/looker.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.looker_v1#UndeleteProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["looker.instances.update"],
+        "roles": ["roles/looker.admin"]
+      }
+    }
+  ]
+}

@@ -27,6 +27,12 @@
       "worker": "./src/index.ts",
       "default": "./lib/index.js"
     },
+    "./meta/*": {
+      "types": "./lib/meta/*.d.ts",
+      "bun": "./src/meta/*.ts",
+      "worker": "./src/meta/*.ts",
+      "default": "./lib/meta/*.js"
+    },
     "./*": {
       "types": "./lib/services/*.d.ts",
       "bun": "./src/services/*.ts",

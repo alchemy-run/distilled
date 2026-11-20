@@ -1,0 +1,69 @@
+{
+  "description": "What each datacatalog_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ExportProjectsLocationsTaxonomies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.taxonomies.update"],
+        "roles": ["roles/datacatalog.categoryAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#GetProjectsLocationsTaxonomies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.taxonomies.get"],
+        "roles": ["roles/datacatalog.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#GetProjectsLocationsTaxonomiesPolicyTags/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.taxonomies.get"],
+        "roles": ["roles/datacatalog.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ImportProjectsLocationsTaxonomies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.taxonomies.update"],
+        "roles": ["roles/datacatalog.categoryAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ListProjectsLocationsTaxonomies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.taxonomies.list"],
+        "roles": ["roles/datacatalog.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ListProjectsLocationsTaxonomiesPolicyTags/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.taxonomies.get"],
+        "roles": ["roles/datacatalog.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#ReplaceProjectsLocationsTaxonomies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.taxonomies.update"],
+        "roles": ["roles/datacatalog.categoryAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datacatalog_v1#SearchCatalog/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datacatalog.catalogs.searchAll"],
+        "roles": ["roles/datacatalog.viewer"]
+      }
+    }
+  ]
+}

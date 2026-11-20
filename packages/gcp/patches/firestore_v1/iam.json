@@ -1,0 +1,301 @@
+{
+  "description": "What each firestore_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#BatchGetProjectsDatabasesDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.entities.get"],
+        "roles": ["roles/datastore.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#BatchWriteProjectsDatabasesDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.entities.update"],
+        "roles": ["roles/datastore.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#BeginTransactionProjectsDatabasesDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.databases.get"],
+        "roles": ["roles/datastore.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#BulkDeleteDocumentsProjectsDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.databases.bulkDelete"],
+        "roles": ["roles/datastore.bulkAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#CommitProjectsDatabasesDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.entities.update"],
+        "roles": ["roles/datastore.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#CreateProjectsDatabasesBackupSchedules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.backupSchedules.create"],
+        "roles": ["roles/datastore.backupSchedulesAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#CreateProjectsDatabasesCollectionGroupsIndexes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.indexes.create"],
+        "roles": ["roles/datastore.indexAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#CreateProjectsDatabasesUserCreds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.userCreds.create"],
+        "roles": ["roles/datastore.userCredsAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#DeleteProjectsDatabasesBackupSchedules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.backupSchedules.delete"],
+        "roles": ["roles/datastore.backupSchedulesAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#DeleteProjectsDatabasesCollectionGroupsIndexes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.indexes.delete"],
+        "roles": ["roles/datastore.indexAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#DeleteProjectsDatabasesUserCreds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.userCreds.delete"],
+        "roles": ["roles/datastore.userCredsAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#DeleteProjectsLocationsBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.backups.delete"],
+        "roles": ["roles/datastore.backupsAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#DisableProjectsDatabasesUserCreds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.userCreds.update"],
+        "roles": ["roles/datastore.userCredsAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#EnableProjectsDatabasesUserCreds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.userCreds.update"],
+        "roles": ["roles/datastore.userCredsAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#ExecutePipelineProjectsDatabasesDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.entities.list"],
+        "roles": ["roles/datastore.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#ExportDocumentsProjectsDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.databases.export"],
+        "roles": ["roles/datastore.importExportAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#GetProjectsDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.databases.get"],
+        "roles": ["roles/datastore.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#GetProjectsDatabasesBackupSchedules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.backupSchedules.get"],
+        "roles": ["roles/datastore.backupSchedulesViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#GetProjectsDatabasesCollectionGroupsFields/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.indexes.get"],
+        "roles": ["roles/datastore.indexAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#GetProjectsDatabasesCollectionGroupsIndexes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.indexes.get"],
+        "roles": ["roles/datastore.indexAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#GetProjectsDatabasesUserCreds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.userCreds.get"],
+        "roles": ["roles/datastore.userCredsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#GetProjectsLocationsBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.backups.get"],
+        "roles": ["roles/datastore.backupsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#ImportDocumentsProjectsDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.databases.import"],
+        "roles": ["roles/datastore.importExportAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#ListCollectionIdsProjectsDatabasesDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.entities.list"],
+        "roles": ["roles/datastore.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#ListDocumentsProjectsDatabasesDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.entities.list"],
+        "roles": ["roles/datastore.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#ListProjectsDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.databases.list"],
+        "roles": ["roles/datastore.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#ListProjectsDatabasesBackupSchedules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.backupSchedules.list"],
+        "roles": ["roles/datastore.backupSchedulesViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#ListProjectsDatabasesCollectionGroupsFields/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.indexes.list"],
+        "roles": ["roles/datastore.indexAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#ListProjectsDatabasesCollectionGroupsIndexes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.indexes.list"],
+        "roles": ["roles/datastore.indexAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#ListProjectsDatabasesUserCreds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.userCreds.list"],
+        "roles": ["roles/datastore.userCredsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#ListProjectsLocationsBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.backups.list"],
+        "roles": ["roles/datastore.backupsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#PartitionQueryProjectsDatabasesDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.entities.list"],
+        "roles": ["roles/datastore.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#PatchProjectsDatabasesBackupSchedules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.backupSchedules.update"],
+        "roles": ["roles/datastore.backupSchedulesAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#PatchProjectsDatabasesCollectionGroupsFields/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.indexes.update"],
+        "roles": ["roles/datastore.indexAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#ResetPasswordProjectsDatabasesUserCreds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.userCreds.update"],
+        "roles": ["roles/datastore.userCredsAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#RollbackProjectsDatabasesDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.databases.get"],
+        "roles": ["roles/datastore.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firestore_v1#RunAggregationQueryProjectsDatabasesDocuments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastore.entities.list"],
+        "roles": ["roles/datastore.viewer"]
+      }
+    }
+  ]
+}

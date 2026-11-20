@@ -1,0 +1,2349 @@
+{
+  "description": "What each aiplatform_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ActivateProjectsLocationsOnlineEvaluators/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.onlineEvaluators.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#AddContextArtifactsAndExecutionsProjectsLocationsMetadataStoresContexts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.contexts.addContextArtifactsAndExecutions"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#AddContextChildrenProjectsLocationsMetadataStoresContexts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.contexts.addContextChildren"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#AddExecutionEventsProjectsLocationsMetadataStoresExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.executions.addExecutionEvents"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#AddTrialMeasurementProjectsLocationsStudiesTrials/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.trials.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#AppendEventProjectsLocationsReasoningEnginesSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.sessions.update"],
+        "roles": ["roles/aiplatform.sessionEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#AssignProjectsLocationsNotebookRuntimes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.notebookRuntimes.assign"],
+        "roles": ["roles/aiplatform.notebookRuntimeUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#AsyncQueryProjectsLocationsReasoningEngines/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.reasoningEngines.update"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#AuthorizeAccessProjectsLocationsReasoningEnginesSandboxEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.reasoningEngines.update"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#AuthorizeAccessReasoningEnginesSandboxEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.reasoningEngines.update"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#BatchCancelProjectsLocationsPipelineJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.pipelineJobs.cancel"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#BatchCreateProjectsLocationsFeatureGroupsFeatures/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.features.update"],
+        "roles": ["roles/aiplatform.entityTypeOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#BatchCreateProjectsLocationsFeaturestoresEntityTypesFeatures/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.features.update"],
+        "roles": ["roles/aiplatform.entityTypeOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#BatchCreateProjectsLocationsTensorboardsExperiments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tensorboards.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#BatchCreateProjectsLocationsTensorboardsExperimentsRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tensorboards.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#BatchDeleteProjectsLocationsPipelineJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.pipelineJobs.delete"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#BatchImportProjectsLocationsModelsEvaluationsSlices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#BatchMigrateProjectsLocationsMigratableResources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.migratableResources.migrate"],
+        "roles": ["roles/aiplatform.migrator"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#BatchReadFeatureValuesProjectsLocationsFeaturestores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.featurestores.batchReadFeatureValues"],
+        "roles": ["roles/aiplatform.featurestoreDataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#BatchReadProjectsLocationsTensorboards/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tensorboards.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CancelAsyncQueryProjectsLocationsReasoningEngines/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.reasoningEngines.update"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CancelProjectsLocationsBatchPredictionJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.batchPredictionJobs.cancel"],
+        "roles": ["roles/aiplatform.expressAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CancelProjectsLocationsCustomJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.customJobs.cancel"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CancelProjectsLocationsDataLabelingJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.dataLabelingJobs.cancel"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CancelProjectsLocationsEvaluationRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.evaluationRuns.cancel"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CancelProjectsLocationsHyperparameterTuningJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.hyperparameterTuningJobs.cancel"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CancelProjectsLocationsNasJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.nasJobs.cancel"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CancelProjectsLocationsPipelineJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.pipelineJobs.cancel"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CancelProjectsLocationsTuningJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tuningJobs.cancel"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CheckTrialEarlyStoppingStateProjectsLocationsStudiesTrials/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.trials.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CompactProjectsLocationsReasoningEnginesSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.sessions.update"],
+        "roles": ["roles/aiplatform.sessionEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CompleteProjectsLocationsStudiesTrials/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.trials.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CompletionsProjectsLocationsEndpointsChat/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ComputeTokensProjectsLocationsEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ComputeTokensProjectsLocationsPublishersModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CopyProjectsLocationsModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CountTokensProjectsLocationsEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CountTokensProjectsLocationsPublishersModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CreateProjectsLocationsEvaluationMetrics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.evaluationMetrics.create"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#CreateProjectsLocationsMetadataStoresMetadataSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.metadataSchemas.create"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteFeatureValuesProjectsLocationsFeaturestoresEntityTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.entityTypes.deleteFeatureValues"],
+        "roles": ["roles/aiplatform.featurestoreDataWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.datasets.delete"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteProjectsLocationsDatasetsDatasetVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.datasetVersions.delete"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteProjectsLocationsDatasetsSavedQueries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.datasets.update"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteProjectsLocationsEndpointsResponses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteProjectsLocationsEvaluationMetrics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.evaluationMetrics.delete"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteProjectsLocationsMemoryBanksMemories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.memories.delete"],
+        "roles": ["roles/aiplatform.memoryEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteProjectsLocationsModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.delete"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteProjectsLocationsNotebookRuntimes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.notebookRuntimes.delete"],
+        "roles": ["roles/aiplatform.notebookRuntimeAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteProjectsLocationsRagCorporaRagFiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.ragFiles.delete"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteProjectsLocationsReasoningEnginesSandboxEnvironmentSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.reasoningEngines.update"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteProjectsLocationsReasoningEnginesSandboxEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.sandboxEnvironments.delete"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeleteVersionProjectsLocationsModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeployIndexProjectsLocationsIndexEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.indexEndpoints.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeployModelProjectsLocationsEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DeprovisionProjectsLocationsSemanticGovernancePolicyEngine/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.semanticGovernancePolicyEngine.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DirectPredictProjectsLocationsEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DirectRawPredictProjectsLocationsEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#DirectWriteProjectsLocationsFeatureOnlineStoresFeatureViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.featureViews.directWrite"],
+        "roles": ["roles/aiplatform.featurestoreAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#EmbedContentProjectsLocationsPublishersModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ExecuteCodeProjectsLocationsReasoningEngines/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.reasoningEngines.update"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ExecuteProjectsLocationsReasoningEnginesSandboxEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.sandboxEnvironments.execute"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ExecuteReasoningEnginesSandboxEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.sandboxEnvironments.execute"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ExplainProjectsLocationsEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.explain"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ExportFeatureValuesProjectsLocationsFeaturestoresEntityTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.entityTypes.exportFeatureValues"],
+        "roles": ["roles/aiplatform.featurestoreDataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ExportProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.datasets.export"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ExportProjectsLocationsModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.export"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ExportTensorboardTimeSeriesProjectsLocationsTensorboardsExperimentsRunsTimeSeries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tensorboards.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#FetchFeatureValuesProjectsLocationsFeatureOnlineStoresFeatureViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.featureViews.fetchFeatureValues"],
+        "roles": ["roles/aiplatform.featurestoreDataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#FetchPredictOperationProjectsLocationsEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#FetchPredictOperationProjectsLocationsPublishersModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#FindNeighborsProjectsLocationsIndexEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.indexEndpoints.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GenerateContentProjectsLocationsEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GenerateFetchAccessTokenProjectsLocationsFeatureOnlineStoresFeatureViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.featureViews.update"],
+        "roles": ["roles/aiplatform.featurestoreAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GenerateProjectsLocationsMemoryBanksMemories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.memories.generate"],
+        "roles": ["roles/aiplatform.memoryEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GenerateProjectsLocationsReasoningEnginesMemories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.memories.generate"],
+        "roles": ["roles/aiplatform.memoryEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetCacheConfigProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.cacheConfigs.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsBatchPredictionJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.batchPredictionJobs.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsCachedContents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.cachedContents.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsCustomJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.customJobs.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsDataLabelingJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.dataLabelingJobs.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.datasets.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsDatasetsAnnotationSpecs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.annotationSpecs.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsDatasetsDatasetVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.datasetVersions.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsDeploymentResourcePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.deploymentResourcePools.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsEndpointsResponses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsEvaluationItems/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.evaluationItems.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsEvaluationMetrics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.evaluationMetrics.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsEvaluationRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.evaluationRuns.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsEvaluationSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.evaluationSets.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsFeatureGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.featureGroups.get"],
+        "roles": ["roles/aiplatform.featurestoreResourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsFeatureGroupsFeatures/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.features.get"],
+        "roles": ["roles/aiplatform.featurestoreResourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsFeatureOnlineStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.featureOnlineStores.get"],
+        "roles": ["roles/aiplatform.featurestoreResourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsFeatureOnlineStoresFeatureViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.featureViews.get"],
+        "roles": ["roles/aiplatform.featurestoreResourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsFeatureOnlineStoresFeatureViewsFeatureViewSyncs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.featureViewSyncs.get"],
+        "roles": ["roles/aiplatform.featurestoreResourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsFeaturestores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.featurestores.get"],
+        "roles": ["roles/aiplatform.featurestoreResourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsFeaturestoresEntityTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.entityTypes.get"],
+        "roles": ["roles/aiplatform.featurestoreResourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsFeaturestoresEntityTypesFeatures/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.features.get"],
+        "roles": ["roles/aiplatform.featurestoreResourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsHyperparameterTuningJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.hyperparameterTuningJobs.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsIndexEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.indexEndpoints.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsIndexes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.indexes.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsMemoryBanksMemories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.memories.get"],
+        "roles": ["roles/aiplatform.memoryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsMemoryBanksMemoriesRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.memories.get"],
+        "roles": ["roles/aiplatform.memoryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsMetadataStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.metadataStores.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsMetadataStoresArtifacts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.artifacts.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsMetadataStoresContexts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.contexts.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsMetadataStoresExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.executions.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsMetadataStoresMetadataSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.metadataSchemas.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsModelDeploymentMonitoringJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.modelDeploymentMonitoringJobs.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsModelsEvaluations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsModelsEvaluationsSlices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsNasJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.nasJobs.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsNasJobsNasTrialDetails/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.nasTrialDetails.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsNotebookExecutionJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.notebookExecutionJobs.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsNotebookRuntimeTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.notebookRuntimeTemplates.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsNotebookRuntimes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.notebookRuntimes.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsOnlineEvaluators/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.onlineEvaluators.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsPersistentResources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.persistentResources.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsPipelineJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.pipelineJobs.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsRagCorpora/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.ragCorpora.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsRagCorporaRagFiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.ragFiles.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsReasoningEnginesMemories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.memories.get"],
+        "roles": ["roles/aiplatform.memoryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsReasoningEnginesMemoriesRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.memories.get"],
+        "roles": ["roles/aiplatform.memoryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsReasoningEnginesSandboxEnvironmentSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.reasoningEngines.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsReasoningEnginesSandboxEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.sandboxEnvironments.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsReasoningEnginesSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.sessions.get"],
+        "roles": ["roles/aiplatform.sessionViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsSchedules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.schedules.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsSemanticGovernancePolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.semanticGovernancePolicies.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsSpecialistPools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.specialistPools.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsStudies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.studies.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsStudiesTrials/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.trials.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsTensorboards/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tensorboards.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsTensorboardsExperiments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tensorboards.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsTensorboardsExperimentsRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tensorboards.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsTensorboardsExperimentsRunsTimeSeries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tensorboards.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#GetProjectsLocationsTuningJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tuningJobs.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ImportFeatureValuesProjectsLocationsFeaturestoresEntityTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.entityTypes.importFeatureValues"],
+        "roles": ["roles/aiplatform.featurestoreDataWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ImportProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.datasets.import"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ImportProjectsLocationsEvaluationSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.evaluationSets.import"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ImportProjectsLocationsModelsEvaluations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ImportProjectsLocationsRagCorporaRagFiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.ragFiles.import"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#IngestEventsProjectsLocationsMemoryBanks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.memories.create"],
+        "roles": ["roles/aiplatform.memoryEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#IngestEventsProjectsLocationsReasoningEnginesMemories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.memories.update"],
+        "roles": ["roles/aiplatform.memoryEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#InvokeProjectsLocationsEndpointsDeployedModelsInvoke/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#InvokeProjectsLocationsEndpointsInvoke/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#InvokeProjectsLocationsPublishersModelsInvoke/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListCheckpointsProjectsLocationsModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListOptimalTrialsProjectsLocationsStudiesTrials/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.trials.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsBatchPredictionJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.batchPredictionJobs.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsCachedContents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.cachedContents.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsCustomJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.customJobs.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsDataLabelingJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.dataLabelingJobs.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.datasets.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsDatasetsDataItems/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.dataItems.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsDatasetsDataItemsAnnotations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.annotations.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsDatasetsDatasetVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.datasetVersions.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsDatasetsSavedQueries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.datasets.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsDeploymentResourcePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.deploymentResourcePools.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsEvaluationItems/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.evaluationItems.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsEvaluationMetrics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.evaluationMetrics.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsEvaluationRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.evaluationRuns.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsEvaluationSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.evaluationSets.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsFeatureGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.featureGroups.list"],
+        "roles": ["roles/aiplatform.featurestoreResourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsFeatureGroupsFeatures/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.features.list"],
+        "roles": ["roles/aiplatform.featurestoreResourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsFeatureOnlineStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.featureOnlineStores.list"],
+        "roles": ["roles/aiplatform.featurestoreResourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsFeatureOnlineStoresFeatureViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.featureViews.list"],
+        "roles": ["roles/aiplatform.featurestoreResourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsFeatureOnlineStoresFeatureViewsFeatureViewSyncs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.featureViewSyncs.list"],
+        "roles": ["roles/aiplatform.featurestoreResourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsFeaturestores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.featurestores.list"],
+        "roles": ["roles/aiplatform.featurestoreResourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsFeaturestoresEntityTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.entityTypes.list"],
+        "roles": ["roles/aiplatform.featurestoreResourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsFeaturestoresEntityTypesFeatures/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.features.list"],
+        "roles": ["roles/aiplatform.featurestoreResourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsHyperparameterTuningJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.hyperparameterTuningJobs.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsIndexEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.indexEndpoints.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsIndexes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.indexes.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsMemoryBanksMemories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.memories.list"],
+        "roles": ["roles/aiplatform.memoryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsMemoryBanksMemoriesRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.memories.get"],
+        "roles": ["roles/aiplatform.memoryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsMetadataStores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.metadataStores.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsMetadataStoresArtifacts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.artifacts.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsMetadataStoresContexts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.contexts.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsMetadataStoresExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.executions.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsMetadataStoresMetadataSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.metadataSchemas.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsModelDeploymentMonitoringJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.modelDeploymentMonitoringJobs.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsModelsEvaluations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsModelsEvaluationsSlices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsNasJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.nasJobs.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsNasJobsNasTrialDetails/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.nasTrialDetails.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsNotebookExecutionJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.notebookExecutionJobs.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsNotebookRuntimeTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.notebookRuntimeTemplates.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsNotebookRuntimes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.notebookRuntimes.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsOnlineEvaluators/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.onlineEvaluators.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsPersistentResources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.persistentResources.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsPipelineJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.pipelineJobs.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsRagCorpora/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.ragCorpora.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsRagCorporaRagFiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.ragFiles.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsReasoningEngines/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.reasoningEngines.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsReasoningEnginesMemories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.memories.list"],
+        "roles": ["roles/aiplatform.memoryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsReasoningEnginesMemoriesRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.memories.get"],
+        "roles": ["roles/aiplatform.memoryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsReasoningEnginesSandboxEnvironmentSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.reasoningEngines.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsReasoningEnginesSandboxEnvironmentTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.reasoningEngines.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsReasoningEnginesSandboxEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.sandboxEnvironments.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsReasoningEnginesSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.sessions.list"],
+        "roles": ["roles/aiplatform.sessionViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsReasoningEnginesSessionsEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.sessions.get"],
+        "roles": ["roles/aiplatform.sessionViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsSchedules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.schedules.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsSemanticGovernancePolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.semanticGovernancePolicies.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsSpecialistPools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.specialistPools.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsStudies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.studies.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsStudiesTrials/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.trials.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsTensorboards/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tensorboards.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsTensorboardsExperiments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tensorboards.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsTensorboardsExperimentsRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tensorboards.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsTensorboardsExperimentsRunsTimeSeries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tensorboards.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsTrainingPipelines/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.trainingPipelines.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListProjectsLocationsTuningJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tuningJobs.list"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ListVersionsProjectsLocationsModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#LookupProjectsLocationsStudies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.studies.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#MergeVersionAliasesProjectsLocationsModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#MutateDeployedIndexProjectsLocationsIndexEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.indexEndpoints.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#MutateDeployedModelProjectsLocationsEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#PatchProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.datasets.update"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#PatchProjectsLocationsDatasetsDatasetVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.datasets.update"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#PatchProjectsLocationsMemoryBanksMemories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.memories.update"],
+        "roles": ["roles/aiplatform.memoryEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#PatchProjectsLocationsModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#PauseProjectsLocationsModelDeploymentMonitoringJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.modelDeploymentMonitoringJobs.pause"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#PauseProjectsLocationsReasoningEnginesSandboxEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.reasoningEngines.update"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#PauseProjectsLocationsSchedules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.schedules.update"],
+        "roles": ["roles/aiplatform.notebookExecutorUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#PredictLongRunningProjectsLocationsEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#PredictLongRunningProjectsLocationsPublishersModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#PredictProjectsLocationsEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.predict"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#PredictProjectsLocationsPublishersModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#PurgeProjectsLocationsMemoryBanksMemories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.memories.update"],
+        "roles": ["roles/aiplatform.memoryEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#PurgeProjectsLocationsMetadataStoresArtifacts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.artifacts.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#PurgeProjectsLocationsMetadataStoresContexts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.contexts.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#PurgeProjectsLocationsMetadataStoresExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.executions.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#PurgeProjectsLocationsReasoningEnginesMemories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.memories.update"],
+        "roles": ["roles/aiplatform.memoryEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#QueryArtifactLineageSubgraphProjectsLocationsMetadataStoresArtifacts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.artifacts.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#QueryContextLineageSubgraphProjectsLocationsMetadataStoresContexts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.contexts.queryContextLineageSubgraph"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#QueryDeployedModelsProjectsLocationsDeploymentResourcePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.deploymentResourcePools.queryDeployedModels"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#QueryExecutionInputsAndOutputsProjectsLocationsMetadataStoresExecutions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.executions.queryExecutionInputsAndOutputs"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#QueryProjectsLocationsReasoningEnginesRuntimeRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.reasoningEngines.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#RawPredictProjectsLocationsEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#RawPredictProjectsLocationsPublishersModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ReadBlobDataProjectsLocationsTensorboardsExperimentsRunsTimeSeries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tensorboards.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ReadFeatureValuesProjectsLocationsFeaturestoresEntityTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.entityTypes.readFeatureValues"],
+        "roles": ["roles/aiplatform.featurestoreDataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ReadIndexDatapointsProjectsLocationsIndexEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.indexEndpoints.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ReadProjectsLocationsTensorboardsExperimentsRunsTimeSeries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tensorboards.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ReadSizeProjectsLocationsTensorboards/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tensorboards.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ReadUsageProjectsLocationsTensorboards/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tensorboards.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#RebaseTunedModelProjectsLocationsTuningJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tuningJobs.create"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#RemoveContextChildrenProjectsLocationsMetadataStoresContexts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.contexts.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#RemoveDatapointsProjectsLocationsIndexes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.indexes.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#RestoreProjectsLocationsDatasetsDatasetVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.datasetVersions.restore"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ResumeProjectsLocationsModelDeploymentMonitoringJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.modelDeploymentMonitoringJobs.resume"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ResumeProjectsLocationsReasoningEnginesSandboxEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.reasoningEngines.update"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ResumeProjectsLocationsSchedules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.schedules.update"],
+        "roles": ["roles/aiplatform.notebookExecutorUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#RetrieveProjectsLocationsMemoryBanksMemories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.memories.retrieve"],
+        "roles": ["roles/aiplatform.memoryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#RetrieveProjectsLocationsReasoningEnginesMemories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.memories.retrieve"],
+        "roles": ["roles/aiplatform.memoryViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#RollbackProjectsLocationsMemoryBanksMemories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.memories.update"],
+        "roles": ["roles/aiplatform.memoryEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#RollbackProjectsLocationsReasoningEnginesMemories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.memories.update"],
+        "roles": ["roles/aiplatform.memoryEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#SearchDataItemsProjectsLocationsDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.datasets.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#SearchFeaturesProjectsLocationsFeaturestores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.featurestores.get"],
+        "roles": ["roles/aiplatform.featurestoreResourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#SearchModelDeploymentMonitoringStatsAnomaliesProjectsLocationsModelDeploymentMonitoringJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.modelDeploymentMonitoringJobs.get"],
+        "roles": ["roles/aiplatform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#SearchNearestEntitiesProjectsLocationsFeatureOnlineStoresFeatureViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.featureViews.searchNearestEntities"],
+        "roles": ["roles/aiplatform.featurestoreDataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#SearchProjectsLocationsMigratableResources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.migratableResources.search"],
+        "roles": ["roles/aiplatform.migrator"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ServerStreamingPredictProjectsLocationsEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#ServerStreamingPredictProjectsLocationsPublishersModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#SnapshotProjectsLocationsReasoningEnginesSandboxEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.reasoningEngines.update"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#SnapshotReasoningEnginesSandboxEnvironments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.reasoningEngines.update"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#StartProjectsLocationsNotebookRuntimes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.notebookRuntimes.start"],
+        "roles": ["roles/aiplatform.notebookRuntimeAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#StopProjectsLocationsNotebookRuntimes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.notebookRuntimes.update"],
+        "roles": ["roles/aiplatform.notebookRuntimeAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#StopProjectsLocationsStudiesTrials/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.trials.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#StreamGenerateContentProjectsLocationsEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#StreamGenerateContentProjectsLocationsPublishersModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#StreamQueryProjectsLocationsReasoningEngines/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.reasoningEngines.update"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#StreamQueryProjectsLocationsReasoningEnginesRuntimeRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.reasoningEngines.update"],
+        "roles": ["roles/aiplatform.expressUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#StreamRawPredictProjectsLocationsEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#StreamRawPredictProjectsLocationsPublishersModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#StreamingReadFeatureValuesProjectsLocationsFeaturestoresEntityTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.entityTypes.streamingReadFeatureValues"],
+        "roles": ["roles/aiplatform.featurestoreDataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#SuggestProjectsLocationsStudiesTrials/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.trials.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#SuspendProjectsLocationsOnlineEvaluators/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.onlineEvaluators.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#SyncProjectsLocationsFeatureOnlineStoresFeatureViews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.featureViews.sync"],
+        "roles": ["roles/aiplatform.featurestoreAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#UndeployIndexProjectsLocationsIndexEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.indexEndpoints.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#UndeployModelProjectsLocationsEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.endpoints.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#UpdateCacheConfigProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.cacheConfigs.update"],
+        "roles": ["roles/aiplatform.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#UpdateExplanationDatasetProjectsLocationsModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#UpgradeProjectsLocationsNotebookRuntimes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.notebookRuntimes.upgrade"],
+        "roles": ["roles/aiplatform.notebookRuntimeAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#UploadProjectsLocationsModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.models.upload"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#UpsertDatapointsProjectsLocationsIndexes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.indexes.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#WriteFeatureValuesProjectsLocationsFeaturestoresEntityTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.entityTypes.writeFeatureValues"],
+        "roles": ["roles/aiplatform.featurestoreDataWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#WriteProjectsLocationsTensorboardsExperiments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tensorboards.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.aiplatform_v1#WriteProjectsLocationsTensorboardsExperimentsRuns/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["aiplatform.tensorboards.update"],
+        "roles": ["roles/aiplatform.user"]
+      }
+    }
+  ]
+}

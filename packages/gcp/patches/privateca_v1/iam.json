@@ -1,0 +1,149 @@
+{
+  "description": "What each privateca_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.privateca_v1#ActivateProjectsLocationsCaPoolsCertificateAuthorities/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["privateca.certificateAuthorities.update"],
+        "roles": ["roles/privateca.caManager"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.privateca_v1#CreateProjectsLocationsCaPoolsCertificates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["privateca.certificates.create"],
+        "roles": ["roles/privateca.certificateRequester"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.privateca_v1#DisableProjectsLocationsCaPoolsCertificateAuthorities/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["privateca.certificateAuthorities.update"],
+        "roles": ["roles/privateca.caManager"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.privateca_v1#EnableProjectsLocationsCaPoolsCertificateAuthorities/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["privateca.certificateAuthorities.update"],
+        "roles": ["roles/privateca.caManager"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.privateca_v1#FetchProjectsLocationsCaPoolsCertificateAuthorities/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["privateca.certificateAuthorities.get"],
+        "roles": ["roles/privateca.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.privateca_v1#GetProjectsLocationsCaPools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["privateca.caPools.get"],
+        "roles": ["roles/privateca.poolReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.privateca_v1#GetProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationLists/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["privateca.certificateRevocationLists.get"],
+        "roles": ["roles/privateca.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.privateca_v1#GetProjectsLocationsCaPoolsCertificates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["privateca.certificates.get"],
+        "roles": ["roles/privateca.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.privateca_v1#GetProjectsLocationsCertificateTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["privateca.certificateTemplates.get"],
+        "roles": ["roles/privateca.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.privateca_v1#ListProjectsLocationsCaPools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["privateca.caPools.list"],
+        "roles": ["roles/privateca.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.privateca_v1#ListProjectsLocationsCaPoolsCertificateAuthorities/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["privateca.certificateAuthorities.list"],
+        "roles": ["roles/privateca.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.privateca_v1#ListProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationLists/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["privateca.certificateRevocationLists.list"],
+        "roles": ["roles/privateca.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.privateca_v1#ListProjectsLocationsCaPoolsCertificates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["privateca.certificates.list"],
+        "roles": ["roles/privateca.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.privateca_v1#ListProjectsLocationsCertificateTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["privateca.certificateTemplates.list"],
+        "roles": ["roles/privateca.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.privateca_v1#PatchProjectsLocationsCaPoolsCertificateAuthoritiesCertificateRevocationLists/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["privateca.certificateRevocationLists.update"],
+        "roles": ["roles/privateca.caManager"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.privateca_v1#PatchProjectsLocationsCaPoolsCertificates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["privateca.certificates.update"],
+        "roles": ["roles/privateca.caManager"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.privateca_v1#RevokeProjectsLocationsCaPoolsCertificates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["privateca.certificates.update"],
+        "roles": ["roles/privateca.caManager"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.privateca_v1#UndeleteProjectsLocationsCaPoolsCertificateAuthorities/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["privateca.certificateAuthorities.update"],
+        "roles": ["roles/privateca.caManager"]
+      }
+    }
+  ]
+}

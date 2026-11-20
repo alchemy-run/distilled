@@ -1,0 +1,333 @@
+{
+  "description": "What each artifactregistry_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#BatchDeleteProjectsLocationsRepositoriesPackagesVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.versions.delete"],
+        "roles": ["roles/artifactregistry.repoAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#CreateProjectsLocationsRepositoriesAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.attachments.create"],
+        "roles": ["roles/artifactregistry.attachmentWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#CreateProjectsLocationsRepositoriesPackagesTags/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.tags.create"],
+        "roles": ["roles/artifactregistry.writer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#CreateProjectsLocationsRepositoriesRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.rules.create"],
+        "roles": ["roles/artifactregistry.repoAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#DeleteProjectsLocationsRepositoriesAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.attachments.delete"],
+        "roles": ["roles/artifactregistry.attachmentWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#DeleteProjectsLocationsRepositoriesFiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.files.delete"],
+        "roles": ["roles/artifactregistry.repoAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#DeleteProjectsLocationsRepositoriesPackages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.packages.delete"],
+        "roles": ["roles/artifactregistry.repoAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#DeleteProjectsLocationsRepositoriesPackagesTags/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.tags.delete"],
+        "roles": ["roles/artifactregistry.repoAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#DeleteProjectsLocationsRepositoriesPackagesVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.versions.delete"],
+        "roles": ["roles/artifactregistry.repoAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#DeleteProjectsLocationsRepositoriesRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.rules.delete"],
+        "roles": ["roles/artifactregistry.repoAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#DownloadProjectsLocationsRepositoriesFiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.files.download"],
+        "roles": ["roles/artifactregistry.attachmentReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#ExportArtifactProjectsLocationsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.repositories.exportArtifacts"],
+        "roles": ["roles/artifactregistry.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#GetProjectsLocationsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.repositories.get"],
+        "roles": ["roles/artifactregistry.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#GetProjectsLocationsRepositoriesAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.attachments.get"],
+        "roles": ["roles/artifactregistry.attachmentReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#GetProjectsLocationsRepositoriesDockerImages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.dockerimages.get"],
+        "roles": ["roles/artifactregistry.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#GetProjectsLocationsRepositoriesFiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.files.get"],
+        "roles": ["roles/artifactregistry.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#GetProjectsLocationsRepositoriesMavenArtifacts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.mavenartifacts.get"],
+        "roles": ["roles/artifactregistry.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#GetProjectsLocationsRepositoriesNpmPackages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.npmpackages.get"],
+        "roles": ["roles/artifactregistry.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#GetProjectsLocationsRepositoriesPackages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.packages.get"],
+        "roles": ["roles/artifactregistry.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#GetProjectsLocationsRepositoriesPackagesTags/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.tags.get"],
+        "roles": ["roles/artifactregistry.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#GetProjectsLocationsRepositoriesPackagesVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.versions.get"],
+        "roles": ["roles/artifactregistry.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#GetProjectsLocationsRepositoriesPythonPackages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.pythonpackages.get"],
+        "roles": ["roles/artifactregistry.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#GetProjectsLocationsRepositoriesRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.rules.get"],
+        "roles": ["roles/artifactregistry.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#ImportProjectsLocationsRepositoriesAptArtifacts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.repositories.uploadArtifacts"],
+        "roles": ["roles/artifactregistry.writer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#ImportProjectsLocationsRepositoriesGoogetArtifacts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.repositories.uploadArtifacts"],
+        "roles": ["roles/artifactregistry.writer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#ImportProjectsLocationsRepositoriesYumArtifacts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.repositories.uploadArtifacts"],
+        "roles": ["roles/artifactregistry.writer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#ListProjectsLocationsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.repositories.list"],
+        "roles": ["roles/artifactregistry.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#ListProjectsLocationsRepositoriesAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.attachments.list"],
+        "roles": ["roles/artifactregistry.attachmentReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#ListProjectsLocationsRepositoriesFiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.files.list"],
+        "roles": ["roles/artifactregistry.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#ListProjectsLocationsRepositoriesMavenArtifacts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.mavenartifacts.list"],
+        "roles": ["roles/artifactregistry.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#ListProjectsLocationsRepositoriesNpmPackages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.npmpackages.list"],
+        "roles": ["roles/artifactregistry.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#ListProjectsLocationsRepositoriesPackages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.packages.list"],
+        "roles": ["roles/artifactregistry.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#ListProjectsLocationsRepositoriesPackagesTags/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.tags.list"],
+        "roles": ["roles/artifactregistry.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#ListProjectsLocationsRepositoriesPackagesVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.versions.list"],
+        "roles": ["roles/artifactregistry.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#ListProjectsLocationsRepositoriesPythonPackages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.pythonpackages.list"],
+        "roles": ["roles/artifactregistry.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#ListProjectsLocationsRepositoriesRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.rules.list"],
+        "roles": ["roles/artifactregistry.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#PatchProjectsLocationsRepositoriesFiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.files.update"],
+        "roles": ["roles/artifactregistry.writer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#PatchProjectsLocationsRepositoriesPackages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.packages.update"],
+        "roles": ["roles/artifactregistry.writer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#PatchProjectsLocationsRepositoriesPackagesTags/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.tags.update"],
+        "roles": ["roles/artifactregistry.writer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#PatchProjectsLocationsRepositoriesPackagesVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.versions.update"],
+        "roles": ["roles/artifactregistry.repoAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.artifactregistry_v1#PatchProjectsLocationsRepositoriesRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["artifactregistry.rules.update"],
+        "roles": ["roles/artifactregistry.repoAdmin"]
+      }
+    }
+  ]
+}

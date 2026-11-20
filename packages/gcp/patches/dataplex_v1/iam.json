@@ -1,0 +1,517 @@
+{
+  "description": "What each dataplex_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ApproveProjectsLocationsChangeRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.changeRequests.update"],
+        "roles": ["roles/dataplex.changeRequestOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#CancelProjectsLocationsDataScansJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.datascans.cancel"],
+        "roles": ["roles/dataplex.dataScanEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#CancelProjectsLocationsLakesTasksJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.datascans.cancel"],
+        "roles": ["roles/dataplex.dataScanEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#CancelProjectsLocationsMetadataJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.metadataJobs.cancel"],
+        "roles": ["roles/dataplex.metadataJobOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#CreateProjectsLocationsMetadataJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.metadataJobs.create"],
+        "roles": ["roles/dataplex.metadataJobOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#DeleteProjectsLocationsChangeRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.changeRequests.delete"],
+        "roles": ["roles/dataplex.changeRequestOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GenerateDataQualityRulesProjectsLocationsDataScans/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.datascans.update"],
+        "roles": ["roles/dataplex.dataScanEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GenerateDataQualityRulesProjectsLocationsDataScansJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.datascans.update"],
+        "roles": ["roles/dataplex.dataScanEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetOrganizationsLocationsEncryptionConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.encryptionConfig.get"],
+        "roles": ["roles/dataplex.encryptionAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsAspectTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.aspectTypes.get"],
+        "roles": ["roles/dataplex.catalogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsChangeRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.changeRequests.get"],
+        "roles": ["roles/dataplex.catalogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsDataDomains/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.dataDomains.get"],
+        "roles": ["roles/dataplex.dataDomainEntryReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsDataDomainsBindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.dataDomains.get"],
+        "roles": ["roles/dataplex.dataDomainEntryReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsDataProducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.dataProducts.get"],
+        "roles": ["roles/dataplex.dataProductsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsDataProductsDataAssets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.dataAssets.get"],
+        "roles": ["roles/dataplex.dataProductsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsDataScans/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.datascans.get"],
+        "roles": ["roles/dataplex.dataScanViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsDataScansJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.datascans.get"],
+        "roles": ["roles/dataplex.dataScanViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsEntryGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.entryGroups.get"],
+        "roles": ["roles/dataplex.catalogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsEntryGroupsEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.entries.get"],
+        "roles": ["roles/dataplex.catalogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsEntryGroupsEntryLinks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.entryLinks.get"],
+        "roles": ["roles/dataplex.catalogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsEntryTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.entryTypes.get"],
+        "roles": ["roles/dataplex.catalogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsGlossaries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.glossaries.get"],
+        "roles": ["roles/dataplex.catalogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsGlossariesCategories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.glossaries.get"],
+        "roles": ["roles/dataplex.catalogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsGlossariesTerms/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.glossaries.get"],
+        "roles": ["roles/dataplex.catalogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsLakes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.lakes.get"],
+        "roles": ["roles/dataplex.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsLakesTasks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.tasks.get"],
+        "roles": ["roles/dataplex.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsLakesTasksJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.datascans.get"],
+        "roles": ["roles/dataplex.dataScanViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsLakesZones/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.zones.get"],
+        "roles": ["roles/dataplex.metadataReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsLakesZonesAssets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.assets.get"],
+        "roles": ["roles/dataplex.metadataReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsLakesZonesEntities/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.entities.get"],
+        "roles": ["roles/dataplex.metadataReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsLakesZonesEntitiesPartitions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.partitions.get"],
+        "roles": ["roles/dataplex.metadataReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsMetadataFeeds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.metadataFeeds.get"],
+        "roles": ["roles/dataplex.metadataFeedViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#GetProjectsLocationsMetadataJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.metadataJobs.get"],
+        "roles": ["roles/dataplex.metadataJobViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsAspectTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.aspectTypes.list"],
+        "roles": ["roles/dataplex.catalogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsChangeRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.changeRequests.list"],
+        "roles": ["roles/dataplex.catalogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsDataDomains/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.dataDomains.list"],
+        "roles": ["roles/dataplex.dataDomainEntryReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsDataDomainsBindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.dataDomains.get"],
+        "roles": ["roles/dataplex.dataDomainEntryReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsDataProducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.dataProducts.list"],
+        "roles": ["roles/dataplex.dataProductsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsDataProductsDataAssets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.dataAssets.list"],
+        "roles": ["roles/dataplex.dataProductsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsDataScans/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.datascans.list"],
+        "roles": ["roles/dataplex.dataScanViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsDataScansJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.datascans.list"],
+        "roles": ["roles/dataplex.dataScanViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsEntryGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.entryGroups.list"],
+        "roles": ["roles/dataplex.catalogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsEntryGroupsEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.entries.list"],
+        "roles": ["roles/dataplex.catalogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsEntryTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.entryTypes.list"],
+        "roles": ["roles/dataplex.catalogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsGlossaries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.glossaries.list"],
+        "roles": ["roles/dataplex.catalogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsGlossariesCategories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.glossaries.get"],
+        "roles": ["roles/dataplex.catalogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsGlossariesTerms/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.glossaries.get"],
+        "roles": ["roles/dataplex.catalogViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsLakes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.lakes.list"],
+        "roles": ["roles/dataplex.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsLakesActions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.lakes.get"],
+        "roles": ["roles/dataplex.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsLakesTasks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.tasks.list"],
+        "roles": ["roles/dataplex.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsLakesTasksJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.datascans.list"],
+        "roles": ["roles/dataplex.dataScanViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsLakesZones/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.zones.list"],
+        "roles": ["roles/dataplex.metadataReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsLakesZonesActions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.zones.get"],
+        "roles": ["roles/dataplex.metadataReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsLakesZonesAssets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.assets.list"],
+        "roles": ["roles/dataplex.metadataReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsLakesZonesAssetsActions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.assets.get"],
+        "roles": ["roles/dataplex.metadataReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsLakesZonesEntities/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.entities.list"],
+        "roles": ["roles/dataplex.metadataReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsLakesZonesEntitiesPartitions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.partitions.list"],
+        "roles": ["roles/dataplex.metadataReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsMetadataFeeds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.metadataFeeds.list"],
+        "roles": ["roles/dataplex.metadataFeedViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#ListProjectsLocationsMetadataJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.metadataJobs.list"],
+        "roles": ["roles/dataplex.metadataJobViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#PatchProjectsLocationsChangeRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.changeRequests.update"],
+        "roles": ["roles/dataplex.changeRequestOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#RejectProjectsLocationsChangeRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.changeRequests.update"],
+        "roles": ["roles/dataplex.changeRequestOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#RequestAccessProjectsLocationsDataProducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.dataProducts.update"],
+        "roles": ["roles/dataplex.dataProductsEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#RunProjectsLocationsDataScans/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.datascans.run"],
+        "roles": ["roles/dataplex.dataScanEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataplex_v1#RunProjectsLocationsLakesTasks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataplex.tasks.run"],
+        "roles": ["roles/dataplex.developer"]
+      }
+    }
+  ]
+}

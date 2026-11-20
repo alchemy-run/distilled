@@ -1,0 +1,53 @@
+{
+  "description": "What each fcm_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.fcm_v1#CreateProjectsRegistrationsTopicSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudmessaging.topicSubscriptions.create"],
+        "roles": ["roles/cloudmessaging.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.fcm_v1#DeleteProjectsRegistrationsTopicSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudmessaging.topicSubscriptions.delete"],
+        "roles": ["roles/cloudmessaging.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.fcm_v1#GetProjectsRegistrationsTopicSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudmessaging.topicSubscriptions.get"],
+        "roles": ["roles/cloudmessaging.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.fcm_v1#ListProjectsRegistrationsTopicSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudmessaging.topicSubscriptions.list"],
+        "roles": ["roles/cloudmessaging.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.fcm_v1#PatchProjectsRegistrationsTopicSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudmessaging.topicSubscriptions.update"],
+        "roles": ["roles/cloudmessaging.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.fcm_v1#SendProjectsMessages/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudmessaging.messages.create"],
+        "roles": ["roles/cloudmessaging.editor"]
+      }
+    }
+  ]
+}

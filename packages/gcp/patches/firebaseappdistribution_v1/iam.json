@@ -1,0 +1,141 @@
+{
+  "description": "What each firebaseappdistribution_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#BatchAddProjectsTesters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappdistro.testers.update"],
+        "roles": ["roles/firebaseappdistro.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#BatchDeleteProjectsAppsReleases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappdistro.releases.update"],
+        "roles": ["roles/firebaseappdistro.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#BatchJoinProjectsGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappdistro.groups.update"],
+        "roles": ["roles/firebaseappdistro.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#BatchLeaveProjectsGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappdistro.groups.update"],
+        "roles": ["roles/firebaseappdistro.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#BatchRemoveProjectsTesters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappdistro.testers.update"],
+        "roles": ["roles/firebaseappdistro.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#DeleteProjectsAppsReleasesFeedbackReports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappdistro.releases.update"],
+        "roles": ["roles/firebaseappdistro.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#DistributeProjectsAppsReleases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappdistro.releases.update"],
+        "roles": ["roles/firebaseappdistro.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#GetAabInfoProjectsApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappdistro.releases.list"],
+        "roles": ["roles/firebaseappdistro.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#GetProjectsAppsReleases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappdistro.releases.list"],
+        "roles": ["roles/firebaseappdistro.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#GetProjectsAppsReleasesFeedbackReports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappdistro.releases.list"],
+        "roles": ["roles/firebaseappdistro.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#GetProjectsGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappdistro.groups.list"],
+        "roles": ["roles/firebaseappdistro.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#ListProjectsAppsReleases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappdistro.releases.list"],
+        "roles": ["roles/firebaseappdistro.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#ListProjectsAppsReleasesFeedbackReports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappdistro.releases.list"],
+        "roles": ["roles/firebaseappdistro.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#ListProjectsGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappdistro.groups.list"],
+        "roles": ["roles/firebaseappdistro.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#ListProjectsTesters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappdistro.testers.list"],
+        "roles": ["roles/firebaseappdistro.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#PatchProjectsAppsReleases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappdistro.releases.update"],
+        "roles": ["roles/firebaseappdistro.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappdistribution_v1#PatchProjectsTesters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappdistro.testers.update"],
+        "roles": ["roles/firebaseappdistro.admin"]
+      }
+    }
+  ]
+}

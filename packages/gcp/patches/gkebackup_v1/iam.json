@@ -1,0 +1,205 @@
+{
+  "description": "What each gkebackup_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#GetBackupIndexDownloadUrlProjectsLocationsBackupPlansBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.backups.get"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#GetProjectsLocationsBackupChannels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.backupChannels.get"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#GetProjectsLocationsBackupChannelsBackupPlanBindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.backupPlanBindings.get"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#GetProjectsLocationsBackupPlans/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.backupPlans.get"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#GetProjectsLocationsBackupPlansBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.backups.get"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#GetProjectsLocationsBackupPlansBackupsVolumeBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.volumeBackups.get"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#GetProjectsLocationsRestoreChannels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.restoreChannels.get"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#GetProjectsLocationsRestoreChannelsRestorePlanBindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.restorePlanBindings.get"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#GetProjectsLocationsRestorePlans/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.restorePlans.get"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#GetProjectsLocationsRestorePlansRestores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.restores.get"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#GetProjectsLocationsRestorePlansRestoresVolumeRestores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.volumeRestores.get"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#GetTagsProjectsLocationsBackupPlans/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.backupPlans.get"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#GetTagsProjectsLocationsRestorePlans/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.restorePlans.get"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#ListProjectsLocationsBackupChannels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.backupChannels.list"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#ListProjectsLocationsBackupChannelsBackupPlanBindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.backupPlanBindings.list"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#ListProjectsLocationsBackupPlans/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.backupPlans.list"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#ListProjectsLocationsBackupPlansBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.backups.list"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#ListProjectsLocationsBackupPlansBackupsVolumeBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.volumeBackups.list"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#ListProjectsLocationsRestoreChannels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.restoreChannels.list"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#ListProjectsLocationsRestoreChannelsRestorePlanBindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.restorePlanBindings.list"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#ListProjectsLocationsRestorePlans/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.restorePlans.list"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#ListProjectsLocationsRestorePlansRestores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.restores.list"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#ListProjectsLocationsRestorePlansRestoresVolumeRestores/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.volumeRestores.list"],
+        "roles": ["roles/gkebackup.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#SetTagsProjectsLocationsBackupPlans/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.backupPlans.update"],
+        "roles": ["roles/gkebackup.backupAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkebackup_v1#SetTagsProjectsLocationsRestorePlans/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkebackup.restorePlans.update"],
+        "roles": ["roles/gkebackup.restoreAdmin"]
+      }
+    }
+  ]
+}

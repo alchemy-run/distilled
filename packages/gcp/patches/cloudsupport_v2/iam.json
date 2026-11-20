@@ -1,0 +1,117 @@
+{
+  "description": "What each cloudsupport_v2 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsupport_v2#CloseCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsupport.techCases.update"],
+        "roles": ["roles/cloudsupport.techSupportEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsupport_v2#CreateCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsupport.techCases.create"],
+        "roles": ["roles/cloudsupport.techSupportEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsupport_v2#CreateCasesComments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsupport.techCases.update"],
+        "roles": ["roles/cloudsupport.techSupportEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsupport_v2#DownloadMedia/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsupport.techCases.get"],
+        "roles": ["roles/cloudsupport.techSupportViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsupport_v2#EscalateCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsupport.techCases.escalate"],
+        "roles": ["roles/cloudsupport.techSupportEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsupport_v2#GetCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsupport.techCases.get"],
+        "roles": ["roles/cloudsupport.techSupportViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsupport_v2#GetCasesAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsupport.techCases.get"],
+        "roles": ["roles/cloudsupport.techSupportViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsupport_v2#GetCasesComments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsupport.techCases.get"],
+        "roles": ["roles/cloudsupport.techSupportViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsupport_v2#ListCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsupport.techCases.list"],
+        "roles": ["roles/cloudsupport.techSupportViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsupport_v2#ListCasesAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsupport.techCases.get"],
+        "roles": ["roles/cloudsupport.techSupportViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsupport_v2#ListCasesComments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsupport.techCases.get"],
+        "roles": ["roles/cloudsupport.techSupportViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsupport_v2#PatchCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsupport.techCases.update"],
+        "roles": ["roles/cloudsupport.techSupportEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsupport_v2#SearchCases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsupport.techCases.list"],
+        "roles": ["roles/cloudsupport.techSupportViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudsupport_v2#UploadMedia/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudsupport.techCases.update"],
+        "roles": ["roles/cloudsupport.techSupportEditor"]
+      }
+    }
+  ]
+}

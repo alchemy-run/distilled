@@ -1,0 +1,61 @@
+{
+  "description": "What each firebasestorage_v1beta operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasestorage_v1beta#AddFirebaseProjectsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasestorage.buckets.addFirebase"],
+        "roles": ["roles/firebasestorage.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasestorage_v1beta#CreateProjectsDefaultBucket/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasestorage.defaultBucket.create"],
+        "roles": ["roles/firebasestorage.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasestorage_v1beta#DeleteDefaultBucketProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasestorage.defaultBucket.delete"],
+        "roles": ["roles/firebasestorage.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasestorage_v1beta#GetDefaultBucketProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasestorage.defaultBucket.get"],
+        "roles": ["roles/firebasestorage.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasestorage_v1beta#GetProjectsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasestorage.buckets.get"],
+        "roles": ["roles/firebasestorage.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasestorage_v1beta#ListProjectsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasestorage.buckets.list"],
+        "roles": ["roles/firebasestorage.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebasestorage_v1beta#RemoveFirebaseProjectsBuckets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebasestorage.buckets.removeFirebase"],
+        "roles": ["roles/firebasestorage.admin"]
+      }
+    }
+  ]
+}

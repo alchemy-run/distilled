@@ -1,0 +1,341 @@
+{
+  "description": "What each netapp_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#EncryptProjectsLocationsKmsConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.kmsConfigs.encrypt"],
+        "roles": ["roles/netapp.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#EstablishPeeringProjectsLocationsVolumesReplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.replications.establishPeering"],
+        "roles": ["roles/netapp.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#ExecuteOntapDeleteProjectsLocationsStoragePoolsOntap/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.storagePools.update"],
+        "roles": ["roles/netapp.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#ExecuteOntapGetProjectsLocationsStoragePoolsOntap/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.storagePools.update"],
+        "roles": ["roles/netapp.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#ExecuteOntapPatchProjectsLocationsStoragePoolsOntap/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.storagePools.update"],
+        "roles": ["roles/netapp.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#ExecuteOntapPostProjectsLocationsStoragePoolsOntap/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.storagePools.update"],
+        "roles": ["roles/netapp.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#GetProjectsLocationsActiveDirectories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.activeDirectories.get"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#GetProjectsLocationsBackupPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.backupPolicies.get"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#GetProjectsLocationsBackupVaults/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.backupVaults.get"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#GetProjectsLocationsBackupVaultsBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.backups.get"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#GetProjectsLocationsHostGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.hostGroups.get"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#GetProjectsLocationsKmsConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.kmsConfigs.get"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#GetProjectsLocationsStoragePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.storagePools.get"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#GetProjectsLocationsVolumes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.volumes.get"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#GetProjectsLocationsVolumesQuotaRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.quotaRules.get"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#GetProjectsLocationsVolumesReplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.replications.get"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#GetProjectsLocationsVolumesSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.snapshots.get"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#GetSplitStatusProjectsLocationsVolumes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.volumes.get"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#ListProjectsLocationsActiveDirectories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.activeDirectories.list"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#ListProjectsLocationsBackupPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.backupPolicies.list"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#ListProjectsLocationsBackupVaults/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.backupVaults.list"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#ListProjectsLocationsBackupVaultsBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.backups.list"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#ListProjectsLocationsHostGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.hostGroups.list"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#ListProjectsLocationsKmsConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.kmsConfigs.list"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#ListProjectsLocationsStoragePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.storagePools.list"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#ListProjectsLocationsStoragePoolsBackupConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.storagePools.get"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#ListProjectsLocationsVolumes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.volumes.list"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#ListProjectsLocationsVolumesQuotaRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.quotaRules.list"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#ListProjectsLocationsVolumesReplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.replications.list"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#ListProjectsLocationsVolumesSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.snapshots.list"],
+        "roles": ["roles/netapp.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#RestoreProjectsLocationsVolumes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.volumes.restore"],
+        "roles": ["roles/netapp.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#RestoreVolumeProjectsLocationsStoragePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.storagePools.restoreVolume"],
+        "roles": ["roles/netapp.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#ResumeProjectsLocationsVolumesReplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.replications.resume"],
+        "roles": ["roles/netapp.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#ReverseDirectionProjectsLocationsVolumesReplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.replications.update"],
+        "roles": ["roles/netapp.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#RevertProjectsLocationsVolumes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.volumes.revert"],
+        "roles": ["roles/netapp.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#StartSplitProjectsLocationsVolumes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.volumes.update"],
+        "roles": ["roles/netapp.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#StopProjectsLocationsVolumesReplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.replications.stop"],
+        "roles": ["roles/netapp.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#SwitchProjectsLocationsStoragePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.storagePools.switch"],
+        "roles": ["roles/netapp.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#SyncProjectsLocationsVolumesReplications/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.replications.sync"],
+        "roles": ["roles/netapp.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#UpdateBackupConfigProjectsLocationsStoragePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.storagePools.updateBackupConfig"],
+        "roles": ["roles/netapp.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#ValidateDirectoryServiceProjectsLocationsStoragePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.storagePools.validateDirectoryService"],
+        "roles": ["roles/netapp.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.netapp_v1#VerifyProjectsLocationsKmsConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["netapp.kmsConfigs.verify"],
+        "roles": ["roles/netapp.admin"]
+      }
+    }
+  ]
+}

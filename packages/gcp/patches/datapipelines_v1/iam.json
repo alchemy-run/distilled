@@ -1,0 +1,29 @@
+{
+  "description": "What each datapipelines_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datapipelines_v1#GetProjectsLocationsPipelines/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datapipelines.pipelines.get"],
+        "roles": ["roles/datapipelines.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datapipelines_v1#ListProjectsLocationsPipelines/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datapipelines.pipelines.list"],
+        "roles": ["roles/datapipelines.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datapipelines_v1#ListProjectsLocationsPipelinesJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datapipelines.jobs.list"],
+        "roles": ["roles/datapipelines.viewer"]
+      }
+    }
+  ]
+}

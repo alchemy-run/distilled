@@ -1,0 +1,253 @@
+{
+  "description": "What each gkeonprem_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#CreateProjectsLocationsBareMetalAdminClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.bareMetalAdminClusters.create"],
+        "roles": ["roles/gkeonprem.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#CreateProjectsLocationsVmwareAdminClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.vmwareAdminClusters.update"],
+        "roles": ["roles/gkeonprem.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#EnrollProjectsLocationsBareMetalAdminClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.bareMetalAdminClusters.enroll"],
+        "roles": ["roles/gkeonprem.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#EnrollProjectsLocationsBareMetalClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.bareMetalClusters.enroll"],
+        "roles": ["roles/gkeonprem.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#EnrollProjectsLocationsBareMetalClustersBareMetalNodePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.bareMetalNodePools.enroll"],
+        "roles": ["roles/gkeonprem.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#EnrollProjectsLocationsVmwareAdminClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.vmwareAdminClusters.enroll"],
+        "roles": ["roles/gkeonprem.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#EnrollProjectsLocationsVmwareClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.vmwareClusters.enroll"],
+        "roles": ["roles/gkeonprem.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#EnrollProjectsLocationsVmwareClustersVmwareNodePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.vmwareNodePools.enroll"],
+        "roles": ["roles/gkeonprem.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#GetProjectsLocationsBareMetalAdminClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.bareMetalAdminClusters.get"],
+        "roles": ["roles/gkeonprem.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#GetProjectsLocationsBareMetalClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.bareMetalClusters.get"],
+        "roles": ["roles/gkeonprem.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#GetProjectsLocationsBareMetalClustersBareMetalNodePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.bareMetalNodePools.get"],
+        "roles": ["roles/gkeonprem.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#GetProjectsLocationsVmwareAdminClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.vmwareAdminClusters.get"],
+        "roles": ["roles/gkeonprem.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#GetProjectsLocationsVmwareClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.vmwareClusters.get"],
+        "roles": ["roles/gkeonprem.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#GetProjectsLocationsVmwareClustersVmwareNodePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.vmwareNodePools.get"],
+        "roles": ["roles/gkeonprem.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#ListProjectsLocationsBareMetalAdminClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.bareMetalAdminClusters.list"],
+        "roles": ["roles/gkeonprem.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#ListProjectsLocationsBareMetalClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.bareMetalClusters.list"],
+        "roles": ["roles/gkeonprem.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#ListProjectsLocationsBareMetalClustersBareMetalNodePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.bareMetalNodePools.list"],
+        "roles": ["roles/gkeonprem.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#ListProjectsLocationsVmwareAdminClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.vmwareAdminClusters.list"],
+        "roles": ["roles/gkeonprem.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#ListProjectsLocationsVmwareClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.vmwareClusters.list"],
+        "roles": ["roles/gkeonprem.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#ListProjectsLocationsVmwareClustersVmwareNodePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.vmwareNodePools.list"],
+        "roles": ["roles/gkeonprem.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#PatchProjectsLocationsBareMetalAdminClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.bareMetalAdminClusters.update"],
+        "roles": ["roles/gkeonprem.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#PatchProjectsLocationsVmwareAdminClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.vmwareAdminClusters.update"],
+        "roles": ["roles/gkeonprem.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#QueryVersionConfigProjectsLocationsBareMetalAdminClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.bareMetalAdminClusters.queryVersionConfig"],
+        "roles": ["roles/gkeonprem.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#QueryVersionConfigProjectsLocationsBareMetalClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.bareMetalClusters.queryVersionConfig"],
+        "roles": ["roles/gkeonprem.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#QueryVersionConfigProjectsLocationsVmwareClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.vmwareClusters.queryVersionConfig"],
+        "roles": ["roles/gkeonprem.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#UnenrollProjectsLocationsBareMetalAdminClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.bareMetalAdminClusters.unenroll"],
+        "roles": ["roles/gkeonprem.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#UnenrollProjectsLocationsBareMetalClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.bareMetalClusters.unenroll"],
+        "roles": ["roles/gkeonprem.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#UnenrollProjectsLocationsBareMetalClustersBareMetalNodePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.bareMetalNodePools.unenroll"],
+        "roles": ["roles/gkeonprem.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#UnenrollProjectsLocationsVmwareAdminClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.vmwareAdminClusters.unenroll"],
+        "roles": ["roles/gkeonprem.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#UnenrollProjectsLocationsVmwareClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.vmwareClusters.unenroll"],
+        "roles": ["roles/gkeonprem.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkeonprem_v1#UnenrollProjectsLocationsVmwareClustersVmwareNodePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkeonprem.vmwareNodePools.unenroll"],
+        "roles": ["roles/gkeonprem.editor"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "description": "What each batch_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.batch_v1#CancelProjectsLocationsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["batch.jobs.delete"],
+        "roles": ["roles/batch.jobsEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.batch_v1#GetProjectsLocationsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["batch.jobs.get"],
+        "roles": ["roles/batch.jobsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.batch_v1#GetProjectsLocationsJobsTaskGroupsTasks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["batch.tasks.get"],
+        "roles": ["roles/batch.jobsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.batch_v1#ListProjectsLocationsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["batch.jobs.list"],
+        "roles": ["roles/batch.jobsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.batch_v1#ListProjectsLocationsJobsTaskGroupsTasks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["batch.tasks.list"],
+        "roles": ["roles/batch.jobsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.batch_v1#ReportProjectsLocationsState/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["batch.states.report"],
+        "roles": ["roles/batch.agentReporter"]
+      }
+    }
+  ]
+}

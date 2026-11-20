@@ -1,0 +1,141 @@
+{
+  "description": "What each bigquery_v2 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquery_v2#BatchDeleteRowAccessPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.rowAccessPolicies.delete"],
+        "roles": ["roles/bigquery.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquery_v2#CancelJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.jobs.update"],
+        "roles": ["roles/bigquery.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquery_v2#DeleteModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.models.delete"],
+        "roles": ["roles/bigquery.dataEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquery_v2#GetDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.datasets.get"],
+        "roles": ["roles/bigquery.routineMetadataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquery_v2#GetJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.jobs.get"],
+        "roles": ["roles/bigquery.resourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquery_v2#GetModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.models.getMetadata"],
+        "roles": ["roles/bigquery.routineMetadataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquery_v2#GetRoutines/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.routines.get"],
+        "roles": ["roles/bigquery.routineMetadataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquery_v2#GetRowAccessPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.rowAccessPolicies.get"],
+        "roles": ["roles/bigquery.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquery_v2#InsertJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.jobs.create"],
+        "roles": ["roles/bigquery.jobUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquery_v2#ListDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.datasets.get"],
+        "roles": ["roles/bigquery.routineMetadataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquery_v2#ListJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.jobs.list"],
+        "roles": ["roles/bigquery.resourceViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquery_v2#ListModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.models.list"],
+        "roles": ["roles/bigquery.metadataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquery_v2#ListRoutines/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.routines.list"],
+        "roles": ["roles/bigquery.routineMetadataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquery_v2#ListRowAccessPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.rowAccessPolicies.list"],
+        "roles": ["roles/bigquery.securityAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquery_v2#ListTables/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.tables.list"],
+        "roles": ["roles/bigquery.routineMetadataViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquery_v2#PatchModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.models.updateMetadata"],
+        "roles": ["roles/bigquery.dataEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.bigquery_v2#UndeleteDatasets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["bigquery.datasets.create"],
+        "roles": ["roles/bigquery.user"]
+      }
+    }
+  ]
+}

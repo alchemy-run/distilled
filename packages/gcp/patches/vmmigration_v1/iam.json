@@ -1,0 +1,317 @@
+{
+  "description": "What each vmmigration_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#AddGroupMigrationProjectsLocationsGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.groups.update"],
+        "roles": ["roles/vmmigration.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#CancelProjectsLocationsImageImportsImageImportJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.imageImportJobs.cancel"],
+        "roles": ["roles/vmmigration.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#CancelProjectsLocationsSourcesDiskMigrationJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.sources.update"],
+        "roles": ["roles/vmmigration.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#CancelProjectsLocationsSourcesMigratingVmsCloneJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.cloneJobs.update"],
+        "roles": ["roles/vmmigration.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#CancelProjectsLocationsSourcesMigratingVmsCutoverJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.cutoverJobs.update"],
+        "roles": ["roles/vmmigration.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#CreateProjectsLocationsSourcesMigratingVmsCloneJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.cloneJobs.create"],
+        "roles": ["roles/vmmigration.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#CreateProjectsLocationsSourcesMigratingVmsCutoverJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.cutoverJobs.create"],
+        "roles": ["roles/vmmigration.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#ExtendMigrationProjectsLocationsSourcesMigratingVms/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.migratingVms.update"],
+        "roles": ["roles/vmmigration.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#FetchInventoryProjectsLocationsSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.sources.get"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#FetchStorageInventoryProjectsLocationsSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.sources.get"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#FinalizeMigrationProjectsLocationsSourcesMigratingVms/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.migratingVms.update"],
+        "roles": ["roles/vmmigration.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#GetProjectsLocationsGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.groups.get"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#GetProjectsLocationsImageImports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.imageImports.get"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#GetProjectsLocationsImageImportsImageImportJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.imageImportJobs.get"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#GetProjectsLocationsSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.sources.get"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#GetProjectsLocationsSourcesDatacenterConnectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.datacenterConnectors.get"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#GetProjectsLocationsSourcesDiskMigrationJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.sources.get"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#GetProjectsLocationsSourcesMigratingVms/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.migratingVms.get"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#GetProjectsLocationsSourcesMigratingVmsCloneJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.cloneJobs.get"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#GetProjectsLocationsSourcesMigratingVmsCutoverJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.cutoverJobs.get"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#GetProjectsLocationsSourcesMigratingVmsReplicationCycles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.replicationCycles.get"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#GetProjectsLocationsSourcesUtilizationReports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.utilizationReports.get"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#ListProjectsLocationsGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.groups.list"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#ListProjectsLocationsImageImports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.imageImports.list"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#ListProjectsLocationsImageImportsImageImportJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.imageImportJobs.list"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#ListProjectsLocationsSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.sources.list"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#ListProjectsLocationsSourcesDatacenterConnectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.datacenterConnectors.list"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#ListProjectsLocationsSourcesDiskMigrationJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.sources.get"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#ListProjectsLocationsSourcesMigratingVms/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.migratingVms.list"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#ListProjectsLocationsSourcesMigratingVmsCloneJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.cloneJobs.list"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#ListProjectsLocationsSourcesMigratingVmsCutoverJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.cutoverJobs.list"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#ListProjectsLocationsSourcesMigratingVmsReplicationCycles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.replicationCycles.list"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#ListProjectsLocationsSourcesUtilizationReports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.utilizationReports.list"],
+        "roles": ["roles/vmmigration.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#PauseMigrationProjectsLocationsSourcesMigratingVms/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.migratingVms.update"],
+        "roles": ["roles/vmmigration.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#RemoveGroupMigrationProjectsLocationsGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.groups.update"],
+        "roles": ["roles/vmmigration.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#ResumeMigrationProjectsLocationsSourcesMigratingVms/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.migratingVms.update"],
+        "roles": ["roles/vmmigration.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#RunProjectsLocationsSourcesDiskMigrationJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.sources.update"],
+        "roles": ["roles/vmmigration.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#StartMigrationProjectsLocationsSourcesMigratingVms/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.migratingVms.update"],
+        "roles": ["roles/vmmigration.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.vmmigration_v1#UpgradeApplianceProjectsLocationsSourcesDatacenterConnectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["vmmigration.datacenterConnectors.update"],
+        "roles": ["roles/vmmigration.admin"]
+      }
+    }
+  ]
+}

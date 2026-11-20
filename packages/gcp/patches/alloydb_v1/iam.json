@@ -1,0 +1,141 @@
+{
+  "description": "What each alloydb_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#CreatesecondaryProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["alloydb.clusters.update"],
+        "roles": ["roles/alloydb.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#CreatesecondaryProjectsLocationsClustersInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["alloydb.instances.update"],
+        "roles": ["roles/alloydb.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#ExportProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["alloydb.clusters.export"],
+        "roles": ["roles/alloydb.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#FailoverProjectsLocationsClustersInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["alloydb.instances.failover"],
+        "roles": ["roles/alloydb.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#ImportProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["alloydb.clusters.import"],
+        "roles": ["roles/alloydb.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#InjectFaultProjectsLocationsClustersInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["alloydb.instances.injectFault"],
+        "roles": ["roles/alloydb.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#ListProjectsLocationsBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["alloydb.backups.list"],
+        "roles": ["roles/alloydb.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#ListProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["alloydb.clusters.list"],
+        "roles": ["roles/alloydb.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#ListProjectsLocationsClustersInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["alloydb.instances.list"],
+        "roles": ["roles/alloydb.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#ListProjectsLocationsClustersUsers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["alloydb.users.list"],
+        "roles": ["roles/alloydb.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#ListProjectsLocationsSupportedDatabaseFlags/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["alloydb.supportedDatabaseFlags.list"],
+        "roles": ["roles/alloydb.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#PromoteProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["alloydb.clusters.promote"],
+        "roles": ["roles/alloydb.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#RestartProjectsLocationsClustersInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["alloydb.instances.restart"],
+        "roles": ["roles/alloydb.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#RestoreFromCloudSQLProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["alloydb.clusters.update"],
+        "roles": ["roles/alloydb.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#RestoreProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["alloydb.clusters.update"],
+        "roles": ["roles/alloydb.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#SwitchoverProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["alloydb.clusters.switchover"],
+        "roles": ["roles/alloydb.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.alloydb_v1#UpgradeProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["alloydb.clusters.upgrade"],
+        "roles": ["roles/alloydb.editor"]
+      }
+    }
+  ]
+}
