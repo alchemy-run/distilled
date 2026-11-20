@@ -4,7 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownCoinflowError } from "../errors.ts";
+import { CoinflowServiceErrors } from "../errors.ts";
 import { CoinflowProtocol, type CoinflowOpError, type CoinflowOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -3441,7 +3441,8 @@ export const addApplePay: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1289, __c40, 9) as any as S.Schema<AddApplePayRequest>,
   output: __S(1344, __c42, 0) as any as S.Schema<AddApplePayResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3458,7 +3459,8 @@ export const addDebitCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<AddDebitCardRequest>,
   output: __S(1344, __c42, 0) as any as S.Schema<AddDebitCardResponse>,
-  errors: [PreconditionFailed, UnknownCoinflowError],
+  errors: [PreconditionFailed],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3475,7 +3477,8 @@ export const addInterac: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<AddInteracRequest>,
   output: __S(1344, __c42, 0) as any as S.Schema<AddInteracResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3492,7 +3495,8 @@ export const addPaypal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<AddPaypalRequest>,
   output: __S(1344, __c42, 0) as any as S.Schema<AddPaypalResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3509,7 +3513,8 @@ export const addVenmo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<AddVenmoRequest>,
   output: __S(1344, __c42, 0) as any as S.Schema<AddVenmoResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3526,7 +3531,8 @@ export const createBankAccountV2: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateBankAccountV2Request>,
   output: __S(1, __c0, 1) as any as S.Schema<AddWithdrawMethodResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3543,7 +3549,8 @@ export const createEftAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<CreateEftAccountRequest>,
   output: __S(1344, __c42, 0) as any as S.Schema<CreateEftAccountResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3560,7 +3567,8 @@ export const createIbanAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<CreateIbanAccountRequest>,
   output: __S(1344, __c42, 0) as any as S.Schema<CreateIbanAccountResponse>,
-  errors: [UpgradeRequired, UnknownCoinflowError],
+  errors: [UpgradeRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3577,7 +3585,8 @@ export const createKyb: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(194, __c6, 2) as any as S.Schema<CreateKybRequest>,
   output: __S(196, __c6, 4) as any as S.Schema<WithdrawCreateKybResponse200>,
-  errors: [Conflict, VerificationRequired, UnknownCoinflowError],
+  errors: [Conflict, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3594,7 +3603,8 @@ export const createKyc: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<CreateKycRequest>,
   output: __S(258, __c8, 2) as any as S.Schema<WithdrawCreateKycResponse200>,
-  errors: [Conflict, VerificationRequired, UnknownCoinflowError],
+  errors: [Conflict, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3611,7 +3621,8 @@ export const createKycAttested: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<CreateKycAttestedRequest>,
   output: __S(258, __c8, 2) as any as S.Schema<WithdrawCreateKycAttestedResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3628,7 +3639,8 @@ export const createKycDocument: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<CreateKycDocumentRequest>,
   output: __S(258, __c8, 2) as any as S.Schema<WithdrawCreateKycDocumentResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3645,7 +3657,8 @@ export const createKycShareToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<CreateKycShareTokenRequest>,
   output: __S(258, __c8, 2) as any as S.Schema<WithdrawCreateKycShareTokenResponse200>,
-  errors: [BadRequest, UnknownCoinflowError],
+  errors: [BadRequest],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3662,7 +3675,8 @@ export const createPixAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<CreatePixAccountRequest>,
   output: __S(1344, __c42, 0) as any as S.Schema<CreatePixAccountResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3679,7 +3693,8 @@ export const createSwiftAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(417, __c13, 1) as any as S.Schema<CreateSwiftAccountRequest>,
   output: __S(1344, __c42, 0) as any as S.Schema<CreateSwiftAccountResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3696,7 +3711,8 @@ export const deleteEftAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<DeleteEftAccountRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<WithdrawDeleteEftAccountResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3713,7 +3729,8 @@ export const deleteIbanAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<DeleteIbanAccountRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<WithdrawDeleteIbanAccountResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3730,7 +3747,8 @@ export const deletePixAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<DeletePixAccountRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<WithdrawDeletePixAccountResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3747,7 +3765,8 @@ export const deleteSwiftAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<DeleteSwiftAccountRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<WithdrawDeleteSwiftAccountResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3764,7 +3783,8 @@ export const deleteWithdrawerAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<DeleteWithdrawerAccountRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<WithdrawDeleteWithdrawerAccountResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3781,7 +3801,8 @@ export const deleteWithdrawerCard: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<DeleteWithdrawerCardRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<WithdrawDeleteWithdrawerCardResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3798,7 +3819,8 @@ export const deleteWithdrawerInterac: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<DeleteWithdrawerInteracRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<WithdrawDeleteWithdrawerInteracResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3815,7 +3837,8 @@ export const deleteWithdrawerMobile: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<DeleteWithdrawerMobileRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<WithdrawDeleteWithdrawerMobileResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3832,7 +3855,8 @@ export const deleteWithdrawerPaypal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<DeleteWithdrawerPaypalRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<WithdrawDeleteWithdrawerPaypalResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3849,7 +3873,8 @@ export const deleteWithdrawerVenmo: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<DeleteWithdrawerVenmoRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<WithdrawDeleteWithdrawerVenmoResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3866,7 +3891,8 @@ export const getEvmMessage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<GetEvmMessageRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<GetMessageResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3887,7 +3913,8 @@ export const getExactOutQuote: API.OperationMethod<
     __c27,
     2,
   ) as any as S.Schema<RecordWithdrawSpeedWithdrawExactOutQuoteOrUndefined>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3904,7 +3931,8 @@ export const getPaypalLoginStatus: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<GetPaypalLoginStatusRequest>,
   output: __S(961, __c30, 1) as any as S.Schema<WithdrawGetPaypalLoginStatusResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3921,7 +3949,8 @@ export const getQuote: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<GetQuoteRequest>,
   output: __S(994, __c31, 2) as any as S.Schema<WithdrawQuote>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3938,7 +3967,8 @@ export const getTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<GetTransactionRequest>,
   output: __S(1025, __c32, 1) as any as S.Schema<GetWithdrawTransactionResponse>,
-  errors: [PreconditionFailed, VerificationRequired, UnknownCoinflowError],
+  errors: [PreconditionFailed, VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3955,7 +3985,8 @@ export const getWithdrawBalances: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<GetWithdrawBalancesRequest>,
   output: __S(1091, __c34, 3) as any as S.Schema<WithdrawGetWithdrawBalancesResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3972,7 +4003,8 @@ export const getWithdrawer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<GetWithdrawerRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<GetWithdrawerResponse>,
-  errors: [VerificationRequired, UnknownCoinflowError],
+  errors: [VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3989,7 +4021,8 @@ export const getWithdrawerHistory: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<GetWithdrawerHistoryRequest>,
   output: __S(1161, __c36, 9) as any as S.Schema<WithdrawGetWithdrawerHistoryResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4006,7 +4039,8 @@ export const sendEvmGaslessTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<SendEvmGaslessTransactionRequest>,
   output: __S(1185, __c37, 1) as any as S.Schema<WithdrawSendEvmGaslessTransactionResponse200>,
-  errors: [PreconditionFailed, UnknownCoinflowError],
+  errors: [PreconditionFailed],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4023,7 +4057,8 @@ export const startPaypalLogin: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<StartPaypalLoginRequest>,
   output: __S(1217, __c38, 1) as any as S.Schema<WithdrawStartPaypalLoginResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4040,7 +4075,8 @@ export const validateKyc: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<ValidateKycRequest>,
   output: __S(1249, __c39, 1) as any as S.Schema<WithdrawValidateKycResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

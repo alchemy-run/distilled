@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownCoinflowError } from "../errors.ts";
+import { CoinflowServiceErrors } from "../errors.ts";
 import { CoinflowProtocol, type CoinflowOpError, type CoinflowOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -2331,7 +2331,8 @@ export const createEmbeddedAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateEmbeddedAccountRequest>,
   output: __S(7, __c0, 7) as any as S.Schema<IWithdrawer>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2348,7 +2349,8 @@ export const createEmbeddedGroup: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<CreateEmbeddedGroupRequest>,
   output: __S(16, __c2, 0) as any as S.Schema<EmbeddedGroup>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2365,7 +2367,8 @@ export const createTransfer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<CreateTransferRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<CreateTransferResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2382,7 +2385,8 @@ export const createWithdrawal: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<CreateWithdrawalRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<CreateWithdrawalResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2399,7 +2403,8 @@ export const getAccountTransfers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<GetAccountTransfersRequest>,
   output: __S(75, __c9, 3) as any as S.Schema<ManagedTransferPage>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2416,7 +2421,8 @@ export const getEmbeddedAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<GetEmbeddedAccountsRequest>,
   output: __S(97, __c12, 1) as any as S.Schema<GetEmbeddedAccountsResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2433,7 +2439,8 @@ export const getEmbeddedGroupAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<GetEmbeddedGroupAccountsRequest>,
   output: __S(97, __c12, 1) as any as S.Schema<GetEmbeddedGroupAccountsResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2450,7 +2457,8 @@ export const getEmbeddedGroups: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<GetEmbeddedGroupsRequest>,
   output: __S(122, __c15, 2) as any as S.Schema<GetEmbeddedGroupsResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2467,7 +2475,8 @@ export const getPrimaryAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<GetPrimaryAccountRequest>,
   output: __S(104, __c13, 0) as any as S.Schema<ManagedAccount>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2484,7 +2493,8 @@ export const getWithdrawalOptions: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(137, __c17, 1) as any as S.Schema<GetWithdrawalOptionsRequest>,
   output: __S(140, __c17, 4) as any as S.Schema<GetWithdrawalOptionsResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2501,7 +2511,8 @@ export const removeEmbeddedAccount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<RemoveEmbeddedAccountRequest>,
   output: __S(56, __c7, 0) as any as S.Schema<RemoveEmbeddedAccountResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -2518,7 +2529,8 @@ export const searchEmbeddedAccounts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<SearchEmbeddedAccountsRequest>,
   output: __S(35, __c4, 3) as any as S.Schema<SearchEmbeddedAccountsResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

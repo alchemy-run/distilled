@@ -3,7 +3,7 @@ import * as API from "@distilled.cloud/core/api";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
-import { UnknownCoinflowError } from "../errors.ts";
+import { CoinflowServiceErrors } from "../errors.ts";
 import { CoinflowProtocol, type CoinflowOpError, type CoinflowOpContext } from "../protocol.ts";
 import * as Retry from "../retry.ts";
 import * as T from "../traits.ts";
@@ -308,7 +308,8 @@ export const addUsdcWithdrawRecipient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddUsdcWithdrawRecipientRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<AddUsdcWithdrawRecipientResponse>,
-  errors: [VerificationRequired, UnknownCoinflowError],
+  errors: [VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -325,7 +326,8 @@ export const createSeller: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<CreateSellerRequest2>,
   output: __S(4, __c1, 0) as any as S.Schema<CreateSellerResponse>,
-  errors: [VerificationRequired, UnknownCoinflowError],
+  errors: [VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -342,7 +344,8 @@ export const downloadKyc: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<DownloadKycRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<DownloadKycResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -359,7 +362,8 @@ export const getSellerLoginLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<GetSellerLoginLinkRequest>,
   output: __S(20, __c5, 0) as any as S.Schema<GetMarketplaceLinkResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -376,7 +380,8 @@ export const getSellerRegisterLink: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<GetSellerRegisterLinkRequest>,
   output: __S(20, __c5, 0) as any as S.Schema<GetMarketplaceLinkResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -393,7 +398,8 @@ export const getVerifyTransaction: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<GetVerifyTransactionRequest>,
   output: __S(29, __c7, 1) as any as S.Schema<GetVerifyTransactionResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -410,7 +416,8 @@ export const getWalletAddressByEmail: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<GetWalletAddressByEmailRequest>,
   output: __S(33, __c8, 1) as any as S.Schema<MarketplaceGetWalletAddressByEmailResponse200>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -427,7 +434,8 @@ export const removeUsdcWithdrawRecipient: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(36, __c9, 0) as any as S.Schema<RemoveUsdcWithdrawRecipientRequest>,
   output: __S(4, __c1, 0) as any as S.Schema<RemoveUsdcWithdrawRecipientResponse>,
-  errors: [UnknownCoinflowError],
+  errors: [],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -444,7 +452,8 @@ export const sellerUsdcWithdraw: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41, __c10, 1) as any as S.Schema<SellerUsdcWithdrawRequest>,
   output: __S(42, __c10, 2) as any as S.Schema<SellerUsdcWithdrawResponse>,
-  errors: [VerificationRequired, UnknownCoinflowError],
+  errors: [VerificationRequired],
+  serviceErrors: CoinflowServiceErrors,
   protocol: CoinflowProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
