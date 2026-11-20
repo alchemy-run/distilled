@@ -1111,8 +1111,8 @@ export interface CreateServiceDomainResponseData {
 }
 export interface CreateServiceDomainResponse {
   data: CreateServiceDomainResponseData;
-  /** 201 when the call created it, 200 when it already existed. */
-  httpStatus?: number | undefined;
+  /** The HTTP status of the last attempt: 201 when it created the resource, 200 when the resource already existed. After a retry, a resource this call created can come back with 200. */
+  httpStatus: number;
 }
 export interface CreateServicePromoteRequest {
   serviceId: string;
@@ -1429,8 +1429,8 @@ export interface CreateWorkspaceDomainOwnershipResponseData {
 }
 export interface CreateWorkspaceDomainOwnershipResponse {
   data: CreateWorkspaceDomainOwnershipResponseData;
-  /** 201 when the call created it, 200 when it already existed. */
-  httpStatus?: number | undefined;
+  /** The HTTP status of the last attempt: 201 when it created the resource, 200 when the resource already existed. After a retry, a resource this call created can come back with 200. */
+  httpStatus: number;
 }
 export interface CreateWorkspaceServiceTokenRequest {
   workspaceId: string;
@@ -7458,7 +7458,7 @@ function __c72(j: number): any {
       return S.suspend(() =>
         S.Struct({
           data: __S(850, __c53, 2),
-          httpStatus: S.optional(S.Number.pipe(T.ResponseCode())),
+          httpStatus: S.Number.pipe(T.ResponseCode()),
         }),
       ).annotate({ identifier: "CreateServiceDomainResponse" });
   }
@@ -7721,7 +7721,7 @@ function __c86(j: number): any {
       return S.suspend(() =>
         S.Struct({
           data: __S(800, __c50, 0),
-          httpStatus: S.optional(S.Number.pipe(T.ResponseCode())),
+          httpStatus: S.Number.pipe(T.ResponseCode()),
         }),
       ).annotate({ identifier: "CreateWorkspaceDomainOwnershipResponse" });
   }
