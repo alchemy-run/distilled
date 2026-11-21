@@ -1,0 +1,69 @@
+{
+  "description": "What each file_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.file_v1#ListProjectsLocationsBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["file.backups.list"],
+        "roles": ["roles/file.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.file_v1#ListProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["file.instances.list"],
+        "roles": ["roles/file.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.file_v1#ListProjectsLocationsInstancesSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["file.snapshots.list"],
+        "roles": ["roles/file.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.file_v1#PauseReplicaProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["file.instances.update"],
+        "roles": ["roles/file.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.file_v1#PromoteReplicaProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["file.instances.update"],
+        "roles": ["roles/file.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.file_v1#RestoreProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["file.instances.restore"],
+        "roles": ["roles/file.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.file_v1#ResumeReplicaProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["file.instances.update"],
+        "roles": ["roles/file.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.file_v1#RevertProjectsLocationsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["file.instances.revert"],
+        "roles": ["roles/file.editor"]
+      }
+    }
+  ]
+}

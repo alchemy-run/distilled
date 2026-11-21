@@ -1,0 +1,37 @@
+{
+  "description": "What each apikeys_v2 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apikeys_v2#GetProjectsLocationsKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apikeys.keys.get"],
+        "roles": ["roles/serviceusage.apiKeysViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apikeys_v2#ListProjectsLocationsKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apikeys.keys.list"],
+        "roles": ["roles/serviceusage.apiKeysViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apikeys_v2#LookupKeyKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apikeys.keys.get"],
+        "roles": ["roles/serviceusage.apiKeysViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apikeys_v2#UndeleteProjectsLocationsKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apikeys.keys.undelete"],
+        "roles": ["roles/serviceusage.apiKeysAdmin"]
+      }
+    }
+  ]
+}

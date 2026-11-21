@@ -1,0 +1,45 @@
+{
+  "description": "What each transcoder_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.transcoder_v1#DeleteProjectsLocationsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["transcoder.jobs.delete"],
+        "roles": ["roles/transcoder.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.transcoder_v1#GetProjectsLocationsJobTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["transcoder.jobTemplates.get"],
+        "roles": ["roles/transcoder.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.transcoder_v1#GetProjectsLocationsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["transcoder.jobs.get"],
+        "roles": ["roles/transcoder.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.transcoder_v1#ListProjectsLocationsJobTemplates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["transcoder.jobTemplates.list"],
+        "roles": ["roles/transcoder.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.transcoder_v1#ListProjectsLocationsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["transcoder.jobs.list"],
+        "roles": ["roles/transcoder.viewer"]
+      }
+    }
+  ]
+}

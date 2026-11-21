@@ -1,0 +1,101 @@
+{
+  "description": "What each certificatemanager_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.certificatemanager_v1#GetProjectsLocationsCertificateIssuanceConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["certificatemanager.certissuanceconfigs.get"],
+        "roles": ["roles/certificatemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.certificatemanager_v1#GetProjectsLocationsCertificateMaps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["certificatemanager.certmaps.get"],
+        "roles": ["roles/certificatemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.certificatemanager_v1#GetProjectsLocationsCertificateMapsCertificateMapEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["certificatemanager.certmapentries.get"],
+        "roles": ["roles/certificatemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.certificatemanager_v1#GetProjectsLocationsCertificates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["certificatemanager.certs.get"],
+        "roles": ["roles/certificatemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.certificatemanager_v1#GetProjectsLocationsDnsAuthorizations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["certificatemanager.dnsauthorizations.get"],
+        "roles": ["roles/certificatemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.certificatemanager_v1#GetProjectsLocationsTrustConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["certificatemanager.trustconfigs.get"],
+        "roles": ["roles/certificatemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.certificatemanager_v1#ListProjectsLocationsCertificateIssuanceConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["certificatemanager.certissuanceconfigs.list"],
+        "roles": ["roles/certificatemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.certificatemanager_v1#ListProjectsLocationsCertificateMaps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["certificatemanager.certmaps.list"],
+        "roles": ["roles/certificatemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.certificatemanager_v1#ListProjectsLocationsCertificateMapsCertificateMapEntries/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["certificatemanager.certmapentries.list"],
+        "roles": ["roles/certificatemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.certificatemanager_v1#ListProjectsLocationsCertificates/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["certificatemanager.certs.list"],
+        "roles": ["roles/certificatemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.certificatemanager_v1#ListProjectsLocationsDnsAuthorizations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["certificatemanager.dnsauthorizations.list"],
+        "roles": ["roles/certificatemanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.certificatemanager_v1#ListProjectsLocationsTrustConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["certificatemanager.trustconfigs.list"],
+        "roles": ["roles/certificatemanager.viewer"]
+      }
+    }
+  ]
+}

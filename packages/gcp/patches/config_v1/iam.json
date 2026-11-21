@@ -1,0 +1,253 @@
+{
+  "description": "What each config_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#CreateProjectsLocationsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.deployments.create"],
+        "roles": ["roles/config.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#DeleteProjectsLocationsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.deployments.delete"],
+        "roles": ["roles/config.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#DeleteStateProjectsLocationsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.deployments.deleteState"],
+        "roles": ["roles/config.agent"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#DeprovisionProjectsLocationsDeploymentGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.deploymentgroups.deprovision"],
+        "roles": ["roles/config.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#ExportLockProjectsLocationsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.deployments.update"],
+        "roles": ["roles/config.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#ExportProjectsLocationsPreviews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.previews.export"],
+        "roles": ["roles/config.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#ExportStateProjectsLocationsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.deployments.update"],
+        "roles": ["roles/config.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#ExportStateProjectsLocationsDeploymentsRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.deployments.update"],
+        "roles": ["roles/config.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#GetProjectsLocationsDeploymentGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.deploymentgroups.get"],
+        "roles": ["roles/config.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#GetProjectsLocationsDeploymentGroupsRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.revisions.get"],
+        "roles": ["roles/config.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#GetProjectsLocationsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.deployments.get"],
+        "roles": ["roles/config.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#GetProjectsLocationsDeploymentsRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.revisions.get"],
+        "roles": ["roles/config.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#GetProjectsLocationsDeploymentsRevisionsResources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.resources.get"],
+        "roles": ["roles/config.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#GetProjectsLocationsPreviews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.previews.get"],
+        "roles": ["roles/config.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#GetProjectsLocationsPreviewsResourceChanges/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.resourcechanges.get"],
+        "roles": ["roles/config.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#GetProjectsLocationsPreviewsResourceDrifts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.resourcedrifts.get"],
+        "roles": ["roles/config.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#GetProjectsLocationsTerraformVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.terraformversions.get"],
+        "roles": ["roles/config.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#ImportStateProjectsLocationsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.deployments.update"],
+        "roles": ["roles/config.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#ListProjectsLocationsDeploymentGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.deploymentgroups.list"],
+        "roles": ["roles/config.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#ListProjectsLocationsDeploymentGroupsRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.revisions.list"],
+        "roles": ["roles/config.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#ListProjectsLocationsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.deployments.list"],
+        "roles": ["roles/config.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#ListProjectsLocationsDeploymentsRevisions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.revisions.list"],
+        "roles": ["roles/config.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#ListProjectsLocationsDeploymentsRevisionsResources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.resources.list"],
+        "roles": ["roles/config.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#ListProjectsLocationsPreviews/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.previews.list"],
+        "roles": ["roles/config.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#ListProjectsLocationsPreviewsResourceChanges/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.resourcechanges.list"],
+        "roles": ["roles/config.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#ListProjectsLocationsPreviewsResourceDrifts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.resourcedrifts.list"],
+        "roles": ["roles/config.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#ListProjectsLocationsTerraformVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.terraformversions.list"],
+        "roles": ["roles/config.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#LockProjectsLocationsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.deployments.lock"],
+        "roles": ["roles/config.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#PatchProjectsLocationsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.deployments.update"],
+        "roles": ["roles/config.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#ProvisionProjectsLocationsDeploymentGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.deploymentgroups.provision"],
+        "roles": ["roles/config.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.config_v1#UnlockProjectsLocationsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["config.deployments.unlock"],
+        "roles": ["roles/config.admin"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "description": "What each kmsinventory_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.kmsinventory_v1#GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.protectedResources.search"],
+        "roles": ["roles/cloudkms.protectedResourcesViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.kmsinventory_v1#ListProjectsCryptoKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.cryptoKeys.list"],
+        "roles": ["roles/cloudkms.encryptionDashboardViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.kmsinventory_v1#SearchProjectsProtectedResources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudkms.protectedResources.search"],
+        "roles": ["roles/cloudkms.protectedResourcesViewer"]
+      }
+    }
+  ]
+}

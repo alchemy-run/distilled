@@ -1,0 +1,93 @@
+{
+  "description": "What each firebaseapphosting_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseapphosting_v1#CreateProjectsLocationsBackendsRollouts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseapphosting.rollouts.create"],
+        "roles": ["roles/firebaseapphosting.developer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseapphosting_v1#GetProjectsLocationsBackends/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseapphosting.backends.get"],
+        "roles": ["roles/firebaseapphosting.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseapphosting_v1#GetProjectsLocationsBackendsBuilds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseapphosting.builds.get"],
+        "roles": ["roles/firebaseapphosting.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseapphosting_v1#GetProjectsLocationsBackendsDomains/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseapphosting.domains.get"],
+        "roles": ["roles/firebaseapphosting.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseapphosting_v1#GetProjectsLocationsBackendsRollouts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseapphosting.rollouts.get"],
+        "roles": ["roles/firebaseapphosting.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseapphosting_v1#GetProjectsLocationsBackendsTraffic/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseapphosting.traffic.get"],
+        "roles": ["roles/firebaseapphosting.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseapphosting_v1#ListProjectsLocationsBackends/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseapphosting.backends.list"],
+        "roles": ["roles/firebaseapphosting.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseapphosting_v1#ListProjectsLocationsBackendsBuilds/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseapphosting.builds.list"],
+        "roles": ["roles/firebaseapphosting.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseapphosting_v1#ListProjectsLocationsBackendsDomains/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseapphosting.domains.list"],
+        "roles": ["roles/firebaseapphosting.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseapphosting_v1#ListProjectsLocationsBackendsRollouts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseapphosting.rollouts.list"],
+        "roles": ["roles/firebaseapphosting.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseapphosting_v1#PatchProjectsLocationsBackendsTraffic/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseapphosting.traffic.update"],
+        "roles": ["roles/firebaseapphosting.developer"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "description": "What each apim_v1alpha operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#BatchEditTagsProjectsLocationsObservationJobsApiObservations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apim.apiObservations.batchEditTags"],
+        "roles": ["roles/apim.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#DisableProjectsLocationsObservationJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apim.observationJobs.disable"],
+        "roles": ["roles/apim.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#EnableProjectsLocationsObservationJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apim.observationJobs.enable"],
+        "roles": ["roles/apim.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#GetProjectsLocationsObservationJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apim.observationJobs.get"],
+        "roles": ["roles/apim.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#GetProjectsLocationsObservationJobsApiObservations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apim.apiObservations.get"],
+        "roles": ["roles/apim.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#GetProjectsLocationsObservationJobsApiObservationsApiOperations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apim.apiOperations.get"],
+        "roles": ["roles/apim.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#GetProjectsLocationsObservationSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apim.observationSources.get"],
+        "roles": ["roles/apim.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#ListProjectsLocationsObservationJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apim.observationJobs.list"],
+        "roles": ["roles/apim.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#ListProjectsLocationsObservationJobsApiObservations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apim.apiObservations.list"],
+        "roles": ["roles/apim.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#ListProjectsLocationsObservationJobsApiObservationsApiOperations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apim.apiOperations.list"],
+        "roles": ["roles/apim.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apim_v1alpha#ListProjectsLocationsObservationSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apim.observationSources.list"],
+        "roles": ["roles/apim.viewer"]
+      }
+    }
+  ]
+}

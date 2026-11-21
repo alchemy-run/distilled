@@ -1,0 +1,117 @@
+{
+  "description": "What each secretmanager_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.secretmanager_v1#EnableManagedRotationProjectsLocationsSecrets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["secretmanager.secrets.enableManagedRotation"],
+        "roles": ["roles/secretmanager.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.secretmanager_v1#EnableManagedRotationProjectsSecrets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["secretmanager.secrets.enableManagedRotation"],
+        "roles": ["roles/secretmanager.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.secretmanager_v1#EnableProjectsLocationsSecretsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["secretmanager.versions.enable"],
+        "roles": ["roles/secretmanager.secretVersionManager"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.secretmanager_v1#EnableProjectsSecretsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["secretmanager.versions.enable"],
+        "roles": ["roles/secretmanager.secretVersionManager"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.secretmanager_v1#GetProjectsLocationsSecrets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["secretmanager.secrets.get"],
+        "roles": ["roles/secretmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.secretmanager_v1#GetProjectsLocationsSecretsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["secretmanager.versions.get"],
+        "roles": ["roles/secretmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.secretmanager_v1#GetProjectsSecrets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["secretmanager.secrets.get"],
+        "roles": ["roles/secretmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.secretmanager_v1#GetProjectsSecretsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["secretmanager.versions.get"],
+        "roles": ["roles/secretmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.secretmanager_v1#ListProjectsLocationsSecrets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["secretmanager.secrets.list"],
+        "roles": ["roles/secretmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.secretmanager_v1#ListProjectsLocationsSecretsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["secretmanager.versions.list"],
+        "roles": ["roles/secretmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.secretmanager_v1#ListProjectsSecrets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["secretmanager.secrets.list"],
+        "roles": ["roles/secretmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.secretmanager_v1#ListProjectsSecretsVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["secretmanager.versions.list"],
+        "roles": ["roles/secretmanager.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.secretmanager_v1#RotateSecretProjectsLocationsSecrets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["secretmanager.secrets.rotate"],
+        "roles": ["roles/secretmanager.secretVersionAdder"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.secretmanager_v1#RotateSecretProjectsSecrets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["secretmanager.secrets.rotate"],
+        "roles": ["roles/secretmanager.secretVersionAdder"]
+      }
+    }
+  ]
+}

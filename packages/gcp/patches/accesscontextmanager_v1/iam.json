@@ -1,0 +1,85 @@
+{
+  "description": "What each accesscontextmanager_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.accesscontextmanager_v1#CommitAccessPoliciesServicePerimeters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["accesscontextmanager.servicePerimeters.commit"],
+        "roles": ["roles/accesscontextmanager.policyEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.accesscontextmanager_v1#GetAccessPoliciesAccessLevels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["accesscontextmanager.accessLevels.get"],
+        "roles": ["roles/accesscontextmanager.policyReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.accesscontextmanager_v1#GetAccessPoliciesAuthorizedOrgsDescs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["accesscontextmanager.authorizedOrgsDescs.get"],
+        "roles": ["roles/accesscontextmanager.policyReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.accesscontextmanager_v1#GetAccessPoliciesServicePerimeters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["accesscontextmanager.servicePerimeters.get"],
+        "roles": ["roles/accesscontextmanager.policyReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.accesscontextmanager_v1#GetOrganizationsGcpUserAccessBindings/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["accesscontextmanager.gcpUserAccessBindings.get"],
+        "roles": ["roles/accesscontextmanager.gcpAccessReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.accesscontextmanager_v1#ListAccessPoliciesAccessLevels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["accesscontextmanager.accessLevels.list"],
+        "roles": ["roles/accesscontextmanager.policyReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.accesscontextmanager_v1#ListAccessPoliciesAuthorizedOrgsDescs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["accesscontextmanager.authorizedOrgsDescs.list"],
+        "roles": ["roles/accesscontextmanager.policyReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.accesscontextmanager_v1#ListAccessPoliciesServicePerimeters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["accesscontextmanager.servicePerimeters.list"],
+        "roles": ["roles/accesscontextmanager.policyReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.accesscontextmanager_v1#ReplaceAllAccessPoliciesAccessLevels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["accesscontextmanager.accessLevels.replaceAll"],
+        "roles": ["roles/accesscontextmanager.policyEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.accesscontextmanager_v1#ReplaceAllAccessPoliciesServicePerimeters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["accesscontextmanager.servicePerimeters.replaceAll"],
+        "roles": ["roles/accesscontextmanager.policyEditor"]
+      }
+    }
+  ]
+}

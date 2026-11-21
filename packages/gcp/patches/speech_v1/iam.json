@@ -1,0 +1,29 @@
+{
+  "description": "What each speech_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.speech_v1#ListProjectsLocationsCustomClasses/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["speech.customClasses.list"],
+        "roles": ["roles/speech.client"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.speech_v1#ListProjectsLocationsPhraseSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["speech.phraseSets.list"],
+        "roles": ["roles/speech.client"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.speech_v1#LongrunningrecognizeSpeech/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["speech.speech.longrunningrecognize"],
+        "roles": ["roles/speech.client"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "description": "What each databasecenter_v1beta operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.databasecenter_v1beta#AggregateFleetV1beta/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["databasecenter.fleetStats.list"],
+        "roles": ["roles/databasecenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.databasecenter_v1beta#AggregateIssueStatsV1beta/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["databasecenter.fleetHealthStats.list"],
+        "roles": ["roles/databasecenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.databasecenter_v1beta#AggregateQueryStatsProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["databasecenter.queryStats.list"],
+        "roles": ["roles/databasecenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.databasecenter_v1beta#QueryDatabaseResourceGroupsV1beta/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["databasecenter.databaseGroups.list"],
+        "roles": ["roles/databasecenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.databasecenter_v1beta#QueryIssuesV1beta/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["databasecenter.fleetInsights.list"],
+        "roles": ["roles/databasecenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.databasecenter_v1beta#QueryProductsV1beta/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["databasecenter.products.list"],
+        "roles": ["roles/databasecenter.viewer"]
+      }
+    }
+  ]
+}

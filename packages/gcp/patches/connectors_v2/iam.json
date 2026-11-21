@@ -1,0 +1,181 @@
+{
+  "description": "What each connectors_v2 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#CheckReadinessProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.connections.get"],
+        "roles": ["roles/connectors.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#CheckStatusProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.connections.get"],
+        "roles": ["roles/connectors.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntities/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.entities.deleteEntitiesWithConditions"],
+        "roles": ["roles/connectors.invoker"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#ExchangeAuthCodeProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.connections.update"],
+        "roles": ["roles/connectors.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#ExecuteHttpRequestProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.connections.update"],
+        "roles": ["roles/connectors.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#ExecuteProjectsLocationsConnectionsActions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.actions.execute"],
+        "roles": ["roles/connectors.invoker"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#ExecuteProjectsLocationsConnectionsTools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.connections.update"],
+        "roles": ["roles/connectors.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#ExecuteSqlQueryProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.connections.executeSqlQuery"],
+        "roles": ["roles/connectors.invoker"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#GenerateConnectionToolspecOverrideProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.connections.update"],
+        "roles": ["roles/connectors.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#GetProjectsLocationsConnectionsActions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.connections.get"],
+        "roles": ["roles/connectors.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#GetProjectsLocationsConnectionsEntityTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.connections.get"],
+        "roles": ["roles/connectors.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#GetProjectsLocationsConnectionsResources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.connections.get"],
+        "roles": ["roles/connectors.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#GetResourcePostProjectsLocationsConnectionsResources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.connections.get"],
+        "roles": ["roles/connectors.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#ListCustomToolNamesProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.connections.get"],
+        "roles": ["roles/connectors.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#ListProjectsLocationsConnectionsActions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.actions.list"],
+        "roles": ["roles/connectors.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#ListProjectsLocationsConnectionsEntityTypes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.entityTypes.list"],
+        "roles": ["roles/connectors.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#ListProjectsLocationsConnectionsEntityTypesEntities/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.entities.list"],
+        "roles": ["roles/connectors.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#ListProjectsLocationsConnectionsResources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.connections.get"],
+        "roles": ["roles/connectors.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#ListProjectsLocationsConnectionsTools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.connections.get"],
+        "roles": ["roles/connectors.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#RefreshAccessTokenProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.connections.update"],
+        "roles": ["roles/connectors.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#ToolsProjectsLocationsConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.connections.update"],
+        "roles": ["roles/connectors.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.connectors_v2#UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntities/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["connectors.entities.updateEntitiesWithConditions"],
+        "roles": ["roles/connectors.invoker"]
+      }
+    }
+  ]
+}

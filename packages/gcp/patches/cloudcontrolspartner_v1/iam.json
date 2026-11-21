@@ -1,0 +1,53 @@
+{
+  "description": "What each cloudcontrolspartner_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudcontrolspartner_v1#GetOrganizationsLocationsCustomers/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudcontrolspartner.customers.get"],
+        "roles": ["roles/cloudcontrolspartner.inspectabilityReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudcontrolspartner_v1#GetOrganizationsLocationsCustomersWorkloads/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudcontrolspartner.workloads.get"],
+        "roles": ["roles/cloudcontrolspartner.monitoringReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudcontrolspartner_v1#GetOrganizationsLocationsCustomersWorkloadsViolations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudcontrolspartner.violations.get"],
+        "roles": ["roles/cloudcontrolspartner.monitoringReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudcontrolspartner_v1#ListOrganizationsLocationsCustomersWorkloads/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudcontrolspartner.workloads.list"],
+        "roles": ["roles/cloudcontrolspartner.monitoringReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudcontrolspartner_v1#ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudcontrolspartner.accessapprovalrequests.list"],
+        "roles": ["roles/cloudcontrolspartner.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.cloudcontrolspartner_v1#ListOrganizationsLocationsCustomersWorkloadsViolations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["cloudcontrolspartner.violations.list"],
+        "roles": ["roles/cloudcontrolspartner.monitoringReader"]
+      }
+    }
+  ]
+}

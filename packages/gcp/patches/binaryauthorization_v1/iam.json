@@ -1,0 +1,37 @@
+{
+  "description": "What each binaryauthorization_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.binaryauthorization_v1#GetPolicyProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["binaryauthorization.policy.get"],
+        "roles": ["roles/binaryauthorization.policyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.binaryauthorization_v1#ListProjectsAttestors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["binaryauthorization.attestors.list"],
+        "roles": ["roles/binaryauthorization.attestorsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.binaryauthorization_v1#ListProjectsPlatformsPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["binaryauthorization.platformPolicies.list"],
+        "roles": ["roles/binaryauthorization.policyViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.binaryauthorization_v1#ReplacePlatformPolicyProjectsPlatformsPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["binaryauthorization.platformPolicies.replace"],
+        "roles": ["roles/binaryauthorization.policyEditor"]
+      }
+    }
+  ]
+}

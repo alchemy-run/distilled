@@ -1,0 +1,549 @@
+{
+  "description": "What each networksecurity_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#AddItemsOrganizationsLocationsAddressGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.addressGroups.update"],
+        "roles": ["roles/networksecurity.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#AddItemsProjectsLocationsAddressGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.addressGroups.update"],
+        "roles": ["roles/networksecurity.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#CloneItemsOrganizationsLocationsAddressGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.addressGroups.update"],
+        "roles": ["roles/networksecurity.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#CloneItemsProjectsLocationsAddressGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.addressGroups.update"],
+        "roles": ["roles/networksecurity.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#CreateOrganizationsLocationsFirewallEndpointsWildfireVerdictChangeRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.firewallEndpoints.update"],
+        "roles": ["roles/networksecurity.firewallEndpointAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#CreateProjectsLocationsFirewallEndpointsWildfireVerdictChangeRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.firewallEndpoints.update"],
+        "roles": ["roles/networksecurity.firewallEndpointAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetOrganizationsLocationsAddressGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.addressGroups.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetOrganizationsLocationsFirewallEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.firewallEndpoints.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetOrganizationsLocationsFirewallEndpointsWildfireVerdictChangeRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.firewallEndpoints.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetOrganizationsLocationsSecurityProfileGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.securityProfileGroups.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetOrganizationsLocationsSecurityProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.securityProfiles.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsAddressGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.addressGroups.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsAuthorizationPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.authorizationPolicies.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsAuthzPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.authzPolicies.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsBackendAuthenticationConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.backendAuthenticationConfigs.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsClientTlsPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.clientTlsPolicies.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsDnsThreatDetectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.dnsThreatDetectors.get"],
+        "roles": ["roles/networksecurity.dnsThreatDetectorViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsFirewallEndpointAssociations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.firewallEndpointAssociations.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsFirewallEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.firewallEndpoints.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsFirewallEndpointsWildfireVerdictChangeRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.firewallEndpoints.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsGatewaySecurityPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.gatewaySecurityPolicies.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsGatewaySecurityPoliciesRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.gatewaySecurityPolicies.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsInterceptDeploymentGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.interceptDeploymentGroups.get"],
+        "roles": ["roles/networksecurity.interceptDeploymentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsInterceptDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.interceptDeployments.get"],
+        "roles": ["roles/networksecurity.interceptDeploymentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsInterceptEndpointGroupAssociations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.interceptEndpointGroupAssociations.get"],
+        "roles": ["roles/networksecurity.interceptEndpointViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsInterceptEndpointGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.interceptEndpointGroups.get"],
+        "roles": ["roles/networksecurity.interceptEndpointViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsMirroringDeploymentGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.mirroringDeploymentGroups.get"],
+        "roles": ["roles/networksecurity.mirroringDeploymentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsMirroringDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.mirroringDeployments.get"],
+        "roles": ["roles/networksecurity.mirroringDeploymentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsMirroringEndpointGroupAssociations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.mirroringEndpointGroupAssociations.get"],
+        "roles": ["roles/networksecurity.mirroringEndpointViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsMirroringEndpointGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.mirroringEndpointGroups.get"],
+        "roles": ["roles/networksecurity.mirroringEndpointViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsSacAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.sacAttachments.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsSacRealms/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.sacRealms.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsSecurityProfileGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.securityProfileGroups.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsSecurityProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.securityProfiles.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsServerTlsPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.serverTlsPolicies.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsTlsInspectionPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.tlsInspectionPolicies.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#GetProjectsLocationsUrlLists/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.urlLists.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListOrganizationsLocationsFirewallEndpointsWildfireVerdictChangeRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.firewallEndpoints.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsAddressGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.addressGroups.list"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsAuthorizationPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.authorizationPolicies.list"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsAuthzPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.authzPolicies.list"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsBackendAuthenticationConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.backendAuthenticationConfigs.list"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsClientTlsPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.clientTlsPolicies.list"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsDnsThreatDetectors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.dnsThreatDetectors.list"],
+        "roles": ["roles/networksecurity.dnsThreatDetectorViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsFirewallEndpointAssociations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.firewallEndpointAssociations.list"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsFirewallEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.firewallEndpoints.list"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsFirewallEndpointsWildfireVerdictChangeRequests/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.firewallEndpoints.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsGatewaySecurityPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.gatewaySecurityPolicies.list"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsGatewaySecurityPoliciesRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.gatewaySecurityPolicies.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsInterceptDeploymentGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.interceptDeploymentGroups.list"],
+        "roles": ["roles/networksecurity.interceptDeploymentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsInterceptDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.interceptDeployments.list"],
+        "roles": ["roles/networksecurity.interceptDeploymentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsInterceptEndpointGroupAssociations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.interceptEndpointGroupAssociations.list"],
+        "roles": ["roles/networksecurity.interceptEndpointViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsInterceptEndpointGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.interceptEndpointGroups.list"],
+        "roles": ["roles/networksecurity.interceptEndpointViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsMirroringDeploymentGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.mirroringDeploymentGroups.list"],
+        "roles": ["roles/networksecurity.mirroringDeploymentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsMirroringDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.mirroringDeployments.list"],
+        "roles": ["roles/networksecurity.mirroringDeploymentViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsMirroringEndpointGroupAssociations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.mirroringEndpointGroupAssociations.list"],
+        "roles": ["roles/networksecurity.mirroringEndpointViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsMirroringEndpointGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.mirroringEndpointGroups.list"],
+        "roles": ["roles/networksecurity.mirroringEndpointViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsSacAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.sacAttachments.list"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsSacRealms/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.sacRealms.list"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsSecurityProfileGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.securityProfileGroups.list"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsSecurityProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.securityProfiles.list"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsServerTlsPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.serverTlsPolicies.list"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsTlsInspectionPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.tlsInspectionPolicies.list"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListProjectsLocationsUrlLists/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.urlLists.list"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListReferencesOrganizationsLocationsAddressGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.addressGroups.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#ListReferencesProjectsLocationsAddressGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.addressGroups.get"],
+        "roles": ["roles/networksecurity.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#RemoveItemsOrganizationsLocationsAddressGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.addressGroups.update"],
+        "roles": ["roles/networksecurity.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.networksecurity_v1#RemoveItemsProjectsLocationsAddressGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["networksecurity.addressGroups.update"],
+        "roles": ["roles/networksecurity.editor"]
+      }
+    }
+  ]
+}

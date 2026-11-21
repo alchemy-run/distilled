@@ -1,0 +1,205 @@
+{
+  "description": "What each dns_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#CreateChanges/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.changes.create"],
+        "roles": ["roles/dns.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#CreateResourceRecordSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.resourceRecordSets.create"],
+        "roles": ["roles/dns.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#CreateResponsePolicyRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.responsePolicyRules.create"],
+        "roles": ["roles/dns.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#DeleteResourceRecordSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.resourceRecordSets.delete"],
+        "roles": ["roles/dns.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#DeleteResponsePolicyRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.responsePolicyRules.delete"],
+        "roles": ["roles/dns.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#GetChanges/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.changes.get"],
+        "roles": ["roles/dns.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#GetDnsKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.dnsKeys.get"],
+        "roles": ["roles/dns.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#GetManagedZoneOperations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.managedZoneOperations.get"],
+        "roles": ["roles/dns.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#GetManagedZones/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.managedZones.get"],
+        "roles": ["roles/dns.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#GetPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.policies.get"],
+        "roles": ["roles/dns.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#GetProjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.projects.get"],
+        "roles": ["roles/dns.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#GetResourceRecordSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.resourceRecordSets.get"],
+        "roles": ["roles/dns.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#GetResponsePolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.responsePolicies.get"],
+        "roles": ["roles/dns.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#GetResponsePolicyRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.responsePolicyRules.get"],
+        "roles": ["roles/dns.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#ListChanges/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.changes.list"],
+        "roles": ["roles/dns.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#ListDnsKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.dnsKeys.list"],
+        "roles": ["roles/dns.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#ListManagedZoneOperations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.managedZoneOperations.list"],
+        "roles": ["roles/dns.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#ListManagedZones/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.managedZones.list"],
+        "roles": ["roles/dns.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#ListPolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.policies.list"],
+        "roles": ["roles/dns.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#ListResourceRecordSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.resourceRecordSets.list"],
+        "roles": ["roles/dns.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#ListResponsePolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.responsePolicies.list"],
+        "roles": ["roles/dns.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#ListResponsePolicyRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.responsePolicyRules.list"],
+        "roles": ["roles/dns.reader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#PatchResourceRecordSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.resourceRecordSets.update"],
+        "roles": ["roles/dns.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#PatchResponsePolicyRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.responsePolicyRules.update"],
+        "roles": ["roles/dns.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dns_v1#UpdateResponsePolicyRules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dns.responsePolicyRules.update"],
+        "roles": ["roles/dns.editor"]
+      }
+    }
+  ]
+}

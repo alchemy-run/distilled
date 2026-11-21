@@ -1,0 +1,293 @@
+{
+  "description": "What each migrationcenter_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#AddAssetsProjectsLocationsGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.groups.update"],
+        "roles": ["roles/migrationcenter.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#AggregateValuesProjectsLocationsAssets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.assets.update"],
+        "roles": ["roles/migrationcenter.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#BatchDeleteProjectsLocationsAssets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.assets.update"],
+        "roles": ["roles/migrationcenter.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#BatchUpdateProjectsLocationsAssets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.assets.update"],
+        "roles": ["roles/migrationcenter.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#DeleteProjectsLocationsAssets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.assets.delete"],
+        "roles": ["roles/migrationcenter.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#GetProjectsLocationsAssets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.assets.get"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#GetProjectsLocationsAssetsExportJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.assetsExportJobs.get"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#GetProjectsLocationsDiscoveryClients/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.discoveryClients.get"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#GetProjectsLocationsGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.groups.get"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#GetProjectsLocationsImportJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.importJobs.get"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#GetProjectsLocationsImportJobsImportDataFiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.importDataFiles.get"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#GetProjectsLocationsPreferenceSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.preferenceSets.get"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#GetProjectsLocationsRelations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.relations.get"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#GetProjectsLocationsReportConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.reportConfigs.get"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#GetProjectsLocationsReportConfigsReports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.reports.get"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#GetProjectsLocationsSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.sources.get"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#GetProjectsLocationsSourcesErrorFrames/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.errorFrames.get"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#ListProjectsLocationsAssets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.assets.list"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#ListProjectsLocationsAssetsExportJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.assetsExportJobs.list"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#ListProjectsLocationsDiscoveryClients/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.discoveryClients.list"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#ListProjectsLocationsGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.groups.list"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#ListProjectsLocationsImportJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.importJobs.list"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#ListProjectsLocationsImportJobsImportDataFiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.importDataFiles.list"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#ListProjectsLocationsPreferenceSets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.preferenceSets.list"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#ListProjectsLocationsRelations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.relations.list"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#ListProjectsLocationsReportConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.reportConfigs.list"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#ListProjectsLocationsReportConfigsReports/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.reports.list"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#ListProjectsLocationsSources/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.sources.list"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#ListProjectsLocationsSourcesErrorFrames/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.errorFrames.list"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#PatchProjectsLocationsAssets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.assets.update"],
+        "roles": ["roles/migrationcenter.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#RemoveAssetsProjectsLocationsGroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.groups.update"],
+        "roles": ["roles/migrationcenter.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#ReportAssetFramesProjectsLocationsAssets/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.assets.update"],
+        "roles": ["roles/migrationcenter.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#RunProjectsLocationsAssetsExportJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.assetsExportJobs.run"],
+        "roles": ["roles/migrationcenter.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#RunProjectsLocationsImportJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.importJobs.update"],
+        "roles": ["roles/migrationcenter.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#SendHeartbeatProjectsLocationsDiscoveryClients/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.discoveryClients.sendHeartbeat"],
+        "roles": ["roles/migrationcenter.discoveryClient"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.migrationcenter_v1#ValidateProjectsLocationsImportJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["migrationcenter.importJobs.get"],
+        "roles": ["roles/migrationcenter.viewer"]
+      }
+    }
+  ]
+}

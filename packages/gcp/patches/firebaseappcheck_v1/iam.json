@@ -1,0 +1,205 @@
+{
+  "description": "What each firebaseappcheck_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#BatchGetProjectsAppsAppAttestConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.appAttestConfig.get"],
+        "roles": ["roles/firebaseappcheck.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#BatchGetProjectsAppsDeviceCheckConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.deviceCheckConfig.get"],
+        "roles": ["roles/firebaseappcheck.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#BatchGetProjectsAppsPlayIntegrityConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.playIntegrityConfig.get"],
+        "roles": ["roles/firebaseappcheck.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#BatchGetProjectsAppsRecaptchaEnterpriseConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.recaptchaEnterpriseConfig.get"],
+        "roles": ["roles/firebaseappcheck.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#BatchGetProjectsAppsRecaptchaV3Config/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.recaptchaV3Config.get"],
+        "roles": ["roles/firebaseappcheck.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#BatchUpdateProjectsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.services.update"],
+        "roles": ["roles/firebaseappcheck.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#BatchUpdateProjectsServicesResourcePolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.resourcePolicies.update"],
+        "roles": ["roles/firebaseappcheck.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#GetProjectsAppsAppAttestConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.appAttestConfig.get"],
+        "roles": ["roles/firebaseappcheck.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#GetProjectsAppsDebugTokens/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.debugTokens.get"],
+        "roles": ["roles/firebaseappcheck.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#GetProjectsAppsDeviceCheckConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.deviceCheckConfig.get"],
+        "roles": ["roles/firebaseappcheck.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#GetProjectsAppsPlayIntegrityConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.playIntegrityConfig.get"],
+        "roles": ["roles/firebaseappcheck.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#GetProjectsAppsRecaptchaEnterpriseConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.recaptchaEnterpriseConfig.get"],
+        "roles": ["roles/firebaseappcheck.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#GetProjectsAppsRecaptchaV3Config/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.recaptchaV3Config.get"],
+        "roles": ["roles/firebaseappcheck.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#GetProjectsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.services.get"],
+        "roles": ["roles/firebaseappcheck.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#GetProjectsServicesResourcePolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.resourcePolicies.get"],
+        "roles": ["roles/firebaseappcheck.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#ListProjectsAppsDebugTokens/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.debugTokens.get"],
+        "roles": ["roles/firebaseappcheck.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#ListProjectsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.services.get"],
+        "roles": ["roles/firebaseappcheck.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#ListProjectsServicesResourcePolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.resourcePolicies.get"],
+        "roles": ["roles/firebaseappcheck.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#MintAppCheckTokenProjectsApps/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.tokens.mint"],
+        "roles": ["roles/firebaseappcheck.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#PatchProjectsAppsAppAttestConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.appAttestConfig.update"],
+        "roles": ["roles/firebaseappcheck.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#PatchProjectsAppsDeviceCheckConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.deviceCheckConfig.update"],
+        "roles": ["roles/firebaseappcheck.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#PatchProjectsAppsPlayIntegrityConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.playIntegrityConfig.update"],
+        "roles": ["roles/firebaseappcheck.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#PatchProjectsAppsRecaptchaEnterpriseConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.recaptchaEnterpriseConfig.update"],
+        "roles": ["roles/firebaseappcheck.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#PatchProjectsAppsRecaptchaV3Config/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.recaptchaV3Config.update"],
+        "roles": ["roles/firebaseappcheck.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.firebaseappcheck_v1#PatchProjectsServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["firebaseappcheck.services.update"],
+        "roles": ["roles/firebaseappcheck.admin"]
+      }
+    }
+  ]
+}

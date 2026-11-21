@@ -1,0 +1,45 @@
+{
+  "description": "What each servicedirectory_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.servicedirectory_v1#GetProjectsLocationsNamespaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["servicedirectory.namespaces.get"],
+        "roles": ["roles/servicedirectory.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.servicedirectory_v1#GetProjectsLocationsNamespacesServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["servicedirectory.services.get"],
+        "roles": ["roles/servicedirectory.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.servicedirectory_v1#ListProjectsLocationsNamespaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["servicedirectory.namespaces.list"],
+        "roles": ["roles/servicedirectory.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.servicedirectory_v1#ListProjectsLocationsNamespacesServices/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["servicedirectory.services.list"],
+        "roles": ["roles/servicedirectory.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.servicedirectory_v1#ListProjectsLocationsNamespacesServicesEndpoints/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["servicedirectory.endpoints.list"],
+        "roles": ["roles/servicedirectory.viewer"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,389 @@
+{
+  "description": "What each dataform_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#CancelProjectsLocationsRepositoriesWorkflowInvocations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workflowInvocations.cancel"],
+        "roles": ["roles/dataform.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#CommitProjectsLocationsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.repositories.commit"],
+        "roles": ["roles/dataform.codeEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#CommitProjectsLocationsRepositoriesWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workspaces.commit"],
+        "roles": ["roles/dataform.codeEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#ComputeAccessTokenStatusProjectsLocationsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.repositories.computeAccessTokenStatus"],
+        "roles": ["roles/dataform.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#CreateProjectsLocationsRepositoriesCompilationResults/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.compilationResults.create"],
+        "roles": ["roles/dataform.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#DeleteTreeProjectsLocationsFolders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.folders.deleteTree"],
+        "roles": ["roles/dataform.codeOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#DeleteTreeProjectsLocationsTeamFolders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.teamFolders.deleteTree"],
+        "roles": ["roles/dataform.teamFolderOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#FetchFileDiffProjectsLocationsRepositoriesWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workspaces.fetchFileDiff"],
+        "roles": ["roles/dataform.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#FetchFileGitStatusesProjectsLocationsRepositoriesWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workspaces.fetchFileGitStatuses"],
+        "roles": ["roles/dataform.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#FetchGitAheadBehindProjectsLocationsRepositoriesWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workspaces.fetchGitAheadBehind"],
+        "roles": ["roles/dataform.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#FetchHistoryProjectsLocationsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.repositories.fetchHistory"],
+        "roles": ["roles/dataform.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#FetchRemoteBranchesProjectsLocationsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.repositories.fetchRemoteBranches"],
+        "roles": ["roles/dataform.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#GetProjectsLocationsFolders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.folders.get"],
+        "roles": ["roles/dataform.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#GetProjectsLocationsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.repositories.get"],
+        "roles": ["roles/dataform.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#GetProjectsLocationsRepositoriesCompilationResults/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.compilationResults.get"],
+        "roles": ["roles/dataform.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#GetProjectsLocationsRepositoriesReleaseConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.releaseConfigs.get"],
+        "roles": ["roles/dataform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#GetProjectsLocationsRepositoriesWorkflowConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workflowConfigs.get"],
+        "roles": ["roles/dataform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#GetProjectsLocationsRepositoriesWorkflowInvocations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workflowInvocations.get"],
+        "roles": ["roles/dataform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#GetProjectsLocationsRepositoriesWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workspaces.get"],
+        "roles": ["roles/dataform.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#GetProjectsLocationsTeamFolders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.teamFolders.get"],
+        "roles": ["roles/dataform.teamFolderViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#InstallNpmPackagesProjectsLocationsRepositoriesWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workspaces.installNpmPackages"],
+        "roles": ["roles/dataform.codeEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#ListProjectsLocationsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.repositories.list"],
+        "roles": ["roles/dataform.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#ListProjectsLocationsRepositoriesCompilationResults/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.compilationResults.list"],
+        "roles": ["roles/dataform.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#ListProjectsLocationsRepositoriesReleaseConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.releaseConfigs.list"],
+        "roles": ["roles/dataform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#ListProjectsLocationsRepositoriesWorkflowConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workflowConfigs.list"],
+        "roles": ["roles/dataform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#ListProjectsLocationsRepositoriesWorkflowInvocations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workflowInvocations.list"],
+        "roles": ["roles/dataform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#ListProjectsLocationsRepositoriesWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workspaces.list"],
+        "roles": ["roles/dataform.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#MakeDirectoryProjectsLocationsRepositoriesWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workspaces.makeDirectory"],
+        "roles": ["roles/dataform.codeEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#MoveDirectoryProjectsLocationsRepositoriesWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workspaces.moveDirectory"],
+        "roles": ["roles/dataform.codeEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#MoveFileProjectsLocationsRepositoriesWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workspaces.moveFile"],
+        "roles": ["roles/dataform.codeEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#MoveProjectsLocationsFolders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.folders.move"],
+        "roles": ["roles/dataform.codeOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#MoveProjectsLocationsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.repositories.move"],
+        "roles": ["roles/dataform.codeOwner"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#PullProjectsLocationsRepositoriesWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workspaces.pull"],
+        "roles": ["roles/dataform.codeEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#PushProjectsLocationsRepositoriesWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workspaces.push"],
+        "roles": ["roles/dataform.codeEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#QueryContentsProjectsLocationsTeamFolders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.teamFolders.get"],
+        "roles": ["roles/dataform.teamFolderViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#QueryDirectoryContentsProjectsLocationsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.repositories.queryDirectoryContents"],
+        "roles": ["roles/dataform.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#QueryDirectoryContentsProjectsLocationsRepositoriesWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workspaces.queryDirectoryContents"],
+        "roles": ["roles/dataform.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#QueryFolderContentsProjectsLocationsFolders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.folders.get"],
+        "roles": ["roles/dataform.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#QueryProjectsLocationsRepositoriesCompilationResults/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.compilationResults.query"],
+        "roles": ["roles/dataform.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#QueryProjectsLocationsRepositoriesWorkflowInvocations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workflowInvocations.query"],
+        "roles": ["roles/dataform.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#ReadFileProjectsLocationsRepositories/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.repositories.readFile"],
+        "roles": ["roles/dataform.codeCommenter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#ReadFileProjectsLocationsRepositoriesWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workspaces.readFile"],
+        "roles": ["roles/dataform.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#RemoveDirectoryProjectsLocationsRepositoriesWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workspaces.removeDirectory"],
+        "roles": ["roles/dataform.codeEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#RemoveFileProjectsLocationsRepositoriesWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workspaces.removeFile"],
+        "roles": ["roles/dataform.codeEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#ResetProjectsLocationsRepositoriesWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workspaces.reset"],
+        "roles": ["roles/dataform.codeEditor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#SearchFilesProjectsLocationsRepositoriesWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workspaces.searchFiles"],
+        "roles": ["roles/dataform.codeViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#SearchProjectsLocationsTeamFolders/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.teamFolders.get"],
+        "roles": ["roles/dataform.teamFolderViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.dataform_v1#WriteFileProjectsLocationsRepositoriesWorkspaces/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["dataform.workspaces.writeFile"],
+        "roles": ["roles/dataform.codeEditor"]
+      }
+    }
+  ]
+}

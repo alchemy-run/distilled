@@ -1,0 +1,29 @@
+{
+  "description": "What each storagetransfer_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagetransfer_v1#GetProjectsAgentPools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storagetransfer.agentpools.get"],
+        "roles": ["roles/storagetransfer.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagetransfer_v1#GetTransferJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storagetransfer.jobs.get"],
+        "roles": ["roles/storagetransfer.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagetransfer_v1#ListProjectsAgentPools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storagetransfer.agentpools.list"],
+        "roles": ["roles/storagetransfer.viewer"]
+      }
+    }
+  ]
+}

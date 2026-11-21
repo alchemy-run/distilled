@@ -1,0 +1,21 @@
+{
+  "description": "What each gkehub_v2 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkehub_v2#GetProjectsLocationsMembershipsFeatures/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkehub.features.get"],
+        "roles": ["roles/gkehub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.gkehub_v2#ListProjectsLocationsMembershipsFeatures/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["gkehub.features.list"],
+        "roles": ["roles/gkehub.viewer"]
+      }
+    }
+  ]
+}

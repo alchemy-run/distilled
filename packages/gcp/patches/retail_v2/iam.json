@@ -1,0 +1,405 @@
+{
+  "description": "What each retail_v2 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#AddCatalogAttributeProjectsLocationsCatalogsAttributesConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.attributesConfigs.addCatalogAttribute"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#AddControlProjectsLocationsCatalogsServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.servingConfigs.update"],
+        "roles": ["roles/retail.merchantApprover"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#AddFulfillmentPlacesProjectsLocationsCatalogsBranchesProducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.products.update"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#AddLocalInventoriesProjectsLocationsCatalogsBranchesProducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.products.update"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#BatchUpdateProjectsLocationsCatalogsGenerativeQuestion/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.catalogs.update"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#CollectProjectsLocationsCatalogsUserEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.catalogs.update"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#CompleteQueryProjectsLocationsCatalogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.catalogs.completeQuery"],
+        "roles": ["roles/retail.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ConversationalSearchProjectsLocationsCatalogsPlacements/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.catalogs.update"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ConversationalSearchProjectsLocationsCatalogsServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.servingConfigs.update"],
+        "roles": ["roles/retail.merchantApprover"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ExportAnalyticsMetricsProjectsLocationsCatalogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.catalogs.exportAnalyticsMetrics"],
+        "roles": ["roles/retail.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetAttributesConfigProjectsLocationsCatalogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.catalogs.get"],
+        "roles": ["roles/retail.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetCompletionConfigProjectsLocationsCatalogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.catalogs.get"],
+        "roles": ["roles/retail.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetConversationalSearchCustomizationConfigProjectsLocationsCatalogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.catalogs.get"],
+        "roles": ["roles/retail.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetDefaultBranchProjectsLocationsCatalogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.catalogs.get"],
+        "roles": ["roles/retail.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetGenerativeQuestionFeatureProjectsLocationsCatalogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.catalogs.get"],
+        "roles": ["roles/retail.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetProjectsLocationsCatalogsBranchesProducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.products.get"],
+        "roles": ["roles/retail.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetProjectsLocationsCatalogsControls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.controls.get"],
+        "roles": ["roles/retail.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetProjectsLocationsCatalogsModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.models.get"],
+        "roles": ["roles/retail.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#GetProjectsLocationsCatalogsServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.servingConfigs.get"],
+        "roles": ["roles/retail.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ImportProjectsLocationsCatalogsBranchesProducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.products.import"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ImportProjectsLocationsCatalogsCompletionData/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.catalogs.update"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ImportProjectsLocationsCatalogsUserEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.userEvents.import"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ListProjectsLocationsCatalogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.catalogs.list"],
+        "roles": ["roles/retail.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ListProjectsLocationsCatalogsBranchesProducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.products.list"],
+        "roles": ["roles/retail.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ListProjectsLocationsCatalogsControls/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.controls.list"],
+        "roles": ["roles/retail.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ListProjectsLocationsCatalogsGenerativeQuestions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.catalogs.get"],
+        "roles": ["roles/retail.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ListProjectsLocationsCatalogsModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.models.list"],
+        "roles": ["roles/retail.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ListProjectsLocationsCatalogsServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.servingConfigs.list"],
+        "roles": ["roles/retail.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#PatchProjectsLocationsCatalogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.catalogs.update"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#PauseProjectsLocationsCatalogsModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.models.pause"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#PredictProjectsLocationsCatalogsPlacements/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.placements.predict"],
+        "roles": ["roles/retail.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#PurgeProjectsLocationsCatalogsBranchesProducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.products.purge"],
+        "roles": ["roles/retail.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#PurgeProjectsLocationsCatalogsUserEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.userEvents.purge"],
+        "roles": ["roles/retail.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#RejoinProjectsLocationsCatalogsUserEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.userEvents.rejoin"],
+        "roles": ["roles/retail.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#RemoveCatalogAttributeProjectsLocationsCatalogsAttributesConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.attributesConfigs.removeCatalogAttribute"],
+        "roles": ["roles/retail.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#RemoveControlProjectsLocationsCatalogsServingConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.servingConfigs.update"],
+        "roles": ["roles/retail.merchantApprover"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#RemoveFulfillmentPlacesProjectsLocationsCatalogsBranchesProducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.products.update"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#RemoveLocalInventoriesProjectsLocationsCatalogsBranchesProducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.products.update"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ReplaceCatalogAttributeProjectsLocationsCatalogsAttributesConfig/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.attributesConfigs.replaceCatalogAttribute"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#ResumeProjectsLocationsCatalogsModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.models.resume"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#SearchProjectsLocationsCatalogsPlacements/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.placements.search"],
+        "roles": ["roles/retail.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#SetDefaultBranchProjectsLocationsCatalogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.catalogs.update"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#SetInventoryProjectsLocationsCatalogsBranchesProducts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.products.update"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#TuneProjectsLocationsCatalogsModels/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.models.tune"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#UpdateAttributesConfigProjectsLocationsCatalogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.catalogs.update"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#UpdateCompletionConfigProjectsLocationsCatalogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.catalogs.update"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#UpdateConversationalSearchCustomizationConfigProjectsLocationsCatalogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.catalogs.update"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#UpdateGenerativeQuestionFeatureProjectsLocationsCatalogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.catalogs.update"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#UpdateGenerativeQuestionProjectsLocationsCatalogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.catalogs.update"],
+        "roles": ["roles/retail.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.retail_v2#WriteProjectsLocationsCatalogsUserEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["retail.catalogs.update"],
+        "roles": ["roles/retail.editor"]
+      }
+    }
+  ]
+}

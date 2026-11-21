@@ -1,0 +1,53 @@
+{
+  "description": "What each iap_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.iap_v1#CreateProjectsBrands/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clientauthconfig.brands.create"],
+        "roles": ["roles/oauthconfig.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.iap_v1#GetProjectsBrands/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clientauthconfig.brands.get"],
+        "roles": ["roles/oauthconfig.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.iap_v1#GetProjectsBrandsIdentityAwareProxyClients/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clientauthconfig.clients.get"],
+        "roles": ["roles/oauthconfig.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.iap_v1#ListProjectsBrands/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clientauthconfig.brands.list"],
+        "roles": ["roles/oauthconfig.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.iap_v1#ListProjectsBrandsIdentityAwareProxyClients/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clientauthconfig.clients.list"],
+        "roles": ["roles/riscconfigs.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.iap_v1#ResetSecretProjectsBrandsIdentityAwareProxyClients/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["clientauthconfig.clients.getWithSecret"],
+        "roles": ["roles/oauthconfig.editor"]
+      }
+    }
+  ]
+}

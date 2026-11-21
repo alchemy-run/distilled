@@ -1,0 +1,349 @@
+{
+  "description": "What each apihub_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#CreateProjectsLocationsHostProjectRegistrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.hostProjectRegistrations.create"],
+        "roles": ["roles/apihub.provisioningAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#DisableProjectsLocationsPlugins/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.plugins.disable"],
+        "roles": ["roles/apihub.pluginAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#EnableProjectsLocationsPlugins/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.plugins.enable"],
+        "roles": ["roles/apihub.pluginAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#FetchAdditionalSpecContentProjectsLocationsApisVersionsSpecs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.specs.get"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetContentsProjectsLocationsApisVersionsSpecs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.specs.get"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetContentsProjectsLocationsPluginsStyleGuide/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.styleGuides.get"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsAddons/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.addons.get"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsApiHubInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.apiHubInstances.get"],
+        "roles": ["roles/apihub.apiInsightsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsApis/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.apis.get"],
+        "roles": ["roles/apihub.apiInsightsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsApisVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.versions.get"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsApisVersionsDefinitions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.definitions.get"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsApisVersionsSpecs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.specs.get"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsAttributes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.attributes.get"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsCurations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.curations.get"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsDependencies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.dependencies.get"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.deployments.get"],
+        "roles": ["roles/apihub.apiInsightsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsDiscoveredApiObservations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.discoveredApiObservations.get"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.discoveredApiOperations.get"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsExternalApis/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.externalApis.get"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsHostProjectRegistrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.hostProjectRegistrations.get"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsPlugins/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.plugins.get"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsPluginsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.plugins.get"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetProjectsLocationsRuntimeProjectAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.runTimeProjectAttachments.get"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#GetStyleGuideProjectsLocationsPlugins/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.plugins.get"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#LintProjectsLocationsApisVersionsSpecs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.specs.lint"],
+        "roles": ["roles/apihub.pluginAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsAddons/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.addons.list"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsApis/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.apis.list"],
+        "roles": ["roles/apihub.apiInsightsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsApisVersions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.versions.list"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsApisVersionsSpecs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.specs.list"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsAttributes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.attributes.list"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsCurations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.curations.list"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsDependencies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.dependencies.list"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsDeployments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.deployments.list"],
+        "roles": ["roles/apihub.apiInsightsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsDiscoveredApiObservations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.discoveredApiObservations.list"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.discoveredApiOperations.list"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsExternalApis/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.externalApis.list"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsHostProjectRegistrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.hostProjectRegistrations.list"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsPlugins/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.plugins.list"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsPluginsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.plugins.get"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ListProjectsLocationsRuntimeProjectAttachments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.runTimeProjectAttachments.list"],
+        "roles": ["roles/apihub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#LookupProjectsLocationsApiHubInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.apiHubInstances.get"],
+        "roles": ["roles/apihub.apiInsightsViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#ManageConfigProjectsLocationsAddons/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.addons.manage"],
+        "roles": ["roles/apihub.addonsAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.apihub_v1#UpdateStyleGuideProjectsLocationsPlugins/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["apihub.styleGuides.update"],
+        "roles": ["roles/apihub.pluginAdmin"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,213 @@
+{
+  "description": "What each container_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#CheckAutopilotCompatibilityProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.get"],
+        "roles": ["roles/container.clusterViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#CompleteControlPlaneUpgradeProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.update"],
+        "roles": ["roles/container.clusterAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#CompleteIpRotationProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.update"],
+        "roles": ["roles/container.clusterAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#CompleteUpgradeProjectsLocationsClustersNodePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.update"],
+        "roles": ["roles/container.clusterAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#FetchClusterUpgradeInfoProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.get"],
+        "roles": ["roles/container.clusterViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#FetchNodePoolUpgradeInfoProjectsLocationsClustersNodePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.get"],
+        "roles": ["roles/container.clusterViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#GetJwksProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.get"],
+        "roles": ["roles/container.clusterViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#GetOpenid_configurationProjectsLocationsClustersWell_known/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.get"],
+        "roles": ["roles/container.clusterViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#ListProjectsAggregatedUsableSubnetworks/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.list"],
+        "roles": ["roles/container.clusterViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#ListProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.list"],
+        "roles": ["roles/container.clusterViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#ListProjectsLocationsClustersNodePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.get"],
+        "roles": ["roles/container.clusterViewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#RollbackProjectsLocationsClustersNodePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.update"],
+        "roles": ["roles/container.clusterAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#SetAddonsProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.update"],
+        "roles": ["roles/container.clusterAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#SetAutoscalingProjectsLocationsClustersNodePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.update"],
+        "roles": ["roles/container.clusterAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#SetLegacyAbacProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.update"],
+        "roles": ["roles/container.clusterAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#SetLocationsProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.update"],
+        "roles": ["roles/container.clusterAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#SetLoggingProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.update"],
+        "roles": ["roles/container.clusterAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#SetMaintenancePolicyProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.update"],
+        "roles": ["roles/container.clusterAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#SetManagementProjectsLocationsClustersNodePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.update"],
+        "roles": ["roles/container.clusterAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#SetMasterAuthProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.update"],
+        "roles": ["roles/container.clusterAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#SetMonitoringProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.update"],
+        "roles": ["roles/container.clusterAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#SetNetworkPolicyProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.update"],
+        "roles": ["roles/container.clusterAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#SetResourceLabelsProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.update"],
+        "roles": ["roles/container.clusterAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#SetSizeProjectsLocationsClustersNodePools/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.update"],
+        "roles": ["roles/container.clusterAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#StartIpRotationProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.update"],
+        "roles": ["roles/container.clusterAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.container_v1#UpdateMasterProjectsLocationsClusters/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["container.clusters.update"],
+        "roles": ["roles/container.clusterAdmin"]
+      }
+    }
+  ]
+}

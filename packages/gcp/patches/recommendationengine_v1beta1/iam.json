@@ -1,0 +1,117 @@
+{
+  "description": "What each recommendationengine_v1beta1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recommendationengine_v1beta1#CollectProjectsLocationsCatalogsEventStoresUserEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["automlrecommendations.catalogs.update"],
+        "roles": ["roles/automlrecommendations.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recommendationengine_v1beta1#CreateProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["automlrecommendations.catalogs.update"],
+        "roles": ["roles/automlrecommendations.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recommendationengine_v1beta1#DeleteProjectsLocationsCatalogsCatalogItems/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["automlrecommendations.catalogItems.delete"],
+        "roles": ["roles/automlrecommendations.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recommendationengine_v1beta1#DeleteProjectsLocationsCatalogsEventStoresPredictionApiKeyRegistrations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["automlrecommendations.catalogs.update"],
+        "roles": ["roles/automlrecommendations.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recommendationengine_v1beta1#ImportProjectsLocationsCatalogsCatalogItems/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["automlrecommendations.catalogItems.update"],
+        "roles": ["roles/automlrecommendations.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recommendationengine_v1beta1#ImportProjectsLocationsCatalogsEventStoresUserEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["automlrecommendations.catalogs.update"],
+        "roles": ["roles/automlrecommendations.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recommendationengine_v1beta1#ListProjectsLocationsCatalogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["automlrecommendations.catalogs.list"],
+        "roles": ["roles/automlrecommendations.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recommendationengine_v1beta1#ListProjectsLocationsCatalogsCatalogItems/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["automlrecommendations.catalogItems.list"],
+        "roles": ["roles/automlrecommendations.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recommendationengine_v1beta1#PatchProjectsLocationsCatalogs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["automlrecommendations.catalogs.update"],
+        "roles": ["roles/automlrecommendations.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recommendationengine_v1beta1#PatchProjectsLocationsCatalogsCatalogItems/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["automlrecommendations.catalogItems.update"],
+        "roles": ["roles/automlrecommendations.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recommendationengine_v1beta1#PredictProjectsLocationsCatalogsEventStoresPlacements/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["automlrecommendations.catalogs.update"],
+        "roles": ["roles/automlrecommendations.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recommendationengine_v1beta1#PurgeProjectsLocationsCatalogsEventStoresUserEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["automlrecommendations.catalogs.update"],
+        "roles": ["roles/automlrecommendations.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recommendationengine_v1beta1#RejoinProjectsLocationsCatalogsEventStoresUserEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["automlrecommendations.catalogs.update"],
+        "roles": ["roles/automlrecommendations.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recommendationengine_v1beta1#WriteProjectsLocationsCatalogsEventStoresUserEvents/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["automlrecommendations.catalogs.update"],
+        "roles": ["roles/automlrecommendations.admin"]
+      }
+    }
+  ]
+}
