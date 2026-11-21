@@ -1074,6 +1074,8 @@ export interface PatchProjectsLocationsChannelsRequest extends Omit<Channel, "na
   updateMask?: string | undefined;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
   validateOnly?: boolean | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. The resource name of the channel. Must be unique within the location on the project and must be in `projects/{project}/locations/{location}/channels/{channel_id}` format. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsEnrollmentsRequest extends Omit<Enrollment, "name"> {
   /** Optional. If set to true, and the Enrollment is not found, a new Enrollment will be created. In this situation, `update_mask` is ignored. */
@@ -1084,6 +1086,8 @@ export interface PatchProjectsLocationsEnrollmentsRequest extends Omit<Enrollmen
   name: string;
   /** Optional. The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the form projects/{project}/locations/{location}/enrollments/{enrollment} */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsGoogleApiSourcesRequest extends Omit<
   GoogleApiSource,
@@ -1097,6 +1101,8 @@ export interface PatchProjectsLocationsGoogleApiSourcesRequest extends Omit<
   updateMask?: string | undefined;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
   validateOnly?: boolean | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the form projects/{project}/locations/{location}/googleApiSources/{google_api_source} */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsMessageBusesRequest extends Omit<MessageBus, "name"> {
   /** Identifier. Resource name of the form projects/{project}/locations/{location}/messageBuses/{message_bus} */
@@ -1107,6 +1113,8 @@ export interface PatchProjectsLocationsMessageBusesRequest extends Omit<MessageB
   validateOnly?: boolean | undefined;
   /** Optional. The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the form projects/{project}/locations/{location}/messageBuses/{message_bus} */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsPipelinesRequest extends Omit<Pipeline, "name"> {
   /** Identifier. The resource name of the Pipeline. Must be unique within the location of the project and must be in `projects/{project}/locations/{location}/pipelines/{pipeline}` format. */
@@ -1117,6 +1125,8 @@ export interface PatchProjectsLocationsPipelinesRequest extends Omit<Pipeline, "
   validateOnly?: boolean | undefined;
   /** Optional. The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the Pipeline. Must be unique within the location of the project and must be in `projects/{project}/locations/{location}/pipelines/{pipeline}` format. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsTriggersRequest extends Omit<Trigger, "name"> {
   /** The fields to be updated; only fields explicitly provided are updated. If no field mask is provided, all provided fields in the request are updated. To update all fields, provide a field mask of "*". */
@@ -1127,6 +1137,8 @@ export interface PatchProjectsLocationsTriggersRequest extends Omit<Trigger, "na
   name: string;
   /** Optional. If set, validate the request and preview the review, but do not post it. */
   validateOnly?: boolean | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. The resource name of the trigger. Must be unique within the location of the project and must be in `projects/{project}/locations/{location}/triggers/{trigger}` format. */
+  bodyName?: string | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -1209,6 +1221,8 @@ export interface UpdateGoogleChannelConfigProjectsLocationsRequest extends Omit<
   updateMask?: string | undefined;
   /** Required. The resource name of the config. Must be in the format of, `projects/{project}/locations/{location}/googleChannelConfig`. In API responses, the config name always includes the projectID, regardless of whether the projectID or projectNumber was provided. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Required. The resource name of the config. Must be in the format of, `projects/{project}/locations/{location}/googleChannelConfig`. In API responses, the config name always includes the projectID, regardless of whether the projectID or projectNumber was provided. */
+  bodyName?: string | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -3718,6 +3732,7 @@ function __c48(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3812,6 +3827,7 @@ function __c54(j: number): any {
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3834,6 +3850,7 @@ function __c55(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3856,6 +3873,7 @@ function __c56(j: number): any {
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3878,6 +3896,7 @@ function __c57(j: number): any {
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3900,6 +3919,7 @@ function __c58(j: number): any {
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4248,6 +4268,7 @@ function __c77(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

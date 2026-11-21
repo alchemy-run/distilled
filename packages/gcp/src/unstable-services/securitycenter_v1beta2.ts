@@ -362,6 +362,8 @@ export interface UpdateContainerThreatDetectionSettingsFoldersRequest extends Om
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface UpdateContainerThreatDetectionSettingsOrganizationsRequest extends Omit<
   ContainerThreatDetectionSettings,
@@ -369,6 +371,8 @@ export interface UpdateContainerThreatDetectionSettingsOrganizationsRequest exte
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface UpdateContainerThreatDetectionSettingsProjectsRequest extends Omit<
   ContainerThreatDetectionSettings,
@@ -376,6 +380,8 @@ export interface UpdateContainerThreatDetectionSettingsProjectsRequest extends O
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface UpdateContainerThreatDetectionSettingsProjectsLocationsClustersRequest extends Omit<
   ContainerThreatDetectionSettings,
@@ -383,6 +389,8 @@ export interface UpdateContainerThreatDetectionSettingsProjectsLocationsClusters
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface UpdateEventThreatDetectionSettingsFoldersRequest extends Omit<
   EventThreatDetectionSettings,
@@ -390,6 +398,8 @@ export interface UpdateEventThreatDetectionSettingsFoldersRequest extends Omit<
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface UpdateEventThreatDetectionSettingsOrganizationsRequest extends Omit<
   EventThreatDetectionSettings,
@@ -397,6 +407,8 @@ export interface UpdateEventThreatDetectionSettingsOrganizationsRequest extends 
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface UpdateEventThreatDetectionSettingsProjectsRequest extends Omit<
   EventThreatDetectionSettings,
@@ -404,6 +416,8 @@ export interface UpdateEventThreatDetectionSettingsProjectsRequest extends Omit<
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface UpdateRapidVulnerabilityDetectionSettingsFoldersRequest extends Omit<
   RapidVulnerabilityDetectionSettings,
@@ -411,6 +425,8 @@ export interface UpdateRapidVulnerabilityDetectionSettingsFoldersRequest extends
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface UpdateRapidVulnerabilityDetectionSettingsOrganizationsRequest extends Omit<
   RapidVulnerabilityDetectionSettings,
@@ -418,6 +434,8 @@ export interface UpdateRapidVulnerabilityDetectionSettingsOrganizationsRequest e
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface UpdateRapidVulnerabilityDetectionSettingsProjectsRequest extends Omit<
   RapidVulnerabilityDetectionSettings,
@@ -425,6 +443,8 @@ export interface UpdateRapidVulnerabilityDetectionSettingsProjectsRequest extend
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface UpdateSecurityHealthAnalyticsSettingsFoldersRequest extends Omit<
   SecurityHealthAnalyticsSettings,
@@ -432,6 +452,8 @@ export interface UpdateSecurityHealthAnalyticsSettingsFoldersRequest extends Omi
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface UpdateSecurityHealthAnalyticsSettingsOrganizationsRequest extends Omit<
   SecurityHealthAnalyticsSettings,
@@ -439,6 +461,8 @@ export interface UpdateSecurityHealthAnalyticsSettingsOrganizationsRequest exten
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface UpdateSecurityHealthAnalyticsSettingsProjectsRequest extends Omit<
   SecurityHealthAnalyticsSettings,
@@ -446,6 +470,8 @@ export interface UpdateSecurityHealthAnalyticsSettingsProjectsRequest extends Om
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface UpdateVirtualMachineThreatDetectionSettingsFoldersRequest extends Omit<
   VirtualMachineThreatDetectionSettings,
@@ -453,6 +479,8 @@ export interface UpdateVirtualMachineThreatDetectionSettingsFoldersRequest exten
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface UpdateVirtualMachineThreatDetectionSettingsOrganizationsRequest extends Omit<
   VirtualMachineThreatDetectionSettings,
@@ -460,6 +488,8 @@ export interface UpdateVirtualMachineThreatDetectionSettingsOrganizationsRequest
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface UpdateVirtualMachineThreatDetectionSettingsProjectsRequest extends Omit<
   VirtualMachineThreatDetectionSettings,
@@ -467,6 +497,8 @@ export interface UpdateVirtualMachineThreatDetectionSettingsProjectsRequest exte
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface UpdateWebSecurityScannerSettingsFoldersRequest extends Omit<
   WebSecurityScannerSettings,
@@ -474,6 +506,8 @@ export interface UpdateWebSecurityScannerSettingsFoldersRequest extends Omit<
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface UpdateWebSecurityScannerSettingsOrganizationsRequest extends Omit<
   WebSecurityScannerSettings,
@@ -481,6 +515,8 @@ export interface UpdateWebSecurityScannerSettingsOrganizationsRequest extends Om
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface UpdateWebSecurityScannerSettingsProjectsRequest extends Omit<
   WebSecurityScannerSettings,
@@ -488,6 +524,8 @@ export interface UpdateWebSecurityScannerSettingsProjectsRequest extends Omit<
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export type CalculateFoldersContainerThreatDetectionSettingsError =
   | NotFound
@@ -2455,6 +2493,7 @@ function __c40(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2475,6 +2514,7 @@ function __c41(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2495,6 +2535,7 @@ function __c42(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2515,6 +2556,7 @@ function __c43(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2567,6 +2609,7 @@ function __c46(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2587,6 +2630,7 @@ function __c47(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2607,6 +2651,7 @@ function __c48(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2627,6 +2672,7 @@ function __c49(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2647,6 +2693,7 @@ function __c50(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2667,6 +2714,7 @@ function __c51(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2687,6 +2735,7 @@ function __c52(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2707,6 +2756,7 @@ function __c53(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2727,6 +2777,7 @@ function __c54(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2747,6 +2798,7 @@ function __c55(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2796,6 +2848,7 @@ function __c58(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2816,6 +2869,7 @@ function __c59(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2836,6 +2890,7 @@ function __c60(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2856,6 +2911,7 @@ function __c61(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2876,6 +2932,7 @@ function __c62(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

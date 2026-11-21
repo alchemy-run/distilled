@@ -388,6 +388,8 @@ export interface PatchProjectsLocationsParametersRequest extends Omit<Parameter,
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the Parameter in the format `projects/*\/locations/*\/parameters/*`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsParametersVersionsRequest extends Omit<
   ParameterVersion,
@@ -399,6 +401,8 @@ export interface PatchProjectsLocationsParametersVersionsRequest extends Omit<
   requestId?: string | undefined;
   /** Identifier. The resource name of the ParameterVersion in the format `projects/*\/locations/*\/parameters/*\/versions/*`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the ParameterVersion in the format `projects/*\/locations/*\/parameters/*\/versions/*`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsTemplatesRequest extends Omit<Template, "name"> {
   /** Identifier. The resource name of the Template in the format `projects/*\/locations/*\/templates/*`. */
@@ -407,6 +411,8 @@ export interface PatchProjectsLocationsTemplatesRequest extends Omit<Template, "
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the Template in the format `projects/*\/locations/*\/templates/*`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsTemplatesVersionsRequest extends Omit<
   TemplateVersion,
@@ -418,6 +424,8 @@ export interface PatchProjectsLocationsTemplatesVersionsRequest extends Omit<
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the TemplateVersion resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A mutable field will be overwritten if it is in the mask. If the user does not provide a mask then all mutable fields present in the request will be overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the TemplateVersion in the format `projects/*\/locations/*\/templates/*\/versions/*`. */
+  bodyName?: string | undefined;
 }
 export interface RenderProjectsLocationsParametersVersionsRequest {
   /** Required. Name of the resource */
@@ -1237,6 +1245,7 @@ function __c14(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1258,6 +1267,7 @@ function __c15(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1279,6 +1289,7 @@ function __c16(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1300,6 +1311,7 @@ function __c17(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

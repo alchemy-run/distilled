@@ -668,6 +668,8 @@ export interface PatchLocationsRequest extends Omit<Location, "name"> {
   updateMask?: string | undefined;
   /** Identifier. Google identifier for this location in the form: `locations/{location_id}`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Google identifier for this location in the form: `locations/{location_id}`. */
+  bodyName?: string | undefined;
 }
 export interface SearchChainsRequest {
   /** Required. Search for a chain by its name. Exact/partial/fuzzy/related queries are supported. Examples: "walmart", "wal-mart", "walmmmart", "U+6C83U+5C14U+739B" */
@@ -711,6 +713,8 @@ export interface UpdateAttributesLocationsRequest extends Omit<Attributes, "name
   name: string;
   /** Required. Attribute name of attributes that you'd like to update. Represented by `attributes/{attribute}`. Updates: All attributes provided in the attributes field that you would like to update must be set in the `attribute_mask`. Attributes set in the above list but not in the `attribute_mask` will be ignored. Deletes: If you'd like to delete certain attributes, they must be specified in the `attribute_mask` with no matching entry in the attributes list. If you'd like to delete all attributes set on a location, you should look up all the applicable attributes for the location and then add them to the `attribute_mask` with an empty attributes field. */
   attributeMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. Google identifier for this location in the form of `locations/{location_id}/attributes`. */
+  bodyName?: string | undefined;
 }
 export type BatchGetCategoriesError = NotFound | Forbidden | GcpOpError;
 /** Returns a list of business categories for the provided language and GConcept ids. */
@@ -1134,6 +1138,7 @@ function __c5(j: number): any {
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1217,6 +1222,7 @@ function __c8(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             attributeMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

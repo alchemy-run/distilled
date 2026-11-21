@@ -1194,6 +1194,8 @@ export interface PatchOutboundEndpointsRequest extends Omit<OutboundEndpoint, "n
   updateMask?: string | undefined;
   /** Identifier. The resource name of the OutboundEndpoint. Format: `projects/{project}/locations/{location}/outboundEndpoints/{outboundEndpoint}` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the OutboundEndpoint. Format: `projects/{project}/locations/{location}/outboundEndpoints/{outboundEndpoint}` */
+  bodyName?: string | undefined;
 }
 export interface PatchPoliciesRequest extends Policy {
   /** Identifies the project addressed by this request. */
@@ -1217,6 +1219,10 @@ export interface PatchResourceRecordSetsRequest extends Omit<ResourceRecordSet, 
   managedZone: string;
   /** Identifies the project addressed by this request. */
   project: string;
+  /** The request body's `type` (`type` is the path parameter). The identifier of a supported record type. See the list of Supported DNS record types. */
+  bodyType?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). For example, www.example.com. */
+  bodyName?: string | undefined;
 }
 export interface PatchResponsePoliciesRequest extends ResponsePolicy {
   /** User assigned name of the response policy addressed by this request. */
@@ -3261,6 +3267,7 @@ function __c42(j: number): any {
             clientOperationId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3315,6 +3322,8 @@ function __c45(j: number): any {
             name: S.String.pipe(T.Label()),
             managedZone: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
+            bodyType: S.optional(S.String.pipe(T.Body("type"))),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

@@ -195,6 +195,8 @@ export interface PatchUsersSshPublicKeysRequest extends Omit<SshPublicKey, "name
   updateMask?: string | undefined;
   /** Required. The fingerprint of the public key to update. Public keys are identified by their SHA-256 fingerprint. The fingerprint of the public key is in format `users/{user}/sshPublicKeys/{fingerprint}`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The canonical resource name. */
+  bodyName?: string | undefined;
 }
 /** A request message for creating a POSIX account entry. */
 export interface ProvisionPosixAccountRequest {
@@ -466,6 +468,7 @@ function __c2(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

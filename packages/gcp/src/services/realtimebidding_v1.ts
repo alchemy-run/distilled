@@ -1152,18 +1152,24 @@ export interface PatchBiddersEndpointsRequest extends Omit<Endpoint, "name"> {
   updateMask?: string | undefined;
   /** Output only. Name of the endpoint resource that must follow the pattern `bidders/{bidderAccountId}/endpoints/{endpointId}`, where {bidderAccountId} is the account ID of the bidder who operates this endpoint, and {endpointId} is a unique ID assigned by the server. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. Name of the endpoint resource that must follow the pattern `bidders/{bidderAccountId}/endpoints/{endpointId}`, where {bidderAccountId} is the account ID of the bidder who operates this endpoint, and {endpointId} is a unique ID assigned by the server. */
+  bodyName?: string | undefined;
 }
 export interface PatchBiddersPretargetingConfigsRequest extends Omit<PretargetingConfig, "name"> {
   /** Output only. Name of the pretargeting config that must follow the pattern `bidders/{bidder_account_id}/pretargetingConfigs/{config_id}` */
   name: string;
   /** Field mask to use for partial in-place updates. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. Name of the pretargeting config that must follow the pattern `bidders/{bidder_account_id}/pretargetingConfigs/{config_id}` */
+  bodyName?: string | undefined;
 }
 export interface PatchBuyersCreativesRequest extends Omit<Creative, "name"> {
   /** Output only. Name of the creative. Follows the pattern `buyers/{buyer}/creatives/{creative}`, where `{buyer}` represents the account ID of the buyer who owns the creative, and `{creative}` is the buyer-specific creative ID that references this creative in the bid response. */
   name: string;
   /** Field mask to use for partial in-place updates. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. Name of the creative. Follows the pattern `buyers/{buyer}/creatives/{creative}`, where `{buyer}` represents the account ID of the buyer who owns the creative, and `{creative}` is the buyer-specific creative ID that references this creative in the bid response. */
+  bodyName?: string | undefined;
 }
 /** A request to stop targeting the provided apps in a specific pretargeting configuration. The pretargeting configuration itself specifies how these apps are targeted. in PretargetingConfig.appTargeting.mobileAppTargeting. */
 export interface RemoveTargetedAppsRequest {
@@ -1203,6 +1209,8 @@ export interface SuspendBiddersPretargetingConfigsRequest {
 export interface UpdateBuyersUserListsRequest extends Omit<UserList, "name"> {
   /** Output only. Name of the user list that must follow the pattern `buyers/{buyer}/userLists/{user_list}`, where `{buyer}` represents the account ID of the buyer who owns the user list. For a bidder accessing user lists on behalf of a child seat buyer, `{buyer}` represents the account ID of the child seat buyer. `{user_list}` is an int64 identifier assigned by Google to uniquely identify a user list. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. Name of the user list that must follow the pattern `buyers/{buyer}/userLists/{user_list}`, where `{buyer}` represents the account ID of the buyer who owns the user list. For a bidder accessing user lists on behalf of a child seat buyer, `{buyer}` represents the account ID of the child seat buyer. `{user_list}` is an int64 identifier assigned by Google to uniquely identify a user list. */
+  bodyName?: string | undefined;
 }
 /** A request to receive push notifications when any of the creatives belonging to the bidder changes status. */
 export type WatchCreativesRequest = ActivatePretargetingConfigRequest;
@@ -2698,6 +2706,7 @@ function __c34(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2718,6 +2727,7 @@ function __c35(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2738,6 +2748,7 @@ function __c36(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2849,6 +2860,7 @@ function __c41(j: number): any {
           __S(194, __c6, 2),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

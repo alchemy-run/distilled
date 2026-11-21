@@ -136,6 +136,10 @@ export interface PublishItemsRequest extends Omit<
   deployPercentage?: number | undefined;
   /** Optional. The caller request to exempt the review and directly publish because the update is within the list that we can automatically validate. The API will check if the exemption can be granted using real time data. */
   reviewExemption?: boolean | undefined;
+  /** The request body's `deployPercentage` (`deployPercentage` is the query parameter). The target deploy percentage of the item. It's only useful for items with big user base. */
+  bodyDeployPercentage?: number | undefined;
+  /** The request body's `reviewExemption` (`reviewExemption` is the query parameter). Optional. The caller request to exempt the review and directly publish because the update is within the list that we can automatically validate. The API will check if the exemption can be granted using real time data. */
+  bodyReviewExemption?: boolean | undefined;
 }
 export type StringList = Array<string>;
 export interface Item2 {
@@ -293,6 +297,8 @@ function __c3(j: number): any {
             itemId: S.String.pipe(T.Label()),
             deployPercentage: S.optional(S.Number.pipe(T.Query())),
             reviewExemption: S.optional(S.Boolean.pipe(T.Query())),
+            bodyDeployPercentage: S.optional(S.Number.pipe(T.Body("deployPercentage"))),
+            bodyReviewExemption: S.optional(S.Boolean.pipe(T.Body("reviewExemption"))),
           }),
         ).pipe(
           T.Http({

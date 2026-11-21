@@ -426,6 +426,8 @@ export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "
   name: string;
   /** Required. Mask of fields to update. * `displayName` */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. Unique name of the resource in this scope including project and location using the form: `projects/{project_id}/locations/{location_id}/instances/{instance_id}` Note: Memcached instances are managed and addressed at the regional level so `location_id` here refers to a Google Cloud region; however, users may choose which zones Memcached nodes should be provisioned in within an instance. Refer to zones field for more details. */
+  bodyName?: string | undefined;
 }
 export type RescheduleMaintenanceRequestRescheduleTypeEnum =
   | "RESCHEDULE_TYPE_UNSPECIFIED"
@@ -457,6 +459,8 @@ export interface SetTagsRequest {
 export interface SetTagsProjectsLocationsInstancesRequest extends Omit<SetTagsRequest, "name"> {
   /** Required. The full resource name of the service resource. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Required. The full resource name of the service resource. */
+  bodyName?: string | undefined;
 }
 /** Response message for SetTags. */
 export interface SetTagsResponse {
@@ -1024,6 +1028,7 @@ function __c8(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1078,6 +1083,7 @@ function __c10(j: number): any {
           __S(160, __c10, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

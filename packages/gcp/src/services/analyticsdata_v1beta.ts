@@ -890,6 +890,8 @@ export interface QueryAudienceExportResponse {
 export interface RunPivotReportPropertiesRequest extends Omit<RunPivotReportRequest, "property"> {
   /** A Google Analytics property identifier whose events are tracked. Specified in the URL path and not the body. To learn more, see [where to find your Property ID](https://developers.google.com/analytics/devguides/reporting/data/v1/property-id). Within a batch request, this property should either be unspecified or consistent with the batch-level property. Example: properties/1234 */
   property: string;
+  /** The request body's `property` (`property` is the path parameter). A Google Analytics property identifier whose events are tracked. Specified in the URL path and not the body. To learn more, see [where to find your Property ID](https://developers.google.com/analytics/devguides/reporting/data/v1/property-id). Within a batch request, this property should either be unspecified or consistent with the batch-level property. Example: properties/1234 */
+  bodyProperty?: string | undefined;
 }
 /** A contiguous set of minutes: `startMinutesAgo`, `startMinutesAgo + 1`, ..., `endMinutesAgo`. Requests are allowed up to 2 minute ranges. */
 export interface MinuteRange {
@@ -959,6 +961,8 @@ export interface RunRealtimeReportResponse {
 export interface RunReportPropertiesRequest extends Omit<RunReportRequest, "property"> {
   /** A Google Analytics property identifier whose events are tracked. Specified in the URL path and not the body. To learn more, see [where to find your Property ID](https://developers.google.com/analytics/devguides/reporting/data/v1/property-id). Within a batch request, this property should either be unspecified or consistent with the batch-level property. Example: properties/1234 */
   property: string;
+  /** The request body's `property` (`property` is the path parameter). A Google Analytics property identifier whose events are tracked. Specified in the URL path and not the body. To learn more, see [where to find your Property ID](https://developers.google.com/analytics/devguides/reporting/data/v1/property-id). Within a batch request, this property should either be unspecified or consistent with the batch-level property. Example: properties/1234 */
+  bodyProperty?: string | undefined;
 }
 export type BatchRunPivotReportsPropertiesError =
   | NotFound
@@ -1260,6 +1264,7 @@ function __c2(j: number): any {
           __S(226, __c7, 2),
           S.Struct({
             property: S.String.pipe(T.Label()),
+            bodyProperty: S.optional(S.String.pipe(T.Body("property"))),
           }),
         ).pipe(
           T.Http({
@@ -1336,6 +1341,7 @@ function __c4(j: number): any {
           __S(480, __c15, 0),
           S.Struct({
             property: S.String.pipe(T.Label()),
+            bodyProperty: S.optional(S.String.pipe(T.Body("property"))),
           }),
         ).pipe(
           T.Http({

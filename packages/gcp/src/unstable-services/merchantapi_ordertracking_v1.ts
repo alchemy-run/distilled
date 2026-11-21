@@ -205,6 +205,8 @@ export interface CreateAccountsOrderTrackingSignalsRequest extends Omit<
   parent: string;
   /** Output only. The ID that uniquely identifies this order tracking signal. */
   orderTrackingSignalId?: string | undefined;
+  /** The request body's `orderTrackingSignalId` (`orderTrackingSignalId` is the query parameter). Output only. The ID that uniquely identifies this order tracking signal. */
+  bodyOrderTrackingSignalId?: string | undefined;
 }
 export type CreateAccountsOrderTrackingSignalsError =
   | NotFound
@@ -325,6 +327,7 @@ function __c0(j: number): any {
           S.Struct({
             parent: S.String.pipe(T.Label()),
             orderTrackingSignalId: S.optional(S.String.pipe(T.Query())),
+            bodyOrderTrackingSignalId: S.optional(S.String.pipe(T.Body("orderTrackingSignalId"))),
           }),
         ).pipe(
           T.Http({

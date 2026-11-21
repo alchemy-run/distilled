@@ -359,6 +359,8 @@ export interface PatchProjectsLocationsJobsRequest extends Omit<Job, "name"> {
   name: string;
   /** A mask used to specify which fields of the job are being updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Optionally caller-specified in CreateJob, after which it becomes output only. The job name. For example: `projects/PROJECT_ID/locations/LOCATION_ID/jobs/JOB_ID`. * `PROJECT_ID` can contain letters ([A-Za-z]), numbers ([0-9]), hyphens (-), colons (:), or periods (.). For more information, see [Identifying projects](/resource-manager/docs/creating-managing-projects#identifying_projects) * `LOCATION_ID` is the canonical ID for the job's location. The list of available locations can be obtained by calling [locations.list](/scheduler/docs/reference/rest/v1beta1/projects.locations/list). For more information, see [Cloud Scheduler locations](/scheduler/docs/locations). * `JOB_ID` can contain only letters ([A-Za-z]), numbers ([0-9]), hyphens (-), or underscores (_). The maximum length is 500 characters. */
+  bodyName?: string | undefined;
 }
 /** Request message for PauseJob. */
 export type PauseJobRequest = CancelOperationRequest;
@@ -806,6 +808,7 @@ function __c6(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

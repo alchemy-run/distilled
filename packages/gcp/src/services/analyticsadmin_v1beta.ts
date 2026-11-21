@@ -788,12 +788,16 @@ export interface PatchAccountsRequest extends Omit<GoogleAnalyticsAdminV1betaAcc
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (for example, "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of this account. Format: accounts/{account} Example: "accounts/100" */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesRequest extends Omit<GoogleAnalyticsAdminV1betaProperty, "name"> {
   /** Identifier. Resource name of this property. Format: properties/{property_id} Example: "properties/1000" */
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of this property. Format: properties/{property_id} Example: "properties/1000" */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesConversionEventsRequest extends Omit<
   GoogleAnalyticsAdminV1betaConversionEvent,
@@ -803,6 +807,8 @@ export interface PatchPropertiesConversionEventsRequest extends Omit<
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of this conversion event. Format: properties/{property}/conversionEvents/{conversion_event} */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesCustomDimensionsRequest extends Omit<
   GoogleAnalyticsAdminV1betaCustomDimension,
@@ -812,6 +818,8 @@ export interface PatchPropertiesCustomDimensionsRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Resource name for this CustomDimension resource. Format: properties/{property}/customDimensions/{customDimension} */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name for this CustomDimension resource. Format: properties/{property}/customDimensions/{customDimension} */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesCustomMetricsRequest extends Omit<
   GoogleAnalyticsAdminV1betaCustomMetric,
@@ -821,6 +829,8 @@ export interface PatchPropertiesCustomMetricsRequest extends Omit<
   name: string;
   /** Required. The list of fields to be updated. Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name for this CustomMetric resource. Format: properties/{property}/customMetrics/{customMetric} */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesDataStreamsRequest extends Omit<
   GoogleAnalyticsAdminV1betaDataStream,
@@ -830,6 +840,8 @@ export interface PatchPropertiesDataStreamsRequest extends Omit<
   name: string;
   /** Required. The list of fields to be updated. Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of this Data Stream. Format: properties/{property_id}/dataStreams/{stream_id} Example: "properties/1000/dataStreams/2000" */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesDataStreamsMeasurementProtocolSecretsRequest extends Omit<
   GoogleAnalyticsAdminV1betaMeasurementProtocolSecret,
@@ -839,6 +851,8 @@ export interface PatchPropertiesDataStreamsMeasurementProtocolSecretsRequest ext
   updateMask?: string | undefined;
   /** Identifier. Resource name of this secret. This secret may be a child of any type of stream. Format: properties/{property}/dataStreams/{dataStream}/measurementProtocolSecrets/{measurementProtocolSecret} */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of this secret. This secret may be a child of any type of stream. Format: properties/{property}/dataStreams/{dataStream}/measurementProtocolSecrets/{measurementProtocolSecret} */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesGoogleAdsLinksRequest extends Omit<
   GoogleAnalyticsAdminV1betaGoogleAdsLink,
@@ -848,6 +862,8 @@ export interface PatchPropertiesGoogleAdsLinksRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Format: properties/{propertyId}/googleAdsLinks/{googleAdsLinkId} Note: googleAdsLinkId is not the Google Ads customer ID. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Format: properties/{propertyId}/googleAdsLinks/{googleAdsLinkId} Note: googleAdsLinkId is not the Google Ads customer ID. */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesKeyEventsRequest extends Omit<
   GoogleAnalyticsAdminV1betaKeyEvent,
@@ -857,6 +873,8 @@ export interface PatchPropertiesKeyEventsRequest extends Omit<
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of this key event. Format: properties/{property}/keyEvents/{key_event} */
+  bodyName?: string | undefined;
 }
 /** Request message for ProvisionAccountTicket RPC. */
 export interface GoogleAnalyticsAdminV1betaProvisionAccountTicketRequest {
@@ -1247,6 +1265,8 @@ export interface UpdateDataRetentionSettingsPropertiesRequest extends Omit<
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name for this DataRetentionSetting resource. Format: properties/{property}/dataRetentionSettings */
+  bodyName?: string | undefined;
 }
 export type AcknowledgeUserDataCollectionPropertiesError =
   | NotFound
@@ -3455,6 +3475,7 @@ function __c46(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3475,6 +3496,7 @@ function __c47(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3495,6 +3517,7 @@ function __c48(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3515,6 +3538,7 @@ function __c49(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3568,6 +3592,7 @@ function __c52(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3588,6 +3613,7 @@ function __c53(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3608,6 +3634,7 @@ function __c54(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3628,6 +3655,7 @@ function __c55(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3648,6 +3676,7 @@ function __c56(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3987,6 +4016,7 @@ function __c63(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

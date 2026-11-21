@@ -1250,6 +1250,8 @@ export interface UpdateContactPeopleRequest extends Omit<Person, "resourceName">
   sources?: UpdateContactPeopleSourcesEnumList | undefined;
   /** The resource name for the person, assigned by the server. An ASCII string in the form of `people/{person_id}`. */
   resourceName: string;
+  /** The request body's `resourceName` (`resourceName` is the path parameter). The resource name for the person, assigned by the server. An ASCII string in the form of `people/{person_id}`. */
+  bodyResourceName?: string | undefined;
 }
 export type UpdateContactPhotoRequestSourcesItemEnum =
   | "READ_SOURCE_TYPE_UNSPECIFIED"
@@ -2158,6 +2160,7 @@ function __c19(j: number): any {
             updatePersonFields: S.optional(S.String.pipe(T.Query())),
             sources: S.optional(__S(832, __c26, 0).pipe(T.Query())),
             resourceName: S.String.pipe(T.Label()),
+            bodyResourceName: S.optional(S.String.pipe(T.Body("resourceName"))),
           }),
         ).pipe(
           T.Http({

@@ -313,18 +313,24 @@ export interface PatchAccountsRequest extends Omit<Account, "name"> {
   validateOnly?: boolean | undefined;
   /** Required. The specific fields that should be updated. The only editable field is `accountName`. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Immutable. The resource name, in the format `accounts/{account_id}`. */
+  bodyName?: string | undefined;
 }
 export interface PatchAccountsAdminsRequest extends Omit<Admin, "name"> {
   /** Immutable. The resource name. For account admins, this is in the form: `accounts/{account_id}/admins/{admin_id}` For location admins, this is in the form: `locations/{location_id}/admins/{admin_id}` This field will be ignored if set during admin creation. */
   name: string;
   /** Required. The specific fields that should be updated. The only editable field is role. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Immutable. The resource name. For account admins, this is in the form: `accounts/{account_id}/admins/{admin_id}` For location admins, this is in the form: `locations/{location_id}/admins/{admin_id}` This field will be ignored if set during admin creation. */
+  bodyName?: string | undefined;
 }
 export interface PatchLocationsAdminsRequest extends Omit<Admin, "name"> {
   /** Required. The specific fields that should be updated. The only editable field is role. */
   updateMask?: string | undefined;
   /** Immutable. The resource name. For account admins, this is in the form: `accounts/{account_id}/admins/{admin_id}` For location admins, this is in the form: `locations/{location_id}/admins/{admin_id}` This field will be ignored if set during admin creation. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Immutable. The resource name. For account admins, this is in the form: `accounts/{account_id}/admins/{admin_id}` For location admins, this is in the form: `locations/{location_id}/admins/{admin_id}` This field will be ignored if set during admin creation. */
+  bodyName?: string | undefined;
 }
 /** Request message for AccessControl.TransferLocation. */
 export interface TransferLocationRequest {
@@ -783,6 +789,7 @@ function __c7(j: number): any {
             name: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -803,6 +810,7 @@ function __c8(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -823,6 +831,7 @@ function __c9(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

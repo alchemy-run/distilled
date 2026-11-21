@@ -281,6 +281,8 @@ export interface UpdatePagesRequest extends Omit<
 > {
   /** The name of this `ClaimReview` markup page resource, in the form of `pages/{page_id}`. Except for update requests, this field is output-only and should not be set by the user. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). The name of this `ClaimReview` markup page resource, in the form of `pages/{page_id}`. Except for update requests, this field is output-only and should not be set by the user. */
+  bodyName?: string | undefined;
 }
 export type CreatePagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Create `ClaimReview` markup on a page. */
@@ -440,6 +442,7 @@ function __c0(j: number): any {
           __S(22, __c2, 6),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

@@ -133,6 +133,8 @@ export interface DeploymentConfig {
 export interface CreateProjectsDeploymentsRequest extends Omit<DeploymentConfig, "scriptId"> {
   /** The script project's Drive ID. */
   scriptId: string;
+  /** The request body's `scriptId` (`scriptId` is the path parameter). The script project's Drive ID. */
+  bodyScriptId?: string | undefined;
 }
 export type GoogleAppsScriptTypeExecutionApiConfigAccessEnum =
   | "UNKNOWN_ACCESS"
@@ -235,6 +237,8 @@ export interface Version {
 export interface CreateProjectsVersionsRequest extends Omit<Version, "scriptId"> {
   /** The script project's Drive ID. */
   scriptId: string;
+  /** The request body's `scriptId` (`scriptId` is the path parameter). The script project's Drive ID. */
+  bodyScriptId?: string | undefined;
 }
 export interface DeleteProjectsDeploymentsRequest {
   /** The script project's Drive ID. */
@@ -602,6 +606,8 @@ export interface Operation {
 export interface UpdateContentProjectsRequest extends Omit<Content, "scriptId"> {
   /** The script project's Drive ID. */
   scriptId: string;
+  /** The request body's `scriptId` (`scriptId` is the path parameter). The script project's Drive ID. */
+  bodyScriptId?: string | undefined;
 }
 /** Request with deployment information to update an existing deployment. */
 export interface UpdateDeploymentRequest {
@@ -1153,6 +1159,7 @@ function __c9(j: number): any {
           __S(326, __c20, 6),
           S.Struct({
             scriptId: S.String.pipe(T.Label()),
+            bodyScriptId: S.optional(S.String.pipe(T.Body("scriptId"))),
           }),
         ).pipe(
           T.Http({
@@ -1244,6 +1251,7 @@ function __c14(j: number): any {
           __S(240, __c15, 0),
           S.Struct({
             scriptId: S.String.pipe(T.Label()),
+            bodyScriptId: S.optional(S.String.pipe(T.Body("scriptId"))),
           }),
         ).pipe(
           T.Http({
@@ -1333,6 +1341,7 @@ function __c16(j: number): any {
           __S(272, __c17, 0),
           S.Struct({
             scriptId: S.String.pipe(T.Label()),
+            bodyScriptId: S.optional(S.String.pipe(T.Body("scriptId"))),
           }),
         ).pipe(
           T.Http({

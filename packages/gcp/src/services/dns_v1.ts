@@ -1192,6 +1192,8 @@ export interface PatchOutboundEndpointsRequest extends Omit<OutboundEndpoint, "n
   requestId?: string | undefined;
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
   clientOperationId?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the OutboundEndpoint. Format: `projects/{project}/locations/{location}/outboundEndpoints/{outboundEndpoint}` */
+  bodyName?: string | undefined;
 }
 export interface PatchPoliciesRequest extends Policy {
   /** For mutating operation requests only. An optional identifier specified by the client. Must be unique for operation resources in the Operations collection. */
@@ -1215,6 +1217,10 @@ export interface PatchResourceRecordSetsRequest extends Omit<ResourceRecordSet, 
   project: string;
   /** Identifies the managed zone addressed by this request. Can be the managed zone name or ID. */
   managedZone: string;
+  /** The request body's `type` (`type` is the path parameter). The identifier of a supported record type. See the list of Supported DNS record types. */
+  bodyType?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). For example, www.example.com. */
+  bodyName?: string | undefined;
 }
 export interface PatchResponsePoliciesRequest extends ResponsePolicy {
   /** Identifies the project addressed by this request. */
@@ -3238,6 +3244,7 @@ function __c42(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             clientOperationId: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -3292,6 +3299,8 @@ function __c45(j: number): any {
             clientOperationId: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             managedZone: S.String.pipe(T.Label()),
+            bodyType: S.optional(S.String.pipe(T.Body("type"))),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

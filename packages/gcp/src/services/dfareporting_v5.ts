@@ -7066,54 +7066,72 @@ export interface PatchAccountsRequest extends Omit<Account, "id"> {
   profileId: string;
   /** Required. Account ID. */
   id: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this account. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchAccountUserProfilesRequest extends Omit<AccountUserProfile, "id"> {
   /** Required. AccountUserProfile ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** The request body's `id` (`id` is the query parameter). ID of the user profile. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchAdsRequest extends Omit<Ad, "id"> {
   /** Required. RemarketingList ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this ad. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchAdvertiserGroupsRequest extends Omit<AdvertiserGroup, "id"> {
   /** Required. Advertiser Group ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this advertiser group. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchAdvertiserLandingPagesRequest extends Omit<LandingPage, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. Landing Page ID. */
   id: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this landing page. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchAdvertisersRequest extends Omit<Advertiser, "id"> {
   /** Required. Advertiser ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this advertiser. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchCampaignsRequest extends Omit<Campaign, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. Campaign ID. */
   id: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this campaign. This is a read-only auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchContentCategoriesRequest extends Omit<ContentCategory, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. ContentCategory ID. */
   id: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this content category. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchCreativeFieldsRequest extends Omit<CreativeField, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** CreativeField ID. */
   id: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this creative field. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchCreativeFieldValuesRequest extends Omit<CreativeFieldValue, "id"> {
   /** CreativeFieldValue ID. */
@@ -7122,66 +7140,88 @@ export interface PatchCreativeFieldValuesRequest extends Omit<CreativeFieldValue
   creativeFieldId: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this creative field value. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchCreativeGroupsRequest extends Omit<CreativeGroup, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. Creative Group ID. */
   id: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this creative group. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchCreativesRequest extends Omit<Creative, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. Creative ID. */
   id: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this creative. This is a read-only, auto-generated field. Applicable to all creative types. */
+  bodyId?: string | undefined;
 }
 export interface PatchEventTagsRequest extends Omit<EventTag, "id"> {
   /** Required. EventTag ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this event tag. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchFloodlightActivitiesRequest extends Omit<FloodlightActivity, "id"> {
   /** Required. EventTag ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this floodlight activity. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchFloodlightActivityGroupsRequest extends Omit<FloodlightActivityGroup, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. EventTag ID. */
   id: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this floodlight activity group. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchFloodlightConfigurationsRequest extends Omit<FloodlightConfiguration, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. EventTag ID. */
   id: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this floodlight configuration. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchPlacementGroupsRequest extends Omit<PlacementGroup, "id"> {
   /** Required. Placement ID. */
   id: string;
   /** User profile ID associated with this request. */
   profileId: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this placement group. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchPlacementsRequest extends Omit<Placement, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. Placement ID. */
   id: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this placement. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchPlacementStrategiesRequest extends Omit<PlacementStrategy, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. PlacementStrategy ID. */
   id: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this placement strategy. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchRemarketingListsRequest extends Omit<RemarketingList, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. RemarketingList ID. */
   id: string;
+  /** The request body's `id` (`id` is the query parameter). Remarketing list ID. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchRemarketingListSharesRequest extends RemarketingListShare {
   /** User profile ID associated with this request. */
@@ -7194,24 +7234,32 @@ export interface PatchSitesRequest extends Omit<Site, "id"> {
   profileId: string;
   /** Required. Site ID. */
   id: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this site. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchSubaccountsRequest extends Omit<Subaccount, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. Subaccount ID. */
   id: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this subaccount. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchTargetingTemplatesRequest extends Omit<TargetingTemplate, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. RemarketingList ID. */
   id: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this targeting template. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PatchUserRolesRequest extends Omit<UserRole, "id"> {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Required. UserRole ID. */
   id: string;
+  /** The request body's `id` (`id` is the query parameter). ID of this user role. This is a read-only, auto-generated field. */
+  bodyId?: string | undefined;
 }
 export interface PublishDynamicProfilesRequest {
   /** Required. Dynamic profile ID. */
@@ -14096,6 +14144,7 @@ function __c70(j: number): any {
           S.Struct({
             profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14116,6 +14165,7 @@ function __c71(j: number): any {
           S.Struct({
             id: S.String.pipe(T.Query()),
             profileId: S.String.pipe(T.Label()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14136,6 +14186,7 @@ function __c72(j: number): any {
           S.Struct({
             id: S.String.pipe(T.Query()),
             profileId: S.String.pipe(T.Label()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14156,6 +14207,7 @@ function __c73(j: number): any {
           S.Struct({
             id: S.String.pipe(T.Query()),
             profileId: S.String.pipe(T.Label()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14176,6 +14228,7 @@ function __c74(j: number): any {
           S.Struct({
             profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14196,6 +14249,7 @@ function __c75(j: number): any {
           S.Struct({
             id: S.String.pipe(T.Query()),
             profileId: S.String.pipe(T.Label()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14216,6 +14270,7 @@ function __c76(j: number): any {
           S.Struct({
             profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14236,6 +14291,7 @@ function __c77(j: number): any {
           S.Struct({
             profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14278,6 +14334,7 @@ function __c79(j: number): any {
           S.Struct({
             profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14299,6 +14356,7 @@ function __c80(j: number): any {
             id: S.String.pipe(T.Query()),
             creativeFieldId: S.String.pipe(T.Label()),
             profileId: S.String.pipe(T.Label()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14319,6 +14377,7 @@ function __c81(j: number): any {
           S.Struct({
             profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14339,6 +14398,7 @@ function __c82(j: number): any {
           S.Struct({
             profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14359,6 +14419,7 @@ function __c83(j: number): any {
           S.Struct({
             id: S.String.pipe(T.Query()),
             profileId: S.String.pipe(T.Label()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14379,6 +14440,7 @@ function __c84(j: number): any {
           S.Struct({
             id: S.String.pipe(T.Query()),
             profileId: S.String.pipe(T.Label()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14399,6 +14461,7 @@ function __c85(j: number): any {
           S.Struct({
             profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14419,6 +14482,7 @@ function __c86(j: number): any {
           S.Struct({
             profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14439,6 +14503,7 @@ function __c87(j: number): any {
           S.Struct({
             id: S.String.pipe(T.Query()),
             profileId: S.String.pipe(T.Label()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14459,6 +14524,7 @@ function __c88(j: number): any {
           S.Struct({
             profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14504,6 +14570,7 @@ function __c90(j: number): any {
           S.Struct({
             profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14524,6 +14591,7 @@ function __c91(j: number): any {
           S.Struct({
             profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14564,6 +14632,7 @@ function __c93(j: number): any {
           S.Struct({
             profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14584,6 +14653,7 @@ function __c94(j: number): any {
           S.Struct({
             profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14604,6 +14674,7 @@ function __c95(j: number): any {
           S.Struct({
             profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({
@@ -14624,6 +14695,7 @@ function __c96(j: number): any {
           S.Struct({
             profileId: S.String.pipe(T.Label()),
             id: S.String.pipe(T.Query()),
+            bodyId: S.optional(S.String.pipe(T.Body("id"))),
           }),
         ).pipe(
           T.Http({

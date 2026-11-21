@@ -867,6 +867,8 @@ export interface AnnotateProjectsFilesRequest extends Omit<
 > {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
+  /** The request body's `parent` (`parent` is the path parameter). Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
+  bodyParent?: string | undefined;
 }
 export interface AnnotateProjectsImagesRequest extends Omit<
   GoogleCloudVisionV1p2beta1BatchAnnotateImagesRequest,
@@ -874,6 +876,8 @@ export interface AnnotateProjectsImagesRequest extends Omit<
 > {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
+  /** The request body's `parent` (`parent` is the path parameter). Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
+  bodyParent?: string | undefined;
 }
 export interface AnnotateProjectsLocationsFilesRequest extends Omit<
   GoogleCloudVisionV1p2beta1BatchAnnotateFilesRequest,
@@ -881,6 +885,8 @@ export interface AnnotateProjectsLocationsFilesRequest extends Omit<
 > {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
+  /** The request body's `parent` (`parent` is the path parameter). Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
+  bodyParent?: string | undefined;
 }
 export interface AnnotateProjectsLocationsImagesRequest extends Omit<
   GoogleCloudVisionV1p2beta1BatchAnnotateImagesRequest,
@@ -888,6 +894,8 @@ export interface AnnotateProjectsLocationsImagesRequest extends Omit<
 > {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
+  /** The request body's `parent` (`parent` is the path parameter). Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
+  bodyParent?: string | undefined;
 }
 /** The Google Cloud Storage location where the output will be written to. */
 export interface GoogleCloudVisionV1p2beta1GcsDestination {
@@ -955,6 +963,8 @@ export interface AsyncBatchAnnotateProjectsFilesRequest extends Omit<
 > {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
+  /** The request body's `parent` (`parent` is the path parameter). Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
+  bodyParent?: string | undefined;
 }
 export interface AsyncBatchAnnotateProjectsImagesRequest extends Omit<
   GoogleCloudVisionV1p2beta1AsyncBatchAnnotateImagesRequest,
@@ -962,6 +972,8 @@ export interface AsyncBatchAnnotateProjectsImagesRequest extends Omit<
 > {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
+  /** The request body's `parent` (`parent` is the path parameter). Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
+  bodyParent?: string | undefined;
 }
 export interface AsyncBatchAnnotateProjectsLocationsFilesRequest extends Omit<
   GoogleCloudVisionV1p2beta1AsyncBatchAnnotateFilesRequest,
@@ -969,6 +981,8 @@ export interface AsyncBatchAnnotateProjectsLocationsFilesRequest extends Omit<
 > {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
+  /** The request body's `parent` (`parent` is the path parameter). Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
+  bodyParent?: string | undefined;
 }
 export interface AsyncBatchAnnotateProjectsLocationsImagesRequest extends Omit<
   GoogleCloudVisionV1p2beta1AsyncBatchAnnotateImagesRequest,
@@ -976,6 +990,8 @@ export interface AsyncBatchAnnotateProjectsLocationsImagesRequest extends Omit<
 > {
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent: string;
+  /** The request body's `parent` (`parent` is the path parameter). Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
+  bodyParent?: string | undefined;
 }
 export type AnnotateFilesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Service that performs image detection and annotation for a batch of files. Now only "application/pdf", "image/tiff" and "image/gif" are supported. This service will extract at most 5 (customers can specify which 5 in AnnotateFileRequest.pages) frames (gif) or pages (pdf or tiff) from each file provided and perform detection and annotation for each image extracted. */
@@ -1339,6 +1355,7 @@ function __c5(j: number): any {
           __S(66, __c2, 2),
           S.Struct({
             parent: S.String.pipe(T.Label()),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -1358,6 +1375,7 @@ function __c6(j: number): any {
           __S(128, __c4, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -1377,6 +1395,7 @@ function __c7(j: number): any {
           __S(66, __c2, 2),
           S.Struct({
             parent: S.String.pipe(T.Label()),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -1396,6 +1415,7 @@ function __c8(j: number): any {
           __S(128, __c4, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -2026,6 +2046,7 @@ function __c19(j: number): any {
           __S(418, __c13, 2),
           S.Struct({
             parent: S.String.pipe(T.Label()),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -2045,6 +2066,7 @@ function __c20(j: number): any {
           __S(544, __c17, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -2064,6 +2086,7 @@ function __c21(j: number): any {
           __S(418, __c13, 2),
           S.Struct({
             parent: S.String.pipe(T.Label()),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -2083,6 +2106,7 @@ function __c22(j: number): any {
           __S(544, __c17, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({

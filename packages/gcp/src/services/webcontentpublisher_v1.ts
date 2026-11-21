@@ -217,6 +217,8 @@ export interface CreateOrganizationsPublicationsRequest extends Omit<Publication
   parent: string;
   /** Optional. The unique identifier of the publication to create. If not specified, the server will generate a random publication ID. */
   publicationId?: string | undefined;
+  /** The request body's `publicationId` (`publicationId` is the query parameter). Output only. The unique identifier of the publication. */
+  bodyPublicationId?: string | undefined;
 }
 export type CtaTypeEnum = "TYPE_UNSPECIFIED" | "NEWSLETTER_SIGNUP" | "SURVEY";
 export type IntegerList = Array<number>;
@@ -757,12 +759,16 @@ export interface PatchOrganizationsPublicationsRequest extends Omit<Publication,
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the publication. Format: organizations/{organization}/publications/{publication} */
+  bodyName?: string | undefined;
 }
 export interface PatchOrganizationsPublicationsCtasRequest extends Omit<Cta, "name"> {
   /** Identifier. The resource name of the Cta. Format: organizations/{organization}/publications/{publication}/ctas/{cta} */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the Cta. Format: organizations/{organization}/publications/{publication}/ctas/{cta} */
+  bodyName?: string | undefined;
 }
 export type CheckFreeAccessPublicationsError = NotFound | Forbidden | GcpOpError;
 /** Checks if a user is eligible for free article access. */
@@ -1133,6 +1139,7 @@ function __c4(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1153,6 +1160,7 @@ function __c5(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1221,6 +1229,7 @@ function __c8(j: number): any {
           S.Struct({
             parent: S.String.pipe(T.Label()),
             publicationId: S.optional(S.String.pipe(T.Query())),
+            bodyPublicationId: S.optional(S.String.pipe(T.Body("publicationId"))),
           }),
         ).pipe(
           T.Http({

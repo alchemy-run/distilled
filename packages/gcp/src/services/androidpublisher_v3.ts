@@ -152,6 +152,14 @@ export interface ActivateMonetizationOnetimeproductsPurchaseOptionsOffersRequest
   purchaseOptionId: string;
   /** Required. The offer ID of the offer to activate. */
   offerId: string;
+  /** The request body's `purchaseOptionId` (`purchaseOptionId` is the path parameter). Required. The parent purchase option (ID) of the offer to activate. */
+  bodyPurchaseOptionId?: string | undefined;
+  /** The request body's `packageName` (`packageName` is the path parameter). Required. The parent app (package name) of the offer to activate. */
+  bodyPackageName?: string | undefined;
+  /** The request body's `offerId` (`offerId` is the path parameter). Required. The offer ID of the offer to activate. */
+  bodyOfferId?: string | undefined;
+  /** The request body's `productId` (`productId` is the path parameter). Required. The parent one-time product (ID) of the offer to activate. */
+  bodyProductId?: string | undefined;
 }
 /** Configuration specific to discounted offers. */
 export interface OneTimeProductDiscountedOffer {
@@ -287,6 +295,12 @@ export interface ActivateMonetizationSubscriptionsBasePlansRequest extends Omit<
   basePlanId: string;
   /** Required. The parent app (package name) of the base plan to activate. */
   packageName: string;
+  /** The request body's `packageName` (`packageName` is the path parameter). Required. The parent app (package name) of the base plan to activate. */
+  bodyPackageName?: string | undefined;
+  /** The request body's `basePlanId` (`basePlanId` is the path parameter). Required. The unique base plan ID of the base plan to activate. */
+  bodyBasePlanId?: string | undefined;
+  /** The request body's `productId` (`productId` is the path parameter). Required. The parent subscription (ID) of the base plan to activate. */
+  bodyProductId?: string | undefined;
 }
 /** Configuration for a transition target base plan. */
 export interface TransitionTargetConfig {
@@ -531,6 +545,14 @@ export interface ActivateMonetizationSubscriptionsBasePlansOffersRequest extends
   productId: string;
   /** Required. The parent base plan (ID) of the offer to activate. */
   basePlanId: string;
+  /** The request body's `offerId` (`offerId` is the path parameter). Required. The unique offer ID of the offer to activate. */
+  bodyOfferId?: string | undefined;
+  /** The request body's `packageName` (`packageName` is the path parameter). Required. The parent app (package name) of the offer to activate. */
+  bodyPackageName?: string | undefined;
+  /** The request body's `productId` (`productId` is the path parameter). Required. The parent subscription (ID) of the offer to activate. */
+  bodyProductId?: string | undefined;
+  /** The request body's `basePlanId` (`basePlanId` is the path parameter). Required. The parent base plan (ID) of the offer to activate. */
+  bodyBasePlanId?: string | undefined;
 }
 /** Represents the targeting rule scope corresponding to any subscription in the parent app. */
 export type TargetingRuleScopeAnySubscriptionInApp = OneTimeProductOfferNoPriceOverrideOptions;
@@ -1880,6 +1902,14 @@ export interface CancelMonetizationOnetimeproductsPurchaseOptionsOffersRequest e
   packageName: string;
   /** Required. The offer ID of the offer to cancel. */
   offerId: string;
+  /** The request body's `packageName` (`packageName` is the path parameter). Required. The parent app (package name) of the offer to cancel. */
+  bodyPackageName?: string | undefined;
+  /** The request body's `purchaseOptionId` (`purchaseOptionId` is the path parameter). Required. The parent purchase option (ID) of the offer to cancel. */
+  bodyPurchaseOptionId?: string | undefined;
+  /** The request body's `offerId` (`offerId` is the path parameter). Required. The offer ID of the offer to cancel. */
+  bodyOfferId?: string | undefined;
+  /** The request body's `productId` (`productId` is the path parameter). Required. The parent one-time product (ID) of the offer to cancel. */
+  bodyProductId?: string | undefined;
 }
 /** Request for the purchases.subscriptionsv2.cancelplantransition API. */
 export interface CancelPlanTransitionRequest {
@@ -2376,6 +2406,8 @@ export interface CreateexternaltransactionExternaltransactionsRequest extends Om
   parent: string;
   /** Required. The id to use for the external transaction. Must be unique across all other transactions for the app. This value should be 1-63 characters and valid characters are /a-zA-Z0-9_-/. Do not use this field to store any Personally Identifiable Information (PII) such as emails. Attempting to store PII in this field may result in requests being blocked. */
   externalTransactionId?: string | undefined;
+  /** The request body's `externalTransactionId` (`externalTransactionId` is the query parameter). Output only. The id of this transaction. All transaction ids under the same package name must be unique. Set when creating the external transaction. */
+  bodyExternalTransactionId?: string | undefined;
 }
 export type GrantAppLevelPermissionsItemEnum =
   | "APP_LEVEL_PERMISSION_UNSPECIFIED"
@@ -2419,6 +2451,10 @@ export interface CreateMonetizationSubscriptionsRequest extends Omit<
   packageName: string;
   /** Required. A string representing the version of available regions being used for the specified resource. Regional prices and latest supported version for the resource have to be specified according to the information published in [this article](https://support.google.com/googleplay/android-developer/answer/10532353). Each time the supported locations substantially change, the version will be incremented. Using this field will ensure that creating and updating the resource with an older region's version and set of regional prices and currencies will succeed even though a new version is available. */
   "regionsVersion.version"?: string | undefined;
+  /** The request body's `productId` (`productId` is the query parameter). Immutable. Unique product ID of the product. Unique within the parent app. Product IDs must be composed of lower-case letters (a-z), numbers (0-9), underscores (_) and dots (.). It must start with a lower-case letter or number, and be between 1 and 40 (inclusive) characters in length. */
+  bodyProductId?: string | undefined;
+  /** The request body's `packageName` (`packageName` is the path parameter). Immutable. Package name of the parent app. */
+  bodyPackageName?: string | undefined;
 }
 export interface CreateMonetizationSubscriptionsBasePlansOffersRequest extends Omit<
   SubscriptionOffer,
@@ -2434,6 +2470,14 @@ export interface CreateMonetizationSubscriptionsBasePlansOffersRequest extends O
   packageName: string;
   /** Required. The parent subscription (ID) for which the offer should be created. Must be equal to the product_id field on the SubscriptionOffer resource. */
   productId: string;
+  /** The request body's `basePlanId` (`basePlanId` is the path parameter). Required. Immutable. The ID of the base plan to which this offer is an extension. */
+  bodyBasePlanId?: string | undefined;
+  /** The request body's `offerId` (`offerId` is the query parameter). Required. Immutable. Unique ID of this subscription offer. Must be unique within the base plan. */
+  bodyOfferId?: string | undefined;
+  /** The request body's `packageName` (`packageName` is the path parameter). Required. Immutable. The package name of the app the parent subscription belongs to. */
+  bodyPackageName?: string | undefined;
+  /** The request body's `productId` (`productId` is the path parameter). Required. Immutable. The ID of the parent subscription this offer belongs to. */
+  bodyProductId?: string | undefined;
 }
 /** The device spec used to generate a system APK. */
 export interface DeviceSpec {
@@ -2544,6 +2588,14 @@ export interface DeactivateMonetizationOnetimeproductsPurchaseOptionsOffersReque
   purchaseOptionId: string;
   /** Required. The parent one-time product (ID) of the offer to deactivate. */
   productId: string;
+  /** The request body's `productId` (`productId` is the path parameter). Required. The parent one-time product (ID) of the offer to deactivate. */
+  bodyProductId?: string | undefined;
+  /** The request body's `purchaseOptionId` (`purchaseOptionId` is the path parameter). Required. The parent purchase option (ID) of the offer to deactivate. */
+  bodyPurchaseOptionId?: string | undefined;
+  /** The request body's `packageName` (`packageName` is the path parameter). Required. The parent app (package name) of the offer to deactivate. */
+  bodyPackageName?: string | undefined;
+  /** The request body's `offerId` (`offerId` is the path parameter). Required. The offer ID of the offer to deactivate. */
+  bodyOfferId?: string | undefined;
 }
 export interface DeactivateMonetizationSubscriptionsBasePlansRequest extends Omit<
   DeactivateBasePlanRequest,
@@ -2555,6 +2607,12 @@ export interface DeactivateMonetizationSubscriptionsBasePlansRequest extends Omi
   packageName: string;
   /** Required. The parent subscription (ID) of the base plan to deactivate. */
   productId: string;
+  /** The request body's `productId` (`productId` is the path parameter). Required. The parent subscription (ID) of the base plan to deactivate. */
+  bodyProductId?: string | undefined;
+  /** The request body's `packageName` (`packageName` is the path parameter). Required. The parent app (package name) of the base plan to deactivate. */
+  bodyPackageName?: string | undefined;
+  /** The request body's `basePlanId` (`basePlanId` is the path parameter). Required. The unique base plan ID of the base plan to deactivate. */
+  bodyBasePlanId?: string | undefined;
 }
 export interface DeactivateMonetizationSubscriptionsBasePlansOffersRequest extends Omit<
   DeactivateSubscriptionOfferRequest,
@@ -2568,6 +2626,14 @@ export interface DeactivateMonetizationSubscriptionsBasePlansOffersRequest exten
   offerId: string;
   /** Required. The parent base plan (ID) of the offer to deactivate. */
   basePlanId: string;
+  /** The request body's `basePlanId` (`basePlanId` is the path parameter). Required. The parent base plan (ID) of the offer to deactivate. */
+  bodyBasePlanId?: string | undefined;
+  /** The request body's `packageName` (`packageName` is the path parameter). Required. The parent app (package name) of the offer to deactivate. */
+  bodyPackageName?: string | undefined;
+  /** The request body's `offerId` (`offerId` is the path parameter). Required. The unique offer ID of the offer to deactivate. */
+  bodyOfferId?: string | undefined;
+  /** The request body's `productId` (`productId` is the path parameter). Required. The parent subscription (ID) of the offer to deactivate. */
+  bodyProductId?: string | undefined;
 }
 /** A SubscriptionDeferralInfo contains the data needed to defer a subscription purchase to a future expiry time. */
 export interface SubscriptionDeferralInfo {
@@ -3879,6 +3945,8 @@ export interface InsertInappproductsRequest extends Omit<InAppProduct, "packageN
   packageName: string;
   /** If true the prices for all regions targeted by the parent app that don't have a price specified for this in-app product will be auto converted to the target currency based on the default price. Defaults to false. */
   autoConvertMissingPrices?: boolean | undefined;
+  /** The request body's `packageName` (`packageName` is the path parameter). Package name of the parent app. */
+  bodyPackageName?: string | undefined;
 }
 export interface ListApplicationsDeviceTierConfigsRequest {
   /** Package name of the app. */
@@ -4636,6 +4704,12 @@ export interface MigratePricesMonetizationSubscriptionsBasePlansRequest extends 
   packageName: string;
   /** Required. The unique base plan ID of the base plan to update prices on. */
   basePlanId: string;
+  /** The request body's `basePlanId` (`basePlanId` is the path parameter). Required. The unique base plan ID of the base plan to update prices on. */
+  bodyBasePlanId?: string | undefined;
+  /** The request body's `productId` (`productId` is the path parameter). Required. The ID of the subscription to update. Must be equal to the product_id field on the Subscription resource. */
+  bodyProductId?: string | undefined;
+  /** The request body's `packageName` (`packageName` is the path parameter). Required. Package name of the parent app. Must be equal to the package_name field on the Subscription resource. */
+  bodyPackageName?: string | undefined;
 }
 export interface PatchEditsDetailsRequest extends AppDetails {
   /** Package name of the app. */
@@ -4664,6 +4738,8 @@ export interface PatchEditsListingsRequest extends Omit<Listing, "language"> {
   language: string;
   /** Package name of the app. */
   packageName: string;
+  /** The request body's `language` (`language` is the path parameter). Language localization code (a BCP-47 language tag; for example, "de-AT" for Austrian German). */
+  bodyLanguage?: string | undefined;
 }
 export interface PatchEditsTestersRequest extends Testers {
   /** Package name of the app. */
@@ -4680,12 +4756,16 @@ export interface PatchEditsTracksRequest extends Omit<Track, "track"> {
   editId: string;
   /** Package name of the app. */
   packageName: string;
+  /** The request body's `track` (`track` is the path parameter). Identifier of the track. Form factor tracks have a special prefix as an identifier, for example `wear:production`, `automotive:production`. [More on track name](https://developers.google.com/android-publisher/tracks#ff-track-name) */
+  bodyTrack?: string | undefined;
 }
 export interface PatchGrantsRequest extends Omit<Grant, "name"> {
   /** Required. Resource name for this grant, following the pattern "developers/{developer}/users/{email}/grants/{package_name}". If this grant is for a draft app, the app ID will be used in this resource name instead of the package name. */
   name: string;
   /** Optional. The list of fields to be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. Resource name for this grant, following the pattern "developers/{developer}/users/{email}/grants/{package_name}". If this grant is for a draft app, the app ID will be used in this resource name instead of the package name. */
+  bodyName?: string | undefined;
 }
 export type PatchInappproductsLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -4700,6 +4780,10 @@ export interface PatchInappproductsRequest extends Omit<InAppProduct, "sku" | "p
   packageName: string;
   /** If true the prices for all regions targeted by the parent app that don't have a price specified for this in-app product will be auto converted to the target currency based on the default price. Defaults to false. */
   autoConvertMissingPrices?: boolean | undefined;
+  /** The request body's `sku` (`sku` is the path parameter). Stock-keeping-unit (SKU) of the product, unique within an app. */
+  bodySku?: string | undefined;
+  /** The request body's `packageName` (`packageName` is the path parameter). Package name of the parent app. */
+  bodyPackageName?: string | undefined;
 }
 export type PatchMonetizationOnetimeproductsLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -4724,6 +4808,10 @@ export interface PatchMonetizationOnetimeproductsRequest extends Omit<
     | undefined;
   /** Required. Immutable. Unique product ID of the product. Unique within the parent app. Product IDs must start with a number or lowercase letter, and can contain numbers (0-9), lowercase letters (a-z), underscores (_), and periods (.). */
   productId: string;
+  /** The request body's `productId` (`productId` is the path parameter). Required. Immutable. Unique product ID of the product. Unique within the parent app. Product IDs must start with a number or lowercase letter, and can contain numbers (0-9), lowercase letters (a-z), underscores (_), and periods (.). */
+  bodyProductId?: string | undefined;
+  /** The request body's `packageName` (`packageName` is the path parameter). Required. Immutable. Package name of the parent app. */
+  bodyPackageName?: string | undefined;
 }
 export type PatchMonetizationSubscriptionsLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -4745,6 +4833,10 @@ export interface PatchMonetizationSubscriptionsRequest extends Omit<
   productId: string;
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
   latencyTolerance?: PatchMonetizationSubscriptionsLatencyToleranceEnum | (string & {}) | undefined;
+  /** The request body's `productId` (`productId` is the path parameter). Immutable. Unique product ID of the product. Unique within the parent app. Product IDs must be composed of lower-case letters (a-z), numbers (0-9), underscores (_) and dots (.). It must start with a lower-case letter or number, and be between 1 and 40 (inclusive) characters in length. */
+  bodyProductId?: string | undefined;
+  /** The request body's `packageName` (`packageName` is the path parameter). Immutable. Package name of the parent app. */
+  bodyPackageName?: string | undefined;
 }
 export type PatchMonetizationSubscriptionsBasePlansOffersLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -4773,12 +4865,22 @@ export interface PatchMonetizationSubscriptionsBasePlansOffersRequest extends Om
   offerId: string;
   /** Required. A string representing the version of available regions being used for the specified resource. Regional prices and latest supported version for the resource have to be specified according to the information published in [this article](https://support.google.com/googleplay/android-developer/answer/10532353). Each time the supported locations substantially change, the version will be incremented. Using this field will ensure that creating and updating the resource with an older region's version and set of regional prices and currencies will succeed even though a new version is available. */
   "regionsVersion.version"?: string | undefined;
+  /** The request body's `basePlanId` (`basePlanId` is the path parameter). Required. Immutable. The ID of the base plan to which this offer is an extension. */
+  bodyBasePlanId?: string | undefined;
+  /** The request body's `offerId` (`offerId` is the path parameter). Required. Immutable. Unique ID of this subscription offer. Must be unique within the base plan. */
+  bodyOfferId?: string | undefined;
+  /** The request body's `packageName` (`packageName` is the path parameter). Required. Immutable. The package name of the app the parent subscription belongs to. */
+  bodyPackageName?: string | undefined;
+  /** The request body's `productId` (`productId` is the path parameter). Required. Immutable. The ID of the parent subscription this offer belongs to. */
+  bodyProductId?: string | undefined;
 }
 export interface PatchUsersRequest extends Omit<User, "name"> {
   /** Required. Resource name for this user, following the pattern "developers/{developer}/users/{email}". */
   name: string;
   /** Optional. The list of fields to be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. Resource name for this user, following the pattern "developers/{developer}/users/{email}". */
+  bodyName?: string | undefined;
 }
 /** A full refund of the remaining amount of a transaction. */
 export type FullRefund = OneTimeProductOfferNoPriceOverrideOptions;
@@ -5185,6 +5287,8 @@ export interface UpdateEditsListingsRequest extends Omit<Listing, "language"> {
   language: string;
   /** Identifier of the edit. */
   editId: string;
+  /** The request body's `language` (`language` is the path parameter). Language localization code (a BCP-47 language tag; for example, "de-AT" for Austrian German). */
+  bodyLanguage?: string | undefined;
 }
 export interface UpdateEditsTestersRequest extends Testers {
   /** Identifier of the edit. */
@@ -5201,6 +5305,8 @@ export interface UpdateEditsTracksRequest extends Omit<Track, "track"> {
   packageName: string;
   /** Identifier of the track. [More on track name](https://developers.google.com/android-publisher/tracks#ff-track-name) */
   track: string;
+  /** The request body's `track` (`track` is the path parameter). Identifier of the track. Form factor tracks have a special prefix as an identifier, for example `wear:production`, `automotive:production`. [More on track name](https://developers.google.com/android-publisher/tracks#ff-track-name) */
+  bodyTrack?: string | undefined;
 }
 export type UpdateInappproductsLatencyToleranceEnum =
   | "PRODUCT_UPDATE_LATENCY_TOLERANCE_UNSPECIFIED"
@@ -5217,6 +5323,10 @@ export interface UpdateInappproductsRequest extends Omit<InAppProduct, "sku" | "
   packageName: string;
   /** Optional. The latency tolerance for the propagation of this product update. Defaults to latency-sensitive. */
   latencyTolerance?: UpdateInappproductsLatencyToleranceEnum | (string & {}) | undefined;
+  /** The request body's `sku` (`sku` is the path parameter). Stock-keeping-unit (SKU) of the product, unique within an app. */
+  bodySku?: string | undefined;
+  /** The request body's `packageName` (`packageName` is the path parameter). Package name of the parent app. */
+  bodyPackageName?: string | undefined;
 }
 /** Request to upload an APK. */
 export type UploadApkRequest = OneTimeProductOfferNoPriceOverrideOptions;
@@ -9078,6 +9188,9 @@ function __c18(j: number): any {
             productId: S.String.pipe(T.Label()),
             packageName: S.String.pipe(T.Label()),
             basePlanId: S.String.pipe(T.Label()),
+            bodyBasePlanId: S.optional(S.String.pipe(T.Body("basePlanId"))),
+            bodyProductId: S.optional(S.String.pipe(T.Body("productId"))),
+            bodyPackageName: S.optional(S.String.pipe(T.Body("packageName"))),
           }),
         ).pipe(
           T.Http({
@@ -9141,6 +9254,7 @@ function __c21(j: number): any {
             editId: S.String.pipe(T.Label()),
             language: S.String.pipe(T.Label()),
             packageName: S.String.pipe(T.Label()),
+            bodyLanguage: S.optional(S.String.pipe(T.Body("language"))),
           }),
         ).pipe(
           T.Http({
@@ -9183,6 +9297,7 @@ function __c23(j: number): any {
             track: S.String.pipe(T.Label()),
             editId: S.String.pipe(T.Label()),
             packageName: S.String.pipe(T.Label()),
+            bodyTrack: S.optional(S.String.pipe(T.Body("track"))),
           }),
         ).pipe(
           T.Http({
@@ -9203,6 +9318,7 @@ function __c24(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -9260,6 +9376,8 @@ function __c26(j: number): any {
             latencyTolerance: S.optional(S.String.pipe(T.Query())),
             packageName: S.String.pipe(T.Label()),
             autoConvertMissingPrices: S.optional(S.Boolean.pipe(T.Query())),
+            bodySku: S.optional(S.String.pipe(T.Body("sku"))),
+            bodyPackageName: S.optional(S.String.pipe(T.Body("packageName"))),
           }),
         ).pipe(
           T.Http({
@@ -9284,6 +9402,8 @@ function __c27(j: number): any {
             "regionsVersion.version": S.optional(S.String.pipe(T.Query())),
             latencyTolerance: S.optional(S.String.pipe(T.Query())),
             productId: S.String.pipe(T.Label()),
+            bodyProductId: S.optional(S.String.pipe(T.Body("productId"))),
+            bodyPackageName: S.optional(S.String.pipe(T.Body("packageName"))),
           }),
         ).pipe(
           T.Http({
@@ -9308,6 +9428,8 @@ function __c28(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             productId: S.String.pipe(T.Label()),
             latencyTolerance: S.optional(S.String.pipe(T.Query())),
+            bodyProductId: S.optional(S.String.pipe(T.Body("productId"))),
+            bodyPackageName: S.optional(S.String.pipe(T.Body("packageName"))),
           }),
         ).pipe(
           T.Http({
@@ -9334,6 +9456,10 @@ function __c29(j: number): any {
             productId: S.String.pipe(T.Label()),
             offerId: S.String.pipe(T.Label()),
             "regionsVersion.version": S.optional(S.String.pipe(T.Query())),
+            bodyBasePlanId: S.optional(S.String.pipe(T.Body("basePlanId"))),
+            bodyOfferId: S.optional(S.String.pipe(T.Body("offerId"))),
+            bodyPackageName: S.optional(S.String.pipe(T.Body("packageName"))),
+            bodyProductId: S.optional(S.String.pipe(T.Body("productId"))),
           }),
         ).pipe(
           T.Http({
@@ -9354,6 +9480,7 @@ function __c30(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -9896,6 +10023,7 @@ function __c43(j: number): any {
             packageName: S.String.pipe(T.Label()),
             language: S.String.pipe(T.Label()),
             editId: S.String.pipe(T.Label()),
+            bodyLanguage: S.optional(S.String.pipe(T.Body("language"))),
           }),
         ).pipe(
           T.Http({
@@ -9938,6 +10066,7 @@ function __c45(j: number): any {
             editId: S.String.pipe(T.Label()),
             packageName: S.String.pipe(T.Label()),
             track: S.String.pipe(T.Label()),
+            bodyTrack: S.optional(S.String.pipe(T.Body("track"))),
           }),
         ).pipe(
           T.Http({
@@ -9961,6 +10090,8 @@ function __c46(j: number): any {
             autoConvertMissingPrices: S.optional(S.Boolean.pipe(T.Query())),
             packageName: S.String.pipe(T.Label()),
             latencyTolerance: S.optional(S.String.pipe(T.Query())),
+            bodySku: S.optional(S.String.pipe(T.Body("sku"))),
+            bodyPackageName: S.optional(S.String.pipe(T.Body("packageName"))),
           }),
         ).pipe(
           T.Http({
@@ -11343,6 +11474,10 @@ function __c96(j: number): any {
             purchaseOptionId: S.String.pipe(T.Label()),
             packageName: S.String.pipe(T.Label()),
             offerId: S.String.pipe(T.Label()),
+            bodyPackageName: S.optional(S.String.pipe(T.Body("packageName"))),
+            bodyPurchaseOptionId: S.optional(S.String.pipe(T.Body("purchaseOptionId"))),
+            bodyOfferId: S.optional(S.String.pipe(T.Body("offerId"))),
+            bodyProductId: S.optional(S.String.pipe(T.Body("productId"))),
           }),
         ).pipe(
           T.Http({
@@ -11868,6 +12003,7 @@ function __c113(j: number): any {
           S.Struct({
             parent: S.String.pipe(T.Label()),
             externalTransactionId: S.optional(S.String.pipe(T.Query())),
+            bodyExternalTransactionId: S.optional(S.String.pipe(T.Body("externalTransactionId"))),
           }),
         ).pipe(
           T.Http({
@@ -11997,6 +12133,8 @@ function __c118(j: number): any {
             productId: S.optional(S.String.pipe(T.Query())),
             packageName: S.String.pipe(T.Label()),
             "regionsVersion.version": S.optional(S.String.pipe(T.Query())),
+            bodyProductId: S.optional(S.String.pipe(T.Body("productId"))),
+            bodyPackageName: S.optional(S.String.pipe(T.Body("packageName"))),
           }),
         ).pipe(
           T.Http({
@@ -12020,6 +12158,10 @@ function __c119(j: number): any {
             offerId: S.optional(S.String.pipe(T.Query())),
             packageName: S.String.pipe(T.Label()),
             productId: S.String.pipe(T.Label()),
+            bodyBasePlanId: S.optional(S.String.pipe(T.Body("basePlanId"))),
+            bodyOfferId: S.optional(S.String.pipe(T.Body("offerId"))),
+            bodyPackageName: S.optional(S.String.pipe(T.Body("packageName"))),
+            bodyProductId: S.optional(S.String.pipe(T.Body("productId"))),
           }),
         ).pipe(
           T.Http({
@@ -12187,6 +12329,10 @@ function __c126(j: number): any {
             packageName: S.String.pipe(T.Label()),
             purchaseOptionId: S.String.pipe(T.Label()),
             productId: S.String.pipe(T.Label()),
+            bodyProductId: S.optional(S.String.pipe(T.Body("productId"))),
+            bodyPurchaseOptionId: S.optional(S.String.pipe(T.Body("purchaseOptionId"))),
+            bodyPackageName: S.optional(S.String.pipe(T.Body("packageName"))),
+            bodyOfferId: S.optional(S.String.pipe(T.Body("offerId"))),
           }),
         ).pipe(
           T.Http({
@@ -12210,6 +12356,9 @@ function __c127(j: number): any {
             basePlanId: S.String.pipe(T.Label()),
             packageName: S.String.pipe(T.Label()),
             productId: S.String.pipe(T.Label()),
+            bodyProductId: S.optional(S.String.pipe(T.Body("productId"))),
+            bodyPackageName: S.optional(S.String.pipe(T.Body("packageName"))),
+            bodyBasePlanId: S.optional(S.String.pipe(T.Body("basePlanId"))),
           }),
         ).pipe(
           T.Http({
@@ -12232,6 +12381,10 @@ function __c128(j: number): any {
             packageName: S.String.pipe(T.Label()),
             offerId: S.String.pipe(T.Label()),
             basePlanId: S.String.pipe(T.Label()),
+            bodyBasePlanId: S.optional(S.String.pipe(T.Body("basePlanId"))),
+            bodyPackageName: S.optional(S.String.pipe(T.Body("packageName"))),
+            bodyOfferId: S.optional(S.String.pipe(T.Body("offerId"))),
+            bodyProductId: S.optional(S.String.pipe(T.Body("productId"))),
           }),
         ).pipe(
           T.Http({
@@ -12442,6 +12595,10 @@ function __c137(j: number): any {
             productId: S.String.pipe(T.Label()),
             purchaseOptionId: S.String.pipe(T.Label()),
             offerId: S.String.pipe(T.Label()),
+            bodyPurchaseOptionId: S.optional(S.String.pipe(T.Body("purchaseOptionId"))),
+            bodyPackageName: S.optional(S.String.pipe(T.Body("packageName"))),
+            bodyOfferId: S.optional(S.String.pipe(T.Body("offerId"))),
+            bodyProductId: S.optional(S.String.pipe(T.Body("productId"))),
           }),
         ).pipe(
           T.Http({
@@ -12742,6 +12899,9 @@ function __c153(j: number): any {
             productId: S.String.pipe(T.Label()),
             basePlanId: S.String.pipe(T.Label()),
             packageName: S.String.pipe(T.Label()),
+            bodyPackageName: S.optional(S.String.pipe(T.Body("packageName"))),
+            bodyBasePlanId: S.optional(S.String.pipe(T.Body("basePlanId"))),
+            bodyProductId: S.optional(S.String.pipe(T.Body("productId"))),
           }),
         ).pipe(
           T.Http({
@@ -13421,6 +13581,10 @@ function __c176(j: number): any {
             offerId: S.String.pipe(T.Label()),
             productId: S.String.pipe(T.Label()),
             basePlanId: S.String.pipe(T.Label()),
+            bodyOfferId: S.optional(S.String.pipe(T.Body("offerId"))),
+            bodyPackageName: S.optional(S.String.pipe(T.Body("packageName"))),
+            bodyProductId: S.optional(S.String.pipe(T.Body("productId"))),
+            bodyBasePlanId: S.optional(S.String.pipe(T.Body("basePlanId"))),
           }),
         ).pipe(
           T.Http({
@@ -14211,6 +14375,7 @@ function __c197(j: number): any {
           S.Struct({
             packageName: S.String.pipe(T.Label()),
             autoConvertMissingPrices: S.optional(S.Boolean.pipe(T.Query())),
+            bodyPackageName: S.optional(S.String.pipe(T.Body("packageName"))),
           }),
         ).pipe(
           T.Http({

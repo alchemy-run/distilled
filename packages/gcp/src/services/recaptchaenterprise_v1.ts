@@ -1212,6 +1212,8 @@ export interface PatchProjectsFirewallpoliciesRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. The resource name for the FirewallPolicy in the format `projects/{project}/firewallpolicies/{firewallpolicy}`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name for the FirewallPolicy in the format `projects/{project}/firewallpolicies/{firewallpolicy}`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsKeysRequest extends Omit<
   GoogleCloudRecaptchaenterpriseV1Key,
@@ -1221,6 +1223,8 @@ export interface PatchProjectsKeysRequest extends Omit<
   name: string;
   /** Optional. The mask to control which fields of the key get updated. If the mask is not present, all fields are updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name for the Key in the format `projects/{project}/keys/{key}`. */
+  bodyName?: string | undefined;
 }
 /** The RemoveIpOverride request message. */
 export interface GoogleCloudRecaptchaenterpriseV1RemoveIpOverrideRequest {
@@ -1276,6 +1280,8 @@ export interface UpdatePolicyProjectsKeysRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Resource name for this policy. Format: "projects/{project}/keys/{key}/policy" for a policy under a key. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name for this policy. Format: "projects/{project}/keys/{key}/policy" for a policy under a key. */
+  bodyName?: string | undefined;
 }
 export type AddIpOverrideProjectsKeysError =
   | NotFound
@@ -2340,6 +2346,7 @@ function __c18(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2360,6 +2367,7 @@ function __c19(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2463,6 +2471,7 @@ function __c23(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

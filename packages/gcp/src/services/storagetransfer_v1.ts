@@ -628,6 +628,8 @@ export interface PatchProjectsAgentPoolsRequest extends Omit<AgentPool, "name"> 
   name: string;
   /** The [field mask] (https://developers.google.com/protocol-buffers/docs/reference/google.protobuf) of the fields in `agentPool` to update in this request. The following `agentPool` fields can be updated: * display_name * bandwidth_limit */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. Specifies a unique string that identifies the agent pool. Format: `projects/{project_id}/agentPools/{agent_pool_id}` */
+  bodyName?: string | undefined;
 }
 /** Request passed to UpdateTransferJob. */
 export interface UpdateTransferJobRequest {
@@ -1229,6 +1231,7 @@ function __c8(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

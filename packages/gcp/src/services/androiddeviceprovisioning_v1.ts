@@ -570,6 +570,8 @@ export interface PatchCustomersConfigurationsRequest extends Omit<Configuration,
   updateMask?: string | undefined;
   /** Output only. The API resource name in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. Assigned by the server. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The API resource name in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. Assigned by the server. */
+  bodyName?: string | undefined;
 }
 /** Request message for customer to remove the configuration from device. */
 export interface CustomerRemoveConfigurationRequest {
@@ -1674,6 +1676,7 @@ function __c20(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

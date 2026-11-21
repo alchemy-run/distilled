@@ -347,6 +347,8 @@ export interface PatchAccountsDataSourcesRequest extends Omit<DataSource, "name"
   name: string;
   /** Required. The list of data source fields to be updated. Fields specified in the update mask without a value specified in the body will be deleted from the data source. Providing special "*" value for full data source replacement is not supported. For example, If you insert `updateMask=displayName` in the request, it will only update the `displayName` leaving all other fields untouched. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. Identifier. The name of the data source. Format: `accounts/{account}/dataSources/{datasource}` */
+  bodyName?: string | undefined;
 }
 export type CreateAccountsDataSourcesError =
   | NotFound
@@ -499,6 +501,7 @@ function __c0(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

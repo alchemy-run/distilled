@@ -1739,30 +1739,40 @@ export interface PatchAccountsRequest extends Omit<Account, "name"> {
   name: string;
   /** Optional. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `account_name` - `adult_content` - `language_code` - `time_zone` */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the account. Format: `accounts/{account}` */
+  bodyName?: string | undefined;
 }
 export interface PatchAccountsOmnichannelSettingsRequest extends Omit<OmnichannelSetting, "name"> {
   /** Identifier. The resource name of the omnichannel setting. Format: `accounts/{account}/omnichannelSettings/{omnichannel_setting}` */
   name: string;
   /** Required. The list of fields to be updated. The following fields are supported in snake_case only: - `lsf_type` - `in_stock` - `pickup` - `odo` - `about` - `inventory_verification` Full replacement with wildcard `*`is supported, while empty/implied update mask is not. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the omnichannel setting. Format: `accounts/{account}/omnichannelSettings/{omnichannel_setting}` */
+  bodyName?: string | undefined;
 }
 export interface PatchAccountsRegionsRequest extends Omit<Region, "name"> {
   /** Optional. The comma-separated field mask indicating the fields to update. Example: `"displayName,postalCodeArea.regionCode"`. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the region. Format: `accounts/{account}/regions/{region}` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the region. Format: `accounts/{account}/regions/{region}` */
+  bodyName?: string | undefined;
 }
 export interface PatchAccountsRelationshipsRequest extends Omit<AccountRelationship, "name"> {
   /** Identifier. The resource name of the account relationship. Format: `accounts/{account}/relationships/{relationship}`. For example, `accounts/123456/relationships/567890`. */
   name: string;
   /** Optional. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `account_id_alias` */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the account relationship. Format: `accounts/{account}/relationships/{relationship}`. For example, `accounts/123456/relationships/567890`. */
+  bodyName?: string | undefined;
 }
 export interface PatchAccountsUsersRequest extends Omit<User, "name"> {
   /** Optional. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `access_rights` */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the user. Format: `accounts/{account}/user/{email}` Use `me` to refer to your own email address, for example `accounts/{account}/users/me`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the user. Format: `accounts/{account}/user/{email}` Use `me` to refer to your own email address, for example `accounts/{account}/users/me`. */
+  bodyName?: string | undefined;
 }
 /** Request to propose an account service. */
 export interface ProposeAccountServiceRequest {
@@ -1829,6 +1839,8 @@ export interface UpdateAutofeedSettingsAccountsAutofeedSettingsRequest extends O
   name: string;
   /** Required. List of fields being updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the autofeed settings. Format: `accounts/{account}/autofeedSettings`. */
+  bodyName?: string | undefined;
 }
 export interface UpdateAutomaticImprovementsAccountsAutomaticImprovementsRequest extends Omit<
   AutomaticImprovements,
@@ -1838,6 +1850,8 @@ export interface UpdateAutomaticImprovementsAccountsAutomaticImprovementsRequest
   name: string;
   /** Required. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `item_updates` - `item_updates.account_level_settings` - `image_improvements` - `image_improvements.account_level_settings` - `shipping_improvements` - `shipping_improvements.allow_shipping_improvements` */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the automatic improvements. Format: `accounts/{account}/automaticImprovements`. */
+  bodyName?: string | undefined;
 }
 export interface UpdateBusinessIdentityAccountsBusinessIdentityRequest extends Omit<
   BusinessIdentity,
@@ -1847,12 +1861,16 @@ export interface UpdateBusinessIdentityAccountsBusinessIdentityRequest extends O
   updateMask?: string | undefined;
   /** Identifier. The resource name of the business identity. Format: `accounts/{account}/businessIdentity` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the business identity. Format: `accounts/{account}/businessIdentity` */
+  bodyName?: string | undefined;
 }
 export interface UpdateBusinessInfoAccountsBusinessInfoRequest extends Omit<BusinessInfo, "name"> {
   /** Identifier. The resource name of the business info. Format: `accounts/{account}/businessInfo` */
   name: string;
   /** Optional. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `address` - `customer_service` - `korean_business_registration_number` */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the business info. Format: `accounts/{account}/businessInfo` */
+  bodyName?: string | undefined;
 }
 export interface UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsRequest extends Omit<
   CheckoutSettings,
@@ -1862,6 +1880,8 @@ export interface UpdateCheckoutSettingsAccountsProgramsCheckoutSettingsRequest e
   updateMask?: string | undefined;
   /** Identifier. The resource name of the program configuration settings. Format: `accounts/{account}/programs/{program}/checkoutSettings` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the program configuration settings. Format: `accounts/{account}/programs/{program}/checkoutSettings` */
+  bodyName?: string | undefined;
 }
 export interface UpdateEmailPreferencesAccountsEmailPreferencesRequest extends Omit<
   EmailPreferences,
@@ -1871,12 +1891,16 @@ export interface UpdateEmailPreferencesAccountsEmailPreferencesRequest extends O
   updateMask?: string | undefined;
   /** Identifier. The name of the EmailPreferences. The endpoint is only supported for the authenticated user. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The name of the EmailPreferences. The endpoint is only supported for the authenticated user. */
+  bodyName?: string | undefined;
 }
 export interface UpdateHomepageAccountsHomepageRequest extends Omit<Homepage, "name"> {
   /** Optional. List of fields being updated. The following fields are supported (in both `snake_case` and `lowerCamelCase`): - `uri` */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the store's homepage. Format: `accounts/{account}/homepage` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the store's homepage. Format: `accounts/{account}/homepage` */
+  bodyName?: string | undefined;
 }
 /** Request message for the `VerifySelf` method. */
 export type VerifySelfRequest = ApproveAccountServiceRequest;
@@ -5411,6 +5435,7 @@ function __c82(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5431,6 +5456,7 @@ function __c83(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5451,6 +5477,7 @@ function __c84(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5471,6 +5498,7 @@ function __c85(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5491,6 +5519,7 @@ function __c86(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5673,6 +5702,7 @@ function __c95(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5693,6 +5723,7 @@ function __c96(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5713,6 +5744,7 @@ function __c97(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5733,6 +5765,7 @@ function __c98(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5753,6 +5786,7 @@ function __c99(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5773,6 +5807,7 @@ function __c100(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5793,6 +5828,7 @@ function __c101(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

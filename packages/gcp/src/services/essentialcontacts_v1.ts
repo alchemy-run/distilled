@@ -276,6 +276,8 @@ export interface PatchFoldersContactsRequest extends Omit<
   updateMask?: string | undefined;
   /** Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
+  bodyName?: string | undefined;
 }
 export interface PatchOrganizationsContactsRequest extends Omit<
   GoogleCloudEssentialcontactsV1Contact,
@@ -285,6 +287,8 @@ export interface PatchOrganizationsContactsRequest extends Omit<
   name: string;
   /** Optional. The update mask applied to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsContactsRequest extends Omit<
   GoogleCloudEssentialcontactsV1Contact,
@@ -294,6 +298,8 @@ export interface PatchProjectsContactsRequest extends Omit<
   updateMask?: string | undefined;
   /** Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The identifier for the contact. Format: {resource_type}/{resource_id}/contacts/{contact_id} */
+  bodyName?: string | undefined;
 }
 export type StringList = Array<string>;
 export type GoogleCloudEssentialcontactsV1SendTestMessageRequestNotificationCategoryEnum =
@@ -917,6 +923,7 @@ function __c10(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -937,6 +944,7 @@ function __c11(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -957,6 +965,7 @@ function __c12(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

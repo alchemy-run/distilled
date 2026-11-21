@@ -443,6 +443,8 @@ export interface PatchFoldersLocationsConfigRequest extends Omit<
 > {
   /** Identifier. The resource name of the config. Format: `organizations/{organization_id}/locations/global/config` `folders/{folder_id}/locations/global/config` `projects/{project_id}/locations/global/config` `projects/{project_number}/locations/global/config` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the config. Format: `organizations/{organization_id}/locations/global/config` `folders/{folder_id}/locations/global/config` `projects/{project_id}/locations/global/config` `projects/{project_number}/locations/global/config` */
+  bodyName?: string | undefined;
 }
 export interface PatchOrganizationsLocationsConfigRequest extends Omit<
   GoogleCloudDatacatalogLineageConfigmanagementV1Config,
@@ -450,6 +452,8 @@ export interface PatchOrganizationsLocationsConfigRequest extends Omit<
 > {
   /** Identifier. The resource name of the config. Format: `organizations/{organization_id}/locations/global/config` `folders/{folder_id}/locations/global/config` `projects/{project_id}/locations/global/config` `projects/{project_number}/locations/global/config` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the config. Format: `organizations/{organization_id}/locations/global/config` `folders/{folder_id}/locations/global/config` `projects/{project_id}/locations/global/config` `projects/{project_number}/locations/global/config` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsConfigRequest extends Omit<
   GoogleCloudDatacatalogLineageConfigmanagementV1Config,
@@ -457,6 +461,8 @@ export interface PatchProjectsLocationsConfigRequest extends Omit<
 > {
   /** Identifier. The resource name of the config. Format: `organizations/{organization_id}/locations/global/config` `folders/{folder_id}/locations/global/config` `projects/{project_id}/locations/global/config` `projects/{project_number}/locations/global/config` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the config. Format: `organizations/{organization_id}/locations/global/config` `folders/{folder_id}/locations/global/config` `projects/{project_id}/locations/global/config` `projects/{project_number}/locations/global/config` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsProcessesRequest extends Omit<
   GoogleCloudDatacatalogLineageV1Process,
@@ -470,6 +476,8 @@ export interface PatchProjectsLocationsProcessesRequest extends Omit<
   name: string;
   /** Optional. The list of fields to update. Currently not used. The whole message is updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Immutable. The resource name of the lineage process. Format: `projects/{project}/locations/{location}/processes/{process}`. Can be specified or auto-assigned. {process} must be not longer than 200 characters and only contain characters in a set: `a-zA-Z0-9_-:.` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsProcessesRunsRequest extends Omit<
   GoogleCloudDatacatalogLineageV1Run,
@@ -481,6 +489,8 @@ export interface PatchProjectsLocationsProcessesRunsRequest extends Omit<
   updateMask?: string | undefined;
   /** Optional. If set to true and the run is not found, the request creates it. */
   allowMissing?: boolean | undefined;
+  /** The request body's `name` (`name` is the path parameter). Immutable. The resource name of the run. Format: `projects/{project}/locations/{location}/processes/{process}/runs/{run}`. Can be specified or auto-assigned. {run} must be not longer than 200 characters and only contain characters in a set: `a-zA-Z0-9_-:.` */
+  bodyName?: string | undefined;
 }
 export interface ProcessOpenLineageRunEventProjectsLocationsRequest {
   /** Required. The name of the project and its location that should own the process, run, and lineage event. */
@@ -1662,6 +1672,7 @@ function __c16(j: number): any {
           __S(85, __c5, 5),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1681,6 +1692,7 @@ function __c17(j: number): any {
           __S(85, __c5, 5),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1700,6 +1712,7 @@ function __c18(j: number): any {
           __S(85, __c5, 5),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1722,6 +1735,7 @@ function __c19(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1743,6 +1757,7 @@ function __c20(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             allowMissing: S.optional(S.Boolean.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

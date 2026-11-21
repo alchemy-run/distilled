@@ -901,6 +901,8 @@ export interface PatchProjectsLocationsSecurityGatewaysRequest extends Omit<
   name: string;
   /** Optional. Mutable fields include: display_name, hubs. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the resource. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsSecurityGatewaysApplicationsRequest extends Omit<
   GoogleCloudBeyondcorpSecuritygatewaysV1Application,
@@ -912,6 +914,8 @@ export interface PatchProjectsLocationsSecurityGatewaysApplicationsRequest exten
   requestId?: string | undefined;
   /** Optional. Mutable fields include: display_name. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the resource. */
+  bodyName?: string | undefined;
 }
 export interface ResolveInstanceConfigProjectsLocationsAppConnectorsRequest {
   /** Required. BeyondCorp AppConnector name using the form: `projects/{project_id}/locations/{location_id}/appConnectors/{app_connector}` */
@@ -2783,6 +2787,7 @@ function __c32(j: number): any {
             requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2804,6 +2809,7 @@ function __c33(j: number): any {
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

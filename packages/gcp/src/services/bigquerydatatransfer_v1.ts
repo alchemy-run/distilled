@@ -807,6 +807,8 @@ export interface PatchProjectsLocationsTransferConfigsRequest extends Omit<Trans
   serviceAccountName?: string | undefined;
   /** Required. Required list of fields to be updated in this request. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsTransferConfigsRequest extends Omit<TransferConfig, "name"> {
   /** Optional version info. This parameter replaces `authorization_code` which is no longer used in any data sources. This is required only if `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials are needed, as indicated by `CheckValidCreds`. In order to obtain version info, make a request to the following URL: https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&response_type=version_info&client_id=client_id&scope=data_source_scopes * The client_id is the OAuth client_id of the data source as returned by ListDataSources method. * data_source_scopes are the scopes returned by ListDataSources method. Note that this should not be set when `service_account_name` is used to update the transfer config. */
@@ -819,6 +821,8 @@ export interface PatchProjectsTransferConfigsRequest extends Omit<TransferConfig
   authorizationCode?: string | undefined;
   /** Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the transfer config. Transfer config names have the form either `projects/{project_id}/locations/{region}/transferConfigs/{config_id}` or `projects/{project_id}/transferConfigs/{config_id}`, where `config_id` is usually a UUID, even though it is not guaranteed or required. The name is ignored when creating a transfer config. */
+  bodyName?: string | undefined;
 }
 /** A request to schedule transfer runs for a time range. */
 export interface ScheduleTransferRunsRequest {
@@ -2346,6 +2350,7 @@ function __c36(j: number): any {
             authorizationCode: S.optional(S.String.pipe(T.Query())),
             serviceAccountName: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2369,6 +2374,7 @@ function __c37(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             authorizationCode: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

@@ -4895,18 +4895,24 @@ export interface PatchProjectsLocationsAppsRequest extends Omit<App, "name"> {
   updateMask?: string | undefined;
   /** Identifier. The unique identifier of the app. Format: `projects/{project}/locations/{location}/apps/{app}` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The unique identifier of the app. Format: `projects/{project}/locations/{location}/apps/{app}` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAppsAgentsRequest extends Omit<Agent, "name"> {
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string | undefined;
   /** Identifier. The unique identifier of the agent. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The unique identifier of the agent. Format: `projects/{project}/locations/{location}/apps/{app}/agents/{agent}` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAppsDeploymentsRequest extends Omit<Deployment, "name"> {
   /** Identifier. The resource name of the deployment. Format: `projects/{project}/locations/{location}/apps/{app}/deployments/{deployment}` */
   name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the deployment. Format: `projects/{project}/locations/{location}/apps/{app}/deployments/{deployment}` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAppsEvaluationDatasetsRequest extends Omit<
   EvaluationDataset,
@@ -4916,6 +4922,8 @@ export interface PatchProjectsLocationsAppsEvaluationDatasetsRequest extends Omi
   name: string;
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The unique identifier of this evaluation dataset. Format: `projects/{project}/locations/{location}/apps/{app}/evaluationDatasets/{evaluationDataset}` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAppsEvaluationExpectationsRequest extends Omit<
   EvaluationExpectation,
@@ -4925,24 +4933,32 @@ export interface PatchProjectsLocationsAppsEvaluationExpectationsRequest extends
   name: string;
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The unique identifier of this evaluation expectation. Format: `projects/{project}/locations/{location}/apps/{app}/evaluationExpectations/{evaluation_expectation}` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAppsEvaluationsRequest extends Omit<Evaluation, "name"> {
   /** Identifier. The unique identifier of this evaluation. Format: `projects/{project}/locations/{location}/apps/{app}/evaluations/{evaluation}` */
   name: string;
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The unique identifier of this evaluation. Format: `projects/{project}/locations/{location}/apps/{app}/evaluations/{evaluation}` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAppsExamplesRequest extends Omit<Example, "name"> {
   /** Identifier. The unique identifier of the example. Format: `projects/{project}/locations/{location}/apps/{app}/examples/{example}` */
   name: string;
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The unique identifier of the example. Format: `projects/{project}/locations/{location}/apps/{app}/examples/{example}` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAppsGuardrailsRequest extends Omit<Guardrail, "name"> {
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string | undefined;
   /** Identifier. The unique identifier of the guardrail. Format: `projects/{project}/locations/{location}/apps/{app}/guardrails/{guardrail}` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The unique identifier of the guardrail. Format: `projects/{project}/locations/{location}/apps/{app}/guardrails/{guardrail}` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAppsScheduledEvaluationRunsRequest extends Omit<
   ScheduledEvaluationRun,
@@ -4952,24 +4968,32 @@ export interface PatchProjectsLocationsAppsScheduledEvaluationRunsRequest extend
   updateMask?: string | undefined;
   /** Identifier. The unique identifier of the scheduled evaluation run config. Format: projects/{projectId}/locations/{locationId}/apps/{appId}/scheduledEvaluationRuns/{scheduledEvaluationRunId} */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The unique identifier of the scheduled evaluation run config. Format: projects/{projectId}/locations/{locationId}/apps/{appId}/scheduledEvaluationRuns/{scheduledEvaluationRunId} */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAppsToolsRequest extends Omit<Tool, "name"> {
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string | undefined;
   /** Identifier. The resource name of the tool. Format: * `projects/{project}/locations/{location}/apps/{app}/tools/{tool}` for standalone tools. * `projects/{project}/locations/{location}/apps/{app}/toolsets/{toolset}/tools/{tool}` for tools retrieved from a toolset. These tools are dynamic and output-only; they cannot be referenced directly where a tool is expected. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the tool. Format: * `projects/{project}/locations/{location}/apps/{app}/tools/{tool}` for standalone tools. * `projects/{project}/locations/{location}/apps/{app}/toolsets/{toolset}/tools/{tool}` for tools retrieved from a toolset. These tools are dynamic and output-only; they cannot be referenced directly where a tool is expected. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAppsToolsetsRequest extends Omit<Toolset, "name"> {
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string | undefined;
   /** Identifier. The unique identifier of the toolset. Format: `projects/{project}/locations/{location}/apps/{app}/toolsets/{toolset}` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The unique identifier of the toolset. Format: `projects/{project}/locations/{location}/apps/{app}/toolsets/{toolset}` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAppsVersionsRequest extends Omit<AppVersion, "name"> {
   /** Optional. The list of fields to update. If empty, fields `display_name` and `description` will be updated. */
   updateMask?: string | undefined;
   /** Identifier. The unique identifier of the app version. Format: `projects/{project}/locations/{location}/apps/{app}/versions/{version}` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The unique identifier of the app version. Format: `projects/{project}/locations/{location}/apps/{app}/versions/{version}` */
+  bodyName?: string | undefined;
 }
 /** Request message for AgentService.RestoreAppVersion */
 export type RestoreAppVersionRequest = CancelOperationRequest;
@@ -5022,6 +5046,8 @@ export interface RunEvaluationProjectsLocationsAppsRequest extends Omit<
 > {
   /** Required. The app to evaluate. Format: `projects/{project}/locations/{location}/apps/{app}` */
   app: string;
+  /** The request body's `app` (`app` is the path parameter). Required. The app to evaluate. Format: `projects/{project}/locations/{location}/apps/{app}` */
+  bodyApp?: string | undefined;
 }
 /** Request message for EvaluationService.RunEvaluationResultMetrics. */
 export type RunEvaluationResultMetricsRequest = CancelOperationRequest;
@@ -5584,6 +5610,8 @@ export interface UpdateSecuritySettingsProjectsLocationsRequest extends Omit<
   name: string;
   /** Optional. Field mask is used to control which fields get updated. If the mask is not present, all fields will be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The unique identifier of the security settings. Format: `projects/{project}/locations/{location}/securitySettings` */
+  bodyName?: string | undefined;
 }
 /** Request message for EvaluationService.UploadEvaluationAudio. */
 export interface UploadEvaluationAudioRequest {
@@ -8264,6 +8292,7 @@ function __c3(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8284,6 +8313,7 @@ function __c4(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8304,6 +8334,7 @@ function __c5(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8324,6 +8355,7 @@ function __c6(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8344,6 +8376,7 @@ function __c7(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8421,6 +8454,7 @@ function __c10(j: number): any {
           __S(1888, __c59, 0),
           S.Struct({
             app: S.String.pipe(T.Label()),
+            bodyApp: S.optional(S.String.pipe(T.Body("app"))),
           }),
         ).pipe(
           T.Http({
@@ -9136,6 +9170,7 @@ function __c28(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13876,6 +13911,7 @@ function __c182(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13896,6 +13932,7 @@ function __c183(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13916,6 +13953,7 @@ function __c184(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13936,6 +13974,7 @@ function __c185(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13956,6 +13995,7 @@ function __c186(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13976,6 +14016,7 @@ function __c187(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13996,6 +14037,7 @@ function __c188(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

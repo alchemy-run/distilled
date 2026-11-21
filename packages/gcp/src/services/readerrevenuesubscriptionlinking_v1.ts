@@ -139,6 +139,8 @@ export interface UpdateEntitlementsPublicationsReadersRequest extends Omit<
   name: string;
   /** Optional. The list of fields to update. Defaults to all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the singleton. */
+  bodyName?: string | undefined;
 }
 export type DeletePublicationsReadersError =
   | NotFound
@@ -311,6 +313,7 @@ function __c4(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

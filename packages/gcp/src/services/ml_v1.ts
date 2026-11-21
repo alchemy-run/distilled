@@ -1221,12 +1221,16 @@ export interface PatchProjectsModelsRequest extends Omit<GoogleCloudMlV1__Model,
   name: string;
   /** Required. Specifies the path, relative to `Model`, of the field to update. For example, to change the description of a model to "foo" and set its default version to "version_1", the `update_mask` parameter would be specified as `description`, `default_version.name`, and the `PATCH` request body would specify the new value, as follows: { "description": "foo", "defaultVersion": { "name":"version_1" } } Currently the supported update masks are `description` and `default_version.name`. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. The name specified for the model when it was created. The model name must be unique within the project it is created in. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsModelsVersionsRequest extends Omit<GoogleCloudMlV1__Version, "name"> {
   /** Required. The name of the model. */
   name: string;
   /** Required. Specifies the path, relative to `Version`, of the field to update. Must be present and non-empty. For example, to change the description of a version to "foo", the `update_mask` parameter would be specified as `description`, and the `PATCH` request body would specify the new value, as follows: ``` { "description": "foo" } ``` Currently the only supported update mask fields are `description`, `requestLoggingConfig`, `autoScaling.minNodes`, and `manualScaling.nodes`. However, you can only update `manualScaling.nodes` if the version uses a [Compute Engine (N1) machine type](/ml-engine/docs/machine-types-online-prediction). */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. The name specified for the version when it was created. The version name must be unique within the model it is created in. */
+  bodyName?: string | undefined;
 }
 /** Request for predictions to be issued against a trained model. */
 export interface GoogleCloudMlV1__PredictRequest {
@@ -3324,6 +3328,7 @@ function __c42(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://ml.googleapis.com/" }),
@@ -3340,6 +3345,7 @@ function __c43(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://ml.googleapis.com/" }),

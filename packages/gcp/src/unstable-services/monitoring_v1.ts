@@ -1051,6 +1051,8 @@ export interface PatchProjectsDashboardsRequest extends Omit<Dashboard, "name"> 
   name: string;
   /** If set, validate the request and preview the review, but do not actually save it. */
   validateOnly?: boolean | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the dashboard. */
+  bodyName?: string | undefined;
 }
 /** QueryExemplarsRequest holds all parameters of the Prometheus upstream API for querying exemplars. */
 export interface QueryExemplarsRequest {
@@ -1621,6 +1623,7 @@ function __c6(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

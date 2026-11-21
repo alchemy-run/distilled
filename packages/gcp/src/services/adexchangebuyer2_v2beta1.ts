@@ -765,6 +765,8 @@ export interface CreateAccountsClientsInvitationsRequest extends Omit<
   accountId: string;
   /** Numerical account ID of the client buyer that the user should be associated with. (required) */
   clientAccountId: string;
+  /** The request body's `clientAccountId` (`clientAccountId` is the path parameter). Numerical account ID of the client buyer that the invited user is associated with. The value of this field is ignored in create operations. */
+  bodyClientAccountId?: string | undefined;
 }
 export type CreateAccountsCreativesDuplicateIdModeEnum =
   | "NO_DUPLICATES"
@@ -1155,6 +1157,8 @@ export interface CreateAccountsCreativesRequest extends Omit<Creative, "accountI
   accountId: string;
   /** Indicates if multiple creatives can share an ID or not. Default is NO_DUPLICATES (one ID per creative). */
   duplicateIdMode?: CreateAccountsCreativesDuplicateIdModeEnum | (string & {}) | undefined;
+  /** The request body's `accountId` (`accountId` is the path parameter). The account that this creative belongs to. Can be used to filter the response of the creatives.list method. */
+  bodyAccountId?: string | undefined;
 }
 export interface CreateAccountsProposalsRequest extends Proposal {
   /** Account ID of the buyer. */
@@ -2178,6 +2182,8 @@ export interface UpdateAccountsClientsRequest extends Omit<Client, "clientAccoun
   accountId: string;
   /** Unique numerical account ID of the client to update. (required) */
   clientAccountId: string;
+  /** The request body's `clientAccountId` (`clientAccountId` is the path parameter). The globally-unique numerical ID of the client. The value of this field is ignored in create and update operations. */
+  bodyClientAccountId?: string | undefined;
 }
 export interface UpdateAccountsClientsUsersRequest extends Omit<
   ClientUser,
@@ -2189,18 +2195,28 @@ export interface UpdateAccountsClientsUsersRequest extends Omit<
   userId: string;
   /** Numerical account ID of the client buyer that the user to be retrieved is associated with. (required) */
   clientAccountId: string;
+  /** The request body's `clientAccountId` (`clientAccountId` is the path parameter). Numerical account ID of the client buyer with which the user is associated; the buyer must be a client of the current sponsor buyer. The value of this field is ignored in an update operation. */
+  bodyClientAccountId?: string | undefined;
+  /** The request body's `userId` (`userId` is the path parameter). The unique numerical ID of the client user that has accepted an invitation. The value of this field is ignored in an update operation. */
+  bodyUserId?: string | undefined;
 }
 export interface UpdateAccountsCreativesRequest extends Omit<Creative, "accountId" | "creativeId"> {
   /** The buyer-defined creative ID of this creative. Can be used to filter the response of the creatives.list method. */
   creativeId: string;
   /** The account that this creative belongs to. Can be used to filter the response of the creatives.list method. */
   accountId: string;
+  /** The request body's `accountId` (`accountId` is the path parameter). The account that this creative belongs to. Can be used to filter the response of the creatives.list method. */
+  bodyAccountId?: string | undefined;
+  /** The request body's `creativeId` (`creativeId` is the path parameter). The buyer-defined creative ID of this creative. Can be used to filter the response of the creatives.list method. */
+  bodyCreativeId?: string | undefined;
 }
 export interface UpdateAccountsProposalsRequest extends Omit<Proposal, "proposalId"> {
   /** The unique ID of the proposal. */
   proposalId: string;
   /** Account ID of the buyer. */
   accountId: string;
+  /** The request body's `proposalId` (`proposalId` is the path parameter). Output only. The unique ID of the proposal. */
+  bodyProposalId?: string | undefined;
 }
 /** A request for watching changes to creative Status. */
 export interface WatchCreativeRequest {
@@ -4010,6 +4026,7 @@ function __c2(j: number): any {
           S.Struct({
             accountId: S.String.pipe(T.Label()),
             clientAccountId: S.String.pipe(T.Label()),
+            bodyClientAccountId: S.optional(S.String.pipe(T.Body("clientAccountId"))),
           }),
         ).pipe(
           T.Http({
@@ -4042,6 +4059,7 @@ function __c4(j: number): any {
           S.Struct({
             accountId: S.String.pipe(T.Label()),
             duplicateIdMode: S.optional(S.String.pipe(T.Query())),
+            bodyAccountId: S.optional(S.String.pipe(T.Body("accountId"))),
           }),
         ).pipe(
           T.Http({
@@ -6356,6 +6374,7 @@ function __c103(j: number): any {
           S.Struct({
             accountId: S.String.pipe(T.Label()),
             clientAccountId: S.String.pipe(T.Label()),
+            bodyClientAccountId: S.optional(S.String.pipe(T.Body("clientAccountId"))),
           }),
         ).pipe(
           T.Http({
@@ -6377,6 +6396,8 @@ function __c104(j: number): any {
             accountId: S.String.pipe(T.Label()),
             userId: S.String.pipe(T.Label()),
             clientAccountId: S.String.pipe(T.Label()),
+            bodyClientAccountId: S.optional(S.String.pipe(T.Body("clientAccountId"))),
+            bodyUserId: S.optional(S.String.pipe(T.Body("userId"))),
           }),
         ).pipe(
           T.Http({
@@ -6415,6 +6436,8 @@ function __c106(j: number): any {
           S.Struct({
             creativeId: S.String.pipe(T.Label()),
             accountId: S.String.pipe(T.Label()),
+            bodyAccountId: S.optional(S.String.pipe(T.Body("accountId"))),
+            bodyCreativeId: S.optional(S.String.pipe(T.Body("creativeId"))),
           }),
         ).pipe(
           T.Http({
@@ -6435,6 +6458,7 @@ function __c107(j: number): any {
           S.Struct({
             proposalId: S.String.pipe(T.Label()),
             accountId: S.String.pipe(T.Label()),
+            bodyProposalId: S.optional(S.String.pipe(T.Body("proposalId"))),
           }),
         ).pipe(
           T.Http({

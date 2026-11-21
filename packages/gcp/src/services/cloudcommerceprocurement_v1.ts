@@ -280,6 +280,8 @@ export interface PatchProvidersEntitlementsRequest extends Omit<Entitlement, "na
   name: string;
   /** The update mask that applies to the resource. See the [FieldMask definition] (https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask) for more details. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the entitlement. Entitlement names have the form `providers/{provider_id}/entitlements/{entitlement_id}`. */
+  bodyName?: string | undefined;
 }
 /** Request message for PartnerProcurementService.RejectEntitlementPlanChange. */
 export interface RejectEntitlementPlanChangeRequest {
@@ -632,6 +634,7 @@ function __c1(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

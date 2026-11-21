@@ -1028,6 +1028,8 @@ export interface PatchProjectsLocationsConnectionsEntityTypesEntitiesRequest ext
   "executionConfig.headers"?: string | undefined;
   /** Output only. Resource name of the Entity. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of the Entity. Format: projects/{project}/locations/{location}/connections/{connection}/entityTypes/{type}/entities/{id} */
+  bodyName?: string | undefined;
 }
 /** RefreshAccessTokenRequest includes the refresh token. */
 export interface RefreshAccessTokenRequest {
@@ -2442,6 +2444,7 @@ function __c28(j: number): any {
           S.Struct({
             "executionConfig.headers": S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

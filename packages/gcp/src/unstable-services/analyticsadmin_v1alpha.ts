@@ -692,6 +692,8 @@ export interface CreatePropertiesCalculatedMetricsRequest extends Omit<
   parent: string;
   /** Required. The ID to use for the calculated metric which will become the final component of the calculated metric's resource name. This value should be 1-80 characters and valid characters are /[a-zA-Z0-9_]/, no spaces allowed. calculated_metric_id must be unique between all calculated metrics under a property. The calculated_metric_id is used when referencing this calculated metric from external APIs, for example, "calcMetric:{calculated_metric_id}". */
   calculatedMetricId?: string | undefined;
+  /** The request body's `calculatedMetricId` (`calculatedMetricId` is the query parameter). Output only. The ID to use for the calculated metric. In the UI, this is referred to as the "API name." The calculated_metric_id is used when referencing this calculated metric from external APIs. For example, "calcMetric:{calculated_metric_id}". */
+  bodyCalculatedMetricId?: string | undefined;
 }
 export type GoogleAnalyticsAdminV1alphaChannelGroupFilterExpressionList_ =
   Array<GoogleAnalyticsAdminV1alphaChannelGroupFilterExpression>;
@@ -2359,6 +2361,8 @@ export interface PatchAccountsRequest extends Omit<GoogleAnalyticsAdminV1alphaAc
   updateMask?: string | undefined;
   /** Identifier. Resource name of this account. Format: accounts/{account} Example: "accounts/100" */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of this account. Format: accounts/{account} Example: "accounts/100" */
+  bodyName?: string | undefined;
 }
 export interface PatchAccountsAccessBindingsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaAccessBinding,
@@ -2366,12 +2370,16 @@ export interface PatchAccountsAccessBindingsRequest extends Omit<
 > {
   /** Output only. Resource name of this binding. Format: accounts/{account}/accessBindings/{access_binding} or properties/{property}/accessBindings/{access_binding} Example: "accounts/100/accessBindings/200" */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of this binding. Format: accounts/{account}/accessBindings/{access_binding} or properties/{property}/accessBindings/{access_binding} Example: "accounts/100/accessBindings/200" */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesRequest extends Omit<GoogleAnalyticsAdminV1alphaProperty, "name"> {
   /** Identifier. Resource name of this property. Format: properties/{property_id} Example: "properties/1000" */
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of this property. Format: properties/{property_id} Example: "properties/1000" */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesAccessBindingsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaAccessBinding,
@@ -2379,6 +2387,8 @@ export interface PatchPropertiesAccessBindingsRequest extends Omit<
 > {
   /** Output only. Resource name of this binding. Format: accounts/{account}/accessBindings/{access_binding} or properties/{property}/accessBindings/{access_binding} Example: "accounts/100/accessBindings/200" */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of this binding. Format: accounts/{account}/accessBindings/{access_binding} or properties/{property}/accessBindings/{access_binding} Example: "accounts/100/accessBindings/200" */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesAudiencesRequest extends Omit<
   GoogleAnalyticsAdminV1alphaAudience,
@@ -2388,6 +2398,8 @@ export interface PatchPropertiesAudiencesRequest extends Omit<
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name for this Audience resource. Format: properties/{propertyId}/audiences/{audienceId} */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesBigQueryLinksRequest extends Omit<
   GoogleAnalyticsAdminV1alphaBigQueryLink,
@@ -2397,6 +2409,8 @@ export interface PatchPropertiesBigQueryLinksRequest extends Omit<
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of this BigQuery link. Format: 'properties/{property_id}/bigQueryLinks/{bigquery_link_id}' Format: 'properties/1234/bigQueryLinks/abc567' */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesCalculatedMetricsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaCalculatedMetric,
@@ -2406,6 +2420,8 @@ export interface PatchPropertiesCalculatedMetricsRequest extends Omit<
   name: string;
   /** Required. The list of fields to be updated. Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name for this CalculatedMetric. Format: 'properties/{property_id}/calculatedMetrics/{calculated_metric_id}' */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesChannelGroupsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaChannelGroup,
@@ -2415,6 +2431,8 @@ export interface PatchPropertiesChannelGroupsRequest extends Omit<
   updateMask?: string | undefined;
   /** Output only. The resource name for this Channel Group resource. Format: properties/{property}/channelGroups/{channel_group} */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name for this Channel Group resource. Format: properties/{property}/channelGroups/{channel_group} */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesConversionEventsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaConversionEvent,
@@ -2424,6 +2442,8 @@ export interface PatchPropertiesConversionEventsRequest extends Omit<
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of this conversion event. Format: properties/{property}/conversionEvents/{conversion_event} */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesCustomDimensionsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaCustomDimension,
@@ -2433,6 +2453,8 @@ export interface PatchPropertiesCustomDimensionsRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Resource name for this CustomDimension resource. Format: properties/{property}/customDimensions/{customDimension} */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name for this CustomDimension resource. Format: properties/{property}/customDimensions/{customDimension} */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesCustomMetricsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaCustomMetric,
@@ -2442,6 +2464,8 @@ export interface PatchPropertiesCustomMetricsRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Resource name for this CustomMetric resource. Format: properties/{property}/customMetrics/{customMetric} */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name for this CustomMetric resource. Format: properties/{property}/customMetrics/{customMetric} */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesDataStreamsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaDataStream,
@@ -2451,6 +2475,8 @@ export interface PatchPropertiesDataStreamsRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Resource name of this Data Stream. Format: properties/{property_id}/dataStreams/{stream_id} Example: "properties/1000/dataStreams/2000" */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of this Data Stream. Format: properties/{property_id}/dataStreams/{stream_id} Example: "properties/1000/dataStreams/2000" */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesDataStreamsEventCreateRulesRequest extends Omit<
   GoogleAnalyticsAdminV1alphaEventCreateRule,
@@ -2460,6 +2486,8 @@ export interface PatchPropertiesDataStreamsEventCreateRulesRequest extends Omit<
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. Resource name for this EventCreateRule resource. Format: properties/{property}/dataStreams/{data_stream}/eventCreateRules/{event_create_rule} */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesDataStreamsEventEditRulesRequest extends Omit<
   GoogleAnalyticsAdminV1alphaEventEditRule,
@@ -2469,6 +2497,8 @@ export interface PatchPropertiesDataStreamsEventEditRulesRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Resource name for this EventEditRule resource. Format: properties/{property}/dataStreams/{data_stream}/eventEditRules/{event_edit_rule} */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name for this EventEditRule resource. Format: properties/{property}/dataStreams/{data_stream}/eventEditRules/{event_edit_rule} */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesDataStreamsMeasurementProtocolSecretsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaMeasurementProtocolSecret,
@@ -2478,6 +2508,8 @@ export interface PatchPropertiesDataStreamsMeasurementProtocolSecretsRequest ext
   updateMask?: string | undefined;
   /** Identifier. Resource name of this secret. This secret may be a child of any type of stream. Format: properties/{property}/dataStreams/{dataStream}/measurementProtocolSecrets/{measurementProtocolSecret} */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of this secret. This secret may be a child of any type of stream. Format: properties/{property}/dataStreams/{dataStream}/measurementProtocolSecrets/{measurementProtocolSecret} */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesDataStreamsSKAdNetworkConversionValueSchemaRequest extends Omit<
   GoogleAnalyticsAdminV1alphaSKAdNetworkConversionValueSchema,
@@ -2487,6 +2519,8 @@ export interface PatchPropertiesDataStreamsSKAdNetworkConversionValueSchemaReque
   updateMask?: string | undefined;
   /** Identifier. Resource name of the schema. This will be child of ONLY an iOS stream, and there can be at most one such child under an iOS stream. Format: properties/{property}/dataStreams/{dataStream}/sKAdNetworkConversionValueSchema */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name of the schema. This will be child of ONLY an iOS stream, and there can be at most one such child under an iOS stream. Format: properties/{property}/dataStreams/{dataStream}/sKAdNetworkConversionValueSchema */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesDisplayVideo360AdvertiserLinksRequest extends Omit<
   GoogleAnalyticsAdminV1alphaDisplayVideo360AdvertiserLink,
@@ -2496,6 +2530,8 @@ export interface PatchPropertiesDisplayVideo360AdvertiserLinksRequest extends Om
   name: string;
   /** Required. The list of fields to be updated. Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name for this DisplayVideo360AdvertiserLink resource. Format: properties/{propertyId}/displayVideo360AdvertiserLinks/{linkId} Note: linkId is not the Display & Video 360 Advertiser ID */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesExpandedDataSetsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaExpandedDataSet,
@@ -2505,6 +2541,8 @@ export interface PatchPropertiesExpandedDataSetsRequest extends Omit<
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name for this ExpandedDataSet resource. Format: properties/{property_id}/expandedDataSets/{expanded_data_set} */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesGoogleAdsLinksRequest extends Omit<
   GoogleAnalyticsAdminV1alphaGoogleAdsLink,
@@ -2514,6 +2552,8 @@ export interface PatchPropertiesGoogleAdsLinksRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Format: properties/{propertyId}/googleAdsLinks/{googleAdsLinkId} Note: googleAdsLinkId is not the Google Ads customer ID. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Format: properties/{propertyId}/googleAdsLinks/{googleAdsLinkId} Note: googleAdsLinkId is not the Google Ads customer ID. */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesKeyEventsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaKeyEvent,
@@ -2523,6 +2563,8 @@ export interface PatchPropertiesKeyEventsRequest extends Omit<
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of this key event. Format: properties/{property}/keyEvents/{key_event} */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesReportingDataAnnotationsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaReportingDataAnnotation,
@@ -2532,6 +2574,8 @@ export interface PatchPropertiesReportingDataAnnotationsRequest extends Omit<
   updateMask?: string | undefined;
   /** Required. Identifier. Resource name of this Reporting Data Annotation. Format: 'properties/{property_id}/reportingDataAnnotations/{reporting_data_annotation}' Format: 'properties/123/reportingDataAnnotations/456' */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Required. Identifier. Resource name of this Reporting Data Annotation. Format: 'properties/{property_id}/reportingDataAnnotations/{reporting_data_annotation}' Format: 'properties/123/reportingDataAnnotations/456' */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesSearchAds360LinksRequest extends Omit<
   GoogleAnalyticsAdminV1alphaSearchAds360Link,
@@ -2541,6 +2585,8 @@ export interface PatchPropertiesSearchAds360LinksRequest extends Omit<
   name: string;
   /** Required. The list of fields to be updated. Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name for this SearchAds360Link resource. Format: properties/{propertyId}/searchAds360Links/{linkId} Note: linkId is not the Search Ads 360 advertiser ID */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesSubpropertyEventFiltersRequest extends Omit<
   GoogleAnalyticsAdminV1alphaSubpropertyEventFilter,
@@ -2550,6 +2596,8 @@ export interface PatchPropertiesSubpropertyEventFiltersRequest extends Omit<
   updateMask?: string | undefined;
   /** Output only. Format: properties/{ordinary_property_id}/subpropertyEventFilters/{sub_property_event_filter} Example: properties/1234/subpropertyEventFilters/5678 */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. Format: properties/{ordinary_property_id}/subpropertyEventFilters/{sub_property_event_filter} Example: properties/1234/subpropertyEventFilters/5678 */
+  bodyName?: string | undefined;
 }
 export interface PatchPropertiesSubpropertySyncConfigsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaSubpropertySyncConfig,
@@ -2559,6 +2607,8 @@ export interface PatchPropertiesSubpropertySyncConfigsRequest extends Omit<
   updateMask?: string | undefined;
   /** Output only. Identifier. Format: properties/{ordinary_property_id}/subpropertySyncConfigs/{subproperty_id} Example: properties/1234/subpropertySyncConfigs/5678 */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. Identifier. Format: properties/{ordinary_property_id}/subpropertySyncConfigs/{subproperty_id} Example: properties/1234/subpropertySyncConfigs/5678 */
+  bodyName?: string | undefined;
 }
 /** Request message for ProvisionAccountTicket RPC. */
 export interface GoogleAnalyticsAdminV1alphaProvisionAccountTicketRequest {
@@ -3072,6 +3122,8 @@ export interface UpdateAttributionSettingsPropertiesRequest extends Omit<
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of this attribution settings resource. Format: properties/{property_id}/attributionSettings Example: "properties/1000/attributionSettings" */
+  bodyName?: string | undefined;
 }
 export interface UpdateDataRedactionSettingsPropertiesDataStreamsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaDataRedactionSettings,
@@ -3081,6 +3133,8 @@ export interface UpdateDataRedactionSettingsPropertiesDataStreamsRequest extends
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. Name of this Data Redaction Settings resource. Format: properties/{property_id}/dataStreams/{data_stream}/dataRedactionSettings Example: "properties/1000/dataStreams/2000/dataRedactionSettings" */
+  bodyName?: string | undefined;
 }
 export interface UpdateDataRetentionSettingsPropertiesRequest extends Omit<
   GoogleAnalyticsAdminV1alphaDataRetentionSettings,
@@ -3090,6 +3144,8 @@ export interface UpdateDataRetentionSettingsPropertiesRequest extends Omit<
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name for this DataRetentionSetting resource. Format: properties/{property}/dataRetentionSettings */
+  bodyName?: string | undefined;
 }
 export interface UpdateEnhancedMeasurementSettingsPropertiesDataStreamsRequest extends Omit<
   GoogleAnalyticsAdminV1alphaEnhancedMeasurementSettings,
@@ -3099,6 +3155,8 @@ export interface UpdateEnhancedMeasurementSettingsPropertiesDataStreamsRequest e
   name: string;
   /** Required. The list of fields to be updated. Field names must be in snake case (e.g., "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of the Enhanced Measurement Settings. Format: properties/{property_id}/dataStreams/{data_stream}/enhancedMeasurementSettings Example: "properties/1000/dataStreams/2000/enhancedMeasurementSettings" */
+  bodyName?: string | undefined;
 }
 export interface UpdateGoogleSignalsSettingsPropertiesRequest extends Omit<
   GoogleAnalyticsAdminV1alphaGoogleSignalsSettings,
@@ -3108,6 +3166,8 @@ export interface UpdateGoogleSignalsSettingsPropertiesRequest extends Omit<
   updateMask?: string | undefined;
   /** Output only. Resource name of this setting. Format: properties/{property_id}/googleSignalsSettings Example: "properties/1000/googleSignalsSettings" */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. Resource name of this setting. Format: properties/{property_id}/googleSignalsSettings Example: "properties/1000/googleSignalsSettings" */
+  bodyName?: string | undefined;
 }
 export interface UpdateReportingIdentitySettingsPropertiesRequest extends Omit<
   GoogleAnalyticsAdminV1alphaReportingIdentitySettings,
@@ -3117,6 +3177,8 @@ export interface UpdateReportingIdentitySettingsPropertiesRequest extends Omit<
   name: string;
   /** Optional. The list of fields to be updated. Field names must be in snake case (for example, "field_to_update"). Omitted fields will not be updated. To replace the entire entity, use one path with the string "*" to match all fields. If omitted, the service will treat it as an implied field mask equivalent to all fields that are populated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. Identifier. Resource name for this reporting identity settings singleton resource. Format: properties/{property_id}/reportingIdentitySettings Example: "properties/1234/reportingIdentitySettings" */
+  bodyName?: string | undefined;
 }
 export type AcknowledgeUserDataCollectionPropertiesError =
   | NotFound
@@ -7871,6 +7933,7 @@ function __c42(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7890,6 +7953,7 @@ function __c43(j: number): any {
           __S(6528, __c204, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7910,6 +7974,7 @@ function __c44(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7929,6 +7994,7 @@ function __c45(j: number): any {
           __S(6528, __c204, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7949,6 +8015,7 @@ function __c46(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7969,6 +8036,7 @@ function __c47(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7989,6 +8057,7 @@ function __c48(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8026,6 +8095,7 @@ function __c50(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8046,6 +8116,7 @@ function __c51(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8066,6 +8137,7 @@ function __c52(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8086,6 +8158,7 @@ function __c53(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8106,6 +8179,7 @@ function __c54(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8126,6 +8200,7 @@ function __c55(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8146,6 +8221,7 @@ function __c56(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8166,6 +8242,7 @@ function __c57(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8186,6 +8263,7 @@ function __c58(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8208,6 +8286,7 @@ function __c59(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8265,6 +8344,7 @@ function __c62(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8285,6 +8365,7 @@ function __c63(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8305,6 +8386,7 @@ function __c64(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8325,6 +8407,7 @@ function __c65(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8345,6 +8428,7 @@ function __c66(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8365,6 +8449,7 @@ function __c67(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8385,6 +8470,7 @@ function __c68(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8826,6 +8912,7 @@ function __c78(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8846,6 +8933,7 @@ function __c79(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8866,6 +8954,7 @@ function __c80(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8886,6 +8975,7 @@ function __c81(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8906,6 +8996,7 @@ function __c82(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8926,6 +9017,7 @@ function __c83(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -9305,6 +9397,7 @@ function __c98(j: number): any {
           S.Struct({
             parent: S.String.pipe(T.Label()),
             calculatedMetricId: S.optional(S.String.pipe(T.Query())),
+            bodyCalculatedMetricId: S.optional(S.String.pipe(T.Body("calculatedMetricId"))),
           }),
         ).pipe(
           T.Http({

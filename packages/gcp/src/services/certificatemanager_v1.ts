@@ -742,12 +742,16 @@ export interface PatchProjectsLocationsCertificateIssuanceConfigsRequest extends
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. A user-defined name of the certificate issuance config. CertificateIssuanceConfig names must be unique globally and match pattern `projects/*\/locations/*\/certificateIssuanceConfigs/*`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCertificateMapsRequest extends Omit<CertificateMap, "name"> {
   /** Identifier. A user-defined name of the Certificate Map. Certificate Map names must be unique globally and match pattern `projects/*\/locations/*\/certificateMaps/*`. */
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. A user-defined name of the Certificate Map. Certificate Map names must be unique globally and match pattern `projects/*\/locations/*\/certificateMaps/*`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCertificateMapsCertificateMapEntriesRequest extends Omit<
   CertificateMapEntry,
@@ -757,12 +761,16 @@ export interface PatchProjectsLocationsCertificateMapsCertificateMapEntriesReque
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. A user-defined name of the Certificate Map Entry. Certificate Map Entry names must be unique globally and match pattern `projects/*\/locations/*\/certificateMaps/*\/certificateMapEntries/*`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCertificatesRequest extends Omit<Certificate, "name"> {
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
   updateMask?: string | undefined;
   /** Identifier. A user-defined name of the certificate. Certificate names must be unique globally and match pattern `projects/*\/locations/*\/certificates/*`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. A user-defined name of the certificate. Certificate names must be unique globally and match pattern `projects/*\/locations/*\/certificates/*`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsDnsAuthorizationsRequest extends Omit<
   DnsAuthorization,
@@ -772,12 +780,16 @@ export interface PatchProjectsLocationsDnsAuthorizationsRequest extends Omit<
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. A user-defined name of the dns authorization. DnsAuthorization names must be unique globally and match pattern `projects/*\/locations/*\/dnsAuthorizations/*`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsTrustConfigsRequest extends Omit<TrustConfig, "name"> {
   /** Identifier. A user-defined name of the trust config. TrustConfig names must be unique globally and match pattern `projects/*\/locations/*\/trustConfigs/*`. */
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. A user-defined name of the trust config. TrustConfig names must be unique globally and match pattern `projects/*\/locations/*\/trustConfigs/*`. */
+  bodyName?: string | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -2122,6 +2134,7 @@ function __c26(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2142,6 +2155,7 @@ function __c27(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2162,6 +2176,7 @@ function __c28(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2184,6 +2199,7 @@ function __c29(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2204,6 +2220,7 @@ function __c30(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2224,6 +2241,7 @@ function __c31(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

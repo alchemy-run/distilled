@@ -1285,12 +1285,16 @@ export interface PatchProjectsLocationsFoldersRequest extends Omit<Folder, "name
   name: string;
   /** Optional. Specifies the fields to be updated in the Folder. If left unset, all fields that can be updated, will be updated. A few fields cannot be updated and will be ignored if specified in the update_mask (e.g. parent_name, team_folder_name). */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The Folder's name. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsRepositoriesRequest extends Omit<Repository, "name"> {
   /** Optional. Specifies the fields to be updated in the repository. If left unset, all fields will be updated. */
   updateMask?: string | undefined;
   /** Identifier. The repository's name. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The repository's name. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsRepositoriesReleaseConfigsRequest extends Omit<
   ReleaseConfig,
@@ -1300,6 +1304,8 @@ export interface PatchProjectsLocationsRepositoriesReleaseConfigsRequest extends
   name: string;
   /** Optional. Specifies the fields to be updated in the release config. If left unset, all fields will be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The release config's name. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsRepositoriesWorkflowConfigsRequest extends Omit<
   WorkflowConfig,
@@ -1309,12 +1315,16 @@ export interface PatchProjectsLocationsRepositoriesWorkflowConfigsRequest extend
   name: string;
   /** Optional. Specifies the fields to be updated in the workflow config. If left unset, all fields will be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The workflow config's name. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsTeamFoldersRequest extends Omit<TeamFolder, "name"> {
   /** Identifier. The TeamFolder's name. */
   name: string;
   /** Optional. Specifies the fields to be updated in the Folder. If left unset, all fields will be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The TeamFolder's name. */
+  bodyName?: string | undefined;
 }
 /** `PullGitCommits` request message. */
 export interface PullGitCommitsRequest {
@@ -2009,6 +2019,8 @@ export interface UpdateConfigProjectsLocationsRequest extends Omit<Config, "name
   name: string;
   /** Optional. Specifies the fields to be updated in the config. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The config name. */
+  bodyName?: string | undefined;
 }
 /** `WriteFile` request message. */
 export interface WriteFileRequest {
@@ -6155,6 +6167,7 @@ function __c94(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6245,6 +6258,7 @@ function __c98(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6265,6 +6279,7 @@ function __c99(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6285,6 +6300,7 @@ function __c100(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6305,6 +6321,7 @@ function __c101(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -7262,6 +7279,7 @@ function __c135(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

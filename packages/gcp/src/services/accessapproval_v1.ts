@@ -450,6 +450,8 @@ export interface UpdateAccessApprovalSettingsFoldersRequest extends Omit<
   name: string;
   /** The update mask applies to the settings. Only the top level fields of AccessApprovalSettings (notification_emails & enrolled_services) are supported. For each field, if it is included, the currently stored value will be entirely overwritten with the value of the field passed in this request. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If this field is left unset, only the notification_emails field will be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). The resource name of the settings. Format is one of: * "projects/{project}/accessApprovalSettings" * "folders/{folder}/accessApprovalSettings" * "organizations/{organization}/accessApprovalSettings" */
+  bodyName?: string | undefined;
 }
 export interface UpdateAccessApprovalSettingsOrganizationsRequest extends Omit<
   AccessApprovalSettings,
@@ -459,6 +461,8 @@ export interface UpdateAccessApprovalSettingsOrganizationsRequest extends Omit<
   name: string;
   /** The update mask applies to the settings. Only the top level fields of AccessApprovalSettings (notification_emails & enrolled_services) are supported. For each field, if it is included, the currently stored value will be entirely overwritten with the value of the field passed in this request. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask If this field is left unset, only the notification_emails field will be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). The resource name of the settings. Format is one of: * "projects/{project}/accessApprovalSettings" * "folders/{folder}/accessApprovalSettings" * "organizations/{organization}/accessApprovalSettings" */
+  bodyName?: string | undefined;
 }
 export interface UpdateAccessApprovalSettingsProjectsRequest extends Omit<
   AccessApprovalSettings,
@@ -468,6 +472,8 @@ export interface UpdateAccessApprovalSettingsProjectsRequest extends Omit<
   updateMask?: string | undefined;
   /** The resource name of the settings. Format is one of: * "projects/{project}/accessApprovalSettings" * "folders/{folder}/accessApprovalSettings" * "organizations/{organization}/accessApprovalSettings" */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). The resource name of the settings. Format is one of: * "projects/{project}/accessApprovalSettings" * "folders/{folder}/accessApprovalSettings" * "organizations/{organization}/accessApprovalSettings" */
+  bodyName?: string | undefined;
 }
 export type ApproveFoldersApprovalRequestsError =
   | NotFound
@@ -1402,6 +1408,7 @@ function __c21(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1422,6 +1429,7 @@ function __c22(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1442,6 +1450,7 @@ function __c23(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

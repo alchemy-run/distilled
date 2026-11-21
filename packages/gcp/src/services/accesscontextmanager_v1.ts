@@ -909,12 +909,16 @@ export interface PatchAccessPoliciesRequest extends Omit<AccessPolicy, "name"> {
   updateMask?: string | undefined;
   /** Output only. Identifier. Resource name of the `AccessPolicy`. Format: `accessPolicies/{access_policy}` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. Identifier. Resource name of the `AccessPolicy`. Format: `accessPolicies/{access_policy}` */
+  bodyName?: string | undefined;
 }
 export interface PatchAccessPoliciesAccessLevelsRequest extends Omit<AccessLevel, "name"> {
   /** Required. Mask to control which fields get updated. Must be non-empty. */
   updateMask?: string | undefined;
   /** Identifier. Resource name for the `AccessLevel`. Format: `accessPolicies/{access_policy}/accessLevels/{access_level}`. The `access_level` component must begin with a letter, followed by alphanumeric characters or `_`. Its maximum length is 50 characters. After you create an `AccessLevel`, you cannot change its `name`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name for the `AccessLevel`. Format: `accessPolicies/{access_policy}/accessLevels/{access_level}`. The `access_level` component must begin with a letter, followed by alphanumeric characters or `_`. Its maximum length is 50 characters. After you create an `AccessLevel`, you cannot change its `name`. */
+  bodyName?: string | undefined;
 }
 export interface PatchAccessPoliciesAuthorizedOrgsDescsRequest extends Omit<
   AuthorizedOrgsDesc,
@@ -924,6 +928,8 @@ export interface PatchAccessPoliciesAuthorizedOrgsDescsRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. Resource name for the `AuthorizedOrgsDesc`. Format: `accessPolicies/{access_policy}/authorizedOrgsDescs/{authorized_orgs_desc}`. The `authorized_orgs_desc` component must begin with a letter, followed by alphanumeric characters or `_`. After you create an `AuthorizedOrgsDesc`, you cannot change its `name`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name for the `AuthorizedOrgsDesc`. Format: `accessPolicies/{access_policy}/authorizedOrgsDescs/{authorized_orgs_desc}`. The `authorized_orgs_desc` component must begin with a letter, followed by alphanumeric characters or `_`. After you create an `AuthorizedOrgsDesc`, you cannot change its `name`. */
+  bodyName?: string | undefined;
 }
 export type PatchAccessPoliciesServicePerimetersDeletedPrincipalSyntaxEnum =
   | "DELETED_PRINCIPAL_SYNTAX_SUPPORT_UNSPECIFIED"
@@ -942,6 +948,8 @@ export interface PatchAccessPoliciesServicePerimetersRequest extends Omit<
     | undefined;
   /** Required. Mask to control which fields get updated. Must be non-empty. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Resource name for the `ServicePerimeter`. Format: `accessPolicies/{access_policy}/servicePerimeters/{service_perimeter}`. The `service_perimeter` component must begin with a letter, followed by alphanumeric characters or `_`. After you create a `ServicePerimeter`, you cannot change its `name`. */
+  bodyName?: string | undefined;
 }
 export interface PatchOrganizationsGcpUserAccessBindingsRequest extends Omit<
   GcpUserAccessBinding,
@@ -953,6 +961,8 @@ export interface PatchOrganizationsGcpUserAccessBindingsRequest extends Omit<
   append?: boolean | undefined;
   /** Immutable. Assigned by the server during creation. The last segment has an arbitrary length and has only URI unreserved characters (as defined by [RFC 3986 Section 2.3](https://tools.ietf.org/html/rfc3986#section-2.3)). Should not be specified by the client during creation. Example: `"organizations/256/gcpUserAccessBindings/b3-BhcX_Ud5N"` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Immutable. Assigned by the server during creation. The last segment has an arbitrary length and has only URI unreserved characters (as defined by [RFC 3986 Section 2.3](https://tools.ietf.org/html/rfc3986#section-2.3)). Should not be specified by the client during creation. Example: `"organizations/256/gcpUserAccessBindings/b3-BhcX_Ud5N"` */
+  bodyName?: string | undefined;
 }
 /** A request to replace all existing Access Levels in an Access Policy with the Access Levels provided. This is done atomically. */
 export interface ReplaceAccessLevelsRequest {
@@ -2525,6 +2535,7 @@ function __c31(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2545,6 +2556,7 @@ function __c32(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2565,6 +2577,7 @@ function __c33(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2586,6 +2599,7 @@ function __c34(j: number): any {
             name: S.String.pipe(T.Label()),
             deletedPrincipalSyntax: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2607,6 +2621,7 @@ function __c35(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             append: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

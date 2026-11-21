@@ -489,12 +489,16 @@ export interface PatchProjectsLocationsSecretsRequest extends Omit<Secret, "name
   name: string;
   /** Required. Specifies the fields to be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the Secret in the format `projects/*\/secrets/*`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsSecretsRequest extends Omit<Secret, "name"> {
   /** Required. Specifies the fields to be updated. */
   updateMask?: string | undefined;
   /** Output only. The resource name of the Secret in the format `projects/*\/secrets/*`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the Secret in the format `projects/*\/secrets/*`. */
+  bodyName?: string | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
@@ -1671,6 +1675,7 @@ function __c27(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1691,6 +1696,7 @@ function __c28(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

@@ -2681,6 +2681,8 @@ export interface InsertBackupRunsRequest extends Omit<BackupRun, "instance"> {
   instance: string;
   /** Project ID of the project that contains the instance. */
   project: string;
+  /** The request body's `instance` (`instance` is the path parameter). Name of the database instance. */
+  bodyInstance?: string | undefined;
 }
 export interface InsertDatabasesRequest extends Omit<Database, "instance" | "project"> {
   /** Optional. Region of the Cloud SQL instance. */
@@ -2689,12 +2691,18 @@ export interface InsertDatabasesRequest extends Omit<Database, "instance" | "pro
   project: string;
   /** Database instance ID. This does not include the project ID. */
   instance: string;
+  /** The request body's `instance` (`instance` is the path parameter). The name of the Cloud SQL instance. This does not include the project ID. */
+  bodyInstance?: string | undefined;
+  /** The request body's `project` (`project` is the path parameter). The project ID of the project containing the Cloud SQL database. The Google apps domain is prefixed if applicable. */
+  bodyProject?: string | undefined;
 }
 export interface InsertInstancesRequest extends Omit<DatabaseInstance, "project"> {
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
   /** Project ID of the project to which the newly created Cloud SQL instances should belong. */
   project: string;
+  /** The request body's `project` (`project` is the path parameter). The project ID of the project containing the Cloud SQL instance. The Google apps domain is prefixed if applicable. */
+  bodyProject?: string | undefined;
 }
 /** SslCerts insert request. */
 export interface SslCertsInsertRequest {
@@ -2732,6 +2740,10 @@ export interface InsertUsersRequest extends Omit<User, "project" | "instance"> {
   instance: string;
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
+  /** The request body's `project` (`project` is the path parameter). The project ID of the project containing the Cloud SQL database. The Google apps domain is prefixed if applicable. Can be omitted for `update` because it is already specified on the URL. */
+  bodyProject?: string | undefined;
+  /** The request body's `instance` (`instance` is the path parameter). The name of the Cloud SQL instance. This does not include the project ID. Can be omitted for `update` because it is already specified on the URL. */
+  bodyInstance?: string | undefined;
 }
 export interface ListBackupRunsRequest {
   /** A previously-returned page token representing part of the larger set of results to view. */
@@ -3131,6 +3143,10 @@ export interface PatchDatabasesRequest extends Omit<Database, "instance" | "proj
   database: string;
   /** Optional. Region of the Cloud SQL instance. */
   location?: string | undefined;
+  /** The request body's `instance` (`instance` is the path parameter). The name of the Cloud SQL instance. This does not include the project ID. */
+  bodyInstance?: string | undefined;
+  /** The request body's `project` (`project` is the path parameter). The project ID of the project containing the Cloud SQL database. The Google apps domain is prefixed if applicable. */
+  bodyProject?: string | undefined;
 }
 export interface PatchInstancesRequest extends Omit<DatabaseInstance, "project"> {
   /** Optional. Set PSC config to the same value as the existing config and force reconcile the PSC networking. */
@@ -3143,6 +3159,8 @@ export interface PatchInstancesRequest extends Omit<DatabaseInstance, "project">
   location?: string | undefined;
   /** Project ID of the project that contains the instance. */
   project: string;
+  /** The request body's `project` (`project` is the path parameter). The project ID of the project containing the Cloud SQL instance. The Google apps domain is prefixed if applicable. */
+  bodyProject?: string | undefined;
 }
 /** Perform disk shrink context. */
 export interface PerformDiskShrinkContext {
@@ -3552,6 +3570,8 @@ export interface UpdateBackupBackupsRequest extends Omit<Backup, "name"> {
   updateMask?: string | undefined;
   /** Output only. The resource name of the backup. Format: projects/{project}/backups/{backup}. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the backup. Format: projects/{project}/backups/{backup}. */
+  bodyName?: string | undefined;
 }
 export interface UpdateDatabasesRequest extends Omit<Database, "instance" | "project"> {
   /** Name of the database to be updated in the instance. */
@@ -3562,6 +3582,10 @@ export interface UpdateDatabasesRequest extends Omit<Database, "instance" | "pro
   instance: string;
   /** Project ID of the project that contains the instance. */
   project: string;
+  /** The request body's `instance` (`instance` is the path parameter). The name of the Cloud SQL instance. This does not include the project ID. */
+  bodyInstance?: string | undefined;
+  /** The request body's `project` (`project` is the path parameter). The project ID of the project containing the Cloud SQL database. The Google apps domain is prefixed if applicable. */
+  bodyProject?: string | undefined;
 }
 export interface UpdateInstancesRequest extends Omit<DatabaseInstance, "project"> {
   /** Optional. Region of the Cloud SQL instance. */
@@ -3570,6 +3594,8 @@ export interface UpdateInstancesRequest extends Omit<DatabaseInstance, "project"
   instance: string;
   /** Project ID of the project that contains the instance. */
   project: string;
+  /** The request body's `project` (`project` is the path parameter). The project ID of the project containing the Cloud SQL instance. The Google apps domain is prefixed if applicable. */
+  bodyProject?: string | undefined;
 }
 export interface UpdateUsersRequest extends Omit<
   User,
@@ -3593,6 +3619,18 @@ export interface UpdateUsersRequest extends Omit<
   databaseRoles?: StringList | undefined;
   /** Database instance ID. This does not include the project ID. */
   instance: string;
+  /** The request body's `project` (`project` is the path parameter). The project ID of the project containing the Cloud SQL database. The Google apps domain is prefixed if applicable. Can be omitted for `update` because it is already specified on the URL. */
+  bodyProject?: string | undefined;
+  /** The request body's `databaseRoles` (`databaseRoles` is the query parameter). Optional. Role memberships of the user */
+  bodyDatabaseRoles?: StringList | undefined;
+  /** The request body's `instance` (`instance` is the path parameter). The name of the Cloud SQL instance. This does not include the project ID. Can be omitted for `update` because it is already specified on the URL. */
+  bodyInstance?: string | undefined;
+  /** The request body's `serverRoles` (`serverRoles` is the query parameter). Optional. The server roles for the SQL Server login. */
+  bodyServerRoles?: StringList | undefined;
+  /** The request body's `host` (`host` is the query parameter). Optional. The host from which the user can connect. For `insert` operations, host defaults to an empty string. For `update` operations, host is specified as part of the request URL. The host name cannot be updated after insertion. For a MySQL instance, it's required; for a PostgreSQL or SQL Server instance, it's optional. */
+  bodyHost?: string | undefined;
+  /** The request body's `name` (`name` is the query parameter). The name of the user in the Cloud SQL instance. Can be omitted for `update` because it is already specified in the URL. */
+  bodyName?: string | undefined;
 }
 export type SqlInstancesVerifyExternalSyncSettingsRequestSyncParallelLevelEnum =
   | "EXTERNAL_SYNC_PARALLEL_LEVEL_UNSPECIFIED"
@@ -7036,6 +7074,7 @@ function __c46(j: number): any {
           S.Struct({
             instance: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
+            bodyInstance: S.optional(S.String.pipe(T.Body("instance"))),
           }),
         ).pipe(
           T.Http({
@@ -7057,6 +7096,8 @@ function __c47(j: number): any {
             location: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
             instance: S.String.pipe(T.Label()),
+            bodyInstance: S.optional(S.String.pipe(T.Body("instance"))),
+            bodyProject: S.optional(S.String.pipe(T.Body("project"))),
           }),
         ).pipe(
           T.Http({
@@ -7077,6 +7118,7 @@ function __c48(j: number): any {
           S.Struct({
             location: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
+            bodyProject: S.optional(S.String.pipe(T.Body("project"))),
           }),
         ).pipe(
           T.Http({
@@ -7140,6 +7182,8 @@ function __c50(j: number): any {
             project: S.String.pipe(T.Label()),
             instance: S.String.pipe(T.Label()),
             location: S.optional(S.String.pipe(T.Query())),
+            bodyProject: S.optional(S.String.pipe(T.Body("project"))),
+            bodyInstance: S.optional(S.String.pipe(T.Body("instance"))),
           }),
         ).pipe(
           T.Http({
@@ -7640,6 +7684,8 @@ function __c71(j: number): any {
             project: S.String.pipe(T.Label()),
             database: S.String.pipe(T.Label()),
             location: S.optional(S.String.pipe(T.Query())),
+            bodyInstance: S.optional(S.String.pipe(T.Body("instance"))),
+            bodyProject: S.optional(S.String.pipe(T.Body("project"))),
           }),
         ).pipe(
           T.Http({
@@ -7663,6 +7709,7 @@ function __c72(j: number): any {
             instance: S.String.pipe(T.Label()),
             location: S.optional(S.String.pipe(T.Query())),
             project: S.String.pipe(T.Label()),
+            bodyProject: S.optional(S.String.pipe(T.Body("project"))),
           }),
         ).pipe(
           T.Http({
@@ -8631,6 +8678,7 @@ function __c106(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -8653,6 +8701,8 @@ function __c107(j: number): any {
             location: S.optional(S.String.pipe(T.Query())),
             instance: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
+            bodyInstance: S.optional(S.String.pipe(T.Body("instance"))),
+            bodyProject: S.optional(S.String.pipe(T.Body("project"))),
           }),
         ).pipe(
           T.Http({
@@ -8674,6 +8724,7 @@ function __c108(j: number): any {
             location: S.optional(S.String.pipe(T.Query())),
             instance: S.String.pipe(T.Label()),
             project: S.String.pipe(T.Label()),
+            bodyProject: S.optional(S.String.pipe(T.Body("project"))),
           }),
         ).pipe(
           T.Http({
@@ -8701,6 +8752,12 @@ function __c109(j: number): any {
             location: S.optional(S.String.pipe(T.Query())),
             databaseRoles: S.optional(__S(2656, __c83, 0).pipe(T.Query())),
             instance: S.String.pipe(T.Label()),
+            bodyProject: S.optional(S.String.pipe(T.Body("project"))),
+            bodyDatabaseRoles: S.optional(__S(2656, __c83, 0).pipe(T.Body("databaseRoles"))),
+            bodyInstance: S.optional(S.String.pipe(T.Body("instance"))),
+            bodyServerRoles: S.optional(__S(2656, __c83, 0).pipe(T.Body("serverRoles"))),
+            bodyHost: S.optional(S.String.pipe(T.Body("host"))),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

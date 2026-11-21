@@ -490,6 +490,8 @@ export interface PatchOrganizationsLocationsCustomersRequest extends Omit<Custom
   name: string;
   /** Optional. The list of fields to update */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Format: `organizations/{organization}/locations/{location}/customers/{customer}` */
+  bodyName?: string | undefined;
 }
 export type CreateOrganizationsLocationsCustomersError =
   | NotFound
@@ -993,6 +995,7 @@ function __c6(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

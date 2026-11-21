@@ -1809,12 +1809,16 @@ export interface PatchProjectsLocationsEkmConnectionsRequest extends Omit<EkmCon
   name: string;
   /** Required. List of fields to be updated in this request. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name for the EkmConnection in the format `projects/*\/locations/*\/ekmConnections/*`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsKeyRingsCryptoKeysRequest extends Omit<CryptoKey, "name"> {
   /** Required. List of fields to be updated in this request. */
   updateMask?: string | undefined;
   /** Output only. The resource name for this CryptoKey in the format `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name for this CryptoKey in the format `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsRequest extends Omit<
   CryptoKeyVersion,
@@ -1824,6 +1828,8 @@ export interface PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsReques
   name: string;
   /** Required. List of fields to be updated in this request. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name for this CryptoKeyVersion in the format `projects/*\/locations/*\/keyRings/*\/cryptoKeys/*\/cryptoKeyVersions/*`. */
+  bodyName?: string | undefined;
 }
 /** Request message for KeyManagementService.RawDecrypt. */
 export interface RawDecryptRequest {
@@ -1987,18 +1993,24 @@ export interface UpdateAutokeyConfigFoldersRequest extends Omit<AutokeyConfig, "
   updateMask?: string | undefined;
   /** Identifier. Name of the AutokeyConfig resource, e.g. `folders/{FOLDER_NUMBER}/autokeyConfig`, `projects/{PROJECT_NUMBER}/autokeyConfig`, or `projects/{PROJECT_ID}/autokeyConfig`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the AutokeyConfig resource, e.g. `folders/{FOLDER_NUMBER}/autokeyConfig`, `projects/{PROJECT_NUMBER}/autokeyConfig`, or `projects/{PROJECT_ID}/autokeyConfig`. */
+  bodyName?: string | undefined;
 }
 export interface UpdateAutokeyConfigProjectsRequest extends Omit<AutokeyConfig, "name"> {
   /** Identifier. Name of the AutokeyConfig resource, e.g. `folders/{FOLDER_NUMBER}/autokeyConfig`, `projects/{PROJECT_NUMBER}/autokeyConfig`, or `projects/{PROJECT_ID}/autokeyConfig`. */
   name: string;
   /** Required. Masks which fields of the AutokeyConfig to update, e.g. `keyProject`. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of the AutokeyConfig resource, e.g. `folders/{FOLDER_NUMBER}/autokeyConfig`, `projects/{PROJECT_NUMBER}/autokeyConfig`, or `projects/{PROJECT_ID}/autokeyConfig`. */
+  bodyName?: string | undefined;
 }
 export interface UpdateEkmConfigProjectsLocationsRequest extends Omit<EkmConfig, "name"> {
   /** Output only. The resource name for the EkmConfig in the format `projects/*\/locations/*\/ekmConfig`. */
   name: string;
   /** Required. List of fields to be updated in this request. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name for the EkmConfig in the format `projects/*\/locations/*\/ekmConfig`. */
+  bodyName?: string | undefined;
 }
 export interface UpdateKajPolicyConfigFoldersRequest extends Omit<
   KeyAccessJustificationsPolicyConfig,
@@ -2008,6 +2020,8 @@ export interface UpdateKajPolicyConfigFoldersRequest extends Omit<
   name: string;
   /** Optional. Specifies the list of fields to update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Represents the resource name for this KeyAccessJustificationsPolicyConfig in the format of "{organizations|folders|projects}/*\/kajPolicyConfig". */
+  bodyName?: string | undefined;
 }
 export interface UpdateKajPolicyConfigOrganizationsRequest extends Omit<
   KeyAccessJustificationsPolicyConfig,
@@ -2017,6 +2031,8 @@ export interface UpdateKajPolicyConfigOrganizationsRequest extends Omit<
   name: string;
   /** Optional. Specifies the list of fields to update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Represents the resource name for this KeyAccessJustificationsPolicyConfig in the format of "{organizations|folders|projects}/*\/kajPolicyConfig". */
+  bodyName?: string | undefined;
 }
 export interface UpdateKajPolicyConfigProjectsRequest extends Omit<
   KeyAccessJustificationsPolicyConfig,
@@ -2026,6 +2042,8 @@ export interface UpdateKajPolicyConfigProjectsRequest extends Omit<
   name: string;
   /** Optional. Specifies the list of fields to update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Represents the resource name for this KeyAccessJustificationsPolicyConfig in the format of "{organizations|folders|projects}/*\/kajPolicyConfig". */
+  bodyName?: string | undefined;
 }
 /** Request message for KeyManagementService.UpdateCryptoKeyPrimaryVersion. */
 export interface UpdateCryptoKeyPrimaryVersionRequest {
@@ -5718,6 +5736,7 @@ function __c78(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5738,6 +5757,7 @@ function __c79(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -5758,6 +5778,7 @@ function __c80(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6231,6 +6252,7 @@ function __c103(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6251,6 +6273,7 @@ function __c104(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6271,6 +6294,7 @@ function __c105(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6291,6 +6315,7 @@ function __c106(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6311,6 +6336,7 @@ function __c107(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -6331,6 +6357,7 @@ function __c108(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

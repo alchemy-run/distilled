@@ -577,6 +577,8 @@ export interface PatchProjectsLocationsCapacityCommitmentsRequest extends Omit<
   name: string;
   /** Standard field mask for the set of fields to be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. The resource name of the capacity commitment, e.g., `projects/myproject/locations/US/capacityCommitments/123` The commitment_id must only contain lower case alphanumeric characters or dashes. It must start with a letter and must not end with a dash. Its maximum length is 64 characters. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsReservationGroupsRequest extends Omit<
   ReservationGroup,
@@ -586,12 +588,16 @@ export interface PatchProjectsLocationsReservationGroupsRequest extends Omit<
   updateMask?: string | undefined;
   /** Identifier. The resource name of the reservation group, e.g., `projects/*\/locations/*\/reservationGroups/team1-prod`. The reservation_group_id must only contain lower case alphanumeric characters or dashes. It must start with a letter and must not end with a dash. Its maximum length is 64 characters. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the reservation group, e.g., `projects/*\/locations/*\/reservationGroups/team1-prod`. The reservation_group_id must only contain lower case alphanumeric characters or dashes. It must start with a letter and must not end with a dash. Its maximum length is 64 characters. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsReservationsRequest extends Omit<Reservation, "name"> {
   /** Identifier. The resource name of the reservation, e.g., `projects/*\/locations/*\/reservations/team1-prod`. The reservation_id must only contain lower case alphanumeric characters or dashes. It must start with a letter and must not end with a dash. Its maximum length is 64 characters. */
   name: string;
   /** Standard field mask for the set of fields to be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the reservation, e.g., `projects/*\/locations/*\/reservations/team1-prod`. The reservation_id must only contain lower case alphanumeric characters or dashes. It must start with a letter and must not end with a dash. Its maximum length is 64 characters. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsReservationsAssignmentsRequest extends Omit<
   Assignment,
@@ -601,6 +607,8 @@ export interface PatchProjectsLocationsReservationsAssignmentsRequest extends Om
   name: string;
   /** Standard field mask for the set of fields to be updated. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Output only. Name of the resource. E.g.: `projects/myproject/locations/US/reservations/team1-prod/assignments/123`. The assignment_id must only contain lower case alphanumeric characters or dashes and the max length is 64 characters. */
+  bodyName?: string | undefined;
 }
 export interface SearchAllAssignmentsProjectsLocationsRequest {
   /** The next_page_token value returned from a previous List request, if any. */
@@ -690,6 +698,8 @@ export interface UpdateBiReservationProjectsLocationsRequest extends Omit<BiRese
   name: string;
   /** A list of fields to be updated in this request. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the singleton BI reservation. Reservation names have the form `projects/{project_id}/locations/{location_id}/biReservation`. */
+  bodyName?: string | undefined;
 }
 export type UpgradeEditionRequestTargetEditionEnum =
   | "EDITION_UNSPECIFIED"
@@ -1961,6 +1971,7 @@ function __c26(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1981,6 +1992,7 @@ function __c27(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2001,6 +2013,7 @@ function __c28(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2021,6 +2034,7 @@ function __c29(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2221,6 +2235,7 @@ function __c40(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

@@ -1904,6 +1904,8 @@ export interface PatchProjectsLocationsSchemasRequest extends Omit<
   name: string;
   /** Optional. The update mask to apply to the resource. **Note:** Only the following fields can be updated: - `display_name` - `labels` */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the Schema. Format: `projects/{project}/locations/{location}/schemas/{schema}` */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsSchemasSchemaVersionsRequest extends Omit<
   GoogleCloudDocumentaiV1SchemaVersion,
@@ -1913,6 +1915,8 @@ export interface PatchProjectsLocationsSchemasSchemaVersionsRequest extends Omit
   updateMask?: string | undefined;
   /** Identifier. The resource name of the SchemaVersion. Format: `projects/{project}/locations/{location}/schemas/{schema}/schemaVersions/{schema_version}` */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the SchemaVersion. Format: `projects/{project}/locations/{location}/schemas/{schema}/schemaVersions/{schema_version}` */
+  bodyName?: string | undefined;
 }
 /** Request message for the ProcessDocument method. */
 export interface GoogleCloudDocumentaiV1ProcessRequest {
@@ -4560,6 +4564,7 @@ function __c39(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -4580,6 +4585,7 @@ function __c40(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

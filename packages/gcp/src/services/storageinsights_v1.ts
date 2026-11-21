@@ -532,6 +532,8 @@ export interface PatchProjectsLocationsDatasetConfigsRequest extends Omit<Datase
   requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the `DatasetConfig` resource by the update. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. If the user does not provide a mask then it returns an "Invalid Argument" error. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. name of resource */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsReportConfigsRequest extends Omit<ReportConfig, "name"> {
   /** Required. A mask specifying a list of fields to be updated in the `ReportConfig` resource. The fields specified in the `update_mask` are relative to the resource, not the full request. A field is overwritten if it is in the mask. The `update_mask` is required. */
@@ -540,6 +542,8 @@ export interface PatchProjectsLocationsReportConfigsRequest extends Omit<ReportC
   name: string;
   /** Optional. A unique identifier for your request. Specify the request ID if you need to retry the request. If you retry the request with the same ID within 60 minutes, the server ignores the request if it has already completed the original request. For example, if your initial request times out and you retry the request using the same request ID, the server recognizes the original request and does not process the new request. The request ID must be a valid UUID and cannot be a zero UUID (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. Name of resource. Format: `projects/{project_id}/locations/{location}/reportConfigs/{report-config-id}`. */
+  bodyName?: string | undefined;
 }
 /** Request message for `UnlinkDataset` */
 export type UnlinkDatasetRequest = CancelOperationRequest;
@@ -1274,6 +1278,7 @@ function __c13(j: number): any {
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1295,6 +1300,7 @@ function __c14(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

@@ -811,6 +811,8 @@ export interface PatchProjectsLocationsCustomRangesRequest extends Omit<CustomRa
   updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. Identifier. The resource name of the CustomRange, in the format `projects/{project}/locations/{location}/customRanges/{custom_range}`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsIpamAdminScopesRequest extends Omit<IpamAdminScope, "name"> {
   /** Required. Identifier. The resource name of the IpamAdminScope. */
@@ -819,6 +821,8 @@ export interface PatchProjectsLocationsIpamAdminScopesRequest extends Omit<IpamA
   requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the IpamAdminScope resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. Identifier. The resource name of the IpamAdminScope. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsRealmsRequest extends Omit<Realm, "name"> {
   /** Required. Identifier. The resource name of the Realm. */
@@ -827,6 +831,8 @@ export interface PatchProjectsLocationsRealmsRequest extends Omit<Realm, "name">
   requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Realm resource by the update. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. Identifier. The resource name of the Realm. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsRegistryBooksRequest extends Omit<RegistryBook, "name"> {
   /** Required. Identifier. The resource name of the RegistryBook. */
@@ -835,6 +841,8 @@ export interface PatchProjectsLocationsRegistryBooksRequest extends Omit<Registr
   requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the RegistryBook resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Required. Identifier. The resource name of the RegistryBook. */
+  bodyName?: string | undefined;
 }
 export type SearchIpResourcesRequestSearchResourceTypesItemEnum =
   | "SEARCH_RESOURCE_TYPE_UNSPECIFIED"
@@ -2821,6 +2829,7 @@ function __c46(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2842,6 +2851,7 @@ function __c47(j: number): any {
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2863,6 +2873,7 @@ function __c48(j: number): any {
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -2884,6 +2895,7 @@ function __c49(j: number): any {
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

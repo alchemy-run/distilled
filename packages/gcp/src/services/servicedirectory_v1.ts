@@ -315,12 +315,16 @@ export interface PatchProjectsLocationsNamespacesRequest extends Omit<Namespace,
   name: string;
   /** Required. List of fields to be updated in this request. */
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name for the namespace in the format `projects/*\/locations/*\/namespaces/*`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsNamespacesServicesRequest extends Omit<Service, "name"> {
   /** Required. List of fields to be updated in this request. */
   updateMask?: string | undefined;
   /** Identifier. The resource name for the service in the format `projects/*\/locations/*\/namespaces/*\/services/*`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name for the service in the format `projects/*\/locations/*\/namespaces/*\/services/*`. */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsNamespacesServicesEndpointsRequest extends Omit<
   Endpoint,
@@ -330,6 +334,8 @@ export interface PatchProjectsLocationsNamespacesServicesEndpointsRequest extend
   updateMask?: string | undefined;
   /** Identifier. The resource name for the endpoint in the format `projects/*\/locations/*\/namespaces/*\/services/*\/endpoints/*`. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name for the endpoint in the format `projects/*\/locations/*\/namespaces/*\/services/*\/endpoints/*`. */
+  bodyName?: string | undefined;
 }
 /** The request message for LookupService.ResolveService. Looks up a service by its name, returns the service and its endpoints. */
 export interface ResolveServiceRequest {
@@ -1206,6 +1212,7 @@ function __c14(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1226,6 +1233,7 @@ function __c15(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -1246,6 +1254,7 @@ function __c16(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

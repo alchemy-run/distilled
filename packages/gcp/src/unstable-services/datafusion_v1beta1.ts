@@ -609,6 +609,8 @@ export interface PatchProjectsLocationsInstancesRequest extends Omit<Instance, "
   updateMask?: string | undefined;
   /** Output only. The name of this instance is in the form of projects/{project}/locations/{location}/instances/{instance}. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Output only. The name of this instance is in the form of projects/{project}/locations/{location}/instances/{instance}. */
+  bodyName?: string | undefined;
 }
 /** Request message for RemoveIamPolicy method. */
 export type RemoveIamPolicyRequest = CancelOperationRequest;
@@ -1532,6 +1534,7 @@ function __c13(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({

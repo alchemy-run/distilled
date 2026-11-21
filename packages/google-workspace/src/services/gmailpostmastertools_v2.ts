@@ -459,10 +459,14 @@ export interface PatchDomainsUsersRequest extends Omit<User, "name"> {
   updateMask?: string | undefined;
   /** Identifier. The resource name of the user. Format: users/{user} Note: {user} is the user's email address. */
   name: string;
+  /** The request body's `name` (`name` is the path parameter). Identifier. The resource name of the user. Format: users/{user} Note: {user} is the user's email address. */
+  bodyName?: string | undefined;
 }
 export interface QueryDomainsDomainStatsRequest extends Omit<QueryDomainStatsRequest, "parent"> {
   /** Required. The parent resource name where the stats are queried. Format: domains/{domain} */
   parent: string;
+  /** The request body's `parent` (`parent` is the path parameter). Required. The parent resource name where the stats are queried. Format: domains/{domain} */
+  bodyParent?: string | undefined;
 }
 export type VerifyDomainRequestVerificationMethodEnum =
   | "DOMAIN_VERIFICATION_METHOD_UNSPECIFIED"
@@ -881,6 +885,7 @@ function __c5(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -900,6 +905,7 @@ function __c6(j: number): any {
           __S(298, __c9, 10),
           S.Struct({
             parent: S.String.pipe(T.Label()),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({

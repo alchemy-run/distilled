@@ -3851,6 +3851,8 @@ export interface PatchProjectsAgentEntityTypesRequest extends Omit<
   updateMask?: string | undefined;
   languageCode?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsAgentEnvironmentsRequest extends Omit<
   GoogleCloudDialogflowV2beta1Environment,
@@ -3859,6 +3861,8 @@ export interface PatchProjectsAgentEnvironmentsRequest extends Omit<
   updateMask?: string | undefined;
   allowLoadToDraftAndDiscardChanges?: boolean | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsAgentEnvironmentsUsersSessionsContextsRequest extends Omit<
   GoogleCloudDialogflowV2beta1Context,
@@ -3866,6 +3870,8 @@ export interface PatchProjectsAgentEnvironmentsUsersSessionsContextsRequest exte
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsAgentEnvironmentsUsersSessionsEntityTypesRequest extends Omit<
   GoogleCloudDialogflowV2beta1SessionEntityType,
@@ -3873,6 +3879,8 @@ export interface PatchProjectsAgentEnvironmentsUsersSessionsEntityTypesRequest e
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export type PatchProjectsAgentIntentsIntentViewEnum =
   | "INTENT_VIEW_UNSPECIFIED"
@@ -3885,6 +3893,8 @@ export interface PatchProjectsAgentIntentsRequest extends Omit<
   intentView?: PatchProjectsAgentIntentsIntentViewEnum | (string & {}) | undefined;
   languageCode?: string | undefined;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsAgentKnowledgeBasesRequest extends Omit<
   GoogleCloudDialogflowV2beta1KnowledgeBase,
@@ -3892,6 +3902,8 @@ export interface PatchProjectsAgentKnowledgeBasesRequest extends Omit<
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsAgentKnowledgeBasesDocumentsRequest extends Omit<
   GoogleCloudDialogflowV2beta1Document,
@@ -3899,6 +3911,8 @@ export interface PatchProjectsAgentKnowledgeBasesDocumentsRequest extends Omit<
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsAgentSessionsContextsRequest extends Omit<
   GoogleCloudDialogflowV2beta1Context,
@@ -3906,6 +3920,8 @@ export interface PatchProjectsAgentSessionsContextsRequest extends Omit<
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsAgentSessionsEntityTypesRequest extends Omit<
   GoogleCloudDialogflowV2beta1SessionEntityType,
@@ -3913,6 +3929,8 @@ export interface PatchProjectsAgentSessionsEntityTypesRequest extends Omit<
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsAgentVersionsRequest extends Omit<
   GoogleCloudDialogflowV2beta1Version,
@@ -3920,6 +3938,8 @@ export interface PatchProjectsAgentVersionsRequest extends Omit<
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsAnswerRecordsRequest extends Omit<
   GoogleCloudDialogflowV2beta1AnswerRecord,
@@ -3927,6 +3947,8 @@ export interface PatchProjectsAnswerRecordsRequest extends Omit<
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsConversationProfilesRequest extends Omit<
   GoogleCloudDialogflowV2beta1ConversationProfile,
@@ -3934,6 +3956,8 @@ export interface PatchProjectsConversationProfilesRequest extends Omit<
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsConversationsParticipantsRequest extends Omit<
   GoogleCloudDialogflowV2beta1Participant,
@@ -3941,6 +3965,8 @@ export interface PatchProjectsConversationsParticipantsRequest extends Omit<
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsKnowledgeBasesRequest extends Omit<
   GoogleCloudDialogflowV2beta1KnowledgeBase,
@@ -3948,6 +3974,8 @@ export interface PatchProjectsKnowledgeBasesRequest extends Omit<
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsKnowledgeBasesDocumentsRequest extends Omit<
   GoogleCloudDialogflowV2beta1Document,
@@ -3955,6 +3983,8 @@ export interface PatchProjectsKnowledgeBasesDocumentsRequest extends Omit<
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentEntityTypesRequest extends Omit<
   GoogleCloudDialogflowV2beta1EntityType,
@@ -3963,6 +3993,8 @@ export interface PatchProjectsLocationsAgentEntityTypesRequest extends Omit<
   languageCode?: string | undefined;
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentEnvironmentsRequest extends Omit<
   GoogleCloudDialogflowV2beta1Environment,
@@ -3971,6 +4003,8 @@ export interface PatchProjectsLocationsAgentEnvironmentsRequest extends Omit<
   name: string;
   updateMask?: string | undefined;
   allowLoadToDraftAndDiscardChanges?: boolean | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentEnvironmentsUsersSessionsContextsRequest extends Omit<
   GoogleCloudDialogflowV2beta1Context,
@@ -3978,6 +4012,8 @@ export interface PatchProjectsLocationsAgentEnvironmentsUsersSessionsContextsReq
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypesRequest extends Omit<
   GoogleCloudDialogflowV2beta1SessionEntityType,
@@ -3985,6 +4021,8 @@ export interface PatchProjectsLocationsAgentEnvironmentsUsersSessionsEntityTypes
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export type PatchProjectsLocationsAgentIntentsIntentViewEnum =
   | "INTENT_VIEW_UNSPECIFIED"
@@ -3997,6 +4035,8 @@ export interface PatchProjectsLocationsAgentIntentsRequest extends Omit<
   updateMask?: string | undefined;
   languageCode?: string | undefined;
   intentView?: PatchProjectsLocationsAgentIntentsIntentViewEnum | (string & {}) | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentSessionsContextsRequest extends Omit<
   GoogleCloudDialogflowV2beta1Context,
@@ -4004,6 +4044,8 @@ export interface PatchProjectsLocationsAgentSessionsContextsRequest extends Omit
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentSessionsEntityTypesRequest extends Omit<
   GoogleCloudDialogflowV2beta1SessionEntityType,
@@ -4011,6 +4053,8 @@ export interface PatchProjectsLocationsAgentSessionsEntityTypesRequest extends O
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAgentVersionsRequest extends Omit<
   GoogleCloudDialogflowV2beta1Version,
@@ -4018,6 +4062,8 @@ export interface PatchProjectsLocationsAgentVersionsRequest extends Omit<
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsAnswerRecordsRequest extends Omit<
   GoogleCloudDialogflowV2beta1AnswerRecord,
@@ -4025,6 +4071,8 @@ export interface PatchProjectsLocationsAnswerRecordsRequest extends Omit<
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsCompanionAgentsRequest extends Omit<
   GoogleCloudDialogflowV2beta1CompanionAgent,
@@ -4032,6 +4080,8 @@ export interface PatchProjectsLocationsCompanionAgentsRequest extends Omit<
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsConversationProfilesRequest extends Omit<
   GoogleCloudDialogflowV2beta1ConversationProfile,
@@ -4039,6 +4089,8 @@ export interface PatchProjectsLocationsConversationProfilesRequest extends Omit<
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsConversationsParticipantsRequest extends Omit<
   GoogleCloudDialogflowV2beta1Participant,
@@ -4046,6 +4098,8 @@ export interface PatchProjectsLocationsConversationsParticipantsRequest extends 
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsGeneratorsRequest extends Omit<
   GoogleCloudDialogflowV2beta1Generator,
@@ -4053,6 +4107,8 @@ export interface PatchProjectsLocationsGeneratorsRequest extends Omit<
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsKnowledgeBasesRequest extends Omit<
   GoogleCloudDialogflowV2beta1KnowledgeBase,
@@ -4060,6 +4116,8 @@ export interface PatchProjectsLocationsKnowledgeBasesRequest extends Omit<
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsKnowledgeBasesDocumentsRequest extends Omit<
   GoogleCloudDialogflowV2beta1Document,
@@ -4067,6 +4125,8 @@ export interface PatchProjectsLocationsKnowledgeBasesDocumentsRequest extends Om
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsPhoneNumbersRequest extends Omit<
   GoogleCloudDialogflowV2beta1PhoneNumber,
@@ -4074,6 +4134,8 @@ export interface PatchProjectsLocationsPhoneNumbersRequest extends Omit<
 > {
   updateMask?: string | undefined;
   name: string;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsSipTrunksRequest extends Omit<
   GoogleCloudDialogflowV2beta1SipTrunk,
@@ -4081,6 +4143,8 @@ export interface PatchProjectsLocationsSipTrunksRequest extends Omit<
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsLocationsToolsRequest extends Omit<
   GoogleCloudDialogflowV2beta1Tool,
@@ -4088,6 +4152,8 @@ export interface PatchProjectsLocationsToolsRequest extends Omit<
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface PatchProjectsPhoneNumbersRequest extends Omit<
   GoogleCloudDialogflowV2beta1PhoneNumber,
@@ -4095,6 +4161,8 @@ export interface PatchProjectsPhoneNumbersRequest extends Omit<
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export type GoogleCloudDialogflowV2beta1GcsSource =
   GoogleCloudDialogflowV2beta1IntentMessageRbmSuggestedActionRbmSuggestedActionOpenUri;
@@ -4212,6 +4280,8 @@ export interface SearchKnowledgeProjectsConversationsSuggestionsRequest extends 
   "conversation"
 > {
   conversation: string;
+  /** The request body's `conversation` (`conversation` is the path parameter). */
+  bodyConversation?: string | undefined;
 }
 export interface GoogleCloudDialogflowV2beta1SearchKnowledgeDebugInfoSearchKnowledgeBehavior {
   answerGenerationRewriterOn?: boolean | undefined;
@@ -4275,18 +4345,24 @@ export interface SearchKnowledgeProjectsLocationsConversationsSuggestionsRequest
   "conversation"
 > {
   conversation: string;
+  /** The request body's `conversation` (`conversation` is the path parameter). */
+  bodyConversation?: string | undefined;
 }
 export interface SearchKnowledgeProjectsLocationsSuggestionsRequest extends Omit<
   GoogleCloudDialogflowV2beta1SearchKnowledgeRequest,
   "parent"
 > {
   parent: string;
+  /** The request body's `parent` (`parent` is the path parameter). */
+  bodyParent?: string | undefined;
 }
 export interface SearchKnowledgeProjectsSuggestionsRequest extends Omit<
   GoogleCloudDialogflowV2beta1SearchKnowledgeRequest,
   "parent"
 > {
   parent: string;
+  /** The request body's `parent` (`parent` is the path parameter). */
+  bodyParent?: string | undefined;
 }
 export interface SearchProjectsAgentRequest {
   pageToken?: string | undefined;
@@ -4306,6 +4382,8 @@ export interface SearchProjectsLocationsAgentRequest {
 export interface SetAgentProjectsRequest extends Omit<GoogleCloudDialogflowV2beta1Agent, "parent"> {
   parent: string;
   updateMask?: string | undefined;
+  /** The request body's `parent` (`parent` is the path parameter). */
+  bodyParent?: string | undefined;
 }
 export interface SetAgentProjectsLocationsRequest extends Omit<
   GoogleCloudDialogflowV2beta1Agent,
@@ -4313,6 +4391,8 @@ export interface SetAgentProjectsLocationsRequest extends Omit<
 > {
   parent: string;
   updateMask?: string | undefined;
+  /** The request body's `parent` (`parent` is the path parameter). */
+  bodyParent?: string | undefined;
 }
 export type GoogleCloudDialogflowV2beta1SetSuggestionFeatureConfigRequestParticipantRoleEnum =
   | "ROLE_UNSPECIFIED"
@@ -4434,6 +4514,8 @@ export interface UpdateFulfillmentProjectsAgentRequest extends Omit<
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export interface UpdateFulfillmentProjectsLocationsAgentRequest extends Omit<
   GoogleCloudDialogflowV2beta1Fulfillment,
@@ -4441,6 +4523,8 @@ export interface UpdateFulfillmentProjectsLocationsAgentRequest extends Omit<
 > {
   name: string;
   updateMask?: string | undefined;
+  /** The request body's `name` (`name` is the path parameter). */
+  bodyName?: string | undefined;
 }
 export type AnalyzeContentProjectsConversationsParticipantsError =
   | NotFound
@@ -13188,6 +13272,7 @@ function __c159(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             languageCode: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13209,6 +13294,7 @@ function __c160(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             allowLoadToDraftAndDiscardChanges: S.optional(S.Boolean.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13229,6 +13315,7 @@ function __c161(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13249,6 +13336,7 @@ function __c162(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13271,6 +13359,7 @@ function __c163(j: number): any {
             intentView: S.optional(S.String.pipe(T.Query())),
             languageCode: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13291,6 +13380,7 @@ function __c164(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13311,6 +13401,7 @@ function __c165(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13331,6 +13422,7 @@ function __c166(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13351,6 +13443,7 @@ function __c167(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13371,6 +13464,7 @@ function __c168(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13407,6 +13501,7 @@ function __c170(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13427,6 +13522,7 @@ function __c171(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13447,6 +13543,7 @@ function __c172(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13467,6 +13564,7 @@ function __c173(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13487,6 +13585,7 @@ function __c174(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13508,6 +13607,7 @@ function __c175(j: number): any {
             languageCode: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13529,6 +13629,7 @@ function __c176(j: number): any {
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
             allowLoadToDraftAndDiscardChanges: S.optional(S.Boolean.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13549,6 +13650,7 @@ function __c177(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13571,6 +13673,7 @@ function __c178(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13595,6 +13698,7 @@ function __c179(j: number): any {
             updateMask: S.optional(S.String.pipe(T.Query())),
             languageCode: S.optional(S.String.pipe(T.Query())),
             intentView: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13631,6 +13735,7 @@ function __c181(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13651,6 +13756,7 @@ function __c182(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13671,6 +13777,7 @@ function __c183(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13691,6 +13798,7 @@ function __c184(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13711,6 +13819,7 @@ function __c185(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13731,6 +13840,7 @@ function __c186(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13751,6 +13861,7 @@ function __c187(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13771,6 +13882,7 @@ function __c188(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13791,6 +13903,7 @@ function __c189(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13811,6 +13924,7 @@ function __c190(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13861,6 +13975,7 @@ function __c193(j: number): any {
           S.Struct({
             updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13881,6 +13996,7 @@ function __c194(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13901,6 +14017,7 @@ function __c195(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -13921,6 +14038,7 @@ function __c196(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -14057,6 +14175,7 @@ function __c204(j: number): any {
           __S(6572, __c205, 12),
           S.Struct({
             conversation: S.String.pipe(T.Label()),
+            bodyConversation: S.optional(S.String.pipe(T.Body("conversation"))),
           }),
         ).pipe(
           T.Http({
@@ -14243,6 +14362,7 @@ function __c207(j: number): any {
           __S(6572, __c205, 12),
           S.Struct({
             conversation: S.String.pipe(T.Label()),
+            bodyConversation: S.optional(S.String.pipe(T.Body("conversation"))),
           }),
         ).pipe(
           T.Http({
@@ -14262,6 +14382,7 @@ function __c208(j: number): any {
           __S(6572, __c205, 12),
           S.Struct({
             parent: S.String.pipe(T.Label()),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -14281,6 +14402,7 @@ function __c209(j: number): any {
           __S(6572, __c205, 12),
           S.Struct({
             parent: S.String.pipe(T.Label()),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -14350,6 +14472,7 @@ function __c213(j: number): any {
           S.Struct({
             parent: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -14370,6 +14493,7 @@ function __c214(j: number): any {
           S.Struct({
             parent: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyParent: S.optional(S.String.pipe(T.Body("parent"))),
           }),
         ).pipe(
           T.Http({
@@ -15256,6 +15380,7 @@ function __c245(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
@@ -15276,6 +15401,7 @@ function __c246(j: number): any {
           S.Struct({
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            bodyName: S.optional(S.String.pipe(T.Body("name"))),
           }),
         ).pipe(
           T.Http({
