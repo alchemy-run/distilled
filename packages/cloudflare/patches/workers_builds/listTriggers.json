@@ -1,0 +1,243 @@
+{
+  "description": "The docs type listTriggers result as `unknown or array of unknown` since the 2026-10-30 spec mirror update. The API returns an array of trigger objects (trigger_uuid, external_script_id, build/deploy commands, branch and path filters, repo_connection, ...), the shape the docs published until then; observed on a live account 2026-11-18.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers_builds#ListTriggersResultItemBranchExcludesList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers_builds#ListTriggersResultItemBranchIncludesList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers_builds#ListTriggersResultItemPathExcludesList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers_builds#ListTriggersResultItemPathIncludesList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers_builds#ListTriggersResultItemRepoConnectionProviderType",
+      "value": {
+        "type": "enum",
+        "members": {
+          "GITHUB": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "github"
+            }
+          },
+          "GITLAB": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "gitlab"
+            }
+          },
+          "GITLAB_INTERNAL": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "gitlab_internal"
+            }
+          },
+          "ORIGIN": {
+            "target": "smithy.api#Unit",
+            "traits": {
+              "smithy.api#enumValue": "origin"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers_builds#ListTriggersResultItemRepoConnection",
+      "value": {
+        "type": "structure",
+        "members": {
+          "created_on": {
+            "target": "smithy.api#String"
+          },
+          "deleted_on": {
+            "target": "smithy.api#String"
+          },
+          "modified_on": {
+            "target": "smithy.api#String"
+          },
+          "provider_account_id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Provider-specific identifier of the account or namespace that owns the repository."
+            }
+          },
+          "provider_account_name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Human-readable name of the account or namespace that owns the repository."
+            }
+          },
+          "provider_type": {
+            "target": "com.cloudflare.workers_builds#ListTriggersResultItemRepoConnectionProviderType",
+            "traits": {
+              "smithy.api#documentation": "Source control provider."
+            }
+          },
+          "repo_connection_uuid": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Repository connection UUID."
+            }
+          },
+          "repo_id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Provider-specific repository identifier."
+            }
+          },
+          "repo_name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Human-readable repository name."
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers_builds#ListTriggersResultItem",
+      "value": {
+        "type": "structure",
+        "members": {
+          "branch_excludes": {
+            "target": "com.cloudflare.workers_builds#ListTriggersResultItemBranchExcludesList",
+            "traits": {
+              "smithy.api#documentation": "Branch patterns that must not start builds."
+            }
+          },
+          "branch_includes": {
+            "target": "com.cloudflare.workers_builds#ListTriggersResultItemBranchIncludesList",
+            "traits": {
+              "smithy.api#documentation": "Branch patterns that can start builds."
+            }
+          },
+          "build_caching_enabled": {
+            "target": "smithy.api#Boolean",
+            "traits": {
+              "smithy.api#documentation": "Whether builds reuse cached dependencies and build artifacts."
+            }
+          },
+          "build_command": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Command to build the Worker."
+            }
+          },
+          "build_token_name": {
+            "target": "smithy.api#String"
+          },
+          "build_token_uuid": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "UUID of the build token used when deploying the Worker."
+            }
+          },
+          "created_on": {
+            "target": "smithy.api#String"
+          },
+          "deleted_on": {
+            "target": "smithy.api#String"
+          },
+          "deploy_command": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Command to deploy the Worker."
+            }
+          },
+          "external_script_id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "System-generated tag of the Worker. This is not the Worker name."
+            }
+          },
+          "modified_on": {
+            "target": "smithy.api#String"
+          },
+          "path_excludes": {
+            "target": "com.cloudflare.workers_builds#ListTriggersResultItemPathExcludesList",
+            "traits": {
+              "smithy.api#documentation": "Path patterns that must not start builds."
+            }
+          },
+          "path_includes": {
+            "target": "com.cloudflare.workers_builds#ListTriggersResultItemPathIncludesList",
+            "traits": {
+              "smithy.api#documentation": "Path patterns that can start builds."
+            }
+          },
+          "repo_connection": {
+            "target": "com.cloudflare.workers_builds#ListTriggersResultItemRepoConnection"
+          },
+          "root_directory": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Repository directory in which build and deploy commands run."
+            }
+          },
+          "trigger_name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Human-readable name of the build trigger."
+            }
+          },
+          "trigger_uuid": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Trigger UUID."
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers_builds#ListTriggersResultList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.cloudflare.workers_builds#ListTriggersResultItem"
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.cloudflare.workers_builds#TriggersListResponse/members/result/target",
+      "value": "com.cloudflare.workers_builds#ListTriggersResultList"
+    }
+  ]
+}
