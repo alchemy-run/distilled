@@ -32,7 +32,7 @@ import type * as AST from "effect/SchemaAST";
 import type { Operation } from "../client/operation.ts";
 import { ParseError } from "../errors.ts";
 import { codecSymbol, isValidDate, type CodecKind } from "../lite.ts";
-import { toBase64 } from "./base64.ts";
+import { fromBase64, toBase64 } from "./base64.ts";
 import { formatDateTime } from "./timestamp.ts";
 
 /** A value that does not fit its schema. */
@@ -395,7 +395,7 @@ const decodeCodec = (codec: CodecKind, n: Node, v: unknown, exact: Exactness): u
   if (codec === "blob") {
     if (typeof v !== "string") return exact ? fail("a base64 string", v) : v;
     try {
-      return Uint8Array.from(atob(v), (c) => c.charCodeAt(0));
+      return fromBase64(v);
     } catch {
       // Not base64: the same failure as a non-string.
       return exact ? fail("a base64 string", v) : v;
