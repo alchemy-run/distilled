@@ -665,6 +665,27 @@
       "value": {
         "target": "com.amazonaws.lambda#QueueVisibilityTimeoutTooShort"
       }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#CreateCapacityProvider/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#CapacityProviderOperatorRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#CreateCapacityProvider/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#CapacityProviderSecurityGroupNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#CreateCapacityProvider/errors/-",
+      "value": {
+        "target": "com.amazonaws.lambda#CapacityProviderSubnetNotFound"
+      }
     }
   ]
 }
