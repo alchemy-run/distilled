@@ -1,0 +1,2255 @@
+{
+  "description": "Type Discord's 404 on every operation that addresses an entity by a path parameter (a guild, channel, message, role, webhook, emoji, sticker, command, invite code, ...). Discord answers any unknown or inaccessible id with 404 and a 10xxx JSON code (10003 Unknown Channel, 10004 Unknown Guild, 10008 Unknown Message, 10011 Unknown Role, 10014 Unknown Emoji, 10015 Unknown Webhook, 10006 Unknown Invite, 10063 Unknown Application Command, ...; https://discord.com/developers/docs/topics/opcodes-and-status-codes#json-json-error-codes), as 002 recorded live for GET /guilds/{guild_id} and GET /channels/{channel_id}. Alchemy's Discord resources catch it on read and delete (gone means gone) and the live suites under packages/integration-tests/test/Discord exercise each one; an operation whose 404 turns out to mean something else gets its own tag.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetApplication/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateApplication/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ApplicationsGetActivityInstance/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UploadApplicationAttachment/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListApplicationCommands/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateApplicationCommand/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#BulkSetApplicationCommands/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetApplicationCommand/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateApplicationCommand/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteApplicationCommand/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListApplicationEmojis/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateApplicationEmoji/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetApplicationEmoji/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateApplicationEmoji/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteApplicationEmoji/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetEntitlements/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateEntitlement/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetEntitlement/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteEntitlement/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ConsumeEntitlement/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListGuildApplicationCommands/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateGuildApplicationCommand/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#BulkSetGuildApplicationCommands/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListGuildApplicationCommandPermissions/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildApplicationCommand/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateGuildApplicationCommand/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteGuildApplicationCommand/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildApplicationCommandPermissions/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#SetGuildApplicationCommandPermissions/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetApplicationRoleConnectionsMetadata/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateApplicationRoleConnectionsMetadata/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateChannel/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteChannel/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#FollowChannel/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListChannelInvites/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateChannelInvite/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListMessages/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateMessage/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#BulkDeleteMessages/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListPins/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreatePin/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeletePin/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetMessage/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateMessage/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteMessage/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CrosspostMessage/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteAllMessageReactions/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListMessageReactionsByEmoji/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteAllMessageReactionsByEmoji/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#AddMyMessageReaction/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteMyMessageReaction/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteUserMessageReaction/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateThreadFromMessage/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetChannelMemberPermissions/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetChannelRolePermissions/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#SetChannelPermissionOverwrite/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteChannelPermissionOverwrite/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeprecatedListPins/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeprecatedCreatePin/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeprecatedDeletePin/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetAnswerVoters/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#PollExpire/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#AddGroupDmUser/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteGroupDmUser/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#SendSoundboardSound/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListThreadMembers/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#JoinThread/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#LeaveThread/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetThreadMember/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#AddThreadMember/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteThreadMember/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateThread/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListPrivateArchivedThreads/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListPublicArchivedThreads/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ThreadSearch/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#TriggerTypingIndicator/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListMyPrivateArchivedThreads/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateVoiceChannelStatus/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListChannelWebhooks/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateWebhook/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildTemplate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateGuild/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListGuildAuditLogEntries/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListAutoModerationRules/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateAutoModerationRule/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetAutoModerationRule/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateAutoModerationRule/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteAutoModerationRule/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListGuildBans/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildBan/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#BanUserFromGuild/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UnbanUserFromGuild/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#BulkBanUsersFromGuild/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListGuildChannels/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateGuildChannel/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#BulkUpdateGuildChannels/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListGuildEmojis/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateGuildEmoji/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildEmoji/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateGuildEmoji/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteGuildEmoji/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateGuildIncidentActions/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListGuildIntegrations/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteGuildIntegration/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListGuildInvites/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListGuildMembers/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateMyGuildMember/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#SearchGuildMembers/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildMember/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#AddGuildMember/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateGuildMember/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteGuildMember/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#AddGuildMemberRole/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteGuildMemberRole/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GuildSearch/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildNewMemberWelcome/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildsOnboarding/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#PutGuildsOnboarding/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildMemberPermissions/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildRolePermissions/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildPreview/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#PreviewPruneGuild/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#PruneGuild/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListGuildVoiceRegions/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildJoinRequests/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ActionGuildJoinRequest/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListGuildRoles/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateGuildRole/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#BulkUpdateGuildRoles/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GuildRoleMemberCounts/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildRole/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateGuildRole/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteGuildRole/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListGuildScheduledEvents/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateGuildScheduledEvent/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildScheduledEvent/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateGuildScheduledEvent/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteGuildScheduledEvent/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateGuildScheduledEventException/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateGuildScheduledEventException/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteGuildScheduledEventException/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListGuildScheduledEventUsers/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CountGuildScheduledEventUsers/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListGuildScheduledEventExceptionUsers/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListGuildSoundboardSounds/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateGuildSoundboardSound/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildSoundboardSound/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateGuildSoundboardSound/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteGuildSoundboardSound/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListGuildStickers/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateGuildSticker/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildSticker/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateGuildSticker/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteGuildSticker/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ListGuildTemplates/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateGuildTemplate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#SyncGuildTemplate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateGuildTemplate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteGuildTemplate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetActiveGuildThreads/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildVanityUrl/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetSelfVoiceState/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateSelfVoiceState/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetVoiceState/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateVoiceState/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildWebhooks/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildWelcomeScreen/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateGuildWelcomeScreen/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildWidgetSettings/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateGuildWidgetSettings/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildWidget/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetGuildWidgetPng/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateInteractionResponse/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#InviteResolve/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#InviteRevoke/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetInviteTargetUsers/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateInviteTargetUsers/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#BulkAddInviteTargetUsers/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#BulkRemoveInviteTargetUsers/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetInviteTargetUsersJobStatus/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#AddInviteTargetUser/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#RemoveInviteTargetUser/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetLobby/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#EditLobby/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteLobby/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#EditLobbyChannelLink/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#LeaveLobby/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateLinkedLobbyGuildInviteForSelf/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#BulkUpdateLobbyMembers/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#AddLobbyMember/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteLobbyMember/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateLinkedLobbyGuildInviteForUser/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetLobbyMessages/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#CreateLobbyMessage/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateLobbyMessageExternalModerationMetadata/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateUserMessageExternalModerationMetadata/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetSkuSubscriptions/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetSkuSubscription/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetStageInstance/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateStageInstance/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteStageInstance/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetStickerPack/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetSticker/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetCurrentUserApplicationEntitlements/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetApplicationUserRoleConnection/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateApplicationUserRoleConnection/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteApplicationUserRoleConnection/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#LeaveGuild/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetMyGuildMember/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetUser/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetWebhook/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateWebhook/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteWebhook/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetWebhookByToken/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ExecuteWebhook/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateWebhookByToken/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteWebhookByToken/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ExecuteGithubCompatibleWebhook/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetOriginalWebhookMessage/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateOriginalWebhookMessage/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteOriginalWebhookMessage/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#GetWebhookMessage/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#UpdateWebhookMessage/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#DeleteWebhookMessage/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.discord.api#ExecuteSlackCompatibleWebhook/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.discord.api#NotFound"
+        }
+      ]
+    }
+  ]
+}
