@@ -24,6 +24,32 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** `invalid_arguments` -- Invalid API arguments provided */
+export class InvalidArguments
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidArguments>()("InvalidArguments", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "invalid_arguments" } }],
+  ) {}
+
+/** `unable_to_fetch_custom_emojis` -- Unable to fetch custom emojis for team. */
+export class UnableToFetchCustomEmojis
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<UnableToFetchCustomEmojis>()("UnableToFetchCustomEmojis", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "unable_to_fetch_custom_emojis" } }],
+  ) {}
+
 export interface ListEmojiRequest {
   /** Include a list of categories for Unicode emoji and the emoji in each category */
   include_categories?: boolean | undefined;
@@ -43,8 +69,8 @@ export interface ListEmojiResponse {
   categories_version?: string | undefined;
   categories?: ListEmojiResponseCategoriesList | undefined;
 }
-export type ListEmojiError = SlackOpError;
-/** Lists custom emoji for a team. Required scopes -- bot: `emoji:read`; user: `emoji:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_arguments` -- Invalid API arguments provided - `unable_to_fetch_custom_emojis` -- Unable to fetch custom emojis for team. See https://docs.slack.dev/reference/methods/emoji.list */
+export type ListEmojiError = InvalidArguments | UnableToFetchCustomEmojis | SlackOpError;
+/** Lists custom emoji for a team. Required scopes -- bot: `emoji:read`; user: `emoji:read` Rate limit tier: 2 Method-specific errors (each a typed error named after its slug): - `invalid_arguments` -- Invalid API arguments provided - `unable_to_fetch_custom_emojis` -- Unable to fetch custom emojis for team. See https://docs.slack.dev/reference/methods/emoji.list */
 export const listEmoji: API.OperationMethod<
   ListEmojiRequest,
   ListEmojiResponse,
@@ -53,7 +79,7 @@ export const listEmoji: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ListEmojiRequest>,
   output: __S(5, __c0, 5) as any as S.Schema<ListEmojiResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [InvalidArguments, UnableToFetchCustomEmojis, SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

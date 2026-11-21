@@ -25,6 +25,45 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** `invalid_cursor` -- Invalid cursor. */
+export class InvalidCursor
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidCursor>()("InvalidCursor", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "invalid_cursor" } }],
+  ) {}
+
+/** `invalid_limit` -- The value passed for `limit` was not valid. */
+export class InvalidLimit
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidLimit>()("InvalidLimit", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "invalid_limit" } }],
+  ) {}
+
+/** `not_bearer_token` -- Incompatible token type provided */
+export class NotBearerToken
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NotBearerToken>()("NotBearerToken", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "not_bearer_token" } }],
+  ) {}
+
 export interface ListTeamsRequest {
   /** The maximum number of workspaces to return. Must be a positive integer no larger than 1000. */
   limit?: number | undefined;
@@ -90,8 +129,8 @@ export interface TestAuthResponse {
   is_enterprise_install?: boolean | undefined;
   expires_in?: number | null | undefined;
 }
-export type ListTeamsError = SlackOpError;
-/** Obtain a full list of workspaces your org-wide app has been approved for. Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `invalid_cursor` -- Invalid cursor. - `invalid_limit` -- The value passed for `limit` was not valid. - `invalid_auth` -- The token doesn't have access to this endpoint. - `internal_error` -- There was an internal error. See https://docs.slack.dev/reference/methods/auth.teams.list */
+export type ListTeamsError = InvalidCursor | InvalidLimit | SlackOpError;
+/** Obtain a full list of workspaces your org-wide app has been approved for. Rate limit tier: 3 Method-specific errors (each a typed error named after its slug): - `invalid_cursor` -- Invalid cursor. - `invalid_limit` -- The value passed for `limit` was not valid. - `invalid_auth` -- The token doesn't have access to this endpoint. - `internal_error` -- There was an internal error. See https://docs.slack.dev/reference/methods/auth.teams.list */
 export const listTeams: API.PaginatedOperationMethod<
   ListTeamsRequest,
   ListTeamsResponse,
@@ -102,7 +141,7 @@ export const listTeams: API.PaginatedOperationMethod<
   () => ({
     input: __S(0, __c0, 0) as any as S.Schema<ListTeamsRequest>,
     output: __S(5, __c0, 5) as any as S.Schema<ListTeamsResponse>,
-    errors: [SlackError, SlackRateLimited],
+    errors: [InvalidCursor, InvalidLimit, SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -118,8 +157,8 @@ export const listTeams: API.PaginatedOperationMethod<
   slackPaginate,
 ) as any;
 
-export type RevokeAuthError = SlackOpError;
-/** Revokes a token. Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `internal_error` -- Internal system error - `not_bearer_token` -- Incompatible token type provided See https://docs.slack.dev/reference/methods/auth.revoke */
+export type RevokeAuthError = NotBearerToken | SlackOpError;
+/** Revokes a token. Rate limit tier: 3 Method-specific errors (each a typed error named after its slug): - `internal_error` -- Internal system error - `not_bearer_token` -- Incompatible token type provided See https://docs.slack.dev/reference/methods/auth.revoke */
 export const revokeAuth: API.OperationMethod<
   RevokeAuthRequest,
   RevokeAuthResponse,
@@ -128,7 +167,7 @@ export const revokeAuth: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<RevokeAuthRequest>,
   output: __S(9, __c1, 1) as any as S.Schema<RevokeAuthResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [NotBearerToken, SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -136,7 +175,7 @@ export const revokeAuth: API.OperationMethod<
 }));
 
 export type TestAuthError = SlackOpError;
-/** Checks authentication & identity. Rate limit tier: 5 Method-specific errors (the `error` slug on the SlackError): - `internal_error` -- An internal error has been found. - `invalid_auth` -- Method was called with invalid credentials See https://docs.slack.dev/reference/methods/auth.test */
+/** Checks authentication & identity. Rate limit tier: 5 Method-specific errors (each a typed error named after its slug): - `internal_error` -- An internal error has been found. - `invalid_auth` -- Method was called with invalid credentials See https://docs.slack.dev/reference/methods/auth.test */
 export const testAuth: API.OperationMethod<
   TestAuthRequest,
   TestAuthResponse,

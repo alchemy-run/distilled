@@ -218,11 +218,10 @@ const decode = ({
         slug ??
         (json === undefined && text.trim() ? text.trim() : `HTTP ${status}`);
 
-      // 1. Per-operation typed error (matcher metadata on the class -- none
-      //    are generated today, but model patches can add them). Slack's
-      //    error codes are string slugs, and matcher `code`s are numeric --
-      //    a patch-declared class matches on `status`/`message` instead
-      //    (`message` is the slug when the envelope carries no detail).
+      // 1. Per-operation typed error. The converter generates one class per
+      //    documented slug, matched on the envelope body's `/error` member
+      //    (matcher `code`s are numeric, Slack's are string slugs); patches
+      //    add the slugs a page doesn't document.
       const typed = matchTypedError(errorClasses, status, [{ message }], {
         body: json === undefined ? text : json,
         headers,

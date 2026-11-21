@@ -24,6 +24,32 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** `not_enterprise_team` -- The workspace associated with the token is not part of an Enterprise organization. User IDs have not changed and there is nothing to map. */
+export class NotEnterpriseTeam
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NotEnterpriseTeam>()("NotEnterpriseTeam", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "not_enterprise_team" } }],
+  ) {}
+
+/** `too_many_users` -- Too many user IDs provided in `users`. Up to 400 user IDs are allowed per request. */
+export class TooManyUsers
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<TooManyUsers>()("TooManyUsers", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "too_many_users" } }],
+  ) {}
+
 export type MigrationExchangeRequestUsersList = Array<string>;
 export interface MigrationExchangeRequest {
   /** A comma-separated list of user ids, up to 400 per request */
@@ -43,8 +69,8 @@ export interface MigrationExchangeResponse {
   user_id_map: MigrationExchangeResponseUserIdMapMap;
   invalid_user_ids?: MigrationExchangeResponseInvalidUserIdsList | undefined;
 }
-export type MigrationExchangeError = SlackOpError;
-/** For Enterprise organization workspaces, map local user IDs to global user IDs Required scopes -- bot: `tokens.basic`; user: `tokens.basic` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `not_enterprise_team` -- The workspace associated with the token is not part of an Enterprise organization. User IDs have not changed and there is nothing to map. - `too_many_users` -- Too many user IDs provided in `users`. Up to 400 user IDs are allowed per request. See https://docs.slack.dev/reference/methods/migration.exchange */
+export type MigrationExchangeError = NotEnterpriseTeam | TooManyUsers | SlackOpError;
+/** For Enterprise organization workspaces, map local user IDs to global user IDs Required scopes -- bot: `tokens.basic`; user: `tokens.basic` Rate limit tier: 2 Method-specific errors (each a typed error named after its slug): - `not_enterprise_team` -- The workspace associated with the token is not part of an Enterprise organization. User IDs have not changed and there is nothing to map. - `too_many_users` -- Too many user IDs provided in `users`. Up to 400 user IDs are allowed per request. See https://docs.slack.dev/reference/methods/migration.exchange */
 export const migrationExchange: API.OperationMethod<
   MigrationExchangeRequest,
   MigrationExchangeResponse,
@@ -53,7 +79,7 @@ export const migrationExchange: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1, __c0, 1) as any as S.Schema<MigrationExchangeRequest>,
   output: __S(3, __c0, 3) as any as S.Schema<MigrationExchangeResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [NotEnterpriseTeam, TooManyUsers, SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

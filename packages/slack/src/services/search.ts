@@ -24,6 +24,19 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** `no_query` -- No query was provided. */
+export class NoQuery
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NoQuery>()("NoQuery", {
+      message: S.String,
+      needed: /*@__PURE__*/ S.optional(S.String),
+      provided: /*@__PURE__*/ S.optional(S.String),
+      body: /*@__PURE__*/ S.optional(S.Unknown),
+      headers: /*@__PURE__*/ S.optional(/*@__PURE__*/ S.Record(S.String, S.String)),
+    }),
+    [{ body: { "/error": "no_query" } }],
+  ) {}
+
 export type SearchAllRequestSortDir = "asc" | "desc";
 export interface SearchAllRequest {
   count?: number | undefined;
@@ -207,8 +220,8 @@ export interface SearchMessagesResponse {
   /** Pagination metadata. An empty `next_cursor` means the last page. */
   response_metadata?: SearchMessagesResponseResponseMetadata | undefined;
 }
-export type SearchAllError = SlackOpError;
-/** Searches for messages and files matching a query. Required scopes -- user: `search:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `no_query` -- No query was provided. See https://docs.slack.dev/reference/methods/search.all */
+export type SearchAllError = NoQuery | SlackOpError;
+/** Searches for messages and files matching a query. Required scopes -- user: `search:read` Rate limit tier: 2 Method-specific errors (each a typed error named after its slug): - `no_query` -- No query was provided. See https://docs.slack.dev/reference/methods/search.all */
 export const searchAll: API.OperationMethod<
   SearchAllRequest,
   SearchAllResponse,
@@ -217,15 +230,15 @@ export const searchAll: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<SearchAllRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<SearchAllResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [NoQuery, SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchAll",
 }));
 
-export type SearchFilesError = SlackOpError;
-/** Searches for files matching a query. Required scopes -- user: `search:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `no_query` -- No query was provided. See https://docs.slack.dev/reference/methods/search.files */
+export type SearchFilesError = NoQuery | SlackOpError;
+/** Searches for files matching a query. Required scopes -- user: `search:read` Rate limit tier: 2 Method-specific errors (each a typed error named after its slug): - `no_query` -- No query was provided. See https://docs.slack.dev/reference/methods/search.files */
 export const searchFiles: API.OperationMethod<
   SearchFilesRequest,
   SearchFilesResponse,
@@ -234,15 +247,15 @@ export const searchFiles: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<SearchFilesRequest>,
   output: __S(11, __c1, 3) as any as S.Schema<SearchFilesResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [NoQuery, SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchFiles",
 }));
 
-export type SearchMessagesError = SlackOpError;
-/** Searches for messages matching a query. Required scopes -- user: `search:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `no_query` -- No query was provided. See https://docs.slack.dev/reference/methods/search.messages */
+export type SearchMessagesError = NoQuery | SlackOpError;
+/** Searches for messages matching a query. Required scopes -- user: `search:read` Rate limit tier: 2 Method-specific errors (each a typed error named after its slug): - `no_query` -- No query was provided. See https://docs.slack.dev/reference/methods/search.messages */
 export const searchMessages: API.OperationMethod<
   SearchMessagesRequest,
   SearchMessagesResponse,
@@ -251,7 +264,7 @@ export const searchMessages: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<SearchMessagesRequest>,
   output: __S(28, __c3, 4) as any as S.Schema<SearchMessagesResponse>,
-  errors: [SlackError, SlackRateLimited],
+  errors: [NoQuery, SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
