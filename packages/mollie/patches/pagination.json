@@ -1,0 +1,357 @@
+{
+  "description": "Page Mollie's list operations, which the converter's detection does not recognise. Every list takes `from` (\"Provide an ID to start the result set from the item with the given ID and onwards. This allows you to paginate the result set.\") and `limit`, and returns the items under `_embedded.<resource>` beside HAL `_links`, whose `next` is the URL of the next page (with its `from` query value) or null on the last page. Read off the spec's parameter descriptions and the `next` link in its list examples (e.g. list-refunds-200-1: `.../refunds?from=re_APBiGPH2vV&limit=5`). The business-account lists take `from` too but document no `_links`, so they stay single-page.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListBalances/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.balances",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListBalanceTransactions/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.balance_transactions",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListSettlements/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.settlements",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListSettlementPayments/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.payments",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListSettlementCaptures/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.captures",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListSettlementRefunds/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.refunds",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListSettlementChargebacks/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.chargebacks",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListInvoices/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.invoices",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListProfiles/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.profiles",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListClients/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.clients",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListWebhooks/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.webhooks",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListConnectBalanceTransfers/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.connect_balance_transfers",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListPayments/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.payments",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListUnmatchedCreditTransfers/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.unmatched_credit_transfers",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListRefunds/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.refunds",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListAllRefunds/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.refunds",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListChargebacks/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.chargebacks",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListAllChargebacks/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.chargebacks",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListCaptures/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.captures",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListPaymentLinks/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.payment_links",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#GetPaymentLinkPayments/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.payments",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListTerminals/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.terminals",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#TerminalsListPairingCodes/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.terminal_pairing_codes",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListCustomers/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.customers",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListCustomerPayments/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.payments",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListMandates/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.mandates",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListSubscriptions/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.subscriptions",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListAllSubscriptions/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.subscriptions",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListSubscriptionPayments/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.payments",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListSalesInvoices/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.invoices",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListDraftTransfers/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.draft_transfers",
+        "pageSize": "limit"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.mollie#ListPayouts/traits/smithy.api#paginated",
+      "value": {
+        "mode": "cursor",
+        "inputToken": "from",
+        "outputToken": "_links.next.href",
+        "items": "_embedded.payouts",
+        "pageSize": "limit"
+      }
+    }
+  ]
+}

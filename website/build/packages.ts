@@ -141,6 +141,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
       "whop",
       "gusto",
       "revenuecat",
+      "mollie",
     ],
   ],
   [
@@ -243,6 +244,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   stripe: "payments billing",
   adyen: "payments",
   paypal: "payments",
+  mollie: "payments checkout refunds ideal",
   plaid: "banking",
   coinbase: "crypto",
   coinflow: "payments payouts checkout stablecoin crypto",

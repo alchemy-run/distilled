@@ -568,6 +568,12 @@
       "path": "./packages/modrinth/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/mollie/tsconfig.json"
+    },
+    {
+      "path": "./packages/mollie/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/mux/tsconfig.json"
     },
     {
