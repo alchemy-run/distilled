@@ -1769,12 +1769,6 @@ const convertOnce = (spec: unknown, options: OpenApiConvertOptions): SmithyModel
               // The wire name rides on the trait, so the member is free to be
               // a normal identifier.
               "smithy.api#httpHeader": p.name,
-              // `Idempotency-Key` is the standard name for this header
-              // (draft-ietf-httpapi-idempotency-key-header); core fills it
-              // once per call when the caller leaves it out.
-              ...(p.name.toLowerCase() === "idempotency-key"
-                ? { "smithy.api#idempotencyToken": {} }
-                : {}),
               ...(p.required ? { "smithy.api#required": {} } : {}),
               ...(p.description ? { "smithy.api#documentation": p.description } : {}),
             },
