@@ -309,7 +309,23 @@ const factsOf = (ast: AST.AST): NodeFacts => {
   return facts;
 };
 
+/**
+ * Rename keys between TS names and wire names, per the schema (see
+ * {@link walkKeys}). A decode with no fallback dictionary returns `value`
+ * itself when the schema renames nothing ({@link mapsVerbatim}): the walk
+ * would only copy it.
+ */
 export const mapKeys = (
+  ast: AST.AST,
+  value: unknown,
+  direction: "encode" | "decode",
+  fallback?: KeyDictionaryEntries,
+): unknown =>
+  fallback === undefined && direction === "decode" && mapsVerbatim(ast, "decode")
+    ? value
+    : walkKeys(ast, value, direction, fallback);
+
+const walkKeys = (
   ast: AST.AST,
   value: unknown,
   direction: "encode" | "decode",
@@ -405,7 +421,7 @@ export const mapKeys = (
     const arms = (node as AST.Union).types.map(resolveNode);
     if (Array.isArray(value)) {
       const arr = arms.find((t) => t._tag === "Arrays");
-      if (arr) return mapKeys(arr, value, direction, dict);
+      if (arr) return walkKeys(arr, value, direction, dict);
     } else {
       let best: AST.AST | undefined;
       let bestScore = 0;
@@ -421,7 +437,7 @@ export const mapKeys = (
           bestScore = score;
         }
       }
-      if (best) return mapKeys(best, value, direction, dict);
+      if (best) return walkKeys(best, value, direction, dict);
     }
     return dict ? mapKeysByDictionary(dict, value, direction) : value;
   }
@@ -430,7 +446,7 @@ export const mapKeys = (
     if (!Array.isArray(value)) return value;
     const elem = (node as any).rest?.[0] as AST.AST | undefined;
     return elem
-      ? value.map((v) => mapKeys(elem, v, direction, dict))
+      ? value.map((v) => walkKeys(elem, v, direction, dict))
       : dict
         ? mapKeysByDictionary(dict, value, direction)
         : value;
@@ -456,7 +472,7 @@ export const mapKeys = (
       out[to] =
         direction === "encode" && stringEncoded
           ? stringEncode(v)
-          : mapKeys(type, v, direction, dict);
+          : walkKeys(type, v, direction, dict);
     }
     for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
       if (consumed.has(k) || v === undefined) continue;
@@ -468,7 +484,7 @@ export const mapKeys = (
 
       out[typeof renamed === "string" ? renamed : renamed[0]] =
         isigs && isigs.length
-          ? mapKeys(isigs[0]!.type, v, direction, dict)
+          ? walkKeys(isigs[0]!.type, v, direction, dict)
           : dict
             ? mapKeysByDictionary(dict, v, direction)
             : v;
