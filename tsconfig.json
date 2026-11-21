@@ -665,6 +665,12 @@
     },
     { "path": "./packages/e2b/tsconfig.test.json" },
     {
+      "path": "./packages/browserbase/tsconfig.json"
+    },
+    {
+      "path": "./packages/browserbase/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/steel/tsconfig.json"
     },
     {
