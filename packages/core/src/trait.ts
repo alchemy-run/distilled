@@ -133,6 +133,16 @@ export const Body = (name?: string) => makeAnnotation(bodySymbol, name ?? true);
 export const querySymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/http/query");
 export const Query = (name?: string) => makeAnnotation(querySymbol, name ?? true);
 
+export const idempotencyTokenSymbol = /*@__PURE__*/ Symbol.for(
+  "@distilled.cloud/core/idempotency-token",
+);
+/**
+ * `smithy.api#idempotencyToken`: an input member the API uses to recognize
+ * a retried request. When the caller leaves it out, each call fills it with
+ * a new UUID, and every automatic retry of that call sends the same one.
+ */
+export const IdempotencyToken = () => makeAnnotation(idempotencyTokenSymbol, true);
+
 export const commaDelimitedSymbol = /*@__PURE__*/ Symbol.for(
   "@distilled.cloud/core/http/comma-delimited",
 );
