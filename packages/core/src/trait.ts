@@ -140,8 +140,11 @@ export const idempotencyTokenSymbol = /*@__PURE__*/ Symbol.for(
  * `smithy.api#idempotencyToken`: an input member the API uses to recognize
  * a retried request. When the caller leaves it out, each call fills it with
  * a new UUID, and every automatic retry of that call sends the same one.
+ * The UUID is random (v4), or time-ordered (v7, RFC 9562) with `"uuidv7"`
+ * for APIs that require it (`distilled.idempotency#format` in the model).
  */
-export const IdempotencyToken = () => makeAnnotation(idempotencyTokenSymbol, true);
+export const IdempotencyToken = (format?: "uuidv7") =>
+  makeAnnotation(idempotencyTokenSymbol, format ?? true);
 
 export const commaDelimitedSymbol = /*@__PURE__*/ Symbol.for(
   "@distilled.cloud/core/http/comma-delimited",
